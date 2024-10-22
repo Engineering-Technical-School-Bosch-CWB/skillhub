@@ -143,3 +143,5 @@ CREATE TABLE especific_objectives
 	evaluation_criteria varchar(255) not null,
 	id_objective int not null foreign key references objective(id)
 );
+
+
