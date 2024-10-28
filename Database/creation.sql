@@ -1,145 +1,149 @@
-CREATE TABLE sector
+CREATE TABLE [sector]
 (
-	id int primary key not null identity,
-	name varchar(50) not null
+	[id] int primary key not null identity,
+	[name] varchar(100) not null,
+	[is_active] bit not null
 );
 
 go
 
-CREATE TABLE occupation_area
+CREATE TABLE [occupation_area]
 (
-	id int primary key not null identity,
-	name varchar(50) not null
+	[id] int primary key not null identity,
+	[name] varchar(100) not null,
+	[is_active] bit not null
 );
 
 go
 
-CREATE TABLE position
+CREATE TABLE [position]
 (
-	id int primary key not null identity,
-	name varchar(255) not null,
-	id_sector int not null foreign key references sector(id),
-	id_occupation_area int not null foreign key references occupation_area(id)
+	[id] int primary key not null identity,
+	[name] varchar(100) not null,
+	[id_sector] int not null foreign key references [sector](id),
+	[id_occupation_area] int not null foreign key references [occupation_area](id),
+	[is_active] bit not null
 );
 
 go
 
-CREATE TABLE users
+CREATE TABLE [user]
 (
-	id int primary key not null identity,
-	name varchar(255) not null,
-	identification int,
-	hash varchar(max) not null,
-	birthday date,
-	id_position int not null foreign key references position(id),
-	is_actived bit not null
+	[id] int primary key not null identity,
+	[name] varchar(500) not null,
+	[identification] varchar(100) not null,
+	[hash] varchar(255) not null,
+	[salt] varchar(15) not null,
+	[card] int null,
+	[birthday] date null,
+	[new_user] bit not null,
+	[id_position] int not null foreign key references [position](id),
+	[is_active] bit not null
 );
 
 go
 
-CREATE TABLE course
+CREATE TABLE [course]
 (
-	id int primary key not null identity,
-	name varchar(255) not null,
-	abbreviation varchar(20) not null
+	[id] int primary key not null identity,
+	[name] varchar(255) not null,
+	[abbreviation] varchar(50) not null
 );
 
 go
 
-CREATE TABLE class
+CREATE TABLE [class]
 (
-	id int primary key not null identity,
-	name varchar(255) not null,
-	abbreviation varchar(30) not null,
-	id_course int not null foreign key references course(id)
+	[id] int primary key not null identity,
+	[name] varchar(255) not null,
+	[id_course] int not null foreign key references [course](id),
+	[is_active] bit not null
 );
 
 go
 
-CREATE TABLE student
+CREATE TABLE [student]
 (
-	id int primary key not null identity,
-	id_user int not null foreign key references users(id),
-	id_class int not null foreign key references class(id),
-	grade float
+	[id] int primary key not null identity,
+	[id_user] int not null foreign key references [user](id),
+	[id_class] int not null foreign key references [class](id),
+	[grade] float null,
+	[personal_feedback] varchar(max) null,
+	[is_active] bit not null
 );
 
 go
 
-CREATE TABLE personal_feedback
+CREATE TABLE [competence]
 (
-	id int primary key not null identity,
-	date date not null,
-	feedback varchar(255) not null,
-	id_student int not null foreign key references student(id),
-	id_instructor int not null foreign key references users(id)
+	[id] int primary key not null identity,
+	[competence] varchar(255) not null,
+	[is_active] bit not null
 );
 
 go
 
-CREATE TABLE competence
+CREATE TABLE [result]
 (
-	id int primary key not null identity,
-	competence varchar(255) not null
+	[id] int primary key not null identity,
+	[id_student] int not null foreign key references [student](id),
+	[id_competence] int not null foreign key references [competence](id),
+	[feedback_instructor] varchar(max) null,
+	[feedback_student] varchar(max) null,
+	[is_active] bit not null,
 );
 
 go
 
-CREATE TABLE result
+CREATE TABLE [curricular_unit]
 (
-	id int primary key not null identity,
-	result varchar(20) not null,
-	feedback_student varchar(255),
-	id_student int not null foreign key references student(id),
-	id_competence int not null foreign key references competence(id),
-	feedback_instructor varchar(255)
+	[id] int primary key not null identity,
+	[name] varchar(255) not null,
+	[duration] float not null,
+	[is_active] bit not null
 );
 
 go
 
-CREATE TABLE curricular_unit
+CREATE TABLE [subject_area]
 (
-	id int primary key not null identity,
-	name varchar(100) not null,
-	duration int not null
+	[id] int primary key not null identity,
+	[name] varchar(255) not null,
+	[is_active] bit not null
 );
 
 go
 
-CREATE TABLE subject
+CREATE TABLE [subject]
 (
-	id int primary key not null identity,
-	id_user_responsible int not null foreign key references users(id),
-	id_curricular_unit int not null foreign key references curricular_unit(id),
-	grade float not null
+	[id] int primary key not null identity,
+	[id_user_responsible] int not null foreign key references [user](id),
+	[id_curricular_unit] int not null foreign key references [curricular_unit](id),
+	[id_subject_area] int not null foreign key references [subject_area](id),
+	[name] varchar(255) not null,
+	[grade] float null,
+	[is_active] bit not null
 );
 
 go
 
-CREATE TABLE subject_competence
+CREATE TABLE [subject_competence]
 (
-	id int primary key not null identity,
-	id_subject int not null foreign key references subject(id),
-	id_competence int not null foreign key references competence(id)
+	[id] int primary key not null identity,
+	[id_competence] int not null foreign key references [competence](id),
+	[id_subject] int not null foreign key references [subject](id),
+	[is_active] bit not null
 );
 
 go
 
-CREATE TABLE objective
+CREATE TABLE [especific_objectives]
 (
-	id int primary key not null identity,
-	content varchar(255) not null,
-	id_subject int not null foreign key references subject(id)
-);
-
-go
-
-CREATE TABLE especific_objectives
-(
-	id int primary key not null identity,
-	identification varchar(255) not null,
-	--ressources varchar(255) not null,
-	time float not null,
-	evaluation_criteria varchar(255) not null,
-	id_objective int not null foreign key references objective(id)
+	[id] int primary key not null identity,
+	[identification] varchar(300) not null,
+	[ressources] varchar(300) null,
+	[time] int not null,
+	[evaluation_criteria] varchar(500) null,
+	[id_subject] int not null foreign key references [subject](id),
+	[is_active] bit not null
 );
