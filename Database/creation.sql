@@ -147,3 +147,5 @@ CREATE TABLE [especific_objectives]
 	[id_subject] int not null foreign key references [subject](id),
 	[is_active] bit not null
 );
+
+
