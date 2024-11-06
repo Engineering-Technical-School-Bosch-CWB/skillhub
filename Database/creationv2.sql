@@ -48,6 +48,14 @@ CREATE TABLE [course](
 );
 GO
 
+CREATE TABLE [class](
+    [id] INT NOT NULL PRIMARY KEY,
+    [name] VARCHAR(255) NOT NULL,
+    [is_active] BIT NOT NULL,
+    [course_id] INT NOT NULL FOREIGN KEY REFERENCES [course] ([id])
+);
+GO
+
 CREATE TABLE [subject_area] (
     [id] INT NOT NULL PRIMARY KEY,
     [name] VARCHAR(255) NOT NULL,
@@ -82,14 +90,6 @@ CREATE TABLE [subject] (
     [instructor_id] INT NOT NULL FOREIGN KEY REFERENCES [user] ([id]),
     [curricular_unit_id] INT NOT NULL FOREIGN KEY REFERENCES [curricular_unit] ([id]),
     [class_id] INT NOT NULL FOREIGN KEY REFERENCES [class] ([id])
-);
-GO
-
-CREATE TABLE [class](
-    [id] INT NOT NULL PRIMARY KEY,
-    [name] VARCHAR(255) NOT NULL,
-    [is_active] BIT NOT NULL,
-    [course_id] INT NOT NULL FOREIGN KEY REFERENCES [course] ([id])
 );
 GO
 
