@@ -1,6 +1,7 @@
-use master
-drop database Project_e
-go
+-- USE master
+-- DROP DATABASE Project_e
+-- GO
+
 CREATE DATABASE Project_e
 ON 
 Primary (
@@ -12,13 +13,14 @@ filegroup FileStreamProjectE CONTAINS FILESTREAM  (
 LOG ON ( 
 	NAME = Project_e_log,
 	filename = 'C:\data\project_e.ldf')
-
 GO
 
---exec sp_configure filestream_access_level,2; 
+--EXEC sp_configure filestream_access_level,2; 
 --RECONFIGURE
-use Project_e
+
+USE Project_e
 GO 
+
 CREATE TABLE [sector] (
     [id] INT NOT NULL PRIMARY KEY,
     [name] VARCHAR(100) NOT NULL,
