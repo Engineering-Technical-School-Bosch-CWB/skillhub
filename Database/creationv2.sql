@@ -17,7 +17,7 @@ CREATE TABLE [position] (
     [name] VARCHAR(100) NOT NULL,
     [is_active] BIT NOT NULL,
     [sector_id] INT NOT NULL FOREIGN KEY REFERENCES [sector] ([id]),
-    [occupation_id] INT NOT NULL FOREIGN KEY REFERENCES [occupation] ([id])
+    [occupation_id] INT NOT NULL FOREIGN KEY REFERENCES [occupation_area] ([id])
 );
 GO
 
@@ -36,9 +36,10 @@ GO
 
 CREATE TABLE [user_image](
     [id] INT NOT NULL PRIMARY KEY,
-    [image] FILESTREAM NOT NULL,
+    [image] VARBINARY(MAX) FILESTREAM NOT NULL,
     [user_id] INT NOT NULL FOREIGN KEY REFERENCES [user] ([id])
 );
+GO
 
 CREATE TABLE [course](
     [id] INT NOT NULL PRIMARY KEY,
@@ -47,38 +48,20 @@ CREATE TABLE [course](
 );
 GO
 
-CREATE TABLE [class](
+CREATE TABLE [subject_area] (
     [id] INT NOT NULL PRIMARY KEY,
     [name] VARCHAR(255) NOT NULL,
-    [is_active] BIT NOT NULL,
-    [course_id] INT NOT NULL FOREIGN KEY REFERENCES [course] ([id])
+    [is_active] BIT NOT NULL
 );
 GO
-
 
 CREATE TABLE [student](
     [id] INT NOT NULL PRIMARY KEY,
     [grade] FLOAT NOT NULL,
     [personal_feedback] VARCHAR(MAX),
     [is_active] BIT NOT NULL,
-    [user_id] INT NOT NULL FOREIGN KEY REFERENCES [user] ([id])
+    [user_id] INT NOT NULL FOREIGN KEY REFERENCES [user] ([id]),
     [class_id] INT NOT NULL FOREIGN KEY REFERENCES [class] ([id])
-);
-GO
-
-CREATE TABLE [result](
-    [id] INT NOT NULL PRIMARY KEY,
-    [feedback] VARCHAR(MAX),
-    [aptitude] TINYINT NNULL,
-    [is_active] BIT NOT NULL,
-    [competence_id] INT NOT NULL FOREIGN KEY REFERENCES [competence] ([id])
-);
-
-
-CREATE TABLE [subject_area] (
-    [id] INT NOT NULL PRIMARY KEY,
-    [name] VARCHAR(255) NOT NULL,
-    [is_active] BIT NOT NULL
 );
 GO
 
@@ -102,6 +85,42 @@ CREATE TABLE [subject] (
 );
 GO
 
+CREATE TABLE [class](
+    [id] INT NOT NULL PRIMARY KEY,
+    [name] VARCHAR(255) NOT NULL,
+    [is_active] BIT NOT NULL,
+    [course_id] INT NOT NULL FOREIGN KEY REFERENCES [course] ([id])
+);
+GO
+
+CREATE TABLE [competence](
+    [id] INT NOT NULL PRIMARY KEY,
+    [description] VARCHAR(255) NOT NULL,
+    [is_active] BIT NOT NULL,
+    [subject_id] INT NOT NULL FOREIGN KEY REFERENCES [subject] ([id])
+);
+GO
+
+CREATE TABLE [result](
+    [id] INT NOT NULL PRIMARY KEY,
+    [feedback] VARCHAR(MAX),
+    [aptitude] TINYINT NULL,
+    [is_active] BIT NOT NULL,
+    [competence_id] INT NOT NULL FOREIGN KEY REFERENCES [competence] ([id])
+);
+GO
+
+CREATE TABLE [specific_objectives](
+    [id] INT NOT NULL PRIMARY KEY,
+    [identification] VARCHAR(300) NOT NULL,
+    [ressources] VARCHAR(300) NULL,
+    [time] INT NOT NULL,
+    [evaluation_criteria] VARCHAR(500) NULL,
+    [is_active] BIT NOT NULL,
+    [subject_id] INT NOT NULL FOREIGN KEY REFERENCES [subject] ([id])
+);
+GO
+
 -- CREATE TABLE [post] (
 --     [id] INT NOT NULL PRIMARY KEY,
 --     [title] VARCHAR(255) NOT NULL,
@@ -119,37 +138,3 @@ GO
 --     [post_id] INT NOT NULL FOREIGN KEY REFERENCES [post] ([id])
 -- );
 -- GO
-
-CREATE TABLE [competence](
-    [id] INT NOT NULL PRIMARY KEY,
-    [description] VARCHAR(255) NOT NULL,
-    [is_active] BIT NOT NULL,
-    [subject_id] INT NOT NULL FOREIGN KEY REFERENCES [subject] ([id])
-);
-
-CREATE TABLE [specific_objectives](
-    [id] INT NOT NULL PRIMARY KEY,
-    [identification] VARCHAR(300) NOT NULL,
-    [ressources] VARCHAR(300) NULL,
-    [time] INT NOT NULL,
-    [evaluation_criteria] VARCHAR(500) NULL,
-    [is_active] BIT NOT NULL,
-    [subject_id] INT NOT NULL FOREIGN KEY REFERENCES [subject] ([id])
-);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
