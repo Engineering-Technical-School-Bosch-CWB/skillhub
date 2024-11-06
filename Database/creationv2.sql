@@ -1,3 +1,24 @@
+use master
+drop database Project_e
+go
+CREATE DATABASE Project_e
+ON 
+Primary (
+	NAME = Project_e,
+	filename = 'C:\data\project_e.mdf'),
+filegroup FileStreamProjectE CONTAINS FILESTREAM  (
+	NAME = Project_e_,
+	filename = 'C:\data\filestreamprojecte')
+LOG ON ( 
+	NAME = Project_e_log,
+	filename = 'C:\data\project_e.ldf')
+
+GO
+
+--exec sp_configure filestream_access_level,2; 
+--RECONFIGURE
+use Project_e
+GO 
 CREATE TABLE [sector] (
     [id] INT NOT NULL PRIMARY KEY,
     [name] VARCHAR(100) NOT NULL,
@@ -35,7 +56,7 @@ CREATE TABLE [user] (
 GO
 
 CREATE TABLE [user_image](
-    [id] INT NOT NULL PRIMARY KEY,
+    [id] [uniqueidentifier] ROWGUIDCOL NOT NULL UNIQUE,
     [image] VARBINARY(MAX) FILESTREAM NOT NULL,
     [user_id] INT NOT NULL FOREIGN KEY REFERENCES [user] ([id])
 );
