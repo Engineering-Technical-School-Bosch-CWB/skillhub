@@ -1,4 +1,5 @@
 using api.Domain.Services.Pagination;
+using Microsoft.EntityFrameworkCore;
 
 namespace api.Core.Services.Pagination
 {
@@ -8,7 +9,7 @@ namespace api.Core.Services.Pagination
                 IQueryable<TEntity> query,
                 PaginationOptions pagination)
         {
-            var totalItems = await query.CountAsync<TEntity>();
+            var totalItems = await query.CountAsync();
 
             System.Console.WriteLine($"Total items: {totalItems}");
 
