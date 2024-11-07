@@ -1,5 +1,6 @@
 using api.Core.Errors.Pagination;
 using api.Domain.Services.Pagination;
+using Genesis.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace api.Core.Services.Pagination
@@ -9,6 +10,7 @@ namespace api.Core.Services.Pagination
         public async Task<(IEnumerable<TEntity>, PaginationInfo)> Paginate<TEntity>(
                 IQueryable<TEntity> query,
                 PaginationOptions pagination)
+                where TEntity : IEntity
         {
             var totalItems = await query.CountAsync();
 
