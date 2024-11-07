@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using api.Domain.Models;
-namespace api.Core.Mapping;
+using Api.Domain.Models;
+namespace Api.Core.Mapping;
 
 public class PositionClassMap : IEntityTypeConfiguration<Position>
 {
@@ -20,12 +20,6 @@ public class PositionClassMap : IEntityTypeConfiguration<Position>
 
         builder.Property(e => e.IsActive)
             .HasColumnName("is_active");
-
-        builder.Property(e => e.SectorId)
-            .HasColumnName("sector_id");
-
-        builder.Property(e => e.OccupationId)
-            .HasColumnName("occupation_id");
 
     }
 }
