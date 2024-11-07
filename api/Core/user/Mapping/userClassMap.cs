@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using api.Domain.Models;
-namespace api.Core.Mapping;
+using Api.Domain.Models;
+namespace Api.Core.Mapping;
 
 public class UserClassMap : IEntityTypeConfiguration<User>
 {
@@ -41,6 +41,12 @@ public class UserClassMap : IEntityTypeConfiguration<User>
 
         builder.Property(e => e.PositionId)
             .HasColumnName("position_id");
+
+        builder.Property(e => e.SectorId)
+            .HasColumnName("sector_id");
+
+        builder.Property(e => e.OccupationId)
+            .HasColumnName("occupation_id");
 
     }
 }
