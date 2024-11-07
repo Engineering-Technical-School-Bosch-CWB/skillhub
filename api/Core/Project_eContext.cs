@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 
-using api.Core.Mapping;
+using Api.Core.Mapping;
 
-using api.Domain.Models;
+using Api.Domain.Models;
 
-namespace api.Core;
+namespace Api.Core;
 
 public partial class Project_eContext : DbContext
 {
@@ -22,13 +22,14 @@ public partial class Project_eContext : DbContext
     public virtual DbSet<Class> ClassList { get; set; }
     public virtual DbSet<SubjectArea> SubjectAreaList { get; set; }
     public virtual DbSet<Student> StudentList { get; set; }
+    public virtual DbSet<Feedback> FeedbackList { get; set; }
     public virtual DbSet<CurricularUnit> CurricularUnitList { get; set; }
     public virtual DbSet<Subject> SubjectList { get; set; }
     public virtual DbSet<Competence> CompetenceList { get; set; }
     public virtual DbSet<Result> ResultList { get; set; }
     public virtual DbSet<SpecificObjectives> SpecificObjectivesList { get; set; }
     protected override void OnConfiguring (DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer(@"Data Source=CT-C-002AF\SQLEXPRESS;Initial Catalog=Project_e;Integrated Security=True;TrustServerCertificate=true");
+        => optionsBuilder.UseSqlServer(@"Data Source=CA-C-0064T\SQLEXPRESS;Initial Catalog=Project_e;Integrated Security=True;Trust Server Certificate=True;");
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new SectorClassMap());
@@ -40,6 +41,7 @@ public partial class Project_eContext : DbContext
         modelBuilder.ApplyConfiguration(new ClassClassMap());
         modelBuilder.ApplyConfiguration(new SubjectAreaClassMap());
         modelBuilder.ApplyConfiguration(new StudentClassMap());
+        modelBuilder.ApplyConfiguration(new FeedbackClassMap());
         modelBuilder.ApplyConfiguration(new CurricularUnitClassMap());
         modelBuilder.ApplyConfiguration(new SubjectClassMap());
         modelBuilder.ApplyConfiguration(new CompetenceClassMap());

@@ -1,7 +1,7 @@
 using Genesis.Domain.Services;
-using api.Domain.Models;
+using Api.Domain.Models;
 
-namespace api.Domain.Services;
+namespace Api.Domain.Services;
 
 public interface ICompetenceService : IService<Competence>
 {
