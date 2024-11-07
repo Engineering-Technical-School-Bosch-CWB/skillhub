@@ -120,6 +120,7 @@ CREATE TABLE [subject] (
     [id] INT NOT NULL PRIMARY KEY,
     [name] VARCHAR(255) NOT NULL,
     [is_active] BIT NOT NULL,
+    [period] TINYINT NOT NULL,
     [instructor_id] INT NOT NULL FOREIGN KEY REFERENCES [user] ([id]),
     [curricular_unit_id] INT NOT NULL FOREIGN KEY REFERENCES [curricular_unit] ([id]),
     [class_id] INT NOT NULL FOREIGN KEY REFERENCES [class] ([id])
@@ -130,6 +131,7 @@ CREATE TABLE [competence](
     [id] INT NOT NULL PRIMARY KEY,
     [description] VARCHAR(255) NOT NULL,
     [is_active] BIT NOT NULL,
+    [weight] FLOAT NOT NULL,
     [subject_id] INT NOT NULL FOREIGN KEY REFERENCES [subject] ([id])
 );
 GO
