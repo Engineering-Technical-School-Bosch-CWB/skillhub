@@ -1,8 +1,8 @@
 using Genesis.Core.Repositories;
-using api.Domain.Repositories;
-using api.Domain.Models;
+using Api.Domain.Repositories;
+using Api.Domain.Models;
 
-namespace api.Core.Repositories;
+namespace Api.Core.Repositories;
 
 public class PositionRepository(Project_eContext context) 
     : BaseRepository<Position>(context), IPositionRepository
