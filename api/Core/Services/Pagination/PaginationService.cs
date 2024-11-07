@@ -1,3 +1,4 @@
+using api.Core.Errors.Pagination;
 using api.Domain.Services.Pagination;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,10 +12,8 @@ namespace api.Core.Services.Pagination
         {
             var totalItems = await query.CountAsync();
 
-            System.Console.WriteLine($"Total items: {totalItems}");
-
             if (totalItems <= pagination.Offset)
-                throw new Exception("Offset exceeds maximum of items."); // TODO: create exception type and treat it on handler
+                throw new PaginationOffsetException("Offset exceeds maximum of items.");
 
             query = query.Skip(pagination.Offset).Take(pagination.Take);
 
@@ -25,7 +24,7 @@ namespace api.Core.Services.Pagination
                 TotalPages = (int)Math.Ceiling((double)totalItems / pagination.Take),
             };
 
-            var data = await query.ToListAsync<TEntity>();
+            var data = await query.ToListAsync();
 
             return (data, paginationInfo);
         }
