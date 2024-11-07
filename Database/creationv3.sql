@@ -58,7 +58,7 @@ CREATE TABLE [user] (
 GO
 
 CREATE TABLE [user_image](
-    [id] [uniqueidentifier] ROWGUIDCOL NOT NULL UNIQUE PRIMARY KEY,
+    [id] [uniqueidentifier] ROWGUIDCOL NOT NULL PRIMARY KEY,
     [image] VARBINARY(MAX) FILESTREAM NOT NULL,
     [user_id] INT NOT NULL FOREIGN KEY REFERENCES [user] ([id])
 );

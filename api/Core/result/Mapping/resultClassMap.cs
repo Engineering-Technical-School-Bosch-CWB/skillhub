@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using api.Domain.Models;
-namespace api.Core.Mapping;
+using Api.Domain.Models;
+namespace Api.Core.Mapping;
 
 public class ResultClassMap : IEntityTypeConfiguration<Result>
 {

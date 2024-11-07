@@ -1,6 +1,6 @@
 using Genesis.Domain.Models;
 
-namespace api.Domain.Models;
+namespace Api.Domain.Models;
 
 public partial class User : IEntity
 {
@@ -12,4 +12,6 @@ public partial class User : IEntity
   public bool NewUser { get; set; }
   public bool IsActive { get; set; }
   public int PositionId { get; set; }
+  public int SectorId { get; set; }
+  public int OccupationId { get; set; }
 }

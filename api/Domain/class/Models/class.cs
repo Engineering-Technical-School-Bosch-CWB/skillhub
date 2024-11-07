@@ -1,6 +1,6 @@
 using Genesis.Domain.Models;
 
-namespace api.Domain.Models;
+namespace Api.Domain.Models;
 
 public partial class Class : IEntity
 {

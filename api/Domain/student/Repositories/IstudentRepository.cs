@@ -1,7 +1,7 @@
 using Genesis.Domain.Repositories;
-using api.Domain.Models;
+using Api.Domain.Models;
 
-namespace api.Domain.Repositories;
+namespace Api.Domain.Repositories;
 
 public interface IStudentRepository : IRepository<Student>
 {
