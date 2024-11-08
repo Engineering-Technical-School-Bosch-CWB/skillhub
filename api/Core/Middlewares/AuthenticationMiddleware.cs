@@ -1,4 +1,6 @@
 
+using api.Core.Errors.Pagination;
+
 namespace Core.Middlewares;
 
 public class AuthenticationMiddleware : IMiddleware
@@ -28,11 +30,11 @@ public class AuthenticationMiddleware : IMiddleware
             return;
         }
 
-        // var auth = context.Request.Headers.Authorization.FirstOrDefault()
-        //         ?? throw new InvalidHeadersException("Missing authorization header.");
+        var auth = context.Request.Headers.Authorization.FirstOrDefault()
+                ?? throw new InvalidHeadersException("Missing authorization header.");
         
-        // var token = auth.Split(" ")[1]
-        //         ?? throw new InvalidHeadersException("Authorization header should be a bearer token.");
+        var token = auth.Split(" ")[1]
+                ?? throw new InvalidHeadersException("Authorization header should be a bearer token.");
 
         // _jwtService.ValidateToken(token);   
 
