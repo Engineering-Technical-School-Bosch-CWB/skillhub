@@ -5,18 +5,18 @@ namespace Core.Middlewares;
 
 public class AuthenticationMiddleware : IMiddleware
 {
-    // private readonly JwtService _jwtService;
+    private readonly JwtService _jwtService;
     private readonly string[] _pathsToSkip;
 
-    // public AuthenticationMiddleware(JwtService jwtService)
-    // {
-    //     _jwtService = jwtService;
-    //     _pathsToSkip = new []
-    //     {
-    //         "/api/v1/login",
-    //         "/api/v1/users/register",
-    //     };
-    // }
+    public AuthenticationMiddleware(JwtService jwtService)
+    {
+        _jwtService = jwtService;
+        _pathsToSkip = new []
+        {
+            "/api/v1/login",
+            "/api/v1/users/register",
+        };
+    }
 
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
@@ -36,7 +36,7 @@ public class AuthenticationMiddleware : IMiddleware
         var token = auth.Split(" ")[1]
                 ?? throw new InvalidHeadersException("Authorization header should be a bearer token.");
 
-        // _jwtService.ValidateToken(token);   
+        _jwtService.ValidateToken(token);   
 
         await next.Invoke(context);
     }
