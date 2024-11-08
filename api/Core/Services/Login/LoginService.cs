@@ -10,11 +10,12 @@ namespace Core.Services.Login
     {
         private readonly UserService _userService;
         private readonly PasswordHasher<User> _hasher;
+        private readonly JWTService jWTService;
 
         public async Task<LoginResponse> TryLogin(LoginPayload payload)
         {
             var user = await userService.GetByIdentification(payload.Identification)
-                ?? throw new UnnauthorizedException("User not registered.");
+                ?? throw new UserNotRegisteredException("Identification number still not registered.");
 
             var passwordMatches = _hasher.VerifyHashedPassword(
                 user,
@@ -24,16 +25,30 @@ namespace Core.Services.Login
 
             if(passwordMatches == PasswordVerificationResult.Failed)
             {
-                throw new ForbiddenException("Wrong password.");
+                throw new WrongPasswordException("Wrong password.");
             }
 
             if(passwordMatches == PasswordVerificationResult.Success &&
                 payload.Password == user.Identification)
             {
-                return new LoginResponse(true, null, null);
+                return new LoginResponse(
+                    true, 
+                    UserDTO.BuildFromEntity(user), 
+                    jWTService.GenerateToken(result)
+                );
             }
 
-            return new LoginResponse(false, null, null);
+            var result = LoginResult.Succeeded()
+            {
+                UserId = user.Id,
+                UserName = user.Name
+            };
+
+            return new LoginResponse(
+                false, 
+                UserDTO.BuildFromEntity(user), 
+                jWTService.GenerateToken(result)
+            );
         }
     }
 }

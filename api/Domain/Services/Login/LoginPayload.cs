@@ -1,4 +1,4 @@
 namespace api.Domain.Services.Login
 {
-    public record LoginPayload(string Identification, string Password);    
+    public readonly record struct LoginPayload(string Identification, string Password);    
 }

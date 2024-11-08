@@ -2,9 +2,9 @@ using Api.Domain.Models;
 
 namespace api.Domain.Services.Login
 {
-    public record LoginResponse(
+    public readonly record struct LoginResponse(
         bool FirstLogin, 
         User? User,
-        string? AuthToken
+        OutboundToken? AuthToken
     );
 }
