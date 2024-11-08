@@ -1,4 +1,4 @@
-namespace api.Domain.Services.Login
+namespace Api.Domain.Services.Login
 {
     public interface ILoginService
     {

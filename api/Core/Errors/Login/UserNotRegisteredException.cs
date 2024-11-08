@@ -1,4 +1,4 @@
-namespace api.Core.Errors.Pagination
+namespace Api.Core.Errors.Pagination
 {
     public class UserNotRegisteredException : Exception
     {

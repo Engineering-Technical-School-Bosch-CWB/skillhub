@@ -1,10 +1,10 @@
-using api.Core.Errors.Pagination;
-using api.Domain.Services.Login;
+using Api.Core.Errors.Pagination;
+using Api.Domain.Services.Login;
 using Api.Core.Services;
 using Api.Domain.Models;
 using Microsoft.AspNetCore.Identity;
 
-namespace Core.Services.Login
+namespace Api.Core.Services.Login
 {
     public class LoginService(UserService userService, PasswordHasher<User> hasher) : ILoginService
     {

@@ -1,6 +1,6 @@
 using Api.Domain.Models;
 
-namespace api.Domain.Services.Login
+namespace Api.Domain.Services.Login
 {
     public readonly record struct LoginResponse(
         bool FirstLogin, 
