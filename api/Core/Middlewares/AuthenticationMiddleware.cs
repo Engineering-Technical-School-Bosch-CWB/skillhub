@@ -6,6 +6,7 @@ namespace Core.Middlewares;
 public class AuthenticationMiddleware : IMiddleware
 {
     private readonly JwtService _jwtService;
+
     private readonly string[] _pathsToSkip;
 
     public AuthenticationMiddleware(JwtService jwtService)
