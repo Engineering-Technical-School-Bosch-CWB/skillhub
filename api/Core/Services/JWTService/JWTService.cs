@@ -1,15 +1,11 @@
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
+using Api.Core.Errors.JWTService;
 using System.Security.Claims;
 using Api.Domain.JWTService;
 using System.Text;
-using core.Data;
-using core.Data.Contexts;
-using core.Data.Outbound;
-using core.Errors;
-using core.Models;
-using Microsoft.IdentityModel.Tokens;
 
-namespace core.Services
+namespace Api.Core.JWTService
 {
     public class JwtService : IJwtService
     {
