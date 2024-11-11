@@ -16,7 +16,8 @@ namespace Api.Domain.Models
         bool? IsActive,
         string? Password,
         int? SectorId,
-        int? PositionId
+        int? PositionId,
+        int? OccupationId
     );
 
 }

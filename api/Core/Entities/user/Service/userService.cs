@@ -42,7 +42,7 @@ public class UserService(
             PositionId = payload.PositionId,
             SectorId = payload.SectorId,
         };
-        
+
         newUser.Hash = HashPassword(newUser, newUser.Hash);
 
         var saveUser = repository.Add(newUser)
@@ -85,9 +85,17 @@ public class UserService(
         if (payload.PositionId is not null)
         {
             var position = await positionRepository.GetAllNoTracking()
-                .FirstOrDefaultAsync(u => u.Id == payload.SectorId) 
+                .FirstOrDefaultAsync(u => u.Id == payload.PositionId) 
                 ?? throw new NotFoundException("Position not found.");
             user.PositionId = position.Id;
+        }
+
+        if (payload.OccupationId is not null)
+        {
+            var occupation = await positionRepository.GetAllNoTracking()
+                .FirstOrDefaultAsync(u => u.Id == payload.OccupationId) 
+                ?? throw new NotFoundException("Occupation not found.");
+            user.OccupationId = occupation.Id;
         }
 
         if (payload.Password is not null)
