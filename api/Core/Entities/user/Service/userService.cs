@@ -47,7 +47,6 @@ public class UserService(
         var saveUser = repository.Add(newUser);
         await repository.SaveAsync();
 
-
         var response = new UserCreatedOutbound(){
             UserId = saveUser.Id,
             Position = position.Name,
