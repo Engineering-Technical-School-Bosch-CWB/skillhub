@@ -17,5 +17,17 @@ namespace Api.Controllers
             return Created("/api/v1/users/register", result);
         }
 
+        [HttpPatch]
+        [Route("{id}")]
+        public async Task<IActionResult> UpdateUser(
+            [FromServices] UserService service,
+            [FromBody] UserUpdatePayload payload,
+            int id)
+        {
+            var result = await service.UpdateUser(id, payload);
+            return new OkObjectResult(result);
+        }
+
+
     }
 }
