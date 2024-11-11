@@ -1,5 +1,6 @@
 using System.Security.Cryptography;
 using Api.Core.Errors.JWTService;
+using Api.Core.Errors.User;
 using Microsoft.AspNetCore.Diagnostics;
 
 namespace api.Core.Middlewares
@@ -13,6 +14,7 @@ namespace api.Core.Middlewares
         {
             var error = exception switch
             {
+                AlreadyExistsException e => new Error(StatusCodes.Status400BadRequest, e.Message),
                 InvalidTokenException e => new Error(StatusCodes.Status400BadRequest, e.Message),
                 _ => new Error(StatusCodes.Status500InternalServerError, "Unknown server error.")
             };

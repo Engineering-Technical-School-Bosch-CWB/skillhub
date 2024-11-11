@@ -5,5 +5,6 @@ namespace Api.Domain.Services;
 
 public interface IUserService : IService<User>
 {
-
+    public Task<UserCreatedOutbound> CreateUser(UserCreatePayload payload);
+    public Task<UserUpdatedOutbound> UpdateUser(int id, UserUpdatePayload payload);
 }
