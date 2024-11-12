@@ -1,0 +1,38 @@
+.common {
+    width: max-content;
+    padding: 11px 22px;
+    border-radius: 0;
+
+    font-size: 1rem;
+    transition: 0.15s;
+    cursor: pointer;
+}
+/* .common:hover {
+
+} */
+
+
+.contained {
+    background-color: var(--primary-main);
+    border: 1px solid var(--primary-main);
+
+    color: var(--gray-0);
+}
+.contained:hover {
+    background-color: var(--primary-dark);
+    border: 1px solid var(--primary-dark);
+}
+
+
+.outlined {
+    background-color: transparent;
+    border: 1px solid var(--primary-main);
+
+    color: var(--primary-main);
+}
+.outlined:hover {
+    background-color: var(--primary-light-low-opacity);
+    border: 1px solid var(--primary-dark);
+
+    color: var(--primary-dark);
+}
