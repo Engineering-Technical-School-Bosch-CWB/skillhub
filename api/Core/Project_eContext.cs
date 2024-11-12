@@ -25,7 +25,7 @@ public partial class Project_eContext : DbContext
     public virtual DbSet<Feedback> FeedbackList { get; set; }
     public virtual DbSet<CurricularUnit> CurricularUnitList { get; set; }
     public virtual DbSet<Subject> SubjectList { get; set; }
-    public virtual DbSet<Competence> CompetenceList { get; set; }
+    public virtual DbSet<Skill> CompetenceList { get; set; }
     public virtual DbSet<Result> ResultList { get; set; }
     public virtual DbSet<SpecificObjectives> SpecificObjectivesList { get; set; }
     protected override void OnConfiguring (DbContextOptionsBuilder optionsBuilder)
@@ -44,7 +44,7 @@ public partial class Project_eContext : DbContext
         modelBuilder.ApplyConfiguration(new FeedbackClassMap());
         modelBuilder.ApplyConfiguration(new CurricularUnitClassMap());
         modelBuilder.ApplyConfiguration(new SubjectClassMap());
-        modelBuilder.ApplyConfiguration(new CompetenceClassMap());
+        modelBuilder.ApplyConfiguration(new SkillClassMap());
         modelBuilder.ApplyConfiguration(new ResultClassMap());
         modelBuilder.ApplyConfiguration(new SpecificObjectivesClassMap());
         OnModelCreatingPartial(modelBuilder);

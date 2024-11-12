@@ -14,16 +14,21 @@ public class ClassClassMap : IEntityTypeConfiguration<Class>
         builder.Property(e => e.Id)
             .HasColumnName("id");
 
-        builder.Property(e => e.Name)
-            .HasMaxLength(255)
-            .HasColumnName("name");
+        builder.Property(e => e.StartingYear)
+            .HasColumnType("smallint")
+            .HasColumnName("starting_year");
+
+        builder.Property(c => c.DurationPeriods)
+            .HasColumnType("tinyint")
+            .HasColumnName("duration_peridos");
 
         builder.Property(e => e.IsActive)
             .HasColumnName("is_active");
 
-        builder.Property(e => e.CourseId)
-            .HasColumnName("course_id");
-
+        builder.HasOne(cl => cl.Course)
+            .WithMany(co => co.Classes)
+            .HasForeignKey("course_id")
+            .HasPrincipalKey(co => co.Id);
     }
 }
 
