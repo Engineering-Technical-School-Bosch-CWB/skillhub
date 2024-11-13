@@ -1,0 +1,31 @@
+.input_box {
+    position: relative;
+}
+.full_width {
+    width: 100%;
+}
+
+
+.input {
+    width: 100%;
+
+    background-color: transparent;
+    padding: 11px 22px;
+    border-radius: 0;
+    border: 1px solid var(--gray-300);
+}
+
+
+.label {
+    display: block;
+    height: max-content;
+
+    position: absolute;
+    left: 15px;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
+}
+.label {
+
+}
