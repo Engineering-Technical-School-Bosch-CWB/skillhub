@@ -7,47 +7,45 @@ public class UserClassMap : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
-        builder.HasKey(e => e.Id).HasName("PK____User");
+        builder.HasKey(u => u.Id).HasName("PK____User");
 
         builder.ToTable("user");
 
-        builder.Property(e => e.Id)
+        builder.Property(u => u.Id)
             .HasColumnName("id");
 
-        builder.Property(e => e.Name)
+        builder.Property(u => u.Name)
             .HasMaxLength(500)
             .HasColumnName("name");
 
-        builder.Property(e => e.Identification)
+        builder.Property(u => u.Identification)
             .HasMaxLength(100)
             .HasColumnName("identification");
 
-        builder.Property(e => e.Hash)
+        builder.Property(u => u.Hash)
             .HasMaxLength(255)
             .HasColumnName("hash");
 
-        builder.Property(e => e.Card)
-            .HasMaxLength(10)
-            .HasColumnName("card");
-
-        builder.Property(e => e.Birthday)
+        builder.Property(u => u.Birthday)
             .HasColumnName("birthday");
 
-        builder.Property(e => e.NewUser)
-            .HasColumnName("new_user");
-
-        builder.Property(e => e.IsActive)
+        builder.Property(u => u.IsActive)
             .HasColumnName("is_active");
 
-        builder.Property(e => e.PositionId)
-            .HasColumnName("position_id");
+        builder.HasOne(u => u.Position)
+            .WithMany(p => p.Users)
+            .HasForeignKey("position_id")
+            .HasPrincipalKey(p => p.Id);
+        
+        builder.HasOne(u => u.Sector)
+            .WithMany(s => s.Users)
+            .HasForeignKey("sector_id")
+            .HasPrincipalKey(s => s.Id);
 
-        builder.Property(e => e.SectorId)
-            .HasColumnName("sector_id");
-
-        builder.Property(e => e.OccupationId)
-            .HasColumnName("occupation_id");
-
+        builder.HasOne(u => u.Area)
+            .WithMany(a => a.Users)
+            .HasForeignKey("occupation_area_id")
+            .HasPrincipalKey(a => a.Id);
     }
 }
 
