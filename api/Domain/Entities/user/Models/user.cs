@@ -13,6 +13,7 @@ public partial class User : IEntity
   public required Position Position { get; set; }
   public required Sector Sector { get; set; }
   public required OccupationArea Area { get; set; }
+  public Student? StudentProfile { get; set; }
 
   public IEnumerable<UserImage> Images { get; set; } = [];
 }
