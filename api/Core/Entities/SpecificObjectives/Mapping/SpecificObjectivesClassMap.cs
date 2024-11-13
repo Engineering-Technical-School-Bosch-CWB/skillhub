@@ -14,6 +14,11 @@ public class SpecificObjectivesClassMap : IEntityTypeConfiguration<SpecificObjec
         builder.Property(e => e.Id)
             .HasColumnName("id");
 
+        builder.HasOne(e => e.Subject)
+            .WithMany(s => s.SpecificObjectives)
+            .HasForeignKey("subject_id")
+            .HasPrincipalKey(s => s.Id);
+
         builder.Property(e => e.Identification)
             .HasMaxLength(300)
             .HasColumnName("identification");
@@ -31,9 +36,6 @@ public class SpecificObjectivesClassMap : IEntityTypeConfiguration<SpecificObjec
 
         builder.Property(e => e.IsActive)
             .HasColumnName("is_active");
-
-        builder.Property(e => e.SubjectId)
-            .HasColumnName("subject_id");
 
     }
 }

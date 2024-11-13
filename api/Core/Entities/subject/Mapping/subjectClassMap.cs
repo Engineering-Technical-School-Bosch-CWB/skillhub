@@ -13,23 +13,34 @@ public class SubjectClassMap : IEntityTypeConfiguration<Subject>
 
         builder.Property(e => e.Id)
             .HasColumnName("id");
+        
+        builder.HasOne(s => s.Instructor)
+            .WithMany(u => u.Subjects)
+            .HasForeignKey("instructor_id")
+            .HasPrincipalKey(u => u.Id);
 
-        builder.Property(e => e.Name)
-            .HasMaxLength(255)
-            .HasColumnName("name");
+        builder.HasOne(s => s.CurricularUnit)
+            .WithMany(cu => cu.Subjects)
+            .HasForeignKey("curricular_unit_id")
+            .HasPrincipalKey(cu => cu.Id);
+
+        builder.HasOne(s => s.Class)
+            .WithMany(c => c.Subjects)
+            .HasForeignKey("class_id")
+            .HasPrincipalKey(c => c.Id);
+
+        builder.Property(s => s.Period)
+            .HasColumnType("tinyint")
+            .HasColumnName("period");
 
         builder.Property(e => e.IsActive)
             .HasColumnName("is_active");
 
-        builder.Property(e => e.InstructorId)
-            .HasColumnName("instructor_id");
+        builder.Property(e => e.DurationHours)
+            .HasColumnName("duration_hours");
 
-        builder.Property(e => e.CurricularUnitId)
-            .HasColumnName("curricular_unit_id");
-
-        builder.Property(e => e.ClassId)
-            .HasColumnName("class_id");
-
+        builder.Property(e => e.BeganAt)
+            .HasColumnName("began_at");
     }
 }
 
