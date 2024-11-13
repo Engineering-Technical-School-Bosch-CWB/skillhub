@@ -8,14 +8,15 @@ interface IInputProps extends ComponentPropsWithoutRef<'input'> {
 }
 
 export default forwardRef<HTMLInputElement, IInputProps>(
-    ({ label, fullwidth, id = uuid(),  ...props }, ref) => {
+    ({ label, fullwidth, className, id = uuid(), ...props }, ref) => {
+    
     return (
         <div className={`${styles.input_box} ${fullwidth ? styles.full_width : ""}`}>
             <input 
                 ref={ref}
                 id={id}
                 {...props}
-                className={`${styles.input}`}
+                className={`${styles.input} ${className}`}
                 placeholder=" "
             />
             {label &&

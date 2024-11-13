@@ -5,10 +5,10 @@ interface IButtonProps extends ComponentPropsWithoutRef<'button'> {
     variant?: "contained" | "outlined";
 }
 
-export default forwardRef<HTMLButtonElement, IButtonProps>(({ variant = "outlined", ...props}, ref) => 
+export default forwardRef<HTMLButtonElement, IButtonProps>(({ variant = "outlined", className, ...props}, ref) => 
     <button
         ref={ref}
         {...props}
-        className={`${styles.common} ${styles[variant]}`}
+        className={`${styles.common} ${styles[variant]} ${className}`}
     />
 )
