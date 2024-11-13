@@ -1,6 +1,6 @@
 using System.Security.Cryptography;
+using Api.Core.Errors;
 using Api.Core.Errors.JWTService;
-using Api.Core.Errors.User;
 using Microsoft.AspNetCore.Diagnostics;
 
 namespace api.Core.Middlewares

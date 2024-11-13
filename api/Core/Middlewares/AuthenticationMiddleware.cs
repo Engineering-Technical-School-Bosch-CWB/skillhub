@@ -1,7 +1,8 @@
 
 using api.Core.Errors.Pagination;
+using Api.Core.JWTService;
 
-namespace Core.Middlewares;
+namespace api.Core.Middlewares;
 
 public class AuthenticationMiddleware : IMiddleware
 {
