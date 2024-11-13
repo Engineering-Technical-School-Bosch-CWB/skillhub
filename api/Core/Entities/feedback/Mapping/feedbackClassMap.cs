@@ -20,7 +20,7 @@ public class FeedbackClassMap : IEntityTypeConfiguration<Feedback>
             .HasPrincipalKey(u => u.Id);
 
         builder.HasOne(f => f.Student)
-            .WithMany()
+            .WithMany(s => s.Feedbacks)
             .HasForeignKey("student_id")
             .HasPrincipalKey(s => s.Id);
 
