@@ -20,7 +20,7 @@ public class UserImageClassMap : IEntityTypeConfiguration<UserImage>
 
         builder.Property(u => u.FileGuid)
             .HasColumnName("file_guid")
-            .HasColumnType("uniqueidentifier rowguicol");
+            .HasColumnType("uniqueidentifier rowguidcol");
         
         builder.HasAlternateKey(u => u.FileGuid);
 
