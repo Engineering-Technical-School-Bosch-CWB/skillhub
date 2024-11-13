@@ -46,6 +46,10 @@ public class UserClassMap : IEntityTypeConfiguration<User>
             .WithMany(a => a.Users)
             .HasForeignKey("occupation_area_id")
             .HasPrincipalKey(a => a.Id);
+
+        builder.HasOne(u => u.Student)
+            .WithOne(s => s.User)
+            .HasForeignKey("student_id");
     }
 }
 

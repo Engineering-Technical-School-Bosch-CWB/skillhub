@@ -28,6 +28,15 @@ namespace Api.Controllers
             return new OkObjectResult(result);
         }
 
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> DeleteUser(
+            [FromServices] UserService service,
+            int id)
+        {
+            await service.DeleteUser(id);
+            return Ok();
+        }
 
     }
 }
