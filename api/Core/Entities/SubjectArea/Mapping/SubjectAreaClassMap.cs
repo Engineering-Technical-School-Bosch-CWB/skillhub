@@ -7,19 +7,22 @@ public class SubjectAreaClassMap : IEntityTypeConfiguration<SubjectArea>
 {
     public void Configure(EntityTypeBuilder<SubjectArea> builder)
     {
-        builder.HasKey(e => e.Id).HasName("PK____SubjectArea");
+        builder.HasKey(s => s.Id).HasName("PK____SubjectArea");
 
         builder.ToTable("subject_area");
 
-        builder.Property(e => e.Id)
+        builder.Property(s => s.Id)
             .HasColumnName("id");
 
-        builder.Property(e => e.Name)
+        builder.Property(s => s.Name)
             .HasMaxLength(255)
             .HasColumnName("name");
 
-        builder.Property(e => e.IsActive)
+        builder.Property(s => s.IsActive)
             .HasColumnName("is_active");
+
+        builder.HasMany(s => s.CurricularUnits)
+            .WithOne(c => c.SubjectArea);
 
     }
 }

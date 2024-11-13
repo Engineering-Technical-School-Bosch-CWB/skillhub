@@ -28,8 +28,6 @@ public class CurricularUnitClassMap : IEntityTypeConfiguration<CurricularUnit>
 
         builder.HasMany(c => c.Skills)
             .WithOne(s => s.CurricularUnit);
-
-
     }
 }
 

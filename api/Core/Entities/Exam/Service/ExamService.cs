@@ -5,8 +5,8 @@ using Api.Domain.Services;
 
 namespace Api.Core.Services;
 
-public class CompetenceService(BaseRepository<Skill> repository)
-    : BaseService<Skill> (repository), ICompetenceService
+public class ExamService(BaseRepository<Exam> repository)
+    : BaseService<Exam> (repository), IExamService
 {
 
 }

@@ -4,8 +4,8 @@ using Api.Domain.Models;
 
 namespace Api.Core.Repositories;
 
-public class CompetenceRepository(Project_eContext context) 
-    : BaseRepository<Skill>(context), ICompetenceRepository
+public class Examrepository(Project_eContext context) 
+    : BaseRepository<Exam>(context), IExamRepository
 {
 
 }
