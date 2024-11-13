@@ -141,7 +141,7 @@ public class UserService(
 
         var deletedUser =
             repository.Update(user)
-            ?? throw new UpsertFailException("User could not be deleted");
+            ?? throw new DeleteFailException("User could not be deleted");
 
     }
 }
