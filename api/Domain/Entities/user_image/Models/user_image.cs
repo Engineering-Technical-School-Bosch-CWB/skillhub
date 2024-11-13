@@ -4,6 +4,8 @@ namespace Api.Domain.Models;
 
 public partial class UserImage : IEntity
 {
-  public byte[] Image { get; set; }
-  public int UserId { get; set; }
+  public required Guid FileGuid { get; set; }
+  public required byte[] Image { get; set; }
+
+  public required User User { get; set; }
 }
