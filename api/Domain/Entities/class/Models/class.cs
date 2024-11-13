@@ -10,6 +10,5 @@ public partial class Class : IEntity
 
   public required Course Course { get; set; }
 
-  public IEnumerable<User> Users { get; set; } = [];
   public IEnumerable<Student> Students { get; set; } = [];
 }
