@@ -31,10 +31,8 @@ namespace Api.Domain.Models
             {
                 Name = user.Name,
                 Birthday = user.Birthday.ToString()!,
-                Card = user.Card,
                 EDV = user.Identification,
                 IsActive = user.IsActive,
-                NewUser = user.NewUser
             };
         }
     }
