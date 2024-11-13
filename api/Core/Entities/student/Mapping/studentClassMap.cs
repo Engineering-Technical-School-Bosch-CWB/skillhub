@@ -14,21 +14,23 @@ public class StudentClassMap : IEntityTypeConfiguration<Student>
         builder.Property(e => e.Id)
             .HasColumnName("id");
 
-        builder.Property(e => e.Grade)
-            .HasColumnName("grade");
-
-        builder.Property(e => e.PersonalFeedback)
-            .HasColumnName("personal_feedback");
+        builder.Property(s => s.OverallScore)
+            .HasColumnName("overall_score");
+        
+        builder.Property(s => s.OverallSkillScore)
+            .HasColumnName("overall_skill_score");
 
         builder.Property(e => e.IsActive)
             .HasColumnName("is_active");
-
-        builder.Property(e => e.UserId)
-            .HasColumnName("user_id");
-
-        builder.Property(e => e.ClassId)
-            .HasColumnName("class_id");
-
+        
+        builder.HasOne(s => s.User)
+            .WithOne(u => u.StudentProfile)
+            .HasForeignKey("user_id");
+        
+        builder.HasOne(s => s.Class)
+            .WithMany(c => c.Students)
+            .HasForeignKey("class_id")
+            .HasPrincipalKey(c => c.Id);
     }
 }
 

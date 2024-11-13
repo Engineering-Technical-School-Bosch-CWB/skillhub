@@ -9,4 +9,6 @@ public partial class Class : IEntity
   public bool IsActive { get; set; }
 
   public required Course Course { get; set; }
+
+  public IEnumerable<Student> Students { get; set; } = [];
 }
