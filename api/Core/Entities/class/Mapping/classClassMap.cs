@@ -14,6 +14,11 @@ public class ClassClassMap : IEntityTypeConfiguration<Class>
         builder.Property(e => e.Id)
             .HasColumnName("id");
 
+        builder.HasOne(cl => cl.Course)
+            .WithMany(co => co.Classes)
+            .HasForeignKey("course_id")
+            .HasPrincipalKey(co => co.Id);
+
         builder.Property(e => e.StartingYear)
             .HasColumnType("smallint")
             .HasColumnName("starting_year");
@@ -24,11 +29,6 @@ public class ClassClassMap : IEntityTypeConfiguration<Class>
 
         builder.Property(e => e.IsActive)
             .HasColumnName("is_active");
-
-        builder.HasOne(cl => cl.Course)
-            .WithMany(co => co.Classes)
-            .HasForeignKey("course_id")
-            .HasPrincipalKey(co => co.Id);
     }
 }
 

@@ -14,4 +14,5 @@ public partial class User : IEntity
   public int PositionId { get; set; }
   public int SectorId { get; set; }
   public int OccupationId { get; set; }
+  public required IEnumerable<Subject> Subjects { get; set; }
 }
