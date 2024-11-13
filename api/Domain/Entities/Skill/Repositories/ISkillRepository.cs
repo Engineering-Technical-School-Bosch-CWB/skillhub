@@ -3,7 +3,7 @@ using Api.Domain.Models;
 
 namespace Api.Domain.Repositories;
 
-public interface ICompetenceRepository : IRepository<Skill>
+public interface ISkillRepository : IRepository<Skill>
 {
 
 }

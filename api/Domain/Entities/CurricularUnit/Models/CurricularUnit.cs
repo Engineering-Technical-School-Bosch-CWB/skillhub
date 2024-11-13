@@ -4,11 +4,8 @@ namespace Api.Domain.Models;
 
 public partial class CurricularUnit : IEntity
 {
-  public string Name { get; set; }
-  public double Duration { get; set; }
-  public bool IsActive { get; set; }
-  public int CourseId { get; set; }
-  public int SubjectAreaId { get; set; }
-
+  public required string Name { get; set; }
+  public required SubjectArea SubjectArea { get; set; }
+  public bool IsActive { get; set; } = true;
   public IEnumerable<Skill> Skills { get; set; } = [];
 }
