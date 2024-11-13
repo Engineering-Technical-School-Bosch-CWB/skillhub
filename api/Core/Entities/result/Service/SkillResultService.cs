@@ -5,8 +5,8 @@ using Api.Domain.Services;
 
 namespace Api.Core.Services;
 
-public class ResultService(BaseRepository<Result> repository)
-    : BaseService<Result> (repository), IResultService
+public class SkillResultService(BaseRepository<SkillResult> repository)
+    : BaseService<SkillResult> (repository), ISkillResultService
 {
 
 }

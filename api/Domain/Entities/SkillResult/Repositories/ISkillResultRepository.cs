@@ -3,7 +3,7 @@ using Api.Domain.Models;
 
 namespace Api.Domain.Repositories;
 
-public interface IResultRepository : IRepository<Result>
+public interface ISkillResultRepository : IRepository<SkillResult>
 {
 
 }

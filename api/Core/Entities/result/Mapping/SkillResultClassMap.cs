@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Api.Domain.Models;
 namespace Api.Core.Mapping;
 
-public class ResultClassMap : IEntityTypeConfiguration<Result>
+public class SkillResultClassMap : IEntityTypeConfiguration<SkillResult>
 {
-    public void Configure(EntityTypeBuilder<Result> builder)
+    public void Configure(EntityTypeBuilder<SkillResult> builder)
     {
         builder.HasKey(e => e.Id).HasName("PK____Result");
 

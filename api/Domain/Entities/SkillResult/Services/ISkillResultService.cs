@@ -3,7 +3,7 @@ using Api.Domain.Models;
 
 namespace Api.Domain.Services;
 
-public interface IResultService : IService<Result>
+public interface ISkillResultService : IService<SkillResult>
 {
 
 }
