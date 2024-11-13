@@ -13,5 +13,6 @@ public partial class Subject : IEntity
   public DateTime BeganAt { get; set; } 
   public IEnumerable<SpecificObjectives> SpecificObjectives { get; set; } = [];
   public IEnumerable<Post> Posts { get; set; } = [];
+  public IEnumerable<Exam> Exams { get; set; } = [];
 
 }

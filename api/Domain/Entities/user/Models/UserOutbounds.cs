@@ -3,8 +3,8 @@ namespace Api.Domain.Models
     public class UserCreatedOutbound
     {
         public int UserId { get; set; }
-        public string Sector { get; set; }
-        public string Position { get; set; }
+        public string? Sector { get; set; }
+        public string? Position { get; set; }
 
         public static UserCreatedOutbound Map(User user, Sector sector, Position position)
         {
@@ -19,10 +19,10 @@ namespace Api.Domain.Models
 
     public class UserUpdatedOutbound
     {
-        public string Name { get; set; }
-        public string EDV { get; set; }
-        public string Card { get; set; }
-        public string Birthday { get; set; }
+        public string? Name { get; set; }
+        public string? EDV { get; set; }
+        public string? Card { get; set; }
+        public string? Birthday { get; set; }
         public bool NewUser { get; set; }
         public bool IsActive { get; set; }
 
