@@ -8,4 +8,5 @@ public partial class CurricularUnit : IEntity
   public required SubjectArea SubjectArea { get; set; }
   public bool IsActive { get; set; } = true;
   public IEnumerable<Skill> Skills { get; set; } = [];
+  public IEnumerable<Subject> Subjects { get; set; } = [];
 }

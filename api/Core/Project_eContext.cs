@@ -27,6 +27,8 @@ public partial class Project_eContext : DbContext
     public virtual DbSet<Subject> SubjectList { get; set; }
     public virtual DbSet<Skill> SkillList { get; set; }
     public virtual DbSet<SkillResult> SkillResultList { get; set; }
+    public virtual DbSet<Post> PostList { get; set; }
+    public virtual DbSet<Attachment> AttachmentList { get; set; }
     public virtual DbSet<SpecificObjectives> SpecificObjectivesList { get; set; }
     public virtual DbSet<Exam> ExamList { get; set; }
     public virtual DbSet<Objection> ObjectionList { get; set; }
@@ -51,6 +53,8 @@ public partial class Project_eContext : DbContext
         modelBuilder.ApplyConfiguration(new SpecificObjectivesClassMap());
         modelBuilder.ApplyConfiguration(new ExamClassMap());
         modelBuilder.ApplyConfiguration(new ObjectionClassMap());
+        modelBuilder.ApplyConfiguration(new PostClassMap());
+        modelBuilder.ApplyConfiguration(new AttachmentClassMap());
         OnModelCreatingPartial(modelBuilder);
     }
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
