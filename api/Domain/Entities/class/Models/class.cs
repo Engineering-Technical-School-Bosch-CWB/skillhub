@@ -9,4 +9,5 @@ public partial class Class : IEntity
   public short DurationPeriods { get; set; }
   public bool IsActive { get; set; }
   public required IEnumerable<Subject> Subjects { get; set; } = [];
+  public IEnumerable<Student> Students { get; set; } = [];
 }

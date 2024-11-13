@@ -20,7 +20,6 @@ public class OccupationAreaClassMap : IEntityTypeConfiguration<OccupationArea>
 
         builder.Property(e => e.IsActive)
             .HasColumnName("is_active");
-
     }
 }
 

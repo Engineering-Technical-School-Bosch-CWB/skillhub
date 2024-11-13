@@ -15,11 +15,19 @@ public class UserImageClassMap : IEntityTypeConfiguration<UserImage>
             .HasColumnName("id");
 
         builder.Property(e => e.Image)
-            .HasColumnName("image");
+            .HasColumnName("image")
+            .HasColumnType("varbinary(max) filestream");
 
-        builder.Property(e => e.UserId)
-            .HasColumnName("user_id");
+        builder.Property(u => u.FileGuid)
+            .HasColumnName("file_guid")
+            .HasColumnType("uniqueidentifier rowguidcol");
+        
+        builder.HasAlternateKey(u => u.FileGuid);
 
+        builder.HasOne(i => i.User)
+            .WithMany(u => u.Images)
+            .HasForeignKey("user_id")
+            .HasPrincipalKey(u => u.Id);
     }
 }
 

@@ -4,15 +4,17 @@ namespace Api.Domain.Models;
 
 public partial class User : IEntity
 {
-  public string Name { get; set; }
-  public string Identification { get; set; }
-  public string Hash { get; set; }
-  public string Card { get; set; }
-  public System.DateTime? Birthday { get; set; }
-  public bool NewUser { get; set; }
+  public string Name { get; set; } = string.Empty;
+  public string Identification { get; set; } = string.Empty;
+  public string Hash { get; set; } = string.Empty;
+  public DateTime? Birthday { get; set; }
   public bool IsActive { get; set; }
-  public int PositionId { get; set; }
-  public int SectorId { get; set; }
-  public int OccupationId { get; set; }
+
+  public required Position Position { get; set; }
+  public required Sector Sector { get; set; }
+  public required OccupationArea Area { get; set; }
+  public Student? StudentProfile { get; set; }
+
+  public IEnumerable<UserImage> Images { get; set; } = [];
   public required IEnumerable<Subject> Subjects { get; set; }
 }
