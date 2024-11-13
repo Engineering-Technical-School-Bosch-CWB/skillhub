@@ -33,15 +33,18 @@ export default function Form<T extends FieldValues>({
             className={`${styles.form} ${customClassName}`}
             onSubmit={handleSubmit(submit)}
         >
-            {fields.map((field, i) => (
-                <Input
-                    id={`${field.name}-${i}`}
+            {fields.map((field, i) => {
+                const id = `${field.name}-${i}`
+
+                return <Input
+                    key={id}
+                    id={id}
                     type={field.type}
                     label={field.label}
                     {...register(field.name)}
                     fullwidth
                 />
-            ))}
+            })}
 
             <Button
                 className={styles.submit_button}
