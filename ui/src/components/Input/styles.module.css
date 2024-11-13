@@ -46,6 +46,9 @@
 
     outline: none;
     transition: 0.15s;
+
+    font-family: "BoschSans";
+    font-size: 1rem;
 }
 .input:focus {
     border: 1px solid var(--primary-light);
