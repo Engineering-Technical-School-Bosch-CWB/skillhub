@@ -1,6 +1,5 @@
 import Button from "./components/Button";
 
-import "./styles/reset.css"
 import "./styles/global.css"
 import Input from "./components/Input";
 
