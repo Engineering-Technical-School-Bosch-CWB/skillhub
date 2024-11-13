@@ -27,7 +27,7 @@ public class ExamClassMap : IEntityTypeConfiguration<Exam>
             .HasPrincipalKey(u => u.Id);
 
         builder.HasOne(e => e.Subject)
-            .WithMany()
+            .WithMany(s => s.Exams)
             .HasForeignKey("subject_id")
             .HasPrincipalKey(s => s.Id);
 
