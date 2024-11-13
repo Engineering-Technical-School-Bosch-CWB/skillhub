@@ -25,8 +25,10 @@ public partial class Project_eContext : DbContext
     public virtual DbSet<Feedback> FeedbackList { get; set; }
     public virtual DbSet<CurricularUnit> CurricularUnitList { get; set; }
     public virtual DbSet<Subject> SubjectList { get; set; }
-    public virtual DbSet<Competence> CompetenceList { get; set; }
+    public virtual DbSet<Skill> CompetenceList { get; set; }
     public virtual DbSet<Result> ResultList { get; set; }
+    public virtual DbSet<Post> PostList { get; set; }
+    public virtual DbSet<Attachment> AttachmentList { get; set; }
     public virtual DbSet<SpecificObjectives> SpecificObjectivesList { get; set; }
     protected override void OnConfiguring (DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer(@"Data Source=CA-C-0064T\SQLEXPRESS;Initial Catalog=Project_e;Integrated Security=True;Trust Server Certificate=True;");
@@ -44,9 +46,11 @@ public partial class Project_eContext : DbContext
         modelBuilder.ApplyConfiguration(new FeedbackClassMap());
         modelBuilder.ApplyConfiguration(new CurricularUnitClassMap());
         modelBuilder.ApplyConfiguration(new SubjectClassMap());
-        modelBuilder.ApplyConfiguration(new CompetenceClassMap());
+        modelBuilder.ApplyConfiguration(new SkillClassMap());
         modelBuilder.ApplyConfiguration(new ResultClassMap());
         modelBuilder.ApplyConfiguration(new SpecificObjectivesClassMap());
+        modelBuilder.ApplyConfiguration(new PostClassMap());
+        modelBuilder.ApplyConfiguration(new AttachmentClassMap());
         OnModelCreatingPartial(modelBuilder);
     }
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
