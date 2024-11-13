@@ -3,6 +3,7 @@ namespace Api.Domain.Models
     public readonly record struct UserCreatePayload(
         int SectorId,
         int PositionId,
+        int AreaId,
         string Name,
         string EDV
     );
