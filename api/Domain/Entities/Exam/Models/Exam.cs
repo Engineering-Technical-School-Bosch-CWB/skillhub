@@ -9,4 +9,5 @@ public partial class Exam : IEntity
     public bool IsActive { get; set; } = true;
     public required User Instructor { get; set; }
     public required Subject Subject { get; set; }
+    public required IEnumerable<SkillResult> SkillResults { get; set; } = [];
 }

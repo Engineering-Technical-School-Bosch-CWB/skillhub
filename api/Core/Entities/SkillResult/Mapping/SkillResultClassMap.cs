@@ -7,7 +7,7 @@ public class SkillResultClassMap : IEntityTypeConfiguration<SkillResult>
 {
     public void Configure(EntityTypeBuilder<SkillResult> builder)
     {
-        builder.HasKey(s => s.Id).HasName("PK____Result");
+        builder.HasKey(s => s.Id).HasName("PK____SkillResult");
 
         builder.ToTable("skill_result");
 
@@ -32,7 +32,7 @@ public class SkillResultClassMap : IEntityTypeConfiguration<SkillResult>
             .HasPrincipalKey(s => s.Id);
 
         builder.HasOne(s => s.Exam)
-            .WithMany()
+            .WithMany(e => e.SkillResults)
             .HasForeignKey("exam_id")
             .HasPrincipalKey(e => e.Id);
 
