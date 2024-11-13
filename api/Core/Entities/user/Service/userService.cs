@@ -49,7 +49,7 @@ public class UserService(
             IsActive = true,
             Position = position,
             Sector = sector,
-            Area = area,
+            Area = area
         };
 
         newUser.Hash = HashPassword(newUser, newUser.Hash);

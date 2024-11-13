@@ -16,5 +16,5 @@ public partial class User : IEntity
   public Student? StudentProfile { get; set; }
 
   public IEnumerable<UserImage> Images { get; set; } = [];
-  public required IEnumerable<Subject> Subjects { get; set; }
+  public IEnumerable<Subject> Subjects { get; set; } = [];
 }

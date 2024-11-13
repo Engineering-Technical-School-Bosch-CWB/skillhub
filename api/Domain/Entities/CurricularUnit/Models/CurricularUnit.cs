@@ -10,5 +10,5 @@ public partial class CurricularUnit : IEntity
   public int CourseId { get; set; }
   public int SubjectAreaId { get; set; }
   public IEnumerable<Skill> Skills { get; set; } = [];
-  public required IEnumerable<Subject> Subjects { get; set; } = [];
+  public IEnumerable<Subject> Subjects { get; set; } = [];
 }
