@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Diagnostics;
 namespace api.Core.Middlewares
 {
 
-    public record Error(int Status, string Message, Object Details = null);
+    public record Error(int Status, string Message, Object? Details = null);
 
     public class ErrorHandlingMiddleware : IExceptionHandler
     {
