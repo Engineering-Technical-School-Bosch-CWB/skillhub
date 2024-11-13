@@ -7,28 +7,28 @@ public class CurricularUnitClassMap : IEntityTypeConfiguration<CurricularUnit>
 {
     public void Configure(EntityTypeBuilder<CurricularUnit> builder)
     {
-        builder.HasKey(e => e.Id).HasName("PK____CurricularUnit");
+        builder.HasKey(c => c.Id).HasName("PK____CurricularUnit");
 
         builder.ToTable("curricular_unit");
 
-        builder.Property(e => e.Id)
+        builder.Property(c => c.Id)
             .HasColumnName("id");
 
-        builder.Property(e => e.Name)
+        builder.Property(c => c.Name)
             .HasMaxLength(255)
             .HasColumnName("name");
 
-        builder.Property(e => e.Duration)
-            .HasColumnName("duration");
+        builder.HasOne(c => c.SubjectArea)
+            .WithMany(s => s.CurricularUnits)
+            .HasForeignKey("subject_area_id")
+            .HasPrincipalKey(s => s.Id);
 
-        builder.Property(e => e.IsActive)
+        builder.Property(c => c.IsActive)
             .HasColumnName("is_active");
 
-        builder.Property(e => e.CourseId)
-            .HasColumnName("course_id");
+        builder.HasMany(c => c.Skills)
+            .WithOne(s => s.CurricularUnit);
 
-        builder.Property(e => e.SubjectAreaId)
-            .HasColumnName("subject_area_id");
 
     }
 }

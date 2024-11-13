@@ -6,4 +6,5 @@ public partial class SubjectArea : IEntity
 {
   public required string Name { get; set; }
   public bool IsActive { get; set; } = true;
+  public IEnumerable<CurricularUnit> CurricularUnits { get; set; } = [];
 }

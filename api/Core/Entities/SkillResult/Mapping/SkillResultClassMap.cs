@@ -7,23 +7,23 @@ public class SkillResultClassMap : IEntityTypeConfiguration<SkillResult>
 {
     public void Configure(EntityTypeBuilder<SkillResult> builder)
     {
-        builder.HasKey(e => e.Id).HasName("PK____Result");
+        builder.HasKey(s => s.Id).HasName("PK____Result");
 
         builder.ToTable("skill_result");
 
-        builder.Property(e => e.Id)
+        builder.Property(s => s.Id)
             .HasColumnName("id");
 
-        builder.Property(e => e.Aptitude)
+        builder.Property(s => s.Aptitude)
             .HasColumnName("aptitude");
 
-        builder.Property(e => e.Weight)
+        builder.Property(s => s.Weight)
             .HasColumnName("weight");
 
-        builder.Property(e => e.EvaluatedAt)
+        builder.Property(s => s.EvaluatedAt)
             .HasColumnName("evaluated_at");
 
-        builder.Property(e => e.IsActive)
+        builder.Property(s => s.IsActive)
             .HasColumnName("is_active");
 
         builder.HasOne(s => s.Subject)
