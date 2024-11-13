@@ -7,7 +7,7 @@ public class ExamClassMap : IEntityTypeConfiguration<Exam>
 {
     public void Configure(EntityTypeBuilder<Exam> builder)
     {
-        builder.HasKey(e => e.Id).HasName("PK____SubjectArea");
+        builder.HasKey(e => e.Id).HasName("PK____Exam");
 
         builder.ToTable("exam");
 
