@@ -9,23 +9,42 @@ public class SkillResultClassMap : IEntityTypeConfiguration<SkillResult>
     {
         builder.HasKey(e => e.Id).HasName("PK____Result");
 
-        builder.ToTable("result");
+        builder.ToTable("skill_result");
 
         builder.Property(e => e.Id)
             .HasColumnName("id");
 
-        builder.Property(e => e.Feedback)
-            .HasColumnName("feedback");
-
         builder.Property(e => e.Aptitude)
             .HasColumnName("aptitude");
+
+        builder.Property(e => e.Weight)
+            .HasColumnName("weight");
+
+        builder.Property(e => e.EvaluatedAt)
+            .HasColumnName("evaluated_at");
 
         builder.Property(e => e.IsActive)
             .HasColumnName("is_active");
 
-        builder.Property(e => e.CompetenceId)
-            .HasColumnName("competence_id");
+        builder.HasOne(s => s.Subject)
+            .WithMany()
+            .HasForeignKey("subject_id")
+            .HasPrincipalKey(s => s.Id);
 
+        builder.HasOne(s => s.Exam)
+            .WithMany()
+            .HasForeignKey("exam_id")
+            .HasPrincipalKey(e => e.Id);
+
+        builder.HasOne(s => s.Skill)
+            .WithMany()
+            .HasForeignKey("skill_id")
+            .HasPrincipalKey(s => s.Id);
+
+        builder.HasOne(s => s.Subject)
+            .WithMany()
+            .HasForeignKey("student_id")
+            .HasPrincipalKey(s => s.Id);
     }
 }
 
