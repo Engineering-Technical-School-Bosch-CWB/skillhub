@@ -6,8 +6,6 @@ import router from './routes/routes.ts'
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
-        <UserProvider>
-            <RouterProvider router={router}/>
-        </UserProvider>
-    </StrictMode>
+        <App/>
+    </StrictMode>,
 )
