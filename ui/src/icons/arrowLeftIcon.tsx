@@ -1,18 +1,16 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
+import IIcons, { sizeMap } from './interfacesIconProps';
 
-interface IconProps extends React.SVGProps<SVGSVGElement> {
-    size?: number;
-    color?: string;
-}
+const ArrowLeftIcon = forwardRef<SVGSVGElement, IIcons>(({ size = 'small', color = '#000000', ...props }, ref) => {
+    const iconSize = sizeMap[size];
 
-const ArrowLeftIcon = forwardRef<SVGSVGElement, IconProps>(({ size = 24, color = '#000000', ...props }, ref) => {
     return (
-        <svg
-            ref={ref}
-            width={size}
-            height={size}
+      <svg
+        ref={ref}
+        width={iconSize}
+        height={iconSize}
             viewBox="0 0 192 192"
-            fill="none"
+            fill={color}
             xmlns="http://www.w3.org/2000/svg"
             {...props}
         >
