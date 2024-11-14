@@ -5,10 +5,15 @@ interface IModalProps {
     open: boolean;
     handleClose: () => void;
     children?: ReactNode;
-    maxWidth?: "small" | "medium" | "large";
+    maxWidth?: "xs" | "sm" | "md" | "lg" | "xl";
 }
 
-export default ({ open, handleClose, children }:IModalProps) => {
+export default ({ 
+    children,
+    open,
+    handleClose,
+    maxWidth = "md" 
+}:IModalProps) => {
 
     const handleModalClick:MouseEventHandler = (e) => {
         e.stopPropagation()
@@ -23,14 +28,14 @@ export default ({ open, handleClose, children }:IModalProps) => {
             {
                 open &&
                 <div 
-                    className={styles.modal}
+                    className={`${styles.modal} ${styles[maxWidth]}`}
                     onClick={handleModalClick}
                 >
                     <button 
                         className={styles.close_button}
                         onClick={handleClose}
                     >X</button>
-                    
+
                     { children }
                 </div>
             }

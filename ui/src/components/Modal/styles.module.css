@@ -33,3 +33,20 @@
     font-size: 1.3rem;
     cursor: pointer;
 }
+
+
+.xs {
+    max-width: 300px;
+}
+.sm {
+    max-width: 500px;
+}
+.md {
+    max-width: 750px;
+}
+.lg {
+    max-width: 1000px;
+}
+.xl {
+    max-width: 1200px;
+}
