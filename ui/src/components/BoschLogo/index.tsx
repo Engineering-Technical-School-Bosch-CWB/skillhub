@@ -11,7 +11,7 @@ export default forwardRef<HTMLImageElement, IBoschLogoProps>(
             ref={ref}
             alt="Bosch Logo"
             src="/bosch_logo.png"
-            className={`${size ? styles[size] : ""} ${className ? className : ""}`}
+            className={`${styles[size]} ${className ? className : ""}`}
             {...props}
         />
     )
