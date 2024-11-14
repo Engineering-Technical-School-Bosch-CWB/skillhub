@@ -25,7 +25,8 @@ public class AttachmentClassMap : IEntityTypeConfiguration<Attachment>
 
         builder.Property(a => a.FileGuid)
             .HasColumnName("file_guid")
-            .HasColumnType("uniqueidentifier rowguidcol");
+            .HasColumnType("uniqueidentifier rowguidcol")
+            .IsRequired();
 
         builder.Property(e => e.Extension)
             .HasMaxLength(10)
@@ -33,6 +34,8 @@ public class AttachmentClassMap : IEntityTypeConfiguration<Attachment>
 
         builder.Property(e => e.IsActive)
             .HasColumnName("is_active");
+        
+        builder.HasAlternateKey(a => a.FileGuid);
     }
 }
 
