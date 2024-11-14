@@ -1,7 +1,7 @@
 import { MouseEventHandler } from "react";
 import styles from "./styles.module.css"
 import routes from "../../../constants/routes";
-import { Link } from "react-router-dom";
+import Link from "../../Link";
 
 interface IMenuProps {
     open: boolean;
