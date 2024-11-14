@@ -19,26 +19,23 @@ export default ({
         e.stopPropagation()
     }
 
-    return (
+    return open && (
         <div 
             data-open={open} 
             className={styles.modal_container}
             onClick={handleClose}
         >
-            {
-                open &&
-                <div 
-                    className={`${styles.modal} ${styles[maxWidth]}`}
-                    onClick={handleModalClick}
-                >
-                    <button 
-                        className={styles.close_button}
-                        onClick={handleClose}
-                    >X</button>
+            <div 
+                className={`${styles.modal} ${styles[maxWidth]}`}
+                onClick={handleModalClick}
+            >
+                <button 
+                    className={styles.close_button}
+                    onClick={handleClose}
+                >X</button>
 
-                    { children }
-                </div>
-            }
+                { children }
+            </div>
         </div>
     )
 }
