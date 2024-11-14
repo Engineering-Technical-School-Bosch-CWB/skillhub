@@ -33,7 +33,7 @@ public partial class Project_eContext : DbContext
     public virtual DbSet<Exam> ExamList { get; set; }
     public virtual DbSet<Objection> ObjectionList { get; set; }
     protected override void OnConfiguring (DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer(@"Data Source=CA-C-0064T\SQLEXPRESS;Initial Catalog=Project_e;Integrated Security=True;Trust Server Certificate=True;");
+        => optionsBuilder.UseSqlServer(@"Data Source=CA-C-00657\SQLEXPRESS;Initial Catalog=Project_e;Integrated Security=True;Trust Server Certificate=True;");
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new SectorClassMap());
