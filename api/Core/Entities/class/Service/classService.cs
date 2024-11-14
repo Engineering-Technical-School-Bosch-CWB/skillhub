@@ -2,11 +2,36 @@ using Genesis.Core.Services;
 using Genesis.Core.Repositories;
 using Api.Domain.Models;
 using Api.Domain.Services;
+using Api.Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
+using Api.Core.Errors;
 
 namespace Api.Core.Services;
 
-public class ClassService(BaseRepository<Class> repository)
-    : BaseService<Class> (repository), IClassService
+public class ClassService(
+    BaseRepository<Class> repository,
+    ICourseRepository courseRepository
+    ) : BaseService<Class>(repository), IClassService
 {
+    private readonly ICourseRepository _courseRepo = courseRepository;
 
+    public async Task<ClassCreateOutbound> CreateClass(ClassCreatePayload payload)
+    {
+
+        var course = await _courseRepo.GetAllNoTracking()
+            .SingleOrDefaultAsync(c => c.Id == payload.CourseId)
+            ?? throw new NotFoundException("Course not found");
+
+        var newClass = new Class {
+            Course = course,
+            StartingYear = payload.StartingYear,
+            DurationPeriods = payload.DurationPeriods
+        };
+
+        var savedClass = repository.Add(newClass)
+            ?? throw new UpsertFailException("Class could not be inserted.");
+
+        var response = ClassCreateOutbound.Map(savedClass);
+        return response;
+    }
 }

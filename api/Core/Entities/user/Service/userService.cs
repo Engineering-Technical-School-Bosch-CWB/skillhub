@@ -55,7 +55,7 @@ public class UserService(
         newUser.Hash = HashPassword(newUser, newUser.Hash);
 
         var saveUser = repository.Add(newUser)
-            ?? throw new UpsertFailException("User could not be inserted.");;
+            ?? throw new UpsertFailException("User could not be inserted.");
         await repository.SaveAsync();
 
         var response = UserCreatedOutbound.Map(saveUser, sector, position);

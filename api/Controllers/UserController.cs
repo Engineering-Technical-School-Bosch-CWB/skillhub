@@ -6,7 +6,7 @@ namespace Api.Controllers
 {
     [ApiController]
     [Route("api/v1/users")]
-    public class LoginController : ControllerBase
+    public class Usercontroller : ControllerBase
     {
         [HttpPost]
         public async Task<ActionResult> RegisterUser(
@@ -19,7 +19,7 @@ namespace Api.Controllers
 
         [HttpPatch]
         [Route("{id}")]
-        public async Task<IActionResult> UpdateUser(
+        public async Task<ActionResult> UpdateUser(
             [FromServices] UserService service,
             [FromBody] UserUpdatePayload payload,
             int id)
