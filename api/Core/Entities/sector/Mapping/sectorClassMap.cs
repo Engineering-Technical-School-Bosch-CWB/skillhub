@@ -20,7 +20,6 @@ public class SectorClassMap : IEntityTypeConfiguration<Sector>
 
         builder.Property(e => e.IsActive)
             .HasColumnName("is_active");
-
     }
 }
 

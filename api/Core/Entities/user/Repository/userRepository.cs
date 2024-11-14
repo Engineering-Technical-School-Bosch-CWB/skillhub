@@ -7,5 +7,4 @@ namespace Api.Core.Repositories;
 public class UserRepository(Project_eContext context)
     : BaseRepository<User>(context), IUserRepository
 {
-
 }

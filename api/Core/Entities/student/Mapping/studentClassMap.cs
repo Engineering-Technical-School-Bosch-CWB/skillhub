@@ -14,6 +14,7 @@ public class StudentClassMap : IEntityTypeConfiguration<Student>
         builder.Property(e => e.Id)
             .HasColumnName("id");
 
+<<<<<<< HEAD
         builder.Property(e => e.Grade)
             .HasColumnName("grade");
 
@@ -29,6 +30,30 @@ public class StudentClassMap : IEntityTypeConfiguration<Student>
         builder.Property(e => e.ClassId)
             .HasColumnName("class_id");
 
+=======
+        builder.Property(s => s.OverallScore)
+            .HasColumnName("overall_score");
+        
+        builder.Property(s => s.OverallSkillScore)
+            .HasColumnName("overall_skill_score");
+
+        builder.Property(e => e.IsActive)
+            .HasColumnName("is_active");
+        
+        builder.HasOne(s => s.User)
+            .WithOne(u => u.StudentProfile)
+            .HasForeignKey<Student>("user_id")
+            .OnDelete(DeleteBehavior.NoAction)
+            .IsRequired();
+        
+        builder.HasOne(s => s.Class)
+            .WithMany(c => c.Students)
+            .HasForeignKey("class_id")
+            .HasPrincipalKey(c => c.Id);
+
+        builder.HasMany(s => s.Feedbacks)
+            .WithOne(f => f.Student);
+>>>>>>> dev
     }
 }
 
