@@ -5,8 +5,10 @@ using Api.Core;
 using Api.Core.JWTService;
 using Api.Core.Repositories;
 using Api.Core.Services;
+using Api.Domain.Models;
 using Api.Domain.Repositories;
 using Api.Domain.Services;
+using Genesis.Core.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,7 +35,7 @@ builder.Services.AddScoped<UserContext>();
 builder.Services.AddScoped<JwtService>();
 builder.Services.AddSingleton<PaginationService>();
 
-builder.Services.AddScoped<IPositionRepository, PositionRepository>();
+builder.Services.AddScoped<BaseRepository<Position>, PositionRepository>();
 
 builder.Services.AddScoped<IPositionService, PositionService>();
 
