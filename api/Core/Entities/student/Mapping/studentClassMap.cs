@@ -31,6 +31,9 @@ public class StudentClassMap : IEntityTypeConfiguration<Student>
             .WithMany(c => c.Students)
             .HasForeignKey("class_id")
             .HasPrincipalKey(c => c.Id);
+
+        builder.HasMany(s => s.Feedbacks)
+            .WithOne(f => f.Student);
     }
 }
 
