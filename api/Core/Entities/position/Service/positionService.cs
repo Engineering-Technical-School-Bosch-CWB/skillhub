@@ -7,14 +7,21 @@ using api.Domain.Services.Pagination;
 using Api.Domain.Repositories;
 using Genesis.Domain.Repositories;
 using Api.Core.Repositories;
+using Api.Core.Errors;
 
 namespace Api.Core.Services;
 
 public class PositionService(
-        PositionRepository repository)
+        BaseRepository<Position> repository)
         : BaseService<Position>(repository), IPositionService
 {
-    private readonly IPositionRepository _repo = repository;
+    private readonly IPositionRepository _repo = repository is IPositionRepository positionRepository
+            ? positionRepository
+            : throw new ServiceConfigurationException(
+                    nameof(_repo),
+                    typeof(IPositionRepository),
+                    repository.GetType()
+            );
 
     public PaginatedPositionsResponse GetPaginated(PaginationQuery pagination)
     {
