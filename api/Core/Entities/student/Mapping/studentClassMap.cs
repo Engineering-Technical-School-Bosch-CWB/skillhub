@@ -25,7 +25,8 @@ public class StudentClassMap : IEntityTypeConfiguration<Student>
         
         builder.HasOne(s => s.User)
             .WithOne(u => u.StudentProfile)
-            .HasForeignKey("user_id");
+            .HasForeignKey<User>("user_id")
+            .IsRequired();
         
         builder.HasOne(s => s.Class)
             .WithMany(c => c.Students)
