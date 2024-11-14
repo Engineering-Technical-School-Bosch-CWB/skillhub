@@ -35,6 +35,7 @@ namespace Api.Core.JWTService
             {
                 new("UserId", auth.UserId.ToString()),
                 new("UserName", auth.UserName),
+                new("Position", auth.Position.ToString())
             };
 
             var SecToken = new JwtSecurityToken(
@@ -71,11 +72,19 @@ namespace Api.Core.JWTService
             {
                 throw new InvalidTokenException("Unable to validate token and its claims.", ex);
             }
+
+            var userPosition = claims.FindFirst("Position")!.Value;
             
             _userContext.Fill(new ContextData
             {
                 UserId = Guid.Parse(claims.FindFirst("UserId")!.Value),
                 UserName = claims.FindFirst("UserName")!.Value,
+                Position = userPosition switch
+                {
+                    "STUDENT" => EnumPosition.STUDENT,
+                    "INSTRUCTOR" => EnumPosition.INSTRUCTOR,
+                    _ => EnumPosition.SUBOFFICER,
+                }
             });
         }
     }
