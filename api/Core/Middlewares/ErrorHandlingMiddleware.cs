@@ -14,6 +14,9 @@ namespace api.Core.Middlewares
         {
             var error = exception switch
             {
+                DeleteFailException e => new Error(StatusCodes.Status500InternalServerError, e.Message),
+                UpsertFailException e => new Error(StatusCodes.Status500InternalServerError, e.Message),
+                NotFoundException e => new Error(StatusCodes.Status404NotFound, e.Message),
                 AlreadyExistsException e => new Error(StatusCodes.Status400BadRequest, e.Message),
                 InvalidTokenException e => new Error(StatusCodes.Status400BadRequest, e.Message),
                 _ => new Error(StatusCodes.Status500InternalServerError, "Unknown server error.")
