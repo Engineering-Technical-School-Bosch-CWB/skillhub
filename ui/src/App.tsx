@@ -1,16 +1,16 @@
-import Button from "./components/Button";
-
+import { UserProvider } from "./contexts/userContext";
 import "./styles/global.css"
-import Input from "./components/Input";
+
+import { RouterProvider } from "react-router-dom";
+import router from "./routes/routes";
+
+import Header from "./components/Header";
 
 export default function App() {
     return (
-        <>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: "70vh", gap: "10px", padding: "100px" }}>
-                <Button variant="outlined">Bosch</Button>
-                <Button variant="contained">Bosch</Button>
-                <Input label="Bosch"/>
-            </div>
-        </>
+        <UserProvider>
+            <RouterProvider router={router}/>
+            <Header/>
+        </UserProvider>
     )
 }

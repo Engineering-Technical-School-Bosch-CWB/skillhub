@@ -1,6 +1,5 @@
 .input_box {
     position: relative;
-
     cursor: text;
 }
 .full_width {
@@ -25,12 +24,12 @@
     cursor: text;
 
     font-size: 1rem;
+    color: var(--gray-400);
 }
 .input:not(:placeholder-shown) + .label, .input:focus + .label {
     top: -42px;
     left: 10px;
     transform: scale(0.8);
-
 }
 .input:focus + .label {
     color: var(--primary-light);
@@ -43,10 +42,13 @@
     background-color: transparent;
     padding: 12px;
     border-radius: 0;
-    border: 1px solid var(--gray-300);
+    border: 1px solid var(--gray-400);
 
     outline: none;
     transition: 0.15s;
+
+    font-family: "BoschSans";
+    font-size: 1rem;
 }
 .input:focus {
     border: 1px solid var(--primary-light);
