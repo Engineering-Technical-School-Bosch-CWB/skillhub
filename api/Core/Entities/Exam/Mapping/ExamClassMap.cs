@@ -24,6 +24,7 @@ public class ExamClassMap : IEntityTypeConfiguration<Exam>
         builder.HasOne(e => e.Instructor)
             .WithMany()
             .HasForeignKey("instructor_id")
+            .OnDelete(DeleteBehavior.NoAction)
             .HasPrincipalKey(u => u.Id);
 
         builder.HasOne(e => e.Subject)

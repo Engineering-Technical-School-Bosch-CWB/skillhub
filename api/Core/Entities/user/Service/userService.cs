@@ -139,8 +139,8 @@ public class UserService(
 
         user.IsActive = false;
         
-        if (user.Student is not null)
-            user.Student.IsActive = false;
+        if (user.StudentProfile is not null)
+            user.StudentProfile.IsActive = false;
 
         var deletedUser =
             repository.Update(user)
