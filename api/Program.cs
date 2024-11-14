@@ -49,7 +49,7 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-app.UseMiddleware<AuthenticationMiddleware>();
+// app.UseMiddleware<AuthenticationMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -58,7 +58,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection(); // TODO: figure out how to configure HTTPS redirection.
 
 app.UseExceptionHandler();
 
