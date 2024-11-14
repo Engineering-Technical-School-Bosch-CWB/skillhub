@@ -9,7 +9,7 @@ import Header from "./components/Header";
 export default function App() {
     return (
         <UserProvider>
-            <RouterProvider router={router}/>
+            {/* <RouterProvider router={router}/> */}
             <Header/>
         </UserProvider>
     )
