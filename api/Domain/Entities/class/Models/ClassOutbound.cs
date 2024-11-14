@@ -2,10 +2,10 @@ namespace Api.Domain.Models
 {
     public class ClassCreateOutbound
     {
-        public int CourseId;
-        public short StartingYear;
-        public short DurationPeriods;
-        public bool IsActive;
+        public int CourseId { get; set; }
+        public short StartingYear { get; set; }
+        public short DurationPeriods { get; set; }
+        public bool IsActive { get; set; }
 
         public static ClassCreateOutbound Map(Class createdClass)
         => new ClassCreateOutbound

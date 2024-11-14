@@ -28,10 +28,12 @@ public class ClassService(
             DurationPeriods = payload.DurationPeriods
         };
 
-        var savedClass = repository.Add(newClass)
+        var createdClass = repository.Add(newClass)
             ?? throw new UpsertFailException("Class could not be inserted.");
 
-        var response = ClassCreateOutbound.Map(savedClass);
+        await repository.SaveAsync();
+
+        var response = ClassCreateOutbound.Map(createdClass);
         return response;
     }
 }
