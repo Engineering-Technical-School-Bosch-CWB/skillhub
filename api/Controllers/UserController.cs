@@ -1,5 +1,6 @@
 using Api.Core.Services;
 using Api.Domain.Models;
+using Api.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -31,7 +32,7 @@ namespace Api.Controllers
         [HttpDelete]
         [Route("{id}")]
         public async Task<IActionResult> DeleteUser(
-            [FromServices] UserService service,
+            [FromServices] IUserService service,
             int id)
         {
             await service.DeleteUser(id);

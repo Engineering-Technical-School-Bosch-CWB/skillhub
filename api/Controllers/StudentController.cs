@@ -1,17 +1,20 @@
-using Api.Core.Services;
 using Api.Domain.Models;
+using Api.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 
-[ApiController]
-[Route("api/v1/students")]
-public class StudentController : ControllerBase
+namespace Api.Controllers
 {
-    [HttpPost]
-    public async Task<ActionResult> RegisterStudent(
-        [FromServices] StudentService service,
-        [FromBody] StudentCreatePayload payload)
+    [ApiController]
+    [Route("api/v1/students")]
+    public class StudentController : ControllerBase
     {
-        var result = await service.CreateStudent(payload);
-        return Created("api/v1/students", result);
+        [HttpPost]
+        public async Task<ActionResult> RegisterStudent(
+            [FromServices] IStudentService service,
+            [FromBody] StudentCreatePayload payload)
+        {
+            var result = await service.CreateStudent(payload);
+            return Created("api/v1/students", result);
+        }
     }
 }

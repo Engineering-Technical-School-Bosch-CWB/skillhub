@@ -8,7 +8,7 @@ public partial class Subject : IEntity
   public required CurricularUnit CurricularUnit { get; set; } 
   public required Class Class { get; set; }
   public required int Period { get; set; } 
-  public required bool IsActive { get; set; } 
+  public bool IsActive { get; set; } = true;
   public required float DurationHours { get; set; } 
   public DateTime BeganAt { get; set; } 
   public IEnumerable<SpecificObjectives> SpecificObjectives { get; set; } = [];

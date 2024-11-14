@@ -1,6 +1,5 @@
-using Api.Core.Services;
 using Api.Domain.Models;
-using Microsoft.AspNetCore.Http.HttpResults;
+using Api.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -11,7 +10,7 @@ namespace Api.Controllers
     {
         [HttpPost]
         public async Task<IActionResult> RegisterClass(
-            [FromServices] ClassService classService,
+            [FromServices] IClassService classService,
             [FromBody] ClassCreatePayload payload)
         {
             var result = await classService.CreateClass(payload);
