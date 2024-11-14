@@ -17,6 +17,7 @@ public class SubjectClassMap : IEntityTypeConfiguration<Subject>
         builder.HasOne(s => s.Instructor)
             .WithMany(u => u.Subjects)
             .HasForeignKey("instructor_id")
+            .OnDelete(DeleteBehavior.NoAction)
             .HasPrincipalKey(u => u.Id);
 
         builder.HasOne(s => s.CurricularUnit)
