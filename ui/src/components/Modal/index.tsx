@@ -21,7 +21,6 @@ export default ({
 
     return open && (
         <div 
-            data-open={open} 
             className={styles.modal_container}
             onClick={handleClose}
         >

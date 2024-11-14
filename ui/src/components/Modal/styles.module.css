@@ -5,8 +5,7 @@
     position: fixed;
     top: 0;
     left: 0;
-}
-.modal_container[data-open="true"] {
+
     background-color: rgba(0, 0, 0, .5);
 }
 
