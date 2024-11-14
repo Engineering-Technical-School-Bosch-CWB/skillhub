@@ -22,6 +22,7 @@ export default function App() {
     //! }
     return (
         <UserProvider>
+            {/* <RouterProvider router={router}/> */}
             {/* <h1>{t('login.welcome')}</h1>
             <button onClick={handleChangeLanguage}>click</button> */}
             <RouterProvider router={router}/>
