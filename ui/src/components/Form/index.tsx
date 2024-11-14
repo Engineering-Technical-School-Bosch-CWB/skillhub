@@ -7,6 +7,7 @@ export interface IField<T = any> {
     name: Path<T>;
     label?: string;
     type?: "text" | "password";
+    required?: boolean;
 }
 
 interface IFormProps<T> {
@@ -38,7 +39,7 @@ interface IFormProps<T> {
  *   { name: "password", label: "Password", type: "password" }
  * ];
  *
- * function handleFormSubmit(data) {
+ * function handleFormSubmit(data: { email: string, password: string }) {
  *   console.log(data);
  * }
  *
@@ -77,6 +78,7 @@ export default function Form<T extends FieldValues>({
                     label={field.label}
                     {...register(field.name)}
                     fullwidth
+                    required={field.required}
                 />
             })}
 

@@ -1,9 +1,12 @@
+using Api.Domain.JWTService;
+
 namespace Api.Core.JWTService
 {
     public readonly record struct ContextData
     {
         public required Guid UserId { get; init; }
         public required string UserName { get; init; }
+        public required EnumPosition Position { get; init; }
     }
 
     public class UserContext
@@ -12,6 +15,7 @@ namespace Api.Core.JWTService
 
         public Guid UserId => _data.UserId;
         public string UserName => _data.UserName;
+        public EnumPosition Position => _data.Position;
 
         public void Fill(ContextData data)
         {
