@@ -6,6 +6,7 @@ using Api.Core.Errors;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Api.Domain.Repositories;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace Api.Core.Services;
 
@@ -27,7 +28,7 @@ public class UserService(
         var exists = await repository.GetAllNoTracking()
             .FirstOrDefaultAsync(u => u.Identification == payload.EDV);
 
-        if ( exists is not null )
+        if (exists is not null)
             throw new AlreadyExistsException("EDV already in use.");
 
         var position = await _positionRepo.GetAllNoTracking()
@@ -125,5 +126,22 @@ public class UserService(
         var result = UserUpdatedOutbound.Map(user);
 
         return result;
+    }
+
+    public async Task DeleteUser(int id)
+    {
+        var user = await repository.GetAllNoTracking()
+            .SingleOrDefaultAsync(u => u.Id == id) 
+            ?? throw new NotFoundException("User not found.");
+
+        user.IsActive = false;
+        
+        if (user.StudentProfile is not null)
+            user.StudentProfile.IsActive = false;
+
+        var deletedUser =
+            repository.Update(user)
+            ?? throw new DeleteFailException("User could not be deleted");
+
     }
 }

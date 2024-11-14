@@ -29,7 +29,7 @@
 
 
     --gray-0: #ffffff;
-    --gray-100: #e6e6e6;
+    --gray-100: #eeeeee;
     --gray-200: #b9b9b9;
     --gray-300: #919191;
     --gray-400: #616161;
@@ -41,4 +41,5 @@
 
 body {
     font-family: "BoschSans";
+    background-color: var(--gray-100);
 }
