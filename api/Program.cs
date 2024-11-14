@@ -1,17 +1,34 @@
+using System.IdentityModel.Tokens.Jwt;
 using api.Core.Middlewares;
 using api.Core.Services.Pagination;
+using Api.Core;
 using Api.Core.JWTService;
 using Api.Core.Repositories;
 using Api.Core.Services;
 using Api.Domain.Repositories;
 using Api.Domain.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddSingleton<ErrorHandlingMiddleware>();
-builder.Services.AddSingleton<AuthenticationMiddleware>();
+var connectionString = builder.Configuration.GetConnectionString("SqlServer");
+builder.Services.AddDbContext<Project_eContext>(
+    options => options.UseSqlServer(connectionString)
+);
 
-builder.Services.AddSingleton<JwtService>();
+var jwtSettings = new JwtSettings()
+{
+    SecretKey = builder.Configuration.GetSection("JwtSettings")
+            .GetValue<string>("SecreKey")!
+};
+builder.Services.AddSingleton(jwtSettings);
+builder.Services.AddSingleton<JwtSecurityTokenHandler>();
+
+builder.Services.AddSingleton<ErrorHandlingMiddleware>();
+builder.Services.AddScoped<AuthenticationMiddleware>();
+
+builder.Services.AddScoped<UserContext>();
+builder.Services.AddScoped<JwtService>();
 builder.Services.AddSingleton<PaginationService>();
 
 builder.Services.AddScoped<IPositionRepository, PositionRepository>();
