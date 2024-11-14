@@ -1,7 +1,9 @@
+import Header from "../../components/Header"
+
 export default () => {
     return (
-        <div>
-
-        </div>
+        <>
+            <Header/>
+        </>
     )
 }

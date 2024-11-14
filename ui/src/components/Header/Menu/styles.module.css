@@ -85,3 +85,12 @@
     font-size: 1.3rem;
     cursor: pointer;
 }
+
+.link_list {
+    width: 95%;
+    margin: auto;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}

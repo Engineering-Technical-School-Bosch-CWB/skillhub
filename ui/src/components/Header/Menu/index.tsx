@@ -1,5 +1,7 @@
 import { MouseEventHandler } from "react";
 import styles from "./styles.module.css"
+import routes from "../../../constants/routes";
+import { Link } from "react-router-dom";
 
 interface IMenuProps {
     open: boolean;
@@ -25,6 +27,12 @@ export default ({ open, handleClose }:IMenuProps) => {
                     className={styles.close_button}
                     onClick={handleClose}
                 >X</button>
+
+                <div className={styles.link_list}>
+                    {Object.values(routes).map((route, i) => (
+                        <Link key={i} to={route.path}>{ route.title }</Link>
+                    ))}
+                </div>
             </div>
         </div>
     )
