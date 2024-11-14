@@ -17,6 +17,7 @@ public class FeedbackClassMap : IEntityTypeConfiguration<Feedback>
         builder.HasOne(f => f.Instructor)
             .WithMany()
             .HasForeignKey("instructor_id")
+            .OnDelete(DeleteBehavior.NoAction)
             .HasPrincipalKey(u => u.Id);
 
         builder.HasOne(f => f.Student)
