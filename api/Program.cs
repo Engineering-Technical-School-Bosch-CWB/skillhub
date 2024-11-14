@@ -11,15 +11,17 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("SqlServer");
+DotNetEnv.Env.Load();
+
+var connectionHost = builder.Configuration["MSSQL_HOST"];
+var connectionDatabase = builder.Configuration["MSSQL_DATABASE"];
 builder.Services.AddDbContext<Project_eContext>(
-    options => options.UseSqlServer(connectionString)
+    options => options.UseSqlServer($"Server={connectionHost};Database={connectionDatabase};Trusted_Connection=True;TrustServerCertificate=True;")
 );
 
 var jwtSettings = new JwtSettings()
 {
-    SecretKey = builder.Configuration.GetSection("JwtSettings")
-            .GetValue<string>("SecreKey")!
+    SecretKey = builder.Configuration["JWT_SECRET_KEY"]!,
 };
 builder.Services.AddSingleton(jwtSettings);
 builder.Services.AddSingleton<JwtSecurityTokenHandler>();
