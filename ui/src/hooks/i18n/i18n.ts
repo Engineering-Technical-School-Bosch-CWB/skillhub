@@ -11,7 +11,7 @@ i18n
             us: {...us},
             ptbr: {...ptbr}
         },
-        lng: 'us'
+        lng: 'ptbr'
     })
 
 export default i18n;
