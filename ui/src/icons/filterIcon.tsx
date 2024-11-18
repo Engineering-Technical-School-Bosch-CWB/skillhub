@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import IIcons, { sizeMap } from './interfacesIconProps';
+import IIcons, { sizeMap } from './InterfacesIconProps';
 
 const FilterIcon = forwardRef<SVGSVGElement, IIcons>(({ size = 'small', color = '#000000', ...props }, ref) => {
   const iconSize = sizeMap[size];

@@ -1,6 +1,21 @@
-export default () => {
+import Form, { IField } from "../../components/Form"
+import styles from "./styles.module.css"
+
+export const Login = () => {
+    const fields: IField[] = [
+        { name: "edv", label: "Identification(EDV)", required: true },
+        { name: "password", label: "Password", type: "password", required: true }
+      ];
+    
     return (
-        <div>
+        <div className={styles.background}>
+            <div className={styles.formContainer}>
+                <Form
+                    fields={fields}
+                    submitText="Enter"
+                    onSubmit={(data) => console.log(data)}
+                />
+            </div>
         </div>
     )
 }

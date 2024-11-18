@@ -1,0 +1,17 @@
+.background {
+    height: 100vh;
+    display: flex;
+
+    align-items: center;
+
+    background-image: url("../../../public/bosch-colors.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50%;
+}
+
+.formContainer {
+    width: 300px;
+    margin: auto;
+    padding: 30px;
+}
