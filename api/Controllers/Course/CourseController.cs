@@ -1,4 +1,4 @@
-using api.Domain.Services.Pagination;
+using Api.Domain.Services.Pagination;
 using Api.Core.Services;
 using Api.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -54,8 +54,8 @@ namespace Api.Controllers
             [FromServices] CourseService service,
             int id)
         {
-            var result = await service.DeleteCourse(id);
-            return new OkObjectResult(result);
+            await service.DeleteCourse(id);
+            return NoContent();
         }
 
     }
