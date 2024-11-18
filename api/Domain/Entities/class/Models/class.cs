@@ -8,6 +8,6 @@ public partial class Class : IEntity
   public short StartingYear { get; set; }
   public short DurationPeriods { get; set; }
   public bool IsActive { get; set; } = true;
-  public IEnumerable<Subject> Subjects { get; set; } = [];
-  public IEnumerable<Student> Students { get; set; } = [];
+  public ICollection<Subject> Subjects { get; set; } = [];
+  public ICollection<Student> Students { get; set; } = [];
 }

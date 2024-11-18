@@ -11,8 +11,8 @@ public partial class Subject : IEntity
   public bool IsActive { get; set; } = true;
   public required float DurationHours { get; set; } 
   public DateTime BeganAt { get; set; } 
-  public IEnumerable<SpecificObjectives> SpecificObjectives { get; set; } = [];
-  public IEnumerable<Post> Posts { get; set; } = [];
-  public IEnumerable<Exam> Exams { get; set; } = [];
+  public ICollection<SpecificObjectives> SpecificObjectives { get; set; } = [];
+  public ICollection<Post> Posts { get; set; } = [];
+  public ICollection<Exam> Exams { get; set; } = [];
 
 }

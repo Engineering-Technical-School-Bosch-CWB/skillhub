@@ -10,5 +10,5 @@ public partial class Student : IEntity
 
   public required User User { get; set; }
   public required Class Class { get; set; }
-  public IEnumerable<Feedback> Feedbacks { get; set; } = [];
+  public ICollection<Feedback> Feedbacks { get; set; } = [];
 }
