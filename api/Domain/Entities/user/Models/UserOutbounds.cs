@@ -21,7 +21,6 @@ namespace Api.Domain.Models
     {
         public string? Name { get; set; }
         public string? EDV { get; set; }
-        public string? Card { get; set; }
         public string? Birthday { get; set; }
         public bool NewUser { get; set; }
         public bool IsActive { get; set; }

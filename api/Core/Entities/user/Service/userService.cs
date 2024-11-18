@@ -127,6 +127,8 @@ public class UserService(
             repository.Update(user)
             ?? throw new UpsertFailException("User could not be updated.");
 
+        await repository.SaveAsync();
+
         return UserUpdatedOutbound.Map(updatedUser);
     }
 
