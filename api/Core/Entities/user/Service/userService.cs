@@ -6,21 +6,25 @@ using Api.Core.Errors;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Api.Domain.Repositories;
-using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace Api.Core.Services;
 
-public class UserService(
-    BaseRepository<User> repository,
-    IPositionRepository positionRepository,
-    ISectorRepository sectorRepository,
-    IOccupationAreaRepository areaRepository
-) : BaseService<User>(repository), IUserService
+public class UserService: BaseService<User>, IUserService
 {
-    private readonly IPositionRepository _positionRepo = positionRepository;
-    private readonly ISectorRepository _sectorRepo = sectorRepository;
-    private readonly IOccupationAreaRepository _areaRepo = areaRepository;
-    private static readonly PasswordHasher<User> _passwordHasher = new();
+    private readonly IPositionRepository _positionRepo;
+    private readonly ISectorRepository _sectorRepo;
+    private readonly IOccupationAreaRepository _areaRepo;
+    private readonly PasswordHasher<User> _hasher;
+
+    public UserService( BaseRepository<User> repository, IPositionRepository positionRepository,
+    ISectorRepository sectorRepository, IOccupationAreaRepository areaRepository, 
+    PasswordHasher<User> hasher) : base(repository)
+    {
+        _positionRepo = positionRepository;
+        _sectorRepo = sectorRepository;
+        _areaRepo = areaRepository;
+        _hasher = hasher; 
+    }
 
     public async Task<UserCreatedOutbound> CreateUser(UserCreatePayload payload)
     {
@@ -52,7 +56,7 @@ public class UserService(
             Area = area
         };
 
-        newUser.Hash = HashPassword(newUser, newUser.Hash);
+        newUser.Hash = _hasher.HashPassword(newUser, newUser.Hash);
 
         var saveUser = repository.Add(newUser)
             ?? throw new UpsertFailException("User could not be inserted.");
@@ -61,12 +65,6 @@ public class UserService(
         var response = UserCreatedOutbound.Map(saveUser, sector, position);
 
         return response;
-    }
-
-    private static string HashPassword(User user, string raw)
-    {
-        var hashedPassword = _passwordHasher.HashPassword(user, raw);
-        return hashedPassword;
     }
 
     public async Task<UserUpdatedOutbound> UpdateUser(int id, UserUpdatePayload payload)
@@ -111,7 +109,7 @@ public class UserService(
         }
 
         if (!string.IsNullOrEmpty(payload.Password))
-            user.Hash = HashPassword(user, user.Hash!);
+            user.Hash = _hasher.HashPassword(user, user.Hash!);
 
         if (!string.IsNullOrEmpty(payload.Name))
             user.Name = payload.Name;
