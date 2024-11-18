@@ -17,13 +17,7 @@ public partial class User : IEntity
   public required OccupationArea Area { get; set; }
   public Student? StudentProfile { get; set; }
 
-<<<<<<< HEAD
-  public IEnumerable<UserImage> Images { get; set; } = [];
-  public IEnumerable<Subject> Subjects { get; set; } = [];
-}
-=======
 public ICollection<UserImage> Images { get; set; } = [];
 public ICollection<Subject> Subjects { get; set; } = [];
 
 }
->>>>>>> 29683042404f243e97e6082329f82612a3a343f9

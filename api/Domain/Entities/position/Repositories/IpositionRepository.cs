@@ -1,6 +1,6 @@
 using Genesis.Domain.Repositories;
 using Api.Domain.Models;
-using api.Domain.Services.Pagination;
+using Api.Domain.Services;
 
 namespace Api.Domain.Repositories;
 

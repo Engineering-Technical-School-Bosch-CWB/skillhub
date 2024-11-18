@@ -3,7 +3,7 @@ using Genesis.Core.Repositories;
 using Api.Domain.Models;
 using Api.Domain.Services;
 using api.Domain.Models;
-using api.Domain.Services.Pagination;
+using Api.Domain.Services;
 using Api.Domain.Repositories;
 using Genesis.Domain.Repositories;
 using Api.Core.Repositories;
@@ -15,8 +15,6 @@ public class PositionService(
         BaseRepository<Position> repository)
         : BaseService<Position>(repository), IPositionService
 {
-<<<<<<< HEAD
-=======
     private readonly IPositionRepository _repo = repository is IPositionRepository positionRepository
             ? positionRepository
             : throw new ServiceConfigurationException(
@@ -46,5 +44,4 @@ public class PositionService(
             PaginationInfo = result.Item2,
         };
     }
->>>>>>> 29683042404f243e97e6082329f82612a3a343f9
 }

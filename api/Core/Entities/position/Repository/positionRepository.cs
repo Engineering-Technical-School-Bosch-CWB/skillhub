@@ -8,11 +8,12 @@ namespace Api.Core.Repositories;
 
 public class PositionRepository(
         SkillhubContext context,
-        PaginationService paginationService)
+        IPaginationService paginationService)
     :
-        BaseRepository<Position>(context)
+        BaseRepository<Position>(context),
+        IPositionRepository
 {
-    private readonly PaginationService _paginationService = paginationService;
+    private readonly IPaginationService _paginationService = paginationService;
 
     public (IEnumerable<Position>, PaginationInfo) GetPaginated(PaginationOptions options)
     {

@@ -86,7 +86,7 @@ public class Program
         services.AddScoped<BaseRepository<User>, UserRepository>();   
 
         services.AddScoped<IUserRepository, UserRepository>();         
-        // services.AddScoped<IPositionRepository, PositionRepository>();    
+        services.AddScoped<IPositionRepository, PositionRepository>();    
         services.AddScoped<ISectorRepository, SectorRepository>();   
         services.AddScoped<IOccupationAreaRepository, OccupationAreaRepository>();   
 
@@ -101,21 +101,22 @@ public class Program
         services.AddScoped<BaseRepository<Student>, StudentRepository>();
         services.AddScoped<BaseRepository<Subject>, SubjectRepository>();
         services.AddScoped<BaseRepository<User>, UserRepository>();
-        // services.AddScoped<IClassService, ClassService>();
-        // services.AddScoped<IPositionService, PositionService>();
-        // services.AddScoped<IStudentService, StudentService>();
-        // services.AddScoped<ISubjectService, SubjectService>();
-        // services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IClassService, ClassService>();
+        services.AddScoped<IPositionService, PositionService>();
+        services.AddScoped<IStudentService, StudentService>();
+        services.AddScoped<ISubjectService, SubjectService>();
+        services.AddScoped<IUserService, UserService>();
         services.AddScoped<IClassRepository, ClassRepository>();
         services.AddScoped<ICurricularUnitRepository, CurricularUnitRepository>();
         services.AddScoped<ICourseRepository, CourseRepository>();
         services.AddScoped<IOccupationAreaRepository, OccupationAreaRepository>();
-        // services.AddScoped<IPositionRepository, PositionRepository>();
+        services.AddScoped<IPaginationService, PaginationService>();
         services.AddScoped<ISectorRepository, SectorRepository>();
         services.AddScoped<IStudentRepository, StudentRepository>();
         services.AddScoped<ISubjectRepository, SubjectRepository>();
         services.AddScoped<IUserRepository, UserRepository>(); 
 
+        services.AddAutoMapper(typeof(Program));
         services.AddCors();
         services.AddControllers();
         services.AddAuthorization();

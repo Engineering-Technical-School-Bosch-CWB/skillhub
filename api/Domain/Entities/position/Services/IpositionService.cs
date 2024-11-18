@@ -1,7 +1,7 @@
 using Genesis.Domain.Services;
 using Api.Domain.Models;
 using api.Domain.Models;
-using api.Domain.Services.Pagination;
+using Api.Domain.Services;
 
 namespace Api.Domain.Services;
 

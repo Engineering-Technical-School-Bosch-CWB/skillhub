@@ -7,14 +7,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Api.Domain.Repositories;
 using Api.Core.Errors.Login;
+using Api.Core.Repositories;
 
 namespace Api.Core.Services;
 
 public class UserService(
     BaseRepository<User> repository,
-    IPositionRepository positionRepository,
-    ISectorRepository sectorRepository,
-    IOccupationAreaRepository areaRepository
+    PositionRepository positionRepository,
+    SectorRepository sectorRepository,
+    OccupationAreaRepository areaRepository
 ) : BaseService<User>(repository), IUserService
 {
     private readonly IPositionRepository _positionRepo = positionRepository;
