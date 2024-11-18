@@ -25,6 +25,7 @@ var jwtSettings = new JwtSettings()
 {
     SecretKey = builder.Configuration["JWT_SECRET_KEY"]!,
 };
+
 builder.Services.AddSingleton(jwtSettings);
 builder.Services.AddSingleton<JwtSecurityTokenHandler>();
 
@@ -35,9 +36,28 @@ builder.Services.AddScoped<UserContext>();
 builder.Services.AddScoped<JwtService>();
 builder.Services.AddSingleton<PaginationService>();
 
+builder.Services.AddScoped<BaseRepository<Class>, ClassRepository>(); 
+builder.Services.AddScoped<BaseRepository<CurricularUnit>, CurricularUnitRepository>(); 
 builder.Services.AddScoped<BaseRepository<Position>, PositionRepository>();
+builder.Services.AddScoped<BaseRepository<Student>, StudentRepository>();
+builder.Services.AddScoped<BaseRepository<Subject>, SubjectRepository>();
+builder.Services.AddScoped<BaseRepository<User>, UserRepository>();
 
+builder.Services.AddScoped<IClassService, ClassService>();
 builder.Services.AddScoped<IPositionService, PositionService>();
+builder.Services.AddScoped<IStudentService, StudentService>();
+builder.Services.AddScoped<ISubjectService, SubjectService>();
+builder.Services.AddScoped<IUserService, UserService>();
+
+builder.Services.AddScoped<IClassRepository, ClassRepository>();
+builder.Services.AddScoped<ICurricularUnitRepository, CurricularUnitRepository>();
+builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+builder.Services.AddScoped<IOccupationAreaRepository, OccupationAreaRepository>();
+builder.Services.AddScoped<IPositionRepository, PositionRepository>();
+builder.Services.AddScoped<ISectorRepository, SectorRepository>();
+builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddExceptionHandler<ErrorHandlingMiddleware>();
 builder.Services.AddProblemDetails();

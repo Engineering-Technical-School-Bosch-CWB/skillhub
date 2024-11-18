@@ -15,7 +15,7 @@ namespace Api.Controllers
             [FromBody] UserCreatePayload payload)
         {
             var result = await userService.CreateUser(payload);
-            return Created("/api/v1/users/register", result);
+            return Created("/api/v1/users", result);
         }
 
         [HttpPatch]
