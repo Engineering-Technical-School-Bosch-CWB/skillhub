@@ -1,6 +1,9 @@
 .form {
     width: 100%;
 
+    background-color: white;
+    padding: 40px 20px;
+
     display: flex;
     flex-direction: column;
     gap: 20px;

@@ -7,8 +7,6 @@ import router from "./routes/routes";
 //! import { useState } from "react";
 
 
-import Header from "./components/Header";
-
 export default function App() {
     //! const {t} = useTranslation();
     //! const { t, i18n: {changeLanguage, language} } = useTranslation();
@@ -26,7 +24,6 @@ export default function App() {
             {/* <h1>{t('login.welcome')}</h1>
             <button onClick={handleChangeLanguage}>click</button> */}
             <RouterProvider router={router}/>
-            <Header/>
         </UserProvider>
     )
 }
