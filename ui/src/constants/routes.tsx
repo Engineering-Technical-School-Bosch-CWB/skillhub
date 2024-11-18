@@ -1,116 +1,49 @@
-import { ReactNode } from "react";
-import AprenticesProfile from "../pages/AprenticesProfile";
-import AprenticesResults from "../pages/AprenticesResults";
-import AvaliateAprentices from "../pages/AvaliateAprentices";
 import Birthdays from "../pages/Birthdays";
-import ClassDetais from "../pages/ClassDetais";
-import CompleteRegistering from "../pages/CompleteRegistering";
-import ContentOverview from "../pages/ContentOverview";
-import CreateAvaliation from "../pages/CreateAvaliation";
-import CreateClass from "../pages/CreateClass";
-import CurricularUnitOverview from "../pages/CurricularUnitOverview";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
+import { AccessLevel } from "../enums/AccessLevel";
+import ContentOverview from "../pages/ContentOverview";
+import CurricularUnitOverview from "../pages/CurricularUnitOverview";
+import { RouteObject } from "react-router-dom";
 
-interface IAppRoute {
-    path: string;
-    element: ReactNode;
+type IAppRoute = {
     title: string;
-}
+    accessLevel?: AccessLevel;
+} & RouteObject
 
 const routes:Record<string, IAppRoute> = {
-    HOME: {
-        path: "/",
-        element: <Home/>,
-        title: "Home" 
-    },
     LOGIN: {
         path: "/login",
         element: <Login/>,
-        title: "Login" 
+        title: "Login",
     },
-    CONTENT_OVERVIEW: {
-        path: "/overview",
-        element: <ContentOverview/>,
-        title: "Content Overview" 
+
+    HOME: {
+        path: "/",
+        element: <Home/>,
+        title: "Home",
+        accessLevel: AccessLevel.AUTHENTICATED,
     },
+
     BIRTHDAYS: {
         path: "/birthdays",
         element: <Birthdays/>,
-        title: "Birthdays" 
+        title: "Birthdays",
+        accessLevel: AccessLevel.AUTHENTICATED,
     },
 
-    // ..aprentice directory
-    APRENTICES_PROFILE: {
-        path: "/aprentice/:id/profile",
-        element: <AprenticesProfile/>,
-        title: "Aprentices Profile" 
-    },
-    APRENTICES_RESULT: {
-        path: "/aprentice/:id/results",
-        element: <AprenticesResults/>,
-        title: "Aprentices Results" 
-    },
-
-    // ..avaliation directory
-    AVALIATE_APRENTICES: {
-        path: "/avaliation/:id/avaliate",
-        element: <AvaliateAprentices/>,
-        title: "Avaliate Aprentices" 
-    },
-    CREATE_AVALIATION: {
-        path: "/avaliation/create",
-        element: <CreateAvaliation/>,
-        title: "Create Avaliation" 
-    },
-
-    // ..class directory
-    CLASS_DETAILS: {
-        path: "/class/:id/details",
-        element: <ClassDetais/>,
-        title: "Class Detais" 
-    },
-    CLASSES_OVERVIEW: {
-        path: "/class/overview",
-        element: <AprenticesResults/>,
-        title: "Aprentices Results" 
-    },
-    CREATE_CLASS: {
-        path: "/class/create",
-        element: <CreateClass/>,
-        title: "Create Class" 
-    },
-
-    // ..user directory
-    COMPLETE_REGISTERING: {
-        path: "/user/:id/register",
-        element: <CompleteRegistering/>,
-        title: "Complete Registering" 
-    },
-    USERS_OVERVIEW: {
-        path: "/user/overview",
+    SCHOOL_CONTENT: {
+        path: "/school-content",
+        title: "School Content",
+        accessLevel: AccessLevel.TEACHER,
         element: <ContentOverview/>,
-        title: "Content Overview" 
-    },
-
-    // ..subject directory
-    SUBJECT_DETAILS: {
-        path: "/subject/:id/details",
-        element: <ContentOverview/>,
-        title: "Content Overview" 
-    },
-    SUBJECT_RESULTS: {
-        path: "/subject/:id/results",
-        element: <ContentOverview/>,
-        title: "Content Overview" 
-    },
-
-    // ..curricular unit directory
-    CURRICULAR_UNIT_OVERVIEW: {
-        path: "/curricular-unit/overview",
-        element: <CurricularUnitOverview/>,
-        title: "Curricular Unit Overview" 
-    },
+        children: [
+            {
+                path: "curricular-unitys/:curricularUnityId",
+                element: <CurricularUnitOverview/>
+            }
+        ]
+    }
 }
 
 export default routes
