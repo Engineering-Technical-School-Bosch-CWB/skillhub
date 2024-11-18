@@ -15,8 +15,7 @@ public class UserService(
     IPositionRepository positionRepository,
     ISectorRepository sectorRepository,
     IOccupationAreaRepository areaRepository
-    ) : BaseService<User>(repository), 
-    IUserService
+) : BaseService<User>(repository), IUserService
 {
     private readonly IPositionRepository _positionRepo = positionRepository;
     private readonly ISectorRepository _sectorRepo = sectorRepository;
@@ -56,7 +55,7 @@ public class UserService(
         newUser.Hash = HashPassword(newUser, newUser.Hash);
 
         var saveUser = repository.Add(newUser)
-            ?? throw new UpsertFailException("User could not be inserted.");;
+            ?? throw new UpsertFailException("User could not be inserted.");
         await repository.SaveAsync();
 
         var response = UserCreatedOutbound.Map(saveUser, sector, position);
@@ -83,12 +82,13 @@ public class UserService(
             .SingleOrDefaultAsync(u => u.Id == id) 
             ?? throw new NotFoundException("User not found.");
 
+
         if (payload.EDV is not null)
         {
             var exists = await repository.GetAllNoTracking()
-                .SingleOrDefaultAsync(u => u.Identification == user.Identification);
+                .AnyAsync(u => u.Identification == user.Identification);
 
-            if (exists is not null)
+            if (exists)
                 throw new AlreadyExistsException("EDV already in use.");
         }
 
@@ -117,22 +117,25 @@ public class UserService(
             user.Area = area;
         }
 
-        if (payload.Password is not null)
+        if (!string.IsNullOrEmpty(payload.Password))
             user.Hash = HashPassword(user, user.Hash!);
 
-        if (payload.Name is not null)
+        if (!string.IsNullOrEmpty(payload.Name))
             user.Name = payload.Name;
 
-        if (payload.Birthday is not null)
-            user.Birthday = DateTime.Parse(payload.Birthday);
+        if (!string.IsNullOrEmpty(payload.Birthday))
+        {
+            if (!DateTime.TryParse(payload.Birthday, out var birthday))
+                throw new InvalidFormatException("Invalid date format for Birthday.");
 
-        var savedUser =
+            user.Birthday = birthday;
+        }
+
+        var updatedUser =
             repository.Update(user)
             ?? throw new UpsertFailException("User could not be updated.");
 
-        var result = UserUpdatedOutbound.Map(user);
-
-        return result;
+        return UserUpdatedOutbound.Map(updatedUser);
     }
 
     public async Task DeleteUser(int id)
