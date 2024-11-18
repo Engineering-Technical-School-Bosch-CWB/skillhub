@@ -28,21 +28,21 @@ public class UserService: BaseService<User>, IUserService
 
     public async Task<UserResponses> CreateUser(UserCreatePayload payload)
     {
-        var exists = await repository.GetAllNoTracking()
+        var exists = await repository.Get()
             .FirstOrDefaultAsync(u => u.Identification == payload.EDV);
 
         if (exists is not null)
             throw new AlreadyExistsException("EDV already in use.");
 
-        var position = await _positionRepo.GetAllNoTracking()
+        var position = await _positionRepo.Get()
             .SingleOrDefaultAsync(p => p.Id == payload.PositionId) 
             ?? throw new NotFoundException("Position not found.");
             
-        var sector = await _sectorRepo.GetAllNoTracking()
+        var sector = await _sectorRepo.Get()
             .SingleOrDefaultAsync(s => s.Id == payload.SectorId) 
             ?? throw new NotFoundException("Sector not found.");
 
-        var area = await _areaRepo.GetAllNoTracking()
+        var area = await _areaRepo.Get()
             .SingleOrDefaultAsync(a => a.Id == payload.AreaId)
             ?? throw new NotFoundException("Area not found");
         
@@ -126,6 +126,7 @@ public class UserService: BaseService<User>, IUserService
             repository.Update(user)
             ?? throw new UpsertFailException("User could not be updated.");
 
+        await repository.SaveAsync();
         return UserResponses.Map(updatedUser, "User updated successfully.");
     }
 
@@ -144,5 +145,6 @@ public class UserService: BaseService<User>, IUserService
             repository.Update(user)
             ?? throw new DeleteFailException("User could not be deleted");
 
+        await repository.SaveAsync();
     }
 }

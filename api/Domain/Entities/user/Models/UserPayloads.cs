@@ -11,7 +11,6 @@ namespace Api.Domain.Models
     public readonly record struct UserUpdatePayload(
         string? Name,
         string? EDV,
-        string? Card,
         string? Birthday,
         bool? NewUser,
         bool? IsActive,

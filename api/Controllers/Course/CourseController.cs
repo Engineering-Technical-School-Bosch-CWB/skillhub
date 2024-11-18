@@ -29,11 +29,11 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetAllCourse(
+        public ActionResult GetAllCourse(
             [FromServices] CourseService CourseService,
             [FromBody] PaginationOptions pagination)
         {
-            var result = await CourseService.GetCourses(pagination);
+            var result = CourseService.GetCourses(pagination);
             return new OkObjectResult(result);
         }
 

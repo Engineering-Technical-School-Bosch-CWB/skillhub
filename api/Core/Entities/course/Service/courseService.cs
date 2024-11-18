@@ -12,13 +12,14 @@ namespace Api.Core.Services;
 public class CourseService : BaseService<Course>, ICourseService
 {
     private readonly IOccupationAreaRepository _areaRepo;
-    private readonly IPaginationService _pagRepo;
+    private readonly IPaginationService _pagService;
     public CourseService(IOccupationAreaRepository areaRepository, IPaginationService paginationService, 
     BaseRepository<Course> repository) : base(repository)
     {
         _areaRepo = areaRepository;
-        _pagRepo = paginationService;
+        _pagService = paginationService;
     }
+    
     public async Task<CourseResponse> CreateCourse(CourseCreatePayload payload)
     {
         if (await repository.GetAllNoTracking().AnyAsync(c => c.Name.Equals(payload.Name, StringComparison.OrdinalIgnoreCase)))
@@ -74,7 +75,7 @@ public class CourseService : BaseService<Course>, ICourseService
         var query = repository.GetAllNoTracking()
             .Include(c => c.DefaultOccupationArea);
 
-        var paginatedCourses = await _pagRepo.Paginate(query, options);
+        var paginatedCourses = await _pagService.PaginateAsync(query, options);
 
         return CoursePaginationResponse.Map(paginatedCourses, "Courses found successfully.");
     }
