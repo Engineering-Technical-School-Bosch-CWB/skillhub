@@ -26,7 +26,7 @@ public class UserService: BaseService<User>, IUserService
         _hasher = hasher; 
     }
 
-    public async Task<UserCreatedOutbound> CreateUser(UserCreatePayload payload)
+    public async Task<UserResponses> CreateUser(UserCreatePayload payload)
     {
         var exists = await repository.GetAllNoTracking()
             .FirstOrDefaultAsync(u => u.Identification == payload.EDV);
@@ -62,12 +62,12 @@ public class UserService: BaseService<User>, IUserService
             ?? throw new UpsertFailException("User could not be inserted.");
         await repository.SaveAsync();
 
-        var response = UserCreatedOutbound.Map(saveUser, sector, position);
+        var response = UserResponses.Map(saveUser, "User created successfully.");
 
         return response;
     }
 
-    public async Task<UserUpdatedOutbound> UpdateUser(int id, UserUpdatePayload payload)
+    public async Task<UserResponses> UpdateUser(int id, UserUpdatePayload payload)
     {
         var user = await repository.GetAllNoTracking()
             .SingleOrDefaultAsync(u => u.Id == id) 
@@ -126,7 +126,7 @@ public class UserService: BaseService<User>, IUserService
             repository.Update(user)
             ?? throw new UpsertFailException("User could not be updated.");
 
-        return UserUpdatedOutbound.Map(updatedUser);
+        return UserResponses.Map(updatedUser, "User updated successfully.");
     }
 
     public async Task DeleteUser(int id)

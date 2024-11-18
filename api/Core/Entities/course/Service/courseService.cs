@@ -42,7 +42,7 @@ public class CourseService : BaseService<Course>, ICourseService
             ?? throw new UpsertFailException("Course could not be inserted.");
         await repository.SaveAsync();
         
-        return CourseResponse.Map(saveCourse, "Course created sucefully.");
+        return CourseResponse.Map(saveCourse, "Course created successfully.");
     }
 
     public async Task DeleteCourse(int id)

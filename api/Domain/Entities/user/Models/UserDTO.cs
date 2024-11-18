@@ -9,7 +9,7 @@ public class UserDTO
     public PositionDTO? Position { get; set; }
     public SectorDTO? Sector { get; set; }
     public OccupationAreaDTO Area { get; set; }
-    public int StudentProfile { get; set; }
+    public int? StudentProfile { get; set; }
 
     public static UserDTO Map( User user)
     {
