@@ -22,6 +22,9 @@ public class CourseClassMap : IEntityTypeConfiguration<Course>
         builder.Property(e => e.Abbreviation)
             .HasMaxLength(50)
             .HasColumnName("abbreviation");
+            
+        builder.Property(u => u.IsActive)
+            .HasColumnName("is_active");
 
         builder.Property(e => e.Name)
             .HasMaxLength(255)
