@@ -11,7 +11,7 @@ export interface IField<T = any> {
 }
 
 interface IFormProps<T> {
-    onSubmit: (payload:T) => Promise<void> | void;
+    onSubmit: (payload:T) => any;
     customClassName?: string;
     fields: IField<T>[];
     submitText?: string;
