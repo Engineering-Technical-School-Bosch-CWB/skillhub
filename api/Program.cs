@@ -36,8 +36,8 @@ builder.Services.AddScoped<UserContext>();
 builder.Services.AddScoped<JwtService>();
 builder.Services.AddSingleton<PaginationService>();
 
-builder.Services.AddScoped<BaseRepository<Class>, ClassRepository>(); 
-builder.Services.AddScoped<BaseRepository<CurricularUnit>, CurricularUnitRepository>(); 
+builder.Services.AddScoped<BaseRepository<Class>, ClassRepository>();
+builder.Services.AddScoped<BaseRepository<CurricularUnit>, CurricularUnitRepository>();
 builder.Services.AddScoped<BaseRepository<Position>, PositionRepository>();
 builder.Services.AddScoped<BaseRepository<Student>, StudentRepository>();
 builder.Services.AddScoped<BaseRepository<Subject>, SubjectRepository>();
@@ -62,6 +62,8 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddExceptionHandler<ErrorHandlingMiddleware>();
 builder.Services.AddProblemDetails();
 
+builder.Services.AddCors();
+builder.Services.AddControllers();
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -78,8 +80,18 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors(x => x
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .SetIsOriginAllowed(origin => true)
+    .AllowCredentials());
+
 // app.UseHttpsRedirection(); // TODO: figure out how to configure HTTPS redirection.
 
 app.UseExceptionHandler();
+
+app.UseAuthorization();
+
+app.MapControllers();
 
 app.Run();

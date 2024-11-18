@@ -11,7 +11,7 @@ namespace Api.Controllers
     {
         [HttpPost]
         public async Task<ActionResult> RegisterUser(
-            [FromServices] UserService userService,
+            [FromServices] IUserService userService,
             [FromBody] UserCreatePayload payload)
         {
             var result = await userService.CreateUser(payload);
@@ -21,7 +21,7 @@ namespace Api.Controllers
         [HttpPatch]
         [Route("{id}")]
         public async Task<ActionResult> UpdateUser(
-            [FromServices] UserService service,
+            [FromServices] IUserService service,
             [FromBody] UserUpdatePayload payload,
             int id)
         {
