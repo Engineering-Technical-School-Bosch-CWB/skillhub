@@ -1,18 +1,16 @@
 namespace Api.Domain.Models
 {
-    public class UserCreatedOutbound
+    public class UserResult
     {
-        public int UserId { get; set; }
-        public string? Sector { get; set; }
-        public string? Position { get; set; }
+        public required UserDTO Data { get; set; }
+        public required string Message { get; set; }
 
-        public static UserCreatedOutbound Map(User user, Sector sector, Position position)
+        public static UserResult Map(User user, string text)
         {
-            return new UserCreatedOutbound()
+            return new UserResult()
             {
-                Position = position.Name,
-                Sector = sector.Name,
-                UserId = user.Id
+                Data = UserDTO.Map(user),
+                Message = text
             };
         }
     };
