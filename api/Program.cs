@@ -11,19 +11,21 @@ using Api.Domain.Services;
 using Genesis.Core.Repositories;
 using Microsoft.EntityFrameworkCore;
 
+using DotNetEnv;
+
 var builder = WebApplication.CreateBuilder(args);
 
-DotNetEnv.Env.Load();
+Env.Load();
 
-var connectionHost = builder.Configuration["MSSQL_HOST"];
-var connectionDatabase = builder.Configuration["MSSQL_DATABASE"];
+var connectionHost = Environment.GetEnvironmentVariable("MSSQL_HOST");
+var connectionDatabase = Environment.GetEnvironmentVariable("MSSQL_DATABASE");
 builder.Services.AddDbContext<Project_eContext>(
     options => options.UseSqlServer($"Server={connectionHost};Database={connectionDatabase};Trusted_Connection=True;TrustServerCertificate=True;")
 );
 
 var jwtSettings = new JwtSettings()
 {
-    SecretKey = builder.Configuration["JWT_SECRET_KEY"]!,
+    SecretKey = Environment.GetEnvironmentVariable("JWT_SECRET_KEY")!,
 };
 
 builder.Services.AddSingleton(jwtSettings);
