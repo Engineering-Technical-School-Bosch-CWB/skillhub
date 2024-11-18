@@ -4,9 +4,8 @@ namespace Api.Domain.Models;
 
 public partial class Skill : IEntity
 {
-  public string Description { get; set; } = string.Empty;
+  public required string Description { get; set; }
   public string? EvaluationCriteria { get; set; }
-  public bool IsActive { get; set; }
-
+  public bool IsActive { get; set; } = true;
   public required CurricularUnit CurricularUnit { get; set; }
 }

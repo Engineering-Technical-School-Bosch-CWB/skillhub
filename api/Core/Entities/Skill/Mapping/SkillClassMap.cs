@@ -19,6 +19,7 @@ public class SkillClassMap : IEntityTypeConfiguration<Skill>
             .HasColumnName("description");
 
         builder.Property(s => s.EvaluationCriteria)
+            .HasColumnType("varchar(max)")
             .HasColumnName("evaluation_criteria");
 
         builder.Property(s => s.IsActive)
