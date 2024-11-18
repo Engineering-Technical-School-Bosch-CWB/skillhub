@@ -2,10 +2,11 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using Api.Core.Errors.JWTService;
 using System.Security.Claims;
-using Api.Domain.JWTService;
+using Api.Domain.Services.JWT;
 using System.Text;
+using Api.Core.JWT;
 
-namespace Api.Core.JWTService
+namespace Api.Core.Services.JWT
 {
     public class JwtService : IJwtService
     {
@@ -81,9 +82,9 @@ namespace Api.Core.JWTService
                 UserName = claims.FindFirst("UserName")!.Value,
                 Position = userPosition switch
                 {
-                    "STUDENT" => EnumPosition.STUDENT,
-                    "INSTRUCTOR" => EnumPosition.INSTRUCTOR,
-                    _ => EnumPosition.SUBOFFICER,
+                    "APRENTICE" => UsersPositions.APRENTICE,
+                    "INSTRUCTOR" => UsersPositions.INSTRUCTOR,
+                    _ => UsersPositions.SUBOFFICER,
                 }
             });
         }

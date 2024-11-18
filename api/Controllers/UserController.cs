@@ -6,7 +6,7 @@ namespace Api.Controllers
 {
     [ApiController]
     [Route("api/v1/users")]
-    public class LoginController : ControllerBase
+    public class UserController : ControllerBase
     {
         [HttpPost]
         public async Task<ActionResult> RegisterUser(

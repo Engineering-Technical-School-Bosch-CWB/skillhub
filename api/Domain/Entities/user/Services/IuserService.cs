@@ -6,6 +6,7 @@ namespace Api.Domain.Services;
 public interface IUserService : IService<User>
 {
     public Task<UserCreatedOutbound> CreateUser(UserCreatePayload payload);
+    public Task<User> GetUserByIdentification(string identification);
     public Task<UserUpdatedOutbound> UpdateUser(int id, UserUpdatePayload payload);
     public Task DeleteUser(int id);
 }

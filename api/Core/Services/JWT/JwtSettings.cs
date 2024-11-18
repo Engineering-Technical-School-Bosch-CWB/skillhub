@@ -1,4 +1,4 @@
-namespace Api.Core.JWTService
+namespace Api.Core.Services.JWT
 {
     public record JwtSettings
     {

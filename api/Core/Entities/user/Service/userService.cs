@@ -70,6 +70,13 @@ public class UserService(
         return hashedPassword;
     }
 
+    public async Task<User> GetUserByIdentification(string identification)
+    {
+        return await repository.GetAllNoTracking()
+            .SingleOrDefaultAsync(u => u.Identification == identification) ?? 
+                throw new NotFoundException("User not found.");
+    }
+
     public async Task<UserUpdatedOutbound> UpdateUser(int id, UserUpdatePayload payload)
     {
         var user = await repository.GetAllNoTracking()

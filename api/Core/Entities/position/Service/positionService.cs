@@ -8,5 +8,4 @@ namespace Api.Core.Services;
 public class PositionService(BaseRepository<Position> repository)
     : BaseService<Position> (repository), IPositionService
 {
-
 }
