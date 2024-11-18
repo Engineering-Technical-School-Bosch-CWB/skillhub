@@ -1,8 +1,8 @@
-namespace Api.Domain.Services
+namespace Api.Domain.Models
 {
     public record UserDTO(
         string Name,
-        string Birthday,
+        DateTime Birthday,
         int PositionId,
         int SectorId,
         int OccupationId

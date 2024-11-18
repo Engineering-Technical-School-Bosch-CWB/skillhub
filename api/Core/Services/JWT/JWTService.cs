@@ -82,7 +82,7 @@ namespace Api.Core.Services.JWT
                 UserName = claims.FindFirst("UserName")!.Value,
                 Position = userPosition switch
                 {
-                    "APRENTICE" => UsersPositions.APRENTICE,
+                    "APRENTICE" => UsersPositions.STUDENT,
                     "INSTRUCTOR" => UsersPositions.INSTRUCTOR,
                     _ => UsersPositions.SUBOFFICER,
                 }

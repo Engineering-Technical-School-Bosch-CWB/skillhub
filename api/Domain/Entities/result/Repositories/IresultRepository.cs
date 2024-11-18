@@ -1,9 +1,0 @@
-using Genesis.Domain.Repositories;
-using Api.Domain.Models;
-
-namespace Api.Domain.Repositories;
-
-public interface ISkillRepository : IRepository<Skill>
-{
-
-}

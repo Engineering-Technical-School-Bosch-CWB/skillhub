@@ -6,7 +6,7 @@ namespace Api.Core.JWT
     {
         public required Guid UserId { get; init; }
         public required string UserName { get; init; }
-        public required EnumPosition Position { get; init; }
+        public required UsersPositions Position { get; init; }
     }
 
     public class UserContext
@@ -15,7 +15,7 @@ namespace Api.Core.JWT
 
         public Guid UserId => _data.UserId;
         public string UserName => _data.UserName;
-        public EnumPosition Position => _data.Position;
+        public UsersPositions Position => _data.Position;
 
         public void Fill(ContextData data)
         {

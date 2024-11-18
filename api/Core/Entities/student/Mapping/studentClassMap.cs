@@ -14,23 +14,6 @@ public class StudentClassMap : IEntityTypeConfiguration<Student>
         builder.Property(e => e.Id)
             .HasColumnName("id");
 
-<<<<<<< HEAD
-        builder.Property(e => e.Grade)
-            .HasColumnName("grade");
-
-        builder.Property(e => e.PersonalFeedback)
-            .HasColumnName("personal_feedback");
-
-        builder.Property(e => e.IsActive)
-            .HasColumnName("is_active");
-
-        builder.Property(e => e.UserId)
-            .HasColumnName("user_id");
-
-        builder.Property(e => e.ClassId)
-            .HasColumnName("class_id");
-
-=======
         builder.Property(s => s.OverallScore)
             .HasColumnName("overall_score");
         
@@ -53,7 +36,6 @@ public class StudentClassMap : IEntityTypeConfiguration<Student>
 
         builder.HasMany(s => s.Feedbacks)
             .WithOne(f => f.Student);
->>>>>>> dev
     }
 }
 
