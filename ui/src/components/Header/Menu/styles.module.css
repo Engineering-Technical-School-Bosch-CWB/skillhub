@@ -1,18 +1,10 @@
 @keyframes scrollFromRight {
-    0% { 
-        transform: translateX(100%); 
-    }
-    100% { 
-        transform: translateX(0); 
-    }
+    0%      { transform: translateX(100%);  }
+    100%    { transform: translateX(0);     }
 }
 @keyframes scrollToRight {
-    0% { 
-        transform: translateX(0); 
-    }
-    100% { 
-        transform: translateX(100%); 
-    }
+    0%      { transform: translateX(0);     }
+    100%    { transform: translateX(100%);  }
 }
 
 @keyframes showUp {
@@ -20,9 +12,7 @@
         opacity: 0; 
         display: none;
     }
-    1% { 
-        display: block;
-    }
+    1% { display: block; }
     100% { 
         display: block;
         opacity: 1; 
@@ -88,11 +78,11 @@
 
 .link_list {
     width: 95%;
-    margin: auto;
+    margin: 50px auto;
 
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 20px;
 
     font-size: 1.25rem;
 }

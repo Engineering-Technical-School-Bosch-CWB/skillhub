@@ -12,7 +12,7 @@ export default forwardRef<HTMLImageElement, IAvatarProps>(
             <img 
                 ref={ref}
                 alt={tooltip || "Avatar"}
-                className={styles.avatar}
+                className={`${styles.avatar} ${className || ""}`}
                 {...props}
             />
             {

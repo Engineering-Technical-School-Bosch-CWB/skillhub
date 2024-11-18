@@ -22,6 +22,7 @@ export default ({  }:IHeaderProps) => {
                         src="/avatar.png" 
                         tooltip="Murylo Saladino"
                         onClick={() => setMenuOpen(true)}
+                        className={styles.user_icon}
                     />
                     
                 </nav>
