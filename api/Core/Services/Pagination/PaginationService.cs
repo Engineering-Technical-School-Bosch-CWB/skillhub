@@ -7,7 +7,31 @@ namespace Api.Core.Services
 {
     public class PaginationService : IPaginationService
     {
-        public async Task<(IEnumerable<TEntity>, PaginationInfo)> Paginate<TEntity>(
+        public (IEnumerable<TEntity>, PaginationInfo) Paginate<TEntity>(
+                IQueryable<TEntity> query,
+                PaginationOptions pagination)
+                where TEntity : IEntity
+        {
+            var totalItems = query.Count();
+
+            if (totalItems <= pagination.Offset)
+                throw new PaginationOffsetException("Offset exceeds maximum of items.");
+
+            query = query.Skip(pagination.Offset).Take(pagination.Take);
+
+            var paginationInfo = new PaginationInfo
+            {
+                Items = totalItems,
+                CurrentPage = pagination.Offset / pagination.Take + 1,
+                TotalPages = (int)Math.Ceiling((double)totalItems / pagination.Take),
+            };
+
+            var data = query.ToList();
+
+            return (data, paginationInfo);
+        }
+
+        public async Task<(IEnumerable<TEntity>, PaginationInfo)> PaginateAsync<TEntity>(
                 IQueryable<TEntity> query,
                 PaginationOptions pagination)
                 where TEntity : IEntity

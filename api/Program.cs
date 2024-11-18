@@ -1,6 +1,18 @@
 using Api.Core.Middlewares;
 using Api.Core.Services;
 using Api.Core.Repositories;
+using System.IdentityModel.Tokens.Jwt;
+using Api.Core.Middlewares;
+using Api.Core.Services;
+using Api.Core;
+using Api.Core.Services;
+using Api.Core.Repositories;
+using Api.Core.Services;
+using Api.Domain.Models;
+using Api.Domain.Repositories;
+using Api.Domain.Services;
+using Genesis.Core.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 using dotenv.net;
 using System.IdentityModel.Tokens.Jwt;
@@ -74,13 +86,35 @@ public class Program
         services.AddScoped<BaseRepository<User>, UserRepository>();   
 
         services.AddScoped<IUserRepository, UserRepository>();         
-        services.AddScoped<IPositionRepository, PositionRepository>();    
+        // services.AddScoped<IPositionRepository, PositionRepository>();    
         services.AddScoped<ISectorRepository, SectorRepository>();   
         services.AddScoped<IOccupationAreaRepository, OccupationAreaRepository>();   
 
         services.AddScoped<JwtService>();
         services.AddScoped<UserService>();
-        services.AddScoped<LoginService>();        
+        services.AddScoped<LoginService>();       
+
+        
+        services.AddScoped<BaseRepository<Class>, ClassRepository>();
+        services.AddScoped<BaseRepository<CurricularUnit>, CurricularUnitRepository>();
+        services.AddScoped<BaseRepository<Position>, PositionRepository>();
+        services.AddScoped<BaseRepository<Student>, StudentRepository>();
+        services.AddScoped<BaseRepository<Subject>, SubjectRepository>();
+        services.AddScoped<BaseRepository<User>, UserRepository>();
+        // services.AddScoped<IClassService, ClassService>();
+        // services.AddScoped<IPositionService, PositionService>();
+        // services.AddScoped<IStudentService, StudentService>();
+        // services.AddScoped<ISubjectService, SubjectService>();
+        // services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IClassRepository, ClassRepository>();
+        services.AddScoped<ICurricularUnitRepository, CurricularUnitRepository>();
+        services.AddScoped<ICourseRepository, CourseRepository>();
+        services.AddScoped<IOccupationAreaRepository, OccupationAreaRepository>();
+        // services.AddScoped<IPositionRepository, PositionRepository>();
+        services.AddScoped<ISectorRepository, SectorRepository>();
+        services.AddScoped<IStudentRepository, StudentRepository>();
+        services.AddScoped<ISubjectRepository, SubjectRepository>();
+        services.AddScoped<IUserRepository, UserRepository>(); 
 
         services.AddCors();
         services.AddControllers();
@@ -90,5 +124,4 @@ public class Program
         services.AddSwaggerGen();
     }
 }
-
 
