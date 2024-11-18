@@ -1,3 +1,4 @@
+import BoschLogo from "../../components/BoschLogo";
 import Form, { IField } from "../../components/Form"
 import styles from "./styles.module.css"
 
@@ -14,6 +15,7 @@ export const CompleteRegistering = () => {
     return (
         <div className={styles.background}>
             <div className={styles.formContainer}>
+                <BoschLogo/>
                 <Form
                     fields={fields}
                     submitText="Enter"
