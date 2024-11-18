@@ -5,6 +5,12 @@ using Api.Domain.Services;
 
 namespace Api.Core.Services;
 
+<<<<<<< HEAD
+public class PostService(BaseRepository<Post> repository)
+    : BaseService<Post> (repository), IPostService
+{
+
+=======
 public class CourseService(BaseRepository<Course> repository)
     : BaseService<Course>(repository), ICourseService
 {
@@ -32,4 +38,5 @@ public class CourseService(BaseRepository<Course> repository)
     {
         throw new NotImplementedException();
     }
+>>>>>>> dev
 }

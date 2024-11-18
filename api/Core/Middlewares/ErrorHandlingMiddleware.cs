@@ -3,7 +3,7 @@ using Api.Core.Errors;
 using Api.Core.Errors.JWTService;
 using Microsoft.AspNetCore.Diagnostics;
 
-namespace api.Core.Middlewares
+namespace Api.Core.Middlewares
 {
 
     public record Error(int Status, string Message, Object? Details = null);

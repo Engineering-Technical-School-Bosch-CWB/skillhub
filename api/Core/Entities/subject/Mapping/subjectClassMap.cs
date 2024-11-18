@@ -13,6 +13,12 @@ public class SubjectClassMap : IEntityTypeConfiguration<Subject>
 
         builder.Property(e => e.Id)
             .HasColumnName("id");
+<<<<<<< HEAD
+
+        builder.Property(e => e.Name)
+            .HasMaxLength(255)
+            .HasColumnName("name");
+=======
         
         builder.HasOne(s => s.Instructor)
             .WithMany(u => u.Subjects)
@@ -33,15 +39,28 @@ public class SubjectClassMap : IEntityTypeConfiguration<Subject>
         builder.Property(s => s.Period)
             .HasColumnType("tinyint")
             .HasColumnName("period");
+>>>>>>> dev
 
         builder.Property(e => e.IsActive)
             .HasColumnName("is_active");
 
+<<<<<<< HEAD
+        builder.Property(e => e.InstructorId)
+            .HasColumnName("instructor_id");
+
+        builder.Property(e => e.CurricularUnitId)
+            .HasColumnName("curricular_unit_id");
+
+        builder.Property(e => e.ClassId)
+            .HasColumnName("class_id");
+
+=======
         builder.Property(e => e.DurationHours)
             .HasColumnName("duration_hours");
 
         builder.Property(e => e.BeganAt)
             .HasColumnName("began_at");
+>>>>>>> dev
     }
 }
 
