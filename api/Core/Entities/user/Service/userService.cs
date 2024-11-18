@@ -147,5 +147,6 @@ public class UserService(
             repository.Update(user)
             ?? throw new DeleteFailException("User could not be deleted");
 
+        await repository.SaveAsync();
     }
 }
