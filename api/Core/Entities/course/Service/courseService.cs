@@ -16,7 +16,7 @@ public class CourseService(
 )   : BaseService<Course>(repository), ICourseService
 {
     private readonly IOccupationAreaRepository _areaRepo = areaRepository;
-    private readonly IPaginationService _pagRepo = paginationService;
+    private readonly IPaginationService _pagService = paginationService;
     public async Task<CourseCreatedOutbound> CreateCourse(CourseCreatePayload payload)
     {
         if (await repository.GetAllNoTracking().AnyAsync(c => c.Name.Equals(payload.Name, StringComparison.OrdinalIgnoreCase)))
@@ -72,12 +72,12 @@ public class CourseService(
         return OneCourseOutbound.Map(course, "Course found successfully");
     }
 
-    public async Task<AllCoursesOutbound> GetCourses(PaginationOptions options)
+    public AllCoursesOutbound GetCourses(PaginationOptions options)
     {
         var query = repository.GetAllNoTracking()
             .Include(c => c.DefaultOccupationArea);
 
-        var paginatedCourses = await _pagRepo.Paginate(query, options);
+        var paginatedCourses = _pagService.Paginate(query, options);
 
         return AllCoursesOutbound.Map(paginatedCourses, "Courses found successfully");
     }
