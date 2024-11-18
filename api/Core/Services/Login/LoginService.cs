@@ -1,16 +1,14 @@
 using Api.Domain.Models;
-using Api.Domain.Services.Login;
+using Api.Domain.Services;
 using Microsoft.AspNetCore.Identity;
-using Api.Core.Services.JWT;
+using Api.Core.Services;
 using Api.Core.Errors.Login;
-using Api.Domain.Services.JWT;
-using Api.Core.Errors;
 
-namespace Api.Core.Services.Login
+namespace Api.Core.Services
 {
     public class LoginService : ILoginService
     {
-        private readonly UserService _userService;
+        private readonly IUserService _userService;
         private readonly PasswordHasher<User> _hasher;
         private readonly JwtService _jwtService;
 

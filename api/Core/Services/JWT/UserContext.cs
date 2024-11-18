@@ -1,6 +1,6 @@
-using Api.Domain.Services.JWT;
+using Api.Domain.Services;
 
-namespace Api.Core.JWT
+namespace Api.Core.Services
 {
     public readonly record struct ContextData
     {

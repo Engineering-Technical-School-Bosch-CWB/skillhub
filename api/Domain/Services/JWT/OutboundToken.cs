@@ -1,4 +1,2 @@
-namespace Api.Domain.Services.JWT
-{
-    public readonly record struct OutboundToken(string Token);
-}
+namespace Api.Domain.Services;
+public readonly record struct OutboundToken(string Token);

@@ -1,9 +1,9 @@
 using Api.Core.Errors.Pagination;
-using Api.Domain.Services.Pagination;
+using Api.Domain.Services;
 using Genesis.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace api.Core.Services.Pagination
+namespace Api.Core.Services
 {
     public class PaginationService : IPaginationService
     {

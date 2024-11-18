@@ -1,11 +1,9 @@
 using Api.Domain.Models;
-using Api.Domain.Services.JWT;
+using Api.Domain.Services;
 
-namespace Api.Domain.Services.Login
-{
-    public readonly record struct LoginResponse(
-        bool FirstLogin, 
-        UserUpdatedOutbound? User,
-        OutboundToken AuthToken
-    );
-}
+namespace Api.Domain.Services;
+public readonly record struct LoginResponse(
+    bool FirstLogin, 
+    UserUpdatedOutbound? User,
+    OutboundToken AuthToken
+);

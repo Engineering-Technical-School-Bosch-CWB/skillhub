@@ -5,7 +5,7 @@ using Api.Domain.Services;
 using Api.Core.Errors;
 using Microsoft.EntityFrameworkCore;
 using Api.Domain.Repositories;
-using api.Domain.Services.Pagination;
+using Api.Domain.Services;
 
 namespace Api.Core.Services;
 

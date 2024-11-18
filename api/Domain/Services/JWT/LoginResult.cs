@@ -1,4 +1,4 @@
-namespace Api.Domain.Services.JWT;
+namespace Api.Domain.Services;
 
 public abstract record LoginResult()
 {

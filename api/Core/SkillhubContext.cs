@@ -6,11 +6,11 @@ using Api.Domain.Models;
 
 namespace Api.Core;
 
-public partial class Project_eContext : DbContext
+public partial class SkillhubContext : DbContext
 {
-    public Project_eContext() {}
+    public SkillhubContext() {}
 
-    public Project_eContext(DbContextOptions<Project_eContext> options)
+    public SkillhubContext(DbContextOptions<SkillhubContext> options)
          : base(options)
     {}
     public virtual DbSet<Sector> SectorList { get; set; }
@@ -32,8 +32,6 @@ public partial class Project_eContext : DbContext
     public virtual DbSet<SpecificObjectives> SpecificObjectivesList { get; set; }
     public virtual DbSet<Exam> ExamList { get; set; }
     public virtual DbSet<Objection> ObjectionList { get; set; }
-    protected override void OnConfiguring (DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer(@"Data Source=CA-C-00657\SQLEXPRESS;Initial Catalog=Project_e;Integrated Security=True;Trust Server Certificate=True;");
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new SectorClassMap());

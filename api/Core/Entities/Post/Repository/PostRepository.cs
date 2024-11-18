@@ -4,7 +4,7 @@ using Api.Domain.Models;
 
 namespace Api.Core.Repositories;
 
-public class PostRepository(Project_eContext context) 
+public class PostRepository(SkillhubContext context) 
     : BaseRepository<Post>(context), IPostRepository
 {
 

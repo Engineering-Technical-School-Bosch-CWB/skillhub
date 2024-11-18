@@ -4,7 +4,7 @@ using Api.Domain.Models;
 
 namespace Api.Core.Repositories;
 
-public class SubjectAreaRepository(Project_eContext context) 
+public class SubjectAreaRepository(SkillhubContext context) 
     : BaseRepository<SubjectArea>(context), ISubjectAreaRepository
 {
 

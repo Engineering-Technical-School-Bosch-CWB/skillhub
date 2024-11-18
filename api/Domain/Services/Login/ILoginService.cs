@@ -1,7 +1,5 @@
-namespace Api.Domain.Services.Login
+namespace Api.Domain.Services;
+public interface ILoginService
 {
-    public interface ILoginService
-    {
-        Task<LoginResponse> TryLogin(LoginPayload payload);
-    }
+    Task<LoginResponse> TryLogin(LoginPayload payload);
 }

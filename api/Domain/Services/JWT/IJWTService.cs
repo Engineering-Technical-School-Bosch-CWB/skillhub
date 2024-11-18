@@ -1,8 +1,6 @@
-namespace Api.Domain.Services.JWT
+namespace Api.Domain.Services;
+public interface IJwtService
 {
-    public interface IJwtService
-    {
-        public OutboundToken GenerateToken(LoginResult.Succeeded auth);
-        public void ValidateToken(string jwt);
-    }
+    public OutboundToken GenerateToken(LoginResult.Succeeded auth);
+    public void ValidateToken(string jwt);
 }

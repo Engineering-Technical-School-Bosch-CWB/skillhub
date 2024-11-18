@@ -1,4 +1,3 @@
-namespace Api.Domain.Services.Login
-{
-    public readonly record struct LoginPayload(string Identification, string Password);    
-}
+namespace Api.Domain.Services;
+
+public readonly record struct LoginPayload(string Identification, string Password);    

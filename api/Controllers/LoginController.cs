@@ -1,5 +1,5 @@
-using Api.Core.Services.Login;
-using Api.Domain.Services.Login;
+using Api.Core.Services;
+using Api.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers

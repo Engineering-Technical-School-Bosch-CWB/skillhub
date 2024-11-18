@@ -4,7 +4,7 @@ using Api.Domain.Models;
 
 namespace Api.Core.Repositories;
 
-public class FeedbackRepository(Project_eContext context) 
+public class FeedbackRepository(SkillhubContext context) 
     : BaseRepository<Feedback>(context), IFeedbackRepository
 {
 

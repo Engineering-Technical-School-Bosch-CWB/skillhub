@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Api.Domain.Repositories;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using Api.Core.Errors.Login;
 
 namespace Api.Core.Services;
 
@@ -73,7 +74,7 @@ public class UserService(
     {
         return await repository.GetAllNoTracking()
             .SingleOrDefaultAsync(u => u.Identification == identification) ?? 
-                throw new NotFoundException("User not found.");
+                throw new UserNotRegisteredException("Identification number still not registered.");
     }
 
     public async Task<UserUpdatedOutbound> UpdateUser(int id, UserUpdatePayload payload)
