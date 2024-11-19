@@ -1,4 +1,5 @@
 using Genesis.Core.Repositories;
+
 using Api.Domain.Repositories;
 using Api.Domain.Models;
 

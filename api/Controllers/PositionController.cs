@@ -1,12 +1,9 @@
-using api.Controllers.Mappers;
-using api.Domain.Models;
 using Api.Domain.Models;
 using Api.Domain.Services;
 using AutoMapper;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
-namespace api.Controllers
+namespace Api.Controllers
 {
     [ApiController]
     [Route("api/v1/position")]

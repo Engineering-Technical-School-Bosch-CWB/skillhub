@@ -13,9 +13,9 @@ namespace Api.Core.Services;
 
 public class UserService(
     BaseRepository<User> repository,
-    PositionRepository positionRepository,
-    SectorRepository sectorRepository,
-    OccupationAreaRepository areaRepository
+    IPositionRepository positionRepository,
+    ISectorRepository sectorRepository,
+    IOccupationAreaRepository areaRepository
 ) : BaseService<User>(repository), IUserService
 {
     private readonly IPositionRepository _positionRepo = positionRepository;
@@ -23,7 +23,7 @@ public class UserService(
     private readonly IOccupationAreaRepository _areaRepo = areaRepository;
     private static readonly PasswordHasher<User> _passwordHasher = new();
 
-    public async Task<UserCreatedOutbound> CreateUser(UserCreatePayload payload)
+    public async Task<UserCreatedResponse> CreateUser(UserCreatePayload payload)
     {
         var exists = await repository.Get()
             .FirstOrDefaultAsync(u => u.Identification == payload.EDV);
@@ -59,7 +59,7 @@ public class UserService(
             ?? throw new UpsertFailException("User could not be inserted.");
         await repository.SaveAsync();
 
-        var response = UserCreatedOutbound.Map(saveUser, sector, position);
+        var response = UserCreatedResponse.Map(saveUser, sector, position);
 
         return response;
     }
@@ -77,7 +77,7 @@ public class UserService(
                 throw new UserNotRegisteredException("Identification number still not registered.");
     }
 
-    public async Task<UserUpdatedOutbound> UpdateUser(int id, UserUpdatePayload payload)
+    public async Task<UserUpdatedResponse> UpdateUser(int id, UserUpdatePayload payload)
     {
         var user = await repository.GetAllNoTracking()
             .SingleOrDefaultAsync(u => u.Id == id) 
@@ -138,7 +138,7 @@ public class UserService(
 
         await repository.SaveAsync();
 
-        return UserUpdatedOutbound.Map(updatedUser);
+        return UserUpdatedResponse.Map(updatedUser);
     }
 
     public async Task DeleteUser(int id)

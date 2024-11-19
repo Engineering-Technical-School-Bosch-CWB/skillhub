@@ -1,4 +1,3 @@
-
 using Api.Core.Errors.Authentication;
 using Api.Core.Services;
 
@@ -21,9 +20,7 @@ public class AuthenticationMiddleware : IMiddleware
     }
 
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
-    {
-        var test = context.Request.Path.Value;
-        
+    {   
         bool mustSkip = _pathsToSkip.Contains(
                     context.Request.Path.Value,
                     StringComparer.OrdinalIgnoreCase);

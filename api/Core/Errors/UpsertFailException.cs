@@ -1,9 +1,7 @@
-namespace Api.Core.Errors
+namespace Api.Core.Errors;
+public class UpsertFailException : Exception
 {
-    public class UpsertFailException : Exception
-    {
-        public UpsertFailException(string message): base(message) { }
+    public UpsertFailException(string message): base(message) { }
 
-        public UpsertFailException(string message, Exception inner): base(message, inner) { }
-    }
+    public UpsertFailException(string message, Exception inner): base(message, inner) { }
 }

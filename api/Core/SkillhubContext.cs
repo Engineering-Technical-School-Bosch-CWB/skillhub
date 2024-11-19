@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
 using Api.Core.Mapping;
-
 using Api.Domain.Models;
 
 namespace Api.Core;

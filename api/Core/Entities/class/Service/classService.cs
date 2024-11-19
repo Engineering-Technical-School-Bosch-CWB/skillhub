@@ -15,7 +15,7 @@ public class ClassService(
 {
     private readonly ICourseRepository _courseRepo = courseRepository;
 
-    public async Task<ClassCreateOutbound> CreateClass(ClassCreatePayload payload)
+    public async Task<ClassCreatedResponse> CreateClass(ClassCreatePayload payload)
     {
 
         var course = await _courseRepo.GetAllNoTracking()
@@ -33,7 +33,7 @@ public class ClassService(
 
         await repository.SaveAsync();
 
-        var response = ClassCreateOutbound.Map(createdClass);
+        var response = ClassCreatedResponse.Map(createdClass);
         return response;
     }
 }

@@ -1,27 +1,14 @@
 using Api.Core.Middlewares;
 using Api.Core.Services;
 using Api.Core.Repositories;
-using System.IdentityModel.Tokens.Jwt;
-using Api.Core.Middlewares;
-using Api.Core.Services;
 using Api.Core;
-using Api.Core.Services;
-using Api.Core.Repositories;
-using Api.Core.Services;
 using Api.Domain.Models;
 using Api.Domain.Repositories;
 using Api.Domain.Services;
-using Genesis.Core.Repositories;
-using Microsoft.EntityFrameworkCore;
 
-using dotenv.net;
-using System.IdentityModel.Tokens.Jwt;
-using Api.Core;
-using Microsoft.EntityFrameworkCore;
 using Genesis.Core.Repositories;
-using Genesis.Domain.Repositories;
-using Api.Domain.Models;
-using Api.Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
+using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Identity;
 
 namespace Api;
@@ -68,54 +55,64 @@ public class Program
             options => options.UseSqlServer(connectionString)
         );
 
+        // ..jwt 
         var jwtSettings = new JwtSettings()
         {
             SecretKey = configuration.GetSection("JwtSettings")
                     .GetValue<string>("SecretKey")!
-        };
+        }; 
         services.AddSingleton(jwtSettings);  
+        services.AddSingleton<JwtSecurityTokenHandler>();  
+        services.AddScoped<JwtService>();
  
+        // ..middlewares
         services.AddExceptionHandler<ErrorHandlingMiddleware>();
         services.AddTransient<AuthenticationMiddleware>();
-
-        services.AddSingleton<JwtSecurityTokenHandler>();  
-        services.AddSingleton<ConfigurationManager>();    
-        services.AddSingleton<PasswordHasher<User>>();           
         services.AddScoped<UserContext>();
 
-        services.AddScoped<BaseRepository<User>, UserRepository>();   
+        // ..utils
+        services.AddSingleton<ConfigurationManager>();    
+        services.AddSingleton<PasswordHasher<User>>();           
 
-        services.AddScoped<IUserRepository, UserRepository>();         
+        // ..repositories
+        services.AddScoped<BaseRepository<User>, UserRepository>();   
+        services.AddScoped<IUserRepository, UserRepository>();   
+
+        services.AddScoped<BaseRepository<Class>, ClassRepository>();
+        services.AddScoped<IClassRepository, ClassRepository>();
+
+        services.AddScoped<BaseRepository<CurricularUnit>, CurricularUnitRepository>();
+        services.AddScoped<ICurricularUnitRepository, CurricularUnitRepository>();
+
+        services.AddScoped<BaseRepository<Position>, PositionRepository>();
         services.AddScoped<IPositionRepository, PositionRepository>();    
+
+        services.AddScoped<BaseRepository<Student>, StudentRepository>();
+        services.AddScoped<IStudentRepository, StudentRepository>();
+
+        services.AddScoped<BaseRepository<Subject>, SubjectRepository>();
+        services.AddScoped<ISubjectRepository, SubjectRepository>();
+
+        services.AddScoped<BaseRepository<Sector>, SectorRepository>();
         services.AddScoped<ISectorRepository, SectorRepository>();   
+
+        services.AddScoped<BaseRepository<OccupationArea>, OccupationAreaRepository>();
         services.AddScoped<IOccupationAreaRepository, OccupationAreaRepository>();   
 
-        services.AddScoped<JwtService>();
-        services.AddScoped<UserService>();
-        services.AddScoped<LoginService>();       
+        services.AddScoped<BaseRepository<Course>, CourseRepository>();
+        services.AddScoped<ICourseRepository, CourseRepository>();
 
-        
-        services.AddScoped<BaseRepository<Class>, ClassRepository>();
-        services.AddScoped<BaseRepository<CurricularUnit>, CurricularUnitRepository>();
-        services.AddScoped<BaseRepository<Position>, PositionRepository>();
-        services.AddScoped<BaseRepository<Student>, StudentRepository>();
-        services.AddScoped<BaseRepository<Subject>, SubjectRepository>();
-        services.AddScoped<BaseRepository<User>, UserRepository>();
+        // ..services
+        services.AddScoped<IUserService, UserService>();
+        services.AddScoped<ILoginService, LoginService>();       
         services.AddScoped<IClassService, ClassService>();
         services.AddScoped<IPositionService, PositionService>();
         services.AddScoped<IStudentService, StudentService>();
         services.AddScoped<ISubjectService, SubjectService>();
         services.AddScoped<IUserService, UserService>();
-        services.AddScoped<IClassRepository, ClassRepository>();
-        services.AddScoped<ICurricularUnitRepository, CurricularUnitRepository>();
-        services.AddScoped<ICourseRepository, CourseRepository>();
-        services.AddScoped<IOccupationAreaRepository, OccupationAreaRepository>();
         services.AddScoped<IPaginationService, PaginationService>();
-        services.AddScoped<ISectorRepository, SectorRepository>();
-        services.AddScoped<IStudentRepository, StudentRepository>();
-        services.AddScoped<ISubjectRepository, SubjectRepository>();
-        services.AddScoped<IUserRepository, UserRepository>(); 
 
+        // ..config
         services.AddAutoMapper(typeof(Program));
         services.AddCors();
         services.AddControllers();

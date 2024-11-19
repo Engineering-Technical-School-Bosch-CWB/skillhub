@@ -1,7 +1,6 @@
 using Api.Domain.Services;
-using Api.Domain.Models;
 
-namespace api.Domain.Models
+namespace Api.Domain.Models
 {
     public class PositionResponse
     {

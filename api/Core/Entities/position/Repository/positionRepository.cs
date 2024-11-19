@@ -2,7 +2,6 @@ using Genesis.Core.Repositories;
 using Api.Domain.Repositories;
 using Api.Domain.Models;
 using Api.Domain.Services;
-using Api.Core.Services;
 
 namespace Api.Core.Repositories;
 

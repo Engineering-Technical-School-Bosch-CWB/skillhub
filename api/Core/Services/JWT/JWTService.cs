@@ -1,13 +1,12 @@
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
-using Api.Core.Errors.JWTService;
 using System.Security.Claims;
-using Api.Domain.Services;
 using System.Text;
-using Api.Core.Services;
 
-namespace Api.Core.Services
-{
+using Api.Core.Errors.JWTService;
+using Api.Domain.Services;
+
+namespace Api.Core.Services;
     public class JwtService : IJwtService
     {
         private readonly IServiceProvider _serviceProvider;
@@ -90,4 +89,3 @@ namespace Api.Core.Services
             });
         }
     }
-}

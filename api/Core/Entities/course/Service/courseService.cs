@@ -17,7 +17,7 @@ public class CourseService(
 {
     private readonly IOccupationAreaRepository _areaRepo = areaRepository;
     private readonly IPaginationService _pagService = paginationService;
-    public async Task<CourseCreatedOutbound> CreateCourse(CourseCreatePayload payload)
+    public async Task<CourseCreatedResponse> CreateCourse(CourseCreatePayload payload)
     {
         if (await repository.GetAllNoTracking().AnyAsync(c => c.Name.Equals(payload.Name, StringComparison.OrdinalIgnoreCase)))
             throw new AlreadyExistsException("Name of course already exists.");
@@ -40,10 +40,10 @@ public class CourseService(
             ?? throw new UpsertFailException("Course could not be inserted.");
         await repository.SaveAsync();
         
-        return CourseCreatedOutbound.Map(saveCourse, area);
+        return CourseCreatedResponse.Map(saveCourse, area);
     }
 
-    public async Task<CourseDeletedOutbound> DeleteCourse(int id)
+    public async Task<CourseDeletedResponse> DeleteCourse(int id)
     {
         var course = await repository.GetAllNoTracking()
             .SingleOrDefaultAsync(c => c.Id == id)
@@ -57,32 +57,32 @@ public class CourseService(
 
         await repository.SaveAsync();
         
-        return new CourseDeletedOutbound()
+        return new CourseDeletedResponse()
         {
             Message = "Course successfully deleted"
         };
     }
 
-    public async Task<OneCourseOutbound> GetCourseById(int id)
+    public async Task<OneCourseResponse> GetCourseById(int id)
     {
         var course = await repository.GetAllNoTracking()
             .SingleOrDefaultAsync(c => c.Id == id)
             ?? throw new NotFoundException("Course not found");
 
-        return OneCourseOutbound.Map(course, "Course found successfully");
+        return OneCourseResponse.Map(course, "Course found successfully");
     }
 
-    public AllCoursesOutbound GetCourses(PaginationOptions options)
+    public AllCoursesResponse GetCourses(PaginationOptions options)
     {
         var query = repository.GetAllNoTracking()
             .Include(c => c.DefaultOccupationArea);
 
         var paginatedCourses = _pagService.Paginate(query, options);
 
-        return AllCoursesOutbound.Map(paginatedCourses, "Courses found successfully");
+        return AllCoursesResponse.Map(paginatedCourses, "Courses found successfully");
     }
 
-    public async Task<CourseUpdatedOutbound> UpdateCourse(int id, CourseUpdatePayload payload)
+    public async Task<CourseUpdatedResponse> UpdateCourse(int id, CourseUpdatePayload payload)
     {
         var course = await repository.GetAllNoTracking()
             .SingleOrDefaultAsync(c => c.Id == id)
@@ -116,6 +116,6 @@ public class CourseService(
             repository.Update(course)
             ?? throw new UpsertFailException("Course could not be updated.");
 
-        return CourseUpdatedOutbound.Map(updatedCourse);
+        return CourseUpdatedResponse.Map(updatedCourse);
     }
 }
