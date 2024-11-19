@@ -1,6 +1,7 @@
 import { toast } from "react-toastify";
-import Form, { IField } from "../../components/Form"
 import Header from "../../components/Header"
+import Form from "../../components/Form";
+import { IField } from "../../components/Form/types";
 
 export default () => {
 

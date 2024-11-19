@@ -1,6 +1,5 @@
 import { MouseEventHandler } from "react";
 import styles from "./styles.module.css"
-import routesByAccessLevel from "../../../constants/routes";
 import Link from "../../Link";
 
 interface IMenuProps {
@@ -29,9 +28,9 @@ export default ({ open, handleClose }:IMenuProps) => {
                 >X</button>
 
                 <div className={styles.link_list}>
-                    {Object.values(routesByAccessLevel).map((route, i) => (
+                    {/* {Object.values(routesByAccessLevel).map((route, i) => (
                         <Link key={i} to={route.path}>{ route.title }</Link>
-                    ))}
+                    ))} */}
                 </div>
             </div>
         </div>
