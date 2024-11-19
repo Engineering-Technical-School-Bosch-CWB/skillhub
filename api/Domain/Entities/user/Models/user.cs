@@ -1,14 +1,16 @@
 using Genesis.Domain.Models;
 
 namespace Api.Domain.Models;
-
 public partial class User : IEntity
 {
-  public string Name { get; set; } = string.Empty;
-  public string Identification { get; set; } = string.Empty;
-  public string Hash { get; set; } = string.Empty;
-  public DateTime? Birthday { get; set; }
+  public required string Name { get; set; }
+  public required string Identification { get; set; }
+  public required string Hash { get; set; }
+  public System.DateTime Birthday { get; set; }
   public bool IsActive { get; set; }
+  public int PositionId { get; set; }
+  public int SectorId { get; set; }
+  public int OccupationId { get; set; }
 
   public required Position Position { get; set; }
   public required Sector Sector { get; set; }

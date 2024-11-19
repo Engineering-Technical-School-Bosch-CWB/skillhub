@@ -1,4 +1,3 @@
-using Api.Domain.Services.Pagination;
 using Genesis.Domain.Services;
 using Api.Domain.Models;
 

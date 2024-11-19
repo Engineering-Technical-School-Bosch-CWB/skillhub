@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace api.Migrations
 {
-    [DbContext(typeof(Project_eContext))]
-    partial class Project_eContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(SkillhubContext))]
+    partial class SkillhubContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

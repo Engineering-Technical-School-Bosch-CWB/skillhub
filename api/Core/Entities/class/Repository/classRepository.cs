@@ -4,7 +4,7 @@ using Api.Domain.Models;
 
 namespace Api.Core.Repositories;
 
-public class ClassRepository(Project_eContext context) 
+public class ClassRepository(SkillhubContext context) 
     : BaseRepository<Class>(context), IClassRepository
 {
 

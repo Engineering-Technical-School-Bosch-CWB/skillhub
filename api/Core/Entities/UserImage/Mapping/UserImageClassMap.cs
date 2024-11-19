@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
 using Api.Domain.Models;
+
 namespace Api.Core.Mapping;
 
 public class UserImageClassMap : IEntityTypeConfiguration<UserImage>

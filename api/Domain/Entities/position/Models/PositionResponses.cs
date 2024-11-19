@@ -1,4 +1,4 @@
-using Api.Domain.Services.Pagination;
+using Api.Domain.Services;
 
 namespace Api.Domain.Models
 {

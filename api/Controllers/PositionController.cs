@@ -1,4 +1,3 @@
-using Api.Controllers.Mappers;
 using Api.Domain.Models;
 using Api.Domain.Services;
 using AutoMapper;

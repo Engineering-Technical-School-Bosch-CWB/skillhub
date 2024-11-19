@@ -1,6 +1,5 @@
-
 using Api.Core.Errors.Authentication;
-using Api.Core.JWTService;
+using Api.Core.Services;
 
 namespace Api.Core.Middlewares;
 
@@ -21,7 +20,7 @@ public class AuthenticationMiddleware : IMiddleware
     }
 
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
-    {
+    {   
         bool mustSkip = _pathsToSkip.Contains(
                     context.Request.Path.Value,
                     StringComparer.OrdinalIgnoreCase);

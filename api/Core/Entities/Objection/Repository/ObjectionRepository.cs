@@ -4,7 +4,7 @@ using Api.Domain.Models;
 
 namespace Api.Core.Repositories;
 
-public class ObjectionRepository(Project_eContext context) 
+public class ObjectionRepository(SkillhubContext context) 
     : BaseRepository<Objection>(context), IObjectionRepository
 {
 

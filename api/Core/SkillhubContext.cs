@@ -1,16 +1,15 @@
 using Microsoft.EntityFrameworkCore;
 
 using Api.Core.Mapping;
-
 using Api.Domain.Models;
 
 namespace Api.Core;
 
-public partial class Project_eContext : DbContext
+public partial class SkillhubContext : DbContext
 {
-    public Project_eContext() {}
+    public SkillhubContext() {}
 
-    public Project_eContext(DbContextOptions<Project_eContext> options)
+    public SkillhubContext(DbContextOptions<SkillhubContext> options)
          : base(options)
     {}
     public virtual DbSet<Sector> SectorList { get; set; }

@@ -1,12 +1,12 @@
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
-using Api.Core.Errors.JWTService;
 using System.Security.Claims;
-using Api.Domain.JWTService;
 using System.Text;
 
-namespace Api.Core.JWTService
-{
+using Api.Core.Errors.JWTService;
+using Api.Domain.Services;
+
+namespace Api.Core.Services;
     public class JwtService : IJwtService
     {
         private readonly IServiceProvider _serviceProvider;
@@ -17,15 +17,16 @@ namespace Api.Core.JWTService
 
         public JwtService(
             IServiceProvider serviceProvider,
-            JwtSettings jwtSettings,
             JwtSecurityTokenHandler tokenHandler,
-            UserContext userContext)
+            UserContext userContext,
+            JwtSettings settings)
         {
             _serviceProvider = serviceProvider;
             _tokenHandler = tokenHandler;
             _userContext = userContext;
 
-            _securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey));
+            _securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(settings.SecretKey));
+
             _credentials = new SigningCredentials(_securityKey, SecurityAlgorithms.HmacSha512);
         }
 
@@ -81,11 +82,10 @@ namespace Api.Core.JWTService
                 UserName = claims.FindFirst("UserName")!.Value,
                 Position = userPosition switch
                 {
-                    "STUDENT" => EnumPosition.STUDENT,
-                    "INSTRUCTOR" => EnumPosition.INSTRUCTOR,
-                    _ => EnumPosition.SUBOFFICER,
+                    "STUDENT" => UsersPositions.STUDENT,
+                    "INSTRUCTOR" => UsersPositions.INSTRUCTOR,
+                    _ => UsersPositions.SUBOFFICER,
                 }
             });
         }
     }
-}

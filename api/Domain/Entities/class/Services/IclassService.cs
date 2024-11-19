@@ -5,5 +5,5 @@ namespace Api.Domain.Services;
 
 public interface IClassService : IService<Class>
 {
-    public Task<ClassCreateOutbound> CreateClass(ClassCreatePayload payload);
+    public Task<ClassCreatedResponse> CreateClass(ClassCreatePayload payload);
 }
