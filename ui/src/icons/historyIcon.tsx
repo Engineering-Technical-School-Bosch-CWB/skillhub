@@ -2,7 +2,7 @@ import { forwardRef } from 'react';
 import IIcons, { sizeMap } from './InterfacesIconProps';
 
 
-const HistoryIcon = forwardRef<SVGSVGElement, IIcons>(({ size = 'small', color = '#000000', ...props }, ref) => {
+const HistoryIcon = forwardRef<SVGSVGElement, IIcons>(({ size = 'medium', color = '#000000', ...props }, ref) => {
   const iconSize = sizeMap[size];
 
   return (
