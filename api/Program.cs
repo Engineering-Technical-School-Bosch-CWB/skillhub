@@ -52,6 +52,7 @@ public class Program
     {
         var connectionString = configuration.GetConnectionString("SqlServer");
         services.AddDbContext<SkillhubContext>(
+            // "SqlServer": "Data Source=CA-C-00657\\SQLEXPRESS;Initial Catalog=Project_e;Integrated Security=True;Trust Server Certificate=True;"
             options => options.UseSqlServer(connectionString)
         );
 
@@ -106,10 +107,10 @@ public class Program
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<ILoginService, LoginService>();       
         services.AddScoped<IClassService, ClassService>();
+        services.AddScoped<ICourseService, CourseService>();
         services.AddScoped<IPositionService, PositionService>();
         services.AddScoped<IStudentService, StudentService>();
         services.AddScoped<ISubjectService, SubjectService>();
-        services.AddScoped<IUserService, UserService>();
         services.AddScoped<IPaginationService, PaginationService>();
 
         // ..config

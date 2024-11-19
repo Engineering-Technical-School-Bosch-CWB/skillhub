@@ -11,7 +11,7 @@ public class CourseController : ControllerBase
 {
     [HttpPost]
     public async Task<ActionResult> RegisterCourse(
-        [FromServices] CourseService CourseService,
+        [FromServices] ICourseService CourseService,
         [FromBody] CourseCreatePayload payload)
     {
         var result = await CourseService.CreateCourse(payload);
@@ -21,7 +21,7 @@ public class CourseController : ControllerBase
     [HttpGet]
     [Route("{id}")]
     public async Task<ActionResult> GetCourseById(
-        [FromServices] CourseService CourseService,
+        [FromServices] ICourseService CourseService,
         int id)
     {
         var result = await CourseService.GetCourseById(id);
@@ -30,7 +30,7 @@ public class CourseController : ControllerBase
 
     [HttpGet]
     public ActionResult GetAllCourse(
-        [FromServices] CourseService CourseService,
+        [FromServices] ICourseService CourseService,
         [FromBody] PaginationOptions pagination)
     {
         var result = CourseService.GetCourses(pagination);
@@ -40,7 +40,7 @@ public class CourseController : ControllerBase
     [HttpPatch]
     [Route("{id}")]
     public async Task<IActionResult> UpdateCourse(
-        [FromServices] CourseService service,
+        [FromServices] ICourseService service,
         [FromBody] CourseUpdatePayload payload,
         int id)
     {
@@ -51,7 +51,7 @@ public class CourseController : ControllerBase
     [HttpDelete]
     [Route("{id}")]
     public async Task<IActionResult> DeleteCourse(
-        [FromServices] CourseService service,
+        [FromServices] ICourseService service,
         int id)
     {
         await service.DeleteCourse(id);
