@@ -8,5 +8,5 @@ public partial class Course : IEntity
   public string Name { get; set; } = string.Empty;
   public string Abbreviation { get; set; } = string.Empty;
   public bool IsActive { get; set; } = true;
-  public IEnumerable<Class> Classes { get; set; } = [];
+  public ICollection<Class> Classes { get; set; } = [];
 }

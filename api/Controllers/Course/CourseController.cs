@@ -1,4 +1,4 @@
-using api.Domain.Services.Pagination;
+using Api.Domain.Services.Pagination;
 using Api.Core.Services;
 using Api.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -29,11 +29,11 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetAllCourse(
+        public ActionResult GetAllCourse(
             [FromServices] CourseService CourseService,
             [FromBody] PaginationOptions pagination)
         {
-            var result = await CourseService.GetCourses(pagination);
+            var result = CourseService.GetCourses(pagination);
             return new OkObjectResult(result);
         }
 
@@ -54,8 +54,8 @@ namespace Api.Controllers
             [FromServices] CourseService service,
             int id)
         {
-            var result = await service.DeleteCourse(id);
-            return new OkObjectResult(result);
+            await service.DeleteCourse(id);
+            return NoContent();
         }
 
     }

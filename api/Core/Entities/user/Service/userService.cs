@@ -6,39 +6,43 @@ using Api.Core.Errors;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Api.Domain.Repositories;
-using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace Api.Core.Services;
 
-public class UserService(
-    BaseRepository<User> repository,
-    IPositionRepository positionRepository,
-    ISectorRepository sectorRepository,
-    IOccupationAreaRepository areaRepository
-) : BaseService<User>(repository), IUserService
+public class UserService: BaseService<User>, IUserService
 {
-    private readonly IPositionRepository _positionRepo = positionRepository;
-    private readonly ISectorRepository _sectorRepo = sectorRepository;
-    private readonly IOccupationAreaRepository _areaRepo = areaRepository;
-    private static readonly PasswordHasher<User> _passwordHasher = new();
+    private readonly IPositionRepository _positionRepo;
+    private readonly ISectorRepository _sectorRepo;
+    private readonly IOccupationAreaRepository _areaRepo;
+    private readonly PasswordHasher<User> _hasher;
 
-    public async Task<UserCreatedOutbound> CreateUser(UserCreatePayload payload)
+    public UserService( BaseRepository<User> repository, IPositionRepository positionRepository,
+    ISectorRepository sectorRepository, IOccupationAreaRepository areaRepository, 
+    PasswordHasher<User> hasher) : base(repository)
     {
-        var exists = await repository.GetAllNoTracking()
+        _positionRepo = positionRepository;
+        _sectorRepo = sectorRepository;
+        _areaRepo = areaRepository;
+        _hasher = hasher; 
+    }
+
+    public async Task<UserResponses> CreateUser(UserCreatePayload payload)
+    {
+        var exists = await repository.Get()
             .FirstOrDefaultAsync(u => u.Identification == payload.EDV);
 
         if (exists is not null)
             throw new AlreadyExistsException("EDV already in use.");
 
-        var position = await _positionRepo.GetAllNoTracking()
+        var position = await _positionRepo.Get()
             .SingleOrDefaultAsync(p => p.Id == payload.PositionId) 
             ?? throw new NotFoundException("Position not found.");
             
-        var sector = await _sectorRepo.GetAllNoTracking()
+        var sector = await _sectorRepo.Get()
             .SingleOrDefaultAsync(s => s.Id == payload.SectorId) 
             ?? throw new NotFoundException("Sector not found.");
 
-        var area = await _areaRepo.GetAllNoTracking()
+        var area = await _areaRepo.Get()
             .SingleOrDefaultAsync(a => a.Id == payload.AreaId)
             ?? throw new NotFoundException("Area not found");
         
@@ -52,24 +56,18 @@ public class UserService(
             Area = area
         };
 
-        newUser.Hash = HashPassword(newUser, newUser.Hash);
+        newUser.Hash = _hasher.HashPassword(newUser, newUser.Hash);
 
         var saveUser = repository.Add(newUser)
             ?? throw new UpsertFailException("User could not be inserted.");
         await repository.SaveAsync();
 
-        var response = UserCreatedOutbound.Map(saveUser, sector, position);
+        var response = UserResponses.Map(saveUser, "User created successfully.");
 
         return response;
     }
 
-    private static string HashPassword(User user, string raw)
-    {
-        var hashedPassword = _passwordHasher.HashPassword(user, raw);
-        return hashedPassword;
-    }
-
-    public async Task<UserUpdatedOutbound> UpdateUser(int id, UserUpdatePayload payload)
+    public async Task<UserResponses> UpdateUser(int id, UserUpdatePayload payload)
     {
         var user = await repository.GetAllNoTracking()
             .SingleOrDefaultAsync(u => u.Id == id) 
@@ -111,7 +109,7 @@ public class UserService(
         }
 
         if (!string.IsNullOrEmpty(payload.Password))
-            user.Hash = HashPassword(user, user.Hash!);
+            user.Hash = _hasher.HashPassword(user, user.Hash!);
 
         if (!string.IsNullOrEmpty(payload.Name))
             user.Name = payload.Name;
@@ -128,7 +126,8 @@ public class UserService(
             repository.Update(user)
             ?? throw new UpsertFailException("User could not be updated.");
 
-        return UserUpdatedOutbound.Map(updatedUser);
+        await repository.SaveAsync();
+        return UserResponses.Map(updatedUser, "User updated successfully.");
     }
 
     public async Task DeleteUser(int id)
@@ -146,5 +145,6 @@ public class UserService(
             repository.Update(user)
             ?? throw new DeleteFailException("User could not be deleted");
 
+        await repository.SaveAsync();
     }
 }
