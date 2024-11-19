@@ -91,6 +91,7 @@ public class CourseService : BaseService<Course>, ICourseService
     public async Task<CourseResponse> UpdateCourse(int id, CourseUpdatePayload payload)
     {
         var course = await repository.Get()
+            .Include( c => c.DefaultOccupationArea)
             .SingleOrDefaultAsync(c => c.Id == id)
             ?? throw new NotFoundException("Course not found");
         
@@ -104,7 +105,7 @@ public class CourseService : BaseService<Course>, ICourseService
 
         if (!string.IsNullOrEmpty(payload.Name))
         {
-            if (await repository.GetAllNoTracking().AnyAsync(c => c.Name.Equals(payload.Name, StringComparison.OrdinalIgnoreCase)))
+            if (await repository.GetAllNoTracking().AnyAsync(c => c.Name.ToLower() == payload.Name.ToLower()))
             throw new AlreadyExistsException("Name of course already exists.");
 
             course.Name = payload.Name;
@@ -112,7 +113,7 @@ public class CourseService : BaseService<Course>, ICourseService
 
         if (!string.IsNullOrEmpty(payload.Abbreviation))
         {
-            if (await repository.GetAllNoTracking().AnyAsync(c => c.Abbreviation.Equals(payload.Abbreviation, StringComparison.OrdinalIgnoreCase)))
+            if (await repository.GetAllNoTracking().AnyAsync(c => c.Abbreviation.ToLower() == payload.Abbreviation.ToLower()))
                 throw new AlreadyExistsException("Abbreviation of course already exists.");
             
             course.Abbreviation = payload.Abbreviation;
@@ -121,6 +122,8 @@ public class CourseService : BaseService<Course>, ICourseService
         var updatedCourse =
             repository.Update(course)
             ?? throw new UpsertFailException("Course could not be updated.");
+
+        await repository.SaveAsync();
 
         return CourseResponse.Map(updatedCourse, "Course updated successfully.");
     }
