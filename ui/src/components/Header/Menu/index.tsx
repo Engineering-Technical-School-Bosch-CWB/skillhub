@@ -30,12 +30,12 @@ export default ({ open, handleClose }:IMenuProps) => {
                 >X</button>
 
                 <div className={styles.link_list}>
-                    {Object.values(authenticatedRoutes).map((route, i) => (
-                        <Link key={i} to={route.path}>{ route.title }</Link>
+                    {Object.values(authenticatedRoutes.routes).map((route, i) => (
+                        <Link key={i} to={route.path!}>{ route.title }</Link>
                     ))}
 
-                    {Object.values(teacherRoutes).map((route, i) => (
-                        <Link key={i} to={route.path}>{ route.title }</Link>
+                    {Object.values(teacherRoutes.routes).map((route, i) => (
+                        <Link key={i} to={route.path!}>{ route.title }</Link>
                     ))}
                 </div>
             </div>

@@ -1,7 +1,8 @@
 export enum RouteMap {
-    LOGIN = "/login",
+    NOT_FOUND = "*",
+    LOGIN = "/",
 
-    HOME = "/",
+    HOME = "/home",
     BIRTHDAYS = "/birthdays",
 
     SCHOOL_CONTENT = "/school-content",
