@@ -6,7 +6,6 @@ import authenticatedRoutes from "./routes/authenticated.routes"
 import teacherRoutes from "./routes/teacher.routes"
 
 const routes: IAccessRoutes[] = [
-    openRoutes,
     authenticatedRoutes,
     teacherRoutes
 ]
@@ -17,6 +16,9 @@ const protectedRoutes: RouteObject[] = routes.map(({ accessLevel, routes }) => (
     children: routes
 }))
 
-const router = createBrowserRouter(protectedRoutes)
+const router = createBrowserRouter([
+    ...openRoutes, 
+    ...protectedRoutes
+])
 
 export default router

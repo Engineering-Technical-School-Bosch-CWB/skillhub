@@ -1,14 +1,16 @@
-import { AccessLevel } from "../../enums/AccessLevel";
 import Login from "../../pages/Login";
-import { IAccessRoutes } from "../../interfaces/routes.interfaces";
+import NotFound from "../../components/NotFound";
+import { IAppRoute } from "../../interfaces/routes.interfaces";
 
-export default {
-    accessLevel: AccessLevel.NONE,
-    routes: [
-        {
-            path: "/login",
-            element: <Login/>,
-            title: "Login",
-        },
-    ]
-} as IAccessRoutes
+export default [
+    {
+        path: "*",
+        element: <NotFound/>,
+        title: "Not Found",
+    },
+    {
+        path: "/",
+        element: <Login/>,
+        title: "Login",
+    },
+] as IAppRoute[]

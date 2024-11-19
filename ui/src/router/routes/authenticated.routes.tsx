@@ -7,7 +7,7 @@ export default {
     accessLevel: AccessLevel.AUTHENTICATED,
     routes: [
         {
-            path: "/",
+            path: "/home",
             element: <Home/>,
             title: "Home",
         },
