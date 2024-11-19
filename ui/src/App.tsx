@@ -2,7 +2,7 @@ import { UserProvider } from "./contexts/userContext";
 import "./styles/global.css"
 
 import { RouterProvider } from "react-router-dom";
-import router from "./routes/routes";
+import router from "./router";
 import { ToastContainer } from "react-toastify";
 
 
