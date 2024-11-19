@@ -28,7 +28,7 @@ public class CourseService : BaseService<Course>, ICourseService
         if (await repository.GetAllNoTracking().AnyAsync(c => c.Abbreviation.Equals(payload.Abbreviation, StringComparison.OrdinalIgnoreCase)))
             throw new AlreadyExistsException("Abbreviation of course already exists.");
 
-        var area = await _areaRepo.GetAllNoTracking()
+        var area = await _areaRepo.Get()
             .SingleOrDefaultAsync(oa => oa.Id == payload.OccupationAreaId)
             ?? throw new NotFoundException("Occpation area not found.");
 
@@ -48,7 +48,7 @@ public class CourseService : BaseService<Course>, ICourseService
 
     public async Task DeleteCourse(int id)
     {
-        var course = await repository.GetAllNoTracking()
+        var course = await repository.Get()
             .SingleOrDefaultAsync(c => c.Id == id)
             ?? throw new NotFoundException("Course not found.");
         
@@ -82,13 +82,13 @@ public class CourseService : BaseService<Course>, ICourseService
 
     public async Task<CourseResponse> UpdateCourse(int id, CourseUpdatePayload payload)
     {
-        var course = await repository.GetAllNoTracking()
+        var course = await repository.Get()
             .SingleOrDefaultAsync(c => c.Id == id)
             ?? throw new NotFoundException("Course not found");
         
         if (payload.OccupationAreaId is not null)
         {
-            var area = await _areaRepo.GetAllNoTracking()
+            var area = await _areaRepo.Get()
                 .SingleOrDefaultAsync(u => u.Id == payload.OccupationAreaId) 
                 ?? throw new NotFoundException("Occupation area not found.");
             course.DefaultOccupationArea = area;
