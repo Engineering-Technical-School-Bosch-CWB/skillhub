@@ -18,9 +18,6 @@ public class UserService: BaseService<User>, IUserService
     private readonly IOccupationAreaRepository _areaRepo;
     private readonly PasswordHasher<User> _hasher;
 
-<<<<<<< HEAD:api/Core/Entities/user/Service/UserService.cs
-    public async Task<UserCreatedResponse> CreateUser(UserCreatePayload payload)
-=======
     public UserService( BaseRepository<User> repository, IPositionRepository positionRepository,
     ISectorRepository sectorRepository, IOccupationAreaRepository areaRepository, 
     PasswordHasher<User> hasher) : base(repository)
@@ -31,8 +28,7 @@ public class UserService: BaseService<User>, IUserService
         _hasher = hasher; 
     }
 
-    public async Task<UserResponses> CreateUser(UserCreatePayload payload)
->>>>>>> dev:api/Core/Entities/user/Service/userService.cs
+    public async Task<AppResponse<UserDTO>> CreateUser(UserCreatePayload payload)
     {
         var exists = await repository.Get()
             .FirstOrDefaultAsync(u => u.Identification == payload.EDV);
@@ -68,26 +64,13 @@ public class UserService: BaseService<User>, IUserService
             ?? throw new UpsertFailException("User could not be inserted.");
         await repository.SaveAsync();
 
-<<<<<<< HEAD:api/Core/Entities/user/Service/UserService.cs
-        var response = UserCreatedResponse.Map(saveUser, sector, position);
-=======
-        var response = UserResponses.Map(saveUser, "User created successfully.");
->>>>>>> dev:api/Core/Entities/user/Service/userService.cs
-
-        return response;
+        return new AppResponse<UserDTO>(
+            UserDTO.Map(saveUser),
+            "User created successfully!"
+        );
     }
 
-<<<<<<< HEAD:api/Core/Entities/user/Service/UserService.cs
-    private static string HashPassword(User user, string raw)
-    {
-        var hashedPassword = _passwordHasher.HashPassword(user, raw);
-        return hashedPassword;
-    }
-
-    public async Task<UserUpdatedResponse> UpdateUser(int id, UserUpdatePayload payload)
-=======
-    public async Task<UserResponses> UpdateUser(int id, UserUpdatePayload payload)
->>>>>>> dev:api/Core/Entities/user/Service/userService.cs
+    public async Task<AppResponse<UserDTO>> UpdateUser(int id, UserUpdatePayload payload)
     {
         var user = await repository.GetAllNoTracking()
             .SingleOrDefaultAsync(u => u.Id == id) 
@@ -147,12 +130,10 @@ public class UserService: BaseService<User>, IUserService
             ?? throw new UpsertFailException("User could not be updated.");
 
         await repository.SaveAsync();
-<<<<<<< HEAD:api/Core/Entities/user/Service/UserService.cs
-
-        return UserUpdatedResponse.Map(updatedUser);
-=======
-        return UserResponses.Map(updatedUser, "User updated successfully.");
->>>>>>> dev:api/Core/Entities/user/Service/userService.cs
+        return new AppResponse<UserDTO>(
+            UserDTO.Map(updatedUser),
+            "User updated successfully!"
+        );
     }
 
     public async Task DeleteUser(int id)

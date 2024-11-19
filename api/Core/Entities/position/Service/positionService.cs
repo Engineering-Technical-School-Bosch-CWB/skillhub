@@ -19,25 +19,25 @@ public class PositionService(
                     repository.GetType()
             );
 
-    public PaginatedPositionsResponse GetPaginated(PaginationQuery pagination)
+    public PaginatedAppResponse<PositionDTO> GetPaginated(PaginationQuery pagination)
     {
         var result = _repo.GetPaginated(pagination.ToOptions());
 
-        return new PaginatedPositionsResponse()
-        {
-            Data = result.Item1.Select(PositionResponse.ToResponse),
-            PaginationInfo = result.Item2,
-        };
+        return new PaginatedAppResponse<PositionDTO>(
+            result.Item1.Select(p => PositionDTO.Map(p)),
+            result.Item2,
+            "Positions found!"
+        );
     }
 
-    public async Task<PaginatedPositionsResponse> GetPaginatedAsync(PaginationQuery pagination)
+    public async Task<PaginatedAppResponse<PositionDTO>> GetPaginatedAsync(PaginationQuery pagination)
     {
         var result = await _repo.GetPaginatedAsync(pagination.ToOptions());
 
-        return new PaginatedPositionsResponse()
-        {
-            Data = result.Item1.Select(PositionResponse.ToResponse),
-            PaginationInfo = result.Item2,
-        };
+        return new PaginatedAppResponse<PositionDTO>(
+            result.Item1.Select(p => PositionDTO.Map(p)),
+            result.Item2,
+            "Positions found!"
+        );
     }
 }
