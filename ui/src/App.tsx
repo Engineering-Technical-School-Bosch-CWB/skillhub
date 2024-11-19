@@ -1,3 +1,4 @@
+
 import { UserProvider } from "./contexts/userContext";
 import "./styles/global.css"
 
@@ -5,6 +6,7 @@ import { RouterProvider } from "react-router-dom";
 import router from "./routes/routes";
 //! import { useTranslation } from "react-i18next";
 //! import { useState } from "react";
+
 
 
 export default function App() {
@@ -20,10 +22,10 @@ export default function App() {
     //! }
     return (
         <UserProvider>
-            {/* <RouterProvider router={router}/> */}
             {/* <h1>{t('login.welcome')}</h1>
             <button onClick={handleChangeLanguage}>click</button> */}
             <RouterProvider router={router}/>
+            {/* <Header/>  */}
         </UserProvider>
     )
 }

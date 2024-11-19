@@ -6,7 +6,7 @@ import styles from "./styles.module.css"
 export interface IField<T = any> {
     name: Path<T>;
     label?: string;
-    type?: "text" | "password";
+    type?: "text" | "password" ;
     required?: boolean;
 }
 
