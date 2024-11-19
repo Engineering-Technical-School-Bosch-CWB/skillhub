@@ -72,7 +72,7 @@ public class UserService(
 
     public async Task<User> GetUserByIdentification(string identification)
     {
-        return await repository.GetAllNoTracking()
+        return await repository.Get()
             .SingleOrDefaultAsync(u => u.Identification == identification) ?? 
                 throw new UserNotRegisteredException("Identification number still not registered.");
     }

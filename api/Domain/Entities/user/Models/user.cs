@@ -6,7 +6,7 @@ public partial class User : IEntity
   public required string Name { get; set; }
   public required string Identification { get; set; }
   public required string Hash { get; set; }
-  public System.DateTime Birthday { get; set; }
+  public DateTime Birthday { get; set; }
   public bool IsActive { get; set; }
   public int PositionId { get; set; }
   public int SectorId { get; set; }
