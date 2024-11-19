@@ -45,7 +45,8 @@ export default class Service {
         }
 
         return { 
-            data: json.data || null, 
+            data: json.data || null,
+            success: response.status < 400,
             showMessage: response.status >= 400 ? 
                 () => toast.error(json.message) : 
                 () => toast.success(json.message)
