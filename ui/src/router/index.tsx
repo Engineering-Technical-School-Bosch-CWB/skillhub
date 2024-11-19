@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouteObject } from "react-router-dom"
 import RouteProtection from "../components/RouteProtection"
-import { IAccessRoutes } from "./interfaces"
+import { IAccessRoutes } from "../interfaces/routes.interfaces"
 import openRoutes from "./routes/open.routes"
 import authenticatedRoutes from "./routes/authenticated.routes"
 import teacherRoutes from "./routes/teacher.routes"

@@ -1,7 +1,7 @@
 import { AccessLevel } from "../../enums/AccessLevel";
 import ContentOverview from "../../pages/ContentOverview";
 import CurricularUnitOverview from "../../pages/CurricularUnitOverview";
-import { IAccessRoutes } from "../interfaces";
+import { IAccessRoutes } from "../../interfaces/routes.interfaces";
 
 export default {
     accessLevel: AccessLevel.TEACHER,

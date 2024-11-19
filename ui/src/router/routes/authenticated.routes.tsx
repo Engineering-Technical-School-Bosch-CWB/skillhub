@@ -1,7 +1,7 @@
 import { AccessLevel } from "../../enums/AccessLevel";
 import Birthdays from "../../pages/Birthdays";
 import Home from "../../pages/Home";
-import { IAccessRoutes } from "../interfaces";
+import { IAccessRoutes } from "../../interfaces/routes.interfaces";
 
 export default {
     accessLevel: AccessLevel.AUTHENTICATED,

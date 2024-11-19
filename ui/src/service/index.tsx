@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import { IHttpMethod, IServiceResponse } from "./interfaces";
+import { IHttpMethod, IServiceResponse } from "../interfaces/services.interfaces";
 
 export default class Service {
 
