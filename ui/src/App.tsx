@@ -1,4 +1,4 @@
-import { UserProvider } from "./contexts/userContext";
+import { UserProvider } from "./contexts/user.context";
 import { router } from "./router";
 import "./styles/global.css"
 
