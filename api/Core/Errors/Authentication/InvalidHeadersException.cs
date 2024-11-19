@@ -1,4 +1,4 @@
-namespace api.Core.Errors.Pagination
+namespace Api.Core.Errors.Authentication
 {
     public class InvalidHeadersException : Exception
     {
