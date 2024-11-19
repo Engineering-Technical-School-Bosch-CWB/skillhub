@@ -1,49 +1,59 @@
 import Birthdays from "../pages/Birthdays";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
-import { AccessLevel } from "../enums/AccessLevel";
 import ContentOverview from "../pages/ContentOverview";
 import CurricularUnitOverview from "../pages/CurricularUnitOverview";
 import { RouteObject } from "react-router-dom";
+import { AccessLevel } from "../enums/AccessLevel";
 
 type IAppRoute = {
-    title: string;
-    accessLevel?: AccessLevel;
+    title: string
 } & RouteObject
 
-const routes:Record<string, IAppRoute> = {
-    LOGIN: {
-        path: "/login",
-        element: <Login/>,
-        title: "Login",
-    },
+const routesByAccessLevel:Record<AccessLevel, IAppRoute[]> = {
 
-    HOME: {
-        path: "/",
-        element: <Home/>,
-        title: "Home",
-        accessLevel: AccessLevel.AUTHENTICATED,
-    },
+    // Access Level: None
+    0: [
+        {
+            path: "/login",
+            element: <Login/>,
+            title: "Login",
+        },
+    ],
 
-    BIRTHDAYS: {
-        path: "/birthdays",
-        element: <Birthdays/>,
-        title: "Birthdays",
-        accessLevel: AccessLevel.AUTHENTICATED,
-    },
+    // Access Level: Authenticated
+    1: [
+        {
+            path: "/",
+            element: <Home/>,
+            title: "Home",
+        },
+        {
+            path: "/birthdays",
+            element: <Birthdays/>,
+            title: "Birthdays",
+        },
+    ],
 
-    SCHOOL_CONTENT: {
-        path: "/school-content",
-        title: "School Content",
-        accessLevel: AccessLevel.TEACHER,
-        element: <ContentOverview/>,
-        children: [
-            {
-                path: "curricular-unitys/:curricularUnityId",
-                element: <CurricularUnitOverview/>
-            }
-        ]
-    }
+    // Access Level: Teacher
+    2: [
+        {
+            path: "/school-content",
+            title: "School Content",
+            element: <ContentOverview/>,
+            children: [
+                {
+                    path: "curricular-unitys/:curricularUnityId",
+                    element: <CurricularUnitOverview/>
+                }
+            ]
+        }
+    ],
+
+    // Access Level: Admin
+    3: [
+
+    ],
 }
 
-export default routes
+export default routesByAccessLevel

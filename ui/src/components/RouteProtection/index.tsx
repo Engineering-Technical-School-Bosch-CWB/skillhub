@@ -1,11 +1,10 @@
-import { ReactNode } from "react";
 import { AccessLevel } from "../../enums/AccessLevel"
+import { Outlet } from "react-router-dom";
 
 interface IRouteProtectionProps {
     accessLevel: AccessLevel;
-    children: ReactNode;
 }
 
-export default ({ accessLevel, children }:IRouteProtectionProps) => {
-    return children
+export default ({ accessLevel }:IRouteProtectionProps) => {
+    return <Outlet/>
 }
