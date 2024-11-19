@@ -1,8 +1,8 @@
-import Login from "../../pages/Login";
 import NotFound from "../../components/NotFound";
 import { IAppRoute } from "../../interfaces/routes.interfaces";
+import Login from "../../pages/Login";
 
-export default [
+const publicRoutes: IAppRoute[] = [
     {
         path: "*",
         element: <NotFound/>,
@@ -13,4 +13,6 @@ export default [
         element: <Login/>,
         title: "Login",
     },
-] as IAppRoute[]
+] 
+
+export default publicRoutes

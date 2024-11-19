@@ -1,24 +1,10 @@
-import { createBrowserRouter, RouteObject } from "react-router-dom"
-import RouteProtection from "../components/RouteProtection"
-import { IAccessRoutes } from "../interfaces/routes.interfaces"
-import openRoutes from "./routes/open.routes"
-import authenticatedRoutes from "./routes/authenticated.routes"
-import teacherRoutes from "./routes/teacher.routes"
+import { createBrowserRouter } from "react-router-dom"
+import protectedRoutes from "./protected"
+import publicRoutes from "./public"
 
-const routes: IAccessRoutes[] = [
-    authenticatedRoutes,
-    teacherRoutes
+export const routes = [
+    ...publicRoutes, 
+    ...protectedRoutes
 ]
 
-const protectedRoutes: RouteObject[] = routes.map(({ accessLevel, routes }) => ({
-    path: "/",
-    element: <RouteProtection accessLevel={accessLevel}/>,
-    children: routes
-}))
-
-const router = createBrowserRouter([
-    ...openRoutes, 
-    ...protectedRoutes
-])
-
-export default router
+export const router = createBrowserRouter(routes)
