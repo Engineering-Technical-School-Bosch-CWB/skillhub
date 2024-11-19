@@ -1,3 +1,7 @@
+<<<<<<< HEAD:api/Controllers/PositionController.cs
+=======
+using Api.Controllers.Mappers;
+>>>>>>> dev:api/Controllers/Position/PositionController.cs
 using Api.Domain.Models;
 using Api.Domain.Services;
 using AutoMapper;

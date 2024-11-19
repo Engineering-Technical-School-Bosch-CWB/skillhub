@@ -36,7 +36,7 @@ namespace Api.Controllers
             int id)
         {
             await service.DeleteUser(id);
-            return Ok();
+            return NoContent();
         }
 
     }

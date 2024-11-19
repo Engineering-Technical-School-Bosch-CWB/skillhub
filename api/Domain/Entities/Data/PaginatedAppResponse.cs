@@ -1,0 +1,1 @@
+public record PaginatedAppResponse<T>(T data, string message);
