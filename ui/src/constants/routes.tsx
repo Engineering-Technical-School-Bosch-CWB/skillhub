@@ -49,11 +49,6 @@ const routesByAccessLevel:Record<AccessLevel, IAppRoute[]> = {
             ]
         }
     ],
-
-    // Access Level: Admin
-    3: [
-
-    ],
 }
 
 export default routesByAccessLevel
