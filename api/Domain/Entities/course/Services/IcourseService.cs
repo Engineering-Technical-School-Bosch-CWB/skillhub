@@ -8,7 +8,7 @@ public interface ICourseService : IService<Course>
 {
     public Task<CourseResponse> CreateCourse(CourseCreatePayload payload);
     public Task DeleteCourse(int id);
-    public Task<CoursePaginationResponse> GetCourses(PaginationOptions options);
+    public Task<CoursePaginationResponse> GetCourses(PaginationQuery options);
     public Task<CourseResponse> GetCourseById(int id);
     public Task<CourseResponse> UpdateCourse(int id, CourseUpdatePayload payload);
 }

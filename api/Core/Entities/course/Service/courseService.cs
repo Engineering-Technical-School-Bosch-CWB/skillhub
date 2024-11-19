@@ -12,12 +12,23 @@ public class CourseService : BaseService<Course>, ICourseService
 {
     private readonly IOccupationAreaRepository _areaRepo;
     private readonly IPaginationService _pagService;
+    private readonly ICourseRepository _repo;
     public CourseService(IOccupationAreaRepository areaRepository, IPaginationService paginationService, 
     BaseRepository<Course> repository) : base(repository)
     {
         _areaRepo = areaRepository;
         _pagService = paginationService;
+
+        _repo = repository is ICourseRepository CourseRepository
+        ? CourseRepository
+        : throw new ServiceConfigurationException(
+                nameof(_repo),
+                typeof(ICourseRepository),
+                repository.GetType()
+        );
     }
+    
+
     
     public async Task<CourseResponse> CreateCourse(CourseCreatePayload payload)
     {
@@ -70,14 +81,11 @@ public class CourseService : BaseService<Course>, ICourseService
         return CourseResponse.Map(course, "Course found successfully.");
     }
 
-    public async Task<CoursePaginationResponse> GetCourses(PaginationOptions options)
+    public async Task<CoursePaginationResponse> GetCourses(PaginationQuery pagination)
     {
-        var query = repository.GetAllNoTracking()
-            .Include(c => c.DefaultOccupationArea);
+        var result = await _repo.GetPaginatedAsync(pagination.ToOptions());
 
-        var paginatedCourses = await _pagService.PaginateAsync(query, options);
-
-        return CoursePaginationResponse.Map(paginatedCourses, "Courses found successfully.");
+        return CoursePaginationResponse.Map(result, "Courses found successfully.");
     }
 
     public async Task<CourseResponse> UpdateCourse(int id, CourseUpdatePayload payload)
