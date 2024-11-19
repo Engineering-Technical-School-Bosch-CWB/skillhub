@@ -1,1 +1,1 @@
-public record PaginatedAppResponse<T>(T data, string message);
+public record PaginatedAppResponse<T>(IEnumerable<T> data, string message);
