@@ -70,13 +70,6 @@ public class UserService(
         return hashedPassword;
     }
 
-    public async Task<User> GetUserByIdentification(string identification)
-    {
-        return await repository.Get()
-            .SingleOrDefaultAsync(u => u.Identification == identification) ?? 
-                throw new UserNotRegisteredException("Identification number still not registered.");
-    }
-
     public async Task<UserUpdatedResponse> UpdateUser(int id, UserUpdatePayload payload)
     {
         var user = await repository.GetAllNoTracking()
