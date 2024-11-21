@@ -1,16 +1,15 @@
 namespace Api.Domain.Models;
 
-public class PositionDTO
+public record PositionDTO(
+  int Id,
+  string Name
+)
 {
-  public required int Id { get; set; } 
-  public required string Name { get; set; } 
-
-  public static PositionDTO Map(Position position)
+  public static PositionDTO Map(Position obj)
   {
-    return new PositionDTO()
-    {
-        Id = position.Id,
-        Name = position.Name
-    };
+    return new PositionDTO(
+      obj.Id,
+      obj.Name
+    );
   }
 }

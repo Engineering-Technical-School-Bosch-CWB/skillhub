@@ -1,14 +1,13 @@
 using Genesis.Domain.Services;
 using Api.Domain.Models;
-using Api.Domain.Services;
 
 namespace Api.Domain.Services;
 
 public interface ICourseService : IService<Course>
 {
-    public Task<CourseResponse> CreateCourse(CourseCreatePayload payload);
+    public Task<AppResponse<CourseDTO>> CreateCourse(CourseCreatePayload payload);
     public Task DeleteCourse(int id);
-    public Task<CoursePaginationResponse> GetCourses(PaginationQuery options);
-    public Task<CourseResponse> GetCourseById(int id);
-    public Task<CourseResponse> UpdateCourse(int id, CourseUpdatePayload payload);
+    public Task<PaginatedAppResponse<CourseDTO>> GetCourses(PaginationOptions options);
+    public Task<AppResponse<CourseDTO>> GetCourseById(int id);
+    public Task<AppResponse<CourseDTO>> UpdateCourse(int id, CourseUpdatePayload payload);
 }

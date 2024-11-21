@@ -11,19 +11,24 @@ using Api.Core.Repositories;
 
 namespace Api.Core.Services;
 
-public class UserService(
-    BaseRepository<User> repository,
-    IPositionRepository positionRepository,
-    ISectorRepository sectorRepository,
-    IOccupationAreaRepository areaRepository
-) : BaseService<User>(repository), IUserService
+public class UserService: BaseService<User>, IUserService
 {
-    private readonly IPositionRepository _positionRepo = positionRepository;
-    private readonly ISectorRepository _sectorRepo = sectorRepository;
-    private readonly IOccupationAreaRepository _areaRepo = areaRepository;
-    private static readonly PasswordHasher<User> _passwordHasher = new();
+    private readonly IPositionRepository _positionRepo;
+    private readonly ISectorRepository _sectorRepo;
+    private readonly IOccupationAreaRepository _areaRepo;
+    private readonly PasswordHasher<User> _hasher;
 
-    public async Task<UserCreatedResponse> CreateUser(UserCreatePayload payload)
+    public UserService( BaseRepository<User> repository, IPositionRepository positionRepository,
+    ISectorRepository sectorRepository, IOccupationAreaRepository areaRepository, 
+    PasswordHasher<User> hasher) : base(repository)
+    {
+        _positionRepo = positionRepository;
+        _sectorRepo = sectorRepository;
+        _areaRepo = areaRepository;
+        _hasher = hasher; 
+    }
+
+    public async Task<AppResponse<UserDTO>> CreateUser(UserCreatePayload payload)
     {
         var exists = await repository.Get()
             .FirstOrDefaultAsync(u => u.Identification == payload.EDV);
@@ -59,25 +64,13 @@ public class UserService(
             ?? throw new UpsertFailException("User could not be inserted.");
         await repository.SaveAsync();
 
-        var response = UserCreatedResponse.Map(saveUser, sector, position);
-
-        return response;
+        return new AppResponse<UserDTO>(
+            UserDTO.Map(saveUser),
+            "User created successfully!"
+        );
     }
 
-    private static string HashPassword(User user, string raw)
-    {
-        var hashedPassword = _passwordHasher.HashPassword(user, raw);
-        return hashedPassword;
-    }
-
-    public async Task<User> GetUserByIdentification(string identification)
-    {
-        return await repository.GetAllNoTracking()
-            .SingleOrDefaultAsync(u => u.Identification == identification) ?? 
-                throw new UserNotRegisteredException("Identification number still not registered.");
-    }
-
-    public async Task<UserUpdatedResponse> UpdateUser(int id, UserUpdatePayload payload)
+    public async Task<AppResponse<UserDTO>> UpdateUser(int id, UserUpdatePayload payload)
     {
         var user = await repository.GetAllNoTracking()
             .SingleOrDefaultAsync(u => u.Id == id) 
@@ -137,8 +130,10 @@ public class UserService(
             ?? throw new UpsertFailException("User could not be updated.");
 
         await repository.SaveAsync();
-
-        return UserUpdatedResponse.Map(updatedUser);
+        return new AppResponse<UserDTO>(
+            UserDTO.Map(updatedUser),
+            "User updated successfully!"
+        );
     }
 
     public async Task DeleteUser(int id)

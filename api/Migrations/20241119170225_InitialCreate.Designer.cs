@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace api.Migrations
 {
     [DbContext(typeof(SkillhubContext))]
-    [Migration("20241114175157_InitialCreate")]
+    [Migration("20241119170225_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -112,6 +112,10 @@ namespace api.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("abbreviation");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit")
+                        .HasColumnName("is_active");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -643,7 +647,7 @@ namespace api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("Birthday")
+                    b.Property<DateTime>("Birthday")
                         .HasColumnType("datetime2")
                         .HasColumnName("birthday");
 
@@ -668,6 +672,15 @@ namespace api.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)")
                         .HasColumnName("name");
+
+                    b.Property<int>("OccupationId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PositionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SectorId")
+                        .HasColumnType("int");
 
                     b.Property<int>("occupation_area_id")
                         .HasColumnType("int");

@@ -5,6 +5,7 @@ using System.Text;
 
 using Api.Core.Errors.JWTService;
 using Api.Domain.Services;
+using Api.Domain.Models;
 
 namespace Api.Core.Services;
     public class JwtService : IJwtService
@@ -30,13 +31,13 @@ namespace Api.Core.Services;
             _credentials = new SigningCredentials(_securityKey, SecurityAlgorithms.HmacSha512);
         }
 
-        public OutboundToken GenerateToken(LoginResult.Succeeded auth)
+        public OutboundToken GenerateToken(UserDTO user)
         {
             var claims = new List<Claim>
             {
-                new("UserId", auth.UserId.ToString()),
-                new("UserName", auth.UserName),
-                new("Position", auth.Position.ToString())
+                new("UserId", user.Id.ToString()),
+                new("Name", user.Name),
+                new("PermissionLevel", user.PermissionLevel.ToString())
             };
 
             var SecToken = new JwtSecurityToken(
@@ -74,17 +75,17 @@ namespace Api.Core.Services;
                 throw new InvalidTokenException("Unable to validate token and its claims.", ex);
             }
 
-            var userPosition = claims.FindFirst("Position")!.Value;
+            var userPosition = claims.FindFirst("PermissionLevel")!.Value;
             
             _userContext.Fill(new ContextData
             {
                 UserId = Guid.Parse(claims.FindFirst("UserId")!.Value),
-                UserName = claims.FindFirst("UserName")!.Value,
-                Position = userPosition switch
+                Name = claims.FindFirst("Name")!.Value,
+                PermissionLevel = userPosition switch
                 {
-                    "STUDENT" => UsersPositions.STUDENT,
-                    "INSTRUCTOR" => UsersPositions.INSTRUCTOR,
-                    _ => UsersPositions.SUBOFFICER,
+                    "STUDENT" => 1,
+                    "INSTRUCTOR" => 2,
+                    _ => 0,
                 }
             });
         }

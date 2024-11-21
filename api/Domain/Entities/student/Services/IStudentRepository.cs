@@ -5,5 +5,5 @@ namespace Api.Domain.Services;
 
 public interface IStudentService : IService<Student>
 {
-    public Task<StudentCreatedResponse> CreateStudent(StudentCreatePayload payload);
+    public Task<AppResponse<StudentDTO>> CreateStudent(StudentCreatePayload payload);
 }

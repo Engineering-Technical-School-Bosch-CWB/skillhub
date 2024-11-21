@@ -3,25 +3,31 @@ using Api.Domain.Services;
 using Api.Core.Errors.Login;
 
 using Microsoft.AspNetCore.Identity;
+using Api.Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api.Core.Services;
 public class LoginService : ILoginService
 {
-    private readonly IUserService _userService;
+    private readonly IUserRepository _userRepository;
     private readonly PasswordHasher<User> _hasher;
     private readonly JwtService _jwtService;
 
-    public LoginService(IUserService userService, PasswordHasher<User> hasher, JwtService jwtService)
+    public LoginService(IUserRepository userRepository, PasswordHasher<User> hasher, JwtService jwtService)
     {
-        _userService = userService;
+        _userRepository = userRepository;
         _hasher = hasher;
         _jwtService = jwtService;
     }
 
     public async Task<LoginResponse> TryLogin(LoginPayload payload)
     {
-        var user = await _userService.GetUserByIdentification(payload.Identification)
-            ?? throw new UserNotRegisteredException("Identification number still not registered.");
+        var user = await _userRepository.Get()
+            .Include(u => u.Area)
+            .Include(u => u.Position)
+            .Include(u => u.Sector)
+            .FirstOrDefaultAsync(u => u.Identification == payload.Identification) ??
+                throw new UserNotRegisteredException("Identification number still not registered.");
 
         var passwordMatches = _hasher.VerifyHashedPassword(
             user,
@@ -34,35 +40,23 @@ public class LoginService : ILoginService
             throw new WrongPasswordException("Wrong password.");
         }
 
-        var usersPosition = user.Position.Name switch 
-        {
-            "subofficer" => UsersPositions.SUBOFFICER,
-            "instructor" => UsersPositions.INSTRUCTOR,
-            "aprentice" => UsersPositions.STUDENT,
-            _ => throw new NoSuchPositionException("No such user's position registered.")
-        };
-
-        var result = new LoginResult.Succeeded
-        {
-            UserId = user.Id,
-            UserName = user.Name,
-            Position = usersPosition 
-        };
+        var userDto = UserDTO.Map(user);
+        var token = _jwtService.GenerateToken(userDto);
 
         if(passwordMatches == PasswordVerificationResult.Success &&
             payload.Password == user.Identification)
         {
             return new LoginResponse(
                 true, 
-                UserUpdatedResponse.Map(user), 
-                _jwtService.GenerateToken(result)
+                userDto, 
+                token 
             );
         }
 
         return new LoginResponse(
             false, 
-            UserUpdatedResponse.Map(user), 
-            _jwtService.GenerateToken(result)
+            userDto, 
+            token
         );
     }
 }

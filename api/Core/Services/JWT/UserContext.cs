@@ -4,8 +4,8 @@ namespace Api.Core.Services;
 public readonly record struct ContextData
 {
     public required Guid UserId { get; init; }
-    public required string UserName { get; init; }
-    public required UsersPositions Position { get; init; }
+    public required string Name { get; init; }
+    public required int PermissionLevel { get; init; }
 }
 
 public class UserContext
@@ -13,8 +13,8 @@ public class UserContext
     private ContextData _data;
 
     public Guid UserId => _data.UserId;
-    public string UserName => _data.UserName;
-    public UsersPositions Position => _data.Position;
+    public string UserName => _data.Name;
+    public int PermissionLevel => _data.PermissionLevel;
 
     public void Fill(ContextData data)
     {

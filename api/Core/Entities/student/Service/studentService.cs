@@ -17,7 +17,7 @@ public class StudentService(
 {
     private readonly IUserRepository _userRepo = userRepository;
     private readonly IClassRepository _classRepo = classRepository;
-    public async Task<StudentCreatedResponse> CreateStudent(StudentCreatePayload payload)
+    public async Task<AppResponse<StudentDTO>> CreateStudent(StudentCreatePayload payload)
     {
         var user = await _userRepo.GetAllNoTracking()
             .SingleOrDefaultAsync(u => u.Id == payload.UserId)
@@ -37,7 +37,9 @@ public class StudentService(
 
         await repository.SaveAsync();
 
-        var response = StudentCreatedResponse.Map(createdStudent);
-        return response;
+        return new AppResponse<StudentDTO>(
+            StudentDTO.Map(createdStudent),
+            "Student created successfully!"
+        );
     }
 }
