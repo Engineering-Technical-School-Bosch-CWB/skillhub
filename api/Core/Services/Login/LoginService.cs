@@ -26,7 +26,6 @@ public class LoginService : ILoginService
             .Include(u => u.Area)
             .Include(u => u.Position)
             .Include(u => u.Sector)
-            .Include(u => u.StudentProfile)
             .FirstOrDefaultAsync(u => u.Identification == payload.Identification) ??
                 throw new UserNotRegisteredException("Identification number still not registered.");
 
