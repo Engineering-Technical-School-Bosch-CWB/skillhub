@@ -52,7 +52,6 @@ public class Program
     {
         var connectionString = configuration.GetConnectionString("SqlServer");
         services.AddDbContext<SkillhubContext>(
-            // "SqlServer": "Data Source=CA-C-00657\\SQLEXPRESS;Initial Catalog=Project_e;Integrated Security=True;Trust Server Certificate=True;"
             options => options.UseSqlServer(connectionString)
         );
 

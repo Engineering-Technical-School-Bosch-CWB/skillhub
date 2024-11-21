@@ -11,13 +11,11 @@ namespace Api.Core.Services;
 public class CourseService : BaseService<Course>, ICourseService
 {
     private readonly IOccupationAreaRepository _areaRepo;
-    private readonly IPaginationService _pagService;
     private readonly ICourseRepository _repo;
-    public CourseService(IOccupationAreaRepository areaRepository, IPaginationService paginationService, 
+    public CourseService(IOccupationAreaRepository areaRepository, 
     BaseRepository<Course> repository) : base(repository)
     {
         _areaRepo = areaRepository;
-        _pagService = paginationService;
 
         _repo = repository is ICourseRepository CourseRepository
         ? CourseRepository
@@ -105,17 +103,15 @@ public class CourseService : BaseService<Course>, ICourseService
 
         if (!string.IsNullOrEmpty(payload.Name))
         {
-            if (await repository.GetAllNoTracking().AnyAsync(c => c.Name.ToLower() == payload.Name.ToLower()))
-            throw new AlreadyExistsException("Name of course already exists.");
-
+            if (await repository.GetAllNoTracking().AnyAsync(c => c.Name.ToLower() == payload.Name.ToLower() && c.Id != id))
+                throw new AlreadyExistsException("Name of course already exists.");
             course.Name = payload.Name;
         }
 
         if (!string.IsNullOrEmpty(payload.Abbreviation))
         {
-            if (await repository.GetAllNoTracking().AnyAsync(c => c.Abbreviation.ToLower() == payload.Abbreviation.ToLower()))
+            if (await repository.GetAllNoTracking().AnyAsync(c => c.Abbreviation.ToLower() == payload.Abbreviation.ToLower() && c.Id != id))
                 throw new AlreadyExistsException("Abbreviation of course already exists.");
-            
             course.Abbreviation = payload.Abbreviation;
         }
 

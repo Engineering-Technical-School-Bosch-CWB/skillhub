@@ -14,7 +14,6 @@ public class AuthenticationMiddleware : IMiddleware
         _jwtService = jwtService;
         _pathsToSkip = new []
         {
-            "/api/v1/course/1",
             "/api/v1/login",
             "/api/v1/users/register",
         };
