@@ -1,7 +1,3 @@
-<<<<<<< HEAD:api/Controllers/PositionController.cs
-=======
-using Api.Controllers.Mappers;
->>>>>>> dev:api/Controllers/Position/PositionController.cs
 using Api.Domain.Models;
 using Api.Domain.Services;
 using AutoMapper;
@@ -26,7 +22,7 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<PositionResponse>> Create(
+        public async Task<ActionResult> Create(
                 [FromServices] IPositionService service,
                 [FromBody] PositionPayload payload)
         {
@@ -36,13 +32,13 @@ namespace Api.Controllers
             return new CreatedAtActionResult(
                     nameof(Create),
                     nameof(PositionController),
-                    PositionResponse.ToResponse(result),
+                    PositionDTO.Map(result),
                     result);
         }
 
         [HttpPatch]
         [Route("{id}")]
-        public async Task<ActionResult<PositionResponse>> Update(
+        public async Task<ActionResult> Update(
                 [FromServices] IPositionService service,
                 [FromBody] PositionPayload payload,
                 int id)
@@ -50,7 +46,7 @@ namespace Api.Controllers
             var position =  ToPosition(payload);
             var result = await service.UpdateAsync(id, position);
             
-            return new OkObjectResult(PositionResponse.ToResponse(result));
+            return new OkObjectResult(PositionDTO.Map(result));
         }
 
         private Position ToPosition(PositionPayload payload)

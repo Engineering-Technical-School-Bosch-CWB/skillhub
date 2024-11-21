@@ -28,7 +28,7 @@ namespace Api.Domain.Models
                 user.Sector.Id,
                 user.Area.Id,
                 permission,
-                user.StudentProfile.Id
+                user.StudentProfile?.Id
             );
         }
     }

@@ -55,8 +55,8 @@ public class CourseController : ControllerBase
         [FromServices] CourseService service,
         int id)
     {
-        var result = await service.DeleteCourse(id);
-        return new OkObjectResult(result);
+        await service.DeleteCourse(id);
+        return Ok();
     }
 
 }
