@@ -7,14 +7,15 @@ export default () => {
 
     const fields: IField[] = [
         { name: "email", label: "Email", type: "text" },
-        { name: "password", label: "Password", type: "password" }
+        { name: "password", label: "Password", type: "password" },
+        { name: "birthdate", label: "Birthdate", type: "date" },
     ];
 
     return (
         <>
             <Header/>
 
-            <div style={{ margin: "20vh auto", width: "500px" }}>
+            <div style={{ margin: "20vh auto", width: "100%", maxWidth: "500px" }}>
                 <Form
                     fields={fields}
                     onSubmit={(data) => { toast.success(data.email) }}
