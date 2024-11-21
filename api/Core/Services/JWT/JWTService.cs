@@ -79,7 +79,7 @@ namespace Api.Core.Services;
             
             _userContext.Fill(new ContextData
             {
-                UserId = Guid.Parse(claims.FindFirst("UserId")!.Value),
+                UserId = Int32.Parse(claims.FindFirst("UserId")!.Value),
                 Name = claims.FindFirst("Name")!.Value,
                 PermissionLevel = userPosition switch
                 {
