@@ -20,7 +20,7 @@ public class LoginService : ILoginService
         _jwtService = jwtService;
     }
 
-    public async Task<LoginResponse> TryLogin(LoginPayload payload)
+    public async Task<AppResponse<LoginResponse>> TryLogin(LoginPayload payload)
     {
         var user = await _userRepository.Get()
             .Include(u => u.Area)
@@ -46,17 +46,15 @@ public class LoginService : ILoginService
         if(passwordMatches == PasswordVerificationResult.Success &&
             payload.Password == user.Identification)
         {
-            return new LoginResponse(
-                true, 
-                userDto, 
-                token 
-            );
+            return new AppResponse<LoginResponse>(
+                new LoginResponse(true, userDto, token),
+                "User needs to complete registration."
+            ); 
         }
 
-        return new LoginResponse(
-            false, 
-            userDto, 
-            token
+        return new AppResponse<LoginResponse>(
+            new LoginResponse(false, userDto, token),
+            "User logged in successfully!"
         );
     }
 }
