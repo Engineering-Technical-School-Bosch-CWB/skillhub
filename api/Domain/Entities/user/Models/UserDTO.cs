@@ -3,7 +3,7 @@ namespace Api.Domain.Models
     public record UserDTO(
         int Id,
         string Name,
-        DateTime Birthday,
+        DateTime? Birthday,
         int PositionId,
         int SectorId,
         int OccupationAreaId,

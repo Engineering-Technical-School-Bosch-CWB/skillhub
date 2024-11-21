@@ -41,7 +41,7 @@ namespace Api.Core.Services;
             };
 
             var SecToken = new JwtSecurityToken(
-                "Project-E",
+                "SkillHub",
                 audience: null,
                 claims: claims,
                 expires: DateTime.Now.AddHours(8),
@@ -65,7 +65,7 @@ namespace Api.Core.Services;
                             ValidateLifetime = true,
                             ValidateIssuerSigningKey = true,
                             ValidateAudience = false,
-                            ValidIssuer = "Project-E",
+                            ValidIssuer = "SkillHub",
                             IssuerSigningKey = _securityKey
                         },
                         out var validatedToken);
@@ -79,7 +79,7 @@ namespace Api.Core.Services;
             
             _userContext.Fill(new ContextData
             {
-                UserId = Int32.Parse(claims.FindFirst("UserId")!.Value),
+                UserId = int.Parse(claims.FindFirst("UserId")!.Value),
                 Name = claims.FindFirst("Name")!.Value,
                 PermissionLevel = userPosition switch
                 {
