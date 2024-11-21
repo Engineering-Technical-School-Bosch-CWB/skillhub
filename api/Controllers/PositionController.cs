@@ -29,7 +29,11 @@ namespace Api.Controllers
             var position = ToPosition(payload);
             var result = await service.AddAsync(position);
 
-            return Created("/api/v1/position/register", result);
+            return new CreatedAtActionResult(
+                    nameof(Create),
+                    nameof(PositionController),
+                    PositionDTO.Map(result),
+                    result);
         }
 
         [HttpPatch]
@@ -42,7 +46,7 @@ namespace Api.Controllers
             var position =  ToPosition(payload);
             var result = await service.UpdateAsync(id, position);
             
-            return Ok(result);
+            return new OkObjectResult(PositionDTO.Map(result));
         }
 
         private Position ToPosition(PositionPayload payload)

@@ -14,6 +14,6 @@ public class LoginController : ControllerBase
         [FromBody] LoginPayload payload)
     {
         var result = await loginService.TryLogin(payload);
-        return Ok(result);
+        return new OkObjectResult(result);
     }
 }

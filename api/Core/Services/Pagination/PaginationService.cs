@@ -4,12 +4,13 @@ using Genesis.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Core.Services;
+
 public class PaginationService : IPaginationService
 {
     public (IEnumerable<TEntity>, PaginationInfo) Paginate<TEntity>(
-            IQueryable<TEntity> query,
-            PaginationOptions pagination)
-            where TEntity : IEntity
+        IQueryable<TEntity> query,
+        PaginationOptions pagination)
+        where TEntity : IEntity
     {
         var totalItems = query.Count();
 

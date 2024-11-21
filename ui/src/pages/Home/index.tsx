@@ -1,5 +1,7 @@
-import Form, { IField } from "../../components/Form"
+import { toast } from "react-toastify";
 import Header from "../../components/Header"
+import Form from "../../components/Form";
+import { IField } from "../../components/Form/types";
 
 export default () => {
 
@@ -15,7 +17,7 @@ export default () => {
             <div style={{ margin: "20vh auto", width: "500px" }}>
                 <Form
                     fields={fields}
-                    onSubmit={(data) => console.log(data)}
+                    onSubmit={(data) => { toast.success(data.email) }}
                 />
             </div>
         </>
