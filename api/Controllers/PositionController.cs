@@ -7,7 +7,7 @@ namespace Api.Controllers
 {
     [ApiController]
     [Route("api/v1/position")]
-    public class PositionController
+    public class PositionController: ControllerBase
     {
         private readonly Mapper _mapper;
 
