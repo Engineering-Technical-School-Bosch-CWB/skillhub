@@ -1,12 +1,6 @@
 using Api.Core.Errors.Authentication;
 using Api.Core.Services;
 
-<<<<<<< HEAD
-=======
-using Api.Core.Errors.Authentication;
-using Api.Core.JWTService;
-
->>>>>>> dev
 namespace Api.Core.Middlewares;
 
 public class AuthenticationMiddleware : IMiddleware

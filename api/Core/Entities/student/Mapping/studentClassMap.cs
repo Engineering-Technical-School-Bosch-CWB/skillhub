@@ -23,12 +23,6 @@ public class StudentClassMap : IEntityTypeConfiguration<Student>
         builder.Property(e => e.IsActive)
             .HasColumnName("is_active");
         
-        builder.HasOne(s => s.User)
-            .WithOne(u => u.StudentProfile)
-            .HasForeignKey<Student>("user_id")
-            .OnDelete(DeleteBehavior.NoAction)
-            .IsRequired();
-        
         builder.HasOne(s => s.Class)
             .WithMany(c => c.Students)
             .HasForeignKey("class_id")

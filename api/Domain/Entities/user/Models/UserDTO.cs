@@ -7,8 +7,7 @@ namespace Api.Domain.Models
         int PositionId,
         int SectorId,
         int OccupationAreaId,
-        int PermissionLevel,
-        int? StudentProfileId
+        int PermissionLevel
     )
     {
         public static UserDTO Map(User user)
@@ -27,8 +26,7 @@ namespace Api.Domain.Models
                 user.Position.Id,
                 user.Sector.Id,
                 user.Area.Id,
-                permission,
-                user.StudentProfile.Id
+                permission
             );
         }
     }

@@ -4,15 +4,11 @@ using Api.Core.Errors.JWTService;
 using Api.Core.Errors.Login;
 using Microsoft.AspNetCore.Diagnostics;
 
-<<<<<<< HEAD
 namespace Api.Core.Middlewares;
 
 public record Error(int Status, string Message, Object? Details = null);
 
 public class ErrorHandlingMiddleware : IExceptionHandler
-=======
-namespace Api.Core.Middlewares
->>>>>>> dev
 {
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
@@ -31,7 +27,7 @@ namespace Api.Core.Middlewares
             UserNotRegisteredException e => new Error(StatusCodes.Status403Forbidden, e.Message),
             NoSuchPositionException e => new Error(StatusCodes.Status404NotFound, e.Message),
             WrongPasswordException e => new Error(StatusCodes.Status401Unauthorized, e.Message),
-            
+
             _ => new Error(StatusCodes.Status500InternalServerError, "Unknown server error.")
         };
 
@@ -40,4 +36,5 @@ namespace Api.Core.Middlewares
 
         return true;
     }
+
 }
