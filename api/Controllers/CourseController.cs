@@ -1,5 +1,4 @@
 using Api.Domain.Services;
-using Api.Core.Services;
 using Api.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 

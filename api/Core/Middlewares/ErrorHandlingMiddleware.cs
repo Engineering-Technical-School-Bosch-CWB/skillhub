@@ -4,15 +4,11 @@ using Api.Core.Errors.JWTService;
 using Api.Core.Errors.Login;
 using Microsoft.AspNetCore.Diagnostics;
 
-<<<<<<< HEAD
 namespace Api.Core.Middlewares;
 
 public record Error(int Status, string Message, Object? Details = null);
 
 public class ErrorHandlingMiddleware : IExceptionHandler
-=======
-namespace Api.Core.Middlewares
->>>>>>> dev
 {
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {

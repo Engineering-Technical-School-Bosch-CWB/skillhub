@@ -1,12 +1,7 @@
 using Genesis.Core.Repositories;
 using Api.Domain.Repositories;
 using Api.Domain.Models;
-<<<<<<< HEAD
 using Api.Domain.Services;
-=======
-using Api.Domain.Services.Pagination;
-using Api.Core.Services.Pagination;
->>>>>>> dev
 
 namespace Api.Core.Repositories;
 

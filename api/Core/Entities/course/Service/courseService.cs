@@ -11,8 +11,8 @@ namespace Api.Core.Services;
 public class CourseService : BaseService<Course>, ICourseService
 {
     private readonly IOccupationAreaRepository _areaRepo;
-    private readonly IPaginationService _pagService;    
-    public CourseService(IOccupationAreaRepository areaRepository, IPaginationService paginationService, 
+    private readonly ICourseRepository _repo;
+    public CourseService(IOccupationAreaRepository areaRepository, 
         BaseRepository<Course> repository) : base(repository)
     {
         _areaRepo = areaRepository;
@@ -85,12 +85,12 @@ public class CourseService : BaseService<Course>, ICourseService
         );
     }
 
-    public async Task<PaginatedAppResponse<CourseDTO>> GetCourses(PaginationOptions options)
+    public async Task<PaginatedAppResponse<CourseDTO>> GetCourses(PaginationQuery pagination)
     {
         var query = repository.GetAllNoTracking()
             .Include(c => c.DefaultOccupationArea);
 
-        var paginatedCourses = await _pagService.PaginateAsync(query, options);
+        var paginatedCourses = await _repo.GetPaginatedAsync(pagination.ToOptions());
 
         return new PaginatedAppResponse<CourseDTO>(
             paginatedCourses.Item1.Select(c => CourseDTO.Map(c)),

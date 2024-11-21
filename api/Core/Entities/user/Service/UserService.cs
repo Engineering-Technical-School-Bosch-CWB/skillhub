@@ -58,7 +58,7 @@ public class UserService: BaseService<User>, IUserService
             Area = area
         };
 
-        newUser.Hash = HashPassword(newUser, newUser.Hash);
+        newUser.Hash = _hasher.HashPassword(newUser, newUser.Hash);
 
         var saveUser = repository.Add(newUser)
             ?? throw new UpsertFailException("User could not be inserted.");
@@ -112,7 +112,7 @@ public class UserService: BaseService<User>, IUserService
         }
 
         if (!string.IsNullOrEmpty(payload.Password))
-            user.Hash = HashPassword(user, user.Hash!);
+            user.Hash = _hasher.HashPassword(user, user.Hash!);
 
         if (!string.IsNullOrEmpty(payload.Name))
             user.Name = payload.Name;

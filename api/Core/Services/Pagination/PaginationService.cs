@@ -1,19 +1,10 @@
 using Api.Core.Errors.Pagination;
-<<<<<<< HEAD
 using Api.Domain.Services;
-
 using Genesis.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Core.Services;
 public class PaginationService : IPaginationService
-=======
-using Api.Domain.Services.Pagination;
-using Genesis.Domain.Models;
-using Microsoft.EntityFrameworkCore;
-
-namespace Api.Core.Services.Pagination
->>>>>>> dev
 {
     public (IEnumerable<TEntity>, PaginationInfo) Paginate<TEntity>(
             IQueryable<TEntity> query,
