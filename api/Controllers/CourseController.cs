@@ -1,6 +1,7 @@
 using Api.Domain.Services;
 using Api.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Api.Controllers;
 
@@ -14,7 +15,7 @@ public class CourseController : ControllerBase
         [FromBody] CourseCreatePayload payload)
     {
         var result = await CourseService.CreateCourse(payload);
-        return Created("/api/v1/Courses/register", result);
+        return Created("/api/v1/courses/register", result);
     }
 
     [HttpGet]
@@ -24,7 +25,7 @@ public class CourseController : ControllerBase
         int id)
     {
         var result = await CourseService.GetCourseById(id);
-        return new OkObjectResult(result);
+        return Ok(result);
     }
 
     [HttpGet]
@@ -33,7 +34,7 @@ public class CourseController : ControllerBase
         [FromBody] PaginationQuery pagination)
     {
         var result = CourseService.GetCourses(pagination);
-        return new OkObjectResult(result);
+        return Ok(result);
     }
 
     [HttpPatch]
@@ -44,7 +45,7 @@ public class CourseController : ControllerBase
         int id)
     {
         var result = await service.UpdateCourse(id, payload);
-        return new OkObjectResult(result);
+        return Ok(result);
     }
 
     [HttpDelete]

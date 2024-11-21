@@ -26,7 +26,7 @@ namespace Api.Controllers
             int id)
         {
             var result = await service.UpdateUser(id, payload);
-            return new OkObjectResult(result);
+            return Ok(result);
         }
 
         [HttpDelete]
@@ -36,7 +36,7 @@ namespace Api.Controllers
             int id)
         {
             await service.DeleteUser(id);
-            return NoContent();
+            return Ok();
         }
 
     }
