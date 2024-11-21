@@ -21,10 +21,16 @@ public class CourseService : BaseService<Course>, ICourseService
     
     public async Task<AppResponse<CourseDTO>> CreateCourse(CourseCreatePayload payload)
     {
-        if (await repository.GetAllNoTracking().AnyAsync(c => c.Name.Equals(payload.Name, StringComparison.OrdinalIgnoreCase)))
+        var course = await repository.Get()
+            .FirstOrDefaultAsync(c => c.Name == payload.Name);
+
+        if (course is not null)
             throw new AlreadyExistsException("Name of course already exists.");
 
-        if (await repository.GetAllNoTracking().AnyAsync(c => c.Abbreviation.Equals(payload.Abbreviation, StringComparison.OrdinalIgnoreCase)))
+        var abbreviation = await repository.Get()
+            .FirstOrDefaultAsync(c => c.Abbreviation == payload.Abbreviation);
+
+        if (abbreviation is not null)
             throw new AlreadyExistsException("Abbreviation of course already exists.");
 
         var area = await _areaRepo.Get()

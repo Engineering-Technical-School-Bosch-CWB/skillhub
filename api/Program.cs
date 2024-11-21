@@ -111,6 +111,7 @@ public class Program
         services.AddScoped<ISubjectService, SubjectService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IPaginationService, PaginationService>();
+        services.AddScoped<ICourseService, CourseService>();
 
         // ..config
         services.AddAutoMapper(typeof(Program));
