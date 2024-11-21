@@ -41,6 +41,7 @@ export default class Service {
         const json = await response.json()
 
         return { 
+            statusCode: response.status,
             data: json.data || null,
             success: response.status < 400,
             showMessage: response.status >= 400 ? 
