@@ -10,15 +10,17 @@ using Genesis.Core.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Api;
 
-public class Program 
+public class Program
 {
     static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-        
+
         ConfigureServices(builder.Services, builder.Configuration);
 
         var app = builder.Build();
@@ -46,7 +48,7 @@ public class Program
         app.Run();
     }
 
-    private static void ConfigureServices( 
+    private static void ConfigureServices(
         IServiceCollection services,
         ConfigurationManager configuration)
     {
@@ -55,28 +57,39 @@ public class Program
             options => options.UseSqlServer(connectionString)
         );
 
-        // ..jwt 
+        #region Jwt
+
         var jwtSettings = new JwtSettings()
         {
             SecretKey = configuration.GetSection("JwtSettings")
                     .GetValue<string>("SecretKey")!
-        }; 
-        services.AddSingleton(jwtSettings);  
-        services.AddSingleton<JwtSecurityTokenHandler>();  
+        };
+        services.AddSingleton(jwtSettings);
+        services.AddSingleton<JwtSecurityTokenHandler>();
         services.AddScoped<JwtService>();
- 
-        // ..middlewares
+
+        #endregion
+
+
+        #region Middlewares
+
         services.AddExceptionHandler<ErrorHandlingMiddleware>();
         services.AddTransient<AuthenticationMiddleware>();
         services.AddScoped<UserContext>();
 
-        // ..utils
-        services.AddSingleton<ConfigurationManager>();    
-        services.AddSingleton<PasswordHasher<User>>();           
+        #endregion
 
-        // ..repositories
-        services.AddScoped<BaseRepository<User>, UserRepository>();   
-        services.AddScoped<IUserRepository, UserRepository>();   
+        #region Utils
+
+        services.AddSingleton<ConfigurationManager>();
+        services.AddSingleton<PasswordHasher<User>>();
+
+        #endregion
+
+        #region Repositories
+
+        services.AddScoped<BaseRepository<User>, UserRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
 
         services.AddScoped<BaseRepository<Class>, ClassRepository>();
         services.AddScoped<IClassRepository, ClassRepository>();
@@ -85,7 +98,7 @@ public class Program
         services.AddScoped<ICurricularUnitRepository, CurricularUnitRepository>();
 
         services.AddScoped<BaseRepository<Position>, PositionRepository>();
-        services.AddScoped<IPositionRepository, PositionRepository>();    
+        services.AddScoped<IPositionRepository, PositionRepository>();
 
         services.AddScoped<BaseRepository<Student>, StudentRepository>();
         services.AddScoped<IStudentRepository, StudentRepository>();
@@ -94,17 +107,20 @@ public class Program
         services.AddScoped<ISubjectRepository, SubjectRepository>();
 
         services.AddScoped<BaseRepository<Sector>, SectorRepository>();
-        services.AddScoped<ISectorRepository, SectorRepository>();   
+        services.AddScoped<ISectorRepository, SectorRepository>();
 
         services.AddScoped<BaseRepository<OccupationArea>, OccupationAreaRepository>();
-        services.AddScoped<IOccupationAreaRepository, OccupationAreaRepository>();   
+        services.AddScoped<IOccupationAreaRepository, OccupationAreaRepository>();
 
         services.AddScoped<BaseRepository<Course>, CourseRepository>();
         services.AddScoped<ICourseRepository, CourseRepository>();
 
-        // ..services
+        #endregion
+
+        #region Services
+
         services.AddScoped<IUserService, UserService>();
-        services.AddScoped<ILoginService, LoginService>();       
+        services.AddScoped<ILoginService, LoginService>();
         services.AddScoped<IClassService, ClassService>();
         services.AddScoped<ICourseService, CourseService>();
         services.AddScoped<IPositionService, PositionService>();
@@ -113,14 +129,33 @@ public class Program
         services.AddScoped<IPaginationService, PaginationService>();
         services.AddScoped<ICourseService, CourseService>();
 
-        // ..config
+        #endregion
+
+        #region Config
+
         services.AddAutoMapper(typeof(Program));
         services.AddCors();
-        services.AddControllers();
+
+        services.AddControllers()
+            .ConfigureApiBehaviorOptions(options =>
+            {
+                options.InvalidModelStateResponseFactory = context =>
+                {
+                    return new BadRequestObjectResult(new
+                    {
+                        Message = "Validation failed",
+                        Errors = context.ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage))
+                    });
+                };
+            });
+
+
         services.AddAuthorization();
         services.AddProblemDetails();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
+
+        #endregion
     }
 }
 
