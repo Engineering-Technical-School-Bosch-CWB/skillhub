@@ -1,21 +1,8 @@
-import { FieldValues, Path, SubmitHandler, useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Input from "../Input";
 import Button from "../Button";
 import styles from "./styles.module.css"
-
-export interface IField<T = any> {
-    name: Path<T>;
-    label?: string;
-    type?: "text" | "password";
-    required?: boolean;
-}
-
-interface IFormProps<T> {
-    onSubmit: (payload:T) => Promise<void> | void;
-    customClassName?: string;
-    fields: IField<T>[];
-    submitText?: string;
-}
+import { IFormProps } from "./types";
 
 /**
  * Reusable `Form` component for rendering a form with customizable fields.
@@ -56,7 +43,7 @@ export default function Form<T extends FieldValues>({
     customClassName,
     fields,
     submitText = "Submit"
-}:IFormProps<T>) {
+}:IFormProps<T>): JSX.Element {
 
     const { register, handleSubmit } = useForm<T>()
 

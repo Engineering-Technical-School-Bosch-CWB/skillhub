@@ -1,6 +1,6 @@
 using Genesis.Domain.Models;
 
-namespace api.Domain.Services.Pagination
+namespace Api.Domain.Services.Pagination
 {
     public interface IPaginationService
     {

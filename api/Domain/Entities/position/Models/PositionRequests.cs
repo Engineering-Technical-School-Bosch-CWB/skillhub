@@ -1,4 +1,4 @@
-namespace api.Domain.Models
+namespace Api.Domain.Models
 {
     public readonly record struct PositionPayload(
         string Name

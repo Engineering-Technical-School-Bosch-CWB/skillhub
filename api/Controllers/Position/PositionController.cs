@@ -1,12 +1,11 @@
 using api.Core.Services;
-using api.Domain.Models;
-using api.Domain.Services.Pagination;
 using Api.Domain.Models;
 using Api.Domain.Services;
+using Api.Domain.Services.Pagination;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
-namespace api.Controllers
+namespace Api.Controllers
 {
     [ApiController]
     [Route("api/v1/position")]

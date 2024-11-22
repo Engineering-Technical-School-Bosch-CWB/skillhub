@@ -3,8 +3,9 @@ import styles from "./styles.module.css"
 import { v4 as uuid } from "uuid";
 
 interface IInputProps extends ComponentPropsWithoutRef<'input'> {
-    label?: string;
-    fullwidth?: boolean;
+    label?: string
+    fullwidth?: boolean
+    error?: string
 }
 
 /**
@@ -31,7 +32,7 @@ interface IInputProps extends ComponentPropsWithoutRef<'input'> {
  * ```
  */
 export default forwardRef<HTMLInputElement, IInputProps>(
-    ({ label, fullwidth, className, id = uuid(), ...props }, ref) => {
+    ({ label, fullwidth, className, error, id = uuid(), ...props }, ref) => {
     
     return (
         <div className={`${styles.input_box} ${fullwidth ? styles.full_width : ""}`}>
@@ -42,11 +43,18 @@ export default forwardRef<HTMLInputElement, IInputProps>(
                 className={`${styles.input} ${className}`}
                 placeholder=" "
             />
+
             {label &&
                 <label
                     htmlFor={id}
                     className={`${styles.label}`}
                 >{label}</label>
+            }
+
+            {error &&
+                <span
+                    className={`${styles.error}`}
+                >{error}</span>
             }
         </div>
     )

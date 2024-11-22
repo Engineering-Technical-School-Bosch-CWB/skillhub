@@ -1,7 +1,6 @@
-using api.Domain.Services.Pagination;
-using Api.Domain.Models;
+using Api.Domain.Services.Pagination;
 
-namespace api.Domain.Models
+namespace Api.Domain.Models
 {
     public class PositionResponse
     {

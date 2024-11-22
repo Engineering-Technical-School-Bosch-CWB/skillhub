@@ -1,4 +1,3 @@
-using api.Domain.Models;
 using Api.Domain.Models;
 using AutoMapper;
 
