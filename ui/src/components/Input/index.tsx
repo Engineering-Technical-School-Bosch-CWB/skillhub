@@ -1,12 +1,29 @@
-import { Path } from "react-hook-form"
+import InputText from "../InputText"
+import SInput from "./InputDate"
+import { v4 as uuid } from "uuid"
+import { ReactNode, useState } from "react"
+import { IInputContainerProps } from "./InputContainer"
+import { IInputProps } from "./interfaces"
 
-export interface IField<T = any> {
-    name: Path<T> | string
-    label?: string
-    type?: "text" | "password" | "date"
-    required?: boolean
+const Input = ({
+    label,
+    error,
+    fullwidth,
+    helperText,
+    id = uuid(),
+    fieldName,
+    type,
+    ...props
+}: IInputProps & IInputContainerProps) => {
+
+    const [input, setInput] = useState<ReactNode>()
+
+    switch(type) {
+        case "text":
+            return <InputText {...props} />
+        case "date":
+            return <SInput {...props} />
+    }
 }
 
-const Input = ({}: IField) => {
-    
-}
+export default Input
