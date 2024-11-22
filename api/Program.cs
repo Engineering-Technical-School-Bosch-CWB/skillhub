@@ -10,7 +10,6 @@ using Genesis.Core.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api;
@@ -136,20 +135,8 @@ public class Program
         services.AddAutoMapper(typeof(Program));
         services.AddCors();
 
-        services.AddControllers()
-            .ConfigureApiBehaviorOptions(options =>
-            {
-                options.InvalidModelStateResponseFactory = context =>
-                {
-                    return new BadRequestObjectResult(new
-                    {
-                        Message = "Validation failed",
-                        Errors = context.ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage))
-                    });
-                };
-            });
-
-
+        services.AddControllers();
+        
         services.AddAuthorization();
         services.AddProblemDetails();
         services.AddEndpointsApiExplorer();

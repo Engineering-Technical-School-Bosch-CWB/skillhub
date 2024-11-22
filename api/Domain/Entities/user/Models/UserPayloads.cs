@@ -1,23 +1,45 @@
-namespace Api.Domain.Models
+using System.ComponentModel.DataAnnotations;
+
+namespace Api.Domain.Models;
+public class UserCreatePayload()
 {
-    public readonly record struct UserCreatePayload(
-        int SectorId,
-        int PositionId,
-        int AreaId,
-        string Name,
-        string EDV
-    );
+    [Required]
+    public required int SectorId { get; set; }
 
-    public readonly record struct UserUpdatePayload(
-        string? Name,
-        string? EDV,
-        string? Birthday,
-        bool? NewUser,
-        bool? IsActive,
-        string? Password,
-        int? SectorId,
-        int? PositionId,
-        int? OccupationId
-    );
+    [Required]
+    public required int PositionId { get; set; }
 
+    [Required]
+    public required int AreaId { get; set; }
+
+    [Required]
+    [StringLength(500)]
+    public required string Name { get; set; }
+
+    [Required]
+    [StringLength(100)]
+    public required string Identification { get; set; }
+}
+
+public class UserUpdatePayload()
+{
+    public int? SectorId { get; set; }
+
+    public int? PositionId { get; set; }
+
+    public int? AreaId { get; set; }
+
+    [StringLength(500)]
+    public string? Name { get; set; }
+
+    [StringLength(100)]
+    public string? Identification { get; set; }
+
+    public DateOnly? Birthday { get; set; }
+
+    public bool? NewUser { get; set; }
+
+    public bool? IsActive { get; set; }
+
+    public string? Password { get; set; }
 }
