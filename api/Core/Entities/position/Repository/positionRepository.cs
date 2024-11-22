@@ -16,14 +16,14 @@ public class PositionRepository(
 
     public (IEnumerable<Position>, PaginationInfo) GetPaginated(PaginationOptions options)
     {
-        var result = _paginationService.Paginate(GetAllNoTracking(), options);
+        var result = _paginationService.Paginate(Get(), options);
         return result;
     }
 
     public async Task<(IEnumerable<Position>, PaginationInfo)> GetPaginatedAsync(PaginationOptions options)
     {
         var result = await _paginationService.PaginateAsync(
-            GetAllNoTracking(), options);
+            Get(), options);
         return result;
     }
 }

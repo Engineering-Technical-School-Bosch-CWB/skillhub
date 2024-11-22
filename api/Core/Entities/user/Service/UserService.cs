@@ -72,14 +72,14 @@ public class UserService: BaseService<User>, IUserService
 
     public async Task<AppResponse<UserDTO>> UpdateUser(int id, UserUpdatePayload payload)
     {
-        var user = await repository.GetAllNoTracking()
+        var user = await repository.Get()
             .SingleOrDefaultAsync(u => u.Id == id) 
             ?? throw new NotFoundException("User not found.");
 
 
         if (payload.EDV is not null)
         {
-            var exists = await repository.GetAllNoTracking()
+            var exists = await repository.Get()
                 .AnyAsync(u => u.Identification == user.Identification);
 
             if (exists)
@@ -88,7 +88,7 @@ public class UserService: BaseService<User>, IUserService
 
         if (payload.SectorId is not null)
         {
-            var sector = await _sectorRepo.GetAllNoTracking()
+            var sector = await _sectorRepo.Get()
                 .SingleOrDefaultAsync(u => u.Id == payload.SectorId) 
                 ?? throw new NotFoundException("Sector not found.");
 
@@ -97,7 +97,7 @@ public class UserService: BaseService<User>, IUserService
 
         if (payload.PositionId is not null)
         {
-            var position = await _positionRepo.GetAllNoTracking()
+            var position = await _positionRepo.Get()
                 .SingleOrDefaultAsync(u => u.Id == payload.PositionId) 
                 ?? throw new NotFoundException("Position not found.");
             user.Position = position;
@@ -105,7 +105,7 @@ public class UserService: BaseService<User>, IUserService
 
         if (payload.OccupationId is not null)
         {
-            var area = await _areaRepo.GetAllNoTracking()
+            var area = await _areaRepo.Get()
                 .SingleOrDefaultAsync(u => u.Id == payload.OccupationId) 
                 ?? throw new NotFoundException("Area not found.");
             user.Area = area;
@@ -138,7 +138,7 @@ public class UserService: BaseService<User>, IUserService
 
     public async Task DeleteUser(int id)
     {
-        var user = await repository.GetAllNoTracking()
+        var user = await repository.Get()
             .SingleOrDefaultAsync(u => u.Id == id) 
             ?? throw new NotFoundException("User not found.");
 

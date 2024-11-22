@@ -17,7 +17,7 @@ public class ClassService(
 
     public async Task<AppResponse<ClassDTO>> CreateClass(ClassCreatePayload payload)
     {
-        var course = await _courseRepo.GetAllNoTracking()
+        var course = await _courseRepo.Get()
             .SingleOrDefaultAsync(c => c.Id == payload.CourseId)
             ?? throw new NotFoundException("Course not found");
 
