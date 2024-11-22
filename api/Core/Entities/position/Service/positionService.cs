@@ -2,7 +2,6 @@ using Genesis.Core.Services;
 using Genesis.Core.Repositories;
 using Api.Domain.Models;
 using Api.Domain.Services;
-using Api.Domain.Services.Pagination;
 using Api.Domain.Repositories;
 using Api.Core.Errors;
 using AutoMapper;
@@ -36,26 +35,26 @@ public class PositionService
         _mapper = new Mapper(mapConfig);
     }
 
-    public PaginatedPositionsResponse GetPaginated(PaginationQuery pagination)
+    public PaginatedAppResponse<PositionDTO> GetPaginated(PaginationQuery pagination)
     {
         var result = _repo.GetPaginated(pagination.ToOptions());
 
-        return new PaginatedPositionsResponse()
-        {
-            Data = result.Item1.Select(PositionResponse.ToResponse),
-            PaginationInfo = result.Item2,
-        };
+        return new PaginatedAppResponse<PositionDTO>(
+            result.Item1.Select(p => PositionDTO.Map(p)),
+            result.Item2,
+            "Positions found!"
+        );
     }
 
-    public async Task<PaginatedPositionsResponse> GetPaginatedAsync(PaginationQuery pagination)
+    public async Task<PaginatedAppResponse<PositionDTO>> GetPaginatedAsync(PaginationQuery pagination)
     {
         var result = await _repo.GetPaginatedAsync(pagination.ToOptions());
 
-        return new PaginatedPositionsResponse()
-        {
-            Data = result.Item1.Select(PositionResponse.ToResponse),
-            PaginationInfo = result.Item2,
-        };
+        return new PaginatedAppResponse<PositionDTO>(
+            result.Item1.Select(p => PositionDTO.Map(p)),
+            result.Item2,
+            "Positions found!"
+        );
     }
 
     public void SoftDelete(int id)
@@ -88,7 +87,7 @@ public class PositionService
         await repository.SaveAsync();
     }
 
-    public async Task<PositionResponse> UpdatePositionAsync(int id, PositionPayload payload)
+    public async Task<AppResponse<PositionDTO>> UpdatePositionAsync(int id, PositionPayload payload)
     {
         var newPosition = new Position
         {
@@ -101,6 +100,8 @@ public class PositionService
         
         await _repo.SaveAsync();
 
-        return PositionResponse.ToResponse(result);
+        return new AppResponse<PositionDTO>(
+            PositionDTO.Map(result), 
+            "Position returned.");
     }
 }

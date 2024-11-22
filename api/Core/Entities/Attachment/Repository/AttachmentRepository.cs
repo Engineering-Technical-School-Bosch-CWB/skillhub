@@ -4,7 +4,7 @@ using Api.Domain.Models;
 
 namespace Api.Core.Repositories;
 
-public class AttachmentRepository(Project_eContext context) 
+public class AttachmentRepository(SkillhubContext context) 
     : BaseRepository<Attachment>(context), IAttachmentRepository
 {
 

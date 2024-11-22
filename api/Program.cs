@@ -1,82 +1,127 @@
 using System.IdentityModel.Tokens.Jwt;
 using Api.Core;
-using Api.Core.JWTService;
 using Api.Core.Middlewares;
-using Api.Core.Repositories;
 using Api.Core.Services;
-using Api.Core.Services.Pagination;
+using Api.Core.Repositories;
 using Api.Domain.Models;
 using Api.Domain.Repositories;
 using Api.Domain.Services;
+
 using Genesis.Core.Repositories;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
-DotNetEnv.Env.Load("./.env");
+namespace Api;
 
-var builder = WebApplication.CreateBuilder(args);
-
-var connectionHost = builder.Configuration["MSSQL_HOST"];
-var connectionDatabase = builder.Configuration["MSSQL_DATABASE"];
-
-var connectionBuilder = new SqlConnectionStringBuilder
+public class Program 
 {
-    DataSource = connectionHost,
-    InitialCatalog = connectionDatabase,
-    TrustServerCertificate = true,
-    IntegratedSecurity = true
-};
+    static void Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
+        
+        ConfigureServices(builder.Services, builder.Configuration);
 
-System.Console.WriteLine(connectionBuilder.ConnectionString);
+        var app = builder.Build();
 
-builder.Services.AddDbContext<Project_eContext>(
-    options => options.UseSqlServer(connectionBuilder.ConnectionString)
-);
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+        }
 
-var jwtSettings = new JwtSettings()
-{
-    SecretKey = builder.Configuration["JWT_SECRET_KEY"]!,
-};
-builder.Services.AddSingleton(jwtSettings);
-builder.Services.AddSingleton<JwtSecurityTokenHandler>();
+        app.UseCors(x => x
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .SetIsOriginAllowed(origin => true)
+            .AllowCredentials());
 
-builder.Services.AddSingleton<ErrorHandlingMiddleware>();
-builder.Services.AddScoped<AuthenticationMiddleware>();
+        app.UseMiddleware<AuthenticationMiddleware>();
 
-builder.Services.AddScoped<UserContext>();
-builder.Services.AddScoped<JwtService>();
-builder.Services.AddSingleton<PaginationService>();
+        app.UseAuthorization();
 
-builder.Services.AddScoped<BaseRepository<Position>, PositionRepository>();
+        app.UseExceptionHandler();
 
-builder.Services.AddScoped<IPositionService, PositionService>();
+        app.MapControllers();
 
-builder.Services.AddExceptionHandler<ErrorHandlingMiddleware>();
-builder.Services.AddProblemDetails();
+        app.Run();
+    }
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+    private static void ConfigureServices( 
+        IServiceCollection services,
+        ConfigurationManager configuration)
+    {
+        var connectionString = configuration.GetConnectionString("SqlServer");
+        services.AddDbContext<SkillhubContext>(
+            options => options.UseSqlServer(connectionString)
+        );
 
-builder.Services.AddControllers();
+        // ..jwt 
+        var jwtSettings = new JwtSettings()
+        {
+            SecretKey = configuration.GetSection("JwtSettings")
+                    .GetValue<string>("SecretKey")!
+        }; 
+        services.AddSingleton(jwtSettings);  
+        services.AddSingleton<JwtSecurityTokenHandler>();  
+        services.AddScoped<JwtService>();
+ 
+        // ..middlewares
+        services.AddScoped<AuthenticationMiddleware>();
+        services.AddSingleton<ErrorHandlingMiddleware>();
+        services.AddScoped<UserContext>();
 
-var app = builder.Build();
+        // ..utils
+        services.AddSingleton<ConfigurationManager>();    
+        services.AddSingleton<PasswordHasher<User>>();           
 
-app.UseMiddleware<AuthenticationMiddleware>();
+        // ..repositories
+        services.AddScoped<BaseRepository<User>, UserRepository>();   
+        services.AddScoped<IUserRepository, UserRepository>();   
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
+        services.AddScoped<BaseRepository<Class>, ClassRepository>();
+        services.AddScoped<IClassRepository, ClassRepository>();
+
+        services.AddScoped<BaseRepository<CurricularUnit>, CurricularUnitRepository>();
+        services.AddScoped<ICurricularUnitRepository, CurricularUnitRepository>();
+
+        services.AddScoped<BaseRepository<Position>, PositionRepository>();
+        services.AddScoped<IPositionRepository, PositionRepository>();    
+
+        services.AddScoped<BaseRepository<Student>, StudentRepository>();
+        services.AddScoped<IStudentRepository, StudentRepository>();
+
+        services.AddScoped<BaseRepository<Subject>, SubjectRepository>();
+        services.AddScoped<ISubjectRepository, SubjectRepository>();
+
+        services.AddScoped<BaseRepository<Sector>, SectorRepository>();
+        services.AddScoped<ISectorRepository, SectorRepository>();   
+
+        services.AddScoped<BaseRepository<OccupationArea>, OccupationAreaRepository>();
+        services.AddScoped<IOccupationAreaRepository, OccupationAreaRepository>();   
+
+        services.AddScoped<BaseRepository<Course>, CourseRepository>();
+        services.AddScoped<ICourseRepository, CourseRepository>();
+
+        // ..services
+        services.AddScoped<IUserService, UserService>();
+        services.AddScoped<ILoginService, LoginService>();       
+        services.AddScoped<IClassService, ClassService>();
+        services.AddScoped<ICourseService, CourseService>();
+        services.AddScoped<IPositionService, PositionService>();
+        services.AddScoped<IStudentService, StudentService>();
+        services.AddScoped<ISubjectService, SubjectService>();
+        services.AddScoped<IPaginationService, PaginationService>();
+        services.AddScoped<ICourseService, CourseService>();
+
+        // ..config
+        services.AddAutoMapper(typeof(Program));
+        services.AddCors();
+        services.AddControllers();
+        services.AddAuthorization();
+        services.AddExceptionHandler<ErrorHandlingMiddleware>();
+        services.AddProblemDetails();
+        services.AddEndpointsApiExplorer();
+        services.AddSwaggerGen();
+    }
 }
 
-
-app.UseHttpsRedirection();
-
-app.UseExceptionHandler();
-
-app.MapControllers();
-
-app.Run();

@@ -18,7 +18,7 @@ public class SubjectService(
     private readonly IUserRepository _userRepo = userRepository;
     private readonly ICurricularUnitRepository _curricularUnitRepo = curricularUnitRepository;
     private readonly IClassRepository _classRepo = classRepository; 
-    public async Task<SubjectCreateOutbound> CreateSubject(SubjectCreatePayload payload)
+    public async Task<AppResponse<SubjectDTO>> CreateSubject(SubjectCreatePayload payload)
     {
         var instructor = await _userRepo.GetAllNoTracking()
             .SingleOrDefaultAsync(u => u.Id == payload.InstructorId)
@@ -46,7 +46,9 @@ public class SubjectService(
 
         await repository.SaveAsync();
 
-        var response = SubjectCreateOutbound.Map(createdSubject);
-        return response;
+        return new AppResponse<SubjectDTO>(
+            SubjectDTO.Map(createdSubject),
+            "Subject created successfully!"
+        );
     }
 }
