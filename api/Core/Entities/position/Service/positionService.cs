@@ -7,7 +7,7 @@ using api.Domain.Services.Pagination;
 using Api.Domain.Repositories;
 using Api.Core.Errors;
 using AutoMapper;
-using api.Controllers.Mappers;
+using api.Core.Services;
 
 namespace Api.Core.Services;
 
