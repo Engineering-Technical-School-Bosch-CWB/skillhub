@@ -1,10 +1,10 @@
 using System.IdentityModel.Tokens.Jwt;
-using api.Core.Middlewares;
-using api.Core.Services.Pagination;
 using Api.Core;
 using Api.Core.JWTService;
+using Api.Core.Middlewares;
 using Api.Core.Repositories;
 using Api.Core.Services;
+using Api.Core.Services.Pagination;
 using Api.Domain.Models;
 using Api.Domain.Repositories;
 using Api.Domain.Services;
