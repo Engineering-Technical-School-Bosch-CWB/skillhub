@@ -30,7 +30,7 @@ public class SubjectService(
 
         var subjectClass = await _classRepo.Get()
             .SingleOrDefaultAsync(c => c.Id == payload.ClassId)
-            ?? throw new NotFoundException("Subject not found.");
+            ?? throw new NotFoundException("Class not found.");
 
         var newSubject = new Subject {
             Instructor = instructor,
