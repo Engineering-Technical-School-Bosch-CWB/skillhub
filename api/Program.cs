@@ -35,7 +35,7 @@ public class Program
             .SetIsOriginAllowed(origin => true)
             .AllowCredentials());
 
-        app.UseMiddleware<AuthenticationMiddleware>();
+        // app.UseMiddleware<AuthenticationMiddleware>();
 
         app.UseExceptionHandler();
 
@@ -67,7 +67,7 @@ public class Program
  
         // ..middlewares
         services.AddExceptionHandler<ErrorHandlingMiddleware>();
-        services.AddTransient<AuthenticationMiddleware>();
+        // services.AddTransient<AuthenticationMiddleware>();
         services.AddScoped<UserContext>();
 
         // ..utils

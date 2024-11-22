@@ -6,8 +6,6 @@ using Api.Core.Errors;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Api.Domain.Repositories;
-using Api.Core.Errors.Login;
-using Api.Core.Repositories;
 
 namespace Api.Core.Services;
 

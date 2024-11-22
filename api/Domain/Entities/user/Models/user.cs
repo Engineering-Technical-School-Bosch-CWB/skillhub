@@ -8,7 +8,6 @@ public partial class User : IEntity
   public required string Hash { get; set; }
   public DateTime Birthday { get; set; }
   public bool IsActive { get; set; }
-
   public required Position Position { get; set; }
   public required Sector Sector { get; set; }
   public required OccupationArea Area { get; set; }

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace api.Migrations
 {
     [DbContext(typeof(SkillhubContext))]
-    [Migration("20241119170225_InitialCreate")]
+    [Migration("20241122170629_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -672,15 +672,6 @@ namespace api.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)")
                         .HasColumnName("name");
-
-                    b.Property<int>("OccupationId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PositionId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SectorId")
-                        .HasColumnType("int");
 
                     b.Property<int>("occupation_area_id")
                         .HasColumnType("int");

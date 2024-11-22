@@ -26,8 +26,6 @@ public class CourseService : BaseService<Course>, ICourseService
         );
     }
     
-
-    
     public async Task<AppResponse<CourseDTO>> CreateCourse(CourseCreatePayload payload)
     {
         if (await repository.GetAllNoTracking().AnyAsync(c => c.Name.ToLower() == payload.Name.ToLower()))
@@ -85,12 +83,9 @@ public class CourseService : BaseService<Course>, ICourseService
         );
     }
 
-    public async Task<PaginatedAppResponse<CourseDTO>> GetCourses(PaginationQuery pagination)
+    public PaginatedAppResponse<CourseDTO> GetCourses(PaginationQuery pagination)
     {
-        var query = repository.GetAllNoTracking()
-            .Include(c => c.DefaultOccupationArea);
-
-        var paginatedCourses = await _repo.GetPaginatedAsync(pagination.ToOptions());
+        var paginatedCourses = _repo.GetPaginated(pagination.ToOptions());
 
         return new PaginatedAppResponse<CourseDTO>(
             paginatedCourses.Item1.Select(c => CourseDTO.Map(c)),
@@ -114,16 +109,16 @@ public class CourseService : BaseService<Course>, ICourseService
             course.DefaultOccupationArea = area;
         }
 
-        if (!string.IsNullOrEmpty(payload.Name))
+        if (!string.IsNullOrEmpty(payload.Name) && payload.Name.ToLower() != course.Name.ToLower())
         {
-            if (await repository.GetAllNoTracking().AnyAsync(c => c.Name.ToLower() == payload.Name.ToLower() && c.Id != id))
+            if (await repository.GetAllNoTracking().AnyAsync(c => c.Name.ToLower() == payload.Name.ToLower()))
                 throw new AlreadyExistsException("Name of course already exists.");
             course.Name = payload.Name;
         }
 
-        if (!string.IsNullOrEmpty(payload.Abbreviation))
+        if (!string.IsNullOrEmpty(payload.Abbreviation) && payload.Abbreviation.ToLower() != course.Abbreviation.ToLower())
         {
-            if (await repository.GetAllNoTracking().AnyAsync(c => c.Abbreviation.ToLower() == payload.Abbreviation.ToLower() && c.Id != id))
+            if (await repository.GetAllNoTracking().AnyAsync(c => c.Abbreviation.ToLower() == payload.Abbreviation.ToLower()))
                 throw new AlreadyExistsException("Abbreviation of course already exists.");
             course.Abbreviation = payload.Abbreviation;
         }

@@ -670,15 +670,6 @@ namespace api.Migrations
                         .HasColumnType("nvarchar(500)")
                         .HasColumnName("name");
 
-                    b.Property<int>("OccupationId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PositionId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SectorId")
-                        .HasColumnType("int");
-
                     b.Property<int>("occupation_area_id")
                         .HasColumnType("int");
 
