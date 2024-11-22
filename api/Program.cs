@@ -10,7 +10,6 @@ using Api.Domain.Services;
 using Genesis.Core.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
-using Newtonsoft.Json;
 
 namespace Api;
 
@@ -60,8 +59,6 @@ public class Program
             options => options.UseSqlServer($"Server={connectionHost};Database={connectionDatabase};Trusted_Connection=True;TrustServerCertificate=True;")
         );
 
-        System.Console.WriteLine($"Server={connectionHost};Database={connectionDatabase};Trusted_Connection=True;TrustServerCertificate=True;");
-
         // ..jwt 
         var jwtSettings = new JwtSettings()
         {
@@ -70,8 +67,6 @@ public class Program
         services.AddSingleton(jwtSettings);  
         services.AddSingleton<JwtSecurityTokenHandler>();  
         services.AddScoped<JwtService>();
-
-        System.Console.WriteLine(JsonConvert.SerializeObject(jwtSettings));
  
         // ..middlewares
         services.AddScoped<AuthenticationMiddleware>();

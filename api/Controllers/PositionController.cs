@@ -74,7 +74,7 @@ namespace Api.Controllers
                 PositionDTO.Map(result),
                 "Position created!");
 
-            return Ok(result);
+            return Ok(response);
         }
 
         [HttpDelete]
