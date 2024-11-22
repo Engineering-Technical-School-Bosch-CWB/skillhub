@@ -56,24 +56,17 @@ namespace Api.Core.Services;
         {
             ClaimsPrincipal? claims;
 
-            try
-            {
-                claims = _tokenHandler.ValidateToken(jwt,
-                        new TokenValidationParameters()
-                        {
-                            ValidateIssuer = true,
-                            ValidateLifetime = true,
-                            ValidateIssuerSigningKey = true,
-                            ValidateAudience = false,
-                            ValidIssuer = "Project-E",
-                            IssuerSigningKey = _securityKey
-                        },
-                        out var validatedToken);
-            }
-            catch (Exception ex)
-            {
-                throw new InvalidTokenException("Unable to validate token and its claims.", ex);
-            }
+            claims = _tokenHandler.ValidateToken(jwt,
+                new TokenValidationParameters()
+                {
+                    ValidateIssuer = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidateAudience = false,
+                    ValidIssuer = "Project-E",
+                    IssuerSigningKey = _securityKey
+                },
+                out var validatedToken);
 
             var userPosition = claims.FindFirst("PermissionLevel")!.Value;
             

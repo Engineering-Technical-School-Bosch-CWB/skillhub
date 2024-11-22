@@ -35,11 +35,11 @@ public class Program
             .SetIsOriginAllowed(origin => true)
             .AllowCredentials());
 
-        // app.UseMiddleware<AuthenticationMiddleware>();
-
-        app.UseExceptionHandler();
+        app.UseMiddleware<AuthenticationMiddleware>();
 
         app.UseAuthorization();
+
+        app.UseExceptionHandler();
 
         app.MapControllers();
 
@@ -66,8 +66,8 @@ public class Program
         services.AddScoped<JwtService>();
  
         // ..middlewares
-        services.AddExceptionHandler<ErrorHandlingMiddleware>();
-        // services.AddTransient<AuthenticationMiddleware>();
+        services.AddScoped<AuthenticationMiddleware>();
+        services.AddSingleton<ErrorHandlingMiddleware>();
         services.AddScoped<UserContext>();
 
         // ..utils
@@ -111,12 +111,14 @@ public class Program
         services.AddScoped<IStudentService, StudentService>();
         services.AddScoped<ISubjectService, SubjectService>();
         services.AddScoped<IPaginationService, PaginationService>();
+        services.AddScoped<ICourseService, CourseService>();
 
         // ..config
         services.AddAutoMapper(typeof(Program));
         services.AddCors();
         services.AddControllers();
         services.AddAuthorization();
+        services.AddExceptionHandler<ErrorHandlingMiddleware>();
         services.AddProblemDetails();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();

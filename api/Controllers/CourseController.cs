@@ -1,7 +1,6 @@
 using Api.Domain.Services;
 using Api.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Api.Controllers;
 
