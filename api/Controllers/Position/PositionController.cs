@@ -72,10 +72,23 @@ namespace api.Controllers
             return Ok(PositionResponse.ToResponse(result));
         }
 
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<ActionResult> Delete(
+                [FromServices] IPositionService service,
+                int id)
+        {
+            await service.SoftDeleteAsync(id);
+
+            return NoContent();
+        }
+
         private Position ToPosition(PositionPayload payload)
         {
             var newPosition = new Position();
             _mapper.Map(payload, newPosition);
+
+            newPosition.IsActive = true;
 
             return newPosition;
         }

@@ -8,6 +8,7 @@ using Api.Domain.Repositories;
 using Api.Core.Errors;
 using AutoMapper;
 using api.Core.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api.Core.Services;
 
@@ -56,6 +57,36 @@ public class PositionService
             Data = result.Item1.Select(PositionResponse.ToResponse),
             PaginationInfo = result.Item2,
         };
+    }
+
+    public void SoftDelete(int id)
+    {
+        var position = repository.GetAllNoTracking()
+                .SingleOrDefault(p => p.Id.Equals(id))
+                    ?? throw new NotFoundException("Position not found.");
+        
+        if (!position.IsActive)
+            throw new NotFoundException("Position not found.");
+        
+        position.IsActive = false;
+
+        repository.Update(position);
+        repository.Save();
+    }
+
+    public async Task SoftDeleteAsync(int id)
+    {
+        var position = await repository.GetAllNoTracking()
+                .SingleOrDefaultAsync(p => p.Id.Equals(id))
+                    ?? throw new NotFoundException("Position not found.");
+        
+        if (!position.IsActive)
+            throw new NotFoundException("Position not found.");
+        
+        position.IsActive = false;
+
+        repository.Update(position);
+        await repository.SaveAsync();
     }
 
     public async Task<PositionResponse> UpdatePositionAsync(int id, PositionPayload payload)
