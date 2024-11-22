@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Api.Domain.Models;
+
 namespace Api.Core.Mapping;
 
 public class ClassClassMap : IEntityTypeConfiguration<Class>
@@ -31,5 +32,3 @@ public class ClassClassMap : IEntityTypeConfiguration<Class>
             .HasColumnName("is_active");
     }
 }
-
-

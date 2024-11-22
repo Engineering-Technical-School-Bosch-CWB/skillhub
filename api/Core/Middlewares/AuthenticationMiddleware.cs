@@ -1,6 +1,6 @@
-
 using Api.Core.Errors.Authentication;
-using Api.Core.JWTService;
+using Api.Core.Services;
+using Azure;
 
 namespace Api.Core.Middlewares;
 
@@ -21,7 +21,7 @@ public class AuthenticationMiddleware : IMiddleware
     }
 
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
-    {
+    {   
         bool mustSkip = _pathsToSkip.Contains(
                     context.Request.Path.Value,
                     StringComparer.OrdinalIgnoreCase);
@@ -32,14 +32,46 @@ public class AuthenticationMiddleware : IMiddleware
             return;
         }
 
-        var auth = context.Request.Headers.Authorization.FirstOrDefault()
-                ?? throw new InvalidHeadersException("Missing authorization header.");
-        
-        var token = auth.Split(" ")[1]
-                ?? throw new InvalidHeadersException("Authorization header should be a bearer token.");
+        var auth = context.Request.Headers.Authorization.FirstOrDefault();
+        if(!TryGetBearerToken(auth!, out var token))
+        {
+            await RespondWithErrorAsync(context, 400, "Invalid authorization headers.");
+            return;
+        }
 
-        _jwtService.ValidateToken(token);   
+        try 
+        {
+            _jwtService.ValidateToken(token);   
+        }
+        catch(Exception ex)
+        {
+            await RespondWithErrorAsync(context, 401, "Invalid JWT token.");
+            return;
+        }
 
         await next.Invoke(context);
+    }
+
+    private bool TryGetBearerToken(string auth, out string? token)
+    {
+        if (auth is not null)
+        {
+            var parts = auth.Split(" ");
+            if (parts.Length == 2 && parts[0] == "Bearer")
+            {
+                token = parts[1];
+                return true;
+            }
+        }
+
+        token = null;
+        return false;
+    }
+
+    private async Task RespondWithErrorAsync(HttpContext context, int statusCode, string message)
+    {
+        var error = new Error(statusCode, message);
+        context.Response.StatusCode = error.Status;
+        await context.Response.WriteAsJsonAsync(error);
     }
 }

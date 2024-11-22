@@ -15,9 +15,8 @@ public class ClassService(
 {
     private readonly ICourseRepository _courseRepo = courseRepository;
 
-    public async Task<ClassCreateOutbound> CreateClass(ClassCreatePayload payload)
+    public async Task<AppResponse<ClassDTO>> CreateClass(ClassCreatePayload payload)
     {
-
         var course = await _courseRepo.GetAllNoTracking()
             .SingleOrDefaultAsync(c => c.Id == payload.CourseId)
             ?? throw new NotFoundException("Course not found");
@@ -33,7 +32,9 @@ public class ClassService(
 
         await repository.SaveAsync();
 
-        var response = ClassCreateOutbound.Map(createdClass);
-        return response;
+        return new AppResponse<ClassDTO>(
+            ClassDTO.Map(createdClass),
+            "Class created successfully!"
+        );
     }
 }

@@ -1,4 +1,4 @@
-namespace Api.Domain.Services.Pagination
+namespace Api.Domain.Services
 {
     public class PaginationInfo
     {

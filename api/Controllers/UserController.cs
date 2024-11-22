@@ -6,9 +6,10 @@ namespace Api.Controllers
 {
     [ApiController]
     [Route("api/v1/users")]
-    public class Usercontroller : ControllerBase
+    public class UserController : ControllerBase
     {
         [HttpPost]
+        [Route("register")]
         public async Task<ActionResult> RegisterUser(
             [FromServices] IUserService userService,
             [FromBody] UserCreatePayload payload)
@@ -25,7 +26,7 @@ namespace Api.Controllers
             int id)
         {
             var result = await service.UpdateUser(id, payload);
-            return new OkObjectResult(result);
+            return Ok(result);
         }
 
         [HttpDelete]
@@ -35,7 +36,7 @@ namespace Api.Controllers
             int id)
         {
             await service.DeleteUser(id);
-            return NoContent();
+            return Ok();
         }
 
     }
