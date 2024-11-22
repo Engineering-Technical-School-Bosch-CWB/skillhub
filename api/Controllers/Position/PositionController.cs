@@ -1,16 +1,16 @@
 using api.Controllers.Mappers;
 using api.Domain.Models;
+using api.Domain.Services.Pagination;
 using Api.Domain.Models;
 using Api.Domain.Services;
 using AutoMapper;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
 {
     [ApiController]
     [Route("api/v1/position")]
-    public class PositionController
+    public class PositionController : ControllerBase
     {
         private readonly Mapper _mapper;
 
@@ -25,31 +25,36 @@ namespace api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<PositionResponse>> Create(
+        public async Task<ActionResult> Create(
                 [FromServices] IPositionService service,
                 [FromBody] PositionPayload payload)
         {
             var position = ToPosition(payload);
             var result = await service.AddAsync(position);
 
-            return new CreatedAtActionResult(
-                    nameof(Create),
-                    nameof(PositionController),
-                    PositionResponse.ToResponse(result),
-                    result);
+            return Created("api/v1/position", result);
         }
 
         [HttpPatch]
         [Route("{id}")]
-        public async Task<ActionResult<PositionResponse>> Update(
+        public async Task<ActionResult> Update(
                 [FromServices] IPositionService service,
                 [FromBody] PositionPayload payload,
                 int id)
         {
-            var position =  ToPosition(payload);
-            var result = await service.UpdateAsync(id, position);
-            
-            return new OkObjectResult(PositionResponse.ToResponse(result));
+            var result = await service.UpdatePositionAsync(id, payload);
+
+            return Ok(result);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<PositionResponse>> GetPaginated(
+                [FromServices] IPositionService service,
+                [FromQuery] PaginationQuery pagination)
+        {
+            var result = await service.GetPaginatedAsync(pagination);
+
+            return new OkObjectResult(result);
         }
 
         private Position ToPosition(PositionPayload payload)

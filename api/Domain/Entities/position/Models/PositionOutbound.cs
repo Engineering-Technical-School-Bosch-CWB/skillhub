@@ -5,12 +5,14 @@ namespace api.Domain.Models
 {
     public class PositionResponse
     {
+        public required int Id { get; init; }
         public required string Name { get; init; }
 
         public static PositionResponse ToResponse(Position position)
         {
             return new PositionResponse()
             {
+                Id = position.Id,
                 Name = position.Name,
             };
         }

@@ -9,16 +9,28 @@ using Api.Domain.Models;
 using Api.Domain.Repositories;
 using Api.Domain.Services;
 using Genesis.Core.Repositories;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+
+DotNetEnv.Env.Load("./.env");
 
 var builder = WebApplication.CreateBuilder(args);
 
-DotNetEnv.Env.Load();
-
 var connectionHost = builder.Configuration["MSSQL_HOST"];
 var connectionDatabase = builder.Configuration["MSSQL_DATABASE"];
+
+var connectionBuilder = new SqlConnectionStringBuilder
+{
+    DataSource = connectionHost,
+    InitialCatalog = connectionDatabase,
+    TrustServerCertificate = true,
+    IntegratedSecurity = true
+};
+
+System.Console.WriteLine(connectionBuilder.ConnectionString);
+
 builder.Services.AddDbContext<Project_eContext>(
-    options => options.UseSqlServer($"Server={connectionHost};Database={connectionDatabase};Trusted_Connection=True;TrustServerCertificate=True;")
+    options => options.UseSqlServer(connectionBuilder.ConnectionString)
 );
 
 var jwtSettings = new JwtSettings()
@@ -47,6 +59,8 @@ builder.Services.AddProblemDetails();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddControllers();
+
 var app = builder.Build();
 
 // app.UseMiddleware<AuthenticationMiddleware>();
@@ -61,5 +75,7 @@ if (app.Environment.IsDevelopment())
 // app.UseHttpsRedirection(); // TODO: figure out how to configure HTTPS redirection.
 
 app.UseExceptionHandler();
+
+app.MapControllers();
 
 app.Run();
