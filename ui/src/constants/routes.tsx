@@ -83,7 +83,8 @@ const routes:Record<string, IAppRoute> = {
 
     // ..user directory
     COMPLETE_REGISTERING: {
-        path: "/user/:id/register",
+        // path: "/user/:id/register",
+        path: "/user",
         element: <CompleteRegistering/>,
         title: "Complete Registering" 
     },
