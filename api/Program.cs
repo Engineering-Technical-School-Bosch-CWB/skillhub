@@ -10,6 +10,7 @@ using Api.Domain.Services;
 using Genesis.Core.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Newtonsoft.Json;
 
 namespace Api;
 
@@ -17,6 +18,8 @@ public class Program
 {
     static void Main(string[] args)
     {
+        DotNetEnv.Env.Load("./.env");
+
         var builder = WebApplication.CreateBuilder(args);
         
         ConfigureServices(builder.Services, builder.Configuration);
@@ -50,20 +53,25 @@ public class Program
         IServiceCollection services,
         ConfigurationManager configuration)
     {
-        var connectionString = configuration.GetConnectionString("SqlServer");
+        // databae connection
+        var connectionHost = configuration["MSSQL_HOST"];
+        var connectionDatabase = configuration["MSSQL_DATABASE"];
         services.AddDbContext<SkillhubContext>(
-            options => options.UseSqlServer(connectionString)
+            options => options.UseSqlServer($"Server={connectionHost};Database={connectionDatabase};Trusted_Connection=True;TrustServerCertificate=True;")
         );
+
+        System.Console.WriteLine($"Server={connectionHost};Database={connectionDatabase};Trusted_Connection=True;TrustServerCertificate=True;");
 
         // ..jwt 
         var jwtSettings = new JwtSettings()
         {
-            SecretKey = configuration.GetSection("JwtSettings")
-                    .GetValue<string>("SecretKey")!
+            SecretKey = configuration["JWT_SECRET_KEY"]!,
         }; 
         services.AddSingleton(jwtSettings);  
         services.AddSingleton<JwtSecurityTokenHandler>();  
         services.AddScoped<JwtService>();
+
+        System.Console.WriteLine(JsonConvert.SerializeObject(jwtSettings));
  
         // ..middlewares
         services.AddScoped<AuthenticationMiddleware>();
