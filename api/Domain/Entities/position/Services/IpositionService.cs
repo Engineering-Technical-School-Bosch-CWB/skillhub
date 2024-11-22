@@ -5,5 +5,5 @@ namespace Api.Domain.Services;
 
 public interface IPositionService : IService<Position>
 {
-
+    public Task<PaginatedAppResponse<PositionDTO>> GetPaginatedAsync(PaginationQuery pagination);
 }

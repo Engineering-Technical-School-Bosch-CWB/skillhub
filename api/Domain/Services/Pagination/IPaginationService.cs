@@ -1,13 +1,17 @@
 using Genesis.Domain.Models;
 
-namespace api.Domain.Services.Pagination
+namespace Api.Domain.Services
 {
     public interface IPaginationService
     {
-        Task<(IEnumerable<TEntity>, PaginationInfo)> Paginate<TEntity>(
+        (IEnumerable<TEntity>, PaginationInfo) Paginate<TEntity>(
                 IQueryable<TEntity> query,
                 PaginationOptions pagination)
-                where TEntity : IEntity;
+            where TEntity : IEntity;
 
+        Task<(IEnumerable<TEntity>, PaginationInfo)> PaginateAsync<TEntity>(
+                IQueryable<TEntity> query,
+                PaginationOptions pagination)
+            where TEntity : IEntity;
     }
 }

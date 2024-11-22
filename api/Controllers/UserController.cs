@@ -1,37 +1,38 @@
-using Api.Core.Services;
 using Api.Domain.Models;
+using Api.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
     [ApiController]
     [Route("api/v1/users")]
-    public class LoginController : ControllerBase
+    public class UserController : ControllerBase
     {
         [HttpPost]
+        [Route("register")]
         public async Task<ActionResult> RegisterUser(
-            [FromServices] UserService userService,
+            [FromServices] IUserService userService,
             [FromBody] UserCreatePayload payload)
         {
             var result = await userService.CreateUser(payload);
-            return Created("/api/v1/users/register", result);
+            return Created("/api/v1/users", result);
         }
 
         [HttpPatch]
         [Route("{id}")]
-        public async Task<IActionResult> UpdateUser(
-            [FromServices] UserService service,
+        public async Task<ActionResult> UpdateUser(
+            [FromServices] IUserService service,
             [FromBody] UserUpdatePayload payload,
             int id)
         {
             var result = await service.UpdateUser(id, payload);
-            return new OkObjectResult(result);
+            return Ok(result);
         }
 
         [HttpDelete]
         [Route("{id}")]
         public async Task<IActionResult> DeleteUser(
-            [FromServices] UserService service,
+            [FromServices] IUserService service,
             int id)
         {
             await service.DeleteUser(id);

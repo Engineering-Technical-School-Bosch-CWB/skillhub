@@ -1,13 +1,12 @@
 using Genesis.Domain.Models;
 
 namespace Api.Domain.Models;
-
 public partial class User : IEntity
 {
-  public string Name { get; set; } = string.Empty;
-  public string Identification { get; set; } = string.Empty;
-  public string Hash { get; set; } = string.Empty;
-  public DateTime? Birthday { get; set; }
+  public required string Name { get; set; }
+  public required string Identification { get; set; }
+  public required string Hash { get; set; }
+  public DateTime Birthday { get; set; }
   public bool IsActive { get; set; }
 
   public required Position Position { get; set; }
@@ -15,6 +14,7 @@ public partial class User : IEntity
   public required OccupationArea Area { get; set; }
   public Student? StudentProfile { get; set; }
 
-  public IEnumerable<UserImage> Images { get; set; } = [];
-  public IEnumerable<Subject> Subjects { get; set; } = [];
+  public ICollection<UserImage> Images { get; set; } = [];
+  public ICollection<Subject> Subjects { get; set; } = [];
+
 }
