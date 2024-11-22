@@ -32,7 +32,7 @@ namespace api.Controllers
             var position = ToPosition(payload);
             var result = await service.AddAsync(position);
 
-            return Created("api/v1/position", result);
+            return Created("api/v1/position", PositionResponse.ToResponse(result));
         }
 
         [HttpPatch]
@@ -48,13 +48,28 @@ namespace api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<PositionResponse>> GetPaginated(
+        public async Task<ActionResult> GetPaginated(
                 [FromServices] IPositionService service,
                 [FromQuery] PaginationQuery pagination)
         {
             var result = await service.GetPaginatedAsync(pagination);
 
-            return new OkObjectResult(result);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<ActionResult> Get(
+                [FromServices] IPositionService service,
+                int id)
+        {
+            var position = new Position
+            {
+                Id = id
+            };
+            var result = await service.GetAsync(position);
+
+            return Ok(PositionResponse.ToResponse(result));
         }
 
         private Position ToPosition(PositionPayload payload)
