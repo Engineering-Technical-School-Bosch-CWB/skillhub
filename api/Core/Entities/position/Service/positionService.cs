@@ -61,10 +61,10 @@ public class PositionService
     {
         var position = repository.GetAllNoTracking()
                 .SingleOrDefault(p => p.Id.Equals(id))
-                    ?? throw new NotFoundException("Position not found.");
+                    ?? throw new NotFoundException("Position not found!");
         
         if (!position.IsActive)
-            throw new NotFoundException("Position not found.");
+            throw new NotFoundException("Position not found!");
         
         position.IsActive = false;
 
@@ -76,10 +76,10 @@ public class PositionService
     {
         var position = await repository.GetAllNoTracking()
                 .SingleOrDefaultAsync(p => p.Id.Equals(id))
-                    ?? throw new NotFoundException("Position not found.");
+                    ?? throw new NotFoundException("Position not found!");
         
         if (!position.IsActive)
-            throw new NotFoundException("Position not found.");
+            throw new NotFoundException("Position not found!");
         
         position.IsActive = false;
 
@@ -96,12 +96,12 @@ public class PositionService
         _mapper.Map(payload, newPosition);
 
         var result = _repo.Update(newPosition)
-                ?? throw new UpsertFailException("Could not update position.");
+                ?? throw new UpsertFailException("Could not update position!");
         
         await _repo.SaveAsync();
 
         return new AppResponse<PositionDTO>(
             PositionDTO.Map(result), 
-            "Position returned.");
+            "Position updated successfully!");
     }
 }

@@ -29,14 +29,14 @@ public class CourseService : BaseService<Course>, ICourseService
     public async Task<AppResponse<CourseDTO>> CreateCourse(CourseCreatePayload payload)
     {
         if (await repository.Get().AnyAsync(c => c.Name.ToLower() == payload.Name.ToLower()))
-            throw new AlreadyExistsException("Name of course already exists.");
+            throw new AlreadyExistsException("Name of course already exists!");
 
         if (await repository.Get().AnyAsync(c => c.Abbreviation.ToLower() == payload.Abbreviation.ToLower()))
-            throw new AlreadyExistsException("Abbreviation of course already exists.");
+            throw new AlreadyExistsException("Abbreviation of course already exists!");
 
         var area = await _areaRepo.Get()
             .SingleOrDefaultAsync(oa => oa.Id == payload.OccupationAreaId)
-            ?? throw new NotFoundException("Occpation area not found.");
+            ?? throw new NotFoundException("Occpation area not found!");
 
         var newCourse = new Course()
         {
@@ -46,7 +46,7 @@ public class CourseService : BaseService<Course>, ICourseService
         };
 
         var saveCourse = repository.Add(newCourse)
-            ?? throw new UpsertFailException("Course could not be inserted.");
+            ?? throw new UpsertFailException("Course could not be inserted!");
         await repository.SaveAsync();
         
         return new AppResponse<CourseDTO>(
@@ -59,13 +59,13 @@ public class CourseService : BaseService<Course>, ICourseService
     {
         var course = await repository.Get()
             .SingleOrDefaultAsync(c => c.Id == id)
-            ?? throw new NotFoundException("Course not found.");
+            ?? throw new NotFoundException("Course not found!");
         
         course.IsActive = false;
 
         var deletedCourse =
             repository.Update(course)
-            ?? throw new DeleteFailException("Course could not be deleted.");
+            ?? throw new DeleteFailException("Course could not be deleted!");
 
         await repository.SaveAsync();
     }
@@ -75,7 +75,7 @@ public class CourseService : BaseService<Course>, ICourseService
         var course = await repository.Get()
             .Include( c => c.DefaultOccupationArea )
             .SingleOrDefaultAsync(c => c.Id == id)
-            ?? throw new NotFoundException("Course not found");
+            ?? throw new NotFoundException("Course not found!");
 
         return new AppResponse<CourseDTO>(
             CourseDTO.Map(course),
@@ -100,13 +100,13 @@ public class CourseService : BaseService<Course>, ICourseService
         var course = await repository.Get()
             .Include( c => c.DefaultOccupationArea)
             .SingleOrDefaultAsync(c => c.Id == id)
-            ?? throw new NotFoundException("Course not found");
+            ?? throw new NotFoundException("Course not found!");
         
         if (payload.OccupationAreaId is not null)
         {
             var area = await _areaRepo.Get()
                 .SingleOrDefaultAsync(u => u.Id == payload.OccupationAreaId) 
-                ?? throw new NotFoundException("Occupation area not found.");
+                ?? throw new NotFoundException("Occupation area not found!");
             course.DefaultOccupationArea = area;
         }
 
@@ -114,7 +114,7 @@ public class CourseService : BaseService<Course>, ICourseService
         {
             if (await repository.GetAllNoTracking().AnyAsync(c => c.Name.ToLower() == payload.Name.ToLower()))
 
-                throw new AlreadyExistsException("Name of course already exists.");
+                throw new AlreadyExistsException("Name of course already exists!");
             course.Name = payload.Name;
         }
 
@@ -122,13 +122,13 @@ public class CourseService : BaseService<Course>, ICourseService
         {
             if (await repository.GetAllNoTracking().AnyAsync(c => c.Abbreviation.ToLower() == payload.Abbreviation.ToLower()))
 
-                throw new AlreadyExistsException("Abbreviation of course already exists.");
+                throw new AlreadyExistsException("Abbreviation of course already exists!");
             course.Abbreviation = payload.Abbreviation;
         }
 
         var updatedCourse =
             repository.Update(course)
-            ?? throw new UpsertFailException("Course could not be updated.");
+            ?? throw new UpsertFailException("Course could not be updated!");
 
         return new AppResponse<CourseDTO>(
             CourseDTO.Map(updatedCourse),

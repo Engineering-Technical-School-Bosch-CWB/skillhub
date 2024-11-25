@@ -19,7 +19,7 @@ public class ClassService(
     {
         var course = await _courseRepo.Get()
             .SingleOrDefaultAsync(c => c.Id == payload.CourseId)
-            ?? throw new NotFoundException("Course not found");
+            ?? throw new NotFoundException("Course not found!");
 
         var newClass = new Class {
             Name = payload.Name,
@@ -29,7 +29,7 @@ public class ClassService(
         };
 
         var createdClass = repository.Add(newClass)
-            ?? throw new UpsertFailException("Class could not be inserted.");
+            ?? throw new UpsertFailException("Class could not be inserted!");
 
         await repository.SaveAsync();
 

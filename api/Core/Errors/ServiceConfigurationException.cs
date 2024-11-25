@@ -8,7 +8,7 @@ public class ServiceConfigurationException : Exception
     public ServiceConfigurationException(
             string fieldName,
             Type expectedType,
-            Type dependant) : base($"Field {fieldName} on dependant {dependant} expected type {expectedType}.")
+            Type dependant) : base($"Field {fieldName} on dependant {dependant} expected type {expectedType}!")
     {
         FieldName = fieldName;
         ExpectedType = expectedType;
