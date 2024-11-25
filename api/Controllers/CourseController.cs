@@ -30,7 +30,7 @@ public class CourseController : ControllerBase
     [HttpGet]
     public ActionResult GetAllCourse(
         [FromServices] ICourseService CourseService,
-        [FromBody] PaginationQuery pagination)
+        [FromQuery] PaginationQuery pagination)
     {
         var result = CourseService.GetCourses(pagination);
         return Ok(result);
