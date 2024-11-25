@@ -27,7 +27,7 @@ public class UserUpdatePayload()
 
     public int? PositionId { get; set; }
 
-    public int? AreaId { get; set; }
+    public int? OccupationAreaId { get; set; }
 
     [StringLength(500)]
     public string? Name { get; set; }

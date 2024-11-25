@@ -31,7 +31,7 @@ public class UserService: BaseService<User>, IUserService
     public async Task<AppResponse<UserDTO>> CreateUser(UserCreatePayload payload)
     {
         var exists = await repository.Get()
-            .FirstOrDefaultAsync(u => u.Identification == payload.EDV);
+            .FirstOrDefaultAsync(u => u.Identification == payload.Identification);
 
         if (exists is not null)
             throw new AlreadyExistsException("EDV already in use.");
@@ -50,12 +50,12 @@ public class UserService: BaseService<User>, IUserService
         
         var newUser = new User(){
             Name = payload.Name,
-            Identification = payload.EDV,
-            Hash = payload.EDV,
+            Identification = payload.Identification,
+            Hash = payload.Identification,
             IsActive = true,
             Position = position,
             Sector = sector,
-            Area = area
+            OccupationArea = area
         };
 
         newUser.Hash = _hasher.HashPassword(newUser, newUser.Hash);
@@ -77,7 +77,7 @@ public class UserService: BaseService<User>, IUserService
             ?? throw new NotFoundException("User not found.");
 
 
-        if (payload.EDV is not null)
+        if (payload.Identification is not null)
         {
             var exists = await repository.Get()
                 .AnyAsync(u => u.Identification == user.Identification);
@@ -103,12 +103,12 @@ public class UserService: BaseService<User>, IUserService
             user.Position = position;
         }
 
-        if (payload.OccupationId is not null)
+        if (payload.OccupationAreaId is not null)
         {
             var area = await _areaRepo.Get()
-                .SingleOrDefaultAsync(u => u.Id == payload.OccupationId) 
+                .SingleOrDefaultAsync(u => u.Id == payload.OccupationAreaId) 
                 ?? throw new NotFoundException("Area not found.");
-            user.Area = area;
+            user.OccupationArea = area;
         }
 
         if (!string.IsNullOrEmpty(payload.Password))
@@ -117,13 +117,8 @@ public class UserService: BaseService<User>, IUserService
         if (!string.IsNullOrEmpty(payload.Name))
             user.Name = payload.Name;
 
-        if (!string.IsNullOrEmpty(payload.Birthday))
-        {
-            if (!DateTime.TryParse(payload.Birthday, out var birthday))
-                throw new InvalidFormatException("Invalid date format for Birthday.");
-
-            user.Birthday = birthday;
-        }
+        if (payload.Birthday is not null)
+            user.Birthday = payload.Birthday.Value;
 
         var updatedUser =
             repository.Update(user)

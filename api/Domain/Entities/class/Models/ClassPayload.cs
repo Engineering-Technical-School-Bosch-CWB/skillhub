@@ -7,7 +7,7 @@ public class ClassCreatePayload()
     public required int CourseId { get; set; }
 
     [Required]
-    public required DateOnly StartingYear { get; set; }
+    public required short StartingYear { get; set; }
 
     [Required]
     public required short DurationPeriods { get; set; }
