@@ -1,0 +1,29 @@
+.text {
+  color: #666;
+  line-height: 1.6;
+}
+
+.small {
+  font-size: 0.875rem; 
+}
+
+.medium {
+  font-size: 1rem; 
+}
+
+.large {
+  font-size: 1.25rem; 
+}
+
+.light {
+  font-weight: 300;
+}
+
+.normal {
+  font-weight: 400;
+}
+
+.bold {
+  font-weight: 700;
+}
+  
