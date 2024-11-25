@@ -1,6 +1,7 @@
-using Api.Domain.Models;
+namespace Api.Domain.Models;
 
 public record ClassDTO(
+    string Name,
     int Id,
     short StartingYear,
     short DurationPeriods,
@@ -11,6 +12,7 @@ public record ClassDTO(
     public static ClassDTO Map(Class obj)
     {
         return new ClassDTO(
+            obj.Name,
             obj.Id,
             obj.StartingYear,
             obj.DurationPeriods,

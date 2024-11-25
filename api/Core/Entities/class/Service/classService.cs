@@ -22,6 +22,7 @@ public class ClassService(
             ?? throw new NotFoundException("Course not found");
 
         var newClass = new Class {
+            Name = payload.Name,
             Course = course,
             StartingYear = payload.StartingYear,
             DurationPeriods = payload.DurationPeriods
