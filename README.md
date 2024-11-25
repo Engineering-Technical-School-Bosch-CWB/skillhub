@@ -39,4 +39,7 @@ Default response messages returned by the endpoints.
 | `GET paginated`| "**[entities]** found!"                 |
 | `POST`         | "**[entity]** created successfully!"    |
 | `PATCH`        | "**[entity]** updated successfully!"    |
+<br>
 
+> [!NOTE]
+> **Use new migrations** - You may need to drop your database before applying.
