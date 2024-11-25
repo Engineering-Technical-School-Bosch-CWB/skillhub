@@ -37,9 +37,9 @@ public class Program
 
         app.UseMiddleware<AuthenticationMiddleware>();
 
-        app.UseExceptionHandler();
-
         app.UseAuthorization();
+
+        app.UseExceptionHandler();
 
         app.MapControllers();
 
@@ -137,6 +137,7 @@ public class Program
         services.AddControllers();
         
         services.AddAuthorization();
+        services.AddExceptionHandler<ErrorHandlingMiddleware>();
         services.AddProblemDetails();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
