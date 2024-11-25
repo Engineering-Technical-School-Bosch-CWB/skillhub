@@ -13,7 +13,6 @@ namespace Api.Controllers
             [FromServices] IUserService userService,
             [FromBody] UserCreatePayload payload)
         {
-            System.Console.WriteLine(payload);
             var result = await userService.CreateUser(payload);
             return Created("/api/v1/users", result);
         }
