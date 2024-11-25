@@ -5,3 +5,38 @@
 [DrawIo (banco - estrutura)](https://drive.google.com/file/d/1GimoezsFH2gIr3zoZXtKwcGyw3yuuM5c/view?usp=sharing)
 
 [Excalidraw (Telas)](https://excalidraw.com/#room=101b4e8167b7871b19c0,uzQJxNXB0gdBE5HK5-o7ow)
+
+
+## Configuration and API Response Patterns
+
+### JSON Model Example for `appsettings.json`
+Replace placeholders like [server name] and [secret key] with your actual values.
+
+```javascript
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "SqlServer": "Data Source=[server name];Initial Catalog=[dbskillhub - database name];Integrated Security=True;Trust Server Certificate=True;"
+  },
+  "JwtSettings": {
+    "SecretKey": "[secret key]"
+  }
+}
+```
+
+### Endpoints Responses
+Default response messages returned by the endpoints. 
+
+| HTTP Method    | Response Message                          |
+|----------------|------------------------------------------|
+| `GET`          | "**[entity]** found!"                   |
+| `GET paginated`| "**[entities]** found!"                 |
+| `POST`         | "**[entity]** created successfully!"    |
+| `PATCH`        | "**[entity]** updated successfully!"    |
+
