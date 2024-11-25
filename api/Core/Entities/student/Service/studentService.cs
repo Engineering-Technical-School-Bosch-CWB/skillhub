@@ -19,11 +19,11 @@ public class StudentService(
     private readonly IClassRepository _classRepo = classRepository;
     public async Task<AppResponse<StudentDTO>> CreateStudent(StudentCreatePayload payload)
     {
-        var user = await _userRepo.GetAllNoTracking()
+        var user = await _userRepo.Get()
             .SingleOrDefaultAsync(u => u.Id == payload.UserId)
             ?? throw new NotFoundException("User not found.");
 
-        var studentclass = await _classRepo.GetAllNoTracking()
+        var studentclass = await _classRepo.Get()
             .SingleOrDefaultAsync(c => c.Id == payload.ClassId)
             ?? throw new NotFoundException("Class not found.");
 

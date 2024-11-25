@@ -20,17 +20,17 @@ public class SubjectService(
     private readonly IClassRepository _classRepo = classRepository; 
     public async Task<AppResponse<SubjectDTO>> CreateSubject(SubjectCreatePayload payload)
     {
-        var instructor = await _userRepo.GetAllNoTracking()
+        var instructor = await _userRepo.Get()
             .SingleOrDefaultAsync(u => u.Id == payload.InstructorId)
             ?? throw new NotFoundException("Instructor not found.");
 
-        var curricularUnit = await _curricularUnitRepo.GetAllNoTracking()
+        var curricularUnit = await _curricularUnitRepo.Get()
             .SingleOrDefaultAsync(c => c.Id == payload.CurricularUnitId)
             ?? throw new NotFoundException("Curricular Unit not found.");
 
-        var subjectClass = await _classRepo.GetAllNoTracking()
+        var subjectClass = await _classRepo.Get()
             .SingleOrDefaultAsync(c => c.Id == payload.ClassId)
-            ?? throw new NotFoundException("Subject not found.");
+            ?? throw new NotFoundException("Class not found.");
 
         var newSubject = new Subject {
             Instructor = instructor,
