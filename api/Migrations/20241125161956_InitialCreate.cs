@@ -98,11 +98,8 @@ namespace api.Migrations
                     name = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     identification = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     hash = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    birthday = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    birthday = table.Column<DateOnly>(type: "date", nullable: true),
                     is_active = table.Column<bool>(type: "bit", nullable: false),
-                    PositionId = table.Column<int>(type: "int", nullable: false),
-                    SectorId = table.Column<int>(type: "int", nullable: false),
-                    OccupationId = table.Column<int>(type: "int", nullable: false),
                     position_id = table.Column<int>(type: "int", nullable: false),
                     sector_id = table.Column<int>(type: "int", nullable: false),
                     occupation_area_id = table.Column<int>(type: "int", nullable: false)

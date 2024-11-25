@@ -9,7 +9,6 @@ namespace Api.Controllers
     public class UserController : ControllerBase
     {
         [HttpPost]
-        [Route("register")]
         public async Task<ActionResult> RegisterUser(
             [FromServices] IUserService userService,
             [FromBody] UserCreatePayload payload)

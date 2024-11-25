@@ -42,7 +42,7 @@ public class UserClassMap : IEntityTypeConfiguration<User>
             .HasForeignKey("sector_id")
             .HasPrincipalKey(s => s.Id);
 
-        builder.HasOne(u => u.Area)
+        builder.HasOne(u => u.OccupationArea)
             .WithMany(a => a.Users)
             .HasForeignKey("occupation_area_id")
             .HasPrincipalKey(a => a.Id);

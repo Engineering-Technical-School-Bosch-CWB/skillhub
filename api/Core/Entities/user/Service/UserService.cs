@@ -31,7 +31,7 @@ public class UserService: BaseService<User>, IUserService
     public async Task<AppResponse<UserDTO>> CreateUser(UserCreatePayload payload)
     {
         var exists = await repository.Get()
-            .FirstOrDefaultAsync(u => u.Identification == payload.EDV);
+            .FirstOrDefaultAsync(u => u.Identification == payload.Identification);
 
         if (exists is not null)
             throw new AlreadyExistsException("EDV already in use.");
@@ -45,17 +45,17 @@ public class UserService: BaseService<User>, IUserService
             ?? throw new NotFoundException("Sector not found.");
 
         var area = await _areaRepo.Get()
-            .SingleOrDefaultAsync(a => a.Id == payload.AreaId)
+            .SingleOrDefaultAsync(a => a.Id == payload.OccupationAreaId)
             ?? throw new NotFoundException("Area not found");
         
         var newUser = new User(){
             Name = payload.Name,
-            Identification = payload.EDV,
-            Hash = payload.EDV,
+            Identification = payload.Identification,
+            Hash = payload.Identification,
             IsActive = true,
             Position = position,
             Sector = sector,
-            Area = area
+            OccupationArea = area
         };
 
         newUser.Hash = _hasher.HashPassword(newUser, newUser.Hash);
@@ -72,23 +72,24 @@ public class UserService: BaseService<User>, IUserService
 
     public async Task<AppResponse<UserDTO>> UpdateUser(int id, UserUpdatePayload payload)
     {
-        var user = await repository.GetAllNoTracking()
+        var user = await repository.Get()
             .SingleOrDefaultAsync(u => u.Id == id) 
             ?? throw new NotFoundException("User not found.");
 
-
-        if (payload.EDV is not null)
+        if (!string.IsNullOrEmpty(payload.Identification))
         {
-            var exists = await repository.GetAllNoTracking()
-                .AnyAsync(u => u.Identification == user.Identification);
+            var exists = await repository.Get()
+                .AnyAsync(u => u.Identification == payload.Identification);
 
             if (exists)
-                throw new AlreadyExistsException("EDV already in use.");
+                throw new AlreadyExistsException("Identification already in use.");
+
+            user.Identification = payload.Identification;
         }
 
         if (payload.SectorId is not null)
         {
-            var sector = await _sectorRepo.GetAllNoTracking()
+            var sector = await _sectorRepo.Get()
                 .SingleOrDefaultAsync(u => u.Id == payload.SectorId) 
                 ?? throw new NotFoundException("Sector not found.");
 
@@ -97,33 +98,28 @@ public class UserService: BaseService<User>, IUserService
 
         if (payload.PositionId is not null)
         {
-            var position = await _positionRepo.GetAllNoTracking()
+            var position = await _positionRepo.Get()
                 .SingleOrDefaultAsync(u => u.Id == payload.PositionId) 
                 ?? throw new NotFoundException("Position not found.");
             user.Position = position;
         }
 
-        if (payload.OccupationId is not null)
+        if (payload.OccupationAreaId is not null)
         {
-            var area = await _areaRepo.GetAllNoTracking()
-                .SingleOrDefaultAsync(u => u.Id == payload.OccupationId) 
+            var area = await _areaRepo.Get()
+                .SingleOrDefaultAsync(u => u.Id == payload.OccupationAreaId) 
                 ?? throw new NotFoundException("Area not found.");
-            user.Area = area;
+            user.OccupationArea = area;
         }
 
         if (!string.IsNullOrEmpty(payload.Password))
-            user.Hash = _hasher.HashPassword(user, user.Hash!);
+            user.Hash = _hasher.HashPassword(user, payload.Password);
 
         if (!string.IsNullOrEmpty(payload.Name))
             user.Name = payload.Name;
 
-        if (!string.IsNullOrEmpty(payload.Birthday))
-        {
-            if (!DateTime.TryParse(payload.Birthday, out var birthday))
-                throw new InvalidFormatException("Invalid date format for Birthday.");
-
-            user.Birthday = birthday;
-        }
+        if (payload.Birthday is not null)
+            user.Birthday = payload.Birthday.Value;
 
         var updatedUser =
             repository.Update(user)
@@ -138,14 +134,14 @@ public class UserService: BaseService<User>, IUserService
 
     public async Task DeleteUser(int id)
     {
-        var user = await repository.GetAllNoTracking()
+        var user = await repository.Get()
             .SingleOrDefaultAsync(u => u.Id == id) 
             ?? throw new NotFoundException("User not found.");
 
         user.IsActive = false;
         
-        if (user.StudentProfile is not null)
-            user.StudentProfile.IsActive = false;
+        // if (user.StudentProfile is not null)
+        //     user.StudentProfile.IsActive = false;
 
         var deletedUser =
             repository.Update(user)

@@ -80,6 +80,10 @@ namespace api.Migrations
                         .HasColumnType("bit")
                         .HasColumnName("is_active");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<short>("StartingYear")
                         .HasColumnType("smallint")
                         .HasColumnName("starting_year");
@@ -644,8 +648,8 @@ namespace api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("Birthday")
-                        .HasColumnType("datetime2")
+                    b.Property<DateOnly?>("Birthday")
+                        .HasColumnType("date")
                         .HasColumnName("birthday");
 
                     b.Property<string>("Hash")
@@ -669,15 +673,6 @@ namespace api.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)")
                         .HasColumnName("name");
-
-                    b.Property<int>("OccupationId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PositionId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SectorId")
-                        .HasColumnType("int");
 
                     b.Property<int>("occupation_area_id")
                         .HasColumnType("int");
@@ -903,7 +898,7 @@ namespace api.Migrations
                         .IsRequired();
 
                     b.HasOne("Api.Domain.Models.User", "User")
-                        .WithOne("StudentProfile")
+                        .WithOne()
                         .HasForeignKey("Api.Domain.Models.Student", "user_id")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
@@ -942,7 +937,7 @@ namespace api.Migrations
 
             modelBuilder.Entity("Api.Domain.Models.User", b =>
                 {
-                    b.HasOne("Api.Domain.Models.OccupationArea", "Area")
+                    b.HasOne("Api.Domain.Models.OccupationArea", "OccupationArea")
                         .WithMany("Users")
                         .HasForeignKey("occupation_area_id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -960,7 +955,7 @@ namespace api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Area");
+                    b.Navigation("OccupationArea");
 
                     b.Navigation("Position");
 
@@ -1051,8 +1046,6 @@ namespace api.Migrations
             modelBuilder.Entity("Api.Domain.Models.User", b =>
                 {
                     b.Navigation("Images");
-
-                    b.Navigation("StudentProfile");
 
                     b.Navigation("Subjects");
                 });

@@ -1,8 +1,17 @@
-namespace Api.Domain.Models
+using System.ComponentModel.DataAnnotations;
+
+namespace Api.Domain.Models;
+public class ClassCreatePayload()
 {
-    public readonly record struct ClassCreatePayload(
-        int CourseId,
-        short StartingYear,
-        short DurationPeriods
-    );
+    [Required]
+    public required string Name { get; set; }
+
+    [Required]
+    public required int CourseId { get; set; }
+
+    [Required]
+    public required short StartingYear { get; set; }
+
+    [Required]
+    public required short DurationPeriods { get; set; }
 }
