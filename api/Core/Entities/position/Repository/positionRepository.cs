@@ -13,6 +13,7 @@ public class PositionRepository(
         IPositionRepository
 {
     private readonly IPaginationService _paginationService = paginationService;
+    private readonly SkillhubContext _context = context;
 
     public (IEnumerable<Position>, PaginationInfo) GetPaginated(PaginationOptions options)
     {

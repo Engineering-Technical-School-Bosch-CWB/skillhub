@@ -1,6 +1,6 @@
 namespace Api.Domain.Services
 {
-    public readonly record struct PaginationQuery
+    public class PaginationQuery
     {
         public required int Page { get; init; }
         public required int Items { get; init; }

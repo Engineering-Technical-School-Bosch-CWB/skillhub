@@ -1,14 +1,14 @@
+using System.IdentityModel.Tokens.Jwt;
+using Api.Core;
 using Api.Core.Middlewares;
 using Api.Core.Services;
 using Api.Core.Repositories;
-using Api.Core;
 using Api.Domain.Models;
 using Api.Domain.Repositories;
 using Api.Domain.Services;
 
 using Genesis.Core.Repositories;
 using Microsoft.EntityFrameworkCore;
-using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Identity;
 
 namespace Api;
@@ -17,6 +17,8 @@ public class Program
 {
     static void Main(string[] args)
     {
+        DotNetEnv.Env.Load("./.env");
+
         var builder = WebApplication.CreateBuilder(args);
 
         ConfigureServices(builder.Services, builder.Configuration);
@@ -50,19 +52,20 @@ public class Program
         IServiceCollection services,
         ConfigurationManager configuration)
     {
-        var connectionString = configuration.GetConnectionString("SqlServer");
+        // databae connection
+        var connectionHost = configuration["MSSQL_HOST"];
+        var connectionDatabase = configuration["MSSQL_DATABASE"];
         services.AddDbContext<SkillhubContext>(
-            options => options.UseSqlServer(connectionString)
+            options => options.UseSqlServer($"Server={connectionHost};Database={connectionDatabase};Trusted_Connection=True;TrustServerCertificate=True;")
         );
 
         #region Jwt
 
         var jwtSettings = new JwtSettings()
         {
-            SecretKey = configuration.GetSection("JwtSettings")
-                    .GetValue<string>("SecretKey")!
-        };
-        services.AddSingleton(jwtSettings);
+            SecretKey = configuration["JWT_SECRET_KEY"]!,
+        }; 
+        services.AddSingleton(jwtSettings);  
         services.AddSingleton<JwtSecurityTokenHandler>();
         services.AddScoped<JwtService>();
 
