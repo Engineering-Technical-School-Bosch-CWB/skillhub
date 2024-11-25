@@ -10,7 +10,7 @@ public class UserCreatePayload()
     public required int PositionId { get; set; }
 
     [Required]
-    public required int AreaId { get; set; }
+    public required int OccupationAreaId { get; set; }
 
     [Required]
     [StringLength(500)]

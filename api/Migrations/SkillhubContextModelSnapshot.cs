@@ -644,8 +644,8 @@ namespace api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("Birthday")
-                        .HasColumnType("datetime2")
+                    b.Property<DateOnly?>("Birthday")
+                        .HasColumnType("date")
                         .HasColumnName("birthday");
 
                     b.Property<string>("Hash")
@@ -933,7 +933,7 @@ namespace api.Migrations
 
             modelBuilder.Entity("Api.Domain.Models.User", b =>
                 {
-                    b.HasOne("Api.Domain.Models.OccupationArea", "Area")
+                    b.HasOne("Api.Domain.Models.OccupationArea", "OccupationArea")
                         .WithMany("Users")
                         .HasForeignKey("occupation_area_id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -951,7 +951,7 @@ namespace api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Area");
+                    b.Navigation("OccupationArea");
 
                     b.Navigation("Position");
 

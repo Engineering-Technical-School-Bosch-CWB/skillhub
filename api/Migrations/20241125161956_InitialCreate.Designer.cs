@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace api.Migrations
 {
     [DbContext(typeof(SkillhubContext))]
-    [Migration("20241119184626_AddIsActiveColumnToCourse")]
-    partial class AddIsActiveColumnToCourse
+    [Migration("20241125161956_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -647,8 +647,8 @@ namespace api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("Birthday")
-                        .HasColumnType("datetime2")
+                    b.Property<DateOnly?>("Birthday")
+                        .HasColumnType("date")
                         .HasColumnName("birthday");
 
                     b.Property<string>("Hash")
@@ -897,7 +897,7 @@ namespace api.Migrations
                         .IsRequired();
 
                     b.HasOne("Api.Domain.Models.User", "User")
-                        .WithOne("StudentProfile")
+                        .WithOne()
                         .HasForeignKey("Api.Domain.Models.Student", "user_id")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
@@ -936,7 +936,7 @@ namespace api.Migrations
 
             modelBuilder.Entity("Api.Domain.Models.User", b =>
                 {
-                    b.HasOne("Api.Domain.Models.OccupationArea", "Area")
+                    b.HasOne("Api.Domain.Models.OccupationArea", "OccupationArea")
                         .WithMany("Users")
                         .HasForeignKey("occupation_area_id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -954,7 +954,7 @@ namespace api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Area");
+                    b.Navigation("OccupationArea");
 
                     b.Navigation("Position");
 
@@ -1045,8 +1045,6 @@ namespace api.Migrations
             modelBuilder.Entity("Api.Domain.Models.User", b =>
                 {
                     b.Navigation("Images");
-
-                    b.Navigation("StudentProfile");
 
                     b.Navigation("Subjects");
                 });

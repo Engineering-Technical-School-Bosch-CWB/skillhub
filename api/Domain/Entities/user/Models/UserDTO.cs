@@ -18,8 +18,8 @@ namespace Api.Domain.Models
             {
                 permission = user.Position.Name switch 
                 {
-                    "student" => 1,
-                    "instructor" => 2,
+                    "Instructor" => 2,
+                    "Apprentice" => 1,
                     _ => 0
                 };
             }

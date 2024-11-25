@@ -45,7 +45,7 @@ public class UserService: BaseService<User>, IUserService
             ?? throw new NotFoundException("Sector not found.");
 
         var area = await _areaRepo.Get()
-            .SingleOrDefaultAsync(a => a.Id == payload.AreaId)
+            .SingleOrDefaultAsync(a => a.Id == payload.OccupationAreaId)
             ?? throw new NotFoundException("Area not found");
         
         var newUser = new User(){
@@ -76,14 +76,15 @@ public class UserService: BaseService<User>, IUserService
             .SingleOrDefaultAsync(u => u.Id == id) 
             ?? throw new NotFoundException("User not found.");
 
-
-        if (payload.Identification is not null)
+        if (!string.IsNullOrEmpty(payload.Identification))
         {
             var exists = await repository.Get()
-                .AnyAsync(u => u.Identification == user.Identification);
+                .AnyAsync(u => u.Identification == payload.Identification);
 
             if (exists)
-                throw new AlreadyExistsException("EDV already in use.");
+                throw new AlreadyExistsException("Identification already in use.");
+
+            user.Identification = payload.Identification;
         }
 
         if (payload.SectorId is not null)
@@ -112,7 +113,7 @@ public class UserService: BaseService<User>, IUserService
         }
 
         if (!string.IsNullOrEmpty(payload.Password))
-            user.Hash = _hasher.HashPassword(user, user.Hash!);
+            user.Hash = _hasher.HashPassword(user, payload.Password);
 
         if (!string.IsNullOrEmpty(payload.Name))
             user.Name = payload.Name;
