@@ -4,24 +4,24 @@ namespace Api.Domain.Models;
 
 public class CourseCreatePayload() {
 
-    [Required(ErrorMessage = "The name is required.")]
-    [StringLength(255, ErrorMessage = "The name cannot exceed 255 characters.")]
+    [Required]
+    [StringLength(255)]
     public required string Name { get; set; }
 
-    [Required(ErrorMessage = "The abbreviation is required.")]
-    [StringLength(50, ErrorMessage = "The abbreviation cannot exceed 50 characters.")]
+    [Required]
+    [StringLength(50)]
     public required string Abbreviation { get; set; }
 
-    [Required(ErrorMessage = "The OccupationAreaId is required.")]
+    [Required]
     public required int OccupationAreaId { get; set; }
 };
 
 public class CourseUpdatePayload() {
 
-    [StringLength(255, ErrorMessage = "The name cannot exceed 255 characters.")]
+    [StringLength(255)]
     public string? Name { get; set; }
 
-    [StringLength(50, ErrorMessage = "The abbreviation cannot exceed 50 characters.")]
+    [StringLength(50)]
     public string? Abbreviation { get; set; }
     
     public int? OccupationAreaId { get; set; }

@@ -27,7 +27,7 @@ public class ErrorHandlingMiddleware : IExceptionHandler
             UserNotRegisteredException e => new Error(StatusCodes.Status403Forbidden, e.Message),
             NoSuchPositionException e => new Error(StatusCodes.Status404NotFound, e.Message),
             WrongPasswordException e => new Error(StatusCodes.Status401Unauthorized, e.Message),
-            
+
             _ => new Error(StatusCodes.Status500InternalServerError, "Unknown server error.")
         };
 
@@ -36,4 +36,5 @@ public class ErrorHandlingMiddleware : IExceptionHandler
 
         return true;
     }
+
 }

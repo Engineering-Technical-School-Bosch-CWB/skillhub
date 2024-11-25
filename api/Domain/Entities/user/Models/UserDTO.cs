@@ -3,12 +3,11 @@ namespace Api.Domain.Models
     public record UserDTO(
         int Id,
         string Name,
-        DateTime Birthday,
+        DateOnly? Birthday,
         int? PositionId,
         int? SectorId,
         int? OccupationAreaId,
-        int PermissionLevel,
-        int? StudentProfileId
+        int PermissionLevel
     )
     {
         public static UserDTO Map(User user)
@@ -19,8 +18,8 @@ namespace Api.Domain.Models
             {
                 permission = user.Position.Name switch 
                 {
-                    "student" => 1,
-                    "instructor" => 2,
+                    "Instructor" => 2,
+                    "Apprentice" => 1,
                     _ => 0
                 };
             }
@@ -31,9 +30,8 @@ namespace Api.Domain.Models
                 user.Birthday,
                 user.Position?.Id,
                 user.Sector?.Id,
-                user.Area?.Id,
-                permission,
-                user.StudentProfile?.Id
+                user.OccupationArea?.Id,
+                permission
             );
         }
     }

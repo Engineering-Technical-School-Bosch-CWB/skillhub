@@ -22,7 +22,7 @@ public class CourseRepository: BaseRepository<Course>, ICourseRepository
     public async Task<(IEnumerable<Course>, PaginationInfo)> GetPaginatedAsync(PaginationOptions options)
     {
         var result = await _paginationService.PaginateAsync(
-            GetAllNoTracking(), options);
+            Get(), options);
         return result;
     }
 }

@@ -1,6 +1,12 @@
-namespace Api.Domain.Models
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
+
+namespace Api.Domain.Models;
+
+public class PositionPayload()
 {
-    public readonly record struct PositionPayload(
-        string Name
-    );
+    [Required]
+    [StringLength(100)]
+    public required string Name { get; set; }
 }

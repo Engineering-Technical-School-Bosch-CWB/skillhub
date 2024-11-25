@@ -12,5 +12,5 @@ public partial class SkillResult : IEntity
   public Exam? Exam { get; set; }
   public required Skill Skill { get; set; }
   public required Student Student { get; set; }
-  public IEnumerable<Objection> Objections { get; set; } = [];
+  public ICollection<Objection> Objections { get; set; } = [];
 }

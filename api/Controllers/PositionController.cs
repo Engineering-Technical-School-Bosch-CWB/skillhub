@@ -7,7 +7,7 @@ namespace Api.Controllers
 {
     [ApiController]
     [Route("api/v1/position")]
-    public class PositionController: ControllerBase
+    public class PositionController : ControllerBase
     {
         private readonly Mapper _mapper;
 
@@ -29,11 +29,11 @@ namespace Api.Controllers
             var position = ToPosition(payload);
             var result = await service.AddAsync(position);
 
-            return new CreatedAtActionResult(
-                    nameof(Create),
-                    nameof(PositionController),
-                    PositionDTO.Map(result),
-                    result);
+            var response = new AppResponse<PositionDTO>(
+                PositionDTO.Map(result),
+                "Position created!");
+
+            return Created("api/v1/position", response);
         }
 
         [HttpPatch]
@@ -43,16 +43,57 @@ namespace Api.Controllers
                 [FromBody] PositionPayload payload,
                 int id)
         {
-            var position =  ToPosition(payload);
-            var result = await service.UpdateAsync(id, position);
-            
-            return new OkObjectResult(PositionDTO.Map(result));
+            var result = await service.UpdatePositionAsync(id, payload);
+
+            return Ok(result);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetPaginated(
+                [FromServices] IPositionService service,
+                [FromQuery] PaginationQuery pagination)
+        {
+            var result = await service.GetPaginatedAsync(pagination);
+
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<ActionResult> Get(
+                [FromServices] IPositionService service,
+                int id)
+        {
+            var position = new Position
+            {
+                Id = id
+            };
+            var result = await service.GetAsync(position);
+
+            var response = new AppResponse<PositionDTO>(
+                PositionDTO.Map(result),
+                "Position created!");
+
+            return Ok(response);
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<ActionResult> Delete(
+                [FromServices] IPositionService service,
+                int id)
+        {
+            await service.SoftDeleteAsync(id);
+
+            return NoContent();
         }
 
         private Position ToPosition(PositionPayload payload)
         {
             var newPosition = new Position();
             _mapper.Map(payload, newPosition);
+
+            newPosition.IsActive = true;
 
             return newPosition;
         }

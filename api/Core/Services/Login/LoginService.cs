@@ -23,10 +23,9 @@ public class LoginService : ILoginService
     public async Task<AppResponse<LoginResponse>> TryLogin(LoginPayload payload)
     {
         var user = await _userRepository.Get()
-            .Include(u => u.Area)
+            .Include(u => u.OccupationArea)
             .Include(u => u.Position)
             .Include(u => u.Sector)
-            .Include(u => u.StudentProfile)
             .FirstOrDefaultAsync(u => u.Identification == payload.Identification) ??
                 throw new UserNotRegisteredException("Identification number still not registered.");
 

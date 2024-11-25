@@ -16,7 +16,7 @@ public class AuthenticationMiddleware : IMiddleware
         _pathsToSkip = new []
         {
             "/api/v1/login",
-            "/api/v1/users/register",
+            "/api/v1/users",
         };
     }
 
@@ -43,7 +43,7 @@ public class AuthenticationMiddleware : IMiddleware
         {
             _jwtService.ValidateToken(token);   
         }
-        catch(Exception ex)
+        catch(Exception)
         {
             await RespondWithErrorAsync(context, 401, "Invalid JWT token.");
             return;

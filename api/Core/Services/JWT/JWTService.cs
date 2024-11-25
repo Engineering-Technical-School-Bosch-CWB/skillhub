@@ -41,7 +41,7 @@ namespace Api.Core.Services;
             };
 
             var SecToken = new JwtSecurityToken(
-                "Project-E",
+                "SkillHub",
                 audience: null,
                 claims: claims,
                 expires: DateTime.Now.AddHours(8),
@@ -56,23 +56,30 @@ namespace Api.Core.Services;
         {
             ClaimsPrincipal? claims;
 
-            claims = _tokenHandler.ValidateToken(jwt,
-                new TokenValidationParameters()
-                {
-                    ValidateIssuer = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidateAudience = false,
-                    ValidIssuer = "Project-E",
-                    IssuerSigningKey = _securityKey
-                },
-                out var validatedToken);
+            try
+            {
+                claims = _tokenHandler.ValidateToken(jwt,
+                        new TokenValidationParameters()
+                        {
+                            ValidateIssuer = true,
+                            ValidateLifetime = true,
+                            ValidateIssuerSigningKey = true,
+                            ValidateAudience = false,
+                            ValidIssuer = "SkillHub",
+                            IssuerSigningKey = _securityKey
+                        },
+                        out var validatedToken);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidTokenException("Unable to validate token and its claims.", ex);
+            }
 
             var userPosition = claims.FindFirst("PermissionLevel")!.Value;
             
             _userContext.Fill(new ContextData
             {
-                UserId = Int32.Parse(claims.FindFirst("UserId")!.Value),
+                UserId = int.Parse(claims.FindFirst("UserId")!.Value),
                 Name = claims.FindFirst("Name")!.Value,
                 PermissionLevel = userPosition switch
                 {

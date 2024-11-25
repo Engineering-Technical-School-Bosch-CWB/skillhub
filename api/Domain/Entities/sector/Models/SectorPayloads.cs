@@ -1,9 +1,14 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Api.Domain.Models;
 
-public readonly record struct SectorCreatePayload(
-    string Name
-);
+public class SectorCreatePayload()
+{
+    [Required]
+    public required string Name { get; set; }
+}
 
-public readonly record struct SectorUpdatePayload(
-    string? Name
-);
+public class SectorUpdatePayload()
+{
+    public string? Name { get; set; }
+}
