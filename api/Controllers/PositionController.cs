@@ -72,7 +72,7 @@ namespace Api.Controllers
 
             var response = new AppResponse<PositionDTO>(
                 PositionDTO.Map(result),
-                "Position created!");
+                "Position found!");
 
             return Ok(response);
         }

@@ -53,17 +53,17 @@ public class Program
         ConfigurationManager configuration)
     {
         // databae connection
-        var connectionHost = configuration["MSSQL_HOST"];
-        var connectionDatabase = configuration["MSSQL_DATABASE"];
+        var connectionString = configuration.GetConnectionString("SqlServer");
         services.AddDbContext<SkillhubContext>(
-            options => options.UseSqlServer($"Server={connectionHost};Database={connectionDatabase};Trusted_Connection=True;TrustServerCertificate=True;")
+            options => options.UseSqlServer(connectionString)
         );
 
         #region Jwt
 
         var jwtSettings = new JwtSettings()
         {
-            SecretKey = configuration["JWT_SECRET_KEY"]!,
+            SecretKey = configuration.GetSection("JwtSettings")
+                    .GetValue<string>("SecretKey")!
         }; 
         services.AddSingleton(jwtSettings);  
         services.AddSingleton<JwtSecurityTokenHandler>();
