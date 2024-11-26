@@ -4,11 +4,11 @@ import { IRootInputProps } from "../interfaces"
 import InputContainer from "../InputContainer"
 import Icon from "../../Icon"
 
-export interface IInputTextProps extends IRootInputProps {
+export interface IInputPasswordProps extends IRootInputProps {
     type: "password"
 }
 
-const InputPassword = forwardRef<HTMLInputElement, IInputTextProps>(
+const InputPassword = forwardRef<HTMLInputElement, IInputPasswordProps>(
     ({ error, type: initialType, ...props }, ref) => 
 {
     const [type, setType] = useState<"text" | "password">(initialType)

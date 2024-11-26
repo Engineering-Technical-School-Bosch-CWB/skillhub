@@ -1,6 +1,7 @@
 import { IInputDateProps } from "./InputDate"
 import { IInputTextProps } from "./InputText"
 import { IInputContainerProps } from "./InputContainer"
+import { IInputPasswordProps } from "./InputPassword"
 
 export type IInputType = "text" | "password" | "date" | "email"
 
@@ -12,4 +13,4 @@ export interface IRootInputProps extends IInputContainerProps {
     error?: boolean
 }
 
-export type IInputProps = IInputDateProps | IInputTextProps
+export type IInputProps = IInputDateProps | IInputTextProps | IInputPasswordProps

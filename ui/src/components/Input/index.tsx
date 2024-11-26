@@ -6,14 +6,13 @@ import InputText from "./InputText"
 import InputPassword from "./InputPassword"
 
 const InputComponents: Record<IInputType, React.ElementType> = {
-    "date": InputDate,
-    "text": InputText,
-    "email": InputText,
-    "password": InputPassword,
+    date: InputDate,
+    text: InputText,
+    email: InputText,
+    password: InputPassword,
 };
 
 const Input = ({
-    error,
     type,
     id = uuid(),
     ...props
