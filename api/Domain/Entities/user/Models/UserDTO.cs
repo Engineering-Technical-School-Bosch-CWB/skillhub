@@ -7,23 +7,11 @@ namespace Api.Domain.Models
         int? PositionId,
         int? SectorId,
         int? OccupationAreaId,
-        int PermissionLevel
+        short PermissionLevel
     )
     {
         public static UserDTO Map(User user)
         {
-            var permission = 0;
-
-            if(user.Position != null)
-            {
-                permission = user.Position.Name switch 
-                {
-                    "Instructor" => 2,
-                    "Apprentice" => 1,
-                    _ => 0
-                };
-            }
-
             return new UserDTO(
                 user.Id,
                 user.Name,
@@ -31,7 +19,7 @@ namespace Api.Domain.Models
                 user.Position?.Id,
                 user.Sector?.Id,
                 user.OccupationArea?.Id,
-                permission
+                user.Position!.PositionLevel
             );
         }
     }

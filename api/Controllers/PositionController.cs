@@ -24,9 +24,14 @@ namespace Api.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(
                 [FromServices] IPositionService service,
-                [FromBody] PositionPayload payload)
+                [FromBody] PositionCreatePayload payload)
         {
-            var position = ToPosition(payload);
+            var position = new Position {
+                Name = payload.Name,
+                PositionLevel = payload.PositionLevel,
+                IsActive = true
+            };
+
             var result = await service.AddAsync(position);
 
             var response = new AppResponse<PositionDTO>(
@@ -40,7 +45,7 @@ namespace Api.Controllers
         [Route("{id}")]
         public async Task<ActionResult> Update(
                 [FromServices] IPositionService service,
-                [FromBody] PositionPayload payload,
+                [FromBody] PositionUpdatePayload payload,
                 int id)
         {
             var result = await service.UpdatePositionAsync(id, payload);
@@ -64,17 +69,8 @@ namespace Api.Controllers
                 [FromServices] IPositionService service,
                 int id)
         {
-            var position = new Position
-            {
-                Id = id
-            };
-            var result = await service.GetAsync(position);
-
-            var response = new AppResponse<PositionDTO>(
-                PositionDTO.Map(result),
-                "Position found!");
-
-            return Ok(response);
+            var position = await service.Get(id);
+            return Ok(position);
         }
 
         [HttpDelete]
@@ -86,16 +82,6 @@ namespace Api.Controllers
             await service.SoftDeleteAsync(id);
 
             return NoContent();
-        }
-
-        private Position ToPosition(PositionPayload payload)
-        {
-            var newPosition = new Position();
-            _mapper.Map(payload, newPosition);
-
-            newPosition.IsActive = true;
-
-            return newPosition;
         }
     }
 }

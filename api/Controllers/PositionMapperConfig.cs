@@ -8,6 +8,6 @@ public class PositionMapperConfig : Profile
 {
     public PositionMapperConfig()
     {
-        CreateMap<PositionPayload, Position>();
+        CreateMap<PositionCreatePayload, Position>();
     }
 }

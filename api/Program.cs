@@ -52,11 +52,14 @@ public class Program
         IServiceCollection services,
         ConfigurationManager configuration)
     {
-        // databae connection
+        #region Database connection
+
         var connectionString = configuration.GetConnectionString("SqlServer");
         services.AddDbContext<SkillhubContext>(
             options => options.UseSqlServer(connectionString)
         );
+
+        #endregion
 
         #region Jwt
 

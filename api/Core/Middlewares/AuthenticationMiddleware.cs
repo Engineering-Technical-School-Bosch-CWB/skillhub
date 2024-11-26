@@ -41,7 +41,7 @@ public class AuthenticationMiddleware : IMiddleware
 
         try 
         {
-            _jwtService.ValidateToken(token);   
+            _jwtService.ValidateToken(token!);   
         }
         catch(Exception)
         {
