@@ -4,6 +4,7 @@ using Api.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace api.Migrations
 {
     [DbContext(typeof(SkillhubContext))]
-    partial class SkillhubContextModelSnapshot : ModelSnapshot
+    [Migration("20241126193135_UpdateClassDurationPeriods")]
+    partial class UpdateClassDurationPeriods
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -335,9 +338,8 @@ namespace api.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasColumnName("name");
 
-                    b.Property<byte>("PositionLevel")
-                        .HasColumnType("tinyint")
-                        .HasColumnName("position_level");
+                    b.Property<short>("PositionLevel")
+                        .HasColumnType("smallint");
 
                     b.HasKey("Id")
                         .HasName("PK____Position");
@@ -459,6 +461,9 @@ namespace api.Migrations
                         .HasColumnType("bit")
                         .HasColumnName("is_active");
 
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
                     b.Property<float>("Weight")
                         .HasColumnType("real")
                         .HasColumnName("weight");
@@ -469,7 +474,7 @@ namespace api.Migrations
                     b.Property<int>("skill_id")
                         .HasColumnType("int");
 
-                    b.Property<int>("student_id")
+                    b.Property<int?>("student_id")
                         .HasColumnType("int");
 
                     b.Property<int?>("subject_id")
@@ -478,13 +483,13 @@ namespace api.Migrations
                     b.HasKey("Id")
                         .HasName("PK____SkillResult");
 
+                    b.HasIndex("StudentId");
+
                     b.HasIndex("exam_id");
 
                     b.HasIndex("skill_id");
 
                     b.HasIndex("student_id");
-
-                    b.HasIndex("subject_id");
 
                     b.ToTable("skill_result", (string)null);
                 });
@@ -852,6 +857,12 @@ namespace api.Migrations
 
             modelBuilder.Entity("Api.Domain.Models.SkillResult", b =>
                 {
+                    b.HasOne("Api.Domain.Models.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Api.Domain.Models.Exam", "Exam")
                         .WithMany("SkillResults")
                         .HasForeignKey("exam_id");
@@ -862,15 +873,9 @@ namespace api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Api.Domain.Models.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("student_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Api.Domain.Models.Subject", "Subject")
                         .WithMany()
-                        .HasForeignKey("subject_id");
+                        .HasForeignKey("student_id");
 
                     b.Navigation("Exam");
 
