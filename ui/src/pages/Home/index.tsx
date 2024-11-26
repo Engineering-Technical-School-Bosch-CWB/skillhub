@@ -5,8 +5,8 @@ import { z } from "zod";
 export default () => {
 
     const fields:IFormInput[] = [
-        { fieldName: "email", label: "Email", type: "text", zodSchema: z.string() },
-        { fieldName: "password", label: "Password", type: "password", zodSchema: z.string() },
+        { fieldName: "email", label: "Email", type: "text", zodSchema: z.string().email() },
+        { fieldName: "password", label: "Password", type: "password", zodSchema: z.string().min(8) },
         { fieldName: "birthdate", label: "Birthdate", type: "date", zodSchema: z.string() },
     ];
 

@@ -84,7 +84,7 @@ export default function Form<T extends FieldValues>({
                     {...field}
                     {...register(fieldName as any)}
                     error={!!errors[fieldName]}
-                    helperText={errors[fieldName] as string | undefined}
+                    helperText={errors[fieldName]?.message as string | undefined}
                 />
             })}
 
