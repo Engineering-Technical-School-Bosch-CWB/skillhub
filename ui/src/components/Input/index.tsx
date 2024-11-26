@@ -1,9 +1,9 @@
 import { v4 as uuid } from "uuid"
-import { IInputContainerProps } from "./InputContainer"
 import { IInputProps, IInputType } from "./interfaces"
 import InputDate from "./InputDate"
 import InputText from "./InputText"
 import InputPassword from "./InputPassword"
+import { forwardRef } from "react"
 
 const InputComponents: Record<IInputType, React.ElementType> = {
     date: InputDate,
@@ -12,17 +12,14 @@ const InputComponents: Record<IInputType, React.ElementType> = {
     password: InputPassword,
 };
 
-const Input = ({
-    type,
-    id = uuid(),
-    ...props
-}: IInputProps & IInputContainerProps) => {
+const Input = forwardRef<HTMLInputElement, IInputProps>(
+    ({type, id = uuid(), ...props }, ref) => {
 
     const Component = InputComponents[type]
 
     return (
-        <Component id={id} type={type} {...props}/>
+        <Component ref={ref} id={id} type={type} {...props}/>
     )
-}
+})
 
 export default Input

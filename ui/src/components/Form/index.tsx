@@ -4,6 +4,7 @@ import styles from "./styles.module.css"
 import { IFormProps } from "./types";
 import { zodResolver } from "@hookform/resolvers/zod"
 import Input from "../Input";
+import { z, ZodTypeAny } from "zod";
 
 /**
  * Reusable `Form` component for rendering a form with customizable fields.
@@ -43,16 +44,26 @@ export default function Form<T extends FieldValues>({
     onSubmit,
     customClassName,
     fields,
-    schema,
     submitText = "Submit",
 }:IFormProps<T>): JSX.Element {
+
+    const schema = z.object(
+        fields.reduce((acc, field) => {
+          if (field.zodSchema) {
+            acc[field.fieldName] = field.zodSchema;
+          } else {
+            acc[field.fieldName] = z.any();
+          }
+          return acc;
+        }, {} as Record<string, ZodTypeAny>)
+    );
 
     const { 
         register, 
         handleSubmit,
         formState: { errors },
     } = useForm<T>({
-        resolver: schema && zodResolver(schema),
+        resolver: zodResolver(schema),
         mode: "onBlur"
     })
 
@@ -64,16 +75,16 @@ export default function Form<T extends FieldValues>({
             className={`${styles.form} ${customClassName}`}
             onSubmit={handleSubmit(submit)}
         >
-            {fields.map((field, i) => {
-                const id = `${field.fieldName}-${i}`
+            {fields.map(({ fieldName, zodSchema, ...field }, i) => {
+                const id = `${fieldName}-${i}`
 
                 return <Input
                     key={id}
                     id={id}
                     {...field}
-                    {...register(field.fieldName as any)}
-                    error={!!errors[field.fieldName]}
-                    helperText={errors[field.fieldName] as string | undefined}
+                    {...register(fieldName as any)}
+                    error={!!errors[fieldName]}
+                    helperText={errors[fieldName] as string | undefined}
                 />
             })}
 

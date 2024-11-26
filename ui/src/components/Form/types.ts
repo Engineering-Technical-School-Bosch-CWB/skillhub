@@ -1,13 +1,14 @@
-import { ZodType } from "zod";
+import { ZodTypeAny } from "zod";
 import { IInputProps } from "../Input/interfaces";
-import { IInputContainerProps } from "../Input/InputContainer";
 
-export type IFormInput = IInputProps & IInputContainerProps
+export type IFormInput = IInputProps & {
+    fieldName: string
+    zodSchema?: ZodTypeAny
+}
 
 export interface IFormProps<T> {
     onSubmit: (payload:T) => any
     customClassName?: string
-    fields: IInputProps[]
+    fields: IFormInput[]
     submitText?: string
-    schema?: ZodType<any, any, any>
 }

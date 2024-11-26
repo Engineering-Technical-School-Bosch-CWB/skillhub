@@ -2,21 +2,27 @@ import { styled } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import { IRootInputProps } from "../interfaces";
 import InputContainer from "../InputContainer";
+import { forwardRef } from "react";
 
 export interface IInputDateProps extends IRootInputProps {
     type: "date"
 }
 
-const InputDate = ({ error, label, ...props }: IInputDateProps) => {
-    return (
-        <InputContainer {...props}>
-            <SInput 
-                label={label}
-                error={error}
-            />
-        </InputContainer>
-    )
-}
+const InputDate = forwardRef<HTMLInputElement, IInputDateProps>(
+    ({ error, label, helperText, id }, ref) => (
+
+    <InputContainer
+        error={error}
+        helperText={helperText}
+        id={id}
+    >
+        <SInput 
+            label={label}
+            error={error}
+            ref={ref}
+        />
+    </InputContainer>
+))
 
 const SInput = styled(DatePicker)<{ error?: boolean }>(({ error }) => ({
     width: "100%",
