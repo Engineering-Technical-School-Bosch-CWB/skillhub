@@ -333,6 +333,9 @@ namespace api.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasColumnName("name");
 
+                    b.Property<short>("PositionLevel")
+                        .HasColumnType("smallint");
+
                     b.HasKey("Id")
                         .HasName("PK____Position");
 

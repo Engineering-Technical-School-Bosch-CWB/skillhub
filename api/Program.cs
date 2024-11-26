@@ -52,18 +52,21 @@ public class Program
         IServiceCollection services,
         ConfigurationManager configuration)
     {
-        // databae connection
-        var connectionHost = configuration["MSSQL_HOST"];
-        var connectionDatabase = configuration["MSSQL_DATABASE"];
+        #region Database connection
+
+        var connectionString = configuration.GetConnectionString("SqlServer");
         services.AddDbContext<SkillhubContext>(
-            options => options.UseSqlServer($"Server={connectionHost};Database={connectionDatabase};Trusted_Connection=True;TrustServerCertificate=True;")
+            options => options.UseSqlServer(connectionString)
         );
+
+        #endregion
 
         #region Jwt
 
         var jwtSettings = new JwtSettings()
         {
-            SecretKey = configuration["JWT_SECRET_KEY"]!,
+            SecretKey = configuration.GetSection("JwtSettings")
+                    .GetValue<string>("SecretKey")!
         }; 
         services.AddSingleton(jwtSettings);  
         services.AddSingleton<JwtSecurityTokenHandler>();

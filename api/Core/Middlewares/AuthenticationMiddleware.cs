@@ -35,17 +35,17 @@ public class AuthenticationMiddleware : IMiddleware
         var auth = context.Request.Headers.Authorization.FirstOrDefault();
         if(!TryGetBearerToken(auth!, out var token))
         {
-            await RespondWithErrorAsync(context, 400, "Invalid authorization headers.");
+            await RespondWithErrorAsync(context, 400, "Invalid authorization headers!");
             return;
         }
 
         try 
         {
-            _jwtService.ValidateToken(token);   
+            _jwtService.ValidateToken(token!);   
         }
         catch(Exception)
         {
-            await RespondWithErrorAsync(context, 401, "Invalid JWT token.");
+            await RespondWithErrorAsync(context, 401, "Invalid JWT token!");
             return;
         }
 

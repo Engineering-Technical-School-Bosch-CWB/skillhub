@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace api.Migrations
 {
     [DbContext(typeof(SkillhubContext))]
-    [Migration("20241125161956_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20241125192509_UpdatePosition")]
+    partial class UpdatePosition
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -82,6 +82,10 @@ namespace api.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit")
                         .HasColumnName("is_active");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<short>("StartingYear")
                         .HasColumnType("smallint")
@@ -331,6 +335,9 @@ namespace api.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
                         .HasColumnName("name");
+
+                    b.Property<short>("PositionLevel")
+                        .HasColumnType("smallint");
 
                     b.HasKey("Id")
                         .HasName("PK____Position");

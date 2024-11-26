@@ -32,15 +32,15 @@ public class UserService: BaseService<User>, IUserService
             .FirstOrDefaultAsync(u => u.Identification == payload.Identification);
 
         if (exists is not null)
-            throw new AlreadyExistsException("EDV already in use.");
+            throw new AlreadyExistsException("EDV already in use!");
 
         var position = await _positionRepo.Get()
             .SingleOrDefaultAsync(p => p.Id == payload.PositionId) 
-            ?? throw new NotFoundException("Position not found.");
+            ?? throw new NotFoundException("Position not found!");
             
         var sector = await _sectorRepo.Get()
             .SingleOrDefaultAsync(s => s.Id == payload.SectorId) 
-            ?? throw new NotFoundException("Sector not found.");
+            ?? throw new NotFoundException("Sector not found!");
 
         var area = await _areaRepo.Get()
             .SingleOrDefaultAsync(a => a.Id == payload.OccupationAreaId)
@@ -59,7 +59,7 @@ public class UserService: BaseService<User>, IUserService
         newUser.Hash = _hasher.HashPassword(newUser, newUser.Hash);
 
         var saveUser = repository.Add(newUser)
-            ?? throw new UpsertFailException("User could not be inserted.");
+            ?? throw new UpsertFailException("User could not be inserted!");
         await repository.SaveAsync();
 
         return new AppResponse<UserDTO>(
@@ -72,7 +72,7 @@ public class UserService: BaseService<User>, IUserService
     {
         var user = await repository.Get()
             .SingleOrDefaultAsync(u => u.Id == id) 
-            ?? throw new NotFoundException("User not found.");
+            ?? throw new NotFoundException("User not found!");
 
         if (!string.IsNullOrEmpty(payload.Identification))
         {
@@ -80,7 +80,7 @@ public class UserService: BaseService<User>, IUserService
                 .AnyAsync(u => u.Identification == payload.Identification);
 
             if (exists)
-                throw new AlreadyExistsException("Identification already in use.");
+                throw new AlreadyExistsException("Identification already in use!");
 
             user.Identification = payload.Identification;
         }
@@ -89,7 +89,7 @@ public class UserService: BaseService<User>, IUserService
         {
             var sector = await _sectorRepo.Get()
                 .SingleOrDefaultAsync(u => u.Id == payload.SectorId) 
-                ?? throw new NotFoundException("Sector not found.");
+                ?? throw new NotFoundException("Sector not found!");
 
             user.Sector = sector;
         }
@@ -98,7 +98,7 @@ public class UserService: BaseService<User>, IUserService
         {
             var position = await _positionRepo.Get()
                 .SingleOrDefaultAsync(u => u.Id == payload.PositionId) 
-                ?? throw new NotFoundException("Position not found.");
+                ?? throw new NotFoundException("Position not found!");
             user.Position = position;
         }
 
@@ -106,7 +106,7 @@ public class UserService: BaseService<User>, IUserService
         {
             var area = await _areaRepo.Get()
                 .SingleOrDefaultAsync(u => u.Id == payload.OccupationAreaId) 
-                ?? throw new NotFoundException("Area not found.");
+                ?? throw new NotFoundException("Area not found!");
             user.OccupationArea = area;
         }
 
@@ -121,7 +121,7 @@ public class UserService: BaseService<User>, IUserService
 
         var updatedUser =
             repository.Update(user)
-            ?? throw new UpsertFailException("User could not be updated.");
+            ?? throw new UpsertFailException("User could not be updated!");
 
         await repository.SaveAsync();
         return new AppResponse<UserDTO>(
@@ -134,7 +134,7 @@ public class UserService: BaseService<User>, IUserService
     {
         var user = await repository.Get()
             .SingleOrDefaultAsync(u => u.Id == id) 
-            ?? throw new NotFoundException("User not found.");
+            ?? throw new NotFoundException("User not found!");
 
         user.IsActive = false;
         

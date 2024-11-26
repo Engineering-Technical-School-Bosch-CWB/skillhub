@@ -27,7 +27,7 @@ public class LoginService : ILoginService
             .Include(u => u.Position)
             .Include(u => u.Sector)
             .FirstOrDefaultAsync(u => u.Identification == payload.Identification) ??
-                throw new UserNotRegisteredException("Identification number still not registered.");
+                throw new UserNotRegisteredException("Identification number still not registered!");
 
         var passwordMatches = _hasher.VerifyHashedPassword(
             user,
@@ -37,7 +37,7 @@ public class LoginService : ILoginService
 
         if(passwordMatches == PasswordVerificationResult.Failed)
         {
-            throw new WrongPasswordException("Wrong password.");
+            throw new WrongPasswordException("Wrong password!");
         }
 
         var userDto = UserDTO.Map(user);

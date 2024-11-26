@@ -5,7 +5,6 @@ using Api.Domain.Services;
 using Api.Domain.Repositories;
 using Api.Core.Errors;
 using AutoMapper;
-using api.Core.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Core.Services;
@@ -35,6 +34,17 @@ public class PositionService
         _mapper = new Mapper(mapConfig);
     }
 
+    public async Task<AppResponse<PositionDTO>> Get(int id)
+    {
+        var position = await _repo.Get().SingleOrDefaultAsync(p => p.Id.Equals(id))
+            ?? throw new NotFoundException("Position not found!");
+
+        return new AppResponse<PositionDTO>(
+            PositionDTO.Map(position),
+            "Position found!"
+        );
+    }
+
     public PaginatedAppResponse<PositionDTO> GetPaginated(PaginationQuery pagination)
     {
         var result = _repo.GetPaginated(pagination.ToOptions());
@@ -61,10 +71,10 @@ public class PositionService
     {
         var position = repository.GetAllNoTracking()
                 .SingleOrDefault(p => p.Id.Equals(id))
-                    ?? throw new NotFoundException("Position not found.");
+                    ?? throw new NotFoundException("Position not found!");
         
         if (!position.IsActive)
-            throw new NotFoundException("Position not found.");
+            throw new NotFoundException("Position not found!");
         
         position.IsActive = false;
 
@@ -76,10 +86,10 @@ public class PositionService
     {
         var position = await repository.GetAllNoTracking()
                 .SingleOrDefaultAsync(p => p.Id.Equals(id))
-                    ?? throw new NotFoundException("Position not found.");
+                    ?? throw new NotFoundException("Position not found!");
         
         if (!position.IsActive)
-            throw new NotFoundException("Position not found.");
+            throw new NotFoundException("Position not found!");
         
         position.IsActive = false;
 
@@ -87,21 +97,20 @@ public class PositionService
         await repository.SaveAsync();
     }
 
-    public async Task<AppResponse<PositionDTO>> UpdatePositionAsync(int id, PositionPayload payload)
+    public async Task<AppResponse<PositionDTO>> UpdatePositionAsync(int id, PositionUpdatePayload payload)
     {
-        var newPosition = new Position
-        {
-            Id = id
-        };
-        _mapper.Map(payload, newPosition);
+        var currentPosition = await _repo.Get().SingleOrDefaultAsync(p => p.Id.Equals(id))
+                ?? throw new NotFoundException("Position not found.");
 
-        var result = _repo.Update(newPosition)
-                ?? throw new UpsertFailException("Could not update position.");
+        _mapper.Map(payload, currentPosition);
+
+        var result = _repo.Update(currentPosition)
+                ?? throw new UpsertFailException("Could not update position!");
         
         await _repo.SaveAsync();
 
         return new AppResponse<PositionDTO>(
             PositionDTO.Map(result), 
-            "Position returned.");
+            "Position updated successfully!");
     }
 }

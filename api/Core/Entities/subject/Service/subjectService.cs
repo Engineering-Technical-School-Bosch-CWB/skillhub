@@ -22,15 +22,15 @@ public class SubjectService(
     {
         var instructor = await _userRepo.Get()
             .SingleOrDefaultAsync(u => u.Id == payload.InstructorId)
-            ?? throw new NotFoundException("Instructor not found.");
+            ?? throw new NotFoundException("Instructor not found!");
 
         var curricularUnit = await _curricularUnitRepo.Get()
             .SingleOrDefaultAsync(c => c.Id == payload.CurricularUnitId)
-            ?? throw new NotFoundException("Curricular Unit not found.");
+            ?? throw new NotFoundException("Curricular Unit not found!");
 
         var subjectClass = await _classRepo.Get()
             .SingleOrDefaultAsync(c => c.Id == payload.ClassId)
-            ?? throw new NotFoundException("Class not found.");
+            ?? throw new NotFoundException("Class not found!");
 
         var newSubject = new Subject {
             Instructor = instructor,
@@ -42,7 +42,7 @@ public class SubjectService(
         };
 
         var createdSubject = repository.Add(newSubject)
-            ?? throw new UpsertFailException("Subject could not be inserted.");
+            ?? throw new UpsertFailException("Subject could not be inserted!");
 
         await repository.SaveAsync();
 

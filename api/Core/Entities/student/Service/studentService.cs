@@ -21,11 +21,11 @@ public class StudentService(
     {
         var user = await _userRepo.Get()
             .SingleOrDefaultAsync(u => u.Id == payload.UserId)
-            ?? throw new NotFoundException("User not found.");
+            ?? throw new NotFoundException("User not found!");
 
         var studentclass = await _classRepo.Get()
             .SingleOrDefaultAsync(c => c.Id == payload.ClassId)
-            ?? throw new NotFoundException("Class not found.");
+            ?? throw new NotFoundException("Class not found!");
 
         var newStudent = new Student{
             User = user,
@@ -33,7 +33,7 @@ public class StudentService(
         };
 
         var createdStudent = repository.Add(newStudent)
-            ?? throw new UpsertFailException("Student could not be inserted.");
+            ?? throw new UpsertFailException("Student could not be inserted!");
 
         await repository.SaveAsync();
 

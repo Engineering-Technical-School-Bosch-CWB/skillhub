@@ -5,25 +5,25 @@
 namespace api.Migrations
 {
     /// <inheritdoc />
-    public partial class UpdateClass : Migration
+    public partial class UpdatePosition : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "Name",
-                table: "class",
-                type: "nvarchar(max)",
+            migrationBuilder.AddColumn<short>(
+                name: "PositionLevel",
+                table: "position",
+                type: "smallint",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: (short)0);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Name",
-                table: "class");
+                name: "PositionLevel",
+                table: "position");
         }
     }
 }

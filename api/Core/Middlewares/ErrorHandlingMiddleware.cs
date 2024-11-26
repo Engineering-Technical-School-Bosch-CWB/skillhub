@@ -28,7 +28,7 @@ public class ErrorHandlingMiddleware : IExceptionHandler
             NoSuchPositionException e => new Error(StatusCodes.Status404NotFound, e.Message),
             WrongPasswordException e => new Error(StatusCodes.Status401Unauthorized, e.Message),
 
-            _ => new Error(StatusCodes.Status500InternalServerError, "Unknown server error.")
+            _ => new Error(StatusCodes.Status500InternalServerError, "Unknown server error!")
         };
 
         httpContext.Response.StatusCode = error.Status;
