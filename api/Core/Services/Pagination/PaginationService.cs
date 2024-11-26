@@ -31,24 +31,30 @@ public class PaginationService : IPaginationService
         return (data, paginationInfo);
     }
 
-    public async Task<(IEnumerable<TEntity>, PaginationInfo)> PaginateAsync<TEntity>(
+    public async Task<(IEnumerable<TEntity>, PaginationInfo?)> PaginateAsync<TEntity>(
             IQueryable<TEntity> query,
             PaginationOptions pagination)
             where TEntity : IEntity
     {
-        var totalItems = await query.CountAsync();
 
-        if (totalItems <= pagination.Offset)
-            throw new PaginationOffsetException("Offset exceeds maximum of items!");
+        PaginationInfo? paginationInfo = null;
 
-        query = query.Skip(pagination.Offset).Take(pagination.Take);
-
-        var paginationInfo = new PaginationInfo
+        if (pagination.Take != 0)
         {
-            Items = totalItems,
-            CurrentPage = pagination.Offset / pagination.Take + 1,
-            TotalPages = (int)Math.Ceiling((double)totalItems / pagination.Take),
-        };
+            var totalItems = await query.CountAsync();
+
+            if (totalItems <= pagination.Offset)
+                throw new PaginationOffsetException("Offset exceeds maximum of items!");
+
+            query = query.Skip(pagination.Offset).Take(pagination.Take);
+
+            paginationInfo = new PaginationInfo
+            {
+                Items = totalItems,
+                CurrentPage = pagination.Offset / pagination.Take + 1,
+                TotalPages = (int)Math.Ceiling((double)totalItems / pagination.Take),
+            };
+        }
 
         var data = await query.ToListAsync();
 

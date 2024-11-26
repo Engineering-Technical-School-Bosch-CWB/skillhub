@@ -12,7 +12,8 @@ public class StudentController : ControllerBase
     [HttpPost]
     public async Task<ActionResult> RegisterStudent(
         [FromServices] IStudentService service,
-        [FromBody] StudentCreatePayload payload)
+        [FromBody] StudentCreatePayload payload
+    )
     {
         var result = await service.CreateStudent(payload);
         return Created("api/v1/students", result);

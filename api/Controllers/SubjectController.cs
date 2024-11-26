@@ -11,7 +11,8 @@ public class SubjectController : ControllerBase
     [HttpPost]
     public async Task<ActionResult> RegisterSubject(
         [FromServices] ISubjectService service,
-        [FromBody] SubjectCreatePayload payload)
+        [FromBody] SubjectCreatePayload payload
+    )
     {
         var result = await service.CreateSubject(payload);
         return Created("api/v1/subjects", result);

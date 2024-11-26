@@ -37,7 +37,7 @@ namespace Api.Core.Services;
             {
                 new("UserId", user.Id.ToString()),
                 new("Name", user.Name),
-                new("PermissionLevel", user.PermissionLevel.ToString())
+                new("PermissionLevel", user.PermissionLevel.ToString()!)
             };
 
             var SecToken = new JwtSecurityToken(

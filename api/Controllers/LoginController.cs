@@ -11,7 +11,8 @@ public class LoginController : ControllerBase
     [HttpPost]
     public async Task<ActionResult> Login(
         [FromServices] ILoginService loginService,
-        [FromBody] LoginPayload payload)
+        [FromBody] LoginPayload payload
+    )
     {
         var result = await loginService.TryLogin(payload);
         return Ok(result);

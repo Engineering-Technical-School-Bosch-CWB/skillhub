@@ -90,7 +90,7 @@ public class CourseService : BaseService<Course>, ICourseService
 
         return new PaginatedAppResponse<CourseDTO>(
             paginatedCourses.Item1.Select(c => CourseDTO.Map(c)),
-            paginatedCourses.Item2,
+            paginatedCourses.Item2!,
             "Courses found!"
         );
     }
