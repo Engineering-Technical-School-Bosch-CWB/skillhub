@@ -79,3 +79,14 @@
     color: var(--error-light);
     border-color: var(--error-light);
 }
+
+.password_eye {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    left: 93%;
+    z-index: 100;
+    height: max-content;
+    cursor: pointer;
+}

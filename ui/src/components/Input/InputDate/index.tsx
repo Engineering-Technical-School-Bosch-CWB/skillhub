@@ -1,16 +1,20 @@
 import { styled } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import { IRootInputProps } from "../interfaces";
+import InputContainer from "../InputContainer";
 
 export interface IInputDateProps extends IRootInputProps {
     type: "date"
 }
 
-const InputDate = ({ error }: IInputDateProps) => {
+const InputDate = ({ error, label, ...props }: IInputDateProps) => {
     return (
-        <SInput 
-            error={error}
-        />
+        <InputContainer {...props}>
+            <SInput 
+                label={label}
+                error={error}
+            />
+        </InputContainer>
     )
 }
 

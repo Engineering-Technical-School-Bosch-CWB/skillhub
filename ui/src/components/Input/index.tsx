@@ -1,29 +1,29 @@
-import InputText from "../InputText"
-import SInput from "./InputDate"
 import { v4 as uuid } from "uuid"
-import { ReactNode, useState } from "react"
 import { IInputContainerProps } from "./InputContainer"
-import { IInputProps } from "./interfaces"
+import { IInputProps, IInputType } from "./interfaces"
+import InputDate from "./InputDate"
+import InputText from "./InputText"
+import InputPassword from "./InputPassword"
+
+const InputComponents: Record<IInputType, React.ElementType> = {
+    "date": InputDate,
+    "text": InputText,
+    "email": InputText,
+    "password": InputPassword,
+};
 
 const Input = ({
-    label,
     error,
-    fullwidth,
-    helperText,
-    id = uuid(),
-    fieldName,
     type,
+    id = uuid(),
     ...props
 }: IInputProps & IInputContainerProps) => {
 
-    const [input, setInput] = useState<ReactNode>()
+    const Component = InputComponents[type]
 
-    switch(type) {
-        case "text":
-            return <InputText {...props} />
-        case "date":
-            return <SInput {...props} />
-    }
+    return (
+        <Component id={id} type={type} {...props}/>
+    )
 }
 
 export default Input

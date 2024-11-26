@@ -3,29 +3,27 @@ import styles from "../styles.module.css"
 
 export interface IInputContainerProps {
     label?: string
-    fullwidth?: boolean
     error?: boolean
     helperText?: string
     children?: ReactNode
-    inputId: string
+    id?: string
 }
 
 export default function InputContainer({
     label,
     children,
     error,
-    fullwidth,
     helperText,
-    inputId,
-}:IInputContainerProps) {
+    id,
+}: IInputContainerProps) {
 
     return(
-        <div className={`${styles.input_box} ${fullwidth ? styles.full_width : ""} ${error ? styles.error : ""}`}>
+        <div className={`${styles.input_box} ${error ? styles.error : ""}`}>
             { children }
 
             {label &&
                 <label
-                    htmlFor={inputId}
+                    htmlFor={id}
                     className={`${styles.label}`}
                 >{label}</label>
             }

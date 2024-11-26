@@ -1,10 +1,9 @@
-import { FieldValues, Path, PathValue, SubmitHandler, useForm } from "react-hook-form";
-import InputText from "../InputText";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Button from "../Button";
 import styles from "./styles.module.css"
 import { IFormProps } from "./types";
 import { zodResolver } from "@hookform/resolvers/zod"
-import InputDate from "../InputDate";
+import Input from "../Input";
 
 /**
  * Reusable `Form` component for rendering a form with customizable fields.
@@ -44,15 +43,14 @@ export default function Form<T extends FieldValues>({
     onSubmit,
     customClassName,
     fields,
-    submitText = "Submit",
     schema,
+    submitText = "Submit",
 }:IFormProps<T>): JSX.Element {
 
     const { 
         register, 
         handleSubmit,
         formState: { errors },
-        setValue,
     } = useForm<T>({
         resolver: schema && zodResolver(schema),
         mode: "onBlur"
@@ -67,32 +65,16 @@ export default function Form<T extends FieldValues>({
             onSubmit={handleSubmit(submit)}
         >
             {fields.map((field, i) => {
-                const id = `${field.name}-${i}`
+                const id = `${field.fieldName}-${i}`
 
-                switch(field.type) {
-                    case "date":
-                        register(field.name)
-                        return <InputDate
-                            label={field.label}
-                            onChange={(newValue) => {
-                                if(newValue) {
-                                    setValue(field.name, 
-                                        newValue.format("YYYY-MM-DD") as PathValue<T, Path<T>>)
-                                }
-                            }}
-                        />
-                    default: 
-                        return <InputText
-                            key={id}
-                            id={id}
-                            type={field.type}
-                            label={field.label}
-                            {...register(field.name)}
-                            fullwidth
-                            required={field.required}
-                            error={errors[field.name] && String(errors[field.name])}
-                        />
-                }
+                return <Input
+                    key={id}
+                    id={id}
+                    {...field}
+                    {...register(field.fieldName as any)}
+                    error={!!errors[field.fieldName]}
+                    helperText={errors[field.fieldName] as string | undefined}
+                />
             })}
 
             <Button

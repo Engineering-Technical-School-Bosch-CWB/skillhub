@@ -1,14 +1,13 @@
 import { toast } from "react-toastify";
 import Header from "../../components/Header"
 import Form from "../../components/Form";
-import { IField } from "../../components/Form/types";
-
+import { IFormInput } from "../../components/Form/types";
 export default () => {
 
-    const fields: IField[] = [
-        { name: "email", label: "Email", type: "text" },
-        { name: "password", label: "Password", type: "password" },
-        { name: "birthdate", label: "Birthdate", type: "date" },
+    const fields:IFormInput[] = [
+        { fieldName: "email", label: "Email", type: "text" },
+        { fieldName: "password", label: "Password", type: "password" },
+        { fieldName: "birthdate", label: "Birthdate", type: "date" },
     ];
 
     return (

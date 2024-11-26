@@ -1,11 +1,13 @@
-import { Path } from "react-hook-form"
 import { IInputDateProps } from "./InputDate"
 import { IInputTextProps } from "./InputText"
+import { IInputContainerProps } from "./InputContainer"
 
-export interface IRootInputProps<T = any> {
+export type IInputType = "text" | "password" | "date" | "email"
+
+export interface IRootInputProps extends IInputContainerProps {
     id?: string
-    fieldName: Path<T>
-    type?: "text" | "password" | "date"
+    fieldName: string
+    type?: IInputType
     required?: boolean
     error?: boolean
 }

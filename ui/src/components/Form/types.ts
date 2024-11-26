@@ -1,17 +1,13 @@
-import { Path } from "react-hook-form";
 import { ZodType } from "zod";
+import { IInputProps } from "../Input/interfaces";
+import { IInputContainerProps } from "../Input/InputContainer";
 
-export interface IField<T = any> {
-    name: Path<T>
-    label?: string
-    type?: "text" | "password" | "date"
-    required?: boolean
-}
+export type IFormInput = IInputProps & IInputContainerProps
 
 export interface IFormProps<T> {
     onSubmit: (payload:T) => any
     customClassName?: string
-    fields: IField<T>[]
+    fields: IInputProps[]
     submitText?: string
     schema?: ZodType<any, any, any>
 }
