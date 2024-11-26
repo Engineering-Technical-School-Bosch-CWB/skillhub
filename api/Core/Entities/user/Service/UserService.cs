@@ -6,7 +6,6 @@ using Api.Core.Errors;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Api.Domain.Repositories;
-using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Api.Core.Services;
 
@@ -162,19 +161,41 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
         );
     }
 
-    public async Task<PaginatedAppResponse<UserDTO>> GetPaginated(PaginationQuery pagination, string query)
+    /// <summary>
+    /// Retrieves a paginated list of users, with optional filtering by name and birth month.
+    /// </summary>
+    /// <param name="pagination">Pagination parameters, including page number and size.</param>
+    /// <param name="query">
+    /// A search term to filter users by their name. <br/>
+    /// If null or empty, no filtering by name is applied.
+    /// </param>
+    /// <param name="birthMonth">
+    /// The month (1 to 12) to filter users by their birthday.<br/>
+    /// If null, no filtering by birth month is applied.
+    /// </param>
+    /// <returns>
+    /// A paginated response containing a list of users that match the specified filters
+    /// and pagination metadata.
+    /// </returns>
+    /// <remarks>
+    /// - This method uses eager loading to include related entities (Position, Sector, and OccupationArea).<br/>
+    /// - If both <paramref name="query"/> and <paramref name="birthMonth"/> are null, all users are returned.<br/>
+    /// - Pagination is handled by the <c>IPaginationService.PaginateAsync</c> method.
+    /// </remarks>
+    public async Task<PaginatedAppResponse<UserDTO>> GetPaginated(PaginationQuery pagination, string? query, short? birthMonth)
     {
         var result = await _pagService.PaginateAsync(
             _repo.Get()
                 .Include(u => u.Position)
                 .Include(u => u.Sector)
                 .Include(u => u.OccupationArea)
-                .Where(u => string.IsNullOrEmpty(query) || u.Name.Contains(query)),
+                .Where(u => string.IsNullOrEmpty(query) || u.Name.Contains(query))
+                .Where(u => birthMonth == null || (u.Birthday.HasValue && u.Birthday.Value.Month == birthMonth.Value)),
             pagination.ToOptions()
         );
 
         return new PaginatedAppResponse<UserDTO>(
-            result.Item1.Select(u => UserDTO.Map(u)),
+            result.Item1.Select(UserDTO.Map),
             result.Item2!,
             "Users found!"
         );

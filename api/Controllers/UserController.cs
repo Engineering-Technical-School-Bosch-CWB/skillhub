@@ -56,10 +56,11 @@ public class UserController : ControllerBase
     public async Task<ActionResult> GetPaginated(
         [FromServices] IUserService service,
         [FromQuery] PaginationQuery pagination,
-        [FromQuery] string? query
+        [FromQuery] string? query,
+        [FromQuery] short? birthMonth
     )
     {
-        var result = await service.GetPaginated(pagination, query?.ToString()!);
+        var result = await service.GetPaginated(pagination, query, birthMonth);
         return Ok(result);
     }
 
