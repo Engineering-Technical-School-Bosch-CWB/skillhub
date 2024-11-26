@@ -12,7 +12,8 @@ public class ClassController : ControllerBase
     [HttpPost]
     public async Task<ActionResult> RegisterClass(
         [FromServices] IClassService classService,
-        [FromBody] ClassCreatePayload payload)
+        [FromBody] ClassCreatePayload payload
+    )
     {
         var result = await classService.CreateClass(payload);
         return Created("api/v1/classes", result);

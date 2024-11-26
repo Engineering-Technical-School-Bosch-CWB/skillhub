@@ -15,6 +15,7 @@ public class SubjectService(
     IClassRepository classRepository
     ) : BaseService<Subject>(repository), ISubjectService
 {
+    private readonly BaseRepository<Subject> _repo = repository;
     private readonly IUserRepository _userRepo = userRepository;
     private readonly ICurricularUnitRepository _curricularUnitRepo = curricularUnitRepository;
     private readonly IClassRepository _classRepo = classRepository; 
@@ -41,10 +42,10 @@ public class SubjectService(
             BeganAt = payload.BeganAt
         };
 
-        var createdSubject = repository.Add(newSubject)
+        var createdSubject = _repo.Add(newSubject)
             ?? throw new UpsertFailException("Subject could not be inserted!");
 
-        await repository.SaveAsync();
+        await _repo.SaveAsync();
 
         return new AppResponse<SubjectDTO>(
             SubjectDTO.Map(createdSubject),

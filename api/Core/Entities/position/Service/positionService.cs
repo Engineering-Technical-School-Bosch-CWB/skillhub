@@ -51,7 +51,7 @@ public class PositionService
 
         return new PaginatedAppResponse<PositionDTO>(
             result.Item1.Select(p => PositionDTO.Map(p)),
-            result.Item2,
+            result.Item2!,
             "Positions found!"
         );
     }
@@ -62,7 +62,7 @@ public class PositionService
 
         return new PaginatedAppResponse<PositionDTO>(
             result.Item1.Select(p => PositionDTO.Map(p)),
-            result.Item2,
+            result.Item2!,
             "Positions found!"
         );
     }

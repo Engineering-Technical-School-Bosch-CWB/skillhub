@@ -4,12 +4,12 @@ namespace Api.Domain.Services
 {
     public interface IPaginationService
     {
-        (IEnumerable<TEntity>, PaginationInfo) Paginate<TEntity>(
+        (IEnumerable<TEntity>, PaginationInfo?) Paginate<TEntity>(
                 IQueryable<TEntity> query,
                 PaginationOptions pagination)
             where TEntity : IEntity;
 
-        Task<(IEnumerable<TEntity>, PaginationInfo)> PaginateAsync<TEntity>(
+        Task<(IEnumerable<TEntity>, PaginationInfo?)> PaginateAsync<TEntity>(
                 IQueryable<TEntity> query,
                 PaginationOptions pagination)
             where TEntity : IEntity;

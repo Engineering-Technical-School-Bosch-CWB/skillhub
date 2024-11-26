@@ -6,6 +6,6 @@ namespace Api.Domain.Repositories;
 
 public interface IPositionRepository : IRepository<Position>
 {
-    public (IEnumerable<Position>, PaginationInfo) GetPaginated(PaginationOptions options);
-    public Task<(IEnumerable<Position>, PaginationInfo)> GetPaginatedAsync(PaginationOptions options);
+    public (IEnumerable<Position>, PaginationInfo?) GetPaginated(PaginationOptions options);
+    public Task<(IEnumerable<Position>, PaginationInfo?)> GetPaginatedAsync(PaginationOptions options);
 }

@@ -4,9 +4,9 @@ namespace Api.Domain.Models
         int Id,
         string Name,
         DateOnly? Birthday,
-        int? PositionId,
-        int? SectorId,
-        int? OccupationAreaId,
+        int PositionId,
+        int SectorId,
+        int OccupationAreaId,
         short PermissionLevel
     )
     {
@@ -16,10 +16,10 @@ namespace Api.Domain.Models
                 user.Id,
                 user.Name,
                 user.Birthday,
-                user.Position?.Id,
-                user.Sector?.Id,
-                user.OccupationArea?.Id,
-                user.Position!.PositionLevel
+                user.Position.Id,
+                user.Sector.Id,
+                user.OccupationArea.Id,
+                user.Position.PositionLevel
             );
         }
     }

@@ -14,12 +14,12 @@ public class CourseRepository: BaseRepository<Course>, ICourseRepository
     {
         _paginationService = paginationService;
     }
-    public (IEnumerable<Course>, PaginationInfo) GetPaginated(PaginationOptions options)
+    public (IEnumerable<Course>, PaginationInfo?) GetPaginated(PaginationOptions options)
     {
         var result = _paginationService.Paginate(GetAllNoTracking(), options);
         return result;
     }
-    public async Task<(IEnumerable<Course>, PaginationInfo)> GetPaginatedAsync(PaginationOptions options)
+    public async Task<(IEnumerable<Course>, PaginationInfo?)> GetPaginatedAsync(PaginationOptions options)
     {
         var result = await _paginationService.PaginateAsync(
             Get(), options);
