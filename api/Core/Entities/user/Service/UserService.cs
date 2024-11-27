@@ -11,7 +11,7 @@ namespace Api.Core.Services;
 
 public class UserService(BaseRepository<User> repository, IPositionRepository positionRepository,
     ISectorRepository sectorRepository, IOccupationAreaRepository areaRepository, IStudentService studentService,
-    PasswordHasher<User> hasher, IPaginationService paginationService) : BaseService<User>(repository), IUserService
+    PasswordHasher<User> hasher, IPaginationService paginationService, ISkillResultRepository skillResultRepository) : BaseService<User>(repository), IUserService
 {
     private readonly BaseRepository<User> _repo = repository;
     private readonly IPositionRepository _positionRepo = positionRepository;
@@ -20,6 +20,7 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
     private readonly PasswordHasher<User> _hasher = hasher;
     private readonly IPaginationService _pagService = paginationService;
     private readonly IStudentService _studentservice = studentService;
+    private readonly ISkillResultRepository _skillResultRepo = skillResultRepository;
 
     public async Task<AppResponse<UserDTO>> CreateUser(UserCreatePayload payload)
     {
@@ -216,4 +217,20 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
         );
     }
 
+    public async Task<AppResponse<UserResultResponse>> GetResult(int id, int subjectId)
+    {
+        var student = _studentservice.GetByUserId(id)
+            ?? throw new NotFoundException("Student not found!");
+
+        var skillResults = _skillResultRepo.Get()
+            .Where(s => s.Student.Id == student.Id)
+            .Where(s => s.Subject!.Id == subjectId || s.Exam!.Subject.Id == subjectId);
+
+        
+    }
+
+    public async Task<AppResponse<UserResultsResponse>> GetResults(int id)
+    {
+        throw new NotImplementedException();
+    }
 }
