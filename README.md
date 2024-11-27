@@ -6,7 +6,7 @@
 
 [Excalidraw (Telas)](https://excalidraw.com/#room=101b4e8167b7871b19c0,uzQJxNXB0gdBE5HK5-o7ow)
 
-[Endpoints]("/api/endpoints.md)
+[Endpoints](/api/endpoints.md)
 
 ## Configuration and API Response Patterns
 
