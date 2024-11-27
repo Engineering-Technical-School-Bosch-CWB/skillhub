@@ -42,4 +42,14 @@ public class StudentService(
             "Student created successfully!"
         );
     }
+
+    public async Task<StudentDTO?> GetByUserId(int id)
+    {
+        var student = await repository.Get()
+            .Include(s => s.User)
+            .Include(s => s.Class)
+            .SingleOrDefaultAsync(s => s.User.Id == id);
+
+        return student is not null ? StudentDTO.Map(student) : null;
+    }   
 }

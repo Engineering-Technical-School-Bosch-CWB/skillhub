@@ -58,10 +58,11 @@ public class UserController : ControllerBase
         [FromQuery] PaginationQuery pagination,
         [FromQuery] string? query,
         [FromQuery] short? birthMonth,
-        [FromQuery] int? positionId
+        [FromQuery] int? positionId,
+        [FromQuery] int? classId
     )
     {
-        var result = await service.GetPaginated(pagination, query, birthMonth, positionId);
+        var result = await service.GetPaginated(pagination, query, birthMonth, positionId, classId);
         return Ok(result);
     }
 

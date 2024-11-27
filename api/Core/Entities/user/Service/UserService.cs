@@ -10,7 +10,7 @@ using Api.Domain.Repositories;
 namespace Api.Core.Services;
 
 public class UserService(BaseRepository<User> repository, IPositionRepository positionRepository,
-    ISectorRepository sectorRepository, IOccupationAreaRepository areaRepository,
+    ISectorRepository sectorRepository, IOccupationAreaRepository areaRepository, IStudentService studentService,
     PasswordHasher<User> hasher, IPaginationService paginationService) : BaseService<User>(repository), IUserService
 {
     private readonly BaseRepository<User> _repo = repository;
@@ -19,6 +19,7 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
     private readonly IOccupationAreaRepository _areaRepo = areaRepository;
     private readonly PasswordHasher<User> _hasher = hasher;
     private readonly IPaginationService _pagService = paginationService;
+    private readonly IStudentService _studentservice = studentService;
 
     public async Task<AppResponse<UserDTO>> CreateUser(UserCreatePayload payload)
     {
@@ -58,7 +59,7 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
         await _repo.SaveAsync();
 
         return new AppResponse<UserDTO>(
-            UserDTO.Map(saveUser),
+            UserDTO.Map(saveUser, null),
             "User created successfully!"
         );
     }
@@ -122,8 +123,11 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
             ?? throw new UpsertFailException("User could not be updated!");
 
         await _repo.SaveAsync();
+
+        var student = await _studentservice.GetByUserId(id);
+
         return new AppResponse<UserDTO>(
-            UserDTO.Map(updatedUser),
+            UserDTO.Map(updatedUser, student),
             "User updated successfully!"
         );
     }
@@ -148,15 +152,17 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
 
     public async Task<AppResponse<UserDTO>> Get(int id)
     {
-        var user = await _repo.Get()
+        var user = await _repo.GetAllNoTracking()
             .Include(u => u.Position)
             .Include(u => u.Sector)
             .Include(u => u.OccupationArea)
             .SingleOrDefaultAsync(u => u.Id == id)
             ?? throw new NotFoundException("User not found!");
 
+        var student = await _studentservice.GetByUserId(id);
+
         return new AppResponse<UserDTO>(
-            UserDTO.Map(user),
+            UserDTO.Map(user, student),
             "User found!"
         );
     }
@@ -182,10 +188,10 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
     /// - If both <paramref name="query"/> and <paramref name="birthMonth"/> are null, all users are returned.<br/>
     /// - Pagination is handled by the <c>IPaginationService.PaginateAsync</c> method.
     /// </remarks>
-    public async Task<PaginatedAppResponse<UserDTO>> GetPaginated(PaginationQuery pagination, string? query, short? birthMonth, int? positionId)
+    public async Task<PaginatedAppResponse<UserDTO>> GetPaginated(PaginationQuery pagination, string? query, short? birthMonth, int? positionId, int? classId)
     {
         var result = await _pagService.PaginateAsync(
-            _repo.Get()
+            _repo.GetAllNoTracking()
                 .Include(u => u.Position)
                 .Include(u => u.Sector)
                 .Include(u => u.OccupationArea)
@@ -195,8 +201,16 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
             pagination.ToOptions()
         );
 
+        var mappedUsers = new List<UserDTO>();
+
+        foreach (var u in result.Item1)
+            mappedUsers.Add(UserDTO.Map(u, await _studentservice.GetByUserId(u.Id)));
+
+        if (classId is not null)
+            mappedUsers = mappedUsers.Where(u => u.StudentProfile?.ClassId == classId).ToList();
+
         return new PaginatedAppResponse<UserDTO>(
-            result.Item1.Select(UserDTO.Map),
+            mappedUsers,
             result.Item2!,
             "Users found!"
         );
