@@ -43,3 +43,20 @@ Default response messages returned by the endpoints.
 
 > [!NOTE]
 > **Use new migrations** - You may need to drop your database before applying.
+
+### Script to create database
+
+```sql
+CREATE DATABASE dbskillhub
+ON 
+PRIMARY (
+	NAME = dbskillhub,
+	filename = 'C:\data\dbskillhub.mdf'),
+FILEGROUP FileStreamDbskillhub CONTAINS FILESTREAM  (
+	NAME = dbskillhub_stream,
+	filename = 'C:\data\filestreamdbskillhub')
+LOG ON ( 
+	NAME = dbskillhub_log,
+	filename = 'C:\data\dbskillhub.ldf')
+GO
+```
