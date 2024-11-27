@@ -9,8 +9,8 @@ import ContentOverview from "../pages/ContentOverview";
 import CreateAvaliation from "../pages/CreateAvaliation";
 import CreateClass from "../pages/CreateClass";
 import CurricularUnitOverview from "../pages/CurricularUnitOverview";
-import {Home} from "../pages/Home";
-import {Login} from "../pages/Login";
+import Home from "../pages/Home";
+import Login from "../pages/Login";
 
 interface IAppRoute {
     path: string;

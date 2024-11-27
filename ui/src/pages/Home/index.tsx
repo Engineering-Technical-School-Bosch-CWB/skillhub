@@ -7,11 +7,9 @@ import GiftIcon from "../../icons/GiftIcon";
 import ResultsIcon from "../../icons/ResultsIcon";
 import TeamIcon from "../../icons/TeamIcon";
 import EducationIcon from "../../icons/EducationIcon";
-import UserIcon from "../../icons/UserIcon";
+import UserIcon from "../../icons/userIcon";
 
-export const Home = () => {
-
-
+export default () => {
     return (
         <>
             <Header/>

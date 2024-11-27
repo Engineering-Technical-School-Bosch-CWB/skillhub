@@ -3,7 +3,7 @@ import Form from "../../components/Form";
 import { IField } from "../../components/Form/types";
 import styles from "./styles.module.css"
 
-export const Login = () => {
+export default () => {
     const fields: IField[] = [
         { name: "edv", label: "Identification(EDV)", required: true },
         { name: "password", label: "Password", type: "password", required: true }
