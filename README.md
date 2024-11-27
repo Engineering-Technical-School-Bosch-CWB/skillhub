@@ -1,4 +1,4 @@
-# project-e
+# SkillHub
 
 [Excalidraw (banco - uso real)](https://excalidraw.com/#room=114b9c48c1252563a8fc,J-9EAKgDjhiY6qSNGlmH1A)
 
@@ -6,6 +6,7 @@
 
 [Excalidraw (Telas)](https://excalidraw.com/#room=101b4e8167b7871b19c0,uzQJxNXB0gdBE5HK5-o7ow)
 
+[Endpoints]("/api/endpoints.md)
 
 ## Configuration and API Response Patterns
 
@@ -39,10 +40,7 @@ Default response messages returned by the endpoints.
 | `GET paginated`| "**[entities]** found!"                 |
 | `POST`         | "**[entity]** created successfully!"    |
 | `PATCH`        | "**[entity]** updated successfully!"    |
-<br>
 
-> [!NOTE]
-> **Use new migrations** - You may need to drop your database before applying.
 
 ### Script to create database
 
@@ -60,3 +58,8 @@ LOG ON (
 	filename = 'C:\data\dbskillhub.ldf')
 GO
 ```
+
+<br>
+
+> [!NOTE]
+> **Use new migrations** - You may need to drop your database before applying.
