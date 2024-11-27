@@ -5,7 +5,7 @@
 
 **Request Body Example:**
 
-```json
+```javascript
 {
   "sectorId": number,
   "positionId": number,
@@ -16,7 +16,7 @@
 ```
 
 **Response Example:**
-```json
+```javascript
 {
   "data": {
     "id": number,
@@ -37,7 +37,7 @@
 
 **Response Example:**
 
-```json
+```javascript
 {
   "data": {
     "id": number,
@@ -64,7 +64,7 @@
 
 **Request Body Example:**
 
-```json
+```javascript
 {
   "sectorId": number | null,
   "positionId": number | null,
@@ -78,7 +78,7 @@
 
 **Response Example:**
 
-```json
+```javascript
 {
   "data": {
     "id": number,
@@ -103,7 +103,7 @@
 - `birthMonth` A filter to get users born in a specific month.
 
 **Response Example:**
-```json
+```javascript
 {
   "data": [
     {
