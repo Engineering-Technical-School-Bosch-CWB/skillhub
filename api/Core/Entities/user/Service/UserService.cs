@@ -182,7 +182,7 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
     /// - If both <paramref name="query"/> and <paramref name="birthMonth"/> are null, all users are returned.<br/>
     /// - Pagination is handled by the <c>IPaginationService.PaginateAsync</c> method.
     /// </remarks>
-    public async Task<PaginatedAppResponse<UserDTO>> GetPaginated(PaginationQuery pagination, string? query, short? birthMonth)
+    public async Task<PaginatedAppResponse<UserDTO>> GetPaginated(PaginationQuery pagination, string? query, short? birthMonth, int? positionId)
     {
         var result = await _pagService.PaginateAsync(
             _repo.Get()
@@ -190,6 +190,7 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
                 .Include(u => u.Sector)
                 .Include(u => u.OccupationArea)
                 .Where(u => string.IsNullOrEmpty(query) || u.Name.Contains(query))
+                .Where(u => positionId == null || u.Position.Id == positionId)
                 .Where(u => birthMonth == null || (u.Birthday.HasValue && u.Birthday.Value.Month == birthMonth.Value)),
             pagination.ToOptions()
         );
