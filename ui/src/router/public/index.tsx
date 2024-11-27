@@ -1,7 +1,7 @@
 import NotFound from "../../components/NotFound";
 import { IAppRoute } from "../../interfaces/routes.interfaces";
-import { Login } from "../../pages/Login";
 import { RouteMap } from "../map";
+import Login from "../../pages/Login";
 
 const publicRoutes: IAppRoute[] = [
     {

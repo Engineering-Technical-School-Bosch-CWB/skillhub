@@ -8,6 +8,7 @@ import ResultsIcon from "../../icons/ResultsIcon";
 import TeamIcon from "../../icons/TeamIcon";
 import EducationIcon from "../../icons/EducationIcon";
 import UserIcon from "../../icons/userIcon";
+import Card from "./components/Card";
 
 export default () => {
     return (
@@ -16,46 +17,11 @@ export default () => {
 
             <div className={styles.homeContainer} >
                 <div className={styles.linksContainer}>
-                    <div className={styles.linksCards}>
-                        <Link className={styles.link} to="/Login">
-                            <div className={styles.cardInside}>
-                                <ResultsIcon className={styles.image}></ResultsIcon>
-                                <span className={styles.textCard}>Results</span>
-                            </div>
-                        </Link>
-                    </div>
-                    <div className={styles.linksCards}>
-                        <Link className={styles.link} to="/Login">
-                            <div className={styles.cardInside}>
-                                <GiftIcon className={styles.image}></GiftIcon>
-                                <span className={styles.textCard}>Birthdays</span>
-                            </div>
-                        </Link>
-                    </div>
-                    <div className={styles.linksCards}>
-                        <Link className={styles.link} to="/Login">
-                            <div className={styles.cardInside}>
-                                <TeamIcon className={styles.image}></TeamIcon>
-                                <span className={styles.textCard}>Classes Overview</span>
-                            </div>
-                        </Link>
-                    </div>
-                    <div className={styles.linksCards}>
-                        <Link className={styles.link} to="/Login">
-                            <div className={styles.cardInside}>
-                                <EducationIcon className={styles.image}></EducationIcon>
-                                <span className={styles.textCard}>Curricular Unit Overview</span>
-                            </div>
-                        </Link>
-                    </div>
-                    <div className={styles.linksCards}>
-                        <Link className={styles.link} to="/Login">
-                            <div className={styles.cardInside}>
-                                <UserIcon className={styles.image}></UserIcon>
-                                <span className={styles.textCard}>Users Overview</span>
-                            </div>
-                        </Link>
-                    </div>
+                    <Card to="/aprentice/results" icon={ResultsIcon} label="Results"/>
+                    <Card to="/login" icon={GiftIcon} label="Birthdays"/>
+                    <Card to="/login" icon={TeamIcon} label="Class Overview"/>
+                    <Card to="/login" icon={EducationIcon} label="Curricular Unit Overview"/>
+                    <Card to="/login" icon={UserIcon} label="User Overview"/>
                 </div>
             </div>
         </>

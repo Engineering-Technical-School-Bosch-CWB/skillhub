@@ -1,5 +1,6 @@
 import BoschLogo from "../../components/BoschLogo";
-import Form, { IField } from "../../components/Form"
+import Form from "../../components/Form"
+import { IField } from "../../components/Form/types";
 import styles from "./styles.module.css"
 
 export const CompleteRegistering = () => {
