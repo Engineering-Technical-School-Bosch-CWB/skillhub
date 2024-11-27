@@ -1,4 +1,40 @@
 # Endpoints
+
+### Login
+
+#### 1. **POST** `/api/v1/login` - Login
+
+**Request Body Example:**
+
+```javascript
+{
+	"identification": string,
+	"password": string
+}
+```
+
+**Response Example:**
+```javascript
+{
+	"data": {
+		"firstLogin": boolean,
+		"user": {
+            "id": number,
+            "name": string,
+            "birthday": string | null,
+            "positionId": number,
+            "sectorId": number,
+            "occupationAreaId": number,
+            "permissionLevel": number
+        },
+		"authToken": {
+			"token": string
+		}
+	},
+	"message": "User needs to complete registration." | "User logged in successfully!"
+}
+```
+
 ### User
 #### 1. **POST** `/api/v1/users` - Register user
 > Requires a Bearer Token.
@@ -7,27 +43,27 @@
 
 ```javascript
 {
-  "sectorId": number,
-  "positionId": number,
-  "occupationAreaId": number,
-  "name": string,
-  "identification": string
+    "sectorId": number,
+    "positionId": number,
+    "occupationAreaId": number,
+    "name": string,
+    "identification": string
 }
 ```
 
 **Response Example:**
 ```javascript
 {
-  "data": {
-    "id": number,
-    "name": string,
-    "birthday": string | null,
-    "positionId": number,
-    "sectorId": number,
-    "occupationAreaId": number,
-    "permissionLevel": number
-  },
-  "message": "User created successfully!"
+    "data": {
+        "id": number,
+        "name": string,
+        "birthday": string | null,
+        "positionId": number,
+        "sectorId": number,
+        "occupationAreaId": number,
+        "permissionLevel": number
+    },
+    "message": "User created successfully!"
 }
 
 ```
@@ -39,16 +75,16 @@
 
 ```javascript
 {
-  "data": {
-    "id": number,
-    "name": string,
-    "birthday": string | null,
-    "positionId": number,
-    "sectorId": number,
-    "occupationAreaId": number,
-    "permissionLevel": number
-  },
-  "message": "User found!"
+    "data": {
+        "id": number,
+        "name": string,
+        "birthday": string | null,
+        "positionId": number,
+        "sectorId": number,
+        "occupationAreaId": number,
+        "permissionLevel": number
+    },
+    "message": "User found!"
 }
 ```
 
@@ -66,13 +102,13 @@
 
 ```javascript
 {
-  "sectorId": number | null,
-  "positionId": number | null,
-  "occupationAreaId": number | null,
-  "name": string | null,
-  "identification": string | null,
-  "birthday": string | null,
-  "password": string | null
+    "sectorId": number | null,
+    "positionId": number | null,
+    "occupationAreaId": number | null,
+    "name": string | null,
+    "identification": string | null,
+    "birthday": string | null,
+    "password": string | null
 }
 ```
 
@@ -80,16 +116,16 @@
 
 ```javascript
 {
-  "data": {
-    "id": number,
-    "name": string,
-    "birthday": string | null,
-    "positionId": number,
-    "sectorId": number,
-    "occupationAreaId": number,
-    "permissionLevel": number
-  },
-  "message": "User updated successfully!"
+    "data": {
+        "id": number,
+        "name": string,
+        "birthday": string | null,
+        "positionId": number,
+        "sectorId": number,
+        "occupationAreaId": number,
+        "permissionLevel": number
+    },
+    "message": "User updated successfully!"
 }
 ```
 
@@ -116,6 +152,109 @@
         "permissionLevel": number
     }
   ],
-  "info": null,
+  "info": {
+        "items": number,
+        "currentPage": number,
+        "totalPages": number
+    } | null,
   "message": "Users found!"
 }
+```
+
+### Position
+
+#### 1. **GET** `/api/v1/position/{id}` - Get Position by ID
+> Requires a Bearer Token.
+
+**Response Example:**
+```javascript
+{
+    "data": {
+        "id": number,
+        "name": string,
+        "positionLevel": number
+    },
+    "message": "Position found!"
+}
+```
+
+#### 2. **GET** `/api/v1/position` - Get Paginated Positions
+> Requires a Bearer Token.
+
+**Query Parameters:**
+- `page` The page number to retrieve.
+- `items` The number of positions per page.
+
+**Response Example:**
+```javascript
+{
+    "data": [
+      {
+          "id": number,
+          "name": string,
+          "positionLevel": number
+      }
+    ],
+    "info": {
+        "items": number,
+        "currentPage": number,
+        "totalPages": number
+    } | null,
+    "message": "Positions found!"
+}
+```
+
+#### 3. **POST** `/api/v1/position` - Create a New Position
+> Requires a Bearer Token.
+
+**Request Body Example:**
+```javascript
+{
+    "name": string,
+    "positionLevel": number
+}
+```
+
+**Response Example:**
+```javascript
+{
+    "data": {
+        "id": number,
+        "name": string,
+        "positionLevel": number
+    },
+    "message": "Position created successfully!"
+}
+```
+
+#### 4. **DELETE** `/api/v1/position/{id} `- Delete Position by ID
+> Requires a Bearer Token.
+
+**Response Example:**
+- Status Code: 200
+- No Response Body.
+
+#### 4. **PATCH** `/api/v1/position/{id}` - Update Position by ID
+> Requires a Bearer Token.
+
+**Request Body Example:**
+
+```javascript
+{
+    "name": string | null,
+    "positionLevel": string | null,
+}
+```
+
+**Response Example:**
+
+```javascript
+{
+    "data": {
+        "id": number,
+        "name": string,
+        "positionLevel": number,
+    },
+    "message": "Position updated successfully!"
+}
+```
