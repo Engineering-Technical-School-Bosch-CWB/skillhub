@@ -4,11 +4,11 @@ import { IRootInputProps } from "../interfaces"
 import InputContainer from "../InputContainer"
 
 export interface IInputTextProps extends IRootInputProps {
-    type: "text" | "email"
+    type?: "text" | "email"
 }
 
 const InputText = forwardRef<HTMLInputElement, IInputTextProps>(
-    ({ error, type, label, helperText, id, ...props }, ref) => 
+    ({ error, type = "text", label, helperText, id, ...props }, ref) => 
 {
     return (
         <InputContainer
