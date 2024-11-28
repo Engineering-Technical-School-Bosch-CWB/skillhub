@@ -6,26 +6,28 @@ interface IButtonProps extends ComponentPropsWithoutRef<'button'> {
 }
 
 /**
- * Reusable `Button` component with customizable styling variants.
- * Supports all standard HTML button properties and includes options for "contained" and "outlined" variants.
- * Utilizes `forwardRef` to allow parent components to access the button’s DOM element.
+ * `Button` component: A customizable button with support for different styles and native button properties.
  *
- * @param {IButtonProps} props - The properties object for configuring the `Button` component.
- * @param {("contained" | "outlined")} [props.variant="outlined"] - Optional style variant for the button. Defaults to "outlined" if not specified.
- * @param {string} [props.className] - Optional additional CSS class name(s) for custom styling.
- * @param {React.Ref<HTMLButtonElement>} ref - Optional ref passed down to access the button DOM element.
- * @returns {JSX.Element} The styled button element.
+ * Props:
+ * - `variant` (string, optional): Defines the button style. Options are:
+ *   - `"contained"`: A solid, filled button (default).
+ *   - `"outlined"`: A button with an outlined border.
+ * - `className` (string, optional): Additional CSS class names for styling.
+ * - Other props: Supports all additional props of a native `<button>` element.
  *
- * @example
- * ```tsx
- * <Button
- *   variant="contained"
- *   className="custom-button"
- *   onClick={() => console.log("Button clicked!")}
- * >
- *   Click Me
- * </Button>
+ * Example usage:
  * ```
+ * import Button from "./Button";
+ *
+ * // Contained button
+ * <Button variant="contained" onClick={() => console.log("Clicked!")}>
+ *   Submit
+ * </Button>
+ *
+ * // Outlined button with custom styles
+ * <Button variant="outlined" className="custom-button-class">
+ *   Cancel
+ * </Button>
  */
 const Button = forwardRef<HTMLButtonElement, IButtonProps>(({ variant = "outlined", className, ...props}, ref) => 
     <button
