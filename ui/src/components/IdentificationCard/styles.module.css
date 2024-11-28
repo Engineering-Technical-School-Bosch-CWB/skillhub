@@ -1,0 +1,27 @@
+.identificationCard {
+    width: 15rem;
+    height: 3rem;
+    border: .025rem solid black;
+    border-radius: 10px;
+    margin: 1rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding: .25rem .5rem ;
+    gap: .5rem;
+
+    &:hover {
+        box-shadow: 0 0 .75rem .05rem rgba(48, 48, 48, 0.623);
+    }
+
+    .identificationCardMarker {
+        width: 1rem;
+        height: 2rem;
+        border-radius: 5px;
+    }
+}
+
+.common {
+    
+}
