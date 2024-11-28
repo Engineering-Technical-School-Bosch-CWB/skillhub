@@ -1,4 +1,28 @@
-.chart_container {
-    width: 400px;
-    height: 400px;
+.content {
+    margin: 40px 40px;
 }
+
+.chart_section {
+    display: flex;
+    flex-direction: column;
+}
+
+.chart_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20%;
+}
+
+.legend_container {
+    display: flex;
+    /* justify-content: center; */
+    gap: 50%
+}
+
+.divider {
+    border: none;
+    border-top: 1px solid #b9b9b9; 
+    margin: 70px 0; 
+  }
+  

@@ -1,5 +1,5 @@
 import React from "react";
-import { PieChart, Pie, Tooltip, Legend, Label } from "recharts";
+import { PieChart, Pie, Tooltip, Legend, Label, Cell } from "recharts";
 
 interface IDoughnutChartProps {
   exploitation: number;
@@ -16,22 +16,25 @@ const DoughnutChart: React.FC<IDoughnutChartProps> = ({ exploitation }) => {
     <div>
       <PieChart width={400} height={400}>
         <Pie
-          data={data}             // Passando os dados
-          dataKey="value"         // Especificando qual chave deve ser usada para o valor
-          nameKey="name"          // Especificando qual chave deve ser usada para o nome
-          cx={200}                // Centralizando o gráfico
-          cy={200}                // Centralizando o gráfico
-          innerRadius={60}        // Raio interno (faz o gráfico de donut)
-          outerRadius={100}       // Raio externo
+          data={data}             
+          dataKey="value"         
+          nameKey="name"          
+          cx={200}                
+          cy={200}                
+          innerRadius={60}
+          outerRadius={100}       
           fill="#9e2896"
         >
-          {/* Colocando o Label centralizado */}
-          <Label 
-            value={`${exploitation}%`}  // Exibe a porcentagem
-            position="center"          // Posiciona no centro
-            fontSize={24}              // Ajuste de tamanho de fonte
-            fontWeight="bold"          // Ajuste de peso da fonte
-            fill="#000"                // Cor da fonte
+          {data.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={index === 0 ? "#9e2896" : "#b9b9b9"} /> 
+          ))}
+
+          <Label
+            value={`${exploitation}%`}  
+            position="center"          
+            fontSize={24}              
+            fontWeight="bold"          
+            fill="#000"                
           />
         </Pie>
         <Tooltip />

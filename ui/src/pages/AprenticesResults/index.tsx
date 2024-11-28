@@ -9,13 +9,18 @@ export default () => {
         <div>
             <Header/>
             <div className={styled.content}>
-                <div>
+                <div className={styled.chart_section}>
                     <Heading>Results</Heading>
                     <div className={styled.chart_container}>
                         <ExploitationBarChart/>
-                        <DoughnutChart exploitation={50}/>
+                        <DoughnutChart exploitation={50} />
+                    </div>
+                    <div className={styled.legend_container}>
+                        <p>Exploitation per Subject</p>
+                        <p>Overall Exploitation</p>
                     </div>
                 </div>
+                <hr className={styled.divider}/>
                 <div>
                     <div className={styled.filter_container}>
 
