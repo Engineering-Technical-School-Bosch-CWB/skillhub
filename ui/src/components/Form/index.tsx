@@ -7,38 +7,53 @@ import Input from "../Input";
 import { z, ZodTypeAny } from "zod";
 
 /**
- * Reusable `Form` component for rendering a form with customizable fields.
- * Uses `react-hook-form` for form management, making it easy to add fields dynamically,
- * handle validation, and process submissions.
+ * `Form` component: A dynamic and reusable form builder using `react-hook-form` and Zod for validation.
  *
- * @template T - The type of form field values, extending FieldValues to support react-hook-form integration.
- * 
- * @param {IFormProps<T>} props - The properties object for configuring the `Form` component.
- * @param {(payload: T) => Promise<void> | void} props.onSubmit - Function to handle form submission, receiving form data as an argument.
- * @param {string} [props.customClassName] - Optional CSS class name for styling the form container.
- * @param {IField<T>[]} props.fields - Array of field configurations, each specifying a name, label, and optional type (e.g., "text" or "password").
- * @param {string} [props.submitText="Submit"] - Optional text for the submit button; defaults to "Submit" if not provided.
+ * Props:
+ * - `onSubmit` (SubmitHandler<T>, required): A callback function triggered on form submission. Receives the form data as a parameter.
+ * - `fields` (Array<{ fieldName: string; type: string; zodSchema?: ZodTypeAny; [key: string]: any; }>, required):
+ *   An array of field configurations for rendering input fields. Each field includes:
+ *     - `fieldName` (string): The name of the field, used as the key for form data.
+ *     - `type` (string): The input type (e.g., "text", "email", "password").
+ *     - `zodSchema` (ZodTypeAny, optional): A Zod schema for validating the field.
+ *     - Any additional props supported by the `Input` component.
+ * - `submitText` (string, optional): The text displayed on the submit button. Defaults to `"Submit"`.
  *
- * @returns {JSX.Element} The form element, with fields mapped to `Input` components based on `fields` configuration.
+ * Example usage:
+ * ```
+ * import { z } from "zod";
+ * import Form from "./Form";
  *
- * @example
- * ```tsx
- * const fields: IField[] = [
- *   { name: "email", label: "Email", type: "text" },
- *   { name: "password", label: "Password", type: "password" }
+ * const fields = [
+ *   {
+ *     fieldName: "email",
+ *     type: "email",
+ *     zodSchema: z.string().email("Invalid email address"),
+ *     label: "Email Address",
+ *   },
+ *   {
+ *     fieldName: "password",
+ *     type: "password",
+ *     zodSchema: z.string().min(6, "Password must be at least 6 characters"),
+ *     label: "Password",
+ *   },
  * ];
  *
- * function handleFormSubmit(data: { email: string, password: string }) {
- *   console.log(data);
- * }
+ * const handleSubmit = async (data) => {
+ *   console.log("Form submitted:", data);
+ * };
  *
- * <Form
- *   onSubmit={handleFormSubmit}
+ * <Form 
  *   fields={fields}
- *   customClassName="custom-form"
+ *   onSubmit={handleSubmit}
+ *   customClassName="custom-form-class"
  *   submitText="Sign In"
- * />
+ * />;
  * ```
+ *
+ * Notes:
+ * - The form is validated using Zod schemas provided in the `fields` prop.
+ * - Errors are automatically displayed for each field using the `helperText` and `error` props.
  */
 export default function Form<T extends FieldValues>({
     onSubmit,
