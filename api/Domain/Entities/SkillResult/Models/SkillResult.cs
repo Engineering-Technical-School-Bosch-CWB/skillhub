@@ -4,8 +4,8 @@ namespace Api.Domain.Models;
 
 public partial class SkillResult : IEntity
 {
-  public float? Aptitude { get; set; }
-  public required float Weight { get; set; }
+  public double? Aptitude { get; set; }
+  public required double Weight { get; set; }
   public required DateOnly EvaluatedAt { get; set; }
   public bool IsActive { get; set; } = true;
   public Subject? Subject { get; set; }

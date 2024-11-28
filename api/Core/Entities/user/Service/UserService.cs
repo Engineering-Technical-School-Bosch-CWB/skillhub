@@ -11,7 +11,7 @@ namespace Api.Core.Services;
 
 public class UserService(BaseRepository<User> repository, IPositionRepository positionRepository,
     ISectorRepository sectorRepository, IOccupationAreaRepository areaRepository, IStudentService studentService,
-    PasswordHasher<User> hasher, IPaginationService paginationService, ISkillResultRepository skillResultRepository) : BaseService<User>(repository), IUserService
+    PasswordHasher<User> hasher, IPaginationService paginationService, ISubjectRepository subjectRepository) : BaseService<User>(repository), IUserService
 {
     private readonly BaseRepository<User> _repo = repository;
     private readonly IPositionRepository _positionRepo = positionRepository;
@@ -20,7 +20,7 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
     private readonly PasswordHasher<User> _hasher = hasher;
     private readonly IPaginationService _pagService = paginationService;
     private readonly IStudentService _studentservice = studentService;
-    private readonly ISkillResultRepository _skillResultRepo = skillResultRepository;
+    private readonly ISubjectRepository _subjectRepo = subjectRepository;
 
     public async Task<AppResponse<UserDTO>> CreateUser(UserCreatePayload payload)
     {
@@ -197,8 +197,8 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
                 .Include(u => u.Sector)
                 .Include(u => u.OccupationArea)
                 .Where(u => string.IsNullOrEmpty(query) || u.Name.Contains(query))
-                .Where(u => positionId == null || u.Position.Id == positionId)
-                .Where(u => birthMonth == null || (u.Birthday.HasValue && u.Birthday.Value.Month == birthMonth.Value)),
+                .Where(u => !positionId.HasValue || u.Position.Id == positionId)
+                .Where(u => !birthMonth.HasValue || (u.Birthday.HasValue && u.Birthday.Value.Month == birthMonth.Value)),
             pagination.ToOptions()
         );
 
@@ -217,20 +217,23 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
         );
     }
 
-    public async Task<AppResponse<UserResultResponse>> GetResult(int id, int subjectId)
+    public async Task<AppResponse<UserResultResponse>> ResultsPage(int id)
     {
-        var student = _studentservice.GetByUserId(id)
+        var student = await _studentservice.GetByUserId(id)
             ?? throw new NotFoundException("Student not found!");
 
-        var skillResults = _skillResultRepo.Get()
-            .Where(s => s.Student.Id == student.Id)
-            .Where(s => s.Subject!.Id == subjectId || s.Exam!.Subject.Id == subjectId);
+        var subjects = _subjectRepo.Get()
+            .Where(s => s.Class.Id == student.ClassId);
 
-        
+        IEnumerable<UserResultDTO> results = [];
+
+        foreach (var subject in subjects)
+            _ = results.Append(new UserResultDTO(SubjectDTO.Map(subject), await _studentservice.GetResultBySubject(id, subject.Id)));
+
+        return new AppResponse<UserResultResponse>(
+            UserResultResponse.Map(id, student, results),
+            "Users results found!"
+        );
     }
 
-    public async Task<AppResponse<UserResultsResponse>> GetResults(int id)
-    {
-        throw new NotImplementedException();
-    }
 }

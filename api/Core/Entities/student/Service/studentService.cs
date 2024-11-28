@@ -9,14 +9,15 @@ using Api.Core.Errors;
 namespace Api.Core.Services;
 
 public class StudentService(
-    BaseRepository<Student> repository,
-    IUserRepository userRepository,
-    IClassRepository classRepository
+    BaseRepository<Student> repository, IUserRepository userRepository,
+    IClassRepository classRepository, ISkillResultRepository skillResultRepository
     ) : BaseService<Student>(repository), IStudentService
 
 {
     private readonly IUserRepository _userRepo = userRepository;
     private readonly IClassRepository _classRepo = classRepository;
+    private readonly ISkillResultRepository _skillResultRepo = skillResultRepository;
+
     public async Task<AppResponse<StudentDTO>> CreateStudent(StudentCreatePayload payload)
     {
         var user = await _userRepo.Get()
@@ -27,7 +28,8 @@ public class StudentService(
             .SingleOrDefaultAsync(c => c.Id == payload.ClassId)
             ?? throw new NotFoundException("Class not found!");
 
-        var newStudent = new Student{
+        var newStudent = new Student
+        {
             User = user,
             Class = studentclass
         };
@@ -51,5 +53,43 @@ public class StudentService(
             .SingleOrDefaultAsync(s => s.User.Id == id);
 
         return student is not null ? StudentDTO.Map(student) : null;
-    }   
+    }
+
+
+    /// <summary>
+    /// Retrieves the aptitude result for a specific student and subject, weighted by the skill weights.
+    /// </summary>
+    /// <param name="id">
+    /// The ID of the student whose aptitude result is being retrieved.
+    /// </param>
+    /// <param name="subjectId">
+    /// The ID of the subject for which the aptitude result is being calculated.
+    /// </param>
+    /// <returns>
+    /// The weighted average aptitude for the specified student and subject.<br/>
+    /// Returns <c>null</c> if no skill results are found for the given student and subject.
+    /// </returns>
+    /// <remarks>
+    /// - This method calculates the aptitude result by considering only the most recent skill result for each skill.<br/>
+    /// - The result is weighted based on the skill result's weight value.<br/>
+    /// - If no aptitude values are found, the method returns <c>null</c>.<br/>
+    /// </remarks>
+
+    public async Task<double?> GetResultBySubject(int id, int subjectId)
+    {
+        var skillResults = _skillResultRepo.Get()
+            .Where(s => s.Student.Id == id)
+            .Where(s => s.Subject!.Id == subjectId || s.Exam!.Subject.Id == subjectId)
+            .Where(s => s.Aptitude.HasValue)
+            .GroupBy(s => s.Skill)
+            .Select(g => g.OrderByDescending(s => s.EvaluatedAt).First());
+
+        if (!await skillResults.AnyAsync())
+            return null;
+
+        var totalWeight = await skillResults.SumAsync(s => s.Weight);
+        var totalAptitude = await skillResults.SumAsync(s => s.Aptitude * s.Weight);
+
+        return totalAptitude.Value / totalWeight;
+    }
 }

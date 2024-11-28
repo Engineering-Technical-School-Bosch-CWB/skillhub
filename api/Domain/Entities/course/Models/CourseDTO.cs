@@ -11,7 +11,7 @@ namespace Api.Domain.Models
                 course.Id, 
                 course.Name,
                 course.Abbreviation, 
-                course.DefaultOccupationArea != null 
+                course.DefaultOccupationArea is not null 
                 ? OccupationAreaDTO.Map(course.DefaultOccupationArea)
                 : null
             );

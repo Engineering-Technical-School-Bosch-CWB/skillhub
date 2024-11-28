@@ -67,8 +67,8 @@ public class Program
         {
             SecretKey = configuration.GetSection("JwtSettings")
                     .GetValue<string>("SecretKey")!
-        }; 
-        services.AddSingleton(jwtSettings);  
+        };
+        services.AddSingleton(jwtSettings);
         services.AddSingleton<JwtSecurityTokenHandler>();
         services.AddScoped<JwtService>();
 
@@ -119,6 +119,9 @@ public class Program
         services.AddScoped<BaseRepository<Course>, CourseRepository>();
         services.AddScoped<ICourseRepository, CourseRepository>();
 
+        services.AddScoped<BaseRepository<SkillResult>, SkillResultRepository>();
+        services.AddScoped<ISkillResultRepository, SkillResultRepository>();
+
         #endregion
 
         #region Services
@@ -141,7 +144,7 @@ public class Program
         services.AddCors();
 
         services.AddControllers();
-        
+
         services.AddAuthorization();
         services.AddExceptionHandler<ErrorHandlingMiddleware>();
         services.AddProblemDetails();

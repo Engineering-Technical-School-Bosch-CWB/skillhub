@@ -17,7 +17,7 @@ public class SubjectCreatePayload()
 
 
     [Required]
-    public required float DurationHours { get; set; }
+    public required double DurationHours { get; set; }
 
     [Required]
     public required DateOnly BeganAt { get; set; }

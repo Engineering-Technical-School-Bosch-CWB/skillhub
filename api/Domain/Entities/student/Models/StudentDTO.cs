@@ -1,11 +1,8 @@
-using Api.Domain.Models;
-
 namespace Api.Domain.Models;
 
 public record StudentDTO(
     double? OverallScore,
     double? OverallSkillScore,
-    int UserId,
     int ClassId
 )
 {
@@ -14,7 +11,6 @@ public record StudentDTO(
         return new StudentDTO(
             obj.OverallScore,
             obj.OverallSkillScore,
-            obj.User.Id,
             obj.Class.Id
         );
     }

@@ -7,4 +7,5 @@ public interface IStudentService : IService<Student>
 {
     public Task<AppResponse<StudentDTO>> CreateStudent(StudentCreatePayload payload);
     public Task<StudentDTO?> GetByUserId(int id);
+    public Task<double?> GetResultBySubject(int id, int subjectId);
 }

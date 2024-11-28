@@ -4,8 +4,8 @@ namespace Api.Domain.Models;
 
 public partial class Objection : IEntity
 {
-    public required float ClaimedAptitude { get; set; }
-    public required float OfficialAptitude { get; set; }
+    public required double ClaimedAptitude { get; set; }
+    public required double OfficialAptitude { get; set; }
     public required DateOnly ObjectedAt { get; set; }
     public bool IsAccepted { get; set; } = false;
     public bool IsActive { get; set; } = true;

@@ -3,7 +3,7 @@ using Api.Domain.Models;
 public record SubjectDTO(
     int Id,
     int Period,
-    float DurationHours,
+    double DurationHours,
     DateOnly BeganAt,
     int InstructorId,
     int CurricularUnitId,
