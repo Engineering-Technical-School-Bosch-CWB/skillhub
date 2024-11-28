@@ -55,12 +55,12 @@ import { z, ZodTypeAny } from "zod";
  * - The form is validated using Zod schemas provided in the `fields` prop.
  * - Errors are automatically displayed for each field using the `helperText` and `error` props.
  */
-export default function Form<T extends FieldValues>({
+const Form = <T extends FieldValues>({
     onSubmit,
     customClassName,
     fields,
     submitText = "Submit",
-}:IFormProps<T>): JSX.Element {
+}:IFormProps<T>) => {
 
     const schema = z.object(
         fields.reduce((acc, field) => {
@@ -115,3 +115,5 @@ export default function Form<T extends FieldValues>({
         </form>
     )
 }
+
+export default Form
