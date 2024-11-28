@@ -4,7 +4,7 @@ public record SubjectDTO(
     int Id,
     int Period,
     float DurationHours,
-    DateTime BeganAt,
+    DateOnly BeganAt,
     int InstructorId,
     int CurricularUnitId,
     int ClassId

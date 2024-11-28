@@ -1,4 +1,4 @@
-# project-e
+# SkillHub
 
 [Excalidraw (banco - uso real)](https://excalidraw.com/#room=114b9c48c1252563a8fc,J-9EAKgDjhiY6qSNGlmH1A)
 
@@ -6,6 +6,7 @@
 
 [Excalidraw (Telas)](https://excalidraw.com/#room=101b4e8167b7871b19c0,uzQJxNXB0gdBE5HK5-o7ow)
 
+[Endpoints](/api/endpoints.md)
 
 ## Configuration and API Response Patterns
 
@@ -39,6 +40,25 @@ Default response messages returned by the endpoints.
 | `GET paginated`| "**[entities]** found!"                 |
 | `POST`         | "**[entity]** created successfully!"    |
 | `PATCH`        | "**[entity]** updated successfully!"    |
+
+
+### Script to create database
+
+```sql
+CREATE DATABASE dbskillhub
+ON 
+PRIMARY (
+	NAME = dbskillhub,
+	filename = 'C:\data\dbskillhub.mdf'),
+FILEGROUP FileStreamDbskillhub CONTAINS FILESTREAM  (
+	NAME = dbskillhub_stream,
+	filename = 'C:\data\filestreamdbskillhub')
+LOG ON ( 
+	NAME = dbskillhub_log,
+	filename = 'C:\data\dbskillhub.ldf')
+GO
+```
+
 <br>
 
 > [!NOTE]

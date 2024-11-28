@@ -20,6 +20,10 @@ public class PositionClassMap : IEntityTypeConfiguration<Position>
 
         builder.Property(e => e.IsActive)
             .HasColumnName("is_active");
+
+            builder.Property(e => e.PositionLevel)
+            .HasColumnType("tinyint")
+            .HasColumnName("position_level");
     }
 }
 

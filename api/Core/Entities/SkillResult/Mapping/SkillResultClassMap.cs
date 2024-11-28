@@ -41,7 +41,7 @@ public class SkillResultClassMap : IEntityTypeConfiguration<SkillResult>
             .HasForeignKey("skill_id")
             .HasPrincipalKey(s => s.Id);
 
-        builder.HasOne(s => s.Subject)
+        builder.HasOne(s => s.Student)
             .WithMany()
             .HasForeignKey("student_id")
             .HasPrincipalKey(s => s.Id);

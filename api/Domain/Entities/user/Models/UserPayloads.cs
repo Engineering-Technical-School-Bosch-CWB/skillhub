@@ -37,9 +37,5 @@ public class UserUpdatePayload()
 
     public DateOnly? Birthday { get; set; }
 
-    public bool? NewUser { get; set; }
-
-    public bool? IsActive { get; set; }
-
     public string? Password { get; set; }
 }
