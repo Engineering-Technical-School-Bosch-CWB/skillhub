@@ -38,7 +38,7 @@ public class PositionController : ControllerBase
 
         var response = new AppResponse<PositionDTO>(
             PositionDTO.Map(result),
-            "Position created!");
+            "Position created successfully!");
 
         return Created("api/v1/position", response);
     }

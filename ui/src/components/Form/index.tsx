@@ -1,8 +1,10 @@
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import Input from "../Input";
+import { FieldValues, FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import Button from "../Button";
 import styles from "./styles.module.css"
 import { IFormProps } from "./types";
+import { zodResolver } from "@hookform/resolvers/zod"
+import Input from "../Input";
+import { z, ZodTypeAny } from "zod";
 
 /**
  * Reusable `Form` component for rendering a form with customizable fields.
@@ -42,10 +44,30 @@ export default function Form<T extends FieldValues>({
     onSubmit,
     customClassName,
     fields,
-    submitText = "Submit"
+    submitText = "Submit",
 }:IFormProps<T>): JSX.Element {
 
-    const { register, handleSubmit } = useForm<T>()
+    const schema = z.object(
+        fields.reduce((acc, field) => {
+          if (field.zodSchema) {
+            acc[field.fieldName] = field.zodSchema;
+          } else {
+            acc[field.fieldName] = z.any();
+          }
+          return acc;
+        }, {} as Record<string, ZodTypeAny>)
+    );
+
+    const formMethods = useForm<T>({
+        resolver: zodResolver(schema),
+        mode: "onBlur"
+    })
+
+    const { 
+        register, 
+        handleSubmit,
+        formState: { errors },
+    } = formMethods
 
     const submit:SubmitHandler<T> = async (data) => 
         await onSubmit(data)
@@ -55,25 +77,26 @@ export default function Form<T extends FieldValues>({
             className={`${styles.form} ${customClassName}`}
             onSubmit={handleSubmit(submit)}
         >
-            {fields.map((field, i) => {
-                const id = `${field.name}-${i}`
+            <FormProvider {...formMethods}>
+                {fields.map(({ fieldName, zodSchema, type, ...field }, i) => {
+                    const id = `${fieldName}-${i}`
 
-                return <Input
-                    key={id}
-                    id={id}
-                    type={field.type}
-                    label={field.label}
-                    {...register(field.name)}
-                    fullwidth
-                    required={field.required}
-                />
-            })}
+                    return <Input
+                        key={id} id={id} type={type}
+                        {...register(fieldName as any)}
+                        {...field}
+                        fieldName={fieldName}
+                        error={!!errors[fieldName]}
+                        helperText={errors[fieldName]?.message as string | undefined}
+                    />
+                })}
 
-            <Button
-                className={styles.submit_button}
-                variant="contained"
-                type="submit"
-            >{ submitText }</Button>
+                <Button
+                    className={styles.submit_button}
+                    variant="contained"
+                    type="submit"
+                >{ submitText }</Button>
+            </FormProvider>
         </form>
     )
 }

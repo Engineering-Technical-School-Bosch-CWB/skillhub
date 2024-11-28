@@ -26,9 +26,13 @@ public class ClassClassMap : IEntityTypeConfiguration<Class>
 
         builder.Property(c => c.DurationPeriods)
             .HasColumnType("tinyint")
-            .HasColumnName("duration_peridos");
+            .HasColumnName("duration_periods");
 
         builder.Property(e => e.IsActive)
             .HasColumnName("is_active");
+
+        builder.Property(e => e.Name)
+            .HasMaxLength(255)
+            .HasColumnName("name");
     }
 }

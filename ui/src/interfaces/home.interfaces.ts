@@ -1,8 +1,6 @@
-import { ForwardRefExoticComponent, RefAttributes } from "react";
-import IIcons from "../icons/InterfacesIconProps";
-
 export interface ICardProps {
     to: string,
-    icon: ForwardRefExoticComponent<Omit<IIcons, "ref"> & RefAttributes<SVGSVGElement>>,
-    label: string
+    label: string,
+    iconName: string,
+    iconSize: "sm" | "md" | "lg" | "inherit" | undefined
 }
