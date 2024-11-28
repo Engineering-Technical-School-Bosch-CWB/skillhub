@@ -1,4 +1,4 @@
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { FieldValues, FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import Button from "../Button";
 import styles from "./styles.module.css"
 import { IFormProps } from "./types";
@@ -58,14 +58,16 @@ export default function Form<T extends FieldValues>({
         }, {} as Record<string, ZodTypeAny>)
     );
 
+    const formMethods = useForm<T>({
+        resolver: zodResolver(schema),
+        mode: "onBlur"
+    })
+
     const { 
         register, 
         handleSubmit,
         formState: { errors },
-    } = useForm<T>({
-        resolver: zodResolver(schema),
-        mode: "onBlur"
-    })
+    } = formMethods
 
     const submit:SubmitHandler<T> = async (data) => 
         await onSubmit(data)
@@ -75,24 +77,26 @@ export default function Form<T extends FieldValues>({
             className={`${styles.form} ${customClassName}`}
             onSubmit={handleSubmit(submit)}
         >
-            {fields.map(({ fieldName, zodSchema, ...field }, i) => {
-                const id = `${fieldName}-${i}`
+            <FormProvider {...formMethods}>
+                {fields.map(({ fieldName, zodSchema, type, ...field }, i) => {
+                    const id = `${fieldName}-${i}`
 
-                return <Input
-                    key={id}
-                    id={id}
-                    {...field}
-                    {...register(fieldName as any)}
-                    error={!!errors[fieldName]}
-                    helperText={errors[fieldName]?.message as string | undefined}
-                />
-            })}
+                    return <Input
+                        key={id} id={id} type={type}
+                        {...register(fieldName as any)}
+                        {...field}
+                        fieldName={fieldName}
+                        error={!!errors[fieldName]}
+                        helperText={errors[fieldName]?.message as string | undefined}
+                    />
+                })}
 
-            <Button
-                className={styles.submit_button}
-                variant="contained"
-                type="submit"
-            >{ submitText }</Button>
+                <Button
+                    className={styles.submit_button}
+                    variant="contained"
+                    type="submit"
+                >{ submitText }</Button>
+            </FormProvider>
         </form>
     )
 }

@@ -3,26 +3,37 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { IRootInputProps } from "../interfaces";
 import InputContainer from "../InputContainer";
 import { forwardRef } from "react";
+import { useFormContext } from "react-hook-form";
 
 export interface IInputDateProps extends IRootInputProps {
     type: "date"
 }
 
 const InputDate = forwardRef<HTMLInputElement, IInputDateProps>(
-    ({ error, label, helperText, id }, ref) => (
+    ({ error, label, helperText, id, fieldName }, ref) => 
+{
+    const { setValue } = useFormContext();
 
-    <InputContainer
-        error={error}
-        helperText={helperText}
-        id={id}
-    >
-        <SInput 
-            label={label}
+    return (
+        <InputContainer
             error={error}
-            ref={ref}
-        />
-    </InputContainer>
-))
+            helperText={helperText}
+            id={id}
+        >
+            <SInput 
+                label={label}
+                error={error}
+                ref={ref}
+                format="DD/MM/YYYY"
+                onChange={(value) => {
+                    if(value && setValue && fieldName) {
+                        setValue(fieldName, value.format("YYYY-MM-DD"))
+                    }
+                }}
+            />
+        </InputContainer>
+    )
+})
 
 const SInput = styled(DatePicker)<{ error?: boolean }>(({ error }) => ({
     width: "100%",

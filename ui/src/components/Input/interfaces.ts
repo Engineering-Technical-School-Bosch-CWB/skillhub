@@ -10,6 +10,7 @@ export interface IRootInputProps extends IInputContainerProps, ComponentPropsWit
     id?: string
     type?: IInputType
     error?: boolean
+    fieldName?: string
 }
 
 export type IInputProps = IInputDateProps | IInputTextProps | IInputPasswordProps
