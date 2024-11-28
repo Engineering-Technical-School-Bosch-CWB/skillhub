@@ -15,25 +15,27 @@ public class ClassService(
 {
     private readonly ICourseRepository _courseRepo = courseRepository;
 
-    public async Task<ClassCreateOutbound> CreateClass(ClassCreatePayload payload)
+    public async Task<AppResponse<ClassDTO>> CreateClass(ClassCreatePayload payload)
     {
-
-        var course = await _courseRepo.GetAllNoTracking()
+        var course = await _courseRepo.Get()
             .SingleOrDefaultAsync(c => c.Id == payload.CourseId)
-            ?? throw new NotFoundException("Course not found");
+            ?? throw new NotFoundException("Course not found!");
 
         var newClass = new Class {
+            Name = payload.Name,
             Course = course,
             StartingYear = payload.StartingYear,
             DurationPeriods = payload.DurationPeriods
         };
 
         var createdClass = repository.Add(newClass)
-            ?? throw new UpsertFailException("Class could not be inserted.");
+            ?? throw new UpsertFailException("Class could not be inserted!");
 
         await repository.SaveAsync();
 
-        var response = ClassCreateOutbound.Map(createdClass);
-        return response;
+        return new AppResponse<ClassDTO>(
+            ClassDTO.Map(createdClass),
+            "Class created successfully!"
+        );
     }
 }

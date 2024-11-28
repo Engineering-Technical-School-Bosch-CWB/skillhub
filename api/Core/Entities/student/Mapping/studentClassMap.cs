@@ -24,7 +24,7 @@ public class StudentClassMap : IEntityTypeConfiguration<Student>
             .HasColumnName("is_active");
         
         builder.HasOne(s => s.User)
-            .WithOne(u => u.StudentProfile)
+            .WithOne()
             .HasForeignKey<Student>("user_id")
             .OnDelete(DeleteBehavior.NoAction)
             .IsRequired();

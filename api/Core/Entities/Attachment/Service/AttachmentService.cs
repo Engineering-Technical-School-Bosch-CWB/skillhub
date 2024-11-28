@@ -6,7 +6,7 @@ using Api.Domain.Services;
 namespace Api.Core.Services;
 
 public class AttachmentService(BaseRepository<Attachment> repository)
-    : BaseService<Attachment> (repository), IAttachmentService
+: BaseService<Attachment> (repository), IAttachmentService
 {
 
 }

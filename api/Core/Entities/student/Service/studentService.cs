@@ -17,15 +17,15 @@ public class StudentService(
 {
     private readonly IUserRepository _userRepo = userRepository;
     private readonly IClassRepository _classRepo = classRepository;
-    public async Task<StudentCreateOutbound> CreateStudent(StudentCreatePayload payload)
+    public async Task<AppResponse<StudentDTO>> CreateStudent(StudentCreatePayload payload)
     {
-        var user = await _userRepo.GetAllNoTracking()
+        var user = await _userRepo.Get()
             .SingleOrDefaultAsync(u => u.Id == payload.UserId)
-            ?? throw new NotFoundException("User not found.");
+            ?? throw new NotFoundException("User not found!");
 
-        var studentclass = await _classRepo.GetAllNoTracking()
+        var studentclass = await _classRepo.Get()
             .SingleOrDefaultAsync(c => c.Id == payload.ClassId)
-            ?? throw new NotFoundException("Class not found.");
+            ?? throw new NotFoundException("Class not found!");
 
         var newStudent = new Student{
             User = user,
@@ -33,11 +33,13 @@ public class StudentService(
         };
 
         var createdStudent = repository.Add(newStudent)
-            ?? throw new UpsertFailException("Student could not be inserted.");
+            ?? throw new UpsertFailException("Student could not be inserted!");
 
         await repository.SaveAsync();
 
-        var response = StudentCreateOutbound.Map(createdStudent);
-        return response;
+        return new AppResponse<StudentDTO>(
+            StudentDTO.Map(createdStudent),
+            "Student created successfully!"
+        );
     }
 }

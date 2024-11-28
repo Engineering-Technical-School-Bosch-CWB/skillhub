@@ -1,20 +1,21 @@
 using Api.Domain.Models;
 using Api.Domain.Services;
+
 using Microsoft.AspNetCore.Mvc;
 
-namespace Api.Controllers
+namespace Api.Controllers;
+
+[ApiController]
+[Route("api/v1/classes")]
+public class ClassController : ControllerBase
 {
-    [ApiController]
-    [Route("api/v1/classes")]
-    public class ClassController : ControllerBase
+    [HttpPost]
+    public async Task<ActionResult> RegisterClass(
+        [FromServices] IClassService classService,
+        [FromBody] ClassCreatePayload payload
+    )
     {
-        [HttpPost]
-        public async Task<IActionResult> RegisterClass(
-            [FromServices] IClassService classService,
-            [FromBody] ClassCreatePayload payload)
-        {
-            var result = await classService.CreateClass(payload);
-            return Created("api/v1/classes", result);
-        }
+        var result = await classService.CreateClass(payload);
+        return Created("api/v1/classes", result);
     }
 }

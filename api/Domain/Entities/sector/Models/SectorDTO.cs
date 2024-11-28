@@ -1,16 +1,15 @@
 namespace Api.Domain.Models;
 
-public class SectorDTO
+public record SectorDTO(
+  int Id,
+  string Name
+)
 {
-  public required int Id { get; set; } 
-  public required string Name { get; set; } 
-
-  public static SectorDTO Map(Sector position)
+  public static SectorDTO Map(Sector obj)
   {
-    return new SectorDTO()
-    {
-        Id = position.Id,
-        Name = position.Name
-    };
+    return new SectorDTO(
+      obj.Id,
+      obj.Name
+    );
   }
 }

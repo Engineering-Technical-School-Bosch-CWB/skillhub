@@ -8,5 +8,5 @@ public partial class Post : IEntity
   public required string Title { get; set; } = string.Empty;
   public string? Body { get; set; } = string.Empty;
   public required bool IsActive { get; set; }
-  public IEnumerable<Attachment> Attachments { get; set; } = [];
+  public ICollection<Attachment> Attachments { get; set; } = [];
 }
