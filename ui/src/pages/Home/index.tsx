@@ -1,17 +1,9 @@
-
 import Link from "../../components/Link";
 import Header from "../../components/Header";
-
 import styles from './styles.module.css'
-import GiftIcon from "../../icons/GiftIcon";
-import ResultsIcon from "../../icons/ResultsIcon";
-import TeamIcon from "../../icons/TeamIcon";
-import EducationIcon from "../../icons/EducationIcon";
-import UserIcon from "../../icons/UserIcon";
+import Icon from "../../components/Icon";
 
-export const Home = () => {
-
-
+const Home = () => {
     return (
         <>
             <Header/>
@@ -21,7 +13,7 @@ export const Home = () => {
                     <div className={styles.linksCards}>
                         <Link className={styles.link} to="/Login">
                             <div className={styles.cardInside}>
-                                <ResultsIcon className={styles.image}></ResultsIcon>
+                                <Icon name="bar_chart_4_bars" size="md"/>
                                 <span className={styles.textCard}>Results</span>
                             </div>
                         </Link>
@@ -29,7 +21,7 @@ export const Home = () => {
                     <div className={styles.linksCards}>
                         <Link className={styles.link} to="/Login">
                             <div className={styles.cardInside}>
-                                <GiftIcon className={styles.image}></GiftIcon>
+                                <Icon name="featured_seasonal_and_gifts" size="md"/>
                                 <span className={styles.textCard}>Birthdays</span>
                             </div>
                         </Link>
@@ -37,7 +29,7 @@ export const Home = () => {
                     <div className={styles.linksCards}>
                         <Link className={styles.link} to="/Login">
                             <div className={styles.cardInside}>
-                                <TeamIcon className={styles.image}></TeamIcon>
+                                <Icon name="school" size="md"/>
                                 <span className={styles.textCard}>Classes Overview</span>
                             </div>
                         </Link>
@@ -45,7 +37,7 @@ export const Home = () => {
                     <div className={styles.linksCards}>
                         <Link className={styles.link} to="/Login">
                             <div className={styles.cardInside}>
-                                <EducationIcon className={styles.image}></EducationIcon>
+                                <Icon name="book_2" size="md"/>
                                 <span className={styles.textCard}>Curricular Unit Overview</span>
                             </div>
                         </Link>
@@ -53,7 +45,7 @@ export const Home = () => {
                     <div className={styles.linksCards}>
                         <Link className={styles.link} to="/Login">
                             <div className={styles.cardInside}>
-                                <UserIcon className={styles.image}></UserIcon>
+                                <Icon name="group" size="md"/>
                                 <span className={styles.textCard}>Users Overview</span>
                             </div>
                         </Link>
@@ -63,3 +55,5 @@ export const Home = () => {
         </>
     )
 }
+
+export default Home
