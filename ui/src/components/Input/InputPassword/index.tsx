@@ -22,7 +22,7 @@ const InputPassword = forwardRef<HTMLInputElement, IInputPasswordProps>(
         >
             <Icon 
                 name={type == "text" ? "visibility_off" : "visibility"}
-                className={`${styles.password_eye}`}
+                className={`${styles.input_icon}`}
                 onClick={() => setType(type == "text" ? "password" : "text")}
             />
 

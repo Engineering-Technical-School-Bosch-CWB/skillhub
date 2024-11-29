@@ -11,3 +11,8 @@ export interface ILoginPayload {
     identification: string
     password: string
 }
+
+export interface IResult {
+    subject: string;
+    exploitation: number;
+  }

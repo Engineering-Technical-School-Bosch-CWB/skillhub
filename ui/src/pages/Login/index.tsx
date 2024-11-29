@@ -3,7 +3,7 @@ import Form from "../../components/Form";
 import { IFormInput } from "../../components/Form/types";
 import styles from "./styles.module.css"
 
-export const Login = () => {
+const Login = () => {
     
     const fields:IFormInput[] = [
         { fieldName: "edv", label: "Identification(EDV)", required: true },
@@ -24,3 +24,5 @@ export const Login = () => {
         </div>
     )
 }
+
+export default Login;
