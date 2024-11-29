@@ -80,7 +80,7 @@
     border-color: var(--error-light);
 }
 
-.password_eye {
+.input_icon {
     position: absolute;
     top: 0;
     bottom: 0;

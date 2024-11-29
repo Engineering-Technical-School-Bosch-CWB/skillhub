@@ -1,8 +1,9 @@
+import styled from "./styles.module.css";
 import React from "react";
-import { PieChart, Pie, Tooltip, Legend, Label, Cell } from "recharts";
+import { PieChart, Pie, Tooltip, Label, Cell } from "recharts";
 
 interface IDoughnutChartProps {
-  exploitation: number;
+  exploitation: number
 }
 
 const DoughnutChart: React.FC<IDoughnutChartProps> = ({ exploitation }) => {
@@ -14,15 +15,15 @@ const DoughnutChart: React.FC<IDoughnutChartProps> = ({ exploitation }) => {
 
   return (
     <div>
-      <PieChart width={400} height={400}>
+      <PieChart width={350} height={350} className={styled.surface}>
         <Pie
           data={data}             
           dataKey="value"         
           nameKey="name"          
-          cx={200}                
-          cy={200}                
-          innerRadius={60}
-          outerRadius={100}       
+          cx={150}                
+          cy={150}                
+          innerRadius={50}
+          outerRadius={90}       
           fill="#9e2896"
         >
           {data.map((entry, index) => (

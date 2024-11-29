@@ -10,10 +10,10 @@ const InputComponents: Record<IInputType, React.ElementType> = {
     text: InputText,
     email: InputText,
     password: InputPassword,
-};
+}
 
 const Input = forwardRef<HTMLInputElement, IInputProps>(
-    ({type, id = uuid(), ...props }, ref) => {
+    ({type = "text", id = uuid(), ...props }, ref) => {
 
     const Component = InputComponents[type]
 

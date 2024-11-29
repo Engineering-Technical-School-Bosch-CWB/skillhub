@@ -1,12 +1,12 @@
-import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-import { IBarChartProps } from "../../interfaces/chart.interfaces";
+import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
+import { IBarChartProps } from '../../interfaces/aprenticeResults.interfaces';
 
 export default function SingleBarChart({ data, xAxis, yAxis }: IBarChartProps) {
   return (
-    <div style={{ height: "300px", width: "400px" }}>
+    <div style={{ height: "250px", width: "450px" }}>
       <BarChart
         width={450}
-        height={300}
+        height={250}
         data={data[0].data} 
         margin={{
           top: 5,

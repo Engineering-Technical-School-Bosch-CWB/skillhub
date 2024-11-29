@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useState } from "react"
-import { IUser } from "../interfaces/users.interfaces";
+import { IUser } from "../interfaces/login.interfaces";
 
 interface IUserContext {
     user: IUser | null

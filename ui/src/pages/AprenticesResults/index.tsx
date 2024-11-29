@@ -1,35 +1,45 @@
 import styled from "./styles.module.css"
 import Header from "../../components/Header"
-import Heading from "../../typography/Heading/Heading.typography"
 import ExploitationBarChart from "./components/ExploitationBarChart"
 import DoughnutChart from "../../components/DoughnutChart"
+import Input from "../../components/Input"
+import Icon from "../../components/Icon"
+import ClassCard from "./components/ClassCard"
 
-export default () => {
+const AprenticesResults = () => {
     return (
         <div>
             <Header/>
             <div className={styled.content}>
                 <div className={styled.chart_section}>
-                    <Heading>Results</Heading>
+                    <span className={styled.heading}>Results</span>
                     <div className={styled.chart_container}>
                         <ExploitationBarChart/>
+                        {/* <div className={styled.doughnut}>
+                            <p>Overall Exploitation</p>
+                        </div> */}
                         <DoughnutChart exploitation={50} />
-                    </div>
-                    <div className={styled.legend_container}>
-                        <p>Exploitation per Subject</p>
-                        <p>Overall Exploitation</p>
                     </div>
                 </div>
                 <hr className={styled.divider}/>
-                <div>
+                <div className={styled.classes_section}>
                     <div className={styled.filter_container}>
-
+						<Input label="Search subjects..." iconName="search" className={styled.input}/>
                     </div>
                     <div className={styled.card_container}>
-
+						<ClassCard title="C# Básico" startDate="20/09/2024" exploitation={40}/>
+						<ClassCard title="Java Avançado" startDate="15/08/2024" exploitation={85}/>
+						<ClassCard title="Java Avançado" startDate="15/08/2024" exploitation={85}/>
+						<ClassCard title="Java Avançado" startDate="15/08/2024" exploitation={85}/>
+						<ClassCard title="Java Avançado" startDate="15/08/2024" exploitation={85}/>
+						<ClassCard title="Java Avançado" startDate="15/08/2024" exploitation={85}/>
+						<ClassCard title="Java Avançado" startDate="15/08/2024" exploitation={85}/>
+						<ClassCard title="Java Avançado" startDate="15/08/2024" exploitation={85}/>
                     </div>
                 </div>
             </div>
         </div>
     )
 }
+
+export default AprenticesResults;

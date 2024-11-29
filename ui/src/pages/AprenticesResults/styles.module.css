@@ -1,7 +1,13 @@
-.content {
-    margin: 40px 40px;
+.heading {
+    font-size: 25px;
+    font-weight: 500;
 }
 
+.content {
+    margin: 60px 60px;
+}
+
+/* ..charts section. */
 .chart_section {
     display: flex;
     flex-direction: column;
@@ -14,15 +20,37 @@
     gap: 20%;
 }
 
-.legend_container {
-    display: flex;
-    /* justify-content: center; */
-    gap: 50%
-}
 
 .divider {
     border: none;
     border-top: 1px solid #b9b9b9; 
-    margin: 70px 0; 
-  }
-  
+    margin: 20px
+}
+
+
+/* ..cards section.. */
+.classes_section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px
+}
+
+.input {
+    position: relative;
+    /* display: flex; */
+    width: 30%;
+    background-color: white;
+}
+
+.icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.card_container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+

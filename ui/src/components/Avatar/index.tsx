@@ -2,11 +2,11 @@ import { ComponentPropsWithoutRef, forwardRef } from "react"
 import styles from "./styles.module.css"
 
 interface IAvatarProps extends ComponentPropsWithoutRef<'img'> {
-    size?: "small" | "medium" | "large";
-    tooltip?: string;
+    size?: "small" | "medium" | "large"
+    tooltip?: string
 }
 
-export default forwardRef<HTMLImageElement, IAvatarProps>(
+const Avatar = forwardRef<HTMLImageElement, IAvatarProps>(
     ({ className, tooltip, size = "medium", ...props }, ref) => (
         <div className={`${styles[size]} ${styles.avatar_container}`}>
             <img 
@@ -22,3 +22,5 @@ export default forwardRef<HTMLImageElement, IAvatarProps>(
         </div>
     )
 )
+
+export default Avatar
