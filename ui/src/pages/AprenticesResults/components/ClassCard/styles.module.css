@@ -22,6 +22,11 @@
     cursor: pointer;
 }
 
+.color_container {
+    width: 1.5rem;
+    height: 3rem;
+}
+
 .class {
     display: flex;
     flex-direction: column;
