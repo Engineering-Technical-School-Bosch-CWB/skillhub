@@ -7,6 +7,7 @@ export interface IInputContainerProps {
     helperText?: string
     children?: ReactNode
     id?: string
+    className?: string
 }
 
 export default function InputContainer({
@@ -15,10 +16,11 @@ export default function InputContainer({
     error,
     helperText,
     id,
+    className
 }: IInputContainerProps) {
 
     return(
-        <div className={`${styles.input_box} ${error ? styles.error : ""}`}>
+        <div className={`${styles.input_box} ${error ? styles.error : ""} ${className}`}>
             { children }
 
             {label &&

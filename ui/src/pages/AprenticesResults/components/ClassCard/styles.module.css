@@ -1,0 +1,35 @@
+.card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background-color: white;
+    width: 15%;
+    padding: 15px 20px;
+
+    border: 1px solid var(--gray-200);
+
+    outline: none;
+    transition: 0.15s;
+
+    font-family: "BoschSans";
+    font-size: 1rem;
+    color: var(--gray-500);
+}
+
+.card:hover {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); 
+    cursor: pointer;
+}
+
+.color_container {
+    width: 1.5rem;
+    height: 3rem;
+}
+
+.class {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+}
