@@ -21,14 +21,14 @@
 
 @font-face {
     font-family: "BoschSans";
-    src: url("../fonts/BoschSans-Black.ttf") format("truetype");
+    src: url("../fonts/BoschSans-Bold.ttf") format("truetype");
     font-weight: 600;
     font-style: normal;
 }
 
 @font-face {
     font-family: "BoschSans";
-    src: url("../fonts/BoschSans-Bold.ttf") format("truetype");
+    src: url("../fonts/BoschSans-Black.ttf") format("truetype");
     font-weight: 700;
     font-style: normal;
 }
@@ -49,14 +49,14 @@
 
 @font-face {
     font-family: "BoschSans";
-    src: url("../fonts/BoschSans-Black_Italic.ttf") format("truetype");
+    src: url("../fonts/BoschSans-Bold_Italic.ttf") format("truetype");
     font-weight: 600;
     font-style: italic;
 }
 
 @font-face {
     font-family: "BoschSans";
-    src: url("../fonts/BoschSans-Bold_Italic.ttf") format("truetype");
+    src: url("../fonts/BoschSans-Black_Italic.ttf") format("truetype");
     font-weight: 700;
     font-style: italic;
 }
