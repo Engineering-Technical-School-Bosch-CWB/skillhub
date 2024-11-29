@@ -3,7 +3,6 @@ import Header from "../../components/Header"
 import ExploitationBarChart from "./components/ExploitationBarChart"
 import DoughnutChart from "../../components/DoughnutChart"
 import Input from "../../components/Input"
-import Icon from "../../components/Icon"
 import ClassCard from "./components/ClassCard"
 
 const AprenticesResults = () => {
@@ -15,9 +14,6 @@ const AprenticesResults = () => {
                     <span className={styled.heading}>Results</span>
                     <div className={styled.chart_container}>
                         <ExploitationBarChart/>
-                        {/* <div className={styled.doughnut}>
-                            <p>Overall Exploitation</p>
-                        </div> */}
                         <DoughnutChart exploitation={50} />
                     </div>
                 </div>
