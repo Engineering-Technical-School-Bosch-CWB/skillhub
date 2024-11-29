@@ -4,7 +4,7 @@ import { IInputContainerProps } from "./InputContainer"
 import { IInputPasswordProps } from "./InputPassword"
 import { ComponentPropsWithoutRef } from "react"
 
-export type IInputType = "text" | "password" | "date" | "email"
+export type IInputType = "text" | "password" | "date" | "email" 
 
 export interface IRootInputProps extends IInputContainerProps, ComponentPropsWithoutRef<'input'> {
     id?: string

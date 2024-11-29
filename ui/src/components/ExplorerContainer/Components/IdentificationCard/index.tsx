@@ -1,32 +1,23 @@
-import { ComponentPropsWithoutRef, forwardRef } from "react";
+import { forwardRef } from "react";
 import styles from "./styles.module.css"
-import Text from "../../typography";
-import Icon from "../Icon";
-
-type colors = "brown" | "red"
-
-interface IIdentificationCardProps extends ComponentPropsWithoutRef<'button'>{
-    variant?: "default" | "outlined",
-    color?: string | colors,
-    title?: string,
-    subtitle?: string,
-    icon?: string,
-    iconDetails?: string
-}
+import Text from "../../../../typography";
+import Icon from "../../../Icon";
+import IIdentificationCardProps from "./IIdentificationCardProps";
 
 
 const IdentificationCard = forwardRef<HTMLButtonElement, IIdentificationCardProps>((
     {
-        variant = "default", 
+        variant = "card", 
         color = "blue", 
         title = "",
         subtitle = "",
         icon = "",
         iconDetails = "",
-        className,
+        onClick,
     }) => 
         <div
-            className={`${styles.identificationCard}  ${styles.common} ${[variant]} ${className}`}
+            className={`${styles.identificationCard} ${variant == "list" ? styles.line : ""} ${styles.common} ${[variant]}`}
+            onClick={() => onClick!()}
         >
             <section className={`${styles.identificationCardMarker}`} style={{backgroundColor: color}}></section>
             <section className={`${styles.cardContent}`}>
@@ -35,7 +26,7 @@ const IdentificationCard = forwardRef<HTMLButtonElement, IIdentificationCardProp
                     <Text fontWeight="semibold" fontSize="xs">{subtitle}</Text>
                     <div className={`${styles.align}`}>
                         <Icon size="sm" name={icon} />
-                        <Text fontWeight="semibold" fontSize="xs" >{iconDetails}</Text>
+                        <Text fontWeight="semibold" fontSize="xs" >{iconDetails} {variant }</Text>
                     </div>
                 </div>
             </section>

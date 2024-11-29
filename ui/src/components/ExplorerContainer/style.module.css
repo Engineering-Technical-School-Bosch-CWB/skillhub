@@ -1,0 +1,60 @@
+.align{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.explorerContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .explorerHeader{
+        width: 90%;
+        justify-content: space-around;
+        gap: 2rem;
+        margin: 3rem ;
+        flex-wrap: wrap;
+    }
+
+    .listContainer {
+        display: flex;
+        margin: 2rem;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .tableListContainer {
+        width: 90%;
+        flex-direction: column;
+        gap: .5rem;
+    }
+
+    .searchContainer {
+        gap: 1rem;
+
+        .addBtn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 100%;
+            padding: 0;
+        }
+    }
+}
+
+.selectView {
+    display: flex;
+    
+
+    .selectViewBtn {
+        padding: .5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
