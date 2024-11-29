@@ -5,6 +5,7 @@ export interface IClassCardProps {
     startDate: string
     exploitation: number
     color: string
+    goTo: string
 }
 
 export interface IBarChartProps {
