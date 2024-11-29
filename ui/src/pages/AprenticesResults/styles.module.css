@@ -21,13 +21,6 @@
 }
 
 
-.divider {
-    border: none;
-    border-top: 1px solid #b9b9b9; 
-    margin: 20px
-}
-
-
 /* ..cards section.. */
 .classes_section {
     display: flex;

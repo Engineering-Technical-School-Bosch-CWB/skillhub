@@ -5,7 +5,8 @@ import DoughnutChart from "../../components/DoughnutChart"
 import Input from "../../components/Input"
 import ClassCard from "./components/ClassCard"
 import Text from "../../typography"
-import { IClassCardProps } from "../../interfaces/aprenticeResults.interfaces"
+import Divider from "../../components/Divider"
+import { IClassCardProps } from "./aprenticeResults.interfaces"
 
 const data: IClassCardProps[] = [
     {
@@ -49,7 +50,7 @@ const AprenticesResults = () => {
     return (
         <div>
             <Header />
-            <div className={styled.content}>
+            <main>
                 <div className={styled.chart_section}>
                     <Text variant="span" fontWeight="bold" fontSize="xl2">Results</Text>
                     <div className={styled.chart_container}>
@@ -57,7 +58,7 @@ const AprenticesResults = () => {
                         <DoughnutChart exploitation={50} />
                     </div>
                 </div>
-                <hr className={styled.divider} />
+                <Divider/>
                 <div className={styled.classes_section}>
                     <div className={styled.filter_container}>
                         <Input label="Search subjects..." iconName="search" className={styled.input} />
@@ -76,7 +77,7 @@ const AprenticesResults = () => {
                     }
                     </div>
                 </div>
-            </div>
+            </main>
         </div>
     )
 }

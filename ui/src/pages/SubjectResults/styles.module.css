@@ -1,0 +1,38 @@
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px
+}
+
+.overview_section {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.overview_content {
+    display: flex;
+    align-items: center;
+    gap: 8rem
+}
+
+.feedback_card {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    background-color: var(--gray-0);
+    padding: 15px 20px;
+    width: 40%;
+    height: fit-content;
+    margin-right: 4rem;
+}
+
+.feedback_author {
+    margin-top: 4rem;
+    align-self: flex-end;
+}
+
+.chart_section {
+    display: flex;
+}
