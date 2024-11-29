@@ -13,13 +13,13 @@ public class UserRepository(SkillhubContext context, IPaginationService paginati
 
     public (IEnumerable<User>, PaginationInfo?) GetPaginated(PaginationOptions options)
     {
-        var result = _paginationService.Paginate(Get(), options);
+        var result = _paginationService.Paginate(Get().Where(u => u.IsActive), options);
         return result;
     }
 
     public async Task<(IEnumerable<User>, PaginationInfo?)> GetPaginatedAsync(PaginationOptions options)
     {
-        var result = await _paginationService.PaginateAsync(Get(), options);
+        var result = await _paginationService.PaginateAsync(Get().Where(u => u.IsActive), options);
         return result;
     }
 }

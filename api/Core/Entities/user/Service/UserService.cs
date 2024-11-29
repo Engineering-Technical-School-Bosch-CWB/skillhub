@@ -198,7 +198,8 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
                 .Include(u => u.OccupationArea)
                 .Where(u => string.IsNullOrEmpty(query) || u.Name.Contains(query))
                 .Where(u => !positionId.HasValue || u.Position.Id == positionId)
-                .Where(u => !birthMonth.HasValue || (u.Birthday.HasValue && u.Birthday.Value.Month == birthMonth.Value)),
+                .Where(u => !birthMonth.HasValue || (u.Birthday.HasValue && u.Birthday.Value.Month == birthMonth.Value))
+                .Where(u => u.IsActive),
             pagination.ToOptions()
         );
 
@@ -217,7 +218,7 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
         );
     }
 
-    public async Task<AppResponse<UserResultResponse>> ResultsPage(int id)
+    public async Task<AppResponse<UserResultResponse>> GetResultsPage(int id)
     {
         var student = await _studentservice.GetByUserId(id)
             ?? throw new NotFoundException("Student not found!");
