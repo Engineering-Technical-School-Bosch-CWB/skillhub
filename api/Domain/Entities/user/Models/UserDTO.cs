@@ -10,16 +10,16 @@ public record UserDTO(
     StudentDTO? StudentProfile
 )
 {
-    public static UserDTO Map(User user, StudentDTO? student)
+    public static UserDTO Map(User obj, StudentDTO? student)
     {
         return new UserDTO(
-            user.Id,
-            user.Name,
-            user.Birthday,
-            user.Position.Id,
-            user.Sector.Id,
-            user.OccupationArea.Id,
-            user.Position.PositionLevel,
+            obj.Id,
+            obj.Name,
+            obj.Birthday,
+            obj.Position.Id,
+            obj.Sector.Id,
+            obj.OccupationArea.Id,
+            obj.Position.PositionLevel,
             student
         );
     }

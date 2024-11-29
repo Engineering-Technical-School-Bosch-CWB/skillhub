@@ -67,8 +67,7 @@ public class SubjectAreaService(BaseRepository<SubjectArea> repository)
 
         subjectArea.IsActive = false;
 
-        var deletedSubjectArea = _repo.Update(subjectArea)
-            ?? throw new DeleteFailException("Subject area could not be deleted");
+        _ = _repo.Update(subjectArea) ?? throw new DeleteFailException("Subject area could not be deleted");
 
         await _repo.SaveAsync();
     }
