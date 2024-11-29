@@ -9,7 +9,7 @@ namespace Api.Controllers;
 public class LoginController : ControllerBase
 {
     [HttpPost]
-    public async Task<ActionResult> Login(
+    public async Task<ActionResult> TryLogin(
         [FromServices] ILoginService loginService,
         [FromBody] LoginPayload payload
     )

@@ -9,7 +9,7 @@ namespace Api.Controllers;
 public class CourseController : ControllerBase
 {
     [HttpPost]
-    public async Task<ActionResult> RegisterCourse(
+    public async Task<ActionResult> CreateCourse(
         [FromServices] ICourseService CourseService,
         [FromBody] CourseCreatePayload payload
     )
@@ -30,7 +30,7 @@ public class CourseController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult GetAllCourse(
+    public ActionResult GetAllCourses(
         [FromServices] ICourseService CourseService,
         [FromQuery] PaginationQuery pagination
     )

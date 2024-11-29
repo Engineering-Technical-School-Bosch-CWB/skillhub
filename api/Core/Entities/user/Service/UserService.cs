@@ -6,6 +6,7 @@ using Api.Core.Errors;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Api.Domain.Repositories;
+using InvalidDataException = Api.Core.Errors.InvalidDataException;
 
 namespace Api.Core.Services;
 
@@ -111,12 +112,18 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
         }
 
         if (!string.IsNullOrEmpty(payload.Password))
+        {
+            if (payload.Password == user.Identification)
+            {
+                throw new InvalidDataException("Invalid password!");
+            }
             user.Hash = _hasher.HashPassword(user, payload.Password);
+        }
 
         if (!string.IsNullOrEmpty(payload.Name))
             user.Name = payload.Name;
 
-        if (payload.Birthday is not null)
+        if (payload.Birthday.HasValue)
             user.Birthday = payload.Birthday.Value;
 
         var updatedUser =
@@ -151,7 +158,7 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
         await _repo.SaveAsync();
     }
 
-    public async Task<AppResponse<UserDTO>> Get(int id)
+    public async Task<AppResponse<UserDTO>> GetUser(int id)
     {
         var user = await _repo.GetAllNoTracking()
             .Include(u => u.Position)
@@ -189,7 +196,7 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
     /// - If both <paramref name="query"/> and <paramref name="birthMonth"/> are null, all users are returned.<br/>
     /// - Pagination is handled by the <c>IPaginationService.PaginateAsync</c> method.
     /// </remarks>
-    public async Task<PaginatedAppResponse<UserDTO>> GetPaginated(PaginationQuery pagination, string? query, short? birthMonth, int? positionId, int? classId)
+    public async Task<PaginatedAppResponse<UserDTO>> GetPaginatedUsers(PaginationQuery pagination, string? query, short? birthMonth, int? positionId, int? classId)
     {
         var result = await _pagService.PaginateAsync(
             _repo.GetAllNoTracking()
@@ -218,23 +225,26 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
         );
     }
 
-    public async Task<AppResponse<UserResultResponse>> GetResultsPage(int id)
+    public async Task<AppResponse<UserResultResponse>> GetUserResultsPage(int id)
     {
         var student = await _studentservice.GetByUserId(id)
             ?? throw new NotFoundException("Student not found!");
 
-        var subjects = _subjectRepo.Get()
-            .Where(s => s.Class.Id == student.ClassId);
+        var subjects = await _subjectRepo.Get()
+            .Include(s => s.Instructor)
+            .Include(s => s.CurricularUnit)
+            .Include(s => s.Class)
+            .Where(s => s.Class.Id == student.ClassId)
+            .ToListAsync();
 
-        IEnumerable<UserResultDTO> results = [];
+        var results = new List<UserResultDTO>();
 
         foreach (var subject in subjects)
-            _ = results.Append(new UserResultDTO(SubjectDTO.Map(subject), await _studentservice.GetResultBySubject(id, subject.Id)));
+            results.Add(new UserResultDTO(SubjectDTO.Map(subject), await _studentservice.GetResultBySubject(id, subject.Id)));
 
         return new AppResponse<UserResultResponse>(
             UserResultResponse.Map(id, student, results),
             "Users results found!"
         );
     }
-
 }

@@ -7,7 +7,8 @@ public record SubjectDTO(
     DateOnly BeganAt,
     int InstructorId,
     int CurricularUnitId,
-    int ClassId
+    int ClassId,
+    string Name
 )
 {
     public static SubjectDTO Map(Subject obj)
@@ -19,7 +20,8 @@ public record SubjectDTO(
             obj.BeganAt,
             obj.Instructor.Id,
             obj.CurricularUnit.Id,
-            obj.Class.Id
+            obj.Class.Id, 
+            obj.CurricularUnit.Name + " - " + obj.Class.Name
         );
     }
 }

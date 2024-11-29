@@ -92,17 +92,26 @@ public class Program
 
         #region Repositories
 
-        services.AddScoped<BaseRepository<User>, UserRepository>();
-        services.AddScoped<IUserRepository, UserRepository>();
-
         services.AddScoped<BaseRepository<Class>, ClassRepository>();
         services.AddScoped<IClassRepository, ClassRepository>();
+
+        services.AddScoped<BaseRepository<Course>, CourseRepository>();
+        services.AddScoped<ICourseRepository, CourseRepository>();
 
         services.AddScoped<BaseRepository<CurricularUnit>, CurricularUnitRepository>();
         services.AddScoped<ICurricularUnitRepository, CurricularUnitRepository>();
 
+        services.AddScoped<BaseRepository<OccupationArea>, OccupationAreaRepository>();
+        services.AddScoped<IOccupationAreaRepository, OccupationAreaRepository>();
+
         services.AddScoped<BaseRepository<Position>, PositionRepository>();
         services.AddScoped<IPositionRepository, PositionRepository>();
+
+        services.AddScoped<BaseRepository<Sector>, SectorRepository>();
+        services.AddScoped<ISectorRepository, SectorRepository>();
+
+        services.AddScoped<BaseRepository<SkillResult>, SkillResultRepository>();
+        services.AddScoped<ISkillResultRepository, SkillResultRepository>();
 
         services.AddScoped<BaseRepository<Student>, StudentRepository>();
         services.AddScoped<IStudentRepository, StudentRepository>();
@@ -110,31 +119,25 @@ public class Program
         services.AddScoped<BaseRepository<Subject>, SubjectRepository>();
         services.AddScoped<ISubjectRepository, SubjectRepository>();
 
-        services.AddScoped<BaseRepository<Sector>, SectorRepository>();
-        services.AddScoped<ISectorRepository, SectorRepository>();
+        services.AddScoped<BaseRepository<SubjectArea>, SubjectAreaRepository>();
+        services.AddScoped<ISubjectAreaRepository, SubjectAreaRepository>();
 
-        services.AddScoped<BaseRepository<OccupationArea>, OccupationAreaRepository>();
-        services.AddScoped<IOccupationAreaRepository, OccupationAreaRepository>();
-
-        services.AddScoped<BaseRepository<Course>, CourseRepository>();
-        services.AddScoped<ICourseRepository, CourseRepository>();
-
-        services.AddScoped<BaseRepository<SkillResult>, SkillResultRepository>();
-        services.AddScoped<ISkillResultRepository, SkillResultRepository>();
+        services.AddScoped<BaseRepository<User>, UserRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
 
         #endregion
 
         #region Services
 
-        services.AddScoped<IUserService, UserService>();
-        services.AddScoped<ILoginService, LoginService>();
         services.AddScoped<IClassService, ClassService>();
         services.AddScoped<ICourseService, CourseService>();
+        services.AddScoped<ILoginService, LoginService>();
+        services.AddScoped<IPaginationService, PaginationService>();
         services.AddScoped<IPositionService, PositionService>();
         services.AddScoped<IStudentService, StudentService>();
         services.AddScoped<ISubjectService, SubjectService>();
-        services.AddScoped<IPaginationService, PaginationService>();
-        services.AddScoped<ICourseService, CourseService>();
+        services.AddScoped<ISubjectAreaService, SubjectAreaService>();
+        services.AddScoped<IUserService, UserService>();
 
         #endregion
 

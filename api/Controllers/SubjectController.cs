@@ -9,7 +9,7 @@ namespace Api.Controllers;
 public class SubjectController : ControllerBase
 {
     [HttpPost]
-    public async Task<ActionResult> RegisterSubject(
+    public async Task<ActionResult> CreateSubject(
         [FromServices] ISubjectService service,
         [FromBody] SubjectCreatePayload payload
     )

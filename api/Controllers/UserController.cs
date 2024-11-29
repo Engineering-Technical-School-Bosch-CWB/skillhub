@@ -9,7 +9,7 @@ namespace Api.Controllers;
 public class UserController : ControllerBase
 {
     [HttpPost]
-    public async Task<ActionResult> RegisterUser(
+    public async Task<ActionResult> CreateUser(
         [FromServices] IUserService userService,
         [FromBody] UserCreatePayload payload
     )
@@ -43,17 +43,17 @@ public class UserController : ControllerBase
 
     [HttpGet]
     [Route("{id}")]
-    public async Task<IActionResult> Get(
+    public async Task<IActionResult> GetUser(
         [FromServices] IUserService service,
         int id
     )
     {
-        var result = await service.Get(id);
+        var result = await service.GetUser(id);
         return Ok(result);
     }
 
     [HttpGet]
-    public async Task<ActionResult> GetPaginated(
+    public async Task<ActionResult> GetPaginatedUsers(
         [FromServices] IUserService service,
         [FromQuery] PaginationQuery pagination,
         [FromQuery] string? query,
@@ -62,18 +62,18 @@ public class UserController : ControllerBase
         [FromQuery] int? classId
     )
     {
-        var result = await service.GetPaginated(pagination, query, birthMonth, positionId, classId);
+        var result = await service.GetPaginatedUsers(pagination, query, birthMonth, positionId, classId);
         return Ok(result);
     }
 
     [HttpGet]
     [Route("results/{id}")]
-    public async Task<ActionResult> GetResult(
+    public async Task<ActionResult> GetUserResultsPage(
         [FromServices] IUserService service,
         int id 
     )
     {
-        var result = await service.GetResultsPage(id);
+        var result = await service.GetUserResultsPage(id);
         return Ok(result);
     }
 

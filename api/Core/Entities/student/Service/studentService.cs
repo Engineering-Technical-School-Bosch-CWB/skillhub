@@ -77,19 +77,20 @@ public class StudentService(
 
     public async Task<double?> GetResultBySubject(int id, int subjectId)
     {
-        var skillResults = _skillResultRepo.Get()
+        var skillResults = await _skillResultRepo.Get()
             .Where(s => s.Student.Id == id)
             .Where(s => s.Subject!.Id == subjectId || s.Exam!.Subject.Id == subjectId)
             .Where(s => s.Aptitude.HasValue)
             .GroupBy(s => s.Skill)
-            .Select(g => g.OrderByDescending(s => s.EvaluatedAt).First());
+            .Select(g => g.OrderByDescending(s => s.EvaluatedAt).First())
+            .ToListAsync();
 
-        if (!await skillResults.AnyAsync())
+        if (skillResults.Count == 0)
             return null;
 
-        var totalWeight = await skillResults.SumAsync(s => s.Weight);
-        var totalAptitude = await skillResults.SumAsync(s => s.Aptitude * s.Weight);
+        var totalWeight = skillResults.Sum(s => s.Weight);
+        var totalAptitude = skillResults.Sum(s => s.Aptitude * s.Weight);
 
-        return totalAptitude.Value / totalWeight;
+        return totalAptitude / totalWeight;
     }
 }

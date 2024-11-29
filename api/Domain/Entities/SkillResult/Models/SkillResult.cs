@@ -6,7 +6,7 @@ public partial class SkillResult : IEntity
 {
   public double? Aptitude { get; set; }
   public required double Weight { get; set; }
-  public required DateOnly EvaluatedAt { get; set; }
+  public required DateTime EvaluatedAt { get; set; }
   public bool IsActive { get; set; } = true;
   public Subject? Subject { get; set; }
   public Exam? Exam { get; set; }

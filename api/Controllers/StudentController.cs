@@ -10,7 +10,7 @@ namespace Api.Controllers;
 public class StudentController : ControllerBase
 {
     [HttpPost]
-    public async Task<ActionResult> RegisterStudent(
+    public async Task<ActionResult> CreateStudent(
         [FromServices] IStudentService service,
         [FromBody] StudentCreatePayload payload
     )

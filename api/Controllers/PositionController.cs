@@ -22,7 +22,7 @@ public class PositionController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> Create(
+    public async Task<ActionResult> CreatePosition(
         [FromServices] IPositionService service,
         [FromBody] PositionCreatePayload payload
     )
@@ -45,7 +45,7 @@ public class PositionController : ControllerBase
 
     [HttpPatch]
     [Route("{id}")]
-    public async Task<ActionResult> Update(
+    public async Task<ActionResult> UpdatePosition(
         [FromServices] IPositionService service,
         [FromBody] PositionUpdatePayload payload,
         int id
@@ -57,7 +57,7 @@ public class PositionController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult> GetPaginated(
+    public async Task<ActionResult> GetPaginatedPositions(
         [FromServices] IPositionService service,
         [FromQuery] PaginationQuery pagination
     )
@@ -69,7 +69,7 @@ public class PositionController : ControllerBase
 
     [HttpGet]
     [Route("{id}")]
-    public async Task<ActionResult> Get(
+    public async Task<ActionResult> GetPosition(
         [FromServices] IPositionService service,
         int id
     )
@@ -80,7 +80,7 @@ public class PositionController : ControllerBase
 
     [HttpDelete]
     [Route("{id}")]
-    public async Task<ActionResult> Delete(
+    public async Task<ActionResult> DeletePosition(
         [FromServices] IPositionService service,
         int id
     )
