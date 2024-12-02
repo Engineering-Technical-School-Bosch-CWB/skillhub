@@ -131,6 +131,7 @@ public class Program
 
         services.AddScoped<IClassService, ClassService>();
         services.AddScoped<ICourseService, CourseService>();
+        services.AddScoped<ICurricularUnitService, CurricularUnitService>();
         services.AddScoped<ILoginService, LoginService>();
         services.AddScoped<IPaginationService, PaginationService>();
         services.AddScoped<IPositionService, PositionService>();

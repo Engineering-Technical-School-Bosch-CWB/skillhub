@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace Api.Domain.Models;
-public class StudentCreatePayload()
+public class StudentCreatePayload
 {
     [Required]
     public required int UserId { get; set; }

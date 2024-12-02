@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Api.Domain.Services;
 
-public class LoginPayload()
+public class LoginPayload
 {
     [Required]
     [StringLength(100)]

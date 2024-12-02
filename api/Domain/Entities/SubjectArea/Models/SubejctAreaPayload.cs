@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace Api.Domain.Models;
-public class SubjectAreaPayload()
+public class SubjectAreaPayload
 {
     [Required]
     [StringLength(255)]

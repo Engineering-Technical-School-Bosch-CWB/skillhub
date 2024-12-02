@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Api.Domain.Models;
 
-public class CurricularUnitCreatePayload()
+public class CurricularUnitCreatePayload
 {
     [Required]
     [StringLength(255)]
@@ -12,7 +12,7 @@ public class CurricularUnitCreatePayload()
     public required int SubjectAreaId { get; set; }
 }
 
-public class CurricularUnitUpdatePayload()
+public class CurricularUnitUpdatePayload
 {
     [StringLength(255)]
     public string? Name { get; set; }

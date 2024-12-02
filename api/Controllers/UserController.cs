@@ -10,11 +10,11 @@ public class UserController : ControllerBase
 {
     [HttpPost]
     public async Task<ActionResult> CreateUser(
-        [FromServices] IUserService userService,
+        [FromServices] IUserService service,
         [FromBody] UserCreatePayload payload
     )
     {
-        var result = await userService.CreateUser(payload);
+        var result = await service.CreateUser(payload);
         return Created("/api/v1/users", result);
     }
 

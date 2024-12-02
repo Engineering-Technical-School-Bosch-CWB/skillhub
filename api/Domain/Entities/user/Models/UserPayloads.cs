@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace Api.Domain.Models;
-public class UserCreatePayload()
+public class UserCreatePayload
 {
     [Required]
     public required int SectorId { get; set; }
@@ -21,7 +21,7 @@ public class UserCreatePayload()
     public required string Identification { get; set; }
 }
 
-public class UserUpdatePayload()
+public class UserUpdatePayload
 {
     public int? SectorId { get; set; }
 

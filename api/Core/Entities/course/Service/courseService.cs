@@ -73,7 +73,7 @@ public class CourseService : BaseService<Course>, ICourseService
     public async Task<AppResponse<CourseDTO>> GetCourseById(int id)
     {
         var course = await repository.Get()
-            .Include( c => c.DefaultOccupationArea )
+            .Include(c => c.DefaultOccupationArea)
             .SingleOrDefaultAsync(c => c.Id == id)
             ?? throw new NotFoundException("Course not found!");
 

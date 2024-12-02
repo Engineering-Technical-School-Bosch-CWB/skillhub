@@ -81,7 +81,7 @@ public class CurricularUnitService(BaseRepository<CurricularUnit> repository, IS
 
         return new AppResponse<CurricularUnitDTO>(
             CurricularUnitDTO.Map(curricularUnit),
-            "Subject area updated successfully!"
+            "Curricular unit updated successfully!"
         );
     }
 

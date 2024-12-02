@@ -3,7 +3,7 @@ namespace Api.Domain.Models;
 public record CurricularUnitDTO(
     int Id,
     string Name,
-    int SubjectAreaId
+    SubjectAreaDTO? SubjectArea
 )
 {
     public static CurricularUnitDTO Map(CurricularUnit obj)
@@ -11,7 +11,7 @@ public record CurricularUnitDTO(
         return new CurricularUnitDTO(
             obj.Id,
             obj.Name,
-            obj.SubjectArea.Id
+            obj.SubjectArea is not null ? SubjectAreaDTO.Map(obj.SubjectArea) : null
         );
     }
 }

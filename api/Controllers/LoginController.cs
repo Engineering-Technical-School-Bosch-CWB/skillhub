@@ -10,11 +10,11 @@ public class LoginController : ControllerBase
 {
     [HttpPost]
     public async Task<ActionResult> TryLogin(
-        [FromServices] ILoginService loginService,
+        [FromServices] ILoginService service,
         [FromBody] LoginPayload payload
     )
     {
-        var result = await loginService.TryLogin(payload);
+        var result = await service.TryLogin(payload);
         return Ok(result);
     }
 }

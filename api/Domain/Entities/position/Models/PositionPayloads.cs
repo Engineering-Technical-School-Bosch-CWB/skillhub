@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization.Infrastructure;
 
 namespace Api.Domain.Models;
 
-public class PositionCreatePayload()
+public class PositionCreatePayload
 {
     [Required]
     [StringLength(100)]
@@ -14,7 +14,7 @@ public class PositionCreatePayload()
     public required short PositionLevel { get; set; }
 }
 
-public class PositionUpdatePayload()
+public class PositionUpdatePayload
 {
     [StringLength(100)]
     public string? Name { get; set; }
