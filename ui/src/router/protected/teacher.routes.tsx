@@ -4,6 +4,7 @@ import CurricularUnitOverview from "../../pages/CurricularUnitOverview";
 import { IAccessRoutes } from "../../interfaces/routes.interfaces";
 import { RouteMap } from "../map";
 import ClassesOverview from "../../pages/ClassesOverview";
+import ClassDetails from "../../pages/ClassDetails";
 
 export default {
     accessLevel: AccessLevel.TEACHER,
@@ -23,9 +24,10 @@ export default {
             path: RouteMap.CLASSES,
             title: "Classes",
             element: <ClassesOverview />,
-            children: [
-                
-            ]
+        },
+        {
+            path: RouteMap.CLASS_DETAILS,
+            element: <ClassDetails />
         }
     ]
 } as IAccessRoutes

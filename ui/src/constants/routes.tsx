@@ -3,7 +3,7 @@ import AprenticesProfile from "../pages/AprenticesProfile";
 import AprenticesResults from "../pages/AprenticesResults";
 import AvaliateAprentices from "../pages/AvaliateAprentices";
 import Birthdays from "../pages/Birthdays";
-import ClassDetais from "../pages/ClassDetais";
+import ClassDetais from "../pages/ClassDetails";
 import {CompleteRegistering} from "../pages/CompleteRegistering";
 import ContentOverview from "../pages/ContentOverview";
 import CreateAvaliation from "../pages/CreateAvaliation";

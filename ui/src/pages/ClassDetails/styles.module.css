@@ -1,0 +1,15 @@
+
+
+
+.align {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.student_container{
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: space-around;
+}

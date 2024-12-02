@@ -1,11 +1,9 @@
 import { useState } from "react";
 import Text from "../../typography";
-import Button from "../Button";
 import Icon from "../Icon";
 import Input from "../Input";
 import IdentificationCard from "./Components/IdentificationCard";
 import {SelectView, SelectViewType } from "./Components/SelectView";
-import IIdentificationCardProps from "./Components/IdentificationCard/IIdentificationCardProps";
 import styles from "./style.module.css";
 import { IExplorerContainerProps } from "./Interfaces/ExplorerContainer.interfaces";
 import { Link } from "react-router-dom";
@@ -15,17 +13,6 @@ const ExplorerContainer = ( {folderPath, addPath, title, data}: IExplorerContain
 {
 
     const [view, setView] = useState<SelectViewType>("card");
-
-    const list : IIdentificationCardProps[] = [
-        {
-            variant: "card",
-            color: "#0197ee",
-            icon:"group",
-            iconDetails: "12",
-            subtitle: "2012",
-            title: "TDS"
-        }
-    ]
 
     return (
         <div className={`${styles.explorerContainer}`} >
@@ -64,11 +51,16 @@ const ExplorerContainer = ( {folderPath, addPath, title, data}: IExplorerContain
             </div>
 
             <div className={`${styles.listContainer} ${view == "list" ? styles.tableListContainer : ''} `}>
-                <IdentificationCard color="#0197ee" variant={view} title="DTA 2022" subtitle="2022 / 01" icon="group" iconDetails="18" goTo={`class/${1}`} />
-                <IdentificationCard color="#0197ee" variant={view} title="DTA 2022" subtitle="2022 / 01" icon="group" iconDetails="18" />
-                <IdentificationCard color="#0197ee" variant={view} title="DTA 2022" subtitle="2022 / 01" icon="group" iconDetails="18" />
-                <IdentificationCard color="#0197ee" variant={view} title="DTA 2022" subtitle="2022 / 01" icon="group" iconDetails="18" />
-                <IdentificationCard {...list[0]} />
+                {
+                    data.map(e => {
+                        return (
+                            <>
+                                {/* <IdentificationCard color={`${e.color}`} variant={view} title={`${e.title}`} subtitle={`${e.subtitle}`} icon={`${e.icon}`} iconDetails={`${e.iconDetails}`} goTo={`${e.goTo}`} /> */}
+                                <IdentificationCard {...e} />
+                            </>
+                        )
+                    })
+                }
             </div>
         </div>
     )

@@ -1,0 +1,17 @@
+.align {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.student_card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .5rem ;
+
+    .details {
+        flex-direction: column;
+        gap: .25rem;
+    }
+}
