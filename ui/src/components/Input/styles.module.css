@@ -85,7 +85,7 @@
     top: 0;
     bottom: 0;
     margin: auto;
-    left: 93%;
+    right: 1rem;
     z-index: 100;
     height: max-content;
     cursor: pointer;

@@ -9,7 +9,7 @@ interface IIdentificationCardProps {
     subtitle?: string,
     icon?: string,
     iconDetails?: string,
-    onClick?: Function
+    goTo?: string
 }
 
 

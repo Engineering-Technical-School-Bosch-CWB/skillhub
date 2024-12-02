@@ -3,6 +3,7 @@ import styles from "./styles.module.css"
 import Text from "../../../../typography";
 import Icon from "../../../Icon";
 import IIdentificationCardProps from "./IIdentificationCardProps";
+import { Link } from "react-router-dom";
 
 
 const IdentificationCard = forwardRef<HTMLButtonElement, IIdentificationCardProps>((
@@ -13,24 +14,28 @@ const IdentificationCard = forwardRef<HTMLButtonElement, IIdentificationCardProp
         subtitle = "",
         icon = "",
         iconDetails = "",
-        onClick,
+        goTo,
     }) => 
-        <div
+        <Link
             className={`${styles.identificationCard} ${variant == "list" ? styles.line : ""} ${styles.common} ${[variant]}`}
-            onClick={() => onClick!()}
+            to={`${goTo}`}            
         >
-            <section className={`${styles.identificationCardMarker}`} style={{backgroundColor: color}}></section>
-            <section className={`${styles.cardContent}`}>
-                <Text fontWeight="bold">{title}</Text>
-                <div className={`${styles.seccondLine} ${styles.align}`}>
-                    <Text fontWeight="semibold" fontSize="xs">{subtitle}</Text>
-                    <div className={`${styles.align}`}>
-                        <Icon size="sm" name={icon} />
-                        <Text fontWeight="semibold" fontSize="xs" >{iconDetails} {variant }</Text>
+            <section className={`${styles.align}`}>
+                <section className={`${styles.identificationCardMarker}`} style={{backgroundColor: color}}></section>
+                <section className={`${styles.cardContent}`}>
+                    <Text fontWeight="bold">{title}</Text>
+                    <div className={`${styles.seccondLine} ${styles.align}`}>
+                        <Text fontWeight="semibold" fontSize="xs">{subtitle}</Text>
                     </div>
+                </section>
+            </section>
+            <section>
+                <div className={`${styles.align}`}>
+                    <Icon size="md" name={icon} />
+                    <Text fontWeight="semibold" fontSize="xl" >{iconDetails}</Text>
                 </div>
             </section>
-        </div>
+        </Link>
 )
 
 

@@ -10,13 +10,33 @@
     justify-content: center;
     align-items: center;
 
+    input {
+        background-color: var(--white);
+    }
+
     .explorerHeader{
         width: 90%;
         justify-content: space-around;
         gap: 2rem;
         margin: 3rem ;
         flex-wrap: wrap;
+
+        .folderBtn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 3rem;
+            height: 3rem;
+            padding: 0;
+            color: var(--white);
+            background-color: var(--primary-main);
+            &:hover {
+                background-color: var(--primary-dark);
+            }
+        }
     }
+
+    
 
     .listContainer {
         display: flex;
@@ -41,17 +61,28 @@
             align-items: center;
             width: 3rem;
             height: 3rem;
-            border-radius: 100%;
+            /* border-radius: 100%; */
             padding: 0;
+            color: var(--white);
+            background-color: var(--primary-main);
+
+            &:hover {
+                background-color: var(--primary-dark);
+            }
         }
+
+        
     }
 }
 
 .selectView {
     display: flex;
+    background-color: var(--white);
     
 
     .selectViewBtn {
+        height: 3rem;
+        width: 3rem;
         padding: .5rem;
         display: flex;
         justify-content: center;

@@ -3,6 +3,9 @@
 @import url("./toast.css");
 
 :root {
+    --white: white;
+    --black: black;
+
     --primary-light: #0197ee;
     --primary-light-low-opacity: #0197ee36;
     --primary-main: #00629a;
