@@ -1,17 +1,19 @@
 namespace Api.Domain.Models;
 
 public record SkillDTO(
+    int Id,
     string Description,
     string? EvaluationCriteria,
-    CurricularUnitDTO CurricularUnit
+    int CurricularUnitId
 )
 {
     public static SkillDTO Map(Skill obj)
     {
         return new SkillDTO(
+            obj.Id,
             obj.Description,
             obj.EvaluationCriteria,
-            CurricularUnitDTO.Map(obj.CurricularUnit)
+            obj.CurricularUnit.Id
         );
     }
 }

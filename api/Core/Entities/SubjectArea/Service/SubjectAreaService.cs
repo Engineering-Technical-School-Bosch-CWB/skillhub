@@ -4,7 +4,6 @@ using Api.Domain.Models;
 using Api.Domain.Services;
 using Microsoft.EntityFrameworkCore;
 using Api.Core.Errors;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Api.Core.Services;
 

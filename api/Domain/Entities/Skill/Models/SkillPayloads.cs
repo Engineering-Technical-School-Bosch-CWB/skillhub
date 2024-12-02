@@ -6,8 +6,6 @@ public class SkillCreatePayload
     [Required]
     [StringLength(255)]
     public required string Description { get; set; }
-
-    [Required]
     public required string EvaluationCriteria { get; set; }
 
     [Required]
@@ -17,7 +15,7 @@ public class SkillCreatePayload
 public class SkillUpdatePayload
 {
     [StringLength(255)]
-    public required string Description { get; set; }
-    public required string EvaluationCriteria { get; set; }
-    public required int CurricularUnitId { get; set; }
+    public string? Description { get; set; }
+    public string? EvaluationCriteria { get; set; }
+    public int? CurricularUnitId { get; set; }
 }

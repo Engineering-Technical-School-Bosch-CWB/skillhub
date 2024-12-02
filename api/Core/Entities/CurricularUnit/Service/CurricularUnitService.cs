@@ -88,13 +88,13 @@ public class CurricularUnitService(BaseRepository<CurricularUnit> repository, IS
     public async Task DeleteCurricularUnit(int id)
     {
         var curricularUnit = await _repo.Get()
-            .Where(s => s.IsActive)
-            .SingleOrDefaultAsync(s => s.Id == id)
+            .Where(c => c.IsActive)
+            .SingleOrDefaultAsync(c => c.Id == id)
             ?? throw new NotFoundException("Curricular unit not found!");
 
         curricularUnit.IsActive = false;
 
-        _ =_repo.Update(curricularUnit) ?? throw new DeleteFailException("Curricular unit could not be deleted");
+        _ =_repo.Update(curricularUnit) ?? throw new DeleteFailException("Curricular unit could not be deleted!");
 
         await _repo.SaveAsync();
     }
@@ -103,8 +103,8 @@ public class CurricularUnitService(BaseRepository<CurricularUnit> repository, IS
     {
         var curricularUnit = await _repo.Get()
             .Include(c => c.SubjectArea)
-            .Where(s => s.IsActive)
-            .SingleOrDefaultAsync(s => s.Id == id)
+            .Where(c => c.IsActive)
+            .SingleOrDefaultAsync(c => c.Id == id)
             ?? throw new NotFoundException("Curricular unit not found!");
 
         return new AppResponse<CurricularUnitDTO>(
