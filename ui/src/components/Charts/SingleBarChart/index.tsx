@@ -1,15 +1,18 @@
+import styled from "./styles.module.css";
 import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
-import { IBarChartProps } from '../../../pages/AprenticesResults/aprenticeResults.interfaces';
+import { IBarChartProps } from './interfaces';
+import Text from "../../../typography";
 
-export default function SingleBarChart({ data, xAxis, yAxis }: IBarChartProps) {
+export default function SingleBarChart({ data, xAxis, yAxis, title }: IBarChartProps) {
   return (
-    <div style={{ height: "250px", width: "450px" }}>
+    <div style={{ height: "250px", width: "450px" }} className={styled.container}>
+      <Text>{ title }</Text>
       <BarChart
         width={450}
         height={250}
         data={data[0].data} 
         margin={{
-          top: 5,
+          top: 30,
           right: 30,
           left: 20,
           bottom: 5,

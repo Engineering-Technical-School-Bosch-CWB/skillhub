@@ -54,8 +54,8 @@ const AprenticesResults = () => {
                 <div className={styled.chart_section}>
                     <Text variant="span" fontWeight="bold" fontSize="xl2">Results</Text>
                     <div className={styled.chart_container}>
-                        <ExploitationBarChart />
-                        <DoughnutChart exploitation={50} />
+                        <ExploitationBarChart/>
+                        <DoughnutChart title="Overall Exploitation" exploitation={50} />
                     </div>
                 </div>
                 <Divider/>

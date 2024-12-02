@@ -1,27 +1,26 @@
 import styled from "./styles.module.css";
 import React from "react";
 import { PieChart, Pie, Tooltip, Label, Cell } from "recharts";
+import Text from "../../../typography";
+import { IDoughnutCharProps } from "./interfaces";
 
-interface IDoughnutChartProps {
-  exploitation: number
-}
+const DoughnutChart: React.FC<IDoughnutCharProps> = ({ exploitation, title }) => {
 
-const DoughnutChart: React.FC<IDoughnutChartProps> = ({ exploitation }) => {
-  // Definindo os dados do gráfico de pizza
   const data = [
     { name: "Exploitation", value: exploitation },
     { name: "Remaining", value: 100 - exploitation },
   ];
 
   return (
-    <div>
-      <PieChart width={180} height={180} className={styled.surface}>
+    <div className={styled.container}>
+      <Text>{ title }</Text>
+      <PieChart width={250} height={250}>
         <Pie
           data={data}             
           dataKey="value"         
           nameKey="name"          
-          cx={85}                
-          cy={85}                
+          cx={120}                
+          cy={120}                
           innerRadius={50}
           outerRadius={90}       
           fill="#9e2896"
