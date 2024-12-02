@@ -1,0 +1,35 @@
+.table {
+    box-shadow: none;
+}
+
+.head, .row {
+    font-family: "Bosch Sans", sans-serif;
+}
+
+.head {
+    font-weight: 600;
+}
+
+.apt, .inapt, .development {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 2.5rem;
+    font-weight: 700;
+}
+
+.apt {
+    color: rgb(4, 102, 12);
+    background-color: #b2f2bb;
+}
+
+.inapt {
+    color: rgb(155, 3, 3);
+    background-color: #ffc9c9;
+}
+
+.development {
+    color: rgb(173, 128, 3);
+    background-color: #ffec99;
+}

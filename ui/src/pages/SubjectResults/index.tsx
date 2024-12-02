@@ -3,8 +3,31 @@ import DoughnutChart from "../../components/Charts/DoughnutChart";
 import Header from "../../components/Header";
 import Text from "../../typography";
 import styled from "./styles.module.css";
+import TableView from "../../components/TableView";
+import { useState } from "react";
+
+const data = [
+    {
+        name: "Use I/O operations.",
+        status: "Apt",
+        average_aptitude: 90
+    },
+    {
+        name: "Use generics.",
+        status: "Inapt",
+        average_aptitude: 68,
+    },
+    {
+        name: "Array usage.",
+        status: "In Development",
+        average_aptitude: 30,
+    },
+]
 
 const SubjectResults = () => {
+    const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
+    const [isContestmentModalOpen, setIsContestmentModalOpen] = useState(false);
+    
     return (
         <div>
             <Header/>
@@ -21,22 +44,16 @@ const SubjectResults = () => {
                                 </div>
                             </div>
                             <div className={styled.chart_section}>
-                                <div className={styled.chart_container}>
-                                    <Text>Seu aproveitamento</Text>
-                                    <DoughnutChart exploitation={60}/>
-                                </div>
-                                <div className={styled.chart_container}>
-                                    <Text>Aproveitamento da turma</Text>
-                                    <DoughnutChart exploitation={57}/>
-                                </div>
+                                <DoughnutChart exploitation={60} title="Your Exploitation"/>
+                                <DoughnutChart exploitation={57} title="Class' Average Exploitation"/>
                             </div>
                         </div>
                     </div>
                     <Divider/>
                     <div className={styled.competences_section}>
-                        <Text>Competences</Text>
+                        <Text fontWeight="bold" fontSize="xl2">Competences</Text>
                         <div className={styled.competences_content}>
-
+                            <TableView data={data}/>
                         </div>
                     </div>
                 </div>

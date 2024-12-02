@@ -1,15 +1,10 @@
-.content {
-    display: flex;
-    flex-direction: column;
-    gap: 20px
-}
-
-.overview_section {
+.overview_section, .competences_section {
     display: flex;
     flex-direction: column;
     gap: 30px;
 }
 
+/* ..overview section */
 .overview_content {
     display: flex;
     align-items: center;
@@ -22,7 +17,7 @@
     gap: 15px;
 
     background-color: var(--gray-0);
-    padding: 15px 20px;
+    padding: 20px 25px;
     width: 40%;
     height: fit-content;
     margin-right: 4rem;
@@ -35,4 +30,7 @@
 
 .chart_section {
     display: flex;
+    gap: 8rem;
 }
+
+/* ..competences section */

@@ -1,9 +1,9 @@
 import styled from "./styles.module.css";
 import { Box, Modal } from "@mui/material";
+import { IContestmentModalProps } from "./interfaces";
 import Text from "../../../../typography";
-import { IHistoryModalProps } from "./interfaces";
 
-const ContestmentModal = ({ isOpen, handleIsOpen }: IHistoryModalProps) => {
+const ContestmentModal = ({ isOpen, handleIsOpen }: IContestmentModalProps) => {
     const handleClose = () => handleIsOpen(false);
 
     return (
@@ -14,7 +14,7 @@ const ContestmentModal = ({ isOpen, handleIsOpen }: IHistoryModalProps) => {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Box>
+                <Box >
                     <Text>Haha</Text>
                 </Box>
             </Modal>
