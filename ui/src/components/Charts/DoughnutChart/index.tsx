@@ -15,13 +15,13 @@ const DoughnutChart: React.FC<IDoughnutChartProps> = ({ exploitation }) => {
 
   return (
     <div>
-      <PieChart width={350} height={350} className={styled.surface}>
+      <PieChart width={180} height={180} className={styled.surface}>
         <Pie
           data={data}             
           dataKey="value"         
           nameKey="name"          
-          cx={150}                
-          cy={150}                
+          cx={85}                
+          cy={85}                
           innerRadius={50}
           outerRadius={90}       
           fill="#9e2896"

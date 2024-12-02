@@ -1,5 +1,5 @@
 import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
-import { IBarChartProps } from '../../pages/AprenticesResults/aprenticeResults.interfaces';
+import { IBarChartProps } from '../../../pages/AprenticesResults/aprenticeResults.interfaces';
 
 export default function SingleBarChart({ data, xAxis, yAxis }: IBarChartProps) {
   return (

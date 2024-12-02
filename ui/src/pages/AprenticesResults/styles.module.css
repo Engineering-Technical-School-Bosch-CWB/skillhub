@@ -29,8 +29,6 @@
 }
 
 .input {
-    position: relative;
-    /* display: flex; */
     width: 31%;
     background-color: white;
 }
