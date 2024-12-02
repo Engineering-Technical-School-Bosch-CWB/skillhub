@@ -7,15 +7,10 @@ import IdentificationCard from "./Components/IdentificationCard";
 import {SelectView, SelectViewType } from "./Components/SelectView";
 import IIdentificationCardProps from "./Components/IdentificationCard/IIdentificationCardProps";
 import styles from "./style.module.css";
+import { IExplorerContainerProps } from "./Interfaces/ExplorerContainer.interfaces";
 
 
-interface ExplorerContainerProps {
-    title: string,
-    folderPath: string,
-    data: IIdentificationCardProps[]
-}
-
-const ExplorerContainer = ( props?: ExplorerContainerProps ) =>
+const ExplorerContainer = ( props?: IExplorerContainerProps ) =>
 {
 
     const [view, setView] = useState<SelectViewType>("card");
