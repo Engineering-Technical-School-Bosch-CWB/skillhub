@@ -101,7 +101,9 @@ const TableView = ({ data, hasOptions, options, hasNotation }: ITableViewProps) 
                                         keys.map((key) => (
                                             key != "Id" ?
                                                 <TableCell key={key} align="center">
-                                                    <div className={handleStyle(key, item)}>{item[key]}</div>
+                                                    <div className={styled.cell}>
+                                                        <div className={handleStyle(key, item)}>{item[key]}</div>
+                                                    </div>
                                                 </TableCell>
                                                 : <></>
                                         ))

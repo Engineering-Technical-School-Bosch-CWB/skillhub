@@ -12,13 +12,13 @@ import HistoryModal from "./components/HistoryModal";
 const data = [
     {
         id: 1,
-        name: "Use I/O operations.",
+        name: "Use input and output operations.",
         status: "Apt",
         average_aptitude: 90
     },
     {
         id: 2,
-        name: "Use generics.",
+        name: "Use generics to have dynamic classes and implement them.",
         status: "Inapt",
         average_aptitude: 68,
     },
@@ -80,7 +80,7 @@ const SubjectResults = () => {
                     <Divider size="big"/>
                     <div className={styled.competences_section}>
                         <Text fontWeight="bold" fontSize="xl2">Competences</Text>
-                        <div className={styled.competences_content}>
+                        <div className={styled.table_container}>
                             <TableView data={data} hasNotation={true} hasOptions={true} options={options}/>
                         </div>
                     </div>

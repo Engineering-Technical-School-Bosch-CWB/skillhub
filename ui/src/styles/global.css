@@ -40,6 +40,7 @@
     --gray-full: #000000;
 
     --default-rounding: 10px;
+    --default-border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 body {
