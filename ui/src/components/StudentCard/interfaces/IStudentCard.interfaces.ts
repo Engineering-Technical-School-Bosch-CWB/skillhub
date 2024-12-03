@@ -4,5 +4,6 @@ export interface IStudentCardProps {
     student?: IUser,
     className?: string, 
     tooltip?: string, 
-    size?: string
+    size?: string,
+    goTo?: string
 }

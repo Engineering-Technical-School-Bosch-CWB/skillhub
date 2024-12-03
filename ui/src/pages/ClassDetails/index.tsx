@@ -8,7 +8,12 @@ import { IStudentCardProps } from "../../components/StudentCard/interfaces/IStud
 
 import styles from './styles.module.css'
 import DoughnutChart from "../../components/DoughnutChart";
-import SingleBarChart from "../../components/SingleBarChart";
+import ContentAreaChart from "./Components/ContentAreaChart";
+import Ranking from "./Components/Ranking";
+import GeneralChart from "./Components/GeneralChart";
+import SubjectBarChart from "./Components/SubjectBarChart";
+import { RankingChartProps, StudentSubject } from "./interfaces/ClassDetails.interfaces";
+import Text from "../../typography";
 
 export default () => {
     const { id } = useParams<{ id: string }>();
@@ -134,14 +139,48 @@ export default () => {
         }
     ];
     
+    const rankingData: RankingChartProps = {
+        data: studentCards.map((e) => {
+            const a : StudentSubject = {
+                grade: Math.floor(Math.random() * 101),
+                name: e.student?.name!
+            }
+            return a;
+        })
+    }
 
     return (
         <div>
             <Header /> 
             <ExplorerContainer data={courseSubjects} title="Dta 2022" addPath="/" />
-            
+
+
+
             <Divider />
-            <h2>Alunos</h2>
+            <section className={`${styles.section_title}`}>
+                <Text fontSize="lg" fontWeight="bold" >Detalhes</Text>
+            </section>
+            
+            <section className={`${styles.chart_section} ${styles.align}`}>
+                <SubjectBarChart />
+                <DoughnutChart exploitation={75}  />
+            </section>
+
+            <section className={`${styles.chart_section} ${styles.align}`}>
+                <GeneralChart />
+                <Ranking {...rankingData} />
+            </section>
+            
+            <section className={`${styles.chart_section} ${styles.align}`}>
+                <ContentAreaChart />
+            </section>
+
+
+            <Divider />
+            <section className={`${styles.section_title}`} >
+                <Text fontSize="lg" fontWeight="bold" className={`${styles.section_title}`}>Alunos</Text>
+                
+            </section>
             <br />
             <div className={`${styles.student_container} ${styles.align}`} >
                 {
@@ -150,24 +189,9 @@ export default () => {
                     ))
                 }
             </div>
-
-            <Divider />
-
-            <h2>Aproveitamento da Turma</h2>
-
-            <section>
-                {/* <SingleBarChart data={[]} xAxis="" yAxis="" /> */}
-                <DoughnutChart exploitation={75}  />
-            </section>
-
-            <section>
-
-            </section>
-            
-            <section>
-
-            </section>
-
+            <br />
+            <br />
+            <br />
         </div>
     )
 }

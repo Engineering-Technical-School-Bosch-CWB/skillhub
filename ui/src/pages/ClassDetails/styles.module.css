@@ -1,10 +1,13 @@
-
-
-
 .align {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.section_title {
+    width: 100%;
+    text-align: center;
+    padding: 2rem;
 }
 
 .student_container{
@@ -12,4 +15,9 @@
     flex-wrap: wrap;
     gap: 1rem;
     justify-content: space-around;
+}
+
+.chart_section {
+    justify-content: space-around;
+    width: 100%;
 }

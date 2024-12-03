@@ -4,6 +4,7 @@ import { IStudentCardProps } from "./interfaces/IStudentCard.interfaces";
 import styles from './style.module.css';
 import Avatar from "../Avatar";
 import Text from "../../typography";
+import { Link } from "react-router-dom";
 
 export default forwardRef<HTMLImageElement, IStudentCardProps>(
     ({ 
@@ -11,16 +12,13 @@ export default forwardRef<HTMLImageElement, IStudentCardProps>(
         tooltip = "", 
         size = "medium", 
         student,
+        goTo,
         ...props 
     }, ref) => (
-        <div className={`${styles[size]} ${styles.student_card}`}>
-            {/* <img 
-                
-                ref={ref}
-                alt={tooltip || "Avatar"}
-                className={`${styles.avatar} ${className || ""}`}
-                {...props}
-            /> */}
+        <Link 
+            className={`${styles[size]} ${styles.student_card}`}
+            to={`${goTo}`}
+        >
             <Avatar src={student?.image?.image ?? "/avatar.png"} size="large"  /> 
             {
                 tooltip &&
@@ -32,7 +30,7 @@ export default forwardRef<HTMLImageElement, IStudentCardProps>(
                     {student?.birthday?.getDate()} / {student?.birthday?.getMonth()}
                 </Text> 
             </div>
-        </div>
+        </Link>
     )
 )
 
