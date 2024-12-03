@@ -11,7 +11,7 @@ public record SubjectDTO(
     string Name
 )
 {
-    public static SubjectDTO Map(Subject obj)
+    public static SubjectDTO Map(Subject obj, string name)
     {
         return new SubjectDTO(
             obj.Id,
@@ -21,7 +21,7 @@ public record SubjectDTO(
             obj.Instructor.Id,
             obj.CurricularUnit.Id,
             obj.Class.Id, 
-            obj.CurricularUnit.Name + " - " + obj.Class.Name
+            name
         );
     }
 }

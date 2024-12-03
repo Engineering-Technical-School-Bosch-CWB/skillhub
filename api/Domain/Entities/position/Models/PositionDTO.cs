@@ -1,9 +1,11 @@
+using Api.Domain.Enums;
+
 namespace Api.Domain.Models;
 
 public record PositionDTO(
 	int Id,
 	string Name,
-	short PositionLevel
+	EPositionLevel PositionLevel
 )
 {
 	public static PositionDTO Map(Position obj)
@@ -11,7 +13,7 @@ public record PositionDTO(
 		return new PositionDTO(
 		  obj.Id,
 		  obj.Name,
-		  obj.PositionLevel
+		  (EPositionLevel)obj.PositionLevel
 		);
 	}
 }

@@ -6,7 +6,7 @@ public record UserDTO(
     int PositionId,
     int SectorId,
     int OccupationAreaId,
-    short PermissionLevel,
+    short? PermissionLevel,
     StudentDTO? StudentProfile
 )
 {
@@ -19,7 +19,7 @@ public record UserDTO(
             obj.Position.Id,
             obj.Sector.Id,
             obj.OccupationArea.Id,
-            obj.Position.PositionLevel,
+            obj.Position?.PositionLevel,
             student
         );
     }

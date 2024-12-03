@@ -225,26 +225,4 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
         );
     }
 
-    public async Task<AppResponse<UserResultResponse>> GetUserResultsPage(int id)
-    {
-        var student = await _studentservice.GetByUserId(id)
-            ?? throw new NotFoundException("Student not found!");
-
-        var subjects = await _subjectRepo.Get()
-            .Include(s => s.Instructor)
-            .Include(s => s.CurricularUnit)
-            .Include(s => s.Class)
-            .Where(s => s.Class.Id == student.ClassId)
-            .ToListAsync();
-
-        var results = new List<UserResultDTO>();
-
-        foreach (var subject in subjects)
-            results.Add(new UserResultDTO(SubjectDTO.Map(subject), await _studentservice.GetResultBySubject(id, subject.Id)));
-
-        return new AppResponse<UserResultResponse>(
-            UserResultResponse.Map(id, student, results),
-            "Users results found!"
-        );
-    }
 }

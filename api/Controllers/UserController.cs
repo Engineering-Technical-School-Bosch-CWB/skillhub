@@ -66,15 +66,4 @@ public class UserController : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet]
-    [Route("results/{id}")]
-    public async Task<ActionResult> GetUserResultsPage(
-        [FromServices] IUserService service,
-        int id 
-    )
-    {
-        var result = await service.GetUserResultsPage(id);
-        return Ok(result);
-    }
-
 }

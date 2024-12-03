@@ -10,5 +10,4 @@ public interface IUserService : IService<User>
     public Task DeleteUser(int id);
     public Task<AppResponse<UserDTO>> GetUser(int id);
     public Task<PaginatedAppResponse<UserDTO>> GetPaginatedUsers(PaginationQuery pagination, string? query, short? birthmonth, int? positionId, int? classId);
-    public Task<AppResponse<UserResultResponse>> GetUserResultsPage(int id);
 }

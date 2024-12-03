@@ -1,6 +1,5 @@
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
+using Api.Domain.Enums;
 
 namespace Api.Domain.Models;
 
@@ -11,12 +10,15 @@ public class PositionCreatePayload
     public required string Name { get; set; }
 
     [Required]
-    public required short PositionLevel { get; set; }
+    [EnumDataType(typeof(EPositionLevel))]
+    public required EPositionLevel PositionLevel { get; set; }
 }
 
 public class PositionUpdatePayload
 {
     [StringLength(100)]
     public string? Name { get; set; }
-    public short? PositionLevel { get; set; }
+
+    [EnumDataType(typeof(EPositionLevel))]
+    public EPositionLevel? PositionLevel { get; set; }
 }

@@ -18,4 +18,26 @@ public class StudentController : ControllerBase
         var result = await service.CreateStudent(payload);
         return Created("api/v1/students", result);
     }
+
+    [HttpGet]
+    [Route("results/{id}")]
+    public async Task<ActionResult> GetUserResultsPage(
+    [FromServices] IStudentService service,
+    int id
+    )
+    {
+        var result = await service.GetResultsPage(id);
+        return Ok(result);
+    }
+
+    [HttpGet]
+    [Route("results/{id}/subject/{subjectId}")]
+    public async Task<ActionResult> GetSubjectResultsPage(
+        [FromServices] IStudentService service,
+        int id, int subjectId
+    )
+    {
+        var result = await service.GetSubjectResultsPage(id, subjectId);
+        return Ok(result);
+    }
 }

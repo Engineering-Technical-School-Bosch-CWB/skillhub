@@ -10,6 +10,7 @@ using Api.Domain.Services;
 using Genesis.Core.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using System.Text.Json.Serialization;
 
 namespace Api;
 
@@ -98,6 +99,9 @@ public class Program
         services.AddScoped<BaseRepository<Course>, CourseRepository>();
         services.AddScoped<ICourseRepository, CourseRepository>();
 
+        services.AddScoped<BaseRepository<Feedback>, FeedbackRepository>();
+        services.AddScoped<IFeedbackRepository, FeedbackRepository>();
+
         services.AddScoped<BaseRepository<CurricularUnit>, CurricularUnitRepository>();
         services.AddScoped<ICurricularUnitRepository, CurricularUnitRepository>();
 
@@ -135,6 +139,7 @@ public class Program
         services.AddScoped<IClassService, ClassService>();
         services.AddScoped<ICourseService, CourseService>();
         services.AddScoped<ICurricularUnitService, CurricularUnitService>();
+        services.AddScoped<IFeedbackService, FeedbackService>();
         services.AddScoped<ILoginService, LoginService>();
         services.AddScoped<IPaginationService, PaginationService>();
         services.AddScoped<IPositionService, PositionService>();
@@ -151,9 +156,13 @@ public class Program
         services.AddAutoMapper(typeof(Program));
         services.AddCors();
 
-        services.AddControllers();
+        services.AddControllers()
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            });
 
-        services.AddAuthorization();
+        services.AddAuthorization();    
         services.AddExceptionHandler<ErrorHandlingMiddleware>();
         services.AddProblemDetails();
         services.AddEndpointsApiExplorer();
