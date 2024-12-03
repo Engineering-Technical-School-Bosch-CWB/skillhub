@@ -5,19 +5,25 @@ import Header from "../../components/Header";
 import Text from "../../typography";
 import TableView from "../../components/TableView";
 import { useState } from "react";
+import { IOption } from "../../components/TableView/interfaces";
+import ContestmentModal from "./components/ContestmentModal";
+import HistoryModal from "./components/HistoryModal";
 
 const data = [
     {
+        id: 1,
         name: "Use I/O operations.",
         status: "Apt",
         average_aptitude: 90
     },
     {
+        id: 2,
         name: "Use generics.",
         status: "Inapt",
         average_aptitude: 68,
     },
     {
+        id: 3,
         name: "Array usage.",
         status: "In Development",
         average_aptitude: 30,
@@ -27,6 +33,28 @@ const data = [
 const SubjectResults = () => {
     const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
     const [isContestmentModalOpen, setIsContestmentModalOpen] = useState(false);
+    const [selectedCompetence, setSelectedCompetence] = useState(-1);
+
+    const handleHistoryModal = (isOpen: boolean, competenceId: number) => {
+        setIsHistoryModalOpen(isOpen);
+        setSelectedCompetence(competenceId);
+    }
+
+    const handleContestmentModal = (isOpen: boolean, competenceId: number) => {
+        setIsContestmentModalOpen(isOpen);
+        setSelectedCompetence(competenceId);
+    }
+
+    const options: IOption[] = [
+        {
+            iconName: "history",
+            function: handleHistoryModal
+        },
+        {
+            iconName: "priority_high",
+            function: handleContestmentModal
+        }
+    ]
     
     return (
         <div>
@@ -49,14 +77,17 @@ const SubjectResults = () => {
                             </div>
                         </div>
                     </div>
-                    <Divider/>
+                    <Divider size="big"/>
                     <div className={styled.competences_section}>
                         <Text fontWeight="bold" fontSize="xl2">Competences</Text>
                         <div className={styled.competences_content}>
-                            <TableView data={data}/>
+                            <TableView data={data} hasNotation={true} hasOptions={true} options={options}/>
                         </div>
                     </div>
                 </div>
+
+                <ContestmentModal isOpen={isContestmentModalOpen} handleIsOpen={handleContestmentModal} competenceId={selectedCompetence}/>
+                <HistoryModal isOpen={isHistoryModalOpen} handleIsOpen={handleHistoryModal} competenceId={selectedCompetence}/>
             </main>
         </div>
     )

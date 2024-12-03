@@ -1,7 +1,11 @@
 import styled from "./styles.module.css";
 
-const Divider = () => {
-    return (<hr className={styled.divider}></hr>)
+interface IDividerProps {
+    size: "big" | "small"
+}
+
+const Divider = ({ size }: IDividerProps) => {
+    return (<hr className={ size === "big" ? styled.big : styled.small}></hr>)
 }
 
 export default Divider;

@@ -39,7 +39,7 @@
     --gray-700: #161616;
     --gray-full: #000000;
 
-    --default-rounding: 10;
+    --default-rounding: 10px;
 }
 
 body {

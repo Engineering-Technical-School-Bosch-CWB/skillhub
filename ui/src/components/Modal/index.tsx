@@ -1,11 +1,15 @@
+import styled from "./styles.module.css"
 import { MouseEventHandler, ReactNode } from "react";
-import styles from "./styles.module.css"
+import Text from "../../typography";
+import Icon from "../Icon";
+import Divider from "../Divider";
 
 interface IModalProps {
     open: boolean;
     handleClose: () => void;
     children?: ReactNode;
     maxWidth?: "xs" | "sm" | "md" | "lg" | "xl";
+    title: string;
 }
 
 /**
@@ -52,7 +56,8 @@ const Modal = ({
     children,
     open,
     handleClose,
-    maxWidth = "md" 
+    maxWidth = "md",
+    title 
 }:IModalProps) => {
 
     const handleModalClick:MouseEventHandler = (e) => {
@@ -61,17 +66,18 @@ const Modal = ({
 
     return open && (
         <div 
-            className={styles.modal_container}
+            className={styled.modal_container}
             onClick={handleClose}
         >
             <div 
-                className={`${styles.modal} ${styles[maxWidth]}`}
+                className={`${styled.modal} ${styled[maxWidth]}`}
                 onClick={handleModalClick}
             >
-                <button 
-                    className={styles.close_button}
-                    onClick={handleClose}
-                >X</button>
+                <div className={styled.header}>
+                    <Text fontWeight="bold" fontSize="xl">{ title }</Text>
+                    <div onClick={handleClose} className={styled.close}><Icon name="close" size="md"/></div>
+                </div>
+                <Divider size="small"/>
 
                 { children }
             </div>

@@ -4,7 +4,7 @@ export interface ITableData {
 
 export interface IOption {
     iconName: string,
-    function: () => {}
+    function: (...props: any[]) => void
 }
 
 export interface ITableViewProps {

@@ -10,6 +10,8 @@
     font-weight: 600;
 }
 
+
+/* ..competences */
 .apt, .inapt, .development {
     display: flex;
     justify-content: center;
@@ -32,4 +34,16 @@
 .development {
     color: rgb(173, 128, 3);
     background-color: #ffec99;
+}
+
+
+/* ..options */
+.options {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.link:hover {
+    cursor: pointer;
 }

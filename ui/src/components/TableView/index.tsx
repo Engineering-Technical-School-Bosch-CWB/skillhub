@@ -18,6 +18,8 @@ import { ITableData, ITableViewProps } from "./interfaces";
 // 
 // the "HASNOTATION" props is expected to be a boolean that indicates whether the 
 // table has the first column as with the notation of the rows or not.
+// 
+// if the 
 // ----*-----
 
 const TableView = ({ data, hasOptions, options, hasNotation }: ITableViewProps) => {
@@ -71,7 +73,9 @@ const TableView = ({ data, hasOptions, options, hasNotation }: ITableViewProps) 
 
                             {
                                 keys.map((key) => (
-                                    <TableCell key={key} align="center" className={styled.head}>{key}</TableCell>
+                                    key != "Id" ?
+                                        <TableCell key={key} align="center" className={styled.head}>{key}</TableCell>
+                                        : <></>
                                 ))
                             }
 
@@ -95,27 +99,30 @@ const TableView = ({ data, hasOptions, options, hasNotation }: ITableViewProps) 
 
                                     {
                                         keys.map((key) => (
-                                            <TableCell key={key} align="center">
-                                                <div className={handleStyle(key, item)}>{item[key]}</div>
-                                            </TableCell>
+                                            key != "Id" ?
+                                                <TableCell key={key} align="center">
+                                                    <div className={handleStyle(key, item)}>{item[key]}</div>
+                                                </TableCell>
+                                                : <></>
                                         ))
                                     }
 
-
                                     {
                                         hasOptions && options ?
-                                            <TableCell key={index} align="center" className={styled.options}>
-                                                {
-                                                    options.map((option) => (
-                                                        <div onClick={option.function}>
-                                                            <Icon 
-                                                                name={option.iconName} 
-                                                                size="md"
-                                                                className={styled.link}
-                                                            />
-                                                        </div>
-                                                    ))
-                                                }
+                                            <TableCell key={index} align="center">
+                                                <div className={styled.options}>
+                                                    {
+                                                        options.map((option) => (
+                                                            <div onClick={() => option.function(true, item.Id)}>
+                                                                <Icon 
+                                                                    name={option.iconName} 
+                                                                    size="md"
+                                                                    className={styled.link}
+                                                                />
+                                                            </div>
+                                                        ))
+                                                    }
+                                                </div>
                                             </TableCell>
                                             : <></>
                                     }
