@@ -16,11 +16,13 @@
     flex-direction: column;
     gap: 15px;
 
-    background-color: var(--gray-0);
-    padding: 20px 25px;
     width: 40%;
     height: fit-content;
+
+    background-color: var(--gray-0);
+    padding: 20px 25px;
     margin-right: 4rem;
+    border-radius: var(--default-rounding);
 }
 
 .feedback_author {

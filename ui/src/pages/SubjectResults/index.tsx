@@ -1,8 +1,8 @@
+import styled from "./styles.module.css";
 import Divider from "../../components/Divider";
 import DoughnutChart from "../../components/Charts/DoughnutChart";
 import Header from "../../components/Header";
 import Text from "../../typography";
-import styled from "./styles.module.css";
 import TableView from "../../components/TableView";
 import { useState } from "react";
 

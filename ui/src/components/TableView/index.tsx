@@ -8,6 +8,16 @@ interface ITableData {
     [key: string]: string | number;
 }
 
+interface IIconData {
+    name: string,
+    onClick: () => {}
+}
+
+interface ITableViewProps {
+    data: ITableData[],
+    hasIcons: boolean
+}
+
 const TableView = ({ data }: { data: ITableData[] }) => {
     const [keys, setKeys] = useState<string[]>([]);
     const [values, setValues] = useState<ITableData[]>([]);
@@ -66,11 +76,8 @@ const TableView = ({ data }: { data: ITableData[] }) => {
                                         </TableCell> 
                                 ))}
                                 <TableCell key={index} align="center" className={styled.options}>
-                                    <Link to={`/`}><Icon name="history" size="md" className={styled.link}/></Link>
-                                    {/* <p className={styled.tooltip}>History</p> */}
-
-                                    <Link to=""><Icon name="priority_high" size="md" className={styled.link}/></Link>
-                                    {/* <p className={styled.tooltip}>Contesting</p> */}
+                                    <div><Icon name="history" size="md" className={styled.link}/></div>
+                                    <div><Icon name="priority_high" size="md" className={styled.link}/></div>
                                 </TableCell>
                             </TableRow>
                         ))}
