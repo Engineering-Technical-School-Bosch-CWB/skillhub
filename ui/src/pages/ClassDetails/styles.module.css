@@ -18,6 +18,7 @@
 }
 
 .chart_section {
+    margin: 4rem 0 0  0;
     justify-content: space-around;
     width: 100%;
 }

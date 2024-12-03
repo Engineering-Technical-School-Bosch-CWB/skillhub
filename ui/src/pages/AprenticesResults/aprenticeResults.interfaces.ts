@@ -8,10 +8,29 @@ export interface IClassCardProps {
     goTo: string
 }
 
+export interface XAxisProps {
+    angle?: number,
+    textAnchor?: string,
+    height?: number,
+    fontSize?: string
+}
+
+export interface ChartStyleProps {
+    width?: number,
+    height?: number,
+}
+
+export interface barStyleProps {
+    XAxisProps?: XAxisProps,
+    ChartProps?: ChartStyleProps
+}
+
 export interface IBarChartProps {
     data: UserSerie<any>[],
     xAxis: string,
-    yAxis: string
+    yAxis: string,
+    onBarClick?: Function,
+    barStyle?: barStyleProps
 }
 
 export interface IDoughnutCharProps {
