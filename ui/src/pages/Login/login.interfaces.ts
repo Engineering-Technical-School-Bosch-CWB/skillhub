@@ -1,4 +1,4 @@
-import { AccessLevel } from "../enums/AccessLevel"
+import { AccessLevel } from "../../enums/AccessLevel"
 
 export interface IUser {
     name: string
