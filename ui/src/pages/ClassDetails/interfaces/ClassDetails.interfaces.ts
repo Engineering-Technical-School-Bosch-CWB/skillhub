@@ -5,6 +5,16 @@ export interface StudentSubject {
     grade?: number
 }
 
+export interface AddModalProps {
+    isOpened: boolean,
+    onClose: Function
+}
+
+export interface ModalContentProps {
+    subject: string,
+    time: number
+}
+
 export interface SubjectExploitation {
     subjectId: number, 
     subject: string,

@@ -7,9 +7,12 @@
     left: 0;
 
     background-color: rgba(0, 0, 0, .5);
+    z-index: 15;
 }
 
 .modal {
+    max-height: 40rem;
+    overflow: auto;
     width: 98%;
     max-width: 600px;
     margin: 20vh auto;
