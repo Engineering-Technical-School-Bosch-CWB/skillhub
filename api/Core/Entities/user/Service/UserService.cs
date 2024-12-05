@@ -12,7 +12,7 @@ namespace Api.Core.Services;
 
 public class UserService(BaseRepository<User> repository, IPositionRepository positionRepository,
     ISectorRepository sectorRepository, IOccupationAreaRepository areaRepository, IStudentService studentService,
-    PasswordHasher<User> hasher, IPaginationService paginationService, ISubjectRepository subjectRepository) : BaseService<User>(repository), IUserService
+    PasswordHasher<User> hasher, IPaginationService paginationService) : BaseService<User>(repository), IUserService
 {
     private readonly BaseRepository<User> _repo = repository;
     private readonly IPositionRepository _positionRepo = positionRepository;
@@ -21,25 +21,28 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
     private readonly PasswordHasher<User> _hasher = hasher;
     private readonly IPaginationService _pagService = paginationService;
     private readonly IStudentService _studentservice = studentService;
-    private readonly ISubjectRepository _subjectRepo = subjectRepository;
 
     public async Task<AppResponse<UserDTO>> CreateUser(UserCreatePayload payload)
     {
         var exists = await _repo.Get()
+            .Where(u => u.IsActive)
             .FirstOrDefaultAsync(u => u.Identification == payload.Identification);
 
         if (exists is not null)
             throw new AlreadyExistsException("EDV already in use!");
 
         var position = await _positionRepo.Get()
+            .Where(p => p.IsActive)
             .SingleOrDefaultAsync(p => p.Id == payload.PositionId)
             ?? throw new NotFoundException("Position not found!");
 
         var sector = await _sectorRepo.Get()
+            .Where(s => s.IsActive)
             .SingleOrDefaultAsync(s => s.Id == payload.SectorId)
             ?? throw new NotFoundException("Sector not found!");
 
         var area = await _areaRepo.Get()
+            .Where(a => a.IsActive)
             .SingleOrDefaultAsync(a => a.Id == payload.OccupationAreaId)
             ?? throw new NotFoundException("Area not found");
 

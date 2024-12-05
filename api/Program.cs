@@ -107,6 +107,9 @@ public class Program
         services.AddScoped<BaseRepository<CurricularUnit>, CurricularUnitRepository>();
         services.AddScoped<ICurricularUnitRepository, CurricularUnitRepository>();
 
+        services.AddScoped<BaseRepository<Objection>, ObjectionRepository>();
+        services.AddScoped<IObjectionRepository, ObjectionRepository>();
+
         services.AddScoped<BaseRepository<OccupationArea>, OccupationAreaRepository>();
         services.AddScoped<IOccupationAreaRepository, OccupationAreaRepository>();
 
@@ -143,6 +146,7 @@ public class Program
         services.AddScoped<ICurricularUnitService, CurricularUnitService>();
         services.AddScoped<IFeedbackService, FeedbackService>();
         services.AddScoped<ILoginService, LoginService>();
+        services.AddScoped<IObjectionService, ObjectionService>();
         services.AddScoped<IPaginationService, PaginationService>();
         services.AddScoped<IPositionService, PositionService>();
         services.AddScoped<ISkillService, SkillService>();
