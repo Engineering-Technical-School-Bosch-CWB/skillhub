@@ -7,18 +7,20 @@
 .explorerContainer {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    gap: 3rem;
+    justify-content: start;
+    align-items: start;
 
     input {
         background-color: var(--white);
+        width: 25rem;
     }
 
     .explorerHeader{
         width: 90%;
-        justify-content: space-around;
+        justify-content: start;
         gap: 2rem;
-        margin: 3rem ;
+        /* margin: 3rem ; */
         flex-wrap: wrap;
 
         .folderBtn {
@@ -40,9 +42,9 @@
 
     .listContainer {
         display: flex;
-        margin: 2rem;
+        /* margin: 2rem; */
         gap: 1rem;
-        justify-content: center;
+        /* justify-content: center; */
         flex-wrap: wrap;
     }
 
@@ -53,25 +55,23 @@
     }
 
     .searchContainer {
-        gap: 1rem;
+        gap: 1rem;        
+    }
+}
 
-        .addBtn {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 3rem;
-            height: 3rem;
-            /* border-radius: 100%; */
-            padding: 0;
-            color: var(--white);
-            background-color: var(--primary-main);
+.addBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 3rem;
+    height: 3rem;
+    /* border-radius: 100%; */
+    padding: 0;
+    color: var(--white);
+    background-color: var(--primary-main);
 
-            &:hover {
-                background-color: var(--primary-dark);
-            }
-        }
-
-        
+    &:hover {
+        background-color: var(--primary-dark);
     }
 }
 

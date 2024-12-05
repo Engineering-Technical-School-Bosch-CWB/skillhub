@@ -1,13 +1,13 @@
 import { useParams } from "react-router-dom";
 import Header from "../../components/Header";
 import ExplorerContainer from "../../components/ExplorerContainer";
-import IIdentificationCardProps from "../../components/ExplorerContainer/Components/IdentificationCard/IIdentificationCardProps";
+import IIdentificationCardProps from "../../components/ExplorerContainer/Components/IdentificationCard/interfaces";
 import Divider from "../../components/Divider";
 import StudentCard from "../../components/StudentCard";
 import { IStudentCardProps } from "../../components/StudentCard/interfaces/IStudentCard.interfaces";
 
 import styles from './styles.module.css'
-import DoughnutChart from "../../components/DoughnutChart";
+import DoughnutChart from "../../components/Charts/DoughnutChart";
 import ContentAreaChart from "./Components/ContentAreaChart";
 import Ranking from "./Components/Ranking";
 import GeneralChart from "./Components/GeneralChart";
@@ -161,38 +161,44 @@ export default () => {
         <div>
             <AddSubjectModal isOpened={modalOpened} onClose={() => setModalOpened(false)} />
             <Header /> 
-            <ExplorerContainer data={courseSubjects} title="Dta 2022" onAddHandle={() => setModalOpened(true)} />
 
-            <Divider />
-            <section className={`${styles.section_title}`}>
-                <Text fontSize="lg" fontWeight="bold" >Detalhes</Text>
-            </section>
-            
-            <section className={`${styles.chart_section} ${styles.align}`}>
-                <DoughnutChart exploitation={75}  />
-                <Ranking {...rankingData} />
+            <main>
+                <section>
+                    <ExplorerContainer data={courseSubjects} title="Dta 2022" onAddHandle={() => setModalOpened(true)} />
+                </section>
 
-                <SubjectBarChart />
-                <GeneralChart />
-                <ContentAreaChart onColumnClicked={columnChartHandle} />
-            </section>
+                <Divider size="big"/>
 
-            <Divider />
-            <section className={`${styles.section_title}`} >
-                <Text fontSize="lg" fontWeight="bold" className={`${styles.section_title}`}>Alunos</Text>
-                
-            </section>
-            <br />
-            <div className={`${styles.student_container} ${styles.align}`} >
-                {
-                    studentCards.map(e => (
-                        <StudentCard  student={e.student} /> 
-                    ))
-                }
-            </div>
-            <br />
-            <br />
-            <br />
+                <section className={styles.chart_container}>
+                    <Text fontSize="xl2" fontWeight="bold" >Detalhes</Text>
+                    
+                    <section className={`${styles.chart_section} ${styles.align}`}>
+                        <DoughnutChart exploitation={75}  title="Overall Exploitation"/>
+                        <Ranking {...rankingData} />
+
+                        <SubjectBarChart />
+                        <GeneralChart />
+                        <ContentAreaChart onColumnClicked={columnChartHandle} />
+                    </section>
+                </section>
+
+                <Divider size="big"/>
+                    
+                <section className={styles.students_section}>
+                    <Text fontSize="xl2" fontWeight="bold" className={`${styles.section_title}`}>Alunos</Text>
+                        
+                    <div className={`${styles.student_container} ${styles.align}`} >
+                        {
+                            studentCards.map(e => (
+                                <StudentCard  student={e.student} /> 
+                            ))
+                        }
+                    </div>
+                    <br />
+                    <br />
+                    <br />
+                </section>
+            </main>
         </div>
     )
 }

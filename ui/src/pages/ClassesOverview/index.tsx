@@ -1,5 +1,5 @@
 import ExplorerContainer from "../../components/ExplorerContainer"
-import IIdentificationCardProps from "../../components/ExplorerContainer/Components/IdentificationCard/IIdentificationCardProps"
+import IIdentificationCardProps from "../../components/ExplorerContainer/Components/IdentificationCard/interfaces"
 import Header from "../../components/Header"
 
 const data: IIdentificationCardProps[] = [
@@ -109,7 +109,9 @@ export default () => {
     return (
         <div>
             <Header />
-            <ExplorerContainer title={"Turmas"} folderPath={"a"} addPath="a" data={data} />
+            <main>
+                <ExplorerContainer title={"Turmas"} folderPath={"a"} data={data} />
+            </main>
         </div>
     )
 }

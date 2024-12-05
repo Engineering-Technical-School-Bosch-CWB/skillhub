@@ -1,4 +1,4 @@
-import SingleBarChart from "../../../../components/SingleBarChart"
+import SingleBarChart from "../../../../components/Charts/SingleBarChart"
 import { ContentAreaChartProps, ContentAreaChartValues } from "../../interfaces/ClassDetails.interfaces"
 import { BarRectangleItem } from "recharts/types/cartesian/Bar"
 

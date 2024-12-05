@@ -8,10 +8,7 @@ import Text from "../../../typography";
 export default function SingleBarChart({ data, xAxis, yAxis, onBarClick, barStyle }: IBarChartProps) {
 
   return (
-    <div style={{ 
-        height: `${barStyle?.ChartProps?.height ?? '250px'}`, 
-        width:  `${barStyle?.ChartProps?.height ?? '450px'}` 
-      }}>
+    <div className={styles.container}>
       <div className={`${styles.bar_title}`}>
         <Text>{data[0].label}</Text>
       </div>

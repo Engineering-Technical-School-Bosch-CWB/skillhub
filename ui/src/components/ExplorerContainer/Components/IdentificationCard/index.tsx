@@ -2,7 +2,7 @@ import { forwardRef } from "react";
 import styles from "./styles.module.css"
 import Text from "../../../../typography";
 import Icon from "../../../Icon";
-import IIdentificationCardProps from "./IIdentificationCardProps";
+import IIdentificationCardProps from "./interfaces";
 import { Link } from "react-router-dom";
 
 
@@ -31,8 +31,8 @@ const IdentificationCard = forwardRef<HTMLButtonElement, IIdentificationCardProp
             </section>
             <section>
                 <div className={`${styles.align}`}>
-                    <Icon size="md" name={icon} />
-                    <Text fontWeight="semibold" fontSize="xl" >{iconDetails}</Text>
+                    <Icon size="md" name={icon} className={styles.icon}/>
+                    <Text fontWeight="bold" fontSize="xl" >{iconDetails}</Text>
                 </div>
             </section>
         </Link>

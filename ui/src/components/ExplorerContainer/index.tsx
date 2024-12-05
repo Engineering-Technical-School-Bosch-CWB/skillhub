@@ -9,7 +9,6 @@ import { IExplorerContainerProps } from "./Interfaces/ExplorerContainer.interfac
 import { Link } from "react-router-dom";
 import Button from "../Button";
 
-
 const ExplorerContainer = ( {folderPath, onAddHandle, title, data}: IExplorerContainerProps ) =>
 {
 
@@ -17,27 +16,27 @@ const ExplorerContainer = ( {folderPath, onAddHandle, title, data}: IExplorerCon
 
     return (
         <div className={`${styles.explorerContainer}`} >
+            <Text fontSize="xl2" fontWeight="bold" >
+                {title}
+            </Text>   
             <div className={`${styles.explorerHeader} ${styles.align}`}>
                 
-                <Text fontSize="xl" fontWeight="bold" >
-                    {title}
-                </Text>   
-                
                 <div className={`${styles.searchContainer} ${styles.align}`}>
-                    {
-                        onAddHandle?
-                            <Button 
-                                className={`${styles.addBtn} ${styles.align}`} 
-                                // to={addPath}
-                                onClick={(e) => onAddHandle!(e)}
-                            >
-                                <Icon name="add" size="md" />
-                            </Button>
-                        : <></>
-                    }
-                    <Input type="text" label="Pesquisar" iconName="search" />
+                    <Input type="text" label="Pesquisar" iconName="search"/>
                 </div>     
-                
+
+                {
+                    onAddHandle?
+                        <Button 
+                            className={`${styles.addBtn} ${styles.align}`} 
+                            // to={addPath}
+                            onClick={(e) => onAddHandle!(e)}
+                        >
+                            <Icon name="add" size="md" />
+                        </Button>
+                    : <></>
+                }
+
                 <SelectView type={view} change={(e : SelectViewType) => setView(e)}/>        
                 
                 {

@@ -19,7 +19,7 @@ export default forwardRef<HTMLImageElement, IStudentCardProps>(
             className={`${styles[size]} ${styles.student_card}`}
             to={`${goTo}`}
         >
-            <Avatar src={student?.image?.image ?? "/avatar.png"} size="large"  /> 
+            <Avatar src={student?.image?.image ?? "/avatar.png"} size="xl"  /> 
             {
                 tooltip &&
                 <span className={styles.tooltip}>{tooltip}</span>

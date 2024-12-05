@@ -4,26 +4,31 @@
     align-items: center;
 }
 
-.section_title {
-    width: 100%;
-    text-align: center;
-    padding: 2rem;
+.students_section {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+
+    .student_container{
+        width: 100%;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: space-around;
+    }
 }
 
-.student_container{
-    width: 100%;
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: space-around;
+.chart_container {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+
+    .chart_section {
+        flex-wrap: wrap;
+        justify-content: space-around;
+        width: 100%;
+    }
 }
 
-.chart_section {
-    /* gap: 3rem ; */
-    flex-wrap: wrap;
-    margin: 4rem 0 0  0;
-    justify-content: space-around;
-    width: 100%;
-}
 .btnArea {
     padding: 0 1rem ;
     width: 100%;

@@ -1,4 +1,4 @@
-import IIdentificationCardProps from "../Components/IdentificationCard/IIdentificationCardProps";
+import IIdentificationCardProps from "../Components/IdentificationCard/interfaces";
 
 export interface IExplorerContainerProps {
     title: string,
