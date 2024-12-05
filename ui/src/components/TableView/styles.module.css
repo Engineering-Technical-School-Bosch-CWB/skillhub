@@ -27,6 +27,7 @@
     height: 2.5rem;
     width: 10rem;
     font-weight: 700;
+    border-radius: 10px;
 }
 
 .apt {
