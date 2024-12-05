@@ -14,15 +14,13 @@ import GeneralChart from "./Components/GeneralChart";
 import SubjectBarChart from "./Components/SubjectBarChart";
 import { RankingChartProps, StudentSubject } from "./interfaces/ClassDetails.interfaces";
 import Text from "../../typography";
-import Modal from "../../components/Modal";
 import { useState } from "react";
-import Form from "../../components/Form";
 import AddSubjectModal from "./Components/AddSubject.Modal";
 
 export default () => {
     const { id } = useParams<{ id: string }>();
-
-    const [modalOpened, setModalOpened] = useState(true);
+    
+    const [modalOpened, setModalOpened] = useState(false);
 
     const courseSubjects: IIdentificationCardProps[] = [
         {
@@ -155,6 +153,10 @@ export default () => {
         })
     }
 
+    const columnChartHandle = (e : any) => {
+        console.log(e);
+    }
+
     return (
         <div>
             <AddSubjectModal isOpened={modalOpened} onClose={() => setModalOpened(false)} />
@@ -177,7 +179,7 @@ export default () => {
             </section>
             
             <section className={`${styles.chart_section} ${styles.align}`}>
-                <ContentAreaChart />
+                <ContentAreaChart onColumnClicked={columnChartHandle} />
             </section>
 
 

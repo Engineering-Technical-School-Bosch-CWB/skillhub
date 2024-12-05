@@ -9,20 +9,6 @@ import Button from "../../../../components/Button"
 
 export default ({isOpened, onClose}: AddModalProps) => {
 
-    const currentContent: ModalContentProps[] = [
-        {
-            subject: "Java Avançado",
-            time: 80
-        },
-        {
-            subject: "C# Avançado",
-            time: 40
-        },
-        {
-            subject: "Banco de Dados",
-            time: 80
-        }
-    ]
     const [content, setContent] = useState<ModalContentProps[]>([
         {
             subject: "",
@@ -43,7 +29,7 @@ export default ({isOpened, onClose}: AddModalProps) => {
     }
 
     const handleSave = () => {
-
+        // connection with API and reload page
     }
 
     return(

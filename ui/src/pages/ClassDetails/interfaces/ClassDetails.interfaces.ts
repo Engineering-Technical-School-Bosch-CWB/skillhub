@@ -27,6 +27,11 @@ export interface GeneralExplotaitionChartProps {
 }
 
 export interface ContentAreaChartProps {
+    data?: ContentAreaChartValues[],
+    onColumnClicked?: Function
+}
+
+export interface ContentAreaChartValues {
     contentAreaId?: number,
     area?: string,
     exploitation?: number

@@ -1,10 +1,10 @@
 import SingleBarChart from "../../../../components/SingleBarChart"
-import { ContentAreaChartProps } from "../../interfaces/ClassDetails.interfaces"
+import { ContentAreaChartProps, ContentAreaChartValues } from "../../interfaces/ClassDetails.interfaces"
 import { BarRectangleItem } from "recharts/types/cartesian/Bar"
 
-export default () => {
+export default ({data, onColumnClicked}: ContentAreaChartProps) => {
 
-    const data: ContentAreaChartProps[] = [
+    const _data: ContentAreaChartValues[] = [
         {
             contentAreaId: 1,
             exploitation:20,
@@ -75,13 +75,13 @@ export default () => {
     const chartData = [
         {
             label: "Content Area",
-            data: data
+            data: data ?? _data
         }
     ]
 
-    const redirect = (e: any) => {
-        console.log(e.payload.subjectId);
-        
+    const handleColumn = (e : any) => {
+        onColumnClicked ? onColumnClicked(e.payload) : "";
+        return e;
     }
 
     return (
@@ -90,7 +90,7 @@ export default () => {
                 data={chartData}
                 xAxis="area"
                 yAxis="exploitation"
-                onBarClick={(e: BarRectangleItem) => redirect(e)}
+                onBarClick={(e: BarRectangleItem) => handleColumn(e)}
                 barStyle={{
                     XAxisProps: {
                         angle:-45,
