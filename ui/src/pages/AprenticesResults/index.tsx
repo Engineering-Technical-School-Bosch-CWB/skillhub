@@ -2,11 +2,8 @@ import styled from "./styles.module.css"
 import Header from "../../components/Header"
 import ExploitationBarChart from "./components/ExploitationBarChart"
 import DoughnutChart from "../../components/Charts/DoughnutChart"
-import Input from "../../components/Input"
-import ClassCard from "./components/ClassCard"
 import Text from "../../typography"
 import Divider from "../../components/Divider"
-import { IClassCardProps } from "./interfaces"
 import ExplorerContainer from "../../components/ExplorerContainer"
 import IIdentificationCardProps from "../../components/ExplorerContainer/Components/IdentificationCard/interfaces"
 
@@ -62,22 +59,6 @@ const AprenticesResults = () => {
                 </div>
                 <Divider size="big"/>
                 <div className={styled.classes_section}>
-                    {/* <div className={styled.filter_container}>
-                        <Input label="Search subjects..." iconName="search" className={styled.input} />
-                    </div>
-                    <div className={styled.card_container}>
-                    {
-                        data.map((item) => (
-                            <ClassCard 
-                                title={item.title}
-                                startDate={item.startDate}    
-                                exploitation={item.exploitation}
-                                color={item.color}
-                                goTo={item.goTo}
-                            />
-                        ))
-                    }
-                    </div> */}
                     <ExplorerContainer title={"Subjects"} data={data} />
                 </div>
             </main>

@@ -1,6 +1,7 @@
 .table {
     box-shadow: none;
     border: var(--default-border);
+    border-radius: 0;
 }
 
 .head, .row {
@@ -26,23 +27,25 @@
 
     height: 2.5rem;
     width: 10rem;
-    font-weight: 700;
-    border-radius: 10px;
+    font-weight: 500;
+    border-radius: 5px;
+    /* font-size: 1rem; */
 }
 
 .apt {
-    color: rgb(4, 102, 12);
-    background-color: #b2f2bb;
+    color: rgb(5, 85, 12);
+    background-color: var(--success-light);
+    /* border: 1px solid rgb(4, 102, 12); */
 }
 
 .inapt {
     color: rgb(155, 3, 3);
-    background-color: #ffc9c9;
+    background-color: var(--danger-light);
 }
 
 .development {
-    color: rgb(173, 128, 3);
-    background-color: #ffec99;
+    color: rgb(143, 102, 13);
+    background-color: var(--warning-light);
 }
 
 

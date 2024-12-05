@@ -11,7 +11,6 @@
     align-items: center;
     padding: 1rem 1.25rem ;
     gap: 1.25rem;
-
     background-color: var(--background-card);
 
     &:hover {
