@@ -30,7 +30,7 @@ const ExplorerContainer = ( {folderPath, onAddHandle, title, data}: IExplorerCon
                         <Button 
                             className={`${styles.addBtn} ${styles.align}`} 
                             // to={addPath}
-                            onClick={(e) => onAddHandle!(e)}
+                            onClick={(e:any) => onAddHandle!(e)}
                         >
                             <Icon name="add" size="md" />
                         </Button>
