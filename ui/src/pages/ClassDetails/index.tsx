@@ -174,11 +174,8 @@ export default () => {
 
                 <SubjectBarChart />
                 <GeneralChart />
-            
-            <section className={`${styles.chart_section} ${styles.align}`}>
                 <ContentAreaChart onColumnClicked={columnChartHandle} />
             </section>
-
 
             <Divider />
             <section className={`${styles.section_title}`} >
