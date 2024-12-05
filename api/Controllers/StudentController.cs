@@ -1,3 +1,6 @@
+using Api.Core.Errors;
+using Api.Core.Services;
+using Api.Domain.Enums;
 using Api.Domain.Models;
 using Api.Domain.Services;
 
@@ -11,33 +14,41 @@ public class StudentController : ControllerBase
 {
     [HttpPost]
     public async Task<ActionResult> CreateStudent(
-        [FromServices] IStudentService service,
+        [FromServices] IStudentService service, UserContext userContext,
         [FromBody] StudentCreatePayload payload
     )
     {
+        if (userContext.PermissionLevel != EPermissionLevel.Admin)
+            throw new ForbiddenAccessException("User don't have permission to this service!");
+
         var result = await service.CreateStudent(payload);
         return Created("api/v1/students", result);
     }
 
     [HttpGet]
-    [Route("results/{id}")]
+    [Route("results")]
     public async Task<ActionResult> GetUserResultsPage(
-    [FromServices] IStudentService service,
-    int id
+        [FromServices] IStudentService service,
+        UserContext userContext
     )
     {
-        var result = await service.GetResultsPage(id);
+        var student = await service.GetByUserId(userContext.UserId)
+            ?? throw new NotFoundException("Student found!");
+        var result = await service.GetResultsPage(student.Id);
         return Ok(result);
     }
 
     [HttpGet]
-    [Route("results/{id}/subject/{subjectId}")]
+    [Route("subjectResults/{subjectId}")]
     public async Task<ActionResult> GetSubjectResultsPage(
         [FromServices] IStudentService service,
-        int id, int subjectId
+        UserContext userContext, int subjectId
     )
     {
-        var result = await service.GetSubjectResultsPage(id, subjectId);
+        var student = await service.GetByUserId(userContext.UserId)
+            ?? throw new NotFoundException("Student found!");
+
+        var result = await service.GetSubjectResultsPage(student.Id, subjectId);
         return Ok(result);
     }
 }

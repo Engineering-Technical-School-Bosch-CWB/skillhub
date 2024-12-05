@@ -1,6 +1,6 @@
 namespace Api.Domain.Enums;
 
-public enum EPositionLevel
+public enum EPermissionLevel
 {
     Student = 1,
     Admin = 2

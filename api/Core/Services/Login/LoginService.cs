@@ -37,9 +37,7 @@ public class LoginService : ILoginService
         );
 
         if(passwordMatches == PasswordVerificationResult.Failed)
-        {
             throw new WrongPasswordException("Wrong password!");
-        }
 
         var userDto = UserDTO.Map(user, null);
         var token = _jwtService.GenerateToken(userDto);

@@ -86,6 +86,8 @@ public class Program
 
         #region Utils
 
+        services.AddScoped<UserContext>();
+
         services.AddSingleton<ConfigurationManager>();
         services.AddSingleton<PasswordHasher<User>>();
 

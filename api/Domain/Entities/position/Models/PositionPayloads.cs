@@ -10,8 +10,8 @@ public class PositionCreatePayload
     public required string Name { get; set; }
 
     [Required]
-    [EnumDataType(typeof(EPositionLevel))]
-    public required EPositionLevel PositionLevel { get; set; }
+    [EnumDataType(typeof(EPermissionLevel))]
+    public required EPermissionLevel PositionLevel { get; set; }
 }
 
 public class PositionUpdatePayload
@@ -19,6 +19,6 @@ public class PositionUpdatePayload
     [StringLength(100)]
     public string? Name { get; set; }
 
-    [EnumDataType(typeof(EPositionLevel))]
-    public EPositionLevel? PositionLevel { get; set; }
+    [EnumDataType(typeof(EPermissionLevel))]
+    public EPermissionLevel? PositionLevel { get; set; }
 }

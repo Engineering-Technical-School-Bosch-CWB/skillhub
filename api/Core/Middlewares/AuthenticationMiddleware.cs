@@ -1,6 +1,4 @@
-using Api.Core.Errors.Authentication;
 using Api.Core.Services;
-using Azure;
 
 namespace Api.Core.Middlewares;
 
