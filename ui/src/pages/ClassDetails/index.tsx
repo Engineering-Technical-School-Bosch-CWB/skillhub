@@ -154,24 +154,18 @@ export default () => {
             <Header /> 
             <ExplorerContainer data={courseSubjects} title="Dta 2022" addPath="/" />
 
-
-
             <Divider />
             <section className={`${styles.section_title}`}>
                 <Text fontSize="lg" fontWeight="bold" >Detalhes</Text>
             </section>
             
             <section className={`${styles.chart_section} ${styles.align}`}>
-                <SubjectBarChart />
                 <DoughnutChart exploitation={75}  />
-            </section>
-
-            <section className={`${styles.chart_section} ${styles.align}`}>
-                <GeneralChart />
                 <Ranking {...rankingData} />
-            </section>
+
+                <SubjectBarChart />
+                <GeneralChart />
             
-            <section className={`${styles.chart_section} ${styles.align}`}>
                 <ContentAreaChart />
             </section>
 

@@ -6,7 +6,7 @@
 
 .ranking_container{
     flex-direction: column;
-    gap: .75rem;
+    gap: .5rem;
     margin: 4rem ;
 
     .ranking_card {

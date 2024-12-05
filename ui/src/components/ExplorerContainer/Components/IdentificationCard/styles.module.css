@@ -3,7 +3,7 @@
 
 
 .identificationCard {
-    border: 0.1px solid rgba(0, 0, 0, 0.2);
+    border: var(--default-border);
     width: 18.75rem;
     cursor: pointer;
     display: flex;
@@ -15,7 +15,7 @@
     background-color: var(--background-card);
 
     &:hover {
-        box-shadow: 0 0 .75rem .05rem rgba(48, 48, 48, 0.623);
+        box-shadow: var();
     }
 
     .identificationCardMarker {
