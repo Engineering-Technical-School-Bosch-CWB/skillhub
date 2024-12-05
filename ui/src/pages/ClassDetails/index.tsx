@@ -169,19 +169,13 @@ export default () => {
             </section>
             
             <section className={`${styles.chart_section} ${styles.align}`}>
-                <SubjectBarChart />
                 <DoughnutChart exploitation={75}  />
-            </section>
-
-            <section className={`${styles.chart_section} ${styles.align}`}>
-                <GeneralChart />
                 <Ranking {...rankingData} />
-            </section>
-            
-            <section className={`${styles.chart_section} ${styles.align}`}>
+
+                <SubjectBarChart />
+                <GeneralChart />
                 <ContentAreaChart onColumnClicked={columnChartHandle} />
             </section>
-
 
             <Divider />
             <section className={`${styles.section_title}`} >

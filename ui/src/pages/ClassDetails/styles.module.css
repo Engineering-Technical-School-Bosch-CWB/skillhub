@@ -18,6 +18,8 @@
 }
 
 .chart_section {
+    /* gap: 3rem ; */
+    flex-wrap: wrap;
     margin: 4rem 0 0  0;
     justify-content: space-around;
     width: 100%;

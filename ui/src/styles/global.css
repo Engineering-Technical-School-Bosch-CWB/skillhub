@@ -6,6 +6,12 @@
     --white: white;
     --black: black;
 
+    --black-transluscent-02: #00000020;
+    --black-transluscent-04: #00000040;
+    --black-transluscent-06: #000000a0;
+    --black-transluscent-08: #000000ce;
+    
+
     --primary-light: #0197ee;
     --primary-light-low-opacity: #0197ee36;
     --primary-main: #00629a;
@@ -41,8 +47,10 @@
     --gray-700: #161616;
     --gray-full: #000000;
 
-    --default-rounding: 10px;
-    --default-border: 1px solid rgba(0, 0, 0, 0.2);
+    --default-border: 0.1px solid rgba(0, 0, 0, 0.2);
+    --default-border-radius: 4px;
+
+    --default-box-shadow: 0 0 10px var(--black-transluscent-02)
 }
 
 body {
