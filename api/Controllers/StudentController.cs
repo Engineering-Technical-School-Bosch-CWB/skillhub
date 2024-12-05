@@ -37,18 +37,4 @@ public class StudentController : ControllerBase
         var result = await service.GetResultsPage(student.Id);
         return Ok(result);
     }
-
-    [HttpGet]
-    [Route("subjectResults/{subjectId}")]
-    public async Task<ActionResult> GetSubjectResultsPage(
-        [FromServices] IStudentService service,
-        UserContext userContext, int subjectId
-    )
-    {
-        var student = await service.GetByUserId(userContext.UserId)
-            ?? throw new NotFoundException("Student found!");
-
-        var result = await service.GetSubjectResultsPage(student.Id, subjectId);
-        return Ok(result);
-    }
 }

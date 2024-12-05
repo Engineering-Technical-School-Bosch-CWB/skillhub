@@ -1,3 +1,5 @@
+using Api.Core.Errors;
+using Api.Core.Services;
 using Api.Domain.Models;
 using Api.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -16,5 +18,19 @@ public class SubjectController : ControllerBase
     {
         var result = await service.CreateSubject(payload);
         return Created("api/v1/subjects", result);
+    }
+
+    [HttpGet]
+    [Route("results/{id}")]
+    public async Task<ActionResult> GetSubjectResultsPage(
+        [FromServices] IStudentService studentService,
+        UserContext userContext, int id
+    )
+    {
+        var student = await studentService.GetByUserId(userContext.UserId)
+            ?? throw new NotFoundException("Student found!");
+
+        var result = await studentService.GetSubjectResultsPage(student.Id, id);
+        return Ok(result);
     }
 }
