@@ -5,6 +5,16 @@ export interface StudentSubject {
     grade?: number
 }
 
+export interface AddModalProps {
+    isOpened: boolean,
+    onClose: Function
+}
+
+export interface ModalContentProps {
+    subject: string,
+    time: number
+}
+
 export interface SubjectExploitation {
     subjectId: number, 
     subject: string,
@@ -17,6 +27,11 @@ export interface GeneralExplotaitionChartProps {
 }
 
 export interface ContentAreaChartProps {
+    data?: ContentAreaChartValues[],
+    onColumnClicked?: Function
+}
+
+export interface ContentAreaChartValues {
     contentAreaId?: number,
     area?: string,
     exploitation?: number

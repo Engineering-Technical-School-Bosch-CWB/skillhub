@@ -3,6 +3,6 @@ import IIdentificationCardProps from "../Components/IdentificationCard/IIdentifi
 export interface IExplorerContainerProps {
     title: string,
     folderPath?: string,
-    addPath?: string,
+    onAddHandle?: Function,
     data: IIdentificationCardProps[]
 }

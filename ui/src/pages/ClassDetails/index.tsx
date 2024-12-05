@@ -14,9 +14,13 @@ import GeneralChart from "./Components/GeneralChart";
 import SubjectBarChart from "./Components/SubjectBarChart";
 import { RankingChartProps, StudentSubject } from "./interfaces/ClassDetails.interfaces";
 import Text from "../../typography";
+import { useState } from "react";
+import AddSubjectModal from "./Components/AddSubject.Modal";
 
 export default () => {
     const { id } = useParams<{ id: string }>();
+    
+    const [modalOpened, setModalOpened] = useState(false);
 
     const courseSubjects: IIdentificationCardProps[] = [
         {
@@ -149,10 +153,15 @@ export default () => {
         })
     }
 
+    const columnChartHandle = (e : any) => {
+        console.log(e);
+    }
+
     return (
         <div>
+            <AddSubjectModal isOpened={modalOpened} onClose={() => setModalOpened(false)} />
             <Header /> 
-            <ExplorerContainer data={courseSubjects} title="Dta 2022" addPath="/" />
+            <ExplorerContainer data={courseSubjects} title="Dta 2022" onAddHandle={() => setModalOpened(true)} />
 
             <Divider />
             <section className={`${styles.section_title}`}>
@@ -166,7 +175,8 @@ export default () => {
                 <SubjectBarChart />
                 <GeneralChart />
             
-                <ContentAreaChart />
+            <section className={`${styles.chart_section} ${styles.align}`}>
+                <ContentAreaChart onColumnClicked={columnChartHandle} />
             </section>
 
 

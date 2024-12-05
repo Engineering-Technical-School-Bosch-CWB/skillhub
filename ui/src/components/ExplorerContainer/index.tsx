@@ -7,9 +7,10 @@ import {SelectView, SelectViewType } from "./Components/SelectView";
 import styles from "./style.module.css";
 import { IExplorerContainerProps } from "./Interfaces/ExplorerContainer.interfaces";
 import { Link } from "react-router-dom";
+import Button from "../Button";
 
 
-const ExplorerContainer = ( {folderPath, addPath, title, data}: IExplorerContainerProps ) =>
+const ExplorerContainer = ( {folderPath, onAddHandle, title, data}: IExplorerContainerProps ) =>
 {
 
     const [view, setView] = useState<SelectViewType>("card");
@@ -24,13 +25,14 @@ const ExplorerContainer = ( {folderPath, addPath, title, data}: IExplorerContain
                 
                 <div className={`${styles.searchContainer} ${styles.align}`}>
                     {
-                        addPath?
-                            <Link 
+                        onAddHandle?
+                            <Button 
                                 className={`${styles.addBtn} ${styles.align}`} 
-                                to={addPath}
+                                // to={addPath}
+                                onClick={(e) => onAddHandle!(e)}
                             >
                                 <Icon name="add" size="md" />
-                            </Link>
+                            </Button>
                         : <></>
                     }
                     <Input type="text" label="Pesquisar" iconName="search" />
