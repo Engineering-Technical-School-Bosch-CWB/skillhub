@@ -3,6 +3,9 @@
 @import url("./toast.css");
 
 :root {
+    --white: white;
+    --black: black;
+
     --primary-light: #0197ee;
     --primary-light-low-opacity: #0197ee36;
     --primary-main: #00629a;
@@ -12,11 +15,11 @@
     --secondary-main: #791d73;
     --secondary-dark: #551151;
     
-    --error-light: #ed0007;
-    --error-main: #be0004;
-    --error-dark: #920002;
+    --danger-light: #e78f8f;
+    --danger-main: #be0004;
+    --danger-dark: #920002;
     
-    --warning-light: #ffcf00;
+    --warning-light: #e9e97c;
     --warning-main: #deb300;
     --warning-dark: #bd9900;
     
@@ -24,10 +27,9 @@
     --info-main: #116864;
     --info-dark: #0a4f4b;
     
-    --success-light: #00884a;
+    --success-light: #67b467;
     --success-main: #006c3a;
     --success-dark: #00512a;
-
 
     --gray-0: #ffffff;
     --gray-100: #eeeeee;
@@ -51,3 +53,4 @@ body {
 main {
     margin: 60px 60px;
 }
+

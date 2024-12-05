@@ -9,5 +9,9 @@ export enum RouteMap {
     BIRTHDAYS = "/birthdays",
 
     SCHOOL_CONTENT = "/school-content",
-    CURRICULAR_UNITY_BY_ID = "/school-content/curricular-unitys/"
+    CURRICULAR_UNITY_BY_ID = "/school-content/curricular-unitys/",
+
+    CLASSES = "/class",
+    CLASS_DETAILS = "/class/:id",
+    SUBJECT_DETAILS = "/class/subject/:id"
 }

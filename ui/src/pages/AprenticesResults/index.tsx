@@ -6,7 +6,7 @@ import Input from "../../components/Input"
 import ClassCard from "./components/ClassCard"
 import Text from "../../typography"
 import Divider from "../../components/Divider"
-import { IClassCardProps } from "./aprenticeResults.interfaces"
+import { IClassCardProps } from "./interfaces"
 
 const data: IClassCardProps[] = [
     {

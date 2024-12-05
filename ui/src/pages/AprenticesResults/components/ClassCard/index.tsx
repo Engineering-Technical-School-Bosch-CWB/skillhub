@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { IClassCardProps } from "../../aprenticeResults.interfaces";
+import { IClassCardProps } from "../../interfaces";
 import Text from "../../../../typography";
 import styled from "./styles.module.css";
 
