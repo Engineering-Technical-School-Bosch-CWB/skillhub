@@ -24,6 +24,8 @@ public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRe
             ?? throw new NotFoundException("Skill not found!");
 
         var history = await _repo.Get()
+            .Include(s => s.Exam)
+            .Include(s => s.Objection)
             .Where(s => s.IsActive)
             .Where(s => s.Student.Id == studentId)
             .OrderByDescending(s => s.EvaluatedAt)
