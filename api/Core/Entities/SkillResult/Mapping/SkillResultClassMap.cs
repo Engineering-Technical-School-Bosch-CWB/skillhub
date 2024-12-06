@@ -45,6 +45,11 @@ public class SkillResultClassMap : IEntityTypeConfiguration<SkillResult>
             .WithMany()
             .HasForeignKey("student_id")
             .HasPrincipalKey(s => s.Id);
+
+        builder.HasOne(s => s.Objection)
+            .WithMany()
+            .HasForeignKey("objection_id")
+            .HasPrincipalKey(o => o.Id);
     }
 }
 

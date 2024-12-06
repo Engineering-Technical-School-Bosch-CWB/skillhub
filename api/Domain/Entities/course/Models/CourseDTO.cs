@@ -6,13 +6,13 @@ namespace Api.Domain.Models
         string? Abbreviation,
         OccupationAreaDTO? OccupationArea
     ){
-        public static CourseDTO Map(Course course)
+        public static CourseDTO Map(Course obj)
             => new(
-                course.Id, 
-                course.Name,
-                course.Abbreviation, 
-                course.DefaultOccupationArea != null 
-                ? OccupationAreaDTO.Map(course.DefaultOccupationArea)
+                obj.Id, 
+                obj.Name,
+                obj.Abbreviation, 
+                obj.DefaultOccupationArea is not null 
+                ? OccupationAreaDTO.Map(obj.DefaultOccupationArea)
                 : null
             );
     };

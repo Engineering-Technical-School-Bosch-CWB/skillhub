@@ -25,7 +25,13 @@
             "positionId": number,
             "sectorId": number,
             "occupationAreaId": number,
-            "permissionLevel": number
+            "permissionLevel": number,
+            "studentProfile": {
+                "overallScore": number,
+				"overallSkillScore": number,
+				"userId": number,
+				"classId": number
+            }
         },
 		"authToken": {
 			"token": string
@@ -61,7 +67,13 @@
         "positionId": number,
         "sectorId": number,
         "occupationAreaId": number,
-        "permissionLevel": number
+        "permissionLevel": number,
+        "studentProfile": {
+            "overallScore": number,
+			"overallSkillScore": number,
+			"userId": number,
+			"classId": number
+        }
     },
     "message": "User created successfully!"
 }
@@ -82,7 +94,13 @@
         "positionId": number,
         "sectorId": number,
         "occupationAreaId": number,
-        "permissionLevel": number
+        "permissionLevel": number,
+        "studentProfile": {
+            "overallScore": number,
+			"overallSkillScore": number,
+			"userId": number,
+			"classId": number
+        }
     },
     "message": "User found!"
 }
@@ -123,7 +141,13 @@
         "positionId": number,
         "sectorId": number,
         "occupationAreaId": number,
-        "permissionLevel": number
+        "permissionLevel": number,
+        "studentProfile": {
+            "overallScore": number,
+			"overallSkillScore": number,
+			"userId": number,
+			"classId": number
+        }
     },
     "message": "User updated successfully!"
 }
@@ -149,7 +173,13 @@
         "positionId": number,
         "sectorId": number,
         "occupationAreaId": number,
-        "permissionLevel": number
+        "permissionLevel": number,
+        "studentProfile": {
+            "overallScore": number,
+			"overallSkillScore": number,
+			"userId": number,
+			"classId": number
+        }
     }
   ],
   "info": {

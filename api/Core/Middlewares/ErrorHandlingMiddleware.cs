@@ -3,6 +3,7 @@ using Api.Core.Errors.Authentication;
 using Api.Core.Errors.JWTService;
 using Api.Core.Errors.Login;
 using Microsoft.AspNetCore.Diagnostics;
+using InvalidDataException = Api.Core.Errors.InvalidDataException;
 
 namespace Api.Core.Middlewares;
 
@@ -14,12 +15,14 @@ public class ErrorHandlingMiddleware : IExceptionHandler
     {
         var error = exception switch
         {
+            AlreadyExistsException  e => new Error(StatusCodes.Status400BadRequest, e.Message),
             DeleteFailException e => new Error(StatusCodes.Status500InternalServerError, e.Message),
-            UpsertFailException e => new Error(StatusCodes.Status500InternalServerError, e.Message),
+            InvalidDataException e => new Error(StatusCodes.Status400BadRequest, e.Message),
             NotFoundException e => new Error(StatusCodes.Status404NotFound, e.Message),
-            AlreadyExistsException e => new Error(StatusCodes.Status400BadRequest, e.Message),
+            UpsertFailException e => new Error(StatusCodes.Status500InternalServerError, e.Message),
 
             // ..authorization 
+            ForbiddenAccessException e => new Error(StatusCodes.Status403Forbidden, e.Message),
             InvalidTokenException e => new Error(StatusCodes.Status400BadRequest, e.Message),
             InvalidHeadersException e => new Error(StatusCodes.Status401Unauthorized, e.Message),
 
@@ -27,6 +30,9 @@ public class ErrorHandlingMiddleware : IExceptionHandler
             UserNotRegisteredException e => new Error(StatusCodes.Status403Forbidden, e.Message),
             NoSuchPositionException e => new Error(StatusCodes.Status404NotFound, e.Message),
             WrongPasswordException e => new Error(StatusCodes.Status401Unauthorized, e.Message),
+
+            // ..server
+            ServiceConfigurationException e => new Error(StatusCodes.Status500InternalServerError, e.Message),
 
             _ => new Error(StatusCodes.Status500InternalServerError, "Unknown server error!")
         };
@@ -36,5 +42,4 @@ public class ErrorHandlingMiddleware : IExceptionHandler
 
         return true;
     }
-
 }

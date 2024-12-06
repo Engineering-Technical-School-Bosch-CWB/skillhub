@@ -10,7 +10,7 @@ namespace Api.Controllers;
 public class ClassController : ControllerBase
 {
     [HttpPost]
-    public async Task<ActionResult> RegisterClass(
+    public async Task<ActionResult> CreateClass(
         [FromServices] IClassService classService,
         [FromBody] ClassCreatePayload payload
     )

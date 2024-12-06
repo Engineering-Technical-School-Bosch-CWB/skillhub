@@ -1,18 +1,18 @@
-using Api.Domain.Models;
+namespace Api.Domain.Models;
 
 public record StudentDTO(
-    double OverallScore,
-    double OverallSkillScore,
-    int UserId,
+    int Id,
+    double? OverallScore,
+    double? OverallSkillScore,
     int ClassId
 )
 {
     public static StudentDTO Map(Student obj)
     {
         return new StudentDTO(
+            obj.Id,
             obj.OverallScore,
             obj.OverallSkillScore,
-            obj.User.Id,
             obj.Class.Id
         );
     }

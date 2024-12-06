@@ -9,12 +9,12 @@ namespace Api.Controllers;
 public class UserController : ControllerBase
 {
     [HttpPost]
-    public async Task<ActionResult> RegisterUser(
-        [FromServices] IUserService userService,
+    public async Task<ActionResult> CreateUser(
+        [FromServices] IUserService service,
         [FromBody] UserCreatePayload payload
     )
     {
-        var result = await userService.CreateUser(payload);
+        var result = await service.CreateUser(payload);
         return Created("/api/v1/users", result);
     }
 
@@ -43,24 +43,26 @@ public class UserController : ControllerBase
 
     [HttpGet]
     [Route("{id}")]
-    public async Task<IActionResult> Get(
+    public async Task<IActionResult> GetUser(
         [FromServices] IUserService service,
         int id
     )
     {
-        var result = await service.Get(id);
+        var result = await service.GetUser(id);
         return Ok(result);
     }
 
     [HttpGet]
-    public async Task<ActionResult> GetPaginated(
+    public async Task<ActionResult> GetPaginatedUsers(
         [FromServices] IUserService service,
         [FromQuery] PaginationQuery pagination,
         [FromQuery] string? query,
-        [FromQuery] short? birthMonth
+        [FromQuery] short? birthMonth,
+        [FromQuery] int? positionId,
+        [FromQuery] int? classId
     )
     {
-        var result = await service.GetPaginated(pagination, query, birthMonth);
+        var result = await service.GetPaginatedUsers(pagination, query, birthMonth, positionId, classId);
         return Ok(result);
     }
 

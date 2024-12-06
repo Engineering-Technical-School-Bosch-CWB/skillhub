@@ -9,33 +9,33 @@ namespace Api.Controllers;
 public class CourseController : ControllerBase
 {
     [HttpPost]
-    public async Task<ActionResult> RegisterCourse(
-        [FromServices] ICourseService CourseService,
+    public async Task<ActionResult> CreateCourse(
+        [FromServices] ICourseService service,
         [FromBody] CourseCreatePayload payload
     )
     {
-        var result = await CourseService.CreateCourse(payload);
-        return Created("/api/v1/courses/register", result);
+        var result = await service.CreateCourse(payload);
+        return Created("/api/v1/courses", result);
     }
 
     [HttpGet]
     [Route("{id}")]
     public async Task<ActionResult> GetCourseById(
-        [FromServices] ICourseService CourseService,
+        [FromServices] ICourseService service,
         int id
     )
     {
-        var result = await CourseService.GetCourseById(id);
+        var result = await service.GetCourseById(id);
         return Ok(result);
     }
 
     [HttpGet]
-    public ActionResult GetAllCourse(
-        [FromServices] ICourseService CourseService,
+    public ActionResult GetAllCourses(
+        [FromServices] ICourseService service,
         [FromQuery] PaginationQuery pagination
     )
     {
-        var result = CourseService.GetCourses(pagination);
+        var result = service.GetCourses(pagination);
         return Ok(result);
     }
 

@@ -260,8 +260,8 @@ namespace api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<float>("ClaimedAptitude")
-                        .HasColumnType("real")
+                    b.Property<short>("ClaimedAptitude")
+                        .HasColumnType("smallint")
                         .HasColumnName("claimed_aptitude");
 
                     b.Property<bool>("IsAccepted")
@@ -276,8 +276,8 @@ namespace api.Migrations
                         .HasColumnType("date")
                         .HasColumnName("objected_at");
 
-                    b.Property<float>("OfficialAptitude")
-                        .HasColumnType("real")
+                    b.Property<short>("OfficialAptitude")
+                        .HasColumnType("smallint")
                         .HasColumnName("official_aptitude");
 
                     b.Property<int>("skill_result_id")
@@ -447,23 +447,26 @@ namespace api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<float?>("Aptitude")
-                        .HasColumnType("real")
+                    b.Property<short?>("Aptitude")
+                        .HasColumnType("smallint")
                         .HasColumnName("aptitude");
 
-                    b.Property<DateOnly>("EvaluatedAt")
-                        .HasColumnType("date")
+                    b.Property<DateTime>("EvaluatedAt")
+                        .HasColumnType("datetime2")
                         .HasColumnName("evaluated_at");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit")
                         .HasColumnName("is_active");
 
-                    b.Property<float>("Weight")
-                        .HasColumnType("real")
+                    b.Property<double>("Weight")
+                        .HasColumnType("float")
                         .HasColumnName("weight");
 
                     b.Property<int?>("exam_id")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("objection_id")
                         .HasColumnType("int");
 
                     b.Property<int>("skill_id")
@@ -479,6 +482,8 @@ namespace api.Migrations
                         .HasName("PK____SkillResult");
 
                     b.HasIndex("exam_id");
+
+                    b.HasIndex("objection_id");
 
                     b.HasIndex("skill_id");
 
@@ -546,11 +551,11 @@ namespace api.Migrations
                         .HasColumnType("bit")
                         .HasColumnName("is_active");
 
-                    b.Property<double>("OverallScore")
+                    b.Property<double?>("OverallScore")
                         .HasColumnType("float")
                         .HasColumnName("overall_score");
 
-                    b.Property<double>("OverallSkillScore")
+                    b.Property<double?>("OverallSkillScore")
                         .HasColumnType("float")
                         .HasColumnName("overall_skill_score");
 
@@ -584,8 +589,8 @@ namespace api.Migrations
                         .HasColumnType("date")
                         .HasColumnName("began_at");
 
-                    b.Property<float>("DurationHours")
-                        .HasColumnType("real")
+                    b.Property<double>("DurationHours")
+                        .HasColumnType("float")
                         .HasColumnName("duration_hours");
 
                     b.Property<bool>("IsActive")
@@ -856,6 +861,10 @@ namespace api.Migrations
                         .WithMany("SkillResults")
                         .HasForeignKey("exam_id");
 
+                    b.HasOne("Api.Domain.Models.Objection", "Objection")
+                        .WithMany()
+                        .HasForeignKey("objection_id");
+
                     b.HasOne("Api.Domain.Models.Skill", "Skill")
                         .WithMany()
                         .HasForeignKey("skill_id")
@@ -873,6 +882,8 @@ namespace api.Migrations
                         .HasForeignKey("subject_id");
 
                     b.Navigation("Exam");
+
+                    b.Navigation("Objection");
 
                     b.Navigation("Skill");
 

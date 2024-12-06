@@ -1,16 +1,20 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace Api.Domain.Models;
-public class CreateCurricularUnitPayload
+
+public class CurricularUnitCreatePayload
 {
-    [StringLength(2)]
+    [Required]
+    [StringLength(255)]
     public required string Name { get; set; }
+
+    [Required]
     public required int SubjectAreaId { get; set; }
 }
 
-public class UpdateCurricularUnitPayload
+public class CurricularUnitUpdatePayload
 {
-    [StringLength(2)]
+    [StringLength(255)]
     public string? Name { get; set; }
     public int? SubjectAreaId { get; set; }
 }

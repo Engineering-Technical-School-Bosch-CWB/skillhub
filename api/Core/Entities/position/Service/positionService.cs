@@ -70,8 +70,9 @@ public class PositionService
     public void SoftDelete(int id)
     {
         var position = repository.GetAllNoTracking()
-                .SingleOrDefault(p => p.Id.Equals(id))
-                    ?? throw new NotFoundException("Position not found!");
+            .Where(p => p.IsActive)
+            .SingleOrDefault(p => p.Id.Equals(id))
+            ?? throw new NotFoundException("Position not found!");
         
         if (!position.IsActive)
             throw new NotFoundException("Position not found!");
@@ -85,8 +86,9 @@ public class PositionService
     public async Task SoftDeleteAsync(int id)
     {
         var position = await repository.GetAllNoTracking()
-                .SingleOrDefaultAsync(p => p.Id.Equals(id))
-                    ?? throw new NotFoundException("Position not found!");
+            .Where(p => p.IsActive)
+            .SingleOrDefaultAsync(p => p.Id.Equals(id))
+            ?? throw new NotFoundException("Position not found!");
         
         if (!position.IsActive)
             throw new NotFoundException("Position not found!");
@@ -99,10 +101,16 @@ public class PositionService
 
     public async Task<AppResponse<PositionDTO>> UpdatePositionAsync(int id, PositionUpdatePayload payload)
     {
-        var currentPosition = await _repo.Get().SingleOrDefaultAsync(p => p.Id.Equals(id))
-                ?? throw new NotFoundException("Position not found.");
+        var currentPosition = await _repo.Get()
+            .Where(p => p.IsActive)
+            .SingleOrDefaultAsync(p => p.Id.Equals(id))
+            ?? throw new NotFoundException("Position not found.");
 
-        _mapper.Map(payload, currentPosition);
+        if (!string.IsNullOrEmpty(payload.Name))
+            currentPosition.Name = payload.Name;
+
+        if (payload.PositionLevel is not null)
+            currentPosition.PositionLevel = (short)payload.PositionLevel.Value;
 
         var result = _repo.Update(currentPosition)
                 ?? throw new UpsertFailException("Could not update position!");

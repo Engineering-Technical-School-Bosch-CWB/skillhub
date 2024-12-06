@@ -5,6 +5,9 @@ namespace Api.Domain.Services;
 
 public interface ICurricularUnitService : IService<CurricularUnit>
 {
-    public AppResponse<CurricularUnitDTO> CreateCurricularUnit(CreateCurricularUnitPayload payload);
-    public AppResponse<CurricularUnitDTO> UpdateCurricularUnit(UpdateCurricularUnitPayload payload);
+    public Task<AppResponse<CurricularUnitDTO>> CreateCurricularUnit(CurricularUnitCreatePayload payload);
+    public Task<AppResponse<CurricularUnitDTO>> UpdateCurricularUnit(int id, CurricularUnitUpdatePayload payload);
+    public Task DeleteCurricularUnit(int id);
+    public Task<AppResponse<CurricularUnitDTO>> GetCurricularUnit(int id);
+    public Task<PaginatedAppResponse<CurricularUnitDTO>> GetPaginatedCurricularUnits(PaginationQuery pagination, string? query, int? subjectAreaId);
 }

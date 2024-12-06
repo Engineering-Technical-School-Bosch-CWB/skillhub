@@ -26,8 +26,9 @@ public class LoginService : ILoginService
             .Include(u => u.OccupationArea)
             .Include(u => u.Position)
             .Include(u => u.Sector)
+            .Where(u => u.IsActive)
             .FirstOrDefaultAsync(u => u.Identification == payload.Identification) ??
-                throw new UserNotRegisteredException("Identification number still not registered!");
+                throw new UserNotRegisteredException("Identification number not registered!");
 
         var passwordMatches = _hasher.VerifyHashedPassword(
             user,
@@ -36,11 +37,9 @@ public class LoginService : ILoginService
         );
 
         if(passwordMatches == PasswordVerificationResult.Failed)
-        {
             throw new WrongPasswordException("Wrong password!");
-        }
 
-        var userDto = UserDTO.Map(user);
+        var userDto = UserDTO.Map(user, null);
         var token = _jwtService.GenerateToken(userDto);
 
         if(passwordMatches == PasswordVerificationResult.Success &&

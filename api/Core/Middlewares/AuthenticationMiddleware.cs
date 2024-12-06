@@ -1,6 +1,4 @@
-using Api.Core.Errors.Authentication;
 using Api.Core.Services;
-using Azure;
 
 namespace Api.Core.Middlewares;
 
@@ -13,11 +11,11 @@ public class AuthenticationMiddleware : IMiddleware
     public AuthenticationMiddleware(JwtService jwtService)
     {
         _jwtService = jwtService;
-        _pathsToSkip = new []
-        {
+        _pathsToSkip =
+        [
             "/api/v1/login",
             "/api/v1/users",
-        };
+        ];
     }
 
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)

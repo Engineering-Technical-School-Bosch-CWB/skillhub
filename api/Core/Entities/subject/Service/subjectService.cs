@@ -48,7 +48,7 @@ public class SubjectService(
         await _repo.SaveAsync();
 
         return new AppResponse<SubjectDTO>(
-            SubjectDTO.Map(createdSubject),
+            SubjectDTO.Map(createdSubject, createdSubject.CurricularUnit.Name + " - " +  createdSubject.Class.Name),
             "Subject created successfully!"
         );
     }

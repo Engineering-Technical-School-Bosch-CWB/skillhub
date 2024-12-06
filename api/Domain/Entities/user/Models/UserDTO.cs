@@ -1,26 +1,26 @@
-namespace Api.Domain.Models
+namespace Api.Domain.Models;
+public record UserDTO(
+    int Id,
+    string Name,
+    DateOnly? Birthday,
+    int PositionId,
+    int SectorId,
+    int OccupationAreaId,
+    short? PermissionLevel,
+    StudentDTO? StudentProfile
+)
 {
-    public record UserDTO(
-        int Id,
-        string Name,
-        DateOnly? Birthday,
-        int PositionId,
-        int SectorId,
-        int OccupationAreaId,
-        short PermissionLevel
-    )
+    public static UserDTO Map(User obj, StudentDTO? student)
     {
-        public static UserDTO Map(User user)
-        {
-            return new UserDTO(
-                user.Id,
-                user.Name,
-                user.Birthday,
-                user.Position.Id,
-                user.Sector.Id,
-                user.OccupationArea.Id,
-                user.Position.PositionLevel
-            );
-        }
+        return new UserDTO(
+            obj.Id,
+            obj.Name,
+            obj.Birthday,
+            obj.Position.Id,
+            obj.Sector.Id,
+            obj.OccupationArea.Id,
+            obj.Position?.PositionLevel,
+            student
+        );
     }
 }

@@ -3,14 +3,15 @@ using Api.Domain.Models;
 public record SubjectDTO(
     int Id,
     int Period,
-    float DurationHours,
+    double DurationHours,
     DateOnly BeganAt,
     int InstructorId,
     int CurricularUnitId,
-    int ClassId
+    int ClassId,
+    string Name
 )
 {
-    public static SubjectDTO Map(Subject obj)
+    public static SubjectDTO Map(Subject obj, string name)
     {
         return new SubjectDTO(
             obj.Id,
@@ -19,7 +20,8 @@ public record SubjectDTO(
             obj.BeganAt,
             obj.Instructor.Id,
             obj.CurricularUnit.Id,
-            obj.Class.Id
+            obj.Class.Id, 
+            name
         );
     }
 }

@@ -33,6 +33,7 @@ public class ObjectionClassMap : IEntityTypeConfiguration<Objection>
             .WithMany(s => s.Objections)
             .HasForeignKey("skill_result_id")
             .HasPrincipalKey(s => s.Id);
+
     }
 }
 
