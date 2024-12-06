@@ -11,99 +11,11 @@
 .content {
     display: flex;
     justify-content: center;
-    width: fit-content;
-    display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 3rem;
-    width: 80%;
 }
 
 .contestment_container {
     display: flex;
     flex-direction: column;
-    width: fit-content;
-    /* border: var(--default-border); */
-    /* padding: 2rem 3rem; */
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    margin: 0 2rem
-}
-
-.contestment {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-/* ..select button */
-.select_button {
-    position: relative;
-}
-
-.options {
-    position: absolute;
-    padding: 0.5rem;
-    border: var(--default-border);
-    width: 10rem;
-
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.options span:hover {
-    cursor: pointer;
-    text-decoration: underline;
-}
-
-.apt, .inapt, .development {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    height: 2.5rem;
-    width: 10rem;
-    font-weight: 500;
-    border-radius: 5px;
-}
-
-.apt:hover, .inapt:hover, .development:hover {
-    cursor: pointer;
-}
-
-.apt {
-    color: rgb(5, 85, 12);
-    background-color: var(--success-light);
-    /* border: 1px solid rgb(4, 102, 12); */
-}
-
-.apt:hover {
-    border: 1px solid rgb(5, 85, 12);
-}
-
-.inapt {
-    color: rgb(155, 3, 3);
-    background-color: var(--danger-light);
-}
-
-.inapt:hover {
-    border: 1px solid rgb(155, 3, 3);
-}
-
-.development {
-    color: rgb(143, 102, 13);
-    background-color: var(--warning-light);
-}
-
-.development:hover {
-    border: 1px solid rgb(143, 102, 13);
-}
-
-.hidden {
-    display: none;
+    width: 70%;
 }
