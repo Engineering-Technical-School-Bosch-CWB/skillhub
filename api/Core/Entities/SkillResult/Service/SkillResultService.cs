@@ -5,6 +5,7 @@ using Api.Domain.Services;
 using Api.Domain.Repositories;
 using Api.Core.Errors;
 using Microsoft.EntityFrameworkCore;
+using System.Drawing;
 
 namespace Api.Core.Services;
 
@@ -36,4 +37,6 @@ public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRe
             "Skill history found!"
         );
     }
+
+    public async Task<AppResponse<SkillResultDTO>> CreateSkillResult()
 }
