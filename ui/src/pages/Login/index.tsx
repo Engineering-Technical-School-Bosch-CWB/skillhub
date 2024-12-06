@@ -1,14 +1,36 @@
+import { useContext } from "react";
 import BoschLogo from "../../components/BoschLogo";
 import Form from "../../components/Form";
 import { IFormInput } from "../../components/Form/types";
 import styles from "./styles.module.css"
+import { UserContext } from "../../contexts/user.context";
+import { useNavigate } from "react-router-dom";
+import internalAPI from "../../service/internal.services";
+import { FieldValues } from "react-hook-form";
+import { toast } from "react-toastify";
 
 const Login = () => {
+    const { setUser } = useContext(UserContext);
+    const navigate = useNavigate();
     
     const fields:IFormInput[] = [
-        { fieldName: "edv", label: "Identification(EDV)", required: true },
-        { fieldName: "password", label: "Password", type: "password", required: false }
+        { fieldName: "Identification", label: "Identification(EDV)", required: true },
+        { fieldName: "Password", label: "Password", type: "password", required: true }
     ];
+
+    const handleSubmit = async (data: FieldValues) => {
+        // console.log(data);
+        const response = await internalAPI.jsonRequest('/login', 'POST', undefined, data);
+
+        if(response.statusCode != 200) {
+            toast.error("Invalid credentials.");
+            return;
+        }
+
+        sessionStorage.setItem("@AUTH", response.data.token);
+        setUser(response.data.user);
+        navigate("/home");
+    }
     
     return (
         <div className={styles.background}>
@@ -17,7 +39,7 @@ const Login = () => {
                 <Form
                     fields={fields}
                     submitText="Enter"
-                    onSubmit={(data) => console.log(data)}
+                    onSubmit={(data) => handleSubmit(data)}
                 >
                 </Form>
             </div>

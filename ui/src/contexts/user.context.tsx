@@ -1,9 +1,9 @@
 import { createContext, ReactNode, useState } from "react"
-import { IUser } from "../interfaces/login.interfaces";
+import IUser from "../interfaces/models/IUser"
 
 interface IUserContext {
     user: IUser | null
-    handleSetUser: (user: IUser | null) => void
+    setUser: (user: IUser | null) => void
 } 
 
 const UserContext = createContext({} as IUserContext)
@@ -20,7 +20,7 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
         <UserContext.Provider
             value={{
                 user,
-                handleSetUser
+                setUser: handleSetUser
             }}
             children={children}
         />
