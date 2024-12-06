@@ -3,6 +3,15 @@
 @import url("./toast.css");
 
 :root {
+    --white: white;
+    --black: black;
+
+    --black-transluscent-02: #00000020;
+    --black-transluscent-04: #00000040;
+    --black-transluscent-06: #000000a0;
+    --black-transluscent-08: #000000ce;
+    
+
     --primary-light: #0197ee;
     --primary-light-low-opacity: #0197ee36;
     --primary-main: #00629a;
@@ -12,11 +21,11 @@
     --secondary-main: #791d73;
     --secondary-dark: #551151;
     
-    --error-light: #ed0007;
-    --error-main: #be0004;
-    --error-dark: #920002;
+    --danger-light: #e78f8f;
+    --danger-main: #be0004;
+    --danger-dark: #920002;
     
-    --warning-light: #ffcf00;
+    --warning-light: #e9e97c;
     --warning-main: #deb300;
     --warning-dark: #bd9900;
     
@@ -24,10 +33,9 @@
     --info-main: #116864;
     --info-dark: #0a4f4b;
     
-    --success-light: #00884a;
+    --success-light: #67b467;
     --success-main: #006c3a;
     --success-dark: #00512a;
-
 
     --gray-0: #ffffff;
     --gray-100: #eeeeee;
@@ -38,9 +46,24 @@
     --gray-600: #2b2b2b;
     --gray-700: #161616;
     --gray-full: #000000;
+
+    --default-border: 0.1px solid rgba(0, 0, 0, 0.2);
+    --default-border-radius: 4px;
+
+    --default-box-shadow: 0 0 10px var(--black-transluscent-02)
 }
 
 body {
     font-family: "BoschSans";
     background-color: var(--gray-100);
+}
+
+main {
+    margin: 60px 60px;
+}
+
+a {
+    text-decoration: none;
+    color: var(--gray-500);
+    font-family: 'BoschSans';
 }

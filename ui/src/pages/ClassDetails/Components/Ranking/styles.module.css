@@ -1,0 +1,30 @@
+.align {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ranking_container{
+    flex-direction: column;
+    gap: .5rem;
+    margin: 4rem ;
+
+    .ranking_card {
+        justify-content: space-between;
+        padding: 1rem 2rem;
+        width: 15rem ;
+        gap: .5rem;
+        max-height: 3rem;
+        border-radius: 5px;
+    }
+
+    .green {
+        background-color: var(--success-light);
+    }
+    .yellow {
+        background-color: var(--warning-light);
+    }
+    .red {
+        background-color: var(--danger-light);
+    }
+}

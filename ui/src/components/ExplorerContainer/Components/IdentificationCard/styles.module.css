@@ -1,0 +1,53 @@
+@import url('../../../../styles/cards.css');
+
+
+
+.identificationCard {
+    border: var(--default-border);
+    width: 18.75rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.25rem ;
+    gap: 1.25rem;
+    background-color: var(--background-card);
+
+    &:hover {
+        box-shadow: var();
+    }
+
+    .identificationCardMarker {
+        width: 1.25rem;
+        height: 2rem;
+    }
+
+    .cardContent {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+        max-width: 100%;
+        margin-left: 1rem ;
+    }
+
+    .icon {
+        font-weight: 600;
+    }
+
+    .seccondLine {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+}
+.align {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.line {
+    width: 100%;
+}

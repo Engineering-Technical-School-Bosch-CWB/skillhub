@@ -1,0 +1,21 @@
+.information {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.title {
+    align-self: flex-start;
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contestment_container {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+}

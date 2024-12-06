@@ -7,29 +7,24 @@
     left: 0;
 
     background-color: rgba(0, 0, 0, .5);
+    z-index: 15;
 }
 
 .modal {
+    max-height: 40rem;
+    overflow: auto;
     width: 98%;
     max-width: 600px;
     margin: 20vh auto;
 
     background-color: var(--gray-0);
-    padding: 30px 10px;
-    box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 15px;
+    padding: 45px;
+    border-radius: 5px;
 
     position: relative;
 }
 
-.close_button {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-
-    border: none;
-    background-color: transparent;
-
-    font-size: 1.3rem;
+.close {
     cursor: pointer;
 }
 
@@ -48,4 +43,10 @@
 }
 .xl {
     max-width: 1200px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }

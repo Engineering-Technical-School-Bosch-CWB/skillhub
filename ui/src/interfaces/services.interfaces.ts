@@ -4,4 +4,5 @@ export interface IServiceResponse<T> {
     data: T | null
     showMessage: () => void
     success: boolean
+    statusCode: number
 }

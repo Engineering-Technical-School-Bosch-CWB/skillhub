@@ -1,11 +1,15 @@
-.small {
+.sm {
     height: 2rem;
 }
-.medium {
+.md {
     height: 3rem;
 }
-.large {
+.lg {
     height: 5rem;
+}
+
+.xl {
+    height: 8rem;
 }
 
 .avatar_container {

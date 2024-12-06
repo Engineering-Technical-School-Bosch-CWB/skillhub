@@ -1,0 +1,62 @@
+.table {
+    box-shadow: none;
+    border: var(--default-border);
+    border-radius: 0;
+}
+
+.head, .row {
+    font-family: "Bosch Sans", sans-serif;
+}
+
+.head {
+    font-weight: 600;
+}
+
+.cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* ..competences */
+.apt, .inapt, .development {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 2.5rem;
+    width: 10rem;
+    font-weight: 500;
+    border-radius: 5px;
+    /* font-size: 1rem; */
+    font-weight: 500;
+}
+
+.apt {
+    color: rgb(5, 85, 12);
+    background-color: var(--success-light);
+    /* border: 1px solid rgb(4, 102, 12); */
+}
+
+.inapt {
+    color: rgb(155, 3, 3);
+    background-color: var(--danger-light);
+}
+
+.development {
+    color: rgb(143, 102, 13);
+    background-color: var(--warning-light);
+}
+
+
+/* ..options */
+.options {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.link:hover {
+    cursor: pointer;
+}

@@ -1,0 +1,38 @@
+.overview_section, .competences_section {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+/* ..overview section */
+.overview_content {
+    display: flex;
+    align-items: center;
+    gap: 8rem
+}
+
+.feedback_card {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    width: 40%;
+    height: fit-content;
+
+    background-color: var(--gray-0);
+    padding: 20px 25px;
+    margin-right: 4rem;
+    border: var(--default-border);
+}
+
+.feedback_author {
+    margin-top: 4rem;
+    align-self: flex-end;
+}
+
+.chart_section {
+    display: flex;
+    gap: 8rem;
+}
+
+/* ..competences section */

@@ -3,14 +3,14 @@ import AprenticesProfile from "../pages/AprenticesProfile";
 import AprenticesResults from "../pages/AprenticesResults";
 import AvaliateAprentices from "../pages/AvaliateAprentices";
 import Birthdays from "../pages/Birthdays";
-import ClassDetais from "../pages/ClassDetais";
+import ClassDetais from "../pages/ClassDetails";
 import {CompleteRegistering} from "../pages/CompleteRegistering";
 import ContentOverview from "../pages/ContentOverview";
 import CreateAvaliation from "../pages/CreateAvaliation";
 import CreateClass from "../pages/CreateClass";
 import CurricularUnitOverview from "../pages/CurricularUnitOverview";
-import {Home} from "../pages/Home";
-import {Login} from "../pages/Login";
+import Home from "../pages/Home";
+import Login from "../pages/Login";
 
 interface IAppRoute {
     path: string;

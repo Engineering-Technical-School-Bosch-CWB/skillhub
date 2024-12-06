@@ -1,12 +1,13 @@
 import BoschLogo from "../../components/BoschLogo";
 import Form from "../../components/Form";
-import { IField } from "../../components/Form/types";
+import { IFormInput } from "../../components/Form/types";
 import styles from "./styles.module.css"
 
-export const Login = () => {
-    const fields: IField[] = [
-        { name: "edv", label: "Identification(EDV)", required: true },
-        { name: "password", label: "Password", type: "password", required: true }
+const Login = () => {
+    
+    const fields:IFormInput[] = [
+        { fieldName: "edv", label: "Identification(EDV)", required: true },
+        { fieldName: "password", label: "Password", type: "password", required: false }
     ];
     
     return (
@@ -23,3 +24,5 @@ export const Login = () => {
         </div>
     )
 }
+
+export default Login;
