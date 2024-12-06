@@ -5,8 +5,13 @@ export enum RouteMap {
 
     HOME = "/home",
     APRENTICES_RESULTS = "/aprentice/results",
+    SUBJECT_RESULTS = "/aprentice/results/subject/:id",
     BIRTHDAYS = "/birthdays",
 
     SCHOOL_CONTENT = "/school-content",
-    CURRICULAR_UNITY_BY_ID = "/school-content/curricular-unitys/"
+    CURRICULAR_UNITY_BY_ID = "/school-content/curricular-unitys/",
+
+    CLASSES = "/class",
+    CLASS_DETAILS = "/class/:id",
+    SUBJECT_DETAILS = "/class/subject/:id"
 }

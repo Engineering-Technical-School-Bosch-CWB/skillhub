@@ -1,0 +1,6 @@
+@import url("./global.css");
+
+
+:root {
+    --background-card: var(--gray-0);
+}

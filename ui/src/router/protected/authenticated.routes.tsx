@@ -5,6 +5,7 @@ import { IAccessRoutes } from "../../interfaces/routes.interfaces";
 import { RouteMap } from "../map";
 import { CompleteRegistering } from "../../pages/CompleteRegistering";
 import AprenticesResults from "../../pages/AprenticesResults";
+import SubjectResults from "../../pages/SubjectResults";
 
 export default {
     accessLevel: AccessLevel.AUTHENTICATED,
@@ -23,6 +24,11 @@ export default {
             path: RouteMap.APRENTICES_RESULTS,
             element: <AprenticesResults/>,
             title: "Aprentices Results",
+        },
+        {
+            path: RouteMap.SUBJECT_RESULTS,
+            element: <SubjectResults/>,
+            title: "Subject Results",
         },
         {
             path: RouteMap.BIRTHDAYS,
