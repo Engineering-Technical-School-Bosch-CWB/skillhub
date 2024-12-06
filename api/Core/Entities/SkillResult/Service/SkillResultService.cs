@@ -11,7 +11,6 @@ namespace Api.Core.Services;
 public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRepository skillRepository)
     : BaseService<SkillResult> (repository), ISkillResultService
 {
-
     private readonly BaseRepository<SkillResult> _repo = repository;
     private readonly ISkillRepository _skillRepo = skillRepository;
 
