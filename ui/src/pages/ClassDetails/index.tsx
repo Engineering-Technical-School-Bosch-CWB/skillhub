@@ -25,7 +25,7 @@ export default () => {
     const courseSubjects: IIdentificationCardProps[] = [
         {
             color: "#1a73e8",
-            goTo: '/subjects/mathematics',
+            goTo: '/class/subject/1',
             subtitle: 'Queila Lima',
             title: "Python",
         },

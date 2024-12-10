@@ -36,3 +36,21 @@
 
     color: var(--primary-dark);
 }
+
+.primary_icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    border: 1px solid var(--primary-main);
+    border-radius: 100%;
+    padding: .5rem;
+    color: var(--primary-main);
+    font-size: x-large;
+    font-weight: 300;
+}
+.primary_icon:hover {
+    background-color: var(--primary-light-low-opacity);
+    border: 1px solid var(--primary-dark);
+    color: var(--primary-dark);
+}
