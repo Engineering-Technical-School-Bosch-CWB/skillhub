@@ -4,7 +4,7 @@ using Api.Domain.Models;
 
 namespace Api.Core.Repositories;
 
-public class Examrepository(SkillhubContext context) 
+public class ExamRepository(SkillhubContext context) 
     : BaseRepository<Exam>(context), IExamRepository
 {
 

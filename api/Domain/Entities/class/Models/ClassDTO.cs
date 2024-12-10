@@ -4,7 +4,7 @@ public record ClassDTO(
     string Name,
     int Id,
     short StartingYear,
-    short DurationPeriods,
+    short? DurationPeriods,
     int CourseId,
     bool IsActive
 )

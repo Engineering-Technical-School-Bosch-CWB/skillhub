@@ -2,10 +2,10 @@ using Api.Domain.Models;
 
 public record SubjectDTO(
     int Id,
-    int Period,
+    int? Period,
     double DurationHours,
-    DateOnly BeganAt,
-    int InstructorId,
+    DateOnly? BeganAt,
+    int? InstructorId,
     int CurricularUnitId,
     int ClassId,
     string Name
@@ -18,7 +18,7 @@ public record SubjectDTO(
             obj.Period,
             obj.DurationHours,
             obj.BeganAt,
-            obj.Instructor.Id,
+            obj.Instructor?.Id,
             obj.CurricularUnit.Id,
             obj.Class.Id, 
             name

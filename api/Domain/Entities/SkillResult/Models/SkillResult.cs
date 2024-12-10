@@ -11,6 +11,7 @@ public partial class SkillResult : IEntity
   public Subject? Subject { get; set; } = null;
   public Exam? Exam { get; set; } = null;
   public Objection? Objection { get; set; } = null;
+  public bool? Accepted { get; set; }
   public required Skill Skill { get; set; }
   public required Student Student { get; set; }
   public ICollection<Objection> Objections { get; set; } = [];

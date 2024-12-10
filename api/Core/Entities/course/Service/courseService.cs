@@ -28,11 +28,8 @@ public class CourseService : BaseService<Course>, ICourseService
     
     public async Task<AppResponse<CourseDTO>> CreateCourse(CourseCreatePayload payload)
     {
-        if (await repository.Get().AnyAsync(c => c.Name.ToLower() == payload.Name.ToLower()))
+        if (await repository.Get().AnyAsync(c => string.Equals(c.Name, payload.Name)))
             throw new AlreadyExistsException("Name of course already exists!");
-
-        if (await repository.Get().AnyAsync(c => c.Abbreviation.ToLower() == payload.Abbreviation.ToLower()))
-            throw new AlreadyExistsException("Abbreviation of course already exists!");
 
         var area = await _areaRepo.Get()
             .SingleOrDefaultAsync(oa => oa.Id == payload.OccupationAreaId)
@@ -110,21 +107,16 @@ public class CourseService : BaseService<Course>, ICourseService
             course.DefaultOccupationArea = area;
         }
 
-        if (!string.IsNullOrEmpty(payload.Name) && payload.Name.ToLower() != course.Name.ToLower())
+        if (!string.IsNullOrEmpty(payload.Name) && !string.Equals(payload.Name, course.Name))
         {
-            if (await repository.GetAllNoTracking().AnyAsync(c => c.Name.ToLower() == payload.Name.ToLower()))
-
+            if (await repository.GetAllNoTracking().AnyAsync(c => string.Equals(c.Name, payload.Name)))
                 throw new AlreadyExistsException("Name of course already exists!");
+
             course.Name = payload.Name;
         }
 
-        if (!string.IsNullOrEmpty(payload.Abbreviation) && payload.Abbreviation.ToLower() != course.Abbreviation.ToLower())
-        {
-            if (await repository.GetAllNoTracking().AnyAsync(c => c.Abbreviation.ToLower() == payload.Abbreviation.ToLower()))
-
-                throw new AlreadyExistsException("Abbreviation of course already exists!");
+        if (!string.IsNullOrEmpty(payload.Abbreviation) && !string.Equals(payload.Abbreviation, course.Abbreviation))
             course.Abbreviation = payload.Abbreviation;
-        }
 
         var updatedCourse =
             repository.Update(course)
