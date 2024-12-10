@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from "react"
+import { createContext, ReactNode, useContext, useState } from "react"
 import IUser from "../interfaces/models/IUser"
 
 interface IUserContext {
@@ -27,4 +27,10 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
     );
 };
 
-export { UserContext, UserProvider };
+const useUserContext = () => {
+    const { user, setUser } = useContext(UserContext);
+
+    return { user, setUser };
+}
+
+export { useUserContext, UserProvider };
