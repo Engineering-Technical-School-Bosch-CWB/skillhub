@@ -3,15 +3,19 @@ namespace Api.Domain.Models;
 public record ExamDTO(
     int Id,
     string Name,
-    SubjectAreaDTO SubjectArea
+    string? Description,
+    DateOnly? AppliedAt,
+    IEnumerable<NewSkillResultDTO> Skills
 )
 {
-    public static CurricularUnitDTO Map(CurricularUnit obj)
+    public static ExamDTO Map(Exam obj, IEnumerable<NewSkillResultDTO> skills)
     {
-        return new CurricularUnitDTO(
+        return new ExamDTO(
             obj.Id,
             obj.Name,
-            SubjectAreaDTO.Map(obj.SubjectArea)
+            obj.Description,
+            obj.AppliedAt,
+            skills
         );
     }
 }

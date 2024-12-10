@@ -1,5 +1,3 @@
-
-
 using Api.Core.Errors;
 using Api.Domain.Models;
 using Api.Domain.Repositories;
@@ -12,7 +10,7 @@ namespace Api.Core.Services;
 
 public class ExamService(BaseRepository<Exam> repository, ISubjectRepository subjectRepository,
         ISkillRepository skillRepository, ISkillResultRepository skillResultRepository, IUserRepository userRepository
-    ) : BaseService<Exam> (repository), IExamService
+    ) : BaseService<Exam>(repository), IExamService
 {
     private readonly BaseRepository<Exam> _repo = repository;
     private readonly ISubjectRepository _subjectRepo = subjectRepository;
@@ -20,44 +18,64 @@ public class ExamService(BaseRepository<Exam> repository, ISubjectRepository sub
     private readonly ISkillResultRepository _skillResultRepo = skillResultRepository;
     private readonly IUserRepository _userRepo = userRepository;
 
-    // public async Task<AppResponse<ExamDTO>> CreateExam(ExamCreatePayload payload)
-    // {
-    //     var subject = await _subjectRepo.Get()
-    //         .Include(s => s.Class.Students)
-    //         .Include(s => s.Instructor)
-    //         .Where(s => s.IsActive)
-    //         .SingleOrDefaultAsync(s => s.Id == payload.SubjectId)
-    //         ?? throw new NotFoundException("Subject not found!");
+    public async Task<AppResponse<ExamDTO>> CreateExam(ExamCreatePayload payload)
+    {
+        var subject = await _subjectRepo.Get()
+            .Include(s => s.Class.Students)
+            .Include(s => s.Instructor)
+            .Where(s => s.IsActive)
+            .SingleOrDefaultAsync(s => s.Id == payload.SubjectId)
+            ?? throw new NotFoundException("Subject not found!");
 
-    //     var skills = new List<Skill>();
+        var instructor = payload.InstructorId.HasValue
+            ? await _userRepo.Get().Where(u => u.IsActive).SingleOrDefaultAsync(u => u.Id == payload.InstructorId.Value)
+            ?? throw new NotFoundException("Instructor not found!")
+            : subject.Instructor;
 
-    //     foreach (var id in payload.Skills)
-    //         skills.Add(
-    //             await _skillRepo.Get()
-    //                 .Where(s => s.IsActive)
-    //                 .SingleOrDefaultAsync(s => s.Id == id)
-    //             ?? throw new NotFoundException("Skill not found!")
-    //         );
+        var newExam = new Exam()
+        {
+            Name = payload.Name,
+            Description = payload.Description,
+            Instructor = instructor,
+            Subject = subject,
+            AppliedAt = payload.ApliedAt
+        };
 
-    //     var instructor = payload.InstructorId.HasValue
-    //         ? await _userRepo.Get().Where(u => u.IsActive).SingleOrDefaultAsync(u => u.Id == payload.InstructorId.Value)
-    //         ?? throw new NotFoundException("Instructor not found!")
-    //         : subject.Instructor;
+        var createdExam = _repo.Add(newExam)
+            ?? throw new UpsertFailException("Exam could not be inserted!");
 
-    //     var newExam = new Exam()
-    //     {
-    //         Name = payload.Name,
-    //         Description = payload.Description,
-    //         Instructor = instructor,
-    //         Subject = subject
-    //     };
+        var skillResults = new List<NewSkillResultDTO>();
 
-    //     foreach (var skill in skills)
-    //     {
-    //         foreach (var student in subject.Class.Students)
-    //         {
-                
-    //         }
-    //     }
-    // }
+        foreach (var obj in payload.Skills)
+        {
+            var skill = await _skillRepo.Get()
+                .Where(s => s.IsActive)
+                .SingleOrDefaultAsync(s => s.Id == obj.SkillId)
+                ?? throw new NotFoundException("Skill not found!");
+
+            foreach (var student in subject.Class.Students)
+            {
+                var skillResult = new SkillResult()
+                {
+                    Weight = obj.Weight ?? 1,
+                    Skill = skill,
+                    Student = student,
+                    Exam = createdExam
+                };
+
+                var createdSkillResult = _skillResultRepo.Add(skillResult)
+                    ?? throw new UpsertFailException("Skill result could not be inserted!");
+
+                skillResults.Add(NewSkillResultDTO.Map(createdSkillResult));
+            }
+        }
+
+        await _repo.SaveAsync();
+        await _skillResultRepo.SaveAsync();
+
+        return new AppResponse<ExamDTO>(
+            ExamDTO.Map(createdExam, skillResults),
+            "Exam created successfully!"
+        );
+    }
 }

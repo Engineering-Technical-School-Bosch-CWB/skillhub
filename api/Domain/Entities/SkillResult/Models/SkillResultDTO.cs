@@ -38,3 +38,19 @@ public record SkillResultHistoryDTO(
         );
     }
 }
+
+public record NewSkillResultDTO(
+    int SkillId,
+    string? Description,
+    double? Weight
+)
+{
+    public static NewSkillResultDTO Map(SkillResult obj)
+    {
+        return new NewSkillResultDTO(
+            obj.Skill.Id,
+            obj.Skill.Description,
+            obj.Weight
+        );
+    }
+}
