@@ -21,7 +21,7 @@ public class UserController : ControllerBase
 
 
     [HttpPatch]
-    [Route("{id}")]
+    [Route("")]
     public async Task<ActionResult> UpdateUser(
         [FromServices] IUserService service,
         [FromBody] UserUpdatePayload payload
