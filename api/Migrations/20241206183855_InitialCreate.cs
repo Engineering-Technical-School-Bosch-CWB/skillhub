@@ -32,7 +32,8 @@ namespace api.Migrations
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    is_active = table.Column<bool>(type: "bit", nullable: false)
+                    is_active = table.Column<bool>(type: "bit", nullable: false),
+                    position_level = table.Column<byte>(type: "tinyint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -154,10 +155,10 @@ namespace api.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     course_id = table.Column<int>(type: "int", nullable: false),
                     starting_year = table.Column<short>(type: "smallint", nullable: false),
-                    duration_peridos = table.Column<byte>(type: "tinyint", nullable: false),
+                    duration_periods = table.Column<byte>(type: "tinyint", nullable: false),
                     is_active = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -221,8 +222,8 @@ namespace api.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    overall_score = table.Column<double>(type: "float", nullable: false),
-                    overall_skill_score = table.Column<double>(type: "float", nullable: false),
+                    overall_score = table.Column<double>(type: "float", nullable: true),
+                    overall_skill_score = table.Column<double>(type: "float", nullable: true),
                     is_active = table.Column<bool>(type: "bit", nullable: false),
                     user_id = table.Column<int>(type: "int", nullable: false),
                     class_id = table.Column<int>(type: "int", nullable: false)
@@ -254,8 +255,8 @@ namespace api.Migrations
                     class_id = table.Column<int>(type: "int", nullable: false),
                     period = table.Column<byte>(type: "tinyint", nullable: false),
                     is_active = table.Column<bool>(type: "bit", nullable: false),
-                    duration_hours = table.Column<float>(type: "real", nullable: false),
-                    began_at = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    duration_hours = table.Column<double>(type: "float", nullable: false),
+                    began_at = table.Column<DateOnly>(type: "date", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -389,49 +390,6 @@ namespace api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "skill_result",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    aptitude = table.Column<float>(type: "real", nullable: true),
-                    weight = table.Column<float>(type: "real", nullable: false),
-                    evaluated_at = table.Column<DateOnly>(type: "date", nullable: false),
-                    is_active = table.Column<bool>(type: "bit", nullable: false),
-                    student_id = table.Column<int>(type: "int", nullable: true),
-                    exam_id = table.Column<int>(type: "int", nullable: true),
-                    skill_id = table.Column<int>(type: "int", nullable: false),
-                    StudentId = table.Column<int>(type: "int", nullable: false),
-                    subject_id = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK____SkillResult", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_skill_result_exam_exam_id",
-                        column: x => x.exam_id,
-                        principalTable: "exam",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_skill_result_skill_skill_id",
-                        column: x => x.skill_id,
-                        principalTable: "skill",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_skill_result_student_StudentId",
-                        column: x => x.StudentId,
-                        principalTable: "student",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_skill_result_subject_student_id",
-                        column: x => x.student_id,
-                        principalTable: "subject",
-                        principalColumn: "id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "attachment",
                 columns: table => new
                 {
@@ -461,8 +419,8 @@ namespace api.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    claimed_aptitude = table.Column<float>(type: "real", nullable: false),
-                    official_aptitude = table.Column<float>(type: "real", nullable: false),
+                    claimed_aptitude = table.Column<short>(type: "smallint", nullable: false),
+                    official_aptitude = table.Column<short>(type: "smallint", nullable: false),
                     objected_at = table.Column<DateOnly>(type: "date", nullable: false),
                     is_accepted = table.Column<bool>(type: "bit", nullable: false),
                     is_active = table.Column<bool>(type: "bit", nullable: false),
@@ -471,12 +429,54 @@ namespace api.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK____Objection", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "skill_result",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    aptitude = table.Column<short>(type: "smallint", nullable: true),
+                    weight = table.Column<double>(type: "float", nullable: false),
+                    evaluated_at = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    is_active = table.Column<bool>(type: "bit", nullable: false),
+                    subject_id = table.Column<int>(type: "int", nullable: true),
+                    exam_id = table.Column<int>(type: "int", nullable: true),
+                    objection_id = table.Column<int>(type: "int", nullable: true),
+                    skill_id = table.Column<int>(type: "int", nullable: false),
+                    student_id = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK____SkillResult", x => x.id);
                     table.ForeignKey(
-                        name: "FK_objection_skill_result_skill_result_id",
-                        column: x => x.skill_result_id,
-                        principalTable: "skill_result",
+                        name: "FK_skill_result_exam_exam_id",
+                        column: x => x.exam_id,
+                        principalTable: "exam",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_skill_result_objection_objection_id",
+                        column: x => x.objection_id,
+                        principalTable: "objection",
+                        principalColumn: "id");
+                    table.ForeignKey(
+                        name: "FK_skill_result_skill_skill_id",
+                        column: x => x.skill_id,
+                        principalTable: "skill",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_skill_result_student_student_id",
+                        column: x => x.student_id,
+                        principalTable: "student",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_skill_result_subject_subject_id",
+                        column: x => x.subject_id,
+                        principalTable: "subject",
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -545,6 +545,11 @@ namespace api.Migrations
                 column: "exam_id");
 
             migrationBuilder.CreateIndex(
+                name: "IX_skill_result_objection_id",
+                table: "skill_result",
+                column: "objection_id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_skill_result_skill_id",
                 table: "skill_result",
                 column: "skill_id");
@@ -555,9 +560,9 @@ namespace api.Migrations
                 column: "student_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_skill_result_StudentId",
+                name: "IX_skill_result_subject_id",
                 table: "skill_result",
-                column: "StudentId");
+                column: "subject_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_specific_objectives_subject_id",
@@ -609,19 +614,60 @@ namespace api.Migrations
                 name: "IX_user_image_user_id",
                 table: "user_image",
                 column: "user_id");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_objection_skill_result_skill_result_id",
+                table: "objection",
+                column: "skill_result_id",
+                principalTable: "skill_result",
+                principalColumn: "id",
+                onDelete: ReferentialAction.Cascade);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_class_course_course_id",
+                table: "class");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_user_occupation_area_occupation_area_id",
+                table: "user");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_curricular_unit_subject_area_subject_area_id",
+                table: "curricular_unit");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_exam_subject_subject_id",
+                table: "exam");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_skill_result_subject_subject_id",
+                table: "skill_result");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_exam_user_instructor_id",
+                table: "exam");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_student_user_user_id",
+                table: "student");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_skill_result_student_student_id",
+                table: "skill_result");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_objection_skill_result_skill_result_id",
+                table: "objection");
+
             migrationBuilder.DropTable(
                 name: "attachment");
 
             migrationBuilder.DropTable(
                 name: "feedback");
-
-            migrationBuilder.DropTable(
-                name: "objection");
 
             migrationBuilder.DropTable(
                 name: "specific_objectives");
@@ -633,34 +679,19 @@ namespace api.Migrations
                 name: "post");
 
             migrationBuilder.DropTable(
-                name: "skill_result");
+                name: "course");
 
             migrationBuilder.DropTable(
-                name: "exam");
+                name: "occupation_area");
 
             migrationBuilder.DropTable(
-                name: "skill");
-
-            migrationBuilder.DropTable(
-                name: "student");
+                name: "subject_area");
 
             migrationBuilder.DropTable(
                 name: "subject");
 
             migrationBuilder.DropTable(
-                name: "class");
-
-            migrationBuilder.DropTable(
-                name: "curricular_unit");
-
-            migrationBuilder.DropTable(
                 name: "user");
-
-            migrationBuilder.DropTable(
-                name: "course");
-
-            migrationBuilder.DropTable(
-                name: "subject_area");
 
             migrationBuilder.DropTable(
                 name: "position");
@@ -669,7 +700,25 @@ namespace api.Migrations
                 name: "sector");
 
             migrationBuilder.DropTable(
-                name: "occupation_area");
+                name: "student");
+
+            migrationBuilder.DropTable(
+                name: "class");
+
+            migrationBuilder.DropTable(
+                name: "skill_result");
+
+            migrationBuilder.DropTable(
+                name: "exam");
+
+            migrationBuilder.DropTable(
+                name: "objection");
+
+            migrationBuilder.DropTable(
+                name: "skill");
+
+            migrationBuilder.DropTable(
+                name: "curricular_unit");
         }
     }
 }
