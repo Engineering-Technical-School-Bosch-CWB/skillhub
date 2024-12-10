@@ -10,8 +10,14 @@ import TableView from "../../components/TableView";
 import { AptitudeEnum } from "../../enums/AptitudeEnum";
 import { IAvaliationTableProps } from "./interfaces/SubjectDetails.interface";
 import AvaliationTable from "./components/AvaliationTable";
+import Link from "../../components/Link";
+import { useParams } from "react-router-dom";
 
 export default () => {
+
+    const params = useParams();
+    const idSubject = params.id;
+    
 
     const [subject, setSubject] = useState<ISubject>({
         classId:1,
@@ -182,15 +188,15 @@ export default () => {
                             <Text fontSize="xl2" fontWeight="bold" >
                                 Avaliações
                             </Text>
-                            <Button variant="primary_icon"><Icon name="add" /></Button>
+                            <Link to={`/class/subject/${idSubject}/new-test`}>
+                                <Button variant="primary_icon"><Icon name="add" /></Button>
+                            </Link>
                         </div>
 
                         {
-                            myAvaliations.map((e, eIndex) => 
+                            myAvaliations.map((e) => 
                             (
-                                <>
-                                    <AvaliationTable {...e} />
-                                </>
+                                <AvaliationTable {...e} />
                             ))
                         }
                     </span>

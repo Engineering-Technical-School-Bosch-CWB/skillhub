@@ -4,8 +4,9 @@ import styles from "./styles.module.css"
 import { RouteMap } from "../../router/map";
 
 interface ILinkProps extends ComponentPropsWithoutRef<'a'> {
-    to: RouteMap;
+    to: string;
 }
+
 
 /**
  * `Link` component: A styled wrapper for `react-router-dom`'s `Link`.
