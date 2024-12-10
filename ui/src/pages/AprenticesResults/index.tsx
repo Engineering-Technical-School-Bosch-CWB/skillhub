@@ -6,6 +6,7 @@ import Text from "../../typography"
 import Divider from "../../components/Divider"
 import ExplorerContainer from "../../components/ExplorerContainer"
 import IIdentificationCardProps from "../../components/ExplorerContainer/Components/IdentificationCard/interfaces"
+import { useEffect } from "react"
 
 const data: IIdentificationCardProps[] = [
     {
@@ -46,6 +47,14 @@ const data: IIdentificationCardProps[] = [
 ]
 
 const AprenticesResults = () => {
+    useEffect(() => {
+        handleFetch();
+    }, []);
+
+    const handleFetch() => {
+
+    }
+
     return (
         <div>
             <Header />

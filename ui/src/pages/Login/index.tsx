@@ -20,7 +20,6 @@ const Login = () => {
 
     const handleSubmit = async (data: FieldValues) => {
         const response = await internalAPI.jsonRequest('/login', 'POST', undefined, data);
-        console.log(response);
 
         if(response.statusCode != 200) {
             toast.error("Invalid credentials.");
