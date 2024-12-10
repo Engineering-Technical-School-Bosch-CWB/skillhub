@@ -53,11 +53,11 @@ const ExplorerContainer = ( {folderPath, onAddHandle, title, data}: IExplorerCon
 
             <div className={`${styles.listContainer} ${view == "list" ? styles.tableListContainer : ''} `}>
                 {
-                    data.map(e => {
+                    data.map((e) => {
                         return (
                             <>
                                 {/* <IdentificationCard color={`${e.color}`} variant={view} title={`${e.title}`} subtitle={`${e.subtitle}`} icon={`${e.icon}`} iconDetails={`${e.iconDetails}`} goTo={`${e.goTo}`} /> */}
-                                <IdentificationCard {...e} />
+                                <IdentificationCard {...e}/>
                             </>
                         )
                     })

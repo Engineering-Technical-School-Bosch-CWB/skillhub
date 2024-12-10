@@ -19,8 +19,8 @@ const Login = () => {
     ];
 
     const handleSubmit = async (data: FieldValues) => {
-        // console.log(data);
         const response = await internalAPI.jsonRequest('/login', 'POST', undefined, data);
+        console.log(response);
 
         if(response.statusCode != 200) {
             toast.error("Invalid credentials.");
@@ -30,6 +30,7 @@ const Login = () => {
         sessionStorage.setItem("@AUTH", response.data.token);
         setUser(response.data.user);
         navigate("/home");
+        toast.success("Logged in successfully!");
     }
     
     return (
