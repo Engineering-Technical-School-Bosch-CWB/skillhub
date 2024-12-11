@@ -1,4 +1,5 @@
 import { AptitudeEnum } from "../../../enums/AptitudeEnum"
+import { StudentsCompetences } from "../Pages/AvaliationResult/components/StudentCompetences/interfaces/StudentCompetences.interface"
 
 interface Competence {
     competenceId: number,
@@ -26,5 +27,10 @@ export interface IAvaliationTableProps {
     idTest?: number,
     name: string,
     date?: Date,
-    data?: AvaliationData
+    data?: StudentsCompetences
+}
+
+
+export interface IStudentsCompetencesProps {
+    
 }

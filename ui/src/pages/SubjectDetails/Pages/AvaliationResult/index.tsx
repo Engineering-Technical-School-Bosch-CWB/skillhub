@@ -20,101 +20,97 @@ export default () => {
             name: 'Prova 01',
             date: new Date(),
             data: {
-                competences: [
+                students: [
                     {
-                        competenceId:1,
-                        weight:1,
-                        efficacy: 0.8,
-                        description: "Aplicar For"
-                    },
-                    {
-                        competenceId:1,
-                        weight:1,
-                        efficacy: 0.8,
-                        description: "Aplicar for"
-                    },
-                    {
-                        competenceId:1,
-                        weight:1,
-                        efficacy: 0.8,
-                        description: "Aplicar For"
-                    },
-                    {
-                        competenceId:1,
-                        weight:1,
-                        efficacy: 0.8,
-                        description: "Aplicar For"
-                    },
-                    {
-                        competenceId:1,
-                        weight:1,
-                        efficacy: 0.8,
-                        description: "Aplicar For"
-                    },
-                    {
-                        competenceId:1,
-                        weight:1,
-                        efficacy: 0.8,
-                        description: "Aplicar For"
-                    },
-                ],
-                students:[
-                    {
-                        name: 'irineu', 
-                        competencesResult: [
+                        userId: 1,
+                        name: "joao 1",
+                        competences: [
                             {
-                                competenceId:1,
-                                aptitude: AptitudeEnum.APT
+                                weight: 1,
+                                aptitude: AptitudeEnum.APT,
+                                skill: {
+                                    curricularUnitId:1,
+                                    description: "Aplicar for",
+                                    evaluationCriteria: "",
+                                }
+                            },
+                            {
+                                weight: 2,
+                                skill: {
+                                    curricularUnitId:1,
+                                    description: "Aplicar for",
+                                    evaluationCriteria: "",
+                                }
                             }
                         ]
                     },
                     {
-                        name: 'Jonas', 
-                        competencesResult: [
+                        userId: 2,
+                        name: "irineu 2",
+                        competences: [
                             {
-                                competenceId:1,
-                                aptitude: AptitudeEnum.INAPT
-                            }    
+                                weight: 1,
+                                skill: {
+                                    curricularUnitId:1,
+                                    description: "Aplicar for",
+                                    evaluationCriteria: "",
+                                }
+                            },
+                            {
+                                weight: 2,
+                                skill: {
+                                    curricularUnitId:1,
+                                    description: "Aplicar for",
+                                    evaluationCriteria: "",
+                                }
+                            }
                         ]
                     },
                     {
-                        name: 'Josias', 
-                        competencesResult: [
+                        userId: 3,
+                        name: "irineu 3",
+                        competences: [
                             {
-                                competenceId:1,
-                                aptitude: AptitudeEnum.DEVELOPMENT
-                            }    
+                                weight: 1,
+                                skill: {
+                                    curricularUnitId:1,
+                                    description: "Aplicar for",
+                                    evaluationCriteria: "",
+                                }
+                            },
+                            {
+                                weight: 2,
+                                skill: {
+                                    curricularUnitId:1,
+                                    description: "Aplicar for",
+                                    evaluationCriteria: "",
+                                }
+                            }
                         ]
                     },
                     {
-                        name: 'Josias', 
-                        competencesResult: [
+                        userId: 4,
+                        name: "irineu 4",
+                        competences: [
                             {
-                                competenceId:1,
-                                aptitude: AptitudeEnum.DEVELOPMENT
-                            }    
-                        ]
-                    },
-                    {
-                        name: 'Josias', 
-                        competencesResult: [
+                                weight: 1,
+                                skill: {
+                                    curricularUnitId:1,
+                                    description: "Aplicar for",
+                                    evaluationCriteria: "",
+                                }
+                            },
                             {
-                                competenceId:1,
-                                aptitude: AptitudeEnum.DEVELOPMENT
-                            }    
-                        ]
-                    },
-                    {
-                        name: 'Josias', 
-                        competencesResult: [
-                            {
-                                competenceId:1,
-                                aptitude: AptitudeEnum.DEVELOPMENT
-                            }    
+                                weight: 2,
+                                skill: {
+                                    curricularUnitId:1,
+                                    description: "Aplicar for",
+                                    evaluationCriteria: "",
+                                }
+                            }
                         ]
                     }
                 ]
-
             }
         }
     ]

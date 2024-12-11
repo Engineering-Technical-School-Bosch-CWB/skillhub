@@ -4,38 +4,43 @@ import { AptitudeEnum } from "../../../../../../enums/AptitudeEnum";
 import styles from './styles.module.css';
 import Text from "../../../../../../typography";
 
-export default () => {
-    const [competence, setCompetence] = useState<AptitudeEnum>();
+export interface ISelectCompetenceProps {
+    isDefault?: AptitudeEnum | null,
+    change?: (value: any) => void
+}
+
+export default ( {isDefault, change}: ISelectCompetenceProps ) => {
+
+    const [competence, setCompetence] = useState<AptitudeEnum | null>(isDefault ?? null);
 
     const [selectOpened, setSelectOpened] = useState(false);
 
-    const change = (aptitude: AptitudeEnum) => {
+    const handleChange = (aptitude: AptitudeEnum | null) => {
         setCompetence(aptitude);
+        change?.(aptitude);
         setSelectOpened(false);
-        onChange();
     }
 
     const onHandleKeyPress = (event: KeyboardEvent) => {
         const pressed = event.key.toLowerCase();
-        let option: AptitudeEnum;
+        let option: AptitudeEnum | null;
         switch (pressed) {
-            case 'a':
+            case '1':
                 option = AptitudeEnum.APT
                 break;
-            case 'i':
+            case '3':
                 option = AptitudeEnum.INAPT
                 break;
-            case 'd':
+            case '2':
                 option = AptitudeEnum.DEVELOPMENT
                 break;
-            default:
+            case 'backspace':
+                option = null
                 break;
-        }
-        change(option!);
-    }
-
-    const onChange = () : AptitudeEnum => {
-        return competence!
+            default:    
+                return;
+         }
+        handleChange(option);
     }
 
     useEffect(() => {
@@ -55,24 +60,24 @@ export default () => {
                 <div className={`${styles.select_container}`}>
                     <div 
                         className={`${styles.select_cell} ${styles.APT}`} 
-                        onClick={() => change(AptitudeEnum.APT)} 
+                        onClick={() => handleChange(AptitudeEnum.APT)} 
                         >
                         <Text>{AptitudeEnum.APT}</Text>
-                        <Text fontSize="xs">(a)</Text>
-                    </div>
-                    <div 
-                        className={`${styles.select_cell} ${styles.INAPT}`} 
-                        onClick={() => change(AptitudeEnum.INAPT)} 
-                        >
-                        <Text>{AptitudeEnum.INAPT}</Text>
-                        <Text fontSize="xs">(i)</Text>
+                        <Text fontSize="xs">(1)</Text>
                     </div>
                     <div 
                         className={`${styles.select_cell} ${styles.DEVELOPMENT}`} 
-                        onClick={() => change(AptitudeEnum.DEVELOPMENT)} 
+                        onClick={() => handleChange(AptitudeEnum.DEVELOPMENT)} 
                         >
                         <Text>{AptitudeEnum.DEVELOPMENT}</Text>
-                        <Text fontSize="xs">(d)</Text>
+                        <Text fontSize="xs">(2)</Text>
+                    </div>
+                    <div 
+                        className={`${styles.select_cell} ${styles.INAPT}`} 
+                        onClick={() => handleChange(AptitudeEnum.INAPT)} 
+                        >
+                        <Text>{AptitudeEnum.INAPT}</Text>
+                        <Text fontSize="xs">(3)</Text>
                     </div>
                 </div>
             }

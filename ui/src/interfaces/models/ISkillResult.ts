@@ -1,3 +1,4 @@
+import { AptitudeEnum } from "../../enums/AptitudeEnum";
 import IEntity from "./IEntity";
 import { IExam } from "./IExam";
 import { ISkill } from "./ISkill";
@@ -5,7 +6,7 @@ import { ISubject } from "./ISubject";
 
 export interface ISkillResult extends IEntity {
 
-    aptitude: number,
+    aptitude?: AptitudeEnum,
     weight: number,
     evaluatedAt?: Date,
     studentId?: number,
