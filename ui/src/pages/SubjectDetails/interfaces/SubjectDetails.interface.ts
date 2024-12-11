@@ -12,7 +12,7 @@ interface CompetenceResult {
     aptitude: AptitudeEnum
 }
 
-interface StudentAvaliationData {
+export interface StudentAvaliationData {
     name: string,
     competencesResult: CompetenceResult[]
 }
@@ -23,6 +23,8 @@ interface AvaliationData {
 }
 
 export interface IAvaliationTableProps {
+    idTest?: number,
     name: string,
-    data: AvaliationData
+    date?: Date,
+    data?: AvaliationData
 }

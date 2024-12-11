@@ -11,7 +11,6 @@ export default () => {
 
     const submitForm = (e : any) => {
         console.log(e);
-        
     }
 
     return (
@@ -35,10 +34,7 @@ export default () => {
                         fieldName: "Description",
                         label: "Description"
                     },
-                    {
-                        fieldName:'Competences',
-                        
-                    },
+
                     {
                         fieldName: 'cb1',
                         type: "checkBox",

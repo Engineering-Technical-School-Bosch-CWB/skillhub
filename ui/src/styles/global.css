@@ -51,7 +51,7 @@
     --default-border: 0.1px solid rgba(0, 0, 0, 0.2);
     --danger-border: 1px solid rgba(255, 0, 0, .5);
     --default-border-radius: 4px;
-
+    --divider-background: var(--gray-400) ;
     --default-box-shadow: 0 0 10px var(--black-transluscent-02)
 }
 

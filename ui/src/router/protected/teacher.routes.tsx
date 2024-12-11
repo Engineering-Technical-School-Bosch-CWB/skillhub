@@ -6,7 +6,8 @@ import { RouteMap } from "../map";
 import ClassesOverview from "../../pages/ClassesOverview";
 import ClassDetails from "../../pages/ClassDetails";
 import SubjectDetails from "../../pages/SubjectDetails";
-import NewTest from "../../pages/SubjectDetails/components/NewTest";
+import NewTest from "../../pages/SubjectDetails/Pages/NewTest";
+import AvaliationResult from "../../pages/SubjectDetails/Pages/AvaliationResult";
 
 export default {
     accessLevel: AccessLevel.TEACHER,
@@ -40,6 +41,10 @@ export default {
         {
             path: RouteMap.NEW_SUBJECT_TEST,
             element: <NewTest />
+        },
+        {
+            path: RouteMap.AVALIATION_RESULT,
+            element: <AvaliationResult />
         }
     ]
 } as IAccessRoutes

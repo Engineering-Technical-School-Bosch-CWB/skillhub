@@ -4,14 +4,17 @@ import styles from '../../styles.module.css';
 
 
 
-export default ({name, data}: IAvaliationTableProps) => {
+export default ({name, data, date}: IAvaliationTableProps) => {
 
     return (
         <>
             <br />
-                <div className={`${styles.table_header}`}>
+                <div className={`${styles.table_header} ${styles.align}`}>
                     <Text fontSize="lg" fontWeight="bold" >
                         {name}
+                    </Text>
+                    <Text fontSize="sm">
+                        {date?.getDate()}/{date?.getMonth()}/{date?.getFullYear()}
                     </Text>
                 </div>
                 <div className={`${styles.tables}`}>
@@ -22,7 +25,7 @@ export default ({name, data}: IAvaliationTableProps) => {
                             <th>Efficacy</th>
                         </tr>
                         {
-                            data.competences.map(competence => (
+                            data?.competences.map(competence => (
                                 <>
                                     <tr>
                                         <td className={`${styles.competence_cell}`}>{competence.description}</td>
@@ -38,17 +41,17 @@ export default ({name, data}: IAvaliationTableProps) => {
                     <table className={`${styles.result_table}`}>
                         <tr>
                             {
-                                data.students.map(estudent => (
+                                data?.students.map(estudent => (
                                     <th>{estudent.name}</th>
                                 ))
                             }
                         </tr>
                         {
-                            data.competences.map(competence => (
+                            data?.competences.map(competence => (
                                 <>
                                     <tr>
                                         {
-                                            data.students.map(student => (
+                                            data?.students.map(student => (
                                                 <>
                                                     <td className={`${styles.result_cell} ${styles[student.competencesResult.filter(c => c.competenceId == competence.competenceId)[0].aptitude]}`}>
                                                         {student.competencesResult.filter(c => c.competenceId == competence.competenceId)[0].aptitude}

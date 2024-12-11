@@ -12,6 +12,8 @@ import { IAvaliationTableProps } from "./interfaces/SubjectDetails.interface";
 import AvaliationTable from "./components/AvaliationTable";
 import Link from "../../components/Link";
 import { useParams } from "react-router-dom";
+import NewTestShortcut from "./components/NewTestShortcut";
+import Divider from "../../components/Divider";
 
 export default () => {
 
@@ -64,7 +66,14 @@ export default () => {
 
     const myAvaliations : IAvaliationTableProps[] = [
         {
+            idTest: 2,
+            name: 'Prova 02',
+            date: new Date()
+        },
+        {
+            idTest: 1,
             name: 'Prova 01',
+            date: new Date(),
             data: {
                 competences: [
                     {
@@ -194,10 +203,22 @@ export default () => {
                         </div>
 
                         {
-                            myAvaliations.map((e) => 
-                            (
-                                <AvaliationTable {...e} />
-                            ))
+                            myAvaliations.map((e) => {
+                                if (e.data == null) 
+                                    return ( 
+                                        <>
+                                            <NewTestShortcut {...e} /> 
+                                            <Divider size="big" />
+                                        </>
+                                    )
+                                return ( 
+                                    <>
+                                        <AvaliationTable {...e} /> 
+                                        <Divider size="big" />
+                                    </>
+                                )
+                                }
+                            )
                         }
                     </span>
                 </section>

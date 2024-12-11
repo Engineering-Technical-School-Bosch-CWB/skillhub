@@ -3,6 +3,12 @@
     justify-content: center;
     align-items: center;
 }
+.new_test_shortcut_container {
+    justify-content: space-between;
+}
+.shortcut_header{
+    gap: 1rem;
+}
 .title_section {
     width: 100%;
     height: 4rem;
@@ -18,7 +24,10 @@
     gap: 2rem;
 }
 .table_header {
-    padding: 1rem;
+    padding: 0 1rem 1rem 1rem ;
+    justify-content: start  ;
+    gap: 1rem;
+    align-items: flex-end;
 }
 .tables{ 
     display: flex;

@@ -1,4 +1,6 @@
 import IEntity from "./IEntity";
+import { IExam } from "./IExam";
+import { ISkill } from "./ISkill";
 import { ISubject } from "./ISubject";
 
 export interface ISkillResult extends IEntity {
@@ -11,8 +13,8 @@ export interface ISkillResult extends IEntity {
     skillId?: number,
     subjectId?: number,
     objectionId?: number,
-    exam?: number,
-    skill?: number,
+    exam?: IExam,
+    skill?: ISkill,
     subject?: ISubject,
     objection?: number,
 
