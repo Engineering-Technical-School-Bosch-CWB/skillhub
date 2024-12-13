@@ -7,13 +7,13 @@ import Text from "../../typography";
 import Button from "../../components/Button";
 import Icon from "../../components/Icon";
 import TableView from "../../components/TableView";
-import { AptitudeEnum } from "../../enums/AptitudeEnum";
 import { IAvaliationTableProps } from "./interfaces/SubjectDetails.interface";
 import AvaliationTable from "./components/AvaliationTable";
 import Link from "../../components/Link";
 import { useParams } from "react-router-dom";
 import NewTestShortcut from "./components/NewTestShortcut";
 import Divider from "../../components/Divider";
+import ReturnButton from "../../components/ReturnButton";
 
 export default () => {
 
@@ -70,108 +70,108 @@ export default () => {
             name: 'Prova 02',
             date: new Date()
         },
-        {
-            idTest: 1,
-            name: 'Prova 01',
-            date: new Date(),
-            data: {
-                competences: [
-                    {
-                        competenceId:1,
-                        weight:1,
-                        efficacy: 0.8,
-                        description: "Aplicar For"
-                    },
-                    {
-                        competenceId:1,
-                        weight:1,
-                        efficacy: 0.8,
-                        description: "Aplicar ForrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrForrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr"
-                    },
-                    {
-                        competenceId:1,
-                        weight:1,
-                        efficacy: 0.8,
-                        description: "Aplicar For"
-                    },
-                    {
-                        competenceId:1,
-                        weight:1,
-                        efficacy: 0.8,
-                        description: "Aplicar For"
-                    },
-                    {
-                        competenceId:1,
-                        weight:1,
-                        efficacy: 0.8,
-                        description: "Aplicar For"
-                    },
-                    {
-                        competenceId:1,
-                        weight:1,
-                        efficacy: 0.8,
-                        description: "Aplicar For"
-                    },
-                ],
-                students:[
-                    {
-                        name: 'irineu', 
-                        competencesResult: [
-                            {
-                                competenceId:1,
-                                aptitude: AptitudeEnum.APT
-                            }
-                        ]
-                    },
-                    {
-                        name: 'Jonas', 
-                        competencesResult: [
-                            {
-                                competenceId:1,
-                                aptitude: AptitudeEnum.INAPT
-                            }    
-                        ]
-                    },
-                    {
-                        name: 'Josias', 
-                        competencesResult: [
-                            {
-                                competenceId:1,
-                                aptitude: AptitudeEnum.DEVELOPMENT
-                            }    
-                        ]
-                    },
-                    {
-                        name: 'Josias', 
-                        competencesResult: [
-                            {
-                                competenceId:1,
-                                aptitude: AptitudeEnum.DEVELOPMENT
-                            }    
-                        ]
-                    },
-                    {
-                        name: 'Josias', 
-                        competencesResult: [
-                            {
-                                competenceId:1,
-                                aptitude: AptitudeEnum.DEVELOPMENT
-                            }    
-                        ]
-                    },
-                    {
-                        name: 'Josias', 
-                        competencesResult: [
-                            {
-                                competenceId:1,
-                                aptitude: AptitudeEnum.DEVELOPMENT
-                            }    
-                        ]
-                    }
-                ]
+        // {
+        //     idTest: 1,
+        //     name: 'Prova 01',
+        //     date: new Date(),
+        //     data: {
+        //         competences: [
+        //             {
+        //                 competenceId:1,
+        //                 weight:1,
+        //                 efficacy: 0.8,
+        //                 description: "Aplicar For"
+        //             },
+        //             {
+        //                 competenceId:1,
+        //                 weight:1,
+        //                 efficacy: 0.8,
+        //                 description: "Aplicar ForrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrForrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr"
+        //             },
+        //             {
+        //                 competenceId:1,
+        //                 weight:1,
+        //                 efficacy: 0.8,
+        //                 description: "Aplicar For"
+        //             },
+        //             {
+        //                 competenceId:1,
+        //                 weight:1,
+        //                 efficacy: 0.8,
+        //                 description: "Aplicar For"
+        //             },
+        //             {
+        //                 competenceId:1,
+        //                 weight:1,
+        //                 efficacy: 0.8,
+        //                 description: "Aplicar For"
+        //             },
+        //             {
+        //                 competenceId:1,
+        //                 weight:1,
+        //                 efficacy: 0.8,
+        //                 description: "Aplicar For"
+        //             },
+        //         ],
+        //         students:[
+        //             {
+        //                 name: 'irineu', 
+        //                 competencesResult: [
+        //                     {
+        //                         competenceId:1,
+        //                         aptitude: AptitudeEnum.APT
+        //                     }
+        //                 ]
+        //             },
+        //             {
+        //                 name: 'Jonas', 
+        //                 competencesResult: [
+        //                     {
+        //                         competenceId:1,
+        //                         aptitude: AptitudeEnum.INAPT
+        //                     }    
+        //                 ]
+        //             },
+        //             {
+        //                 name: 'Josias', 
+        //                 competencesResult: [
+        //                     {
+        //                         competenceId:1,
+        //                         aptitude: AptitudeEnum.DEVELOPMENT
+        //                     }    
+        //                 ]
+        //             },
+        //             {
+        //                 name: 'Josias', 
+        //                 competencesResult: [
+        //                     {
+        //                         competenceId:1,
+        //                         aptitude: AptitudeEnum.DEVELOPMENT
+        //                     }    
+        //                 ]
+        //             },
+        //             {
+        //                 name: 'Josias', 
+        //                 competencesResult: [
+        //                     {
+        //                         competenceId:1,
+        //                         aptitude: AptitudeEnum.DEVELOPMENT
+        //                     }    
+        //                 ]
+        //             },
+        //             {
+        //                 name: 'Josias', 
+        //                 competencesResult: [
+        //                     {
+        //                         competenceId:1,
+        //                         aptitude: AptitudeEnum.DEVELOPMENT
+        //                     }    
+        //                 ]
+        //             }
+        //         ]
 
-            }
-        }
+        //     }
+        // }
     ]
 
     const getData = () => {
@@ -184,7 +184,7 @@ export default () => {
         <>
             <Header />
             <main>
-
+                <ReturnButton/>
                 <section className={`${styles.title_section} ${styles.align}`}>
                     <Text fontSize="xl2" fontWeight="bold">{subject.name}</Text>
                     <Text>{subject.class?.name}</Text>

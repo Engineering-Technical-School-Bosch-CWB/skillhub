@@ -4,6 +4,7 @@ import Text from "../../../../typography";
 import Form from "../../../../components/Form";
 
 import styles from './styles.module.css';
+import ReturnButton from "../../../../components/ReturnButton";
 
 export default () => {
 
@@ -17,8 +18,10 @@ export default () => {
         <>
             <Header />
             <main>
-                <section className={`${styles.section_header}`}>
+                <section className={`${styles.section_header} ${styles.align}`}>
+                    <ReturnButton />
                     <Text fontSize="xl2" fontWeight="extrabold"> Nova Avaliação</Text>
+                    <span></span>
                 </section>
                 <Form fields={[
                     {

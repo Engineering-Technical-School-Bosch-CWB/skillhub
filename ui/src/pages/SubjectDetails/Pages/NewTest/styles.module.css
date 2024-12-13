@@ -1,8 +1,15 @@
+.align{ 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 main {
     margin-top: 3rem !important;
 }
 
 .section_header {
+    justify-content: space-between;
     text-align: center;
     margin-bottom: 3rem;
 }

@@ -1,13 +1,12 @@
-import { useParams } from "react-router-dom"
 import Header from "../../../../components/Header"
 import { IAvaliationTableProps } from "../../interfaces/SubjectDetails.interface";
 import StudentCompetences from "./components/StudentCompetences";
 import { AptitudeEnum } from "../../../../enums/AptitudeEnum";
+import ReturnButton from "../../../../components/ReturnButton";
 
 export default () => {
-    const params = useParams();
+    //! const params = useParams();
 
-    // const test 
 
     const myAvaliations : IAvaliationTableProps[] = [
         {
@@ -115,10 +114,12 @@ export default () => {
         }
     ]
 
+
     return( 
         <>
-            <Header /> 
+            <Header />
             <main>
+            <ReturnButton/>
                 <StudentCompetences {...myAvaliations[1]} />
             </main>
         </>

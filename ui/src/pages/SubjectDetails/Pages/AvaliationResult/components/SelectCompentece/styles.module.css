@@ -23,6 +23,10 @@
     border: var(--default-border);
     border-radius: var(--default-border-radius);
     text-align: center;
+
+    &:hover {
+        filter: brightness(0.9);
+    }
 }
 
 .APT {
@@ -36,8 +40,4 @@
 .DEVELOPMENT {
     background-color: var(--warning-light);    
     color: var(--warning-dark);   
-}
-
-.selected {
-
 }
