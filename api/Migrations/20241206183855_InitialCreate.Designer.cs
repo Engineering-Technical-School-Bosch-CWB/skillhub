@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace api.Migrations
 {
     [DbContext(typeof(SkillhubContext))]
-    [Migration("20241203190729_UpdateSkillResultAptitude")]
-    partial class UpdateSkillResultAptitude
+    [Migration("20241206183855_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -263,8 +263,8 @@ namespace api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<double>("ClaimedAptitude")
-                        .HasColumnType("float")
+                    b.Property<short>("ClaimedAptitude")
+                        .HasColumnType("smallint")
                         .HasColumnName("claimed_aptitude");
 
                     b.Property<bool>("IsAccepted")
@@ -279,8 +279,8 @@ namespace api.Migrations
                         .HasColumnType("date")
                         .HasColumnName("objected_at");
 
-                    b.Property<double>("OfficialAptitude")
-                        .HasColumnType("float")
+                    b.Property<short>("OfficialAptitude")
+                        .HasColumnType("smallint")
                         .HasColumnName("official_aptitude");
 
                     b.Property<int>("skill_result_id")
@@ -469,6 +469,9 @@ namespace api.Migrations
                     b.Property<int?>("exam_id")
                         .HasColumnType("int");
 
+                    b.Property<int?>("objection_id")
+                        .HasColumnType("int");
+
                     b.Property<int>("skill_id")
                         .HasColumnType("int");
 
@@ -482,6 +485,8 @@ namespace api.Migrations
                         .HasName("PK____SkillResult");
 
                     b.HasIndex("exam_id");
+
+                    b.HasIndex("objection_id");
 
                     b.HasIndex("skill_id");
 
@@ -859,6 +864,10 @@ namespace api.Migrations
                         .WithMany("SkillResults")
                         .HasForeignKey("exam_id");
 
+                    b.HasOne("Api.Domain.Models.Objection", "Objection")
+                        .WithMany()
+                        .HasForeignKey("objection_id");
+
                     b.HasOne("Api.Domain.Models.Skill", "Skill")
                         .WithMany()
                         .HasForeignKey("skill_id")
@@ -876,6 +885,8 @@ namespace api.Migrations
                         .HasForeignKey("subject_id");
 
                     b.Navigation("Exam");
+
+                    b.Navigation("Objection");
 
                     b.Navigation("Skill");
 

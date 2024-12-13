@@ -69,13 +69,13 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
         );
     }
 
-    public async Task<AppResponse<UserDTO>> UpdateUser(int id, UserUpdatePayload payload)
+    public async Task<AppResponse<UserDTO>> UpdateUser(UserUpdatePayload payload)
     {
         var user = await _repo.Get()
             .Include(u => u.Position)
             .Include(u => u.Sector)
             .Include(u => u.OccupationArea)
-            .SingleOrDefaultAsync(u => u.Id == id)
+            .SingleOrDefaultAsync(u => u.Id == payload.UserId)
             ?? throw new NotFoundException("User not found!");
 
         if (!string.IsNullOrEmpty(payload.Identification))
@@ -135,7 +135,7 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
 
         await _repo.SaveAsync();
 
-        var student = await _studentservice.GetByUserId(id);
+        var student = await _studentservice.GetByUserId(updatedUser.Id);
 
         return new AppResponse<UserDTO>(
             UserDTO.Map(updatedUser, student),
