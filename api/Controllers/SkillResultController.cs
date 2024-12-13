@@ -4,6 +4,8 @@ using Api.Domain.Enums;
 using Api.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 
+namespace Api.Controllers;
+
 [ApiController]
 [Route("api/v1/skillResults")]
 public class SkillResultController : ControllerBase
@@ -25,5 +27,4 @@ public class SkillResultController : ControllerBase
         var result = await service.GetSkillResultHistory(studentId, skillId);
         return Ok(result);
     }
-
 }

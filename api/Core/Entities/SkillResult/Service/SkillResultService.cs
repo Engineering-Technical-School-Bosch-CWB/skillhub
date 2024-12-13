@@ -8,11 +8,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Api.Core.Services;
 
-public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRepository skillRepository)
-    : BaseService<SkillResult> (repository), ISkillResultService
+public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRepository skillRepository, IStudentRepository studentRepository,
+        IExamRepository examRepository, ISubjectRepository subjectRepository, IObjectionRepository objectionRepository, IClassService classService
+    ) : BaseService<SkillResult> (repository), ISkillResultService
 {
     private readonly BaseRepository<SkillResult> _repo = repository;
     private readonly ISkillRepository _skillRepo = skillRepository;
+    private readonly IStudentRepository _studentRepo = studentRepository;
+    private readonly IExamRepository _examRepo = examRepository;
+    private readonly ISubjectRepository _subjectRepo = subjectRepository;
+    private readonly IObjectionRepository _objectionRepo = objectionRepository;
+    private readonly IClassService _classService = classService;
 
     public async Task<AppResponse<SkillHistoryResponse>> GetSkillResultHistory(int studentId, int skillId)
     {
@@ -34,6 +40,54 @@ public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRe
         return new AppResponse<SkillHistoryResponse>(
             SkillHistoryResponse.Map(SkillDTO.Map(skill), history),
             "Skill history found!"
+        );
+    }
+
+    public async Task<AppResponse<SkillResultDTO>> CreateSkillResult(SkillResultCreatePayload payload)
+    {  
+        var student = await _studentRepo.Get()
+            .Include(s => s.Class)
+            .Where(s => s.IsActive)
+            .SingleOrDefaultAsync(s => s.Id == payload.StudentId)
+            ?? throw new NotFoundException("Student not found!");
+
+        var skill = await _skillRepo.Get()
+            .Where(s => s.IsActive)
+            .SingleOrDefaultAsync(s => s.Id == payload.SkillId)
+            ?? throw new NotFoundException("Skill not found!");
+
+        
+        var newSkillResult = new SkillResult()
+        {
+            Weight = payload.Weight,
+            Skill = skill,
+            Student = student
+        };
+
+        if (payload.ExamId.HasValue)
+            newSkillResult.Exam = await _examRepo.Get()
+                .Where(e => e.IsActive)
+                .SingleOrDefaultAsync(e => e.Id == payload.ExamId.Value)
+                ?? throw new NotFoundException("Exam not found!");
+        else if (payload.SubjectId.HasValue)
+            newSkillResult.Subject = await _subjectRepo.Get()
+                .Where(s => s.IsActive)
+                .SingleOrDefaultAsync(s => s.Id == payload.SubjectId.Value)
+                ?? throw new NotFoundException("Subject not found!");
+        else if (payload.ObjectionId.HasValue)
+            newSkillResult.Objection = await _objectionRepo.Get()
+                .Where(s => s.IsActive)
+                .SingleOrDefaultAsync(s => s.Id == payload.ObjectionId.Value)
+                ?? throw new NotFoundException("Objection not found!");
+
+        var createdSkillResult = _repo.Add(newSkillResult)
+            ?? throw new UpsertFailException("Skill result could not be inserted!");
+
+        await _repo.SaveAsync();
+
+        return new AppResponse<SkillResultDTO>(
+            SkillResultDTO.Map(createdSkillResult, await _classService.GetSkillMean(student.Class.Id, skill.Id)),
+            "Skill result created successfully!"
         );
     }
 }

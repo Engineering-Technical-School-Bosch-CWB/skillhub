@@ -24,7 +24,7 @@ public record SkillResultDTO(
 public record SkillResultHistoryDTO(
     int Id,
     string Reason,
-    DateOnly Date,
+    DateOnly? Date,
     EAptitude Aptitude
 )
 {
@@ -33,8 +33,24 @@ public record SkillResultHistoryDTO(
         return new SkillResultHistoryDTO(
             obj.Id,
             obj.Exam is not null ? "Exam" : obj.Objection is not null ? "Objection" : "Original",
-            DateOnly.FromDateTime(obj.EvaluatedAt),
+            obj.EvaluatedAt.HasValue ? DateOnly.FromDateTime(obj.EvaluatedAt.Value) : null,
             (EAptitude)obj.Aptitude!
+        );
+    }
+}
+
+public record NewSkillResultDTO(
+    int SkillId,
+    string? Description,
+    double? Weight
+)
+{
+    public static NewSkillResultDTO Map(SkillResult obj)
+    {
+        return new NewSkillResultDTO(
+            obj.Skill.Id,
+            obj.Skill.Description,
+            obj.Weight
         );
     }
 }

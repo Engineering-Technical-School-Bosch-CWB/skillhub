@@ -4,6 +4,7 @@ using Api.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace api.Migrations
 {
     [DbContext(typeof(SkillhubContext))]
-    partial class SkillhubContextModelSnapshot : ModelSnapshot
+    [Migration("20241206192220_UpdateSkillResultEvaluatedAtNull")]
+    partial class UpdateSkillResultEvaluatedAtNull
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,10 +75,7 @@ namespace api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Abbreviation")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte?>("DurationPeriods")
+                    b.Property<byte>("DurationPeriods")
                         .HasColumnType("tinyint")
                         .HasColumnName("duration_periods");
 
@@ -114,6 +114,7 @@ namespace api.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Abbreviation")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("abbreviation");
@@ -196,7 +197,7 @@ namespace api.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("name");
 
-                    b.Property<int?>("instructor_id")
+                    b.Property<int>("instructor_id")
                         .HasColumnType("int");
 
                     b.Property<int>("subject_id")
@@ -455,9 +456,6 @@ namespace api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<bool?>("Accepted")
-                        .HasColumnType("bit");
-
                     b.Property<short?>("Aptitude")
                         .HasColumnType("smallint")
                         .HasColumnName("aptitude");
@@ -596,7 +594,7 @@ namespace api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateOnly?>("BeganAt")
+                    b.Property<DateOnly>("BeganAt")
                         .HasColumnType("date")
                         .HasColumnName("began_at");
 
@@ -608,7 +606,7 @@ namespace api.Migrations
                         .HasColumnType("bit")
                         .HasColumnName("is_active");
 
-                    b.Property<byte?>("Period")
+                    b.Property<byte>("Period")
                         .HasColumnType("tinyint")
                         .HasColumnName("period");
 
@@ -618,7 +616,7 @@ namespace api.Migrations
                     b.Property<int>("curricular_unit_id")
                         .HasColumnType("int");
 
-                    b.Property<int?>("instructor_id")
+                    b.Property<int>("instructor_id")
                         .HasColumnType("int");
 
                     b.HasKey("Id")
@@ -794,7 +792,8 @@ namespace api.Migrations
                     b.HasOne("Api.Domain.Models.User", "Instructor")
                         .WithMany()
                         .HasForeignKey("instructor_id")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.HasOne("Api.Domain.Models.Subject", "Subject")
                         .WithMany("Exams")
@@ -949,7 +948,8 @@ namespace api.Migrations
                     b.HasOne("Api.Domain.Models.User", "Instructor")
                         .WithMany("Subjects")
                         .HasForeignKey("instructor_id")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("Class");
 

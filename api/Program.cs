@@ -101,11 +101,14 @@ public class Program
         services.AddScoped<BaseRepository<Course>, CourseRepository>();
         services.AddScoped<ICourseRepository, CourseRepository>();
 
-        services.AddScoped<BaseRepository<Feedback>, FeedbackRepository>();
-        services.AddScoped<IFeedbackRepository, FeedbackRepository>();
-
         services.AddScoped<BaseRepository<CurricularUnit>, CurricularUnitRepository>();
         services.AddScoped<ICurricularUnitRepository, CurricularUnitRepository>();
+
+        services.AddScoped<BaseRepository<Exam>, ExamRepository>();
+        services.AddScoped<IExamRepository, ExamRepository>();
+
+        services.AddScoped<BaseRepository<Feedback>, FeedbackRepository>();
+        services.AddScoped<IFeedbackRepository, FeedbackRepository>();
 
         services.AddScoped<BaseRepository<Objection>, ObjectionRepository>();
         services.AddScoped<IObjectionRepository, ObjectionRepository>();
@@ -144,6 +147,7 @@ public class Program
         services.AddScoped<IClassService, ClassService>();
         services.AddScoped<ICourseService, CourseService>();
         services.AddScoped<ICurricularUnitService, CurricularUnitService>();
+        services.AddScoped<IExamService, ExamService>();
         services.AddScoped<IFeedbackService, FeedbackService>();
         services.AddScoped<ILoginService, LoginService>();
         services.AddScoped<IObjectionService, ObjectionService>();
