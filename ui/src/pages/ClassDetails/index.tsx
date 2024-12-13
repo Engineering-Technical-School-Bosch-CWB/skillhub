@@ -67,11 +67,12 @@ export default () => {
                 image: { image: "/avatar.png" },
                 position: { id: 1, name: "Estudante" },
                 sector: { id: 1, name: "Ensino Médio" },
-                occupation_area: { id: 1, name: "Ciências Exatas" }
+                occupationArea: { id: 1, name: "Ciências Exatas"}
             },
             className: "student-card primary",
             tooltip: "Aluno ativo",
-            size: "medium"
+            size: "medium",
+            goTo: "/class/student/1"
         },
         {
             student: {
@@ -84,7 +85,7 @@ export default () => {
                 image: { image: "/avatar.png" },
                 position: { id: 1, name: "Estudante" },
                 sector: { id: 2, name: "Ensino Técnico" },
-                occupation_area: { id: 2, name: "Tecnologia da Informação" }
+                occupationArea: { id: 2, name: "Tecnologia da Informação" }
             },
             className: "student-card secondary",
             tooltip: "Aluno em curso",
@@ -101,7 +102,7 @@ export default () => {
                 image: { image: "/avatar.png" },
                 position: { id: 1, name: "Estudante" },
                 sector: { id: 3, name: "Ensino Fundamental" },
-                occupation_area: { id: 3, name: "Ciências Humanas" }
+                occupationArea: { id: 3, name: "Ciências Humanas" }
             },
             className: "student-card disabled",
             tooltip: "Aluno inativo",
@@ -118,7 +119,7 @@ export default () => {
                 image: { image: "/avatar.png" },
                 position: { id: 2, name: "Estudante Avançado" },
                 sector: { id: 4, name: "Ensino Superior" },
-                occupation_area: { id: 4, name: "Engenharia" }
+                occupationArea: { id: 4, name: "Engenharia" }
             },
             className: "student-card primary",
             tooltip: "Aluno destaque",
@@ -135,7 +136,7 @@ export default () => {
                 image: { image: "/avatar.png" },
                 position: { id: 3, name: "Aluna Pesquisadora" },
                 sector: { id: 5, name: "Pós-Graduação" },
-                occupation_area: { id: 5, name: "Biotecnologia" }
+                occupationArea: { id: 5, name: "Biotecnologia" }
             },
             className: "student-card highlight",
             tooltip: "Pesquisadora",
@@ -185,12 +186,14 @@ export default () => {
                 <Divider size="big"/>
                     
                 <section className={styles.students_section}>
-                    <Text fontSize="xl2" fontWeight="bold" className={`${styles.section_title}`}>Alunos</Text>
+                    <Text fontSize="xl2" fontWeight="bold" className={`${styles.section_title}`}>
+                        Alunos
+                    </Text>
                         
                     <div className={`${styles.student_container} ${styles.align}`} >
                         {
                             studentCards.map(e => (
-                                <StudentCard  student={e.student} /> 
+                                <StudentCard  {...e} /> 
                             ))
                         }
                     </div>

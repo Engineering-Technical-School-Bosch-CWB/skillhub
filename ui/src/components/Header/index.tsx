@@ -3,6 +3,7 @@ import Avatar from "../Avatar"
 import BoschLogo from "../BoschLogo"
 import Menu from "./Menu"
 import styles from "./styles.module.css"
+import Link from "../Link"
 
 interface IHeaderProps {
 
@@ -27,7 +28,9 @@ const Header = ({  }:IHeaderProps) => {
     return(
         <>
             <header className={styles.header}>
-                <BoschLogo/>
+                <Link to="/home">
+                    <BoschLogo/>
+                </Link>
 
                 <nav>
                     <Avatar 
