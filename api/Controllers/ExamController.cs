@@ -14,6 +14,7 @@ public class ExamController : ControllerBase
         [FromBody] ExamCreatePayload payload
     )
     {
-        return Ok();
+        var result = await service.CreateExam(payload);
+        return Created("/api/v1/exams", result);
     }
 }
