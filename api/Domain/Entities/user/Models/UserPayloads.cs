@@ -23,6 +23,7 @@ public class UserCreatePayload
 
 public class UserUpdatePayload
 {
+    public int UserId { get; set; }
     public int? SectorId { get; set; }
 
     public int? PositionId { get; set; }
@@ -38,4 +39,6 @@ public class UserUpdatePayload
     public DateOnly? Birthday { get; set; }
 
     public string? Password { get; set; }
+
+    public string? ConfirmPassword { get; set; }
 }

@@ -24,12 +24,15 @@ export default forwardRef<HTMLImageElement, IStudentCardProps>(
                 tooltip &&
                 <span className={styles.tooltip}>{tooltip}</span>
             }
-            <div className={`${styles.details} ${styles.align}`}>
-                <Text fontWeight="bold" >{student?.name}</Text> 
-                <Text fontWeight="semibold" >
-                    {student?.birthday?.getDate()} / {student?.birthday?.getMonth()}
-                </Text> 
-            </div>
+            {
+                student &&
+                <div className={`${styles.details} ${styles.align}`}>
+                    <Text fontWeight="bold" >{student?.name}</Text> 
+                    <Text fontWeight="semibold" >
+                        {student?.birthday?.getDate()} / {student?.birthday?.getMonth()}
+                    </Text> 
+                </div>
+            }
         </Link>
     )
 )

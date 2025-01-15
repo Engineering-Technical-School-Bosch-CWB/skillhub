@@ -24,9 +24,18 @@ public record ExamResultsDTO(
     int Id,
     string Name,
     string? Description,
-    DateOnly AppliedAt,
-    IEnumerable<> Students
+    DateOnly? AppliedAt,
+    IEnumerable<StudentResultDTO> Students
 )
 {
-    public static ExamResultsDTO Map(Exam obj,)
+    public static ExamResultsDTO Map(Exam obj, IEnumerable<StudentResultDTO> students)
+    {
+        return new ExamResultsDTO(
+            obj.Id,
+            obj.Name,
+            obj.Description,
+            obj.AppliedAt,
+            students
+        );
+    }
 }

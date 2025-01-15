@@ -6,6 +6,5 @@
     transition: 0.15s;
 }
 .link:hover {
-    text-decoration: underline;
     color: var(--primary-light);
 }

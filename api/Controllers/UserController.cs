@@ -18,15 +18,16 @@ public class UserController : ControllerBase
         return Created("/api/v1/users", result);
     }
 
+
+
     [HttpPatch]
-    [Route("{id}")]
+    [Route("")]
     public async Task<ActionResult> UpdateUser(
         [FromServices] IUserService service,
-        [FromBody] UserUpdatePayload payload,
-        int id
+        [FromBody] UserUpdatePayload payload
     )
     {
-        var result = await service.UpdateUser(id, payload);
+        var result = await service.UpdateUser(payload);
         return Ok(result);
     }
 

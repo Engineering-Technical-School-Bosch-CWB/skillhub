@@ -3,8 +3,9 @@ import { IInputTextProps } from "./InputText"
 import { IInputContainerProps } from "./InputContainer"
 import { IInputPasswordProps } from "./InputPassword"
 import { ComponentPropsWithoutRef } from "react"
+import { IInputCheckBoxProps } from "./InputCheckBox"
 
-export type IInputType = "text" | "password" | "date" | "email" 
+export type IInputType = "text" | "password" | "date" | "email" | "checkBox"
 
 export interface IRootInputProps extends IInputContainerProps, ComponentPropsWithoutRef<'input'> {
     id?: string
@@ -13,4 +14,4 @@ export interface IRootInputProps extends IInputContainerProps, ComponentPropsWit
     fieldName?: string
 }
 
-export type IInputProps = IInputDateProps | IInputTextProps | IInputPasswordProps
+export type IInputProps = IInputDateProps | IInputTextProps | IInputPasswordProps | IInputCheckBoxProps

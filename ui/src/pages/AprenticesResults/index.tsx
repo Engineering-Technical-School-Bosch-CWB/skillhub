@@ -6,6 +6,9 @@ import Text from "../../typography"
 import Divider from "../../components/Divider"
 import ExplorerContainer from "../../components/ExplorerContainer"
 import IIdentificationCardProps from "../../components/ExplorerContainer/Components/IdentificationCard/interfaces"
+import { useEffect, useState } from "react"
+import internalAPI from "../../service/internal.services"
+import { IResult } from "../Login/interfaces"
 
 const data: IIdentificationCardProps[] = [
     {
@@ -46,6 +49,16 @@ const data: IIdentificationCardProps[] = [
 ]
 
 const AprenticesResults = () => {
+    const [barChartData, setBarChartData] = useState<IResult[]>();
+
+    // useEffect(() => {
+    //     handleFetch();
+    // }, []);
+
+    // const handleFetch() => {
+    //     const data = internalAPI.jsonRequest("/students/results", 'POST');
+    // }
+
     return (
         <div>
             <Header />

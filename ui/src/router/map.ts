@@ -13,5 +13,8 @@ export enum RouteMap {
 
     CLASSES = "/class",
     CLASS_DETAILS = "/class/:id",
-    SUBJECT_DETAILS = "/class/subject/:id"
+    SUBJECT_DETAILS = "/class/subject/:id",
+    NEW_SUBJECT_TEST = "/class/subject/:id/new-test",
+    AVALIATION_RESULT = "/class/subject/test/result/:id",
+    STUDENT_OVERVIEW = "/class/student/:id"
 }

@@ -4,12 +4,14 @@ import InputDate from "./InputDate"
 import InputText from "./InputText"
 import InputPassword from "./InputPassword"
 import { forwardRef } from "react"
+import InputCheckBox from "./InputCheckBox"
 
 const InputComponents: Record<IInputType, React.ElementType> = {
     date: InputDate,
     text: InputText,
     email: InputText,
     password: InputPassword,
+    checkBox: InputCheckBox
 }
 
 const Input = forwardRef<HTMLInputElement, IInputProps>(

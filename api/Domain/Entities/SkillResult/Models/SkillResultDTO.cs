@@ -6,7 +6,7 @@ namespace Api.Domain.Models;
 public record SkillResultDTO(
     int Id,
     string Description,
-    EAptitude Aptitude,
+    EAptitude? Aptitude,
     string ClassPercentageAptitude
 )
 {
@@ -15,7 +15,7 @@ public record SkillResultDTO(
         return new SkillResultDTO(
             obj.Id,
             obj.Skill.Description,
-            (EAptitude)obj.Aptitude!,
+            obj.Aptitude.HasValue ? (EAptitude?)obj.Aptitude.Value : null,
             classPercentageAptitude.HasValue ? Math.Round(classPercentageAptitude.Value, MidpointRounding.AwayFromZero) + "%" : "--"
         );
     }
@@ -51,6 +51,24 @@ public record NewSkillResultDTO(
             obj.Skill.Id,
             obj.Skill.Description,
             obj.Weight
+        );
+    }
+}
+
+public record CompleteSkillResultDTO(
+    int Id,
+    double Weight,
+    EAptitude? Aptitude,
+    SkillDTO Skill
+)
+{
+    public static CompleteSkillResultDTO Map(SkillResult obj)
+    {
+        return new CompleteSkillResultDTO(
+            obj.Id,
+            obj.Weight,
+            obj.Aptitude.HasValue ? (EAptitude?)obj.Aptitude.Value : null,
+            SkillDTO.Map(obj.Skill)
         );
     }
 }

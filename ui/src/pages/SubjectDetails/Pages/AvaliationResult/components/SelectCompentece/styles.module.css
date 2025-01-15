@@ -1,0 +1,43 @@
+.select_container {
+
+    align-items: center;
+    position: relative;
+    right: 10rem;
+    top: -2.25rem;
+    width: 0;
+    height: 0;
+}
+.separator {
+    width: 5rem;
+}
+.container{
+    height: 2.25rem;
+}
+.select_cell {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 10rem;
+    height: 2.25rem;
+    border: var(--default-border);
+    border-radius: var(--default-border-radius);
+    text-align: center;
+
+    &:hover {
+        filter: brightness(0.9);
+    }
+}
+
+.APT {
+    background-color: var(--success-light); 
+    color: var(--success-dark);   
+}
+.INAPT {
+    background-color: var(--danger-light);    
+    color: var(--danger-dark);   
+}
+.DEVELOPMENT {
+    background-color: var(--warning-light);    
+    color: var(--warning-dark);   
+}

@@ -30,5 +30,14 @@ public record SubjectDTO(
 
 public record InstructorSubjectDTO(
     SubjectDTO Subject,
-    List<ExamDTO> Exams
+    IEnumerable<ExamResultsDTO> Exams
 )
+{
+    public static InstructorSubjectDTO Map(SubjectDTO subject, IEnumerable<ExamResultsDTO> exams)
+    {
+        return new InstructorSubjectDTO(
+            subject,
+            exams
+        );
+    }
+}

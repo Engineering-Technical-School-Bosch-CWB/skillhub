@@ -21,5 +21,17 @@ public record StudentDTO(
 public record StudentResultDTO(
     int Id,
     string Name,
-    
+    double Mean,
+    IEnumerable<CompleteSkillResultDTO> SkillResults
 )
+{
+    public static StudentResultDTO Map(Student obj, double mean, IEnumerable<CompleteSkillResultDTO> skillResults)
+    {
+        return new StudentResultDTO(
+            obj.Id,
+            obj.User.Name,
+            mean,
+            skillResults
+        );
+    }
+}

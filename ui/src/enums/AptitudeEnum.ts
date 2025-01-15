@@ -1,5 +1,5 @@
 export enum AptitudeEnum {
-    APT,
-    INAPT,
-    DEVELOPMENT
+    APT = 'APT',
+    INAPT= 'INAPT',
+    DEVELOPMENT= 'DEVELOPMENT'
 }
