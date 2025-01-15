@@ -24,20 +24,21 @@ public class ClassService(
             .SingleOrDefaultAsync(c => c.Id == payload.CourseId)
             ?? throw new NotFoundException("Course not found!");
 
-        var newClass = new Class {
+        var newClass = new Class
+        {
             Name = payload.Name,
             Course = course,
             StartingYear = payload.StartingYear,
             DurationPeriods = payload.DurationPeriods
         };
 
-        var createdClass = _repo.Add(newClass)
+        var class_ = _repo.Add(newClass)
             ?? throw new UpsertFailException("Class could not be inserted!");
 
         await _repo.SaveAsync();
 
         return new AppResponse<ClassDTO>(
-            ClassDTO.Map(createdClass),
+            ClassDTO.Map(class_),
             "Class created successfully!"
         );
     }
@@ -67,5 +68,24 @@ public class ClassService(
             .ToList();
 
         return skillResults.Count > 0 ? skillResults.Sum(s => s.Aptitude * s.Weight) / skillResults.Sum(s => s.Weight) : null;
+    }
+
+    public async Task<AppResponse<ClassPageDTO>> GetClassPage(int id, int? subjectAreaId, int? selectedStudentId, int? selectedSubjectId, int? selectedSubjectAreaId)
+    {
+        var class_ = await _repo.Get()
+            .Where(c => c.IsActive)
+            .Include(c => c.Subjects).ThenInclude(s => s.CurricularUnit.SubjectArea)
+            .Include(c => c.Subjects).ThenInclude(s => s.Instructor)
+            .Include(c => c.Students).ThenInclude(s => s.User)
+            .SingleOrDefaultAsync(c => c.Id == id)
+            ?? throw new NotFoundException("Class not found!");
+
+        var subjects = class_.Subjects
+            .Where(u => !subjectAreaId.HasValue || u.CurricularUnit.SubjectArea.Id == subjectAreaId)
+            .Select(SimpleSubjectDTO.Map);
+
+        
+
+        return null;
     }
 }

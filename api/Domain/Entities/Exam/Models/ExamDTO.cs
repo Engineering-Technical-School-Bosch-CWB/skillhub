@@ -25,10 +25,10 @@ public record ExamResultsDTO(
     string Name,
     string? Description,
     DateOnly? AppliedAt,
-    IEnumerable<StudentResultDTO> Students
+    IEnumerable<StudentResultsDTO> Students
 )
 {
-    public static ExamResultsDTO Map(Exam obj, IEnumerable<StudentResultDTO> students)
+    public static ExamResultsDTO Map(Exam obj, IEnumerable<StudentResultsDTO> students)
     {
         return new ExamResultsDTO(
             obj.Id,

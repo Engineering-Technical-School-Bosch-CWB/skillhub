@@ -116,7 +116,7 @@ public class StudentService(
         var results = new List<StudentResultDTO>();
 
         foreach (var subject in subjects)
-            results.Add(new StudentResultDTO(SubjectDTO.Map(subject, subject.CurricularUnit.Name), await GetResultBySubject(id, subject.Id)));
+            results.Add(new StudentResultDTO(SubjectDTO.Map(subject), await GetResultBySubject(id, subject.Id)));
 
         return new AppResponse<StudentResultResponse>(
             StudentResultResponse.Map(StudentDTO.Map(student), results),
@@ -163,4 +163,5 @@ public class StudentService(
             "Subject results found!"
         );
     }
+
 }

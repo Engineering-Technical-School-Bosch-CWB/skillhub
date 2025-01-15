@@ -18,20 +18,34 @@ public record StudentDTO(
     }
 }
 
-public record StudentResultDTO(
+public record StudentResultsDTO(
     int Id,
     string Name,
-    double Mean,
+    double? Mean,
     IEnumerable<CompleteSkillResultDTO> SkillResults
 )
 {
-    public static StudentResultDTO Map(Student obj, double mean, IEnumerable<CompleteSkillResultDTO> skillResults)
+    public static StudentResultsDTO Map(Student obj, double? mean, IEnumerable<CompleteSkillResultDTO> skillResults)
     {
-        return new StudentResultDTO(
+        return new StudentResultsDTO(
             obj.Id,
             obj.User.Name,
             mean,
             skillResults
+        );
+    }
+}
+
+public record SimpleStudentDTO(
+    int Id,
+    string Name
+)
+{
+    public static SimpleStudentDTO Map(Student obj)
+    {
+        return new SimpleStudentDTO(
+            obj.Id,
+            obj.User.Name
         );
     }
 }

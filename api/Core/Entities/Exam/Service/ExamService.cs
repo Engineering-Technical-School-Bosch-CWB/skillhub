@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Api.Core.Services;
 
-public class ExamService(BaseRepository<Exam> repository, ISubjectRepository subjectRepository,
+public class ExamService(BaseRepository<Exam> repository, ISubjectRepository subjectRepository, IStudentService studentService,
         ISkillRepository skillRepository, ISkillResultRepository skillResultRepository, IUserRepository userRepository
     ) : BaseService<Exam>(repository), IExamService
 {
@@ -17,6 +17,7 @@ public class ExamService(BaseRepository<Exam> repository, ISubjectRepository sub
     private readonly ISkillRepository _skillRepo = skillRepository;
     private readonly ISkillResultRepository _skillResultRepo = skillResultRepository;
     private readonly IUserRepository _userRepo = userRepository;
+    private readonly IStudentService _studentService = studentService;
 
     public async Task<AppResponse<ExamDTO>> CreateExam(ExamCreatePayload payload)
     {
@@ -77,5 +78,31 @@ public class ExamService(BaseRepository<Exam> repository, ISubjectRepository sub
             ExamDTO.Map(createdExam, skillResults),
             "Exam created successfully!"
         );
+    }
+
+    public async Task<ExamResultsDTO> GetStudentsResults(int id)
+    {
+        var exam = await _repo.Get()
+            .Where(e => e.IsActive)
+            .Include(e => e.Subject.Class.Students)
+            .ThenInclude(s => s.User)
+            .Include(e => e.SkillResults)
+            .ThenInclude(sr => sr.Skill)
+            .SingleOrDefaultAsync(e => e.Id == id) ?? throw new NotFoundException("Exam not found!");
+
+        var studentResults = new List<StudentResultsDTO>();
+
+        foreach (var student in exam.Subject.Class.Students)
+        {
+            var resultBySubject = await _studentService.GetResultBySubject(student.Id, id);
+
+            var skillResults = exam.SkillResults
+                .Where(sr => sr.Student.Id == student.Id && sr.IsActive)
+                .Select(CompleteSkillResultDTO.Map);
+
+            studentResults.Add(StudentResultsDTO.Map(student, resultBySubject, skillResults));
+        }
+
+        return ExamResultsDTO.Map(exam, studentResults);
     }
 }

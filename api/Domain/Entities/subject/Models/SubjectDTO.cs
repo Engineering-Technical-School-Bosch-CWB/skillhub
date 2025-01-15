@@ -28,6 +28,22 @@ public record SubjectDTO(
     }
 }
 
+public record SimpleSubjectDTO(
+    int Id,
+    string Name,
+    string? Instructor
+)
+{
+    public static SimpleSubjectDTO Map(Subject obj)
+    {
+        return new SimpleSubjectDTO(
+            obj.Id,
+            obj.CurricularUnit.Name,
+            obj.Instructor?.Name
+        );
+    }
+}
+
 public record InstructorSubjectDTO(
     SubjectDTO Subject,
     IEnumerable<ExamResultsDTO> Exams

@@ -55,12 +55,9 @@ public class UserController : ControllerBase
 
     [HttpGet]
     public async Task<ActionResult> GetPaginatedUsers(
-        [FromServices] IUserService service,
-        [FromQuery] PaginationQuery pagination,
-        [FromQuery] string? query,
-        [FromQuery] short? birthMonth,
-        [FromQuery] int? positionId,
-        [FromQuery] int? classId
+        [FromServices] IUserService service, [FromQuery] PaginationQuery pagination,
+        [FromQuery] string? query, [FromQuery] short? birthMonth,
+        [FromQuery] int? positionId, [FromQuery] int? classId
     )
     {
         var result = await service.GetPaginatedUsers(pagination, query, birthMonth, positionId, classId);

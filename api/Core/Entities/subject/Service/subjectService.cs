@@ -8,17 +8,16 @@ using Api.Core.Errors;
 
 namespace Api.Core.Services;
 
-public class SubjectService(
-    BaseRepository<Subject> repository, 
-    IUserRepository userRepository,
-    ICurricularUnitRepository curricularUnitRepository,
-    IClassRepository classRepository
+public class SubjectService(BaseRepository<Subject> repository, IUserRepository userRepository,
+    ICurricularUnitRepository curricularUnitRepository, IClassRepository classRepository, IExamService examService
     ) : BaseService<Subject>(repository), ISubjectService
 {
     private readonly BaseRepository<Subject> _repo = repository;
     private readonly IUserRepository _userRepo = userRepository;
     private readonly ICurricularUnitRepository _curricularUnitRepo = curricularUnitRepository;
-    private readonly IClassRepository _classRepo = classRepository; 
+    private readonly IClassRepository _classRepo = classRepository;
+    private readonly IExamService _examService = examService;
+
     public async Task<AppResponse<SubjectDTO>> CreateSubject(SubjectCreatePayload payload)
     {
         var instructor = await _userRepo.Get()
@@ -33,7 +32,8 @@ public class SubjectService(
             .SingleOrDefaultAsync(c => c.Id == payload.ClassId)
             ?? throw new NotFoundException("Class not found!");
 
-        var newSubject = new Subject {
+        var newSubject = new Subject
+        {
             Instructor = instructor,
             CurricularUnit = curricularUnit,
             Class = subjectClass,
@@ -53,5 +53,21 @@ public class SubjectService(
         );
     }
 
-    public async Task<AppResponse<>> GetInstructorPage(int id)
+    public async Task<AppResponse<InstructorSubjectDTO>> GetInstructorPage(int id)
+    {
+        var subject = await _repo.Get()
+            .Where(s => s.IsActive)
+            .Include(s => s.CurricularUnit)
+            .Include(s => s.Class)
+            .Include(s => s.Exams)
+            .SingleOrDefaultAsync(s => s.Id == id)
+            ?? throw new NotFoundException("Subject not found!");
+
+        var examsResults = await Task.WhenAll(subject.Exams.Select(e => _examService.GetStudentsResults(e.Id)));
+
+        return new AppResponse<InstructorSubjectDTO>(
+            InstructorSubjectDTO.Map(SubjectDTO.Map(subject), examsResults),
+            "Subject info found!"
+        );
+    }
 }

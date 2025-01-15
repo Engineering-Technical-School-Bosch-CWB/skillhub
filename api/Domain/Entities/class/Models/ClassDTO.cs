@@ -21,3 +21,9 @@ public record ClassDTO(
         );
     }
 }
+
+public record ClassPageDTO(
+    ClassDTO Class,
+    double GeneralPerformance,
+    IEnumerable<SimpleSubjectDTO> Subjects
+)

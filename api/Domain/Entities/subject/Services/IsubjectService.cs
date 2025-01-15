@@ -6,4 +6,5 @@ namespace Api.Domain.Services;
 public interface ISubjectService : IService<Subject>
 {
     public Task<AppResponse<SubjectDTO>> CreateSubject(SubjectCreatePayload payload);
+    public Task<AppResponse<InstructorSubjectDTO>> GetInstructorPage(int id);
 }
