@@ -17,3 +17,9 @@ public record StudentDTO(
         );
     }
 }
+
+public record StudentResultDTO(
+    int Id,
+    string Name,
+    
+)

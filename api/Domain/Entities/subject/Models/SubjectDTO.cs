@@ -1,4 +1,4 @@
-using Api.Domain.Models;
+namespace Api.Domain.Models;
 
 public record SubjectDTO(
     int Id,
@@ -7,11 +7,12 @@ public record SubjectDTO(
     DateOnly? BeganAt,
     int? InstructorId,
     int CurricularUnitId,
+    string CurricularUnit,
     int ClassId,
-    string Name
+    string Class
 )
 {
-    public static SubjectDTO Map(Subject obj, string name)
+    public static SubjectDTO Map(Subject obj)
     {
         return new SubjectDTO(
             obj.Id,
@@ -20,8 +21,14 @@ public record SubjectDTO(
             obj.BeganAt,
             obj.Instructor?.Id,
             obj.CurricularUnit.Id,
+            obj.CurricularUnit.Name,
             obj.Class.Id, 
-            name
+            obj.Class.Name
         );
     }
 }
+
+public record InstructorSubjectDTO(
+    SubjectDTO Subject,
+    List<ExamDTO> Exams
+)

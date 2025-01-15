@@ -19,3 +19,14 @@ public record ExamDTO(
         );
     }
 }
+
+public record ExamResultsDTO(
+    int Id,
+    string Name,
+    string? Description,
+    DateOnly AppliedAt,
+    IEnumerable<> Students
+)
+{
+    public static ExamResultsDTO Map(Exam obj,)
+}

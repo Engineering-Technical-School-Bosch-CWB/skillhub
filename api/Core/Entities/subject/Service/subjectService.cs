@@ -48,8 +48,10 @@ public class SubjectService(
         await _repo.SaveAsync();
 
         return new AppResponse<SubjectDTO>(
-            SubjectDTO.Map(createdSubject, createdSubject.CurricularUnit.Name + " - " +  createdSubject.Class.Name),
+            SubjectDTO.Map(createdSubject),
             "Subject created successfully!"
         );
     }
+
+    public async Task<AppResponse<>> GetInstructorPage(int id)
 }

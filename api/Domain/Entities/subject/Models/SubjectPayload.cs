@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace Api.Domain.Models;
+
 public class SubjectCreatePayload
 {
     [Required]
