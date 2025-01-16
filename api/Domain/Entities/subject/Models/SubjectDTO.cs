@@ -49,10 +49,10 @@ public record InstructorSubjectDTO(
     IEnumerable<ExamResultsDTO> Exams
 )
 {
-    public static InstructorSubjectDTO Map(SubjectDTO subject, IEnumerable<ExamResultsDTO> exams)
+    public static InstructorSubjectDTO Map(Subject subject, IEnumerable<ExamResultsDTO> exams)
     {
         return new InstructorSubjectDTO(
-            subject,
+            SubjectDTO.Map(subject),
             exams
         );
     }

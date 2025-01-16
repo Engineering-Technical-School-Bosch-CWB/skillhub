@@ -22,8 +22,27 @@ public record ClassDTO(
     }
 }
 
+public record ClassGraphsDTO(
+    double GeneralPerformance,
+    IEnumerable<(SimpleSubjectDTO, double)> SubjectResults,
+    IEnumerable<(SimpleStudentDTO, double)> StudentResults,
+    IEnumerable<(SubjectAreaDTO, double)> SubjectAreaResults
+) {}
+
 public record ClassPageDTO(
     ClassDTO Class,
-    double GeneralPerformance,
-    IEnumerable<SimpleSubjectDTO> Subjects
+    IEnumerable<SimpleSubjectDTO> Subjects,
+    IEnumerable<SimpleStudentDTO> Students,
+    ClassGraphsDTO Graphs
 )
+{
+    public static ClassPageDTO Map(Class obj, IEnumerable<SimpleSubjectDTO> subjects, IEnumerable<SimpleStudentDTO> students, ClassGraphsDTO graphs)
+    {
+        return new ClassPageDTO(
+            ClassDTO.Map(obj),
+            subjects,
+            students,
+            graphs
+        );
+    }
+}

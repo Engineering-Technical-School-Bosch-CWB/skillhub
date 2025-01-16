@@ -66,7 +66,7 @@ public class SubjectService(BaseRepository<Subject> repository, IUserRepository 
         var examsResults = await Task.WhenAll(subject.Exams.Select(e => _examService.GetStudentsResults(e.Id)));
 
         return new AppResponse<InstructorSubjectDTO>(
-            InstructorSubjectDTO.Map(SubjectDTO.Map(subject), examsResults),
+            InstructorSubjectDTO.Map(subject, examsResults),
             "Subject info found!"
         );
     }

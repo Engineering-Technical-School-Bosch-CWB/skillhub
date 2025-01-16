@@ -70,7 +70,7 @@ public class ClassService(
         return skillResults.Count > 0 ? skillResults.Sum(s => s.Aptitude * s.Weight) / skillResults.Sum(s => s.Weight) : null;
     }
 
-    public async Task<AppResponse<ClassPageDTO>> GetClassPage(int id, int? subjectAreaId, int? selectedStudentId, int? selectedSubjectId, int? selectedSubjectAreaId)
+    public async Task<AppResponse<ClassPageDTO>> GetClassPage(int id, int? subjectAreaId, int? selectedStudentId, int? selectedCurricularUnitId, int? selectedSubjectAreaId)
     {
         var class_ = await _repo.Get()
             .Where(c => c.IsActive)
@@ -81,11 +81,77 @@ public class ClassService(
             ?? throw new NotFoundException("Class not found!");
 
         var subjects = class_.Subjects
+            .Where(s => s.IsActive)
             .Where(u => !subjectAreaId.HasValue || u.CurricularUnit.SubjectArea.Id == subjectAreaId)
             .Select(SimpleSubjectDTO.Map);
 
-        
+        var students = class_.Students.Where(s => s.IsActive).Select(SimpleStudentDTO.Map);
 
-        return null;
+        var results = _skillResultRepo.Get()
+            .Where(s => s.IsActive)
+            .Where(s => s.Student.Class.Id == id)
+            .Where(s => s.Aptitude.HasValue)
+            .Include(s => s.Student.User)
+            .Include(s => s.Student.Class)
+            .Include(s => s.Skill.CurricularUnit.SubjectArea)
+            .Where(s => !selectedStudentId.HasValue || s.Student.Id == selectedStudentId.Value)
+            .Where(s => !selectedCurricularUnitId.HasValue || s.Skill.CurricularUnit.Id == selectedCurricularUnitId.Value)
+            .Where(s => !selectedSubjectAreaId.HasValue || s.Skill.CurricularUnit.SubjectArea.Id == selectedSubjectAreaId.Value)
+            .GroupBy(s => new { s.Student, s.Skill })
+            .Select(g => g.OrderByDescending(s => s.EvaluatedAt).First());
+
+        var graphs = await GetClassGraphs(class_, results);
+
+        return new AppResponse<ClassPageDTO>(
+            ClassPageDTO.Map(class_, subjects, students, graphs),
+            "Class info found!"
+        );
+    }
+
+    public async Task<ClassGraphsDTO> GetClassGraphs(Class class_, IQueryable<SkillResult> results)
+    {
+        var totalWeight = await results.SumAsync(s => s.Weight);
+        var totalAptitude = await results.SumAsync(s => s.Aptitude!.Value * s.Weight);
+
+        var subjectResults = class_.Subjects.Select(s =>
+        {
+
+            var results_ = results.Where(r => r.Skill.CurricularUnit.Id == s.CurricularUnit.Id);
+
+            return (
+                SimpleSubjectDTO.Map(s),
+                results_.Any() ? results_.Sum(r => r.Aptitude!.Value * r.Weight) / results_.Sum(r => r.Weight) : 0
+            );
+
+        });
+
+        var studentResults = class_.Students.Select(s =>
+        {
+
+            var results_ = results.Where(r => r.Student.Id == s.Id);
+
+            return (
+                SimpleStudentDTO.Map(s),
+                results_.Any() ? results_.Sum(r => r.Aptitude!.Value * r.Weight) / results_.Sum(r => r.Weight) : 0
+            );
+
+        });
+
+        var subjectAreaResults = class_.Subjects.GroupBy(s => s.CurricularUnit.SubjectArea).Select(g =>
+        {
+            var results_ = results.Where(r => r.Skill.CurricularUnit.SubjectArea.Id == g.Key.Id);
+            
+            return (
+                SubjectAreaDTO.Map(g.Key),
+                results_.Any() ? results_.Sum(r => r.Aptitude!.Value * r.Weight) / results_.Sum(r => r.Weight) : 0
+            );
+        });
+
+        return new ClassGraphsDTO(
+            totalAptitude / totalWeight,
+            subjectResults,
+            studentResults,
+            subjectAreaResults
+        );
     }
 }

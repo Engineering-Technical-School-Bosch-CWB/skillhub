@@ -26,15 +26,15 @@ public class ClassController : ControllerBase
     [Route("{id}")]
     public async Task<ActionResult> GetClassPage(
         [FromServices] IClassService service, UserContext userContext,
-        [FromQuery] string? subjectAreaId, [FromQuery] int? selectedStudentId,
-        [FromQuery] int? selectedSubjectId, [FromQuery] int? selectedSubjectAreaId, int id
+        [FromQuery] int? subjectAreaId, [FromQuery] int? selectedStudentId,
+        [FromQuery] int? selectedCurricularUnitId, [FromQuery] int? selectedSubjectAreaId, int id
     )
     {
 
         if (userContext.PermissionLevel != EPermissionLevel.Admin)
             throw new ForbiddenAccessException("User don't have permission to this service!");
 
-        var result = 1;
+        var result = await service.GetClassPage(id, subjectAreaId, selectedStudentId, selectedCurricularUnitId, selectedSubjectAreaId);
         return Ok(result);
     }
 }

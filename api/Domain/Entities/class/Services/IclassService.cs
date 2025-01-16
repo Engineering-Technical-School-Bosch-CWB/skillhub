@@ -8,4 +8,5 @@ public interface IClassService : IService<Class>
     public Task<AppResponse<ClassDTO>> CreateClass(ClassCreatePayload payload);
     public Task<double?> GetSkillMean(int id, int skillId);
     public double? GetSubjectMean(int id, int subjectId);
+    public Task<AppResponse<ClassPageDTO>> GetClassPage(int id, int? subjectAreaId, int? selectedStudentId, int? selectedCurricularUnitId, int? selectedSubjectAreaId);
 }
