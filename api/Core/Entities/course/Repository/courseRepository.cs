@@ -17,13 +17,13 @@ public class CourseRepository: BaseRepository<Course>, ICourseRepository
     }
     public (IEnumerable<Course>, PaginationInfo?) GetPaginated(PaginationOptions options)
     {
-        var result = _paginationService.Paginate(GetAllNoTracking().Where(c => c.IsActive).Include(c => c.DefaultOccupationArea), options);
+        var result = _paginationService.Paginate(Get().Where(c => c.IsActive).Include(c => c.DefaultOccupationArea), options);
         return result;
     }
     public async Task<(IEnumerable<Course>, PaginationInfo?)> GetPaginatedAsync(PaginationOptions options)
     {
         var result = await _paginationService.PaginateAsync(
-            GetAllNoTracking().Where(c => c.IsActive).Include(c => c.DefaultOccupationArea), options);
+            Get().Where(c => c.IsActive).Include(c => c.DefaultOccupationArea), options);
         return result;
     }
 }

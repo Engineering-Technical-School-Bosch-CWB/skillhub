@@ -32,7 +32,7 @@ public record SkillResultHistoryDTO(
     {
         return new SkillResultHistoryDTO(
             obj.Id,
-            obj.Exam is not null ? "Exam" : obj.Objection is not null ? "Objection" : "Original",
+            obj.Exam is not null ? "Exam" : obj.Objection is not null ? "Objection" : "---",
             obj.EvaluatedAt.HasValue ? DateOnly.FromDateTime(obj.EvaluatedAt.Value) : null,
             (EAptitude)obj.Aptitude!
         );

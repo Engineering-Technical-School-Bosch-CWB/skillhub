@@ -32,6 +32,7 @@ public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRe
             .Include(s => s.Exam)
             .Include(s => s.Objection)
             .Where(s => s.IsActive)
+            .Where(s => s.Aptitude.HasValue)
             .Where(s => s.Student.Id == studentId)
             .OrderByDescending(s => s.EvaluatedAt)
             .Select(s => SkillResultHistoryDTO.Map(s))
