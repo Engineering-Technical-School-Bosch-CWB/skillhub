@@ -84,7 +84,6 @@ public class CourseService : BaseService<Course>, ICourseService
     {
         var paginatedCourses = _repo.GetPaginated(pagination.ToOptions());
 
-
         return new PaginatedAppResponse<CourseDTO>(
             paginatedCourses.Item1.Select(c => CourseDTO.Map(c)),
             paginatedCourses.Item2!,
