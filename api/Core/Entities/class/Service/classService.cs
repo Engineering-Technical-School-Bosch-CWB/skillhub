@@ -74,6 +74,7 @@ public class ClassService(
     {
         var class_ = await _repo.Get()
             .Where(c => c.IsActive)
+            .Include(c => c.Course)
             .Include(c => c.Subjects).ThenInclude(s => s.CurricularUnit.SubjectArea)
             .Include(c => c.Subjects).ThenInclude(s => s.Instructor)
             .Include(c => c.Students).ThenInclude(s => s.User)
@@ -89,16 +90,18 @@ public class ClassService(
 
         var results = _skillResultRepo.Get()
             .Where(s => s.IsActive)
-            .Where(s => s.Student.Class.Id == id)
             .Where(s => s.Aptitude.HasValue)
             .Include(s => s.Student.User)
-            .Include(s => s.Student.Class)
+            .Include(s => s.Student.Class.Course)
             .Include(s => s.Skill.CurricularUnit.SubjectArea)
+            .Where(s => s.Student.Class.Id == id)
             .Where(s => !selectedStudentId.HasValue || s.Student.Id == selectedStudentId.Value)
             .Where(s => !selectedCurricularUnitId.HasValue || s.Skill.CurricularUnit.Id == selectedCurricularUnitId.Value)
             .Where(s => !selectedSubjectAreaId.HasValue || s.Skill.CurricularUnit.SubjectArea.Id == selectedSubjectAreaId.Value)
+            .AsEnumerable()
             .GroupBy(s => new { s.Student, s.Skill })
-            .Select(g => g.OrderByDescending(s => s.EvaluatedAt).First());
+            .Select(g => g.OrderByDescending(s => s.EvaluatedAt).First())
+            .ToList();
 
         var graphs = await GetClassGraphs(class_, results);
 
@@ -108,10 +111,8 @@ public class ClassService(
         );
     }
 
-    public async Task<ClassGraphsDTO> GetClassGraphs(Class class_, IQueryable<SkillResult> results)
+    public async Task<ClassGraphsDTO> GetClassGraphs(Class class_, List<SkillResult> results)
     {
-        var totalWeight = await results.SumAsync(s => s.Weight);
-        var totalAptitude = await results.SumAsync(s => s.Aptitude!.Value * s.Weight);
 
         var subjectResults = class_.Subjects.Select(s =>
         {
@@ -148,7 +149,7 @@ public class ClassService(
         });
 
         return new ClassGraphsDTO(
-            totalAptitude / totalWeight,
+            results.Count != 0 ? results.Sum(r => r.Aptitude!.Value * r.Weight) / results.Sum(r => r.Weight) : 0,
             subjectResults,
             studentResults,
             subjectAreaResults
