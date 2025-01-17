@@ -9,7 +9,7 @@ using Api.Core.Errors;
 namespace Api.Core.Services;
 
 public class StudentService(
-    BaseRepository<Student> repository, IUserRepository userRepository, ISubjectRepository subjectRepository, ISkillResultService skillResultService, ISubjectService subjectService,
+    BaseRepository<Student> repository, IUserRepository userRepository, ISubjectRepository subjectRepository, ISkillResultService skillResultService,
     IClassRepository classRepository, ISkillResultRepository skillResultRepository, IFeedbackRepository feedbackRepository, IExamRepository examRepository
     ) : BaseService<Student>(repository), IStudentService
 

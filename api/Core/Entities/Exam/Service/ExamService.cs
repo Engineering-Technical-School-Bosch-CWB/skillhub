@@ -4,6 +4,7 @@ using Api.Domain.Repositories;
 using Api.Domain.Services;
 using Genesis.Core.Repositories;
 using Genesis.Core.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Core.Services;
@@ -92,18 +93,17 @@ public class ExamService(BaseRepository<Exam> repository, ISubjectRepository sub
             .SingleOrDefaultAsync(e => e.Id == id) ?? throw new NotFoundException("Exam not found!");
 
         var studentResults = new List<StudentResultsDTO>();
-
-        foreach (var student in exam.Subject.Class.Students)
-        {
+        
+        var aa = exam.Subject.Class.Students.Select(student => {
             var resultBySubject = _studentService.GetSubjectGrade(student.Id, id);
 
             var skillResults = exam.SkillResults
                 .Where(sr => sr.Student.Id == student.Id && sr.IsActive)
                 .Select(CompleteSkillResultDTO.Map);
 
-            studentResults.Add(StudentResultsDTO.Map(student, resultBySubject, skillResults));
-        }
+            return StudentResultsDTO.Map(student, resultBySubject, skillResults);
+        });
 
-        return ExamResultsDTO.Map(exam, studentResults);
+        return ExamResultsDTO.Map(exam, aa);
     }
 }
