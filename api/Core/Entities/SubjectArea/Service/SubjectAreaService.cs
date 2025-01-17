@@ -86,10 +86,11 @@ public class SubjectAreaService(BaseRepository<SubjectArea> repository)
 
     public async Task<AppResponse<IEnumerable<SubjectAreaDTO>>> GetAllSubjectAreas()
     {
-        var subjectAreas = await _repo.Get()
+        var subjectAreas = _repo.Get()
             .Where(s => s.IsActive)
+            .AsEnumerable()
             .Select(s => SubjectAreaDTO.Map(s))
-            .ToListAsync();
+            .ToList();
 
         return new AppResponse<IEnumerable<SubjectAreaDTO>>(
             subjectAreas,

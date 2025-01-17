@@ -9,14 +9,15 @@ using Microsoft.EntityFrameworkCore;
 namespace Api.Core.Services;
 
 public class ExamService(BaseRepository<Exam> repository, ISubjectRepository subjectRepository, IStudentService studentService,
-        ISkillRepository skillRepository, ISkillResultRepository skillResultRepository, IUserRepository userRepository
-    ) : BaseService<Exam>(repository), IExamService
+    ISkillRepository skillRepository, ISkillResultRepository skillResultRepository, IUserRepository userRepository
+) : BaseService<Exam>(repository), IExamService
 {
     private readonly BaseRepository<Exam> _repo = repository;
-    private readonly ISubjectRepository _subjectRepo = subjectRepository;
     private readonly ISkillRepository _skillRepo = skillRepository;
     private readonly ISkillResultRepository _skillResultRepo = skillResultRepository;
+    private readonly ISubjectRepository _subjectRepo = subjectRepository;
     private readonly IUserRepository _userRepo = userRepository;
+
     private readonly IStudentService _studentService = studentService;
 
     public async Task<AppResponse<ExamDTO>> CreateExam(ExamCreatePayload payload)
@@ -94,7 +95,7 @@ public class ExamService(BaseRepository<Exam> repository, ISubjectRepository sub
 
         foreach (var student in exam.Subject.Class.Students)
         {
-            var resultBySubject = await _studentService.GetResultBySubject(student.Id, id);
+            var resultBySubject = _studentService.GetSubjectGrade(student.Id, id);
 
             var skillResults = exam.SkillResults
                 .Where(sr => sr.Student.Id == student.Id && sr.IsActive)

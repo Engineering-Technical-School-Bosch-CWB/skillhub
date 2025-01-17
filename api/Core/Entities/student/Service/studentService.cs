@@ -9,18 +9,20 @@ using Api.Core.Errors;
 namespace Api.Core.Services;
 
 public class StudentService(
-    BaseRepository<Student> repository, IUserRepository userRepository, ISubjectRepository subjectRepository, IClassService classService,
-    IClassRepository classRepository, ISkillResultRepository skillResultRepository, IFeedbackRepository feedbackRepository
+    BaseRepository<Student> repository, IUserRepository userRepository, ISubjectRepository subjectRepository, ISkillResultService skillResultService, ISubjectService subjectService,
+    IClassRepository classRepository, ISkillResultRepository skillResultRepository, IFeedbackRepository feedbackRepository, IExamRepository examRepository
     ) : BaseService<Student>(repository), IStudentService
 
 {
     private readonly BaseRepository<Student> _repo = repository;
-    private readonly IUserRepository _userRepo = userRepository;
     private readonly IClassRepository _classRepo = classRepository;
+    private readonly IExamRepository _examRepo = examRepository;
+    private readonly IFeedbackRepository _feedbackRepo = feedbackRepository;
     private readonly ISkillResultRepository _skillResultRepo = skillResultRepository;
     private readonly ISubjectRepository _subjectRepo = subjectRepository;
-    private readonly IFeedbackRepository _feedbackRepo = feedbackRepository;
-    private readonly IClassService _classService = classService;
+    private readonly IUserRepository _userRepo = userRepository;
+
+    private readonly ISkillResultService _skillResultService = skillResultService;
 
     public async Task<AppResponse<StudentDTO>> CreateStudent(StudentCreatePayload payload)
     {
@@ -31,6 +33,9 @@ public class StudentService(
         var studentclass = await _classRepo.Get()
             .SingleOrDefaultAsync(c => c.Id == payload.ClassId)
             ?? throw new NotFoundException("Class not found!");
+
+        if (await _repo.Get().SingleOrDefaultAsync(s => s.User.Id == payload.UserId) is not null)
+            throw new AlreadyExistsException("User is already a student!");
 
         var newStudent = new Student
         {
@@ -59,43 +64,33 @@ public class StudentService(
         return student is not null ? StudentDTO.Map(student) : null;
     }
 
-
     /// <summary>
-    /// Retrieves the aptitude result for a specific student and subject, weighted by the skill weights.
+    /// Retrieves the weighted average aptitude grade for a specific student in a specific subject,
+    /// based on their most recent skill evaluations.
     /// </summary>
-    /// <param name="id">
-    /// The ID of the student whose aptitude result is being retrieved.
-    /// </param>
-    /// <param name="subjectId">
-    /// The ID of the subject for which the aptitude result is being calculated.
-    /// </param>
-    /// <returns>
-    /// The weighted average aptitude for the specified student and subject.<br/>
-    /// Returns <c>null</c> if no skill results are found for the given student and subject.
-    /// </returns>
-    /// <remarks>
-    /// - This method calculates the aptitude result by considering only the most recent skill result for each skill.<br/>
-    /// - The result is weighted based on the skill result's weight value.<br/>
-    /// - If no aptitude values are found, the method returns <c>null</c>.<br/>
-    /// </remarks>
 
-    public async Task<double?> GetResultBySubject(int id, int subjectId)
+
+    public double? GetSubjectGrade(int id, int subjectId)
     {
-        var skillResults = await _skillResultRepo.Get()
-            .Where(s => s.Student.Id == id)
-            .Where(s => s.Subject!.Id == subjectId || s.Exam!.Subject.Id == subjectId)
-            .Where(s => s.Aptitude.HasValue && s.IsActive)
-            .GroupBy(s => s.Skill)
-            .Select(g => g.OrderByDescending(s => s.EvaluatedAt).First())
-            .ToListAsync();
+        var subjectExams = _examRepo.Get()
+            .Where(e => e.IsActive)
+            .Where(e => e.Subject.Id == subjectId)
+            .Include(e => e.SkillResults)
+            .ThenInclude(s => s.Student)
+            .Include(e => e.SkillResults)
+            .ThenInclude(s => s.Skill)
+            .AsEnumerable();
 
-        if (skillResults.Count == 0)
-            return null;
+        return subjectExams.Select(e =>
+            {
+                var results = e.SkillResults
+                    .Where(s => s.IsActive && s.Student.Id == id && s.Aptitude.HasValue)
+                    .GroupBy(s => s.Skill)
+                    .Select(g => g.OrderBy(s => s.EvaluatedAt).First());
 
-        var totalWeight = skillResults.Sum(s => s.Weight);
-        var totalAptitude = skillResults.Sum(s => s.Aptitude * s.Weight);
-
-        return totalAptitude / totalWeight;
+                return results.Any() ? results.Sum(s => s.Aptitude * s.Weight) / results.Sum(s => s.Weight) : null;
+            }
+        ).Average();
     }
 
     public async Task<AppResponse<StudentResultResponse>> GetResultsPage(int id)
@@ -116,7 +111,7 @@ public class StudentService(
         var results = new List<StudentResultDTO>();
 
         foreach (var subject in subjects)
-            results.Add(new StudentResultDTO(SubjectDTO.Map(subject), await GetResultBySubject(id, subject.Id)));
+            results.Add(new StudentResultDTO(SubjectDTO.Map(subject), GetSubjectGrade(id, subject.Id)));
 
         return new AppResponse<StudentResultResponse>(
             StudentResultResponse.Map(StudentDTO.Map(student), results),
@@ -143,7 +138,7 @@ public class StudentService(
             .Where(f => f.Subject!.Id == subjectId)
             .SingleOrDefaultAsync(f => f.Student.Id == id);
 
-        var skillResults = await _skillResultRepo.Get()
+        var results = await _skillResultRepo.Get()
             .Include(s => s.Student.Class)
             .Include(s => s.Skill)
             .Where(s => s.IsActive)
@@ -151,15 +146,15 @@ public class StudentService(
             .Where(s => s.Subject!.Id == subjectId || s.Exam!.Subject.Id == subjectId)
             .GroupBy(s => s.Skill)
             .Select(g => g.OrderByDescending(s => s.EvaluatedAt).First())
+            .Select(s => SkillResultDTO.Map(s, _skillResultService.GetSkillAverageByClass(s.Skill.Id, s.Student.Class.Id)))
             .ToListAsync();
 
-        var results = new List<SkillResultDTO>();
-
-        foreach (var skillResult in skillResults)
-            results.Add(SkillResultDTO.Map(skillResult, await _classService.GetSkillMean(skillResult.Student.Class.Id, skillResult.Skill.Id)));
+        var classStudents = await _repo.Get()
+            .Where(s => s.IsActive && s.Class.Id == student.Class.Id)
+            .ToListAsync();
 
         return new AppResponse<StudentSubjectResultResponse>(
-            StudentSubjectResultResponse.Map(student, _classService.GetSubjectMean(student.Class.Id, subjectId), results, feedback),
+            StudentSubjectResultResponse.Map(student, classStudents.Average(s => GetSubjectGrade(s.Id, subjectId)), results, feedback),
             "Subject results found!"
         );
     }

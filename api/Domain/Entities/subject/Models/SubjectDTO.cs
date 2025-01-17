@@ -28,18 +28,20 @@ public record SubjectDTO(
     }
 }
 
-public record SimpleSubjectDTO(
+public record SubjectResultDTO(
     int Id,
     string Name,
-    string? Instructor
+    string? Instructor,
+    double? Performance
 )
 {
-    public static SimpleSubjectDTO Map(Subject obj)
+    public static SubjectResultDTO Map(Subject obj, double? performance = null)
     {
-        return new SimpleSubjectDTO(
+        return new SubjectResultDTO(
             obj.Id,
             obj.CurricularUnit.Name,
-            obj.Instructor?.Name
+            obj.Instructor?.Name,
+            performance
         );
     }
 }

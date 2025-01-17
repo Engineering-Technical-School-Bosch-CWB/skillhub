@@ -9,13 +9,13 @@ using System.Threading.RateLimiting;
 
 namespace Api.Core.Services;
 public class SkillService(BaseRepository<Skill> repository, ICurricularUnitRepository curricularUnitRepository,
-    IPaginationService paginationService)
-: BaseService<Skill>(repository), ISkillService
+    IPaginationService paginationService, ISkillResultRepository skillResultRepository
+    ) : BaseService<Skill>(repository), ISkillService
 {
     private readonly BaseRepository<Skill> _repo = repository;
     private readonly ICurricularUnitRepository _curricularUnitRepo = curricularUnitRepository;
     private readonly IPaginationService _pagService = paginationService;
-
+    private readonly ISkillResultRepository _skillResultRepo = skillResultRepository;
 
     public async Task<AppResponse<SkillDTO>> CreateSkill(SkillCreatePayload payload)
     {
@@ -96,7 +96,7 @@ public class SkillService(BaseRepository<Skill> repository, ICurricularUnitRepos
             .SingleOrDefaultAsync(s => s.Id == id)
             ?? throw new NotFoundException("Skill not found!");
 
-        if (!string.IsNullOrEmpty(payload.Description)) 
+        if (!string.IsNullOrEmpty(payload.Description))
             skill.Description = payload.Description;
 
         if (!string.IsNullOrEmpty(payload.EvaluationCriteria))
@@ -119,4 +119,6 @@ public class SkillService(BaseRepository<Skill> repository, ICurricularUnitRepos
             "Skill updated successfully!"
         );
     }
+
+
 }

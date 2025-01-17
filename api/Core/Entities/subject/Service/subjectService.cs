@@ -13,9 +13,10 @@ public class SubjectService(BaseRepository<Subject> repository, IUserRepository 
     ) : BaseService<Subject>(repository), ISubjectService
 {
     private readonly BaseRepository<Subject> _repo = repository;
-    private readonly IUserRepository _userRepo = userRepository;
-    private readonly ICurricularUnitRepository _curricularUnitRepo = curricularUnitRepository;
     private readonly IClassRepository _classRepo = classRepository;
+    private readonly ICurricularUnitRepository _curricularUnitRepo = curricularUnitRepository;
+    private readonly IUserRepository _userRepo = userRepository;
+
     private readonly IExamService _examService = examService;
 
     public async Task<AppResponse<SubjectDTO>> CreateSubject(SubjectCreatePayload payload)
@@ -52,6 +53,7 @@ public class SubjectService(BaseRepository<Subject> repository, IUserRepository 
             "Subject created successfully!"
         );
     }
+
 
     public async Task<AppResponse<InstructorSubjectDTO>> GetInstructorPage(int id)
     {

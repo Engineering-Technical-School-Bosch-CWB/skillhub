@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Api.Core.Services;
 
 public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRepository skillRepository, IStudentRepository studentRepository,
-        IExamRepository examRepository, ISubjectRepository subjectRepository, IObjectionRepository objectionRepository, IClassService classService
+        IExamRepository examRepository, ISubjectRepository subjectRepository, IObjectionRepository objectionRepository
     ) : BaseService<SkillResult> (repository), ISkillResultService
 {
     private readonly BaseRepository<SkillResult> _repo = repository;
@@ -18,7 +18,6 @@ public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRe
     private readonly IExamRepository _examRepo = examRepository;
     private readonly ISubjectRepository _subjectRepo = subjectRepository;
     private readonly IObjectionRepository _objectionRepo = objectionRepository;
-    private readonly IClassService _classService = classService;
 
     public async Task<AppResponse<SkillHistoryResponse>> GetSkillResultHistory(int studentId, int skillId)
     {
@@ -42,6 +41,20 @@ public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRe
             SkillHistoryResponse.Map(SkillDTO.Map(skill), history),
             "Skill history found!"
         );
+    }
+
+    
+    public double? GetSkillAverageByClass(int skillId, int classId)
+    {
+        var average = _repo.Get()
+            .Where(s => s.IsActive)
+            .Where(s => s.Skill.Id == skillId)
+            .Where(s => s.Student.Class.Id == classId)
+            .GroupBy(s => s.Student)
+            .Select(g => g.OrderBy(s => s.EvaluatedAt).First())
+            .Average(s => s.Aptitude);
+
+        return average;
     }
 
     public async Task<AppResponse<SkillResultDTO>> CreateSkillResult(SkillResultCreatePayload payload)
@@ -87,7 +100,7 @@ public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRe
         await _repo.SaveAsync();
 
         return new AppResponse<SkillResultDTO>(
-            SkillResultDTO.Map(createdSkillResult, await _classService.GetSkillMean(student.Class.Id, skill.Id)),
+            SkillResultDTO.Map(createdSkillResult, GetSkillAverageByClass(skill.Id, student.Class.Id)),
             "Skill result created successfully!"
         );
     }

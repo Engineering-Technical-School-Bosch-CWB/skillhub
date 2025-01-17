@@ -1,4 +1,3 @@
-using System.Globalization;
 using Api.Domain.Enums;
 
 namespace Api.Domain.Models;

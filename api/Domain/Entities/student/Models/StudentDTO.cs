@@ -38,14 +38,16 @@ public record StudentResultsDTO(
 
 public record SimpleStudentDTO(
     int Id,
-    string Name
+    string Name,
+    double? Performance
 )
 {
-    public static SimpleStudentDTO Map(Student obj)
+    public static SimpleStudentDTO Map(Student obj, double? performance = null)
     {
         return new SimpleStudentDTO(
             obj.Id,
-            obj.User.Name
+            obj.User.Name,
+            performance
         );
     }
 }

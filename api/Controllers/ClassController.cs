@@ -30,7 +30,6 @@ public class ClassController : ControllerBase
         [FromQuery] int? selectedCurricularUnitId, [FromQuery] int? selectedSubjectAreaId, int id
     )
     {
-
         if (userContext.PermissionLevel != EPermissionLevel.Admin)
             throw new ForbiddenAccessException("User don't have permission to this service!");
 
