@@ -18,16 +18,16 @@ public record StudentDTO(
     }
 }
 
-public record StudentResultsDTO(
+public record StudentExamResultsDTO(
     int Id,
     string Name,
     double? Mean,
     IEnumerable<CompleteSkillResultDTO> SkillResults
 )
 {
-    public static StudentResultsDTO Map(Student obj, double? mean, IEnumerable<CompleteSkillResultDTO> skillResults)
+    public static StudentExamResultsDTO Map(Student obj, double? mean, IEnumerable<CompleteSkillResultDTO> skillResults)
     {
-        return new StudentResultsDTO(
+        return new StudentExamResultsDTO(
             obj.Id,
             obj.User.Name,
             mean,

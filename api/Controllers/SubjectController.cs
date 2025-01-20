@@ -24,29 +24,14 @@ public class SubjectController : ControllerBase
     [HttpGet]
     [Route("{id}")]
     public async Task<ActionResult> GetInstructorSubjectPage(
-        [FromServices] ISubjectService subjectService,
+        [FromServices] ISubjectService service,
         UserContext userContext, int id
     )
     {
         if (userContext.PermissionLevel != EPermissionLevel.Admin)
             throw new ForbiddenAccessException("User don't have permission to this service!");
 
-        var result = await subjectService.GetInstructorPage(id);
+        var result = await service.GetInstructorPage(id);
         return Ok(result);
     }
-
-    [HttpGet]
-    [Route("results/{id}")]
-    public async Task<ActionResult> GetSubjectResultsPage(
-        [FromServices] IStudentService studentService,
-        UserContext userContext, int id
-    )
-    {
-        var student = await studentService.GetByUserId(userContext.UserId)
-            ?? throw new NotFoundException("Student found!");
-
-        var result = await studentService.GetSubjectResultsPage(student.Id, id);
-        return Ok(result);
-    }
-
 }

@@ -11,7 +11,7 @@ namespace Api.Core.Services;
 public class StudentService(
     BaseRepository<Student> repository, IUserRepository userRepository, ISubjectRepository subjectRepository, ISkillResultService skillResultService,
     IClassRepository classRepository, ISkillResultRepository skillResultRepository, IFeedbackRepository feedbackRepository, IExamRepository examRepository
-    ) : BaseService<Student>(repository), IStudentService
+) : BaseService<Student>(repository), IStudentService
 
 {
     private readonly BaseRepository<Student> _repo = repository;
@@ -24,13 +24,15 @@ public class StudentService(
 
     private readonly ISkillResultService _skillResultService = skillResultService;
 
+    #region CRUD
+
     public async Task<AppResponse<StudentDTO>> CreateStudent(StudentCreatePayload payload)
     {
         var user = await _userRepo.Get()
             .SingleOrDefaultAsync(u => u.Id == payload.UserId)
             ?? throw new NotFoundException("User not found!");
 
-        var studentclass = await _classRepo.Get()
+        var class_ = await _classRepo.Get()
             .SingleOrDefaultAsync(c => c.Id == payload.ClassId)
             ?? throw new NotFoundException("Class not found!");
 
@@ -40,7 +42,7 @@ public class StudentService(
         var newStudent = new Student
         {
             User = user,
-            Class = studentclass
+            Class = class_
         };
 
         var createdStudent = _repo.Add(newStudent)
@@ -64,11 +66,9 @@ public class StudentService(
         return student is not null ? StudentDTO.Map(student) : null;
     }
 
-    /// <summary>
-    /// Retrieves the weighted average aptitude grade for a specific student in a specific subject,
-    /// based on their most recent skill evaluations.
-    /// </summary>
+    #endregion
 
+    #region Services
 
     public double? GetSubjectGrade(int id, int subjectId)
     {
@@ -93,6 +93,34 @@ public class StudentService(
         ).Average();
     }
 
+    public StudentExamResultsDTO GetExamResults(int id, int examId)
+    {
+        var student = _repo.Get()
+            .Where(s => s.IsActive)
+            .Include(s => s.User)
+            .SingleOrDefault(s => s.Id == id) ?? throw new NotFoundException("Student not found!");
+
+        var results = _skillResultRepo.Get()
+            .Where(s => s.IsActive)
+            .Where(s => s.Exam!.Id == examId)
+            .Where(s => s.Student.Id == id)
+            .Include(s => s.Student.User)
+            .Include(s => s.Skill.CurricularUnit)
+            .GroupBy(s => s.Skill)
+            .Select(g => g.OrderBy(s => s.EvaluatedAt).First())
+            .AsEnumerable();
+
+        return StudentExamResultsDTO.Map(
+            student,
+            results.Any() ? results.Sum(s => s.Aptitude * s.Weight) / results.Sum(s => s.Weight) : null,
+            results.Select(CompleteSkillResultDTO.Map)
+        );
+    }
+
+    #endregion
+
+    #region Pages
+
     public async Task<AppResponse<StudentResultResponse>> GetResultsPage(int id)
     {
         var student = await _repo.Get()
@@ -108,10 +136,7 @@ public class StudentService(
             .Where(s => s.Class == student.Class)
             .ToListAsync();
 
-        var results = new List<StudentResultDTO>();
-
-        foreach (var subject in subjects)
-            results.Add(new StudentResultDTO(SubjectDTO.Map(subject), GetSubjectGrade(id, subject.Id)));
+        var results = subjects.Select(s => new StudentResultDTO(SubjectDTO.Map(s), GetSubjectGrade(id, s.Id)));
 
         return new AppResponse<StudentResultResponse>(
             StudentResultResponse.Map(StudentDTO.Map(student), results),
@@ -122,41 +147,37 @@ public class StudentService(
     public async Task<AppResponse<StudentSubjectResultResponse>> GetSubjectResultsPage(int id, int subjectId)
     {
         var student = await _repo.Get()
-            .Include(s => s.Class)
             .Where(s => s.IsActive)
             .SingleOrDefaultAsync(s => s.Id == id)
             ?? throw new NotFoundException("Student not found!");
 
         var subject = await _subjectRepo.Get()
             .Where(s => s.IsActive)
+            .Include(s => s.CurricularUnit)
+            .Include(s => s.Class.Students.Where(s => s.IsActive))
             .SingleOrDefaultAsync(s => s.Id == subjectId)
             ?? throw new NotFoundException("Subject not found!");
 
         var feedback = await _feedbackRepo.Get()
             .Include(f => f.Instructor)
-            .Where(f => f.IsActive)
-            .Where(f => f.Subject!.Id == subjectId)
+            .Where(f => f.IsActive && f.Subject!.Id == subjectId)
             .SingleOrDefaultAsync(f => f.Student.Id == id);
 
-        var results = await _skillResultRepo.Get()
-            .Include(s => s.Student.Class)
-            .Include(s => s.Skill)
-            .Where(s => s.IsActive)
-            .Where(s => s.Student.Id == id)
-            .Where(s => s.Subject!.Id == subjectId || s.Exam!.Subject.Id == subjectId)
+        var skillResults = await _skillResultRepo.Get()
+            .Where(s => s.IsActive && s.Student.Id == id)
+            .Where(s => s.Skill.CurricularUnit.Id == subject.CurricularUnit.Id)
             .GroupBy(s => s.Skill)
             .Select(g => g.OrderByDescending(s => s.EvaluatedAt).First())
-            .Select(s => SkillResultDTO.Map(s, _skillResultService.GetSkillAverageByClass(s.Skill.Id, s.Student.Class.Id)))
             .ToListAsync();
 
-        var classStudents = await _repo.Get()
-            .Where(s => s.IsActive && s.Class.Id == student.Class.Id)
-            .ToListAsync();
+        var results = skillResults
+            .Select(s => SkillResultDTO.Map(s, _skillResultService.GetSkillAverageByClass(s.Skill.Id, subject.Class.Id)));
 
         return new AppResponse<StudentSubjectResultResponse>(
-            StudentSubjectResultResponse.Map(student, classStudents.Average(s => GetSubjectGrade(s.Id, subjectId)), results, feedback),
+            StudentSubjectResultResponse.Map(student, subject.Class.Students.Average(s => GetSubjectGrade(s.Id, subjectId)), results, feedback),
             "Subject results found!"
         );
     }
 
+    #endregion
 }

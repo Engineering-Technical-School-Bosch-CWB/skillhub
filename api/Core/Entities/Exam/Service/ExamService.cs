@@ -4,7 +4,6 @@ using Api.Domain.Repositories;
 using Api.Domain.Services;
 using Genesis.Core.Repositories;
 using Genesis.Core.Services;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Core.Services;
@@ -20,6 +19,8 @@ public class ExamService(BaseRepository<Exam> repository, ISubjectRepository sub
     private readonly IUserRepository _userRepo = userRepository;
 
     private readonly IStudentService _studentService = studentService;
+
+    #region CRUD
 
     public async Task<AppResponse<ExamDTO>> CreateExam(ExamCreatePayload payload)
     {
@@ -82,28 +83,14 @@ public class ExamService(BaseRepository<Exam> repository, ISubjectRepository sub
         );
     }
 
-    public async Task<ExamResultsDTO> GetStudentsResults(int id)
+    #endregion
+
+    #region Services
+
+    public async Task<ExamResultsDTO> GetClassResults(int id)
     {
-        var exam = await _repo.Get()
-            .Where(e => e.IsActive)
-            .Include(e => e.Subject.Class.Students)
-            .ThenInclude(s => s.User)
-            .Include(e => e.SkillResults)
-            .ThenInclude(sr => sr.Skill)
-            .SingleOrDefaultAsync(e => e.Id == id) ?? throw new NotFoundException("Exam not found!");
-
-        var studentResults = new List<StudentResultsDTO>();
-        
-        var aa = exam.Subject.Class.Students.Select(student => {
-            var resultBySubject = _studentService.GetSubjectGrade(student.Id, id);
-
-            var skillResults = exam.SkillResults
-                .Where(sr => sr.Student.Id == student.Id && sr.IsActive)
-                .Select(CompleteSkillResultDTO.Map);
-
-            return StudentResultsDTO.Map(student, resultBySubject, skillResults);
-        });
-
-        return ExamResultsDTO.Map(exam, aa);
+        return null;
     }
+
+    #endregion
 }

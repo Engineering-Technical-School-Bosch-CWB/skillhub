@@ -85,18 +85,13 @@ public class ClassService(
 
     public ClassGraphsDTO GetClassGraphs(IEnumerable<Subject> subjects, IEnumerable<Student> students)
     {
-
-        var results = subjects.SelectMany(subj => students.Select(student => {
-
-                var performance = _studentService.GetSubjectGrade(student.Id, subj.Id);
-                return new
-                {
-                    Subject = subj,
-                    Student = student,
-                    Performance = performance
-                };
-            })
-        );
+        var results = subjects.SelectMany(subj => students.Select(student => new
+            {
+                Subject = subj,
+                Student = student,
+                Performance = _studentService.GetSubjectGrade(student.Id, subj.Id)
+            }
+        ));
 
         var subjectResults = results.GroupBy(r => r.Subject).Select(g => SubjectResultDTO.Map(g.Key, g.Average(a => a.Performance)));
         var studentResults = results.GroupBy(r => r.Student).Select(g => SimpleStudentDTO.Map(g.Key, g.Average(a => a.Performance)));

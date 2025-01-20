@@ -42,7 +42,6 @@ public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRe
             "Skill history found!"
         );
     }
-
     
     public double? GetSkillAverageByClass(int skillId, int classId)
     {
@@ -52,6 +51,7 @@ public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRe
             .Where(s => s.Student.Class.Id == classId)
             .GroupBy(s => s.Student)
             .Select(g => g.OrderBy(s => s.EvaluatedAt).First())
+            .AsEnumerable()
             .Average(s => s.Aptitude);
 
         return average;

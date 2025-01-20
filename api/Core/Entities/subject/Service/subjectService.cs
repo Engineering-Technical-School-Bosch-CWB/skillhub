@@ -8,7 +8,7 @@ using Api.Core.Errors;
 
 namespace Api.Core.Services;
 
-public class SubjectService(BaseRepository<Subject> repository, IUserRepository userRepository,
+public class SubjectService(BaseRepository<Subject> repository, IUserRepository userRepository, IStudentService studentService,
     ICurricularUnitRepository curricularUnitRepository, IClassRepository classRepository, IExamService examService
     ) : BaseService<Subject>(repository), ISubjectService
 {
@@ -18,6 +18,9 @@ public class SubjectService(BaseRepository<Subject> repository, IUserRepository 
     private readonly IUserRepository _userRepo = userRepository;
 
     private readonly IExamService _examService = examService;
+    private readonly IStudentService _studentService = studentService;
+
+    #region CRUD
 
     public async Task<AppResponse<SubjectDTO>> CreateSubject(SubjectCreatePayload payload)
     {
@@ -54,22 +57,27 @@ public class SubjectService(BaseRepository<Subject> repository, IUserRepository 
         );
     }
 
+    #endregion
+
+    #region Pages
 
     public async Task<AppResponse<InstructorSubjectDTO>> GetInstructorPage(int id)
     {
         var subject = await _repo.Get()
             .Where(s => s.IsActive)
             .Include(s => s.CurricularUnit)
-            .Include(s => s.Class)
+            .Include(s => s.Class.Students)
             .Include(s => s.Exams)
             .SingleOrDefaultAsync(s => s.Id == id)
             ?? throw new NotFoundException("Subject not found!");
 
-        var examsResults = await Task.WhenAll(subject.Exams.Select(e => _examService.GetStudentsResults(e.Id)));
+        var aaa = subject.Exams.Select(e => ExamResultsDTO.Map(e, subject.Class.Students.Select(s => _studentService.GetExamResults(s.Id, e.Id))));
 
         return new AppResponse<InstructorSubjectDTO>(
-            InstructorSubjectDTO.Map(subject, examsResults),
+            InstructorSubjectDTO.Map(subject, aaa),
             "Subject info found!"
         );
     }
+
+    #endregion
 }
