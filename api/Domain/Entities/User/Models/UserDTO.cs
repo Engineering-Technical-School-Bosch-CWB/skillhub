@@ -1,11 +1,27 @@
 namespace Api.Domain.Models;
+
+public record ObjectDTO(
+    int Id,
+    string Name
+)
+{
+    public static ObjectDTO Map(int id, string name)
+    {
+        return new ObjectDTO(
+            id,
+            name
+        );
+    }
+}
+
 public record UserDTO(
     int Id,
     string Name,
+    string Identification,
     DateOnly? Birthday,
-    int PositionId,
-    int SectorId,
-    int OccupationAreaId,
+    ObjectDTO Position,
+    ObjectDTO Sector,
+    ObjectDTO OccupationArea,
     short? PermissionLevel,
     StudentDTO? StudentProfile
 )
@@ -15,10 +31,11 @@ public record UserDTO(
         return new UserDTO(
             obj.Id,
             obj.Name,
+            obj.Identification,
             obj.Birthday,
-            obj.Position.Id,
-            obj.Sector.Id,
-            obj.OccupationArea.Id,
+            ObjectDTO.Map(obj.Position.Id, obj.Position.Name),
+            ObjectDTO.Map(obj.Sector.Id, obj.Sector.Name),
+            ObjectDTO.Map(obj.OccupationArea.Id, obj.OccupationArea.Name),
             obj.Position?.PositionLevel,
             student
         );

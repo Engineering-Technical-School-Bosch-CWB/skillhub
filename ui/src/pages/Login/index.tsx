@@ -18,25 +18,33 @@ const Login = () => {
     ];
 
     const handleSubmit = async (data: FieldValues) => {
-        const response = await internalAPI.jsonRequest('/login', 'POST', undefined, data);
-        const content = response.data;
+        const apiRequest = async () => {
+            const response = await internalAPI.jsonRequest('/login', 'POST', undefined, data);
+            if (response.statusCode !== 200) {
+                throw new Error("Invalid credentials.");
+            }
+            return response.data;
+        };
 
-        if(response.statusCode != 200) {
-            toast.error("Invalid credentials.");
-            return;
-        }
+        const content = await toast.promise(
+            apiRequest(),
+            {
+                pending: "Authenticating...",
+                success: "Logged in successfully!",
+                error: "Invalid credentials.",
+            }
+        );
 
         sessionStorage.setItem("@AUTH", content.authToken.token);
         setUser(content.user);
 
-        if(content.firstLogin) {
-            navigate("/user/register");
+        if (content.firstLogin) {
+            navigate("/user/register/" + content.user.id);
             toast.info("Complete registration to gain access.");
             return;
         }
 
         navigate("/home");
-        toast.success("Logged in successfully!");
     }
     
     return (

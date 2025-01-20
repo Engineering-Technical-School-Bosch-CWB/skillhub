@@ -15,7 +15,7 @@ export default class Service {
         this.baseUrl = baseUrl
         this.contentType = contentType || "application/json"
         this.getAuth = getAuth || (() => {
-            const token = localStorage.getItem("@TOKEN");
+            const token = sessionStorage.getItem("@AUTH");
             return "Bearer " + token;
         })
     }
@@ -28,13 +28,12 @@ export default class Service {
         body?: any,
     ): Promise<IServiceResponse<T>> {
 
-        console.log(body)
         const response = await fetch(this.baseUrl + url, {
             method,
             body: body && JSON.stringify(body),
             headers: {
                 "Content-Type": this.contentType,
-                // "Authorization": this.getAuth(),
+                "Authorization": this.getAuth(),
                 ...headers
             }
         })
