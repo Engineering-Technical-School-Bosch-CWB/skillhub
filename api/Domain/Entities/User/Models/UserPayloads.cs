@@ -23,7 +23,6 @@ public class UserCreatePayload
 
 public class UserUpdatePayload
 {
-    public int UserId { get; set; }
     public int? SectorId { get; set; }
 
     public int? PositionId { get; set; }

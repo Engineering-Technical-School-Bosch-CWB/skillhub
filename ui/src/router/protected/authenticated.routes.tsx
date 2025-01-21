@@ -34,6 +34,6 @@ export default {
             path: RouteMap.BIRTHDAYS,
             element: <Birthdays/>,
             title: "Birthdays",
-        },
+        }
     ]
 } as IAccessRoutes

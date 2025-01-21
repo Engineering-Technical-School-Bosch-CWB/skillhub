@@ -15,7 +15,7 @@ export default function App() {
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <UserProvider>
                 <RouterProvider router={router}/>
-                <ToastContainer position="top-center"/>
+                <ToastContainer position="top-center" autoClose={5000}/>
             </UserProvider>
         </LocalizationProvider>
     )

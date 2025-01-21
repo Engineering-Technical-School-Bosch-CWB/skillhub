@@ -29,27 +29,27 @@ export default {
             title: "Classes",
             element: <ClassesOverview />,
         },
-        {
-            path: RouteMap.CLASS_DETAILS,
-            element: <ClassDetails />
-        }, 
-        {
-            path: RouteMap.SUBJECT_DETAILS,
-            element: <SubjectDetails />,
-            children: [
-            ]
-        },
-        {
-            path: RouteMap.NEW_SUBJECT_TEST,
-            element: <NewTest />
-        },
-        {
-            path: RouteMap.AVALIATION_RESULT,
-            element: <AvaliationResult />
-        },
-        {
-            path: RouteMap.STUDENT_OVERVIEW,
-            element: <AprenticesProfile />
-        }
+        // {
+        //     path: RouteMap.CLASS_DETAILS,
+        //     element: <ClassDetails />
+        // }, 
+        // {
+        //     path: RouteMap.SUBJECT_DETAILS,
+        //     element: <SubjectDetails />,
+        //     children: [
+        //     ]
+        // },
+        // {
+        //     path: RouteMap.NEW_SUBJECT_TEST,
+        //     element: <NewTest />
+        // },
+        // {
+        //     path: RouteMap.AVALIATION_RESULT,
+        //     element: <AvaliationResult />
+        // },
+        // {
+        //     path: RouteMap.STUDENT_OVERVIEW,
+        //     element: <AprenticesProfile />
+        // }
     ]
 } as IAccessRoutes

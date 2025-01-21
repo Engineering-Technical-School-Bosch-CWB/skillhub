@@ -21,13 +21,13 @@ public class UserController : ControllerBase
 
 
     [HttpPatch]
-    [Route("")]
+    [Route("{id}")]
     public async Task<ActionResult> UpdateUser(
         [FromServices] IUserService service,
-        [FromBody] UserUpdatePayload payload
+        [FromBody] UserUpdatePayload payload, int id
     )
     {
-        var result = await service.UpdateUser(payload);
+        var result = await service.UpdateUser(id, payload);
         return Ok(result);
     }
 
