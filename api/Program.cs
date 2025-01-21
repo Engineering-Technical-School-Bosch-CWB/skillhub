@@ -80,7 +80,6 @@ public class Program
 
         services.AddExceptionHandler<ErrorHandlingMiddleware>();
         services.AddTransient<AuthenticationMiddleware>();
-        services.AddScoped<UserContext>();
 
         #endregion
 

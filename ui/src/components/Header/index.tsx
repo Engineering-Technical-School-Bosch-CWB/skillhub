@@ -6,6 +6,8 @@ import styles from "./styles.module.css"
 import Link from "../Link"
 import { useUserContext } from "../../contexts/user.context"
 import { useNavigate } from "react-router-dom"
+import internalAPI from "../../service/internal.services"
+import { toast } from "react-toastify"
 
 interface IHeaderProps {
 
@@ -25,10 +27,30 @@ interface IHeaderProps {
  */
 const Header = ({ }: IHeaderProps) => {
 
+
     const { user, setUser } = useUserContext();
+    const [menuOpen, setMenuOpen] = useState(false);
+
     const navigate = useNavigate();
 
-    const [menuOpen, setMenuOpen] = useState(false);
+    const getData = async () => {
+
+        const response = await internalAPI.jsonRequest("/users", "GET", undefined, undefined);
+
+        console.log(response)
+        if (!response || response.statusCode != 200) {
+            if (!toast.isActive("user-load-error"))
+                toast.error("Authentication required.", { toastId: "user-load-error" });
+            navigate("/");
+        }
+
+        const content = response.data;
+        setUser(content);
+    }
+
+    useEffect(() => {
+        getData();
+    }, [])
 
 
     return (

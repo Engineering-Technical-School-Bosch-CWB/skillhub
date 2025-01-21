@@ -23,7 +23,7 @@ const Login = () => {
 
         const apiRequest = async () => {
 
-            const response = await internalAPI.jsonRequest('/login', 'POST', undefined, data);
+            const response = await internalAPI.jsonRequest("/login", "POST", undefined, data);
 
             if (!response || response.statusCode != 200)
                 throw new Error(response.message);

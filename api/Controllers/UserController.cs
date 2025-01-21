@@ -1,3 +1,4 @@
+using Api.Core.Services;
 using Api.Domain.Models;
 using Api.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -43,17 +44,17 @@ public class UserController : ControllerBase
     }
 
     [HttpGet]
-    [Route("{id}")]
     public async Task<IActionResult> GetUser(
-        [FromServices] IUserService service,
-        int id
+        [FromServices] IUserService service, UserContext userContext,
+        [FromQuery] int? id
     )
     {
-        var result = await service.GetUser(id);
+        var result = await service.GetUser(id ?? userContext.UserId);
         return Ok(result);
     }
 
     [HttpGet]
+    [Route("paginated")]
     public async Task<ActionResult> GetPaginatedUsers(
         [FromServices] IUserService service, [FromQuery] PaginationQuery pagination,
         [FromQuery] string? query, [FromQuery] short? birthMonth,
