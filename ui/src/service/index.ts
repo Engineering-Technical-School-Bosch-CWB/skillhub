@@ -20,11 +20,10 @@ export default class Service {
         })
     }
 
-
     public async jsonRequest<T = any>(
-        url: string, 
-        method: IHttpMethod, 
-        headers?: HeadersInit, 
+        url: string,
+        method: IHttpMethod,
+        headers?: HeadersInit,
         body?: any,
     ): Promise<IServiceResponse<T>> {
 
@@ -37,10 +36,10 @@ export default class Service {
                 ...headers
             }
         })
-        
+
         const json = await response.json()
 
-        return { 
+        return {
             statusCode: response.status,
             data: json.data || null,
             success: response.status < 400,

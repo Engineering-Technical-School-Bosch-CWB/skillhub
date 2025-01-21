@@ -14,5 +14,5 @@ export interface ILoginPayload {
 
 export interface IResult {
     subject: string;
-    exploitation: number;
-  }
+    performance: number;
+}

@@ -4,7 +4,6 @@ import { IBarChartProps } from "./interfaces";
 import { BarRectangleItem } from 'recharts/types/cartesian/Bar';
 import Text from "../../../typography";
 
-
 export default function SingleBarChart({ data, xAxis, yAxis, onBarClick, barStyle }: IBarChartProps) {
 
   return (
@@ -32,14 +31,14 @@ export default function SingleBarChart({ data, xAxis, yAxis, onBarClick, barStyl
           height={barStyle?.XAxisProps?.height} 
           fontSize={barStyle?.XAxisProps?.fontSize} 
         />
-        <YAxis dataKey={yAxis} />
+        <YAxis dataKey={yAxis} domain={[0, 100]} />
         <Tooltip />
         <Bar 
           className={`${styles.bar}`}
           dataKey={yAxis} 
           fill={"#0197ee"} 
           activeBar={<Rectangle fill="#00629a" />} 
-          barSize={45} 
+          barSize={30} 
           onClick={(e: BarRectangleItem) => onBarClick? onBarClick(e) : "" } 
         />
       </BarChart>

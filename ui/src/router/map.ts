@@ -4,8 +4,8 @@ export enum RouteMap {
     COMPLETE_REGISTERING = "/user/register",
 
     HOME = "/home",
-    APRENTICES_RESULTS = "/aprentice/results",
-    SUBJECT_RESULTS = "/aprentice/results/subject/:id",
+    APPRENTICE_RESULTS = "/apprentice/results",
+    SUBJECT_RESULTS = "/apprentice/results/subject/:id",
     BIRTHDAYS = "/birthdays",
 
     SCHOOL_CONTENT = "/school-content",
