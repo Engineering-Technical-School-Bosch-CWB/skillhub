@@ -1,180 +1,96 @@
-import { useParams } from "react-router-dom";
+import Text from "../../typography";
+import styles from './styles.module.css'
+import Ranking from "./Components/Ranking";
+import getHex from "../../constants/getHex";
 import Header from "../../components/Header";
+import GeneralChart from "./Components/GeneralChart";
+import internalAPI from "../../service/internal.services";
+import SubjectBarChart from "./Components/SubjectBarChart";
+import AddSubjectModal from "./Components/AddSubject.Modal";
+import ContentAreaChart from "./Components/ContentAreaChart";
+import DoughnutChart from "../../components/Charts/DoughnutChart";
 import ExplorerContainer from "../../components/ExplorerContainer";
-import IIdentificationCardProps from "../../components/ExplorerContainer/Components/IdentificationCard/interfaces";
 import Divider from "../../components/Divider";
 import StudentCard from "../../components/StudentCard";
-import { IStudentCardProps } from "../../components/StudentCard/interfaces/IStudentCard.interfaces";
 
-import styles from './styles.module.css'
-import DoughnutChart from "../../components/Charts/DoughnutChart";
-import ContentAreaChart from "./Components/ContentAreaChart";
-import Ranking from "./Components/Ranking";
-import GeneralChart from "./Components/GeneralChart";
-import SubjectBarChart from "./Components/SubjectBarChart";
+import { useParams } from "react-router-dom";
 import { RankingChartProps, StudentSubject } from "./interfaces/ClassDetails.interfaces";
-import Text from "../../typography";
-import { useState } from "react";
-import AddSubjectModal from "./Components/AddSubject.Modal";
+import { IStudentCardProps } from "../../components/StudentCard/interfaces/IStudentCard.interfaces";
+import { useEffect, useState } from "react";
 
-export default () => {
+const ClassDetails = () => {
     const { id } = useParams<{ id: string }>();
-    
+
     const [modalOpened, setModalOpened] = useState(false);
 
-    const courseSubjects: IIdentificationCardProps[] = [
-        {
-            color: "#1a73e8",
-            goTo: '/class/subject/1',
-            subtitle: 'Queila Lima',
-            title: "Python",
-        },
-        {
-            color: "#34a853",
-            goTo: '/subjects/physics',
-            subtitle: 'L. Trevisan',
-            title: "C# Básico",
-        },
-        {
-            color: "#34a853",
-            goTo: '/subjects/programming',
-            subtitle: 'L. Trevisan',
-            title: "C# Avançado",
-        },
-        {
-            color: "#fbbc05",
-            goTo: '/subjects/chemistry',
-            subtitle: 'Donathan',
-            title: "Banco de Dados",
-        },
-        {
-            color: "#ff6f00",
-            goTo: '/subjects/english',
-            subtitle: 'Queila Lima',
-            title: "Inglês",
-        }
-    ];
-    
-    const studentCards: IStudentCardProps[] = [
-        {
-            student: {
-                id: 1,
-                name: "Alice Silva",
-                identification: "20230001",
-                hash: "abc123",
-                birthday: new Date(2002, 5, 15),
-                is_active: true,
-                image: { image: "/avatar.png" },
-                position: { id: 1, name: "Estudante" },
-                sector: { id: 1, name: "Ensino Médio" },
-                occupationArea: { id: 1, name: "Ciências Exatas"}
-            },
-            className: "student-card primary",
-            tooltip: "Aluno ativo",
-            size: "medium",
-            goTo: "/class/student/1"
-        },
-        {
-            student: {
-                id: 2,
-                name: "Bruno Costa",
-                identification: "20230002",
-                hash: "def456",
-                birthday: new Date(2003, 2, 10),
-                is_active: true,
-                image: { image: "/avatar.png" },
-                position: { id: 1, name: "Estudante" },
-                sector: { id: 2, name: "Ensino Técnico" },
-                occupationArea: { id: 2, name: "Tecnologia da Informação" }
-            },
-            className: "student-card secondary",
-            tooltip: "Aluno em curso",
-            size: "large"
-        },
-        {
-            student: {
-                id: 3,
-                name: "Carla Menezes",
-                identification: "20230003",
-                hash: "ghi789",
-                birthday: new Date(2004, 7, 22),
-                is_active: false,
-                image: { image: "/avatar.png" },
-                position: { id: 1, name: "Estudante" },
-                sector: { id: 3, name: "Ensino Fundamental" },
-                occupationArea: { id: 3, name: "Ciências Humanas" }
-            },
-            className: "student-card disabled",
-            tooltip: "Aluno inativo",
-            size: "small"
-        },
-        {
-            student: {
-                id: 4,
-                name: "Diego Nascimento",
-                identification: "20230004",
-                hash: "jkl012",
-                birthday: new Date(2001, 10, 5),
-                is_active: true,
-                image: { image: "/avatar.png" },
-                position: { id: 2, name: "Estudante Avançado" },
-                sector: { id: 4, name: "Ensino Superior" },
-                occupationArea: { id: 4, name: "Engenharia" }
-            },
-            className: "student-card primary",
-            tooltip: "Aluno destaque",
-            size: "medium"
-        },
-        {
-            student: {
-                id: 5,
-                name: "Fernanda Ribeiro",
-                identification: "20230005",
-                hash: "mno345",
-                birthday: new Date(2000, 1, 18),
-                is_active: true,
-                image: { image: "/avatar.png" },
-                position: { id: 3, name: "Aluna Pesquisadora" },
-                sector: { id: 5, name: "Pós-Graduação" },
-                occupationArea: { id: 5, name: "Biotecnologia" }
-            },
-            className: "student-card highlight",
-            tooltip: "Pesquisadora",
-            size: "large"
-        }
-    ];
-    
+    const [className, setClassName] = useState("");
+    const [subjects, setSubjects] = useState([]);
+    const [search, setSearch] = useState("");
+    const [students, setStudents] = useState<IStudentCardProps[]>([]);
+    const [overallPerformance, setOverallPerformance] = useState(0);
+
+    const getData = async () => {
+        const response = await internalAPI.jsonRequest(`/classes/${id}?${new URLSearchParams({ query: search })}`, "GET");
+        const content = response.data;
+
+        setClassName(content.class.name + " - " + content.class.startingYear);
+        setSubjects(content.subjects.map((s: { name: string; id: string; instructor: string; }) => ({
+            color: getHex(s.name),
+            goTo: "subject/" + s.id,
+            subtitle: s.instructor,
+            title: s.name,
+        })));
+        setStudents(content.students.map((s: { id: any; name: any; birthday: any; identification: any; }) => ({
+            id: s.id,
+            name: s.name,
+            birthday: s.birthday,
+            identification: s.identification,
+            tooltip: s.identification,
+            goTo: s.id
+        })));
+        setOverallPerformance(content.graphs.overallPerformance);
+
+        console.log(response);
+    }
+
     const rankingData: RankingChartProps = {
-        data: studentCards.map((e) => {
-            const a : StudentSubject = {
+        data: students.map((e) => {
+            const a: StudentSubject = {
                 grade: Math.floor(Math.random() * 101),
-                name: e.student?.name!
+                name: e.name!
             }
             return a;
         })
     }
 
-    const columnChartHandle = (e : any) => {
+    const columnChartHandle = (e: any) => {
         console.log(e);
     }
+
+    useEffect(() => {
+        getData();
+    }, [id, search])
 
     return (
         <div>
             <AddSubjectModal isOpened={modalOpened} onClose={() => setModalOpened(false)} />
-            <Header /> 
+            <Header />
 
             <main>
                 <section>
-                    <ExplorerContainer data={courseSubjects} title="Dta 2022" onAddHandle={() => setModalOpened(true)} />
+                    <ExplorerContainer data={subjects} title={className} onAddHandle={() => setModalOpened(true)} input={{
+                        search: search,
+                        onChange: setSearch
+                    }} />
                 </section>
 
-                <Divider size="big"/>
+                <Divider size="big" />
 
                 <section className={styles.chart_container}>
-                    <Text fontSize="xl2" fontWeight="bold" >Detalhes</Text>
-                    
+                    <Text fontSize="xl2" fontWeight="bold" >Details</Text>
+
                     <section className={`${styles.chart_section} ${styles.align}`}>
-                        <DoughnutChart exploitation={75}  title="Overall Exploitation"/>
+                        <DoughnutChart exploitation={Number(overallPerformance.toFixed(1))} title="Overall Performance" />
                         <Ranking {...rankingData} />
 
                         <SubjectBarChart />
@@ -183,17 +99,17 @@ export default () => {
                     </section>
                 </section>
 
-                <Divider size="big"/>
-                    
+                <Divider size="big" />
+
                 <section className={styles.students_section}>
                     <Text fontSize="xl2" fontWeight="bold" className={`${styles.section_title}`}>
-                        Alunos
+                        Students
                     </Text>
-                        
+
                     <div className={`${styles.student_container} ${styles.align}`} >
                         {
-                            studentCards.map(e => (
-                                <StudentCard  {...e} /> 
+                            students.map(e => (
+                                <StudentCard  {...e} />
                             ))
                         }
                     </div>
@@ -205,3 +121,5 @@ export default () => {
         </div>
     )
 }
+
+export default ClassDetails;

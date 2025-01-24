@@ -39,7 +39,9 @@ public record StudentExamResultsDTO(
 public record SimpleStudentDTO(
     int Id,
     string Name,
-    double? Performance
+    string Identification,
+    double? Performance,
+    DateOnly? Birthday
 )
 {
     public static SimpleStudentDTO Map(Student obj, double? performance = null)
@@ -47,7 +49,9 @@ public record SimpleStudentDTO(
         return new SimpleStudentDTO(
             obj.Id,
             obj.User.Name,
-            performance
+            obj.User.Identification,
+            performance,
+            obj.User.Birthday
         );
     }
 }

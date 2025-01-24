@@ -32,14 +32,16 @@ public record ClassGraphsDTO(
 public record ClassPageDTO(
     ClassDTO Class,
     IEnumerable<SubjectResultDTO> Subjects,
+    IEnumerable<SimpleStudentDTO> Students,
     ClassGraphsDTO Graphs
 )
 {
-    public static ClassPageDTO Map(Class obj, IEnumerable<SubjectResultDTO> subjects, ClassGraphsDTO graphs)
+    public static ClassPageDTO Map(Class obj, IEnumerable<SubjectResultDTO> subjects, IEnumerable<SimpleStudentDTO> students, ClassGraphsDTO graphs)
     {
         return new ClassPageDTO(
             ClassDTO.Map(obj),
             subjects,
+            students,
             graphs
         );
     }

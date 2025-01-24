@@ -21,6 +21,23 @@ public class ClassService(
 
     private readonly IStudentService _studentService = studentService;
 
+    #region CRUD
+
+    public async Task<AppResponse<IEnumerable<ClassDTO>>> GetClasses(string? query)
+    {
+        var classes = await _repo.Get()
+            .Where(c => c.IsActive)
+            .Where(c => string.IsNullOrEmpty(query) || c.Name.Contains(query))
+            .Include(c => c.Course)
+            .Select(c => ClassDTO.Map(c))
+            .ToListAsync();
+
+        return new AppResponse<IEnumerable<ClassDTO>>(
+            classes,
+            "Classes found!"
+        );
+    }
+
     public async Task<AppResponse<ClassDTO>> CreateClass(ClassCreatePayload payload)
     {
         var course = await _courseRepo.Get()
@@ -46,42 +63,9 @@ public class ClassService(
         );
     }
 
-    public async Task<AppResponse<ClassPageDTO>> GetClassPage(int id, int? subjectAreaId, int? selectedStudentId, int? selectedCurricularUnitId, int? selectedSubjectAreaId)
-    {
-        var class_ = await _repo.Get()
-            .Where(c => c.IsActive)
-            .Include(c => c.Course)
-            .Include(c => c.Subjects).ThenInclude(s => s.CurricularUnit.SubjectArea)
-            .Include(c => c.Subjects).ThenInclude(s => s.Instructor)
-            .Include(c => c.Students).ThenInclude(s => s.User)
-            .SingleOrDefaultAsync(c => c.Id == id)
-            ?? throw new NotFoundException("Class not found!");
+    #endregion
 
-        var subjects = class_.Subjects
-            .Where(s => s.IsActive)
-            .Where(s => !subjectAreaId.HasValue || s.CurricularUnit.SubjectArea.Id == subjectAreaId)
-            .Select(s => SubjectResultDTO.Map(s));
-
-        var students = class_.Students
-            .Where(s => s.IsActive)
-            .Select(s => SimpleStudentDTO.Map(s));
-
-        var selectedSubjects = await _subjectRepo.Get()
-            .Where(s => s.Class.Id == id)
-            .Where(s => !selectedCurricularUnitId.HasValue || s.CurricularUnit.Id == selectedCurricularUnitId.Value)
-            .Where(s => !selectedSubjectAreaId.HasValue || s.CurricularUnit.SubjectArea.Id == selectedSubjectAreaId.Value)
-            .ToListAsync();
-
-        var selectedStudents = await _studentRepo.Get()
-            .Where(s => s.Class.Id == id)
-            .Where(s => !selectedStudentId.HasValue || s.Id == selectedStudentId)
-            .ToListAsync();
-
-        return new AppResponse<ClassPageDTO>(
-            ClassPageDTO.Map(class_, subjects, GetClassGraphs(selectedSubjects, selectedStudents)),
-            "Class info found!"
-        );
-    }
+    #region Services
 
     public ClassGraphsDTO GetClassGraphs(IEnumerable<Subject> subjects, IEnumerable<Student> students)
     {
@@ -105,4 +89,46 @@ public class ClassService(
         );
     }
 
+    #endregion
+
+    #region Pages
+
+    public async Task<AppResponse<ClassPageDTO>> GetClassPage(int id, string? query, int? selectedStudentId, int? selectedCurricularUnitId, int? selectedSubjectAreaId)
+    {
+        var class_ = await _repo.Get()
+            .Where(c => c.IsActive)
+            .Include(c => c.Course)
+            .Include(c => c.Subjects).ThenInclude(s => s.CurricularUnit.SubjectArea)
+            .Include(c => c.Subjects).ThenInclude(s => s.Instructor)
+            .Include(c => c.Students).ThenInclude(s => s.User)
+            .SingleOrDefaultAsync(c => c.Id == id)
+            ?? throw new NotFoundException("Class not found!");
+
+        var subjects = class_.Subjects
+            .Where(s => s.IsActive)
+            .Where(s => string.IsNullOrEmpty(query) || s.CurricularUnit.Name.Contains(query, StringComparison.OrdinalIgnoreCase))
+            .Select(s => SubjectResultDTO.Map(s));
+
+        var students = class_.Students
+            .Where(s => s.IsActive)
+            .Select(s => SimpleStudentDTO.Map(s));
+
+        var selectedSubjects = await _subjectRepo.Get()
+            .Where(s => s.Class.Id == id)
+            .Where(s => !selectedCurricularUnitId.HasValue || s.CurricularUnit.Id == selectedCurricularUnitId.Value)
+            .Where(s => !selectedSubjectAreaId.HasValue || s.CurricularUnit.SubjectArea.Id == selectedSubjectAreaId.Value)
+            .ToListAsync();
+
+        var selectedStudents = await _studentRepo.Get()
+            .Where(s => s.Class.Id == id)
+            .Where(s => !selectedStudentId.HasValue || s.Id == selectedStudentId)
+            .ToListAsync();
+
+        return new AppResponse<ClassPageDTO>(
+            ClassPageDTO.Map(class_, subjects, students, GetClassGraphs(selectedSubjects, selectedStudents)),
+            "Class info found!"
+        );
+    }
+
+    #endregion
 }

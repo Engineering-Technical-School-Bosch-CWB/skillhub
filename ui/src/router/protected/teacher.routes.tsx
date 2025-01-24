@@ -29,10 +29,10 @@ export default {
             title: "Classes",
             element: <ClassesOverview />,
         },
-        // {
-        //     path: RouteMap.CLASS_DETAILS,
-        //     element: <ClassDetails />
-        // }, 
+        {
+            path: RouteMap.CLASS_DETAILS,
+            element: <ClassDetails />
+        }, 
         // {
         //     path: RouteMap.SUBJECT_DETAILS,
         //     element: <SubjectDetails />,

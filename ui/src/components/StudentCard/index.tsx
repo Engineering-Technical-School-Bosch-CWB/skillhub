@@ -7,32 +7,27 @@ import Text from "../../typography";
 import { Link } from "react-router-dom";
 
 export default forwardRef<HTMLImageElement, IStudentCardProps>(
-    ({ 
-        className = null, 
-        tooltip = "", 
-        size = "medium", 
-        student,
+    ({
+        tooltip = "",
+        size = "medium",
         goTo,
-        ...props 
+        ...props
     }, ref) => (
-        <Link 
+        <Link
             className={`${styles[size]} ${styles.student_card}`}
             to={`${goTo}`}
         >
-            <Avatar src={student?.image?.image ?? "/avatar.png"} size="xl"  /> 
+            <Avatar src={props?.image ?? "/avatar.png"} size="xl" />
             {
                 tooltip &&
                 <span className={styles.tooltip}>{tooltip}</span>
             }
-            {
-                student &&
-                <div className={`${styles.details} ${styles.align}`}>
-                    <Text fontWeight="bold" >{student?.name}</Text> 
-                    <Text fontWeight="semibold" >
-                        {student?.birthday?.getDate()} / {student?.birthday?.getMonth()}
-                    </Text> 
-                </div>
-            }
+            <div className={`${styles.details} ${styles.align}`}>
+                <Text fontWeight="bold" >{props.name}</Text>
+                <Text fontWeight="semibold" >
+                    {props.birthday}
+                </Text>
+            </div>
         </Link>
     )
 )
