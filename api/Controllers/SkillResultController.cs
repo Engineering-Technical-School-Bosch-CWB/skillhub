@@ -10,6 +10,21 @@ namespace Api.Controllers;
 [Route("api/v1/skillResults")]
 public class SkillResultController : ControllerBase
 {
+
+    [HttpGet]
+    [Route("skill/{skillId}")]
+    public async Task<ActionResult> GetSkillResultBySkill(
+        [FromServices] ISkillResultService service, UserContext userContext,
+        [FromServices] IStudentService studentService, int skillId
+    )
+    {
+        var studentProfile = await studentService.GetByUserId(userContext.UserId)
+            ?? throw new NotFoundException("Student not found!");
+
+        var result = await service.GetSkillResultBySkill(skillId, studentProfile.Id);
+        return Ok(result);
+    }
+
     [HttpGet]
     [Route("history/skill/{skillId}")]
     public async Task<ActionResult> GetSkillResultHistory(

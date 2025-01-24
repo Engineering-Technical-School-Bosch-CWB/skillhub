@@ -4,15 +4,17 @@ namespace Api.Domain.Models;
 
 public record SkillResultDTO(
     int Id,
+    int SkillId,
     string Description,
     EAptitude? Aptitude,
     string ClassPercentageAptitude
 )
 {
-    public static SkillResultDTO Map(SkillResult obj, double? classPercentageAptitude)
+    public static SkillResultDTO Map(SkillResult obj, double? classPercentageAptitude = null)
     {
         return new SkillResultDTO(
             obj.Id,
+            obj.Skill.Id,
             obj.Skill.Description,
             obj.Aptitude.HasValue ? (EAptitude?)obj.Aptitude.Value : null,
             classPercentageAptitude.HasValue ? Math.Round(classPercentageAptitude.Value, MidpointRounding.AwayFromZero) + "%" : "--"
@@ -31,7 +33,7 @@ public record SkillResultHistoryDTO(
     {
         return new SkillResultHistoryDTO(
             obj.Id,
-            obj.Exam is not null ? "Exam" : obj.Objection is not null ? "Objection" : "---",
+            obj.Exam is not null ? obj.Exam.Name : obj.Objection is not null ? "Objection" : "---",
             obj.EvaluatedAt.HasValue ? DateOnly.FromDateTime(obj.EvaluatedAt.Value) : null,
             (EAptitude)obj.Aptitude!
         );

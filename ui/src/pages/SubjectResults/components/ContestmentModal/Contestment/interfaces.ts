@@ -1,4 +1,5 @@
 export interface IContestmentProps {
     selectionHandler: (...props: any[]) => void,
-    option: string
+    option: string,
+    current: string
 }

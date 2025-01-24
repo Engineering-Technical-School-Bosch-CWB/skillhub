@@ -49,7 +49,7 @@ const TableView = ({ data, hasOptions, options, hasNotation }: ITableViewProps) 
     // ..styles the competence status 
     // rows accordingly to it.. 
     const handleStyle = (key: string, item: ITableData) => {
-        if (key != "Status") return styled.row;
+        if (key != "Aptitude") return styled.row;
 
         switch (item[key]) {
             case "Skilled":

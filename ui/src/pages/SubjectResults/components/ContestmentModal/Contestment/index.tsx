@@ -1,23 +1,23 @@
-import styles from "./styles.module.css";
+import styled from "./styles.module.css";
 import Text from "../../../../../typography";
 import Divider from "../../../../../components/Divider";
 import Icon from "../../../../../components/Icon";
 import { useEffect, useState } from "react";
 import { IContestmentProps } from "./interfaces";
 
-const Contestment = ({ option, selectionHandler }: IContestmentProps) => {
+const Contestment = ({ option, selectionHandler, current }: IContestmentProps) => {
     const [optionsShowing, setOptionsShowing] = useState<boolean>(false);
-    
-    const handleStyle = () => {
-        switch (option) {
-            case "Apt":
-                return styles.apt;
 
-            case "Inapt":
-                return styles.inapt;
+    const handleStyle = (op: string) => {
+        switch (op) {
+            case "Skilled":
+                return styled.skilled;
 
-            case "In Development":
-                return styles.development;
+            case "Unskilled":
+                return styled.unskilled;
+
+            case "Developing":
+                return styled.development;
         }
     }
 
@@ -31,29 +31,38 @@ const Contestment = ({ option, selectionHandler }: IContestmentProps) => {
     }, []);
 
     return (
-        <div style={{marginBottom: "3rem"}}>
-            <div className={styles.header}>
+        <div style={{ marginBottom: "3rem" }}>
+            <div className={styled.header}>
                 <Text>Current</Text>
                 <Text>Contestment</Text>
             </div>
 
             <Divider size="small" />
 
-            <div className={styles.contestment}>
-                <div className={styles.inapt}>Inapt</div>
+            <div className={styled.contestment}>
+                <div className={handleStyle(current)}>{current}</div>
 
                 <Icon name="arrow_right_alt" size="md" />
 
-                <div className={styles.select_button}>
+                <div className={styled.select_button}>
                     <div
-                        className={handleStyle()}
+                        className={handleStyle(option)}
                         onClick={() => setOptionsShowing(!optionsShowing)}
                     >{option}</div>
 
-                    <div className={optionsShowing ? styles.options : styles.hidden}>
-                        <div onClick={() => handleClick("Apt")}><Text>Apt</Text></div>
-                        <div onClick={() => handleClick("In Development")}><Text>In Development</Text></div>
-                        <div onClick={() => handleClick("Inapt")}><Text>Inapt</Text></div>
+                    <div className={optionsShowing ? styled.options : styled.hidden}>
+                        {
+                            current != "Skilled" &&
+                            <div onClick={() => handleClick("Skilled")}><Text>Skilled</Text></div>
+                        }
+                        {
+                            current != "Developing" &&
+                            <div onClick={() => handleClick("Developing")}><Text>Developing</Text></div>
+                        }
+                        {
+                            current != "Unskilled" &&
+                            <div onClick={() => handleClick("Unskilled")}><Text>Unskilled</Text></div>
+                        }
                     </div>
                 </div>
             </div>

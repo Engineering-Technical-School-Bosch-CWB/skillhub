@@ -23,7 +23,7 @@ const SubjectResults = () => {
 
     const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
     const [isContestmentModalOpen, setIsContestmentModalOpen] = useState(false);
-    const [selectedCompetence, setSelectedCompetence] = useState(-1);
+    const [selectedSkill, setSelectedSkill] = useState(-1);
 
     const [subject, setSubject] = useState("");
     const [feedback, setFeedback] = useState<IFeedback | null>(null);
@@ -46,25 +46,22 @@ const SubjectResults = () => {
         setFeedback(content.feedback);
         setOverallPerformance(content.overallSkillScore);
         setClassOverallPerformance(content.classOverallSkillScore);
-        setSkillsData(content.skillResults.map((r: { id: number; description: string; aptitude: string; classPercentageAptitude: string; }) => ({
-            id: r.id,
-            name: r.description,
-            status: r.aptitude,
-            average_aptitude: r.classPercentageAptitude
+        setSkillsData(content.skillResults.map((r: { skillId: number; description: string; aptitude: string; classPercentageAptitude: string; }) => ({
+            id: r.skillId,
+            description: r.description,
+            aptitude: r.aptitude,
+            average_performance: r.classPercentageAptitude
         })))
-
-        console.log(response);
-        console.log(content.feedback);
     }
 
-    const handleHistoryModal = (isOpen: boolean, competenceId: number) => {
+    const handleHistoryModal = (isOpen: boolean, skillId: number) => {
         setIsHistoryModalOpen(isOpen);
-        setSelectedCompetence(competenceId);
+        setSelectedSkill(skillId);
     }
 
-    const handleContestmentModal = (isOpen: boolean, competenceId: number) => {
+    const handleContestmentModal = (isOpen: boolean, skillId: number) => {
         setIsContestmentModalOpen(isOpen);
-        setSelectedCompetence(competenceId);
+        setSelectedSkill(skillId);
     }
 
     const options: IOption[] = [
@@ -111,15 +108,15 @@ const SubjectResults = () => {
                     </div>
                     <Divider size="big" />
                     <div className={styled.competences_section}>
-                        <Text fontWeight="bold" fontSize="xl2">Competences</Text>
+                        <Text fontWeight="bold" fontSize="xl2">Skills</Text>
                         <div className={styled.table_container}>
                             <TableView data={skillsData} hasNotation={true} hasOptions={true} options={options} />
                         </div>
                     </div>
                 </div>
 
-                <ContestmentModal isOpen={isContestmentModalOpen} handleIsOpen={handleContestmentModal} skillId={selectedCompetence} />
-                <HistoryModal isOpen={isHistoryModalOpen} handleIsOpen={handleHistoryModal} skillId={selectedCompetence} />
+                <ContestmentModal isOpen={isContestmentModalOpen} handleIsOpen={handleContestmentModal} skillId={selectedSkill} />
+                <HistoryModal isOpen={isHistoryModalOpen} handleIsOpen={handleHistoryModal} skillId={selectedSkill} />
             </main>
         </div>
     )

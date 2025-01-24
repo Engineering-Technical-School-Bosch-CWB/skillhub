@@ -11,10 +11,10 @@ export enum RouteMap {
     SCHOOL_CONTENT = "/school-content",
     CURRICULAR_UNITY_BY_ID = "/school-content/curricular-unitys",
 
-    CLASSES = "/class",
-    CLASS_DETAILS = "/class/:id",
-    SUBJECT_DETAILS = "/class/subject/:id",
-    NEW_SUBJECT_TEST = "/class/subject/:id/new-test",
-    AVALIATION_RESULT = "/class/subject/test/result/:id",
-    STUDENT_OVERVIEW = "/class/student/:id"
+    CLASSES = "/classes",
+    CLASS_DETAILS = "/classes/:id",
+    SUBJECT_DETAILS = "/classes/subject/:id",
+    NEW_SUBJECT_TEST = "/classes/subject/:id/new-test",
+    AVALIATION_RESULT = "/classes/subject/test/result/:id",
+    STUDENT_OVERVIEW = "/classes/student/:id"
 }

@@ -26,9 +26,8 @@ const HistoryModal = ({ isOpen, handleIsOpen, skillId }: IModalProps) => {
         setSkillHistory(content.resultHistory.map((r: { reason: string; date: string; aptitude: string; }) => ({
             date: !r.date ? "---" : formatDate(r.date),
             reason: r.reason,
-            status: r.aptitude
+            aptitude: r.aptitude
         })))
-        console.log(response);
     }
 
     useEffect(() => {
@@ -37,7 +36,7 @@ const HistoryModal = ({ isOpen, handleIsOpen, skillId }: IModalProps) => {
 
     return (
         <div>
-            <Modal open={isOpen} handleClose={handleClose} title="Competence History">
+            <Modal open={isOpen} handleClose={handleClose} title="Skill History">
                 <div className={styled.information}>
                     <Text fontSize="xl" fontWeight="semibold">{skillDescription}</Text>
                     <Text>{evaluationCriteria}</Text>

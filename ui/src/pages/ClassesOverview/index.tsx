@@ -1,3 +1,4 @@
+import { useState } from "react";
 import ExplorerContainer from "../../components/ExplorerContainer"
 import IIdentificationCardProps from "../../components/ExplorerContainer/Components/IdentificationCard/interfaces"
 import Header from "../../components/Header"
@@ -105,13 +106,21 @@ const data: IIdentificationCardProps[] = [
 ];
 
 
-export default () => {
+const ClassesOverview = () => {
+
+    const [search, setSearch] = useState("");
+
     return (
         <div>
             <Header />
             <main>
-                <ExplorerContainer title={"Turmas"} folderPath={"a"} data={data} />
+                <ExplorerContainer title={"Classes"} folderPath={"a"} data={data} input={{
+                    search: search,
+                    onChange: setSearch
+                }} />
             </main>
         </div>
     )
 }
+
+export default ClassesOverview;

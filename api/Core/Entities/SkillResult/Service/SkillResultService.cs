@@ -5,12 +5,13 @@ using Api.Domain.Services;
 using Api.Domain.Repositories;
 using Api.Core.Errors;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 
 namespace Api.Core.Services;
 
 public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRepository skillRepository, IStudentRepository studentRepository,
         IExamRepository examRepository, ISubjectRepository subjectRepository, IObjectionRepository objectionRepository
-    ) : BaseService<SkillResult> (repository), ISkillResultService
+    ) : BaseService<SkillResult>(repository), ISkillResultService
 {
     private readonly BaseRepository<SkillResult> _repo = repository;
     private readonly ISkillRepository _skillRepo = skillRepository;
@@ -19,46 +20,11 @@ public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRe
     private readonly ISubjectRepository _subjectRepo = subjectRepository;
     private readonly IObjectionRepository _objectionRepo = objectionRepository;
 
-    public async Task<AppResponse<SkillHistoryResponse>> GetSkillResultHistory(int studentId, int skillId)
-    {
-        var skill = _skillRepo.Get()
-            .Include(s => s.CurricularUnit)
-            .Where(s => s.IsActive)
-            .SingleOrDefault(s => s.Id == skillId)
-            ?? throw new NotFoundException("Skill not found!");
 
-        var history = await _repo.Get()
-            .Include(s => s.Exam)
-            .Include(s => s.Objection)
-            .Where(s => s.IsActive)
-            .Where(s => s.Aptitude.HasValue)
-            .Where(s => s.Student.Id == studentId && s.Skill.Id == skillId)
-            .OrderByDescending(s => s.EvaluatedAt)
-            .Select(s => SkillResultHistoryDTO.Map(s))
-            .ToListAsync();
-
-        return new AppResponse<SkillHistoryResponse>(
-            SkillHistoryResponse.Map(SkillDTO.Map(skill), history),
-            "Skill history found!"
-        );
-    }
-    
-    public double? GetSkillAverageByClass(int skillId, int classId)
-    {
-        var average = _repo.Get()
-            .Where(s => s.IsActive)
-            .Where(s => s.Skill.Id == skillId)
-            .Where(s => s.Student.Class.Id == classId)
-            .GroupBy(s => s.Student)
-            .Select(g => g.OrderBy(s => s.EvaluatedAt).First())
-            .AsEnumerable()
-            .Average(s => s.Aptitude);
-
-        return average;
-    }
+    #region CRUD
 
     public async Task<AppResponse<SkillResultDTO>> CreateSkillResult(SkillResultCreatePayload payload)
-    {  
+    {
         var student = await _studentRepo.Get()
             .Include(s => s.Class)
             .Where(s => s.IsActive)
@@ -70,7 +36,7 @@ public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRe
             .SingleOrDefaultAsync(s => s.Id == payload.SkillId)
             ?? throw new NotFoundException("Skill not found!");
 
-        
+
         var newSkillResult = new SkillResult()
         {
             Weight = payload.Weight,
@@ -104,4 +70,68 @@ public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRe
             "Skill result created successfully!"
         );
     }
+
+    #endregion
+
+    #region Services
+
+    public async Task<AppResponse<SkillResultDTO>> GetSkillResultBySkill(int skillId, int studentId)
+    {
+        var skillResult = await _repo.Get()
+            .Where(s => s.IsActive)
+            .Where(s => s.Skill.Id == skillId && s.Student.Id == studentId)
+            .Include(s => s.Skill)
+            .OrderByDescending(s => s.EvaluatedAt)
+            .FirstAsync()
+            ?? throw new NotFoundException("Skill result not found!");
+
+        return new AppResponse<SkillResultDTO>(
+            SkillResultDTO.Map(skillResult),
+            "Skill result found!"
+        );
+    }
+
+    public double? GetSkillAverageByClass(int skillId, int classId)
+    {
+        var average = _repo.Get()
+            .Where(s => s.IsActive)
+            .Where(s => s.Skill.Id == skillId)
+            .Where(s => s.Student.Class.Id == classId)
+            .GroupBy(s => s.Student)
+            .Select(g => g.OrderBy(s => s.EvaluatedAt).First())
+            .AsEnumerable()
+            .Average(s => s.Aptitude);
+
+        return average;
+    }
+
+    #endregion
+
+    #region Pages
+
+    public async Task<AppResponse<SkillHistoryResponse>> GetSkillResultHistory(int studentId, int skillId)
+    {
+        var skill = _skillRepo.Get()
+            .Include(s => s.CurricularUnit)
+            .Where(s => s.IsActive)
+            .SingleOrDefault(s => s.Id == skillId)
+            ?? throw new NotFoundException("Skill not found!");
+
+        var history = await _repo.Get()
+            .Include(s => s.Exam)
+            .Include(s => s.Objection)
+            .Where(s => s.IsActive)
+            .Where(s => s.Aptitude.HasValue)
+            .Where(s => s.Student.Id == studentId && s.Skill.Id == skillId)
+            .OrderByDescending(s => s.EvaluatedAt)
+            .Select(s => SkillResultHistoryDTO.Map(s))
+            .ToListAsync();
+
+        return new AppResponse<SkillHistoryResponse>(
+            SkillHistoryResponse.Map(SkillDTO.Map(skill), history),
+            "Skill history found!"
+        );
+    }
+
+    #endregion
 }
