@@ -20,7 +20,7 @@
 
 
 /* ..competences */
-.apt, .inapt, .development {
+.skilled, .unskilled, .development {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -33,13 +33,13 @@
     font-weight: 500;
 }
 
-.apt {
+.skilled {
     color: rgb(5, 85, 12);
     background-color: var(--success-light);
     /* border: 1px solid rgb(4, 102, 12); */
 }
 
-.inapt {
+.unskilled {
     color: rgb(155, 3, 3);
     background-color: var(--danger-light);
 }

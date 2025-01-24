@@ -56,19 +56,18 @@ public class StudentService(
         );
     }
 
-    public async Task<StudentDTO?> GetByUserId(int id)
-    {
-        var student = await _repo.Get()
-            .Include(s => s.User)
-            .Include(s => s.Class)
-            .SingleOrDefaultAsync(s => s.User.Id == id);
-
-        return student is not null ? StudentDTO.Map(student) : null;
-    }
-
     #endregion
 
     #region Services
+
+    public async Task<StudentDTO?> GetByUserId(int userId)
+    {
+        var student = await _repo.Get()
+            .Include(s => s.Class)
+            .SingleOrDefaultAsync(s => s.User.Id == userId);
+
+        return student is not null ? StudentDTO.Map(student) : null;
+    }
 
     public double? GetSubjectGrade(int id, int subjectId)
     {
@@ -121,7 +120,7 @@ public class StudentService(
 
     #region Pages
 
-    public async Task<AppResponse<StudentResultResponse>> GetResultsPage(int id)
+    public async Task<AppResponse<StudentResultResponse>> GetResultsPage(int id, string query)
     {
         var student = await _repo.Get()
             .Include(s => s.Class)
@@ -133,10 +132,10 @@ public class StudentService(
             .Include(s => s.Instructor)
             .Include(s => s.CurricularUnit)
             .Include(s => s.Class)
-            .Where(s => s.Class == student.Class)
+            .Where(s => s.IsActive && s.Class == student.Class)
             .ToListAsync();
 
-        var results = subjects.Select(s => new StudentResultDTO(SubjectDTO.Map(s), GetSubjectGrade(id, s.Id)));
+        var results = subjects.Select(s => new StudentResultDTO(SubjectDTO.Map(s), GetSubjectGrade(id, s.Id), s.CurricularUnit.Name.Contains(query, StringComparison.OrdinalIgnoreCase)));
 
         return new AppResponse<StudentResultResponse>(
             StudentResultResponse.Map(StudentDTO.Map(student), results),
@@ -174,7 +173,7 @@ public class StudentService(
             .Select(s => SkillResultDTO.Map(s, _skillResultService.GetSkillAverageByClass(s.Skill.Id, subject.Class.Id)));
 
         return new AppResponse<StudentSubjectResultResponse>(
-            StudentSubjectResultResponse.Map(student, subject.Class.Students.Average(s => GetSubjectGrade(s.Id, subjectId)), results, feedback),
+            StudentSubjectResultResponse.Map(student, subject.CurricularUnit.Name, subject.Class.Students.Average(s => GetSubjectGrade(s.Id, subjectId)), results, feedback),
             "Subject results found!"
         );
     }

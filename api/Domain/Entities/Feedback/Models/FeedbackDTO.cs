@@ -3,7 +3,7 @@ namespace Api.Domain.Models;
 public record FeedbackDTO(
     int Id,
     string Content,
-    DateOnly CreatedAt,
+    DateOnly UpdatedAt,
     string Instructor
 )
 {
@@ -12,7 +12,7 @@ public record FeedbackDTO(
         return new FeedbackDTO(
             obj.Id,
             obj.Content,
-            obj.CreatedAt,
+            obj.UpdatedAt,
             obj.Instructor.Name
         );
     }

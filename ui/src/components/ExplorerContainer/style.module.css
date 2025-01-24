@@ -39,8 +39,6 @@
         }
     }
 
-    
-
     .listContainer {
         display: flex;
         /* margin: 2rem; */
@@ -50,7 +48,7 @@
     }
 
     .tableListContainer {
-        width: 90%;
+        width: 100%;
         flex-direction: column;
         gap: .5rem;
     }

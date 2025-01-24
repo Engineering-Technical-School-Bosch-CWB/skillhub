@@ -5,7 +5,6 @@ import Icon from "../../../Icon";
 import IIdentificationCardProps from "./interfaces";
 import { Link } from "react-router-dom";
 
-
 const IdentificationCard = forwardRef<HTMLButtonElement, IIdentificationCardProps>((
     {
         variant = "card", 
@@ -17,7 +16,7 @@ const IdentificationCard = forwardRef<HTMLButtonElement, IIdentificationCardProp
         goTo
     }) => 
         <Link
-            className={`${styles.identificationCard} ${variant == "list" ? styles.line : ""} ${styles.common} ${[variant]}`}
+            className={`${styles.identificationCard} ${variant == "list" ? styles.line : ""} `}
             to={`${goTo}`}     
         >
             <section className={`${styles.align}`}>
@@ -31,8 +30,8 @@ const IdentificationCard = forwardRef<HTMLButtonElement, IIdentificationCardProp
             </section>
             <section>
                 <div className={`${styles.align}`}>
-                    <Icon size="md" name={icon} className={styles.icon}/>
-                    <Text fontWeight="bold" fontSize="xl" >{iconDetails}</Text>
+                    {/* <Icon size="md" name={icon} className={styles.icon}/> */}
+                    <Text fontWeight="bold" fontSize="xl" className={styles.info}>{iconDetails}</Text>
                 </div>
             </section>
         </Link>

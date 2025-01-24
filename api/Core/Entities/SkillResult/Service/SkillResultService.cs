@@ -32,7 +32,7 @@ public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRe
             .Include(s => s.Objection)
             .Where(s => s.IsActive)
             .Where(s => s.Aptitude.HasValue)
-            .Where(s => s.Student.Id == studentId)
+            .Where(s => s.Student.Id == studentId && s.Skill.Id == skillId)
             .OrderByDescending(s => s.EvaluatedAt)
             .Select(s => SkillResultHistoryDTO.Map(s))
             .ToListAsync();

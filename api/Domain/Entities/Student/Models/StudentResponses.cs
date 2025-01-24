@@ -2,7 +2,8 @@ namespace Api.Domain.Models;
 
 public record StudentResultDTO(
     SubjectDTO Subject,
-    double? Score
+    double? Score,
+    bool Search
 )
 { }
 
@@ -24,16 +25,18 @@ public record StudentResultResponse(
 
 public record StudentSubjectResultResponse(
     int StudentId,
+    string Subject,
     double? OverallSkillScore,
     double? ClassOverallSkillScore,
     IEnumerable<SkillResultDTO> SkillResults,
     FeedbackDTO? Feedback
 )
 {
-    public static StudentSubjectResultResponse Map(Student student, double? classOverallSkillScore, IEnumerable<SkillResultDTO> skillResults, Feedback? feedback)
+    public static StudentSubjectResultResponse Map(Student student, string subject, double? classOverallSkillScore, IEnumerable<SkillResultDTO> skillResults, Feedback? feedback)
     {
         return new StudentSubjectResultResponse(
             student.Id,
+            subject,
             student.OverallSkillScore,
             classOverallSkillScore,
             skillResults,

@@ -6,7 +6,7 @@ import Modal from "../../../../components/Modal";
 import ButtonGroup from "../../../../components/ButtonGroup";
 import Contestment from "./Contestment";
 
-const ContestmentModal = ({ isOpen, handleIsOpen, competenceId }: IModalProps) => {
+const ContestmentModal = ({ isOpen, handleIsOpen, skillId: competenceId }: IModalProps) => {
     const [selectedContestment, setSelectedContestment] = useState<string>("Apt");
 
     const handleClose = () => handleIsOpen(false);

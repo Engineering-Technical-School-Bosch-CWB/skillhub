@@ -1,3 +1,4 @@
+import formatDate from "../../constants/formatDate"
 import styled from "./styles.module.css"
 import getHex from "../../constants/getHex"
 import Header from "../../components/Header"
@@ -22,8 +23,10 @@ const AprenticesResults = () => {
     const [barChartData, setBarChartData] = useState<IResult[]>([]);
     const [cardsData, setCardsData] = useState<IIdentificationCardProps[]>([]);
 
+    const [search, setSearch] = useState("");
+
     const getData = async () => {
-        const response = await internalAPI.jsonRequest("/students/results", "GET");
+        const response = await internalAPI.jsonRequest(`/students/results?${new URLSearchParams({query: search})}`, "GET");
 
         if (!response || response.statusCode != 200) {
             if (!toast.isActive("results-load-error"))
@@ -39,18 +42,23 @@ const AprenticesResults = () => {
             performance: Number((r.score ?? 0).toFixed(2)),
         })));
 
-        setCardsData(content.userResults.map((r: { subject: { curricularUnit: string; beganAt: any }; score: number }) => ({
-            title: r.subject.curricularUnit,
-            subtitle: r.subject.beganAt,
-            iconDetails: Math.round(r.score) + "%",
-            color: getHex(r.subject.curricularUnit),
-            goTo: "/aprentice/results/subject/8"
-        })))
+        setCardsData(
+            content.userResults
+                .filter((r: { search: boolean }) => r.search)
+                .map((r: { subject: { curricularUnit: string; beganAt: any; id: string }; score: number }) => ({
+                    title: r.subject.curricularUnit,
+                    subtitle: formatDate(r.subject.beganAt),
+                    iconDetails: Math.round(r.score) + "%",
+                    color: getHex(r.subject.curricularUnit),
+                    goTo: "/apprentice/results/" + r.subject.id
+                }))
+        );
+        
     }
 
     useEffect(() => {
         getData();
-    }, [])
+    }, [search])
 
     return (
         <div>
@@ -65,7 +73,10 @@ const AprenticesResults = () => {
                 </div>
                 <Divider size="big" />
                 <div className={styled.classes_section}>
-                    <ExplorerContainer title={"Subjects"} data={cardsData} />
+                    <ExplorerContainer title={"Subjects"} data={cardsData} input={{
+                        search: search,
+                        onChange: (str: string) => setSearch(str)
+                    }} />
                 </div>
             </main>
         </div>

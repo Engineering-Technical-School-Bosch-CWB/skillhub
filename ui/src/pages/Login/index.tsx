@@ -28,6 +28,8 @@ const Login = () => {
             if (!response || response.statusCode != 200)
                 throw new Error(response.message);
 
+            console.log(response);
+
             return response.data;
         };
 

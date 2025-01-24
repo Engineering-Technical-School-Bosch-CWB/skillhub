@@ -9,6 +9,6 @@ public interface IStudentService : IService<Student>
     public Task<StudentDTO?> GetByUserId(int id);
     public double? GetSubjectGrade(int id, int subjectId);
     public StudentExamResultsDTO GetExamResults(int id, int examId);
-    public Task<AppResponse<StudentResultResponse>> GetResultsPage(int id);
+    public Task<AppResponse<StudentResultResponse>> GetResultsPage(int id, string query);
     public Task<AppResponse<StudentSubjectResultResponse>> GetSubjectResultsPage(int id, int subjectId);
 }

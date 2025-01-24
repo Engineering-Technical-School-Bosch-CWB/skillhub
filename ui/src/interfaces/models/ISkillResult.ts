@@ -18,5 +18,4 @@ export interface ISkillResult extends IEntity {
     skill?: ISkill,
     subject?: ISubject,
     objection?: number,
-
 }

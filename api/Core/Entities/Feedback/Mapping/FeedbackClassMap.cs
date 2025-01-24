@@ -34,7 +34,7 @@ public class FeedbackClassMap : IEntityTypeConfiguration<Feedback>
             .HasColumnType("varchar(max)")
             .HasColumnName("content");
 
-        builder.Property(f => f.CreatedAt)
+        builder.Property(f => f.UpdatedAt)
             .HasColumnName("created_at");
 
         builder.Property(f => f.StudentMayVisualize)

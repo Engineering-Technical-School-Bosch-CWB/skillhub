@@ -11,5 +11,10 @@ export default interface IUser extends IEntity {
     image?: IUserImage,
     position?: IPosition,
     sector?: ISector, 
-    occupationArea?: IOccupationArea
+    occupationArea?: IOccupationArea,
+    permissionLevel?: number,
+    studentProfile: {
+        id?: number,
+        classId: number
+    }
 }

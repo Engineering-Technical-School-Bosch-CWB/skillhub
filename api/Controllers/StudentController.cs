@@ -29,13 +29,13 @@ public class StudentController : ControllerBase
     [Route("results")]
     public async Task<ActionResult> GetResultsPage(
         [FromServices] IStudentService service,
-        UserContext userContext
+        UserContext userContext, [FromQuery] string? query
     )
     {
         var student = await service.GetByUserId(userContext.UserId)
             ?? throw new NotFoundException("Student found!");
 
-        var result = await service.GetResultsPage(student.Id);
+        var result = await service.GetResultsPage(student.Id, query ?? "");
         return Ok(result);
     }
 

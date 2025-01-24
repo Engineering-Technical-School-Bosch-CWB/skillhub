@@ -9,7 +9,7 @@ import { IExplorerContainerProps } from "./Interfaces/ExplorerContainer.interfac
 import { Link } from "react-router-dom";
 import Button from "../Button";
 
-const ExplorerContainer = ( {folderPath, onAddHandle, title, data}: IExplorerContainerProps ) =>
+const ExplorerContainer = ( {input, folderPath, onAddHandle, title, data}: IExplorerContainerProps ) =>
 {
 
     const [view, setView] = useState<SelectViewType>("card");
@@ -22,7 +22,7 @@ const ExplorerContainer = ( {folderPath, onAddHandle, title, data}: IExplorerCon
             <div className={`${styles.explorerHeader} ${styles.align}`}>
                 
                 <div className={`${styles.searchContainer} ${styles.align}`}>
-                    <Input type="text" label="Pesquisar" iconName="search"/>
+                    <Input type="text" label="Search" iconName="search" value={input.search} onChange={(e) => input.onChange(e.target.value)} />
                 </div>     
 
                 {
@@ -56,8 +56,8 @@ const ExplorerContainer = ( {folderPath, onAddHandle, title, data}: IExplorerCon
                     data.map((e) => {
                         return (
                             <>
-                                {/* <IdentificationCard color={`${e.color}`} variant={view} title={`${e.title}`} subtitle={`${e.subtitle}`} icon={`${e.icon}`} iconDetails={`${e.iconDetails}`} goTo={`${e.goTo}`} /> */}
-                                <IdentificationCard {...e}/>
+                                <IdentificationCard color={e.color} variant={view} title={e.title} subtitle={e.subtitle} icon={e.icon} iconDetails={e.iconDetails} goTo={e.goTo} />
+                                {/* <IdentificationCard {...e}/> */}
                             </>
                         )
                     })

@@ -27,6 +27,10 @@ const TableView = ({ data, hasOptions, options, hasNotation }: ITableViewProps) 
     const [values, setValues] = useState<ITableData[]>([]);
 
     useEffect(() => {
+
+        if (!data || data.length == 0)
+            return;
+
         const updateKeys = () => {
             const actualKeys = Object.keys(data[0]);
             const formattedKeys = actualKeys.map(key => formatString(key));
@@ -40,7 +44,7 @@ const TableView = ({ data, hasOptions, options, hasNotation }: ITableViewProps) 
 
         updateKeys();
         updateValues();
-    }, []);
+    }, [data]);
 
     // ..styles the competence status 
     // rows accordingly to it.. 
@@ -48,13 +52,13 @@ const TableView = ({ data, hasOptions, options, hasNotation }: ITableViewProps) 
         if (key != "Status") return styled.row;
 
         switch (item[key]) {
-            case "Apt":
-                return styled.apt;
+            case "Skilled":
+                return styled.skilled;
 
-            case "Inapt":
-                return styled.inapt;
+            case "Unskilled":
+                return styled.unskilled;
 
-            case "In Development":
+            case "Developing":
                 return styled.development;
         }
     }
