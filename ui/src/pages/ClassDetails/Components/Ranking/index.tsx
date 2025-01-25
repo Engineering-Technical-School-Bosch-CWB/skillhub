@@ -5,12 +5,12 @@ import styles from './styles.module.css';
 
 export default ({ data, onClick }: RankingChartProps) => {
 
-    data = data.sort((e, d) => d.grade! - e.grade!)
+    data = data.sort((e, d) => d.performance! - e.performance!)
 
     const getBgColor = (e: StudentSubject): string => {
-        if (e.grade! >= 80) {
+        if (e.performance! >= 80) {
             return styles.green;
-        } else if (e.grade! < 80 && e.grade! >= 60) {
+        } else if (e.performance! < 80 && e.performance! >= 60) {
             return styles.yellow;
         }
         return styles.red;
@@ -28,7 +28,7 @@ export default ({ data, onClick }: RankingChartProps) => {
                                 onClick(s.id)
                             }} >
                                 <Text fontWeight="bold" >{name}</Text>
-                                <Text fontWeight="regular" >{s.grade}%</Text>
+                                <Text fontWeight="regular" >{s.performance}%</Text>
                             </div>
                         </>
                     )

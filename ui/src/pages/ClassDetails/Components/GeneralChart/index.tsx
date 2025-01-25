@@ -15,7 +15,7 @@ const GeneralChart = ({ data, onBarClick, selectedId }: IGeneralChartProps) => {
             <SingleBarChart
                 data={chartData}
                 xAxis="name"
-                yAxis="grade"
+                yAxis="performance"
                 selectedId={selectedId}
                 onBarClick={(e) => onBarClick(e.id)}
                 barStyle={{

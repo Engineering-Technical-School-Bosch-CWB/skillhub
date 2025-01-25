@@ -55,9 +55,7 @@ export default function SingleBarChart({ data, xAxis, yAxis, onBarClick, barStyl
           }}
           shape={(props: any) => {
             const { payload } = props;
-            const isSelected = payload.id === selectedId;
-            const fillColor = isSelected ? "#00629a" : "#0197ee";
-            return <CustomBar {...props} fill={fillColor} />;
+            return <CustomBar {...props} fill={payload.id === selectedId ? "#00629a" : "#0197ee"} />;
           }}
         />
       </BarChart>

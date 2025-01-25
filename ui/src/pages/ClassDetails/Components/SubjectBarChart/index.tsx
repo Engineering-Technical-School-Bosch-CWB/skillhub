@@ -15,7 +15,7 @@ const SubjectBarChart = ({ data, onBarClick, selectedId }: ISubjectBarChatProps)
             <SingleBarChart 
                 data={chartData}
                 xAxis="subject"
-                yAxis="result"
+                yAxis="performance"
                 selectedId={selectedId}
                 onBarClick={(e) => onBarClick(e.id)}
                 barStyle={{

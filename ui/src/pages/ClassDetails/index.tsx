@@ -68,11 +68,11 @@ const ClassDetails = () => {
         setRankingData(content.graphs.studentResults.map((s: { id: number; name: string; performance: number; }) => ({
             id: s.id,
             name: s.name,
-            grade: !s.performance ? 0 : Number(s.performance.toFixed(2))
+            performance: !s.performance ? 0 : Number(s.performance.toFixed(2))
         })));
         setSubjectsData(content.graphs.subjectResults.map((s: { curricularUnitId: number; performance: number; name: string; }) => ({
             id: s.curricularUnitId,
-            result: !s.performance ? 0 : Number(s.performance.toFixed(2)),
+            performance: !s.performance ? 0 : Number(s.performance.toFixed(2)),
             subject: s.name
         })));
         setSubjectAreaData(content.graphs.subjectAreaResults.map((s: { id: number; performance: number; name: string; }) => ({

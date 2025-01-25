@@ -13,7 +13,7 @@ export interface IGeneralChart {
 export interface StudentSubject {
     id: number
     name?: string
-    grade?: number
+    performance?: number
 }
 
 export interface AddModalProps {
