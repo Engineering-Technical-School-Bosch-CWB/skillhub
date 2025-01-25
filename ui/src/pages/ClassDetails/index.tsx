@@ -111,7 +111,7 @@ const ClassDetails = () => {
 
     return (
         <div onClick={clearParams}>
-            <AddSubjectModal isOpened={modalOpened} onClose={() => setModalOpened(false)} />
+            <AddSubjectModal isOpen={modalOpened} onClose={() => setModalOpened(false)} />
             <Header />
 
             <main>

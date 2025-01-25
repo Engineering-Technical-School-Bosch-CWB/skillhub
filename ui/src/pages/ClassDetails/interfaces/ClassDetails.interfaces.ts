@@ -17,7 +17,7 @@ export interface StudentSubject {
 }
 
 export interface AddModalProps {
-    isOpened: boolean,
+    isOpen: boolean,
     onClose: Function
 }
 
