@@ -1,36 +1,8 @@
 import SingleBarChart from "../../../../components/Charts/SingleBarChart"
-import { SubjectExploitation } from "../../interfaces/ClassDetails.interfaces"
+import { ISubjectBarChatProps } from "../../interfaces/ClassDetails.interfaces"
 import { BarRectangleItem } from "recharts/types/cartesian/Bar"
 
-export default () => {
-
-    const data: SubjectExploitation[] = [
-        {
-            subjectId: 1,
-            result:20,
-            subject:"C# avançado"
-        },
-        {
-            subjectId: 2,
-            result:75,
-            subject:"C# Básico"
-        },
-        {
-            subjectId: 3,
-            result:80,
-            subject:"Lógica de Prog"
-        },
-        {
-            subjectId: 4,
-            result:70,
-            subject:"Banco de Dados"
-        },
-        {
-            subjectId: 5,
-            result:89,
-            subject:"WEB"
-        },
-    ]
+const SubjectBarChart = ({ data }: ISubjectBarChatProps) => {
 
     const chartData = [
         {
@@ -53,8 +25,7 @@ export default () => {
                 onBarClick={(e: BarRectangleItem) => redirect(e)}
                 barStyle={{
                     XAxisProps: {
-                        angle:-45,
-                        textAnchor:'end',
+                        angle:35,
                         height:75,
                         fontSize:'small'
                     },
@@ -66,3 +37,5 @@ export default () => {
         </>
     )
 }
+
+export default SubjectBarChart;

@@ -2,72 +2,72 @@ import SingleBarChart from "../../../../components/Charts/SingleBarChart"
 import { ContentAreaChartProps, ContentAreaChartValues } from "../../interfaces/ClassDetails.interfaces"
 import { BarRectangleItem } from "recharts/types/cartesian/Bar"
 
-export default ({data, onColumnClicked}: ContentAreaChartProps) => {
+export const ContentAreaChart = ({data, onColumnClicked}: ContentAreaChartProps) => {
 
     const _data: ContentAreaChartValues[] = [
         {
             contentAreaId: 1,
-            exploitation:20,
+            performance:20,
             area:"Backend"
         },
         {
             contentAreaId: 2,
-            exploitation:75,
+            performance:75,
             area:"Frontend"
         },
         {
             contentAreaId: 3,
-            exploitation:80,
+            performance:80,
             area:"Comunicação"
         },
         {
             contentAreaId: 4,
-            exploitation:70,
+            performance:70,
             area:"Power Bi"
         },
         {
             contentAreaId: 5,
-            exploitation:89,
+            performance:89,
             area:"Eletrônica"
         },
         {
             contentAreaId: 6,
-            exploitation:89,
+            performance:89,
             area:"IOT"
         },
         {
             contentAreaId: 7,
-            exploitation:89,
+            performance:89,
             area:"Mecânica"
         },
         {
             contentAreaId: 5,
-            exploitation:89,
+            performance:89,
             area:"Eletrônica"
         },
         {
             contentAreaId: 6,
-            exploitation:89,
+            performance:89,
             area:"IOT"
         },
         {
             contentAreaId: 7,
-            exploitation:89,
+            performance:89,
             area:"Mecânica"
         },
         {
             contentAreaId: 5,
-            exploitation:89,
+            performance:89,
             area:"Eletrônica"
         },
         {
             contentAreaId: 6,
-            exploitation:89,
+            performance:89,
             area:"IOT"
         },
         {
             contentAreaId: 7,
-            exploitation:89,
+            performance:89,
             area:"Mecânica"
         },
     ]
@@ -89,12 +89,11 @@ export default ({data, onColumnClicked}: ContentAreaChartProps) => {
             <SingleBarChart 
                 data={chartData}
                 xAxis="area"
-                yAxis="exploitation"
+                yAxis="performance"
                 onBarClick={(e: BarRectangleItem) => handleColumn(e)}
                 barStyle={{
                     XAxisProps: {
-                        angle:-45,
-                        textAnchor:'end',
+                        angle:35,
                         height:75,
                         fontSize:'small'
                     },
@@ -107,3 +106,5 @@ export default ({data, onColumnClicked}: ContentAreaChartProps) => {
         </>
     )
 }
+
+export default ContentAreaChart;

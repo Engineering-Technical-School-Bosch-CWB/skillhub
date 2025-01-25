@@ -14,7 +14,7 @@ import Divider from "../../components/Divider";
 import StudentCard from "../../components/StudentCard";
 
 import { useParams } from "react-router-dom";
-import { RankingChartProps, StudentSubject } from "./interfaces/ClassDetails.interfaces";
+import { ContentAreaChartValues, StudentSubject } from "./interfaces/ClassDetails.interfaces";
 import { IStudentCardProps } from "../../components/StudentCard/interfaces/IStudentCard.interfaces";
 import { useEffect, useState } from "react";
 
@@ -26,8 +26,11 @@ const ClassDetails = () => {
     const [className, setClassName] = useState("");
     const [subjects, setSubjects] = useState([]);
     const [search, setSearch] = useState("");
-    const [students, setStudents] = useState<IStudentCardProps[]>([]);
+    const [studentsData, setStudentsData] = useState<IStudentCardProps[]>([]);
     const [overallPerformance, setOverallPerformance] = useState(0);
+    const [rankingData, setRankingData] = useState<StudentSubject[]>([]);
+    const [subjectsData, setSubjectsData] = useState([]);
+    const [subjectAreaData, setSubjectAreaData] = useState<ContentAreaChartValues[]>([]);
 
     const getData = async () => {
         const response = await internalAPI.jsonRequest(`/classes/${id}?${new URLSearchParams({ query: search })}`, "GET");
@@ -40,7 +43,7 @@ const ClassDetails = () => {
             subtitle: s.instructor,
             title: s.name,
         })));
-        setStudents(content.students.map((s: { id: any; name: any; birthday: any; identification: any; }) => ({
+        setStudentsData(content.students.map((s: { id: any; name: any; birthday: any; identification: any; }) => ({
             id: s.id,
             name: s.name,
             birthday: s.birthday,
@@ -48,19 +51,23 @@ const ClassDetails = () => {
             tooltip: s.identification,
             goTo: s.id
         })));
-        setOverallPerformance(content.graphs.overallPerformance);
+        setOverallPerformance(content.graphs.overallPerformance ?? 0);
+        setRankingData(content.graphs.studentResults.map((s: { name: string; performance: number; }) => ({
+            name: s.name,
+            grade: !s.performance ? 0 : Number(s.performance.toFixed(2))
+        })));
+        setSubjectsData(content.graphs.subjectResults.map((s: { id: number; performance: number; name: string; }) => ({
+            subjectId: s.id,
+            result: !s.performance ? 0 : Number(s.performance.toFixed(2)),
+            subject: s.name
+        })));
+        setSubjectAreaData(content.graphs.subjectAreaResults.map((s: { id: number; performance: number; name: string; }) => ({
+            contentAreaId: s.id,
+            performance: !s.performance ? 0 : Number(s.performance.toFixed(2)),
+            area: s.name
+        })))
 
         console.log(response);
-    }
-
-    const rankingData: RankingChartProps = {
-        data: students.map((e) => {
-            const a: StudentSubject = {
-                grade: Math.floor(Math.random() * 101),
-                name: e.name!
-            }
-            return a;
-        })
     }
 
     const columnChartHandle = (e: any) => {
@@ -91,11 +98,11 @@ const ClassDetails = () => {
 
                     <section className={`${styles.chart_section} ${styles.align}`}>
                         <DoughnutChart exploitation={Number(overallPerformance.toFixed(1))} title="Overall Performance" />
-                        <Ranking {...rankingData} />
+                        <Ranking data={rankingData} />
 
-                        <SubjectBarChart />
-                        <GeneralChart />
-                        <ContentAreaChart onColumnClicked={columnChartHandle} />
+                        <SubjectBarChart data={subjectsData} />
+                        <GeneralChart data={rankingData} />
+                        <ContentAreaChart onColumnClicked={columnChartHandle} data={subjectAreaData} />
                     </section>
                 </section>
 
@@ -108,7 +115,7 @@ const ClassDetails = () => {
 
                     <div className={`${styles.student_container} ${styles.align}`} >
                         {
-                            students.map(e => (
+                            studentsData.map(e => (
                                 <StudentCard  {...e} />
                             ))
                         }

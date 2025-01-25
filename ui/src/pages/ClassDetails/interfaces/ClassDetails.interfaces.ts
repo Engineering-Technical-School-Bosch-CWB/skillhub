@@ -1,4 +1,11 @@
-import IUser from "../../../interfaces/models/IUser"
+import { IStudentCardProps } from "../../../components/StudentCard/interfaces/IStudentCard.interfaces"
+export interface ISubjectBarChatProps {
+    data: SubjectExploitation[]
+}
+
+export interface IGeneralChart {
+    data: StudentSubject[]
+}
 
 export interface StudentSubject {
     name?: string,
@@ -22,7 +29,7 @@ export interface SubjectExploitation {
 }
 
 export interface GeneralExplotaitionChartProps {
-    student: IUser,
+    student: string,
     grade?: number
 }
 
@@ -34,7 +41,7 @@ export interface ContentAreaChartProps {
 export interface ContentAreaChartValues {
     contentAreaId?: number,
     area?: string,
-    exploitation?: number
+    performance?: number
 }
 
 export interface RankingChartProps {
