@@ -46,7 +46,7 @@ export default function SingleBarChart({ data, xAxis, yAxis, onBarClick, barStyl
         <YAxis dataKey={yAxis} domain={[0, 100]} />
         <Tooltip />
         <Bar
-          className={!onBarClick ? "" : styles.pointer}
+          className={`${styles.bar} ${!onBarClick ? "" : styles.pointer}`}
           dataKey={yAxis}
           barSize={30}
           onClick={(e: BarRectangleItem, _i, _e) => {
