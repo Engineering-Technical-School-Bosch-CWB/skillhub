@@ -30,6 +30,7 @@ public record SubjectDTO(
 
 public record SubjectResultDTO(
     int Id,
+    int CurricularUnitId,
     string Name,
     string? Instructor,
     double? Performance
@@ -39,6 +40,7 @@ public record SubjectResultDTO(
     {
         return new SubjectResultDTO(
             obj.Id,
+            obj.CurricularUnit.Id,
             obj.CurricularUnit.Name,
             obj.Instructor?.Name,
             performance

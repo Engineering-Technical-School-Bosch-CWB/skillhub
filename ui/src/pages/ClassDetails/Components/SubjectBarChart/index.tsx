@@ -1,8 +1,7 @@
 import SingleBarChart from "../../../../components/Charts/SingleBarChart"
 import { ISubjectBarChatProps } from "../../interfaces/ClassDetails.interfaces"
-import { BarRectangleItem } from "recharts/types/cartesian/Bar"
 
-const SubjectBarChart = ({ data }: ISubjectBarChatProps) => {
+const SubjectBarChart = ({ data, onBarClick, selectedId }: ISubjectBarChatProps) => {
 
     const chartData = [
         {
@@ -11,18 +10,14 @@ const SubjectBarChart = ({ data }: ISubjectBarChatProps) => {
         }
     ]
 
-    const redirect = (e: any) => {
-        console.log(e.payload.subjectId);
-        
-    }
-
     return (
         <>
             <SingleBarChart 
                 data={chartData}
                 xAxis="subject"
                 yAxis="result"
-                onBarClick={(e: BarRectangleItem) => redirect(e)}
+                selectedId={selectedId}
+                onBarClick={(e) => onBarClick(e.id)}
                 barStyle={{
                     XAxisProps: {
                         angle:35,

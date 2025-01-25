@@ -1,33 +1,28 @@
 import SingleBarChart from "../../../../components/Charts/SingleBarChart";
-import { GeneralExplotaitionChartProps, IGeneralChart as IGeneralChartProps } from "../../interfaces/ClassDetails.interfaces"
-import { BarRectangleItem } from "recharts/types/cartesian/Bar"
+import { IGeneralChart as IGeneralChartProps } from "../../interfaces/ClassDetails.interfaces"
 
-const GeneralChart = ({ data }: IGeneralChartProps) => {
+const GeneralChart = ({ data, onBarClick, selectedId }: IGeneralChartProps) => {
 
     const chartData = [
         {
-            label: "General Exploitation",
+            label: "General Performance",
             data: data
         }
     ]
 
-    const redirect = (e: any) => {
-        console.log(e.payload.subjectId);
-        
-    }
-
     return (
         <>
-            <SingleBarChart 
+            <SingleBarChart
                 data={chartData}
                 xAxis="name"
                 yAxis="grade"
-                onBarClick={(e: BarRectangleItem) => redirect(e)}
+                selectedId={selectedId}
+                onBarClick={(e) => onBarClick(e.id)}
                 barStyle={{
                     XAxisProps: {
-                        angle:35,
-                        height:75,
-                        fontSize:'small'
+                        angle: 35,
+                        height: 75,
+                        fontSize: 'small'
                     },
                     ChartProps: {
                         height: 350

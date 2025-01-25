@@ -22,7 +22,8 @@ export interface IBarChartProps {
     xAxis: string,
     yAxis: string,
     onBarClick?: (...props: any[]) => void,
-    barStyle?: IBarStyleProps
+    barStyle?: IBarStyleProps,
+    selectedId?: number | null
 }
 
 export interface IDoughnutCharProps {

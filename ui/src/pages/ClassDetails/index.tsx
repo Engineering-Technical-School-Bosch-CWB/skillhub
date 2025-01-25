@@ -23,9 +23,14 @@ const ClassDetails = () => {
 
     const [modalOpened, setModalOpened] = useState(false);
 
+    const [search, setSearch] = useState("");
+    const [selectedSubjectId, setSelectedSubjectId] = useState<number | null>(null);
+    const [selectedStudentId, setSelectedStudentId] = useState<number | null>(null);
+    const [selectedSubjectAreaId, setSelectedSubjectAreaId] = useState<number | null>(null);
+
     const [className, setClassName] = useState("");
     const [subjects, setSubjects] = useState([]);
-    const [search, setSearch] = useState("");
+
     const [studentsData, setStudentsData] = useState<IStudentCardProps[]>([]);
     const [overallPerformance, setOverallPerformance] = useState(0);
     const [rankingData, setRankingData] = useState<StudentSubject[]>([]);
@@ -33,8 +38,16 @@ const ClassDetails = () => {
     const [subjectAreaData, setSubjectAreaData] = useState<ContentAreaChartValues[]>([]);
 
     const getData = async () => {
-        const response = await internalAPI.jsonRequest(`/classes/${id}?${new URLSearchParams({ query: search })}`, "GET");
+        const params = new URLSearchParams();
+        if (search) params.append('query', search);
+        if (selectedSubjectId !== null) params.append('selectedCurricularUnitId', String(selectedSubjectId));
+        if (selectedStudentId !== null) params.append('selectedStudentId', String(selectedStudentId));
+        if (selectedSubjectAreaId !== null) params.append('selectedSubjectAreaId', String(selectedSubjectAreaId));
+
+        const response = await internalAPI.jsonRequest(`/classes/${id}?${params.toString()}`, "GET");
         const content = response.data;
+
+        console.log(content)
 
         setClassName(content.class.name + " - " + content.class.startingYear);
         setSubjects(content.subjects.map((s: { name: string; id: string; instructor: string; }) => ({
@@ -52,17 +65,18 @@ const ClassDetails = () => {
             goTo: s.id
         })));
         setOverallPerformance(content.graphs.overallPerformance ?? 0);
-        setRankingData(content.graphs.studentResults.map((s: { name: string; performance: number; }) => ({
+        setRankingData(content.graphs.studentResults.map((s: { id: number; name: string; performance: number; }) => ({
+            id: s.id,
             name: s.name,
             grade: !s.performance ? 0 : Number(s.performance.toFixed(2))
         })));
-        setSubjectsData(content.graphs.subjectResults.map((s: { id: number; performance: number; name: string; }) => ({
-            subjectId: s.id,
+        setSubjectsData(content.graphs.subjectResults.map((s: { curricularUnitId: number; performance: number; name: string; }) => ({
+            id: s.curricularUnitId,
             result: !s.performance ? 0 : Number(s.performance.toFixed(2)),
             subject: s.name
         })));
         setSubjectAreaData(content.graphs.subjectAreaResults.map((s: { id: number; performance: number; name: string; }) => ({
-            contentAreaId: s.id,
+            id: s.id,
             performance: !s.performance ? 0 : Number(s.performance.toFixed(2)),
             area: s.name
         })))
@@ -70,16 +84,33 @@ const ClassDetails = () => {
         console.log(response);
     }
 
-    const columnChartHandle = (e: any) => {
-        console.log(e);
+    const handleSubjectClick = (id: number | null) => {
+        clearParams();
+        if (selectedSubjectId != id) setSelectedSubjectId(id);
+    }
+
+    const handleStudentClick = (id: number | null) => {
+        clearParams();
+        if (selectedStudentId != id) setSelectedStudentId(id);
+    }
+
+    const handleSubjectAreaClick = (id: number | null) => {
+        clearParams();
+        if (selectedSubjectAreaId != id) setSelectedSubjectAreaId(id);
+    }
+
+    const clearParams = () => {
+        setSelectedSubjectId(null);
+        setSelectedStudentId(null);
+        setSelectedSubjectAreaId(null);
     }
 
     useEffect(() => {
         getData();
-    }, [id, search])
+    }, [id, search, selectedSubjectId, selectedStudentId, selectedSubjectAreaId])
 
     return (
-        <div>
+        <div onClick={clearParams}>
             <AddSubjectModal isOpened={modalOpened} onClose={() => setModalOpened(false)} />
             <Header />
 
@@ -98,11 +129,11 @@ const ClassDetails = () => {
 
                     <section className={`${styles.chart_section} ${styles.align}`}>
                         <DoughnutChart exploitation={Number(overallPerformance.toFixed(1))} title="Overall Performance" />
-                        <Ranking data={rankingData} />
+                        <Ranking data={rankingData} onClick={handleStudentClick} />
 
-                        <SubjectBarChart data={subjectsData} />
-                        <GeneralChart data={rankingData} />
-                        <ContentAreaChart onColumnClicked={columnChartHandle} data={subjectAreaData} />
+                        <SubjectBarChart data={subjectsData} selectedId={selectedSubjectId} onBarClick={handleSubjectClick} />
+                        <GeneralChart data={rankingData} selectedId={selectedStudentId} onBarClick={handleStudentClick} />
+                        <ContentAreaChart data={subjectAreaData} selectedId={selectedSubjectAreaId} onBarClick={handleSubjectAreaClick} />
                     </section>
                 </section>
 

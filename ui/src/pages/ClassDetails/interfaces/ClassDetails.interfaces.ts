@@ -1,14 +1,18 @@
-import { IStudentCardProps } from "../../../components/StudentCard/interfaces/IStudentCard.interfaces"
 export interface ISubjectBarChatProps {
     data: SubjectExploitation[]
+    selectedId: number | null
+    onBarClick: Function
 }
 
 export interface IGeneralChart {
     data: StudentSubject[]
+    selectedId: number | null
+    onBarClick: Function
 }
 
 export interface StudentSubject {
-    name?: string,
+    id: number
+    name?: string
     grade?: number
 }
 
@@ -35,7 +39,8 @@ export interface GeneralExplotaitionChartProps {
 
 export interface ContentAreaChartProps {
     data?: ContentAreaChartValues[],
-    onColumnClicked?: Function
+    selectedId: number | null
+    onBarClick: Function
 }
 
 export interface ContentAreaChartValues {
@@ -46,4 +51,5 @@ export interface ContentAreaChartValues {
 
 export interface RankingChartProps {
     data: StudentSubject[]
+    onClick: Function
 }
