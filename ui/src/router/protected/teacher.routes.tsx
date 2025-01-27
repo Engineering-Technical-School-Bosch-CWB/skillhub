@@ -1,5 +1,4 @@
 import { AccessLevel } from "../../enums/AccessLevel";
-import ContentOverview from "../../pages/ContentOverview";
 import CurricularUnitOverview from "../../pages/CurricularUnitOverview";
 import { IAccessRoutes } from "../../interfaces/routes.interfaces";
 import { RouteMap } from "../map";
@@ -9,6 +8,8 @@ import SubjectDetails from "../../pages/SubjectDetails";
 import NewTest from "../../pages/SubjectDetails/Pages/NewTest";
 import AvaliationResult from "../../pages/SubjectDetails/Pages/AvaliationResult";
 import AprenticesProfile from "../../pages/AprenticesProfile";
+import SchoolContent from "../../pages/SchoolContent";
+import UsersOverview from "../../pages/UsersOverview";
 
 export default {
     accessLevel: AccessLevel.TEACHER,
@@ -16,7 +17,7 @@ export default {
         {
             path: RouteMap.SCHOOL_CONTENT,
             title: "School Content",
-            element: <ContentOverview/>,
+            element: <SchoolContent/>,
             children: [
                 {
                     path: RouteMap.CURRICULAR_UNITY_BY_ID,
@@ -32,13 +33,17 @@ export default {
         {
             path: RouteMap.CLASS_DETAILS,
             element: <ClassDetails />
-        }, 
-        // {
-        //     path: RouteMap.SUBJECT_DETAILS,
-        //     element: <SubjectDetails />,
-        //     children: [
-        //     ]
-        // },
+        },
+        {
+            path: RouteMap.USERS_OVERVIEW,
+            element: <UsersOverview />
+        },
+        {
+            path: RouteMap.SUBJECT_DETAILS,
+            element: <SubjectDetails />,
+            children: [
+            ]
+        },
         // {
         //     path: RouteMap.NEW_SUBJECT_TEST,
         //     element: <NewTest />
@@ -47,9 +52,9 @@ export default {
         //     path: RouteMap.AVALIATION_RESULT,
         //     element: <AvaliationResult />
         // },
-        // {
-        //     path: RouteMap.STUDENT_OVERVIEW,
-        //     element: <AprenticesProfile />
-        // }
+        {
+            path: RouteMap.STUDENT_OVERVIEW,
+            element: <AprenticesProfile />
+        }
     ]
 } as IAccessRoutes

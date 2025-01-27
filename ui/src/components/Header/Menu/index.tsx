@@ -3,42 +3,51 @@ import styles from "./styles.module.css"
 import Link from "../../Link";
 import authenticatedRoutes from "../../../router/protected/authenticated.routes";
 import teacherRoutes from "../../../router/protected/teacher.routes";
+import { useUserContext } from "../../../contexts/user.context";
 
 interface IMenuProps {
     open: boolean;
     handleClose: () => void;
 }
 
-export default ({ open, handleClose }:IMenuProps) => {
+export default ({ open, handleClose }: IMenuProps) => {
 
-    const handleModalClick:MouseEventHandler = (e) => {
+    const { user } = useUserContext();
+
+    const handleModalClick: MouseEventHandler = (e) => {
         e.stopPropagation()
     }
 
     return (
-        <div 
+        <div
             className={`${styles.backdrop} ${open ? styles.backdrop_showing : styles.backdrop_closing}`}
             onClick={handleClose}
         >
-            <div 
+            <div
                 className={`${styles.menu} ${open ? styles.menu_showing : styles.menu_closing}`}
                 onClick={handleModalClick}
             >
-                <button 
+                <button
                     className={styles.close_button}
                     onClick={handleClose}
                 >X</button>
 
                 <div className={styles.link_list}>
-                    {Object.values(authenticatedRoutes.routes).map((route, i) => (
-                        <Link key={i} to={route.path!}>{ route.title }</Link>
-                    ))}
-
-                    {Object.values(teacherRoutes.routes).map((route, i) => (
-                        <Link key={i} to={route.path!}>{ route.title }</Link>
-                    ))}
-
-                    <Link onClick={() => sessionStorage.removeItem("@AUTH")} to={"/"}>{ "Sign out" }</Link>
+                    <Link to={"/home"}>{"Home"}</Link>
+                    {
+                        user?.studentProfile &&
+                        <Link to={"/apprentice/results"} >{"Student Results"}</Link>
+                    }
+                    <Link to={"/birthdays"} >{"Birthdays"}</Link>
+                    {
+                        user?.permissionLevel === 2 &&
+                        <>
+                            <Link to={"/classes"} >{"Classes Overview"}</Link>
+                            <Link to={"/school-content"} >{"School Content"}</Link>
+                            <Link to={"/users"} >{"Users"}</Link>
+                        </>
+                    }
+                    <Link onClick={() => sessionStorage.removeItem("@AUTH")} to={"/"}>{"Sign out"}</Link>
                 </div>
             </div>
         </div>

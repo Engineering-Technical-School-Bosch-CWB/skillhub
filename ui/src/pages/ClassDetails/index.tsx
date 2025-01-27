@@ -13,13 +13,16 @@ import ExplorerContainer from "../../components/ExplorerContainer";
 import Divider from "../../components/Divider";
 import StudentCard from "../../components/StudentCard";
 
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ContentAreaChartValues, StudentSubject } from "./interfaces/ClassDetails.interfaces";
 import { IStudentCardProps } from "../../components/StudentCard/interfaces/IStudentCard.interfaces";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const ClassDetails = () => {
-    const { id } = useParams<{ id: string }>();
+    const { classId } = useParams();
+
+    const navigate = useNavigate();
 
     const [modalOpened, setModalOpened] = useState(false);
 
@@ -44,10 +47,15 @@ const ClassDetails = () => {
         if (selectedStudentId !== null) params.append('selectedStudentId', String(selectedStudentId));
         if (selectedSubjectAreaId !== null) params.append('selectedSubjectAreaId', String(selectedSubjectAreaId));
 
-        const response = await internalAPI.jsonRequest(`/classes/${id}?${params.toString()}`, "GET");
-        const content = response.data;
+        const response = await internalAPI.jsonRequest(`/classes/${classId}?${params.toString()}`, "GET");
 
-        console.log(content)
+        if (!response || response.statusCode != 200) {
+            if (!toast.isActive("class-load-error"))
+                toast.error("Something went wrong.", { toastId: "class-load-error" });
+            navigate("/home");
+        }
+
+        const content = response.data;
 
         setClassName(content.class.name + " - " + content.class.startingYear);
         setSubjects(content.subjects.map((s: { name: string; id: string; instructor: string; }) => ({
@@ -62,7 +70,7 @@ const ClassDetails = () => {
             birthday: s.birthday,
             identification: s.identification,
             tooltip: s.identification,
-            goTo: s.id
+            goTo: "student/" + s.id
         })));
         setOverallPerformance(content.graphs.overallPerformance ?? 0);
         setRankingData(content.graphs.studentResults.map((s: { id: number; name: string; performance: number; }) => ({
@@ -107,7 +115,7 @@ const ClassDetails = () => {
 
     useEffect(() => {
         getData();
-    }, [id, search, selectedSubjectId, selectedStudentId, selectedSubjectAreaId])
+    }, [classId, search, selectedSubjectId, selectedStudentId, selectedSubjectAreaId])
 
     return (
         <div onClick={clearParams}>
@@ -128,7 +136,7 @@ const ClassDetails = () => {
                     <Text fontSize="xl2" fontWeight="bold" >Details</Text>
 
                     <section className={`${styles.chart_section} ${styles.align}`}>
-                        <DoughnutChart exploitation={Number(overallPerformance.toFixed(1))} title="Overall Performance" />
+                        <DoughnutChart exploitation={!overallPerformance ? 0 : Number(overallPerformance.toFixed(1))} title="Overall Performance" />
                         <Ranking data={rankingData} onClick={handleStudentClick} />
 
                         <SubjectBarChart data={subjectsData} selectedId={selectedSubjectId} onBarClick={handleSubjectClick} />

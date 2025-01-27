@@ -39,7 +39,7 @@ const AprenticesResults = () => {
 
         setBarChartData(content.userResults.map((r: { subject: { curricularUnit: any }; score: any }) => ({
             subject: r.subject.curricularUnit,
-            performance: Number((r.score ?? 0).toFixed(2)),
+            performance: !r.score ? 0 : Number((r.score).toFixed(2)),
         })));
 
         setCardsData(
@@ -68,7 +68,7 @@ const AprenticesResults = () => {
                     <Text variant="span" fontWeight="bold" fontSize="xl2">Results</Text>
                     <div className={styled.chart_container}>
                         <ExploitationBarChart data={barChartData} label={"Performance per Subject"} />
-                        <DoughnutChart title="Overall Performance" exploitation={Number(overallPerformance.toFixed(1))} />
+                        <DoughnutChart title="Overall Performance" exploitation={!overallPerformance ? 0 : Number(overallPerformance.toFixed(1))} />
                     </div>
                 </div>
                 <Divider size="big" />

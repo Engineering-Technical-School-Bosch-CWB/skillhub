@@ -1,12 +1,12 @@
 import Header from "../../components/Header";
 
-const UsersOverview = () => {
+const SchoolContent = () => {
     return (
         <>
             <Header />
-            Users Overview
+            School Content
         </>
     )
 }
 
-export default UsersOverview;
+export default SchoolContent;

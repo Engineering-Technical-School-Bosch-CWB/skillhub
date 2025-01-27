@@ -17,7 +17,7 @@ import { IOption } from "../../components/TableView/interfaces";
 
 const SubjectResults = () => {
 
-    const { id } = useParams();
+    const { subjectId } = useParams();
 
     const navigate = useNavigate();
 
@@ -32,7 +32,7 @@ const SubjectResults = () => {
     const [skillsData, setSkillsData] = useState([]);
 
     const getData = async () => {
-        const response = await internalAPI.jsonRequest(`/students/results/${id}`, "GET");
+        const response = await internalAPI.jsonRequest(`/students/results/${subjectId}`, "GET");
 
         if (!response || response.statusCode != 200) {
             if (!toast.isActive("subject-results-load-error"))
@@ -101,8 +101,8 @@ const SubjectResults = () => {
                                 </div>
                             </div>
                             <div className={styled.chart_section}>
-                                <DoughnutChart exploitation={Number((overallPerformance).toFixed(1))} title="Your Performance" />
-                                <DoughnutChart exploitation={Number((classOverallPerformance).toFixed(1))} title="Average Class Performance" />
+                                <DoughnutChart exploitation={!overallPerformance ? 0 : Number((overallPerformance).toFixed(1))} title="Your Performance" />
+                                <DoughnutChart exploitation={!classOverallPerformance ? 0 : Number((classOverallPerformance).toFixed(1))} title="Average Class Performance" />
                             </div>
                         </div>
                     </div>
