@@ -1,8 +1,13 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Avatar from "../Avatar"
 import BoschLogo from "../BoschLogo"
 import Menu from "./Menu"
 import styles from "./styles.module.css"
+import Link from "../Link"
+import { useUserContext } from "../../contexts/user.context"
+import { useNavigate } from "react-router-dom"
+import internalAPI from "../../service/internal.services"
+import { toast } from "react-toastify"
 
 interface IHeaderProps {
 
@@ -20,23 +25,48 @@ interface IHeaderProps {
  * - Uses `BoschLogo` for branding and `Avatar` for user interaction.
  * - The `Menu` component is displayed when the user clicks the avatar.
  */
-const Header = ({  }:IHeaderProps) => {
+const Header = ({ }: IHeaderProps) => {
 
+
+    const { user, setUser } = useUserContext();
     const [menuOpen, setMenuOpen] = useState(false);
 
-    return(
+    const navigate = useNavigate();
+
+    const getData = async () => {
+
+        const response = await internalAPI.jsonRequest("/users", "GET", undefined, undefined);
+
+        if (!response || response.statusCode != 200) {
+            if (!toast.isActive("user-load-error"))
+                toast.error("Authentication required.", { toastId: "user-load-error" });
+            navigate("/");
+        }
+
+        const content = response.data;
+        setUser(content);
+    }
+
+    useEffect(() => {
+        getData();
+    }, [])
+
+
+    return (
         <>
             <header className={styles.header}>
-                <BoschLogo/>
+                <Link to="/home">
+                    <BoschLogo />
+                </Link>
 
                 <nav>
-                    <Avatar 
-                        src="/avatar.png" 
-                        tooltip="Murylo Saladino"
+                    <Avatar
+                        src="/avatar.png"
+                        tooltip={user?.name}
                         onClick={() => setMenuOpen(true)}
                         className={styles.user_icon}
                     />
-                    
+
                 </nav>
             </header>
 

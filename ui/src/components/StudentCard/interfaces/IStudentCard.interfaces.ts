@@ -1,9 +1,13 @@
 import IUser from "../../../interfaces/models/IUser";
 
 export interface IStudentCardProps {
-    student?: IUser,
-    className?: string, 
-    tooltip?: string, 
+    id: number,
+    name: string,
+    birthday: string,
+    identification: string,
+
     size?: string,
     goTo?: string
+    tooltip?: string,
+    image?: string
 }

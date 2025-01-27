@@ -13,8 +13,7 @@ public class AuthenticationMiddleware : IMiddleware
         _jwtService = jwtService;
         _pathsToSkip =
         [
-            "/api/v1/login",
-            "/api/v1/users",
+            "/api/v1/login"
         ];
     }
 

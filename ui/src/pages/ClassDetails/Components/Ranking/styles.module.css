@@ -16,6 +16,12 @@
         gap: .5rem;
         max-height: 3rem;
         border-radius: 5px;
+
+        cursor: pointer;
+    }
+
+    .ranking_card:hover {
+        filter: brightness(90%) saturate(120%);
     }
 
     .green {

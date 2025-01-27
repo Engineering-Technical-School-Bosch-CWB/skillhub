@@ -15,16 +15,15 @@ export default class Service {
         this.baseUrl = baseUrl
         this.contentType = contentType || "application/json"
         this.getAuth = getAuth || (() => {
-            const token = localStorage.getItem("@TOKEN");
+            const token = sessionStorage.getItem("@AUTH");
             return "Bearer " + token;
         })
     }
 
-
     public async jsonRequest<T = any>(
-        url: string, 
-        method: IHttpMethod, 
-        headers?: HeadersInit, 
+        url: string,
+        method: IHttpMethod,
+        headers?: HeadersInit,
         body?: any,
     ): Promise<IServiceResponse<T>> {
 
@@ -37,16 +36,14 @@ export default class Service {
                 ...headers
             }
         })
-        
+
         const json = await response.json()
 
-        return { 
+        return {
             statusCode: response.status,
             data: json.data || null,
             success: response.status < 400,
-            showMessage: response.status >= 400 ? 
-                () => toast.error(json.message) : 
-                () => toast.success(json.message)
+            message: json.message
         }
     }
 

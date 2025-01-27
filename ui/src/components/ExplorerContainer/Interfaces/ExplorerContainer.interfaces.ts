@@ -5,4 +5,8 @@ export interface IExplorerContainerProps {
     folderPath?: string,
     onAddHandle?: Function,
     data: IIdentificationCardProps[]
+    input: {
+        search: string,
+        onChange: (str: string) => void
+    }
 }

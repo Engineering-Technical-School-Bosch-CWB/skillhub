@@ -2,6 +2,8 @@ using Api.Domain.Models;
 using Api.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 
+namespace Api.Controllers;
+
 [ApiController]
 [Route("api/v1/objections")]
 public class ObjectionController : ControllerBase

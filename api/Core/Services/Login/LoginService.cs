@@ -7,18 +7,16 @@ using Api.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Core.Services;
-public class LoginService : ILoginService
+public class LoginService(
+    IUserRepository userRepository, PasswordHasher<User> hasher, JwtService jwtService,
+    IStudentService studentService
+) : ILoginService
 {
-    private readonly IUserRepository _userRepository;
-    private readonly PasswordHasher<User> _hasher;
-    private readonly JwtService _jwtService;
-
-    public LoginService(IUserRepository userRepository, PasswordHasher<User> hasher, JwtService jwtService)
-    {
-        _userRepository = userRepository;
-        _hasher = hasher;
-        _jwtService = jwtService;
-    }
+    private readonly IUserRepository _userRepository = userRepository;
+    private readonly PasswordHasher<User> _hasher = hasher;
+    
+    private readonly JwtService _jwtService = jwtService;
+    private readonly IStudentService _studentService = studentService;
 
     public async Task<AppResponse<LoginResponse>> TryLogin(LoginPayload payload)
     {
@@ -39,7 +37,7 @@ public class LoginService : ILoginService
         if(passwordMatches == PasswordVerificationResult.Failed)
             throw new WrongPasswordException("Wrong password!");
 
-        var userDto = UserDTO.Map(user, null);
+        var userDto = UserDTO.Map(user, await _studentService.GetByUserId(user.Id));
         var token = _jwtService.GenerateToken(userDto);
 
         if(passwordMatches == PasswordVerificationResult.Success &&

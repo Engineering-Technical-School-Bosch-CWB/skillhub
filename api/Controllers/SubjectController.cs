@@ -1,5 +1,6 @@
 using Api.Core.Errors;
 using Api.Core.Services;
+using Api.Domain.Enums;
 using Api.Domain.Models;
 using Api.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -21,16 +22,16 @@ public class SubjectController : ControllerBase
     }
 
     [HttpGet]
-    [Route("results/{id}")]
-    public async Task<ActionResult> GetSubjectResultsPage(
-        [FromServices] IStudentService studentService,
+    [Route("{id}")]
+    public async Task<ActionResult> GetInstructorSubjectPage(
+        [FromServices] ISubjectService service,
         UserContext userContext, int id
     )
     {
-        var student = await studentService.GetByUserId(userContext.UserId)
-            ?? throw new NotFoundException("Student found!");
+        if (userContext.PermissionLevel != EPermissionLevel.Admin)
+            throw new ForbiddenAccessException("User don't have permission to this service!");
 
-        var result = await studentService.GetSubjectResultsPage(student.Id, id);
+        var result = await service.GetInstructorPage(id);
         return Ok(result);
     }
 }

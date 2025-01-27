@@ -1,11 +1,12 @@
-import { forwardRef } from "react"
-import styles from "../styles.module.css"
-import { IRootInputProps } from "../interfaces"
-import InputContainer from "../InputContainer"
 import Icon from "../../Icon"
+import styles from "../styles.module.css"
+import InputContainer from "../InputContainer"
+
+import { forwardRef } from "react"
+import { IRootInputProps } from "../interfaces"
 
 export interface IInputTextProps extends IRootInputProps {
-    type?: "text" | "email",
+    type?: "text" | "email" | "number",
     iconName?: string
 }
 

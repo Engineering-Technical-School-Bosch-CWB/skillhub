@@ -16,12 +16,7 @@ export default {
             title: "Home",
         },
         {
-            path: RouteMap.COMPLETE_REGISTERING,
-            element: <CompleteRegistering/>,
-            title: "Complete Registering",
-        },
-        {
-            path: RouteMap.APRENTICES_RESULTS,
+            path: RouteMap.APPRENTICE_RESULTS,
             element: <AprenticesResults/>,
             title: "Aprentices Results",
         },
@@ -34,6 +29,6 @@ export default {
             path: RouteMap.BIRTHDAYS,
             element: <Birthdays/>,
             title: "Birthdays",
-        },
+        }
     ]
 } as IAccessRoutes

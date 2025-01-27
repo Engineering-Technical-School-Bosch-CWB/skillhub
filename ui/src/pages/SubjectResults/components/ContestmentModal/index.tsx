@@ -1,13 +1,27 @@
+import Contestment from "./Contestment";
 import styles from "./styles.module.css";
-import { useState } from "react";
 import Text from "../../../../typography";
-import { IModalProps } from "../../interfaces";
 import Modal from "../../../../components/Modal";
 import ButtonGroup from "../../../../components/ButtonGroup";
-import Contestment from "./Contestment";
+import internalAPI from "../../../../service/internal.services";
 
-const ContestmentModal = ({ isOpen, handleIsOpen, competenceId }: IModalProps) => {
-    const [selectedContestment, setSelectedContestment] = useState<string>("Apt");
+import { useEffect, useState } from "react";
+import { IModalProps } from "../../interfaces";
+
+const ContestmentModal = ({ isOpen, handleIsOpen, skillId }: IModalProps) => {
+    const [selectedContestment, setSelectedContestment] = useState<string>("Skilled");
+
+    const [skillDescription, setSkillDescription] = useState("");
+    const [currentAptitude, setCurrentAptitude] = useState("");
+
+    const getData = async () => {
+        const response = await internalAPI.jsonRequest(`/skillResults/skill/${skillId}`, "GET");
+        console.log(response);
+        const content = response.data;
+
+        setSkillDescription(content.description);
+        setCurrentAptitude(content.aptitude);
+    }
 
     const handleClose = () => handleIsOpen(false);
 
@@ -15,16 +29,20 @@ const ContestmentModal = ({ isOpen, handleIsOpen, competenceId }: IModalProps) =
 
     };
 
+    useEffect(() => {
+        getData();
+    }, [skillId])
+
     return (
         <div>
-            <Modal open={isOpen} handleClose={handleClose} title="Competence Contestment">
+            <Modal open={isOpen} handleClose={handleClose} title="Skill Contestment">
                 <div className={styles.information}>
 
-                    <Text fontSize="xl" fontWeight="semibold" className={styles.title}>Utilizar operações I/O.</Text>
+                    <Text fontSize="xl" fontWeight="semibold" className={styles.title}>{skillDescription}</Text>
 
                     <div className={styles.content}>
                         <div className={styles.contestment_container}>
-                            <Contestment option={selectedContestment} selectionHandler={setSelectedContestment}/>
+                            <Contestment option={selectedContestment} selectionHandler={setSelectedContestment} current={currentAptitude}/>
                             <ButtonGroup cancel={handleClose} submit={handleSubmit}/>
                         </div>
                     </div>

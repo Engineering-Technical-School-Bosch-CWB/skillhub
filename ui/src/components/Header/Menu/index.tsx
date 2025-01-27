@@ -37,6 +37,8 @@ export default ({ open, handleClose }:IMenuProps) => {
                     {Object.values(teacherRoutes.routes).map((route, i) => (
                         <Link key={i} to={route.path!}>{ route.title }</Link>
                     ))}
+
+                    <Link onClick={() => sessionStorage.removeItem("@AUTH")} to={"/"}>{ "Sign out" }</Link>
                 </div>
             </div>
         </div>

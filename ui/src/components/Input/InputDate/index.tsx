@@ -42,7 +42,7 @@ const SInput = styled(DatePicker)<{ error?: boolean }>(({ error }) => ({
     "> div": {
         height: "100%",
         borderRadius: 0,
-        borderColor: error ? "var(--error-light)" : "var(--gray-200)",
+        border: error ? "var(--danger-border)" : "",
     }
 }))
 

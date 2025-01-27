@@ -11,6 +11,10 @@ public class ExamClassMap : IEntityTypeConfiguration<Exam>
 
         builder.ToTable("exam");
 
+        builder.Property(e => e.Name)
+            .HasMaxLength(50)
+            .HasColumnName("name");
+
         builder.Property(e => e.Description)
             .HasMaxLength(255)
             .HasColumnName("description");

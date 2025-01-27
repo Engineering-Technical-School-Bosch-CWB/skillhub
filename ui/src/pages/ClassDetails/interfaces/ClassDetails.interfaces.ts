@@ -1,12 +1,23 @@
-import IUser from "../../../interfaces/models/IUser"
+export interface ISubjectBarChatProps {
+    data: SubjectExploitation[]
+    selectedId: number | null
+    onBarClick: Function
+}
+
+export interface IGeneralChart {
+    data: StudentSubject[]
+    selectedId: number | null
+    onBarClick: Function
+}
 
 export interface StudentSubject {
-    name?: string,
-    grade?: number
+    id: number
+    name?: string
+    performance?: number
 }
 
 export interface AddModalProps {
-    isOpened: boolean,
+    isOpen: boolean,
     onClose: Function
 }
 
@@ -22,21 +33,23 @@ export interface SubjectExploitation {
 }
 
 export interface GeneralExplotaitionChartProps {
-    student: IUser,
+    student: string,
     grade?: number
 }
 
 export interface ContentAreaChartProps {
     data?: ContentAreaChartValues[],
-    onColumnClicked?: Function
+    selectedId: number | null
+    onBarClick: Function
 }
 
 export interface ContentAreaChartValues {
     contentAreaId?: number,
     area?: string,
-    exploitation?: number
+    performance?: number
 }
 
 export interface RankingChartProps {
     data: StudentSubject[]
+    onClick: Function
 }

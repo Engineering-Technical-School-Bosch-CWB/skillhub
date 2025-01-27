@@ -1,3 +1,3 @@
 export enum Connections {
-    InternalAPI = "hhtp://localhost:5246/api/v1"
+    InternalAPI = "http://localhost:5246/api/v1"
 }

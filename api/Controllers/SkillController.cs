@@ -15,7 +15,7 @@ public class SkillController : ControllerBase
     )
     {
         var result = await service.CreateSkill(payload);
-        return Created("/api/v1/Skills", result);
+        return Created("/api/v1/skills", result);
     }
 
     [HttpGet]

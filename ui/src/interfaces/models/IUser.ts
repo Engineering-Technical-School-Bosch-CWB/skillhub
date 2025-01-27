@@ -7,11 +7,14 @@ import IUserImage from "./IUserImage";
 export default interface IUser extends IEntity {
     name?: string,
     identification?: string,
-    hash?: string,
     birthday?: Date,
-    is_active?: boolean,
     image?: IUserImage,
     position?: IPosition,
     sector?: ISector, 
-    occupation_area?: IOccupationArea
+    occupationArea?: IOccupationArea,
+    permissionLevel?: number,
+    studentProfile: {
+        id?: number,
+        classId: number
+    }
 }

@@ -4,45 +4,64 @@ import DoughnutChart from "../../components/Charts/DoughnutChart";
 import Header from "../../components/Header";
 import Text from "../../typography";
 import TableView from "../../components/TableView";
-import { useState } from "react";
-import { IOption } from "../../components/TableView/interfaces";
-import ContestmentModal from "./components/ContestmentModal";
+import formatDate from "../../constants/formatDate";
 import HistoryModal from "./components/HistoryModal";
+import internalAPI from "../../service/internal.services";
+import ContestmentModal from "./components/ContestmentModal";
 
-const data = [
-    {
-        id: 1,
-        name: "Use input and output operations.",
-        status: "Apt",
-        average_aptitude: 90
-    },
-    {
-        id: 2,
-        name: "Use generics to have dynamic classes and implement them.",
-        status: "Inapt",
-        average_aptitude: 68,
-    },
-    {
-        id: 3,
-        name: "Array usage.",
-        status: "In Development",
-        average_aptitude: 30,
-    },
-]
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { useNavigate, useParams } from "react-router-dom";
+import { IFeedback } from "../../interfaces/models/IFeedback";
+import { IOption } from "../../components/TableView/interfaces";
 
 const SubjectResults = () => {
+
+    const { id } = useParams();
+
+    const navigate = useNavigate();
+
     const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
     const [isContestmentModalOpen, setIsContestmentModalOpen] = useState(false);
-    const [selectedCompetence, setSelectedCompetence] = useState(-1);
+    const [selectedSkill, setSelectedSkill] = useState(-1);
 
-    const handleHistoryModal = (isOpen: boolean, competenceId: number) => {
-        setIsHistoryModalOpen(isOpen);
-        setSelectedCompetence(competenceId);
+    const [subject, setSubject] = useState("");
+    const [feedback, setFeedback] = useState<IFeedback | null>(null);
+    const [overallPerformance, setOverallPerformance] = useState(0);
+    const [classOverallPerformance, setClassOverallPerformance] = useState(0);
+    const [skillsData, setSkillsData] = useState([]);
+
+    const getData = async () => {
+        const response = await internalAPI.jsonRequest(`/students/results/${id}`, "GET");
+
+        if (!response || response.statusCode != 200) {
+            if (!toast.isActive("subject-results-load-error"))
+                toast.error("Something went wrong.", { toastId: "subject-results-load-error" });
+            navigate("/apprentice/results");
+        }
+
+        const content = response.data;
+
+        setSubject(content.subject);
+        setFeedback(content.feedback);
+        setOverallPerformance(content.overallSkillScore);
+        setClassOverallPerformance(content.classOverallSkillScore);
+        setSkillsData(content.skillResults.map((r: { skillId: number; description: string; aptitude: string; classPercentageAptitude: string; }) => ({
+            id: r.skillId,
+            description: r.description,
+            aptitude: r.aptitude,
+            average_performance: r.classPercentageAptitude
+        })))
     }
 
-    const handleContestmentModal = (isOpen: boolean, competenceId: number) => {
+    const handleHistoryModal = (isOpen: boolean, skillId: number) => {
+        setIsHistoryModalOpen(isOpen);
+        setSelectedSkill(skillId);
+    }
+
+    const handleContestmentModal = (isOpen: boolean, skillId: number) => {
         setIsContestmentModalOpen(isOpen);
-        setSelectedCompetence(competenceId);
+        setSelectedSkill(skillId);
     }
 
     const options: IOption[] = [
@@ -55,39 +74,49 @@ const SubjectResults = () => {
             function: handleContestmentModal
         }
     ]
-    
+
+    useEffect(() => {
+        getData();
+    }, [])
+
     return (
         <div>
-            <Header/>
+            <Header />
             <main>
                 <div className={styled.content}>
                     <div className={styled.overview_section}>
-                        <Text fontWeight="bold" fontSize="xl2">Python</Text>
+                        <Text fontWeight="bold" fontSize="xl2">{subject}</Text>
                         <div className={styled.overview_content}>
                             <div className={styled.feedback_card}>
                                 <Text fontWeight="semibold" fontSize="xl">Feedback</Text>
-                                <Text>Você atingiu mais de 80% de cada objetivo. Foque em aprender métodos de Hash e continue assim !</Text>
+                                <Text>{feedback?.content || "No feedback provided."}</Text>
                                 <div className={styled.feedback_author}>
-                                    <Text fontWeight="light" fontSize="sm">18/10/2024 - Leonardo Trevisan</Text>
+                                    {
+                                        feedback &&
+                                        <>
+                                            <Text fontWeight="light" fontSize="sm">Last update • </Text>
+                                            <Text fontWeight="semibold" fontSize="sm">{formatDate(feedback.updatedAt) + " by " + feedback.instructor}</Text>
+                                        </>
+                                    }
                                 </div>
                             </div>
                             <div className={styled.chart_section}>
-                                <DoughnutChart exploitation={60} title="Your Exploitation"/>
-                                <DoughnutChart exploitation={57} title="Class' Average Exploitation"/>
+                                <DoughnutChart exploitation={Number((overallPerformance).toFixed(1))} title="Your Performance" />
+                                <DoughnutChart exploitation={Number((classOverallPerformance).toFixed(1))} title="Average Class Performance" />
                             </div>
                         </div>
                     </div>
-                    <Divider size="big"/>
+                    <Divider size="big" />
                     <div className={styled.competences_section}>
-                        <Text fontWeight="bold" fontSize="xl2">Competences</Text>
+                        <Text fontWeight="bold" fontSize="xl2">Skills</Text>
                         <div className={styled.table_container}>
-                            <TableView data={data} hasNotation={true} hasOptions={true} options={options}/>
+                            <TableView data={skillsData} hasNotation={true} hasOptions={true} options={options} />
                         </div>
                     </div>
                 </div>
 
-                <ContestmentModal isOpen={isContestmentModalOpen} handleIsOpen={handleContestmentModal} competenceId={selectedCompetence}/>
-                <HistoryModal isOpen={isHistoryModalOpen} handleIsOpen={handleHistoryModal} competenceId={selectedCompetence}/>
+                <ContestmentModal isOpen={isContestmentModalOpen} handleIsOpen={handleContestmentModal} skillId={selectedSkill} />
+                <HistoryModal isOpen={isHistoryModalOpen} handleIsOpen={handleHistoryModal} skillId={selectedSkill} />
             </main>
         </div>
     )

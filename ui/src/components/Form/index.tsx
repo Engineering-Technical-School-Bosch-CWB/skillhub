@@ -1,7 +1,7 @@
 import { FieldValues, FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import Button from "../Button";
 import styles from "./styles.module.css"
-import { IFormProps } from "./types";
+import { IFormProps } from "./interfaces";
 import { zodResolver } from "@hookform/resolvers/zod"
 import Input from "../Input";
 import { z, ZodTypeAny } from "zod";
@@ -93,7 +93,7 @@ const Form = <T extends FieldValues>({
             onSubmit={handleSubmit(submit)}
         >
             <FormProvider {...formMethods}>
-                {fields.map(({ fieldName, zodSchema, type, ...field }, i) => {
+                {fields.map(({ fieldName, zodSchema, type, locked, value, ...field }, i) => {
                     const id = `${fieldName}-${i}`
 
                     return <Input
@@ -103,6 +103,8 @@ const Form = <T extends FieldValues>({
                         fieldName={fieldName}
                         error={!!errors[fieldName]}
                         helperText={errors[fieldName]?.message as string | undefined}
+                        value={value}
+                        disabled={locked}
                     />
                 })}
 

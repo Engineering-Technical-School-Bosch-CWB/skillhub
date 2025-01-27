@@ -32,7 +32,7 @@
     text-decoration: underline;
 }
 
-.apt, .inapt, .development {
+.skilled, .unskilled, .development {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -43,26 +43,26 @@
     border-radius: 5px;
 }
 
-.apt:hover, .inapt:hover, .development:hover {
+.skilled:hover, .unskilled:hover, .development:hover {
     cursor: pointer;
 }
 
-.apt {
+.skilled {
     color: rgb(5, 85, 12);
     background-color: var(--success-light);
     /* border: 1px solid rgb(4, 102, 12); */
 }
 
-.apt:hover {
+.skilled:hover {
     border: 1px solid rgb(5, 85, 12);
 }
 
-.inapt {
+.unskilled {
     color: rgb(155, 3, 3);
     background-color: var(--danger-light);
 }
 
-.inapt:hover {
+.unskilled:hover {
     border: 1px solid rgb(155, 3, 3);
 }
 

@@ -1,26 +1,80 @@
-import BoschLogo from "../../components/BoschLogo";
 import Form from "../../components/Form"
-import { IField } from "../../components/Form/types";
 import styles from "./styles.module.css"
+import BoschLogo from "../../components/BoschLogo";
+import internalAPI from "../../service/internal.services";
+
+import { FieldValues } from "react-hook-form";
+import { IFormInput } from "../../components/Form/interfaces";
+import { useContext, useEffect, useState } from "react";
+import { useUserContext } from "../../contexts/user.context";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import toastifyUpdate from "../../constants/toastfyUpdate";
 
 export const CompleteRegistering = () => {
-    const fields: IField[] = [
-        { name: "fullname", label: "Full Name", required: true },
-        { name: "birthday", label: "Date of Birth", required: true },
-        { name: "identification", label: "Identification(EDV)", required: true },
-        { name: "position", label: "Position", required: true },
-        { name: "password", label: "Password",type:"password", required: true },
-        { name: "passwordconfirm", label: "Password Confirm", type:"password", required: true }
-      ];
-    
+    const { user, setUser } = useUserContext();
+    const navigate = useNavigate();
+    const userPosition = `${user?.position?.name} - ${user?.sector?.name} - ${user?.occupationArea?.name}`;
+
+    const handleSubmit = async (data: FieldValues) => {
+
+        if (data.password != data.passwordconfirm)
+            return toast.error("Passwords must match!");
+
+        const apiRequest = async () => {
+            const response = await internalAPI.jsonRequest(`/users/${user?.id}`, "PATCH", undefined, {
+                name: data.fullname,
+                birthday: data.birthday,
+                password: data.password
+            });
+
+            if (!response || response.statusCode != 200)
+                throw new Error(response.message);
+
+            return response.data;
+        }
+        const message = toast.loading("Updating user registration...");
+        apiRequest().then(content => {
+
+            toast.update(message, {
+                ...toastifyUpdate,
+                render: "User registration updated!",
+                type: "success"
+            })
+
+            setUser(content);
+            navigate("/home");
+        }).catch(err => {
+            toast.update(message, {
+                ...toastifyUpdate,
+                render: err.message || "Invalid credentials.",
+                type: "error"
+            })
+        })
+    }
+
+    const fields: IFormInput[] = [
+        { fieldName: "fullname", label: "Full Name", required: true, value: user?.name },
+        { fieldName: "birthday", label: "Date of Birth", required: true, type: "date" },
+        { fieldName: "identification", label: "Identification(EDV)", required: true, locked: true, value: user?.identification },
+        { fieldName: "position", label: "Position", required: true, locked: true, value: userPosition },
+        { fieldName: "password", label: "Password", type: "password", required: true },
+        { fieldName: "passwordconfirm", label: "Password Confirm", type: "password", required: true }
+    ];
+
+    useEffect(() => {
+        if (!user)
+            navigate("/")
+    }, []);
+
     return (
         <div className={styles.background}>
             <div className={styles.formContainer}>
-                <BoschLogo/>
+                <BoschLogo />
                 <Form
                     fields={fields}
                     submitText="Enter"
-                    onSubmit={(data) => console.log(data)}
+                    onSubmit={(data) => handleSubmit(data)}
                 />
             </div>
         </div>

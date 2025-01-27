@@ -25,7 +25,7 @@ public class CurricularUnitService(BaseRepository<CurricularUnit> repository, IS
 
         var curricularUnit = await _repo.Get()
             .Include(c => c.SubjectArea)
-            .Where(c => c.IsActive && c.Name == payload.Name)
+            .Where(c => c.IsActive && EF.Functions.Collate(c.Name, "SQL_Latin1_General_CP1_CS_AS") == payload.Name)
             .SingleOrDefaultAsync();
 
         if (curricularUnit is not null)
@@ -58,7 +58,9 @@ public class CurricularUnitService(BaseRepository<CurricularUnit> repository, IS
 
         if (!string.IsNullOrEmpty(payload.Name))
         {
-            if (await _repo.Get().Where(c => c.IsActive && c.Name == payload.Name).SingleOrDefaultAsync() is not null)
+            if (await _repo.Get()
+                    .Where(c => c.IsActive && EF.Functions.Collate(c.Name, "SQL_Latin1_General_CP1_CS_AS") == payload.Name)
+                    .SingleOrDefaultAsync() is not null)
                 throw new AlreadyExistsException("There's already a curricular unit with this name!");
 
             curricularUnit.Name = payload.Name;
@@ -94,7 +96,7 @@ public class CurricularUnitService(BaseRepository<CurricularUnit> repository, IS
 
         curricularUnit.IsActive = false;
 
-        _ =_repo.Update(curricularUnit) ?? throw new DeleteFailException("Curricular unit could not be deleted!");
+        _ = _repo.Update(curricularUnit) ?? throw new DeleteFailException("Curricular unit could not be deleted!");
 
         await _repo.SaveAsync();
     }
