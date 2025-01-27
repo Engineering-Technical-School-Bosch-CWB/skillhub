@@ -9,6 +9,7 @@ import SubjectDetails from "../../pages/SubjectDetails";
 import NewTest from "../../pages/SubjectDetails/Pages/NewTest";
 import AvaliationResult from "../../pages/SubjectDetails/Pages/AvaliationResult";
 import AprenticesProfile from "../../pages/AprenticesProfile";
+import CreateClass from "../../pages/CreateClass";
 
 export default {
     accessLevel: AccessLevel.TEACHER,
@@ -33,6 +34,10 @@ export default {
             path: RouteMap.CLASS_DETAILS,
             element: <ClassDetails />
         }, 
+        {
+            path: RouteMap.NEW_CLASS,
+            element: <CreateClass />
+        }
         // {
         //     path: RouteMap.SUBJECT_DETAILS,
         //     element: <SubjectDetails />,
