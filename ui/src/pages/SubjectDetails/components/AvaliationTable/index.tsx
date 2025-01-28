@@ -2,6 +2,7 @@ import Text from "../../../../typography";
 import styles from '../../styles.module.css';
 
 import { IAvaliationTableProps } from "../../interfaces/SubjectDetails.interface";
+import Icon from "../../../../components/Icon";
 
 
 export default ({ exam }: IAvaliationTableProps) => {
@@ -25,8 +26,14 @@ export default ({ exam }: IAvaliationTableProps) => {
         <>
             <br />
             <div className={`${styles.table_header} ${styles.align}`}>
-                <Text fontSize="lg" fontWeight="bold" >{exam.name}</Text>
-                <Text fontSize="sm">{exam.date}</Text>
+                <span className={`${styles.subtitle}`}>
+                    <Text fontSize="lg" fontWeight="bold" >{exam.name}</Text>
+                    <Text fontSize="sm">{exam.date}</Text>
+                </span>
+                <span className={`${styles.subtitle} ${styles.evBtn}`}>
+                    <Text fontSize="sm">Evaluate</Text>
+                    <Icon name={"edit"} />
+                </span>
             </div>
             <div className={`${styles.tables}`}>
                 <table className={`${styles.competence_table} ${styles.highlight_border} ${styles.divider}`}>
@@ -40,8 +47,8 @@ export default ({ exam }: IAvaliationTableProps) => {
                             <>
                                 <tr>
                                     <td className={`${styles.competence_cell} ${styles.td} ${styles.skill}`}>{s.description}</td>
-                                    <td className={`${styles.competence_cell} ${styles.td}`}>{!s.weight ? "-" : Number(s.weight.toFixed(2))}</td>
-                                    <td className={`${styles.competence_cell} ${styles.td}`}>{!s.efficiency ? "-" : Number(s.efficiency.toFixed(2)) + "%"}</td>
+                                    <td className={`${styles.competence_cell} ${styles.td}`}>{s.weight == null ? "-" : Number(s.weight.toFixed(2))}</td>
+                                    <td className={`${styles.competence_cell} ${styles.td}`}>{s.efficiency == null ? "-" : Number(s.efficiency.toFixed(2)) + "%"}</td>
                                 </tr>
                             </>
                         ))

@@ -1,6 +1,5 @@
 import Text from "../../typography";
 import Icon from "../../components/Icon";
-import Link from "../../components/Link";
 import styles from './styles.module.css';
 import Header from "../../components/Header"
 import Button from "../../components/Button";
@@ -9,7 +8,6 @@ import TableView from "../../components/TableView";
 import formatDate from "../../constants/formatDate";
 import ReturnButton from "../../components/ReturnButton";
 import internalAPI from "../../service/internal.services";
-import NewTestShortcut from "./components/NewTestShortcut";
 import AvaliationTable from "./components/AvaliationTable";
 
 import { useEffect, useState } from "react"
@@ -17,7 +15,6 @@ import { ISubject } from "../../interfaces/models/ISubject"
 import { IAvaliationTableProps } from "./interfaces/SubjectDetails.interface";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { AptitudeEnum } from "../../enums/AptitudeEnum";
 
 const SubjectDetails = () => {
 
@@ -40,7 +37,6 @@ const SubjectDetails = () => {
         const content = response.data;
 
         setSubject(content.subject);
-        console.log(content)
 
         setExams(content.exams.map((e: { id: number; name: string; appliedAt: string; skills: any; students: { name: string; mean: number; skillResults: any; }[]; }) => ({
             idTest: e.id,
@@ -99,14 +95,15 @@ const SubjectDetails = () => {
                                 exams.map((e) =>
                                     <>
                                         <AvaliationTable exam={e} />
-                                        <Divider size="big" />
+                                        <br />
+                                        <br />
                                     </>
                                 )
                             }
                         </span>
                     </span>
                 </section>
-
+                <Divider size="big" />
 
                 <section>
                     <div className={`${styles.section_header}`}>
