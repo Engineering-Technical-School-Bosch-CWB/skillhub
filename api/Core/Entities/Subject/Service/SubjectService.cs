@@ -71,10 +71,10 @@ public class SubjectService(BaseRepository<Subject> repository, IUserRepository 
             .SingleOrDefaultAsync(s => s.Id == id)
             ?? throw new NotFoundException("Subject not found!");
 
-        var aaa = subject.Exams.Select(e => ExamResultsDTO.Map(e, subject.Class.Students.Select(s => _studentService.GetExamResults(s.Id, e.Id))));
+        var results = subject.Exams.Select(e => ExamResultsDTO.Map(e, _examService.GetExamSkills(e.Id), subject.Class.Students.Select(s => _studentService.GetExamResults(s.Id, e.Id))));
 
         return new AppResponse<InstructorSubjectDTO>(
-            InstructorSubjectDTO.Map(subject, aaa),
+            InstructorSubjectDTO.Map(subject, results),
             "Subject info found!"
         );
     }

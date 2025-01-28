@@ -22,10 +22,10 @@ public record StudentExamResultsDTO(
     int Id,
     string Name,
     double? Mean,
-    IEnumerable<CompleteSkillResultDTO> SkillResults
+    IEnumerable<SimpleSkillResultDTO> SkillResults
 )
 {
-    public static StudentExamResultsDTO Map(Student obj, double? mean, IEnumerable<CompleteSkillResultDTO> skillResults)
+    public static StudentExamResultsDTO Map(Student obj, double? mean, IEnumerable<SimpleSkillResultDTO> skillResults)
     {
         return new StudentExamResultsDTO(
             obj.Id,

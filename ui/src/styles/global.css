@@ -48,7 +48,8 @@
     --gray-full: #000000;
 
     --active-border: 0.1px solid rgba(0, 0, 0, 0.5);
-    --default-border: 0.1px solid rgba(0, 0, 0, 0.2);
+    --default-border: 1px solid rgba(0, 0, 0, 0.3);
+    --highlight-border: 2px solid rgba(0, 0, 0, 0.7);
     --danger-border: 1px solid rgba(255, 0, 0, .5);
     --default-border-radius: 4px;
     --divider-background: var(--gray-400) ;

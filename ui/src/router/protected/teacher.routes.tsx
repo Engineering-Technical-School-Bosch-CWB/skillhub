@@ -5,8 +5,6 @@ import { RouteMap } from "../map";
 import ClassesOverview from "../../pages/ClassesOverview";
 import ClassDetails from "../../pages/ClassDetails";
 import SubjectDetails from "../../pages/SubjectDetails";
-import NewTest from "../../pages/SubjectDetails/Pages/NewTest";
-import AvaliationResult from "../../pages/SubjectDetails/Pages/AvaliationResult";
 import AprenticesProfile from "../../pages/AprenticesProfile";
 import SchoolContent from "../../pages/SchoolContent";
 import UsersOverview from "../../pages/UsersOverview";
