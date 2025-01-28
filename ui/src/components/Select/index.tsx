@@ -1,14 +1,27 @@
+import { ChangeEvent } from "react";
 import { ISelectProps } from "./interfaces"
+
+import styles from "./styles.module.css"
 
 export default (data : ISelectProps) => {
 
+    const onChange = (e: ChangeEvent<HTMLSelectElement>) => {
+        if(data.onChange)
+            data.onChange!(e);
+    }
+
     return (
-        <>  
-            <label htmlFor={data.name}>{data.label}</label>
-            <select name={data.name} id={data.id}>
+        <div className={styles.select_container}>  
+            {/* <label htmlFor={data.name} className={styles.label}>{data.label}</label> */}
+            <select 
+                name={data.name} 
+                id={data.id} 
+                className={styles.select_input}
+                onChange={(e) => onChange(e)}
+            >
                 {
                     !data.hasDefault ? 
-                        <option value="" selected disabled>{data.label ?? "Select an value"}</option> 
+                        <option selected disabled>{data.label ?? "Select an value"}</option> 
                         : ""
                 }
                 {
@@ -27,6 +40,6 @@ export default (data : ISelectProps) => {
                     })
                 }
             </select>
-        </>
+        </div>
     )
 }

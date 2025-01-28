@@ -1,3 +1,5 @@
+import { ChangeEvent } from "react"
+
 export interface ISelectData{
     key: string,
     value: string,
@@ -12,5 +14,5 @@ export interface ISelectProps {
     id?: string,
     disabled?: boolean,
     hasDefault?: boolean,
-    onChange?: void
+    onChange?:  (e: ChangeEvent<HTMLSelectElement>) => void
 }

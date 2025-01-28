@@ -65,7 +65,7 @@ export default () => {
 
     return (
         <div>
-            <Header />
+            {/* <Header /> */}
             <section className={styles.main_container}>
                 <section className={styles.top_section}>
                     <ReturnButton />

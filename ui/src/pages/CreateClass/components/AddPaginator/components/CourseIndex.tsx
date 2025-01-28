@@ -1,24 +1,28 @@
-import Input from "../../../../../components/Input"
+import Input from "@/components/Input"
 import { IAddClass, IGetCourse } from "../interfaces/AddClassPage.interface"
 
 import styles from "../../../styles.module.css"
-import CourseSelect from "./CourseSelect"
 import { useEffect, useState } from "react"
-import { IClass } from "../../../../../interfaces/models/IClass"
-import Select from "../../../../../components/Select"
-import { ISelectData, ISelectProps } from "../../../../../components/Select/interfaces"
-import internalAPI from "../../../../../service/internal.services"
+import { IClass } from "@/interfaces/models/IClass"
+import { ISelectProps } from "@/components/Select/interfaces"
+import internalAPI from "@/service/internal.services"
 import { toast } from "react-toastify"
-import { ICourse } from "../../../../../interfaces/models/ICourse"
+import { ICourse } from "@/interfaces/models/ICourse"
+import Select from "@/components/Select"
+import CourseSelect from "./CourseSelect"
 
 export default (classData: IAddClass, course: IGetCourse) => {
     
     const [classes, setClasses] = useState<IClass[]>([]);
     const [isTemplate, setIsTemplate] = useState(false);
+
     const [courses, setCourses] = useState<ISelectProps>({
         data: [],
         label: "Select a course:",
-        hasDefault: false
+        hasDefault: false,
+        onChange: (e) => {
+            e.target.value
+        }
     });
     
     const getCourses = async () => {
@@ -42,14 +46,39 @@ export default (classData: IAddClass, course: IGetCourse) => {
         
     }
 
+    const getFakeCourses = () => {
+        setCourses((prev) => ({
+            ...prev,
+            data: [
+                {
+                    key: "Digital Talent Academy",
+                    value:"1"
+                },
+                {
+                    key: "Cibersistemas",
+                    value:"2"
+                },
+                {
+                    key: "Mecânica",
+                    value:"3"
+                },
+                {
+                    key: "Desenvolvimento de sistemas",
+                    value:"4"
+                },
+            ]
+        }))
+    }
+
     useEffect(() => {
-        getCourses();
+        // getCourses();
+        getFakeCourses()
     }, [])
 
     return (
         <div className={styles.form_content}>
             <h1>Course</h1>
-            {/* <CourseSelect /> */}
+            <CourseSelect />
             <Select {...courses} />
             <section>
                 <Input label="Class name" />
