@@ -1,16 +1,16 @@
-import { useState } from "react";
-import Text from "../../typography";
 import Icon from "../Icon";
 import Input from "../Input";
-import IdentificationCard from "./Components/IdentificationCard";
-import {SelectView, SelectViewType } from "./Components/SelectView";
-import styles from "./style.module.css";
-import { IExplorerContainerProps } from "./Interfaces/ExplorerContainer.interfaces";
-import { Link } from "react-router-dom";
 import Button from "../Button";
+import Text from "../../typography";
+import styles from "./style.module.css";
+import IdentificationCard from "./Components/IdentificationCard";
 
-const ExplorerContainer = ( {input, folderPath, onAddHandle, title, data}: IExplorerContainerProps ) =>
-{
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { SelectView, SelectViewType } from "./Components/SelectView";
+import { IExplorerContainerProps } from "./Interfaces/ExplorerContainer.interfaces";
+
+const ExplorerContainer = ({ input, folderPath, onAddHandle, title, data, filter }: IExplorerContainerProps) => {
 
     const [view, setView] = useState<SelectViewType>("card");
 
@@ -18,36 +18,47 @@ const ExplorerContainer = ( {input, folderPath, onAddHandle, title, data}: IExpl
         <div className={`${styles.explorerContainer}`} >
             <Text fontSize="xl2" fontWeight="bold" >
                 {title}
-            </Text>   
+            </Text>
             <div className={`${styles.explorerHeader} ${styles.align}`}>
-                
+
                 <div className={`${styles.searchContainer} ${styles.align}`}>
                     <Input type="text" label="Search" iconName="search" value={input.search} onChange={(e) => input.onChange(e.target.value)} />
-                </div>     
+                </div>
 
                 {
-                    onAddHandle?
-                        <Button 
-                            className={`${styles.addBtn} ${styles.align}`} 
-                            // to={addPath}
-                            onClick={(e:any) => onAddHandle!(e)}
-                        >
-                            <Icon name="add" size="md" />
-                        </Button>
-                    : <></>
+                    onAddHandle &&
+                    <Button
+                        className={`${styles.addBtn} ${styles.align}`}
+                        // to={addPath}
+                        onClick={(e: any) => onAddHandle!(e)}
+                    >
+                        <Icon name="add" size="md" />
+                    </Button>
                 }
 
-                <SelectView type={view} change={(e : SelectViewType) => setView(e)}/>        
-                
+                <SelectView type={view} change={(e: SelectViewType) => setView(e)} />
+
                 {
-                    folderPath?
-                        <Link
-                            className={`${styles.folderBtn}`}
-                            to={folderPath}
+                    folderPath &&
+                    <Link
+                        className={`${styles.folderBtn}`}
+                        to={folderPath}
+                    >
+                        <Icon name="folder_open" size="md" />
+                    </Link>
+                }
+
+                {
+                    filter &&
+                    filter.map(f => (
+                        <Button
+                            className={`${styles.addBtn} ${styles.align}`}
+                            // to={addPath}
+                            onClick={(e: any) => onAddHandle!(e)}
                         >
-                            <Icon name="folder_open" size="md" />
-                        </Link>
-                    : <></>
+                            <Icon name="filter_alt" size="md" />
+                        </Button>
+                    ))
                 }
             </div>
 
@@ -65,7 +76,7 @@ const ExplorerContainer = ( {input, folderPath, onAddHandle, title, data}: IExpl
             </div>
         </div>
     )
-} 
+}
 
 
 
