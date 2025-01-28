@@ -3,37 +3,50 @@ import Input from "@/components/Input"
 import styles from './styles.module.css';
 import { ChangeEvent, useState } from "react";
 import { ISelectData } from "@/components/Select/interfaces";
+import { CourseSelectProps } from "./CourseSelect.interfaces";
 
-export default () =>  {
+export default ({onChange} : CourseSelectProps) =>  {
 
     const [inputFocus, setInputFocus] = useState(false);
-    const [inputValue, setInputValue] = useState("");
+    const [inputKey, setInputKey] = useState("");
 
     const changeInput = (e : ChangeEvent<HTMLInputElement>) => {
-        setInputValue(e.target.value)
+        setInputKey(e.target.value)
+        if(onChange)
+            onChange!({
+                key: inputKey,
+                value: undefined
+            });
     }   
     const selectOption = (e: ISelectData) => {
-        setInputValue(e.key)
-        console.log('äaaaaaaaaaaaaaaaaa');
-        
+        setInputKey(e.key)
+        if(onChange)
+            onChange!({
+                key: e.key,
+                value: e.value
+            });
+    }
+
+    const handleBlur = (e: any ) => {
+        setInputFocus(false);
     }
 
     const data : ISelectData[] = [
         {
             key: "Digital Talent Academy",
-            value:"1"
+            value: 1
         },
         {
             key: "Cibersistemas",
-            value:"2"
+            value: 2
         },
         {
             key: "Mecânica",
-            value:"3"
+            value: 3
         },
         {
             key: "Desenvolvimento de sistemas",
-            value:"4"
+            value: 4
         },
     ]
 
@@ -44,9 +57,9 @@ export default () =>  {
                 <Input 
                     className={styles.input}
                     onFocus={() => setInputFocus(true)} 
-                    onBlur={() => setInputFocus(false)}
-                    value={inputValue}
-                    onChange={(e) => changeInput(e)}
+                    onBlur={(e) => handleBlur(e)}
+                    value={inputKey}
+                    onChange={changeInput}
                 />
                 
                 <div className={`${styles.options_container} ${inputFocus ? styles.focused : ''}`}>
@@ -57,6 +70,7 @@ export default () =>  {
                                     <>
                                         <li
                                             onClick={() => selectOption(item)}
+                                            onMouseDown={(e) => e.preventDefault()}  
                                         >{item.key}</li>
                                     </>
                                 )

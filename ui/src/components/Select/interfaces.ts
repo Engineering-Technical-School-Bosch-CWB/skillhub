@@ -2,7 +2,7 @@ import { ChangeEvent } from "react"
 
 export interface ISelectData{
     key: string,
-    value: string,
+    value: number | undefined,
     selected? : boolean,
     disabled? : boolean
 }

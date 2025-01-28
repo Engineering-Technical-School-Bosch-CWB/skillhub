@@ -39,7 +39,7 @@ export default (classData: IAddClass, course: IGetCourse) => {
             data: _courses.map((item) => {
                 return {
                     key: item.name,
-                    value: `${item.id}`
+                    value: item.id
                 }
             })
         }))
@@ -52,19 +52,19 @@ export default (classData: IAddClass, course: IGetCourse) => {
             data: [
                 {
                     key: "Digital Talent Academy",
-                    value:"1"
+                    value:1
                 },
                 {
                     key: "Cibersistemas",
-                    value:"2"
+                    value:2
                 },
                 {
                     key: "Mecânica",
-                    value:"3"
+                    value:3
                 },
                 {
                     key: "Desenvolvimento de sistemas",
-                    value:"4"
+                    value:4
                 },
             ]
         }))
@@ -77,10 +77,12 @@ export default (classData: IAddClass, course: IGetCourse) => {
 
     return (
         <div className={styles.form_content}>
-            <h1>Course</h1>
+            <section className={styles.card_page_header}>
+                <h1>Course</h1>
+            </section>
             <CourseSelect />
             <Select {...courses} />
-            <section>
+            <section className={`${styles.dual_input_zone} ${styles.divided_input_2_1}`}>
                 <Input label="Class name" />
                 <Input label="Abbreviation" /> 
             </section>
