@@ -206,7 +206,7 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
                 .Include(u => u.Position)
                 .Include(u => u.Sector)
                 .Include(u => u.OccupationArea)
-                .Where(u => string.IsNullOrEmpty(query) || u.Name.Contains(query, StringComparison.OrdinalIgnoreCase))
+                 .Where(u => string.IsNullOrEmpty(query) || u.Name.Contains(query, StringComparison.OrdinalIgnoreCase))
                 .Where(u => !positionId.HasValue || u.Position.Id == positionId)
                 .Where(u => !birthMonth.HasValue || (u.Birthday.HasValue && u.Birthday.Value.Month == birthMonth.Value))
                 .Where(u => u.IsActive),

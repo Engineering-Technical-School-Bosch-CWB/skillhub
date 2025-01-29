@@ -81,7 +81,6 @@ export default (classData: IAddClass, course: IGetCourse) => {
                 <h1>Course</h1>
             </section>
             <CourseSelect />
-            <Select {...courses} />
             <section className={`${styles.dual_input_zone} ${styles.divided_input_2_1}`}>
                 <Input label="Class name" />
                 <Input label="Abbreviation" /> 

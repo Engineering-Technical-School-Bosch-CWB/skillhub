@@ -1,14 +1,18 @@
 import Input from "@/components/Input"
 
 import styles from './styles.module.css';
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { ISelectData } from "@/components/Select/interfaces";
 import { CourseSelectProps } from "./CourseSelect.interfaces";
+import internalAPI from "@/service/internal.services";
+import { toast } from "react-toastify";
+import { ICourse } from "@/interfaces/models/ICourse";
 
 export default ({onChange} : CourseSelectProps) =>  {
 
     const [inputFocus, setInputFocus] = useState(false);
     const [inputKey, setInputKey] = useState("");
+    const [data, setData] = useState<ISelectData[]>([]);
 
     const changeInput = (e : ChangeEvent<HTMLInputElement>) => {
         setInputKey(e.target.value)
@@ -31,35 +35,36 @@ export default ({onChange} : CourseSelectProps) =>  {
         setInputFocus(false);
     }
 
-    const data : ISelectData[] = [
-        {
-            key: "Digital Talent Academy",
-            value: 1
-        },
-        {
-            key: "Cibersistemas",
-            value: 2
-        },
-        {
-            key: "Mecânica",
-            value: 3
-        },
-        {
-            key: "Desenvolvimento de sistemas",
-            value: 4
-        },
-    ]
+    const getData = async () => {
+        const response = await internalAPI.jsonRequest("/course", "GET");
+        if(!response || response.statusCode != 200)
+            if (!toast.isActive("courses-load-error"))
+                toast.error("Error on load courses.", { toastId: "courses-load-error" });
+
+        const _reqData = response.data as ICourse[];
+
+        setData(_reqData.map((item) => {
+            return {
+                key: item.name,
+                value: item.id
+            }
+        }));
+    }
+
+    useEffect(() => {
+        getData();
+    }, [])
 
     return (
         <>
             <div className={styles.personalized_select}>
-
                 <Input 
                     className={styles.input}
                     onFocus={() => setInputFocus(true)} 
                     onBlur={(e) => handleBlur(e)}
                     value={inputKey}
                     onChange={changeInput}
+                    label="Curso"
                 />
                 
                 <div className={`${styles.options_container} ${inputFocus ? styles.focused : ''}`}>

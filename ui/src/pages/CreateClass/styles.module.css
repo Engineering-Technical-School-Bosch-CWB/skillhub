@@ -91,3 +91,9 @@
     display: flex;
     justify-content: space-around;
 }
+
+@media (max-width: 1200px) {
+    .container {
+        height: 80vh;
+    }
+}

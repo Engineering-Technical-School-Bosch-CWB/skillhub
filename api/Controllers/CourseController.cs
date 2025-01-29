@@ -32,7 +32,8 @@ public class CourseController : ControllerBase
     [HttpGet]
     public ActionResult GetAllCourses(
         [FromServices] ICourseService service,
-        [FromQuery] PaginationQuery pagination
+        [FromQuery] PaginationQuery pagination,
+        [FromQuery] string? query
     )
     {
         var result = service.GetCourses(pagination);

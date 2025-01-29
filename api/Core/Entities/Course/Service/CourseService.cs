@@ -80,7 +80,7 @@ public class CourseService : BaseService<Course>, ICourseService
         );
     }
 
-    public PaginatedAppResponse<CourseDTO> GetCourses(PaginationQuery pagination)
+    public PaginatedAppResponse<CourseDTO> GetCourses(PaginationQuery pagination, string? querry = null)
     {
         var paginatedCourses = _repo.GetPaginated(pagination.ToOptions());
 
