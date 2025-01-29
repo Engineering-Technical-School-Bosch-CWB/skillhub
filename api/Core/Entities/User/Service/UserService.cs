@@ -206,7 +206,7 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
                 .Include(u => u.Position)
                 .Include(u => u.Sector)
                 .Include(u => u.OccupationArea)
-                 .Where(u => string.IsNullOrEmpty(query) || u.Name.Contains(query, StringComparison.OrdinalIgnoreCase))
+                .Where(u => string.IsNullOrEmpty(query) || EF.Functions.Like(u.Name, $"%{query}%"))
                 .Where(u => !positionId.HasValue || u.Position.Id == positionId)
                 .Where(u => !birthMonth.HasValue || (u.Birthday.HasValue && u.Birthday.Value.Month == birthMonth.Value))
                 .Where(u => u.IsActive),
@@ -219,7 +219,7 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
             mappedUsers.Add(UserDTO.Map(u, await _studentservice.GetByUserId(u.Id)));
 
         if (classId is not null)
-            mappedUsers = mappedUsers.Where(u => u.StudentProfile?.ClassId == classId).ToList();
+            mappedUsers = [.. mappedUsers.Where(u => u.StudentProfile?.ClassId == classId)];
 
         return new PaginatedAppResponse<UserDTO>(
             mappedUsers,

@@ -25,16 +25,18 @@ public record ExamResultsDTO(
     string Name,
     string? Description,
     DateOnly? AppliedAt,
+    IEnumerable<ExamSkillDTO> Skills,
     IEnumerable<StudentExamResultsDTO> Students
 )
 {
-    public static ExamResultsDTO Map(Exam obj, IEnumerable<StudentExamResultsDTO> students)
+    public static ExamResultsDTO Map(Exam obj, IEnumerable<ExamSkillDTO> skills, IEnumerable<StudentExamResultsDTO> students)
     {
         return new ExamResultsDTO(
             obj.Id,
             obj.Name,
             obj.Description,
             obj.AppliedAt,
+            skills,
             students
         );
     }

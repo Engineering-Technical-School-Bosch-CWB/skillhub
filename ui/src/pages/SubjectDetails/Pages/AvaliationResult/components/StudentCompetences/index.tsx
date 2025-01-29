@@ -6,7 +6,7 @@ import SelectCompentece from '../SelectCompentece';
 import { Student } from './interfaces/StudentCompetences.interface';
 import Button from '../../../../../../components/Button';
 
-export default ({name, data}: IAvaliationTableProps) => {
+export default ({name, exam: data}: IAvaliationTableProps) => {
     
     const [student, setStudent] = useState<Student | null>(null)
     const [studentIndex, setStudentIndex] = useState<number| null>(null);

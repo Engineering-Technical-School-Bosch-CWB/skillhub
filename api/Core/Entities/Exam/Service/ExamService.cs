@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Api.Core.Services;
 
-public class ExamService(BaseRepository<Exam> repository, ISubjectRepository subjectRepository, IStudentService studentService,
+public class ExamService(BaseRepository<Exam> repository, ISubjectRepository subjectRepository,
     ISkillRepository skillRepository, ISkillResultRepository skillResultRepository, IUserRepository userRepository
 ) : BaseService<Exam>(repository), IExamService
 {
@@ -17,8 +17,6 @@ public class ExamService(BaseRepository<Exam> repository, ISubjectRepository sub
     private readonly ISkillResultRepository _skillResultRepo = skillResultRepository;
     private readonly ISubjectRepository _subjectRepo = subjectRepository;
     private readonly IUserRepository _userRepo = userRepository;
-
-    private readonly IStudentService _studentService = studentService;
 
     #region CRUD
 
@@ -86,6 +84,30 @@ public class ExamService(BaseRepository<Exam> repository, ISubjectRepository sub
     #endregion
 
     #region Services
+
+    public IEnumerable<ExamSkillDTO> GetExamSkills(int id)
+    {
+        var skills = _skillResultRepo.Get()
+            .Where(e => e.IsActive)
+            .Where(e => e.Exam != null && e.Exam.Id == id)
+            .Include(e => e.Skill)
+            .AsEnumerable()
+            .GroupBy(e => e.Skill)
+            .Select(g =>
+            {
+                var first = g.First();
+
+                return new ExamSkillDTO(
+                    first.Skill.Id,
+                    first.Weight,
+                    first.Skill.Description,
+                    first.Skill.EvaluationCriteria,
+                    g.Average(s => s.Aptitude)
+                );
+            }).OrderBy(r => r.Id);
+
+        return skills;
+    }
 
     public async Task<ExamResultsDTO> GetClassResults(int id)
     {

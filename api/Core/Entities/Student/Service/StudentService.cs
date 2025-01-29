@@ -101,7 +101,7 @@ public class StudentService(
 
         var results = _skillResultRepo.Get()
             .Where(s => s.IsActive)
-            .Where(s => s.Exam!.Id == examId)
+            .Where(s => s.Exam != null && s.Exam.Id == examId)
             .Where(s => s.Student.Id == id)
             .Include(s => s.Student.User)
             .Include(s => s.Skill.CurricularUnit)
@@ -112,7 +112,7 @@ public class StudentService(
         return StudentExamResultsDTO.Map(
             student,
             results.Any() ? results.Sum(s => s.Aptitude * s.Weight) / results.Sum(s => s.Weight) : null,
-            results.Select(CompleteSkillResultDTO.Map)
+            results.Select(SimpleSkillResultDTO.Map).OrderBy(s => s.SkillId)
         );
     }
 

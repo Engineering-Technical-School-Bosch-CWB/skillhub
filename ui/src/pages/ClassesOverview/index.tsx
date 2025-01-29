@@ -4,18 +4,27 @@ import internalAPI from "../../service/internal.services";
 import getHex from "../../constants/getHex";
 
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const ClassesOverview = () => {
 
+    const navigate = useNavigate();
+
     const [search, setSearch] = useState("");
     const [cardsData, setCardsData] = useState([])
-    const navigate = useNavigate();
     
     const toggleAdd =  () => navigate("new")
 
     const getData = async () => {
-        const response = await internalAPI.jsonRequest(`/classes?${new URLSearchParams({query: search})}`, "GET");
+        const response = await internalAPI.jsonRequest(`/classes?${new URLSearchParams({ query: search })}`, "GET");
+
+        if (!response || response.statusCode != 200) {
+            if (!toast.isActive("classes-load-error"))
+                toast.error("Something went wrong.", { toastId: "classes-load-error" });
+            navigate("/home");
+        }
+
         const content = response.data;
 
         setCardsData(content.map((c: { name: string; id: number; startingYear: string; }) => ({

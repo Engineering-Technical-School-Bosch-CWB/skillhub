@@ -13,7 +13,7 @@ export default interface IUser extends IEntity {
     sector?: ISector, 
     occupationArea?: IOccupationArea,
     permissionLevel?: number,
-    studentProfile: {
+    studentProfile?: {
         id?: number,
         classId: number
     }

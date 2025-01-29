@@ -69,6 +69,7 @@
     background-color: var(--primary-main);
 
     &:hover {
+        color: var(--white);
         background-color: var(--primary-dark);
     }
 }

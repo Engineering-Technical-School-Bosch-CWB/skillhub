@@ -56,20 +56,29 @@ public record NewSkillResultDTO(
     }
 }
 
-public record CompleteSkillResultDTO(
+public record SimpleSkillResultDTO(
     int Id,
-    double Weight,
-    EAptitude? Aptitude,
-    SkillDTO Skill
+    int SkillId,
+    EAptitude? Aptitude
 )
 {
-    public static CompleteSkillResultDTO Map(SkillResult obj)
+    public static SimpleSkillResultDTO Map(SkillResult obj)
     {
-        return new CompleteSkillResultDTO(
+        return new SimpleSkillResultDTO(
             obj.Id,
-            obj.Weight,
-            obj.Aptitude.HasValue ? (EAptitude?)obj.Aptitude.Value : null,
-            SkillDTO.Map(obj.Skill)
+            obj.Skill.Id,
+            obj.Aptitude.HasValue ? (EAptitude?)obj.Aptitude.Value : null
         );
     }
+}
+
+public record ExamSkillDTO(
+    int Id,
+    double? Weight,
+    string Description,
+    string? EvaluationCriteria,
+    double? Efficiency
+)
+{
+    // public static ExamSkillDTO Map()
 }

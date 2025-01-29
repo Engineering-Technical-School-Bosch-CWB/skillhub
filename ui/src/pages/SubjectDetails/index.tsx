@@ -1,250 +1,135 @@
-import { useState } from "react"
-import Header from "../../components/Header"
-import { ISubject } from "../../interfaces/models/ISubject"
-
-import styles from './styles.module.css';
 import Text from "../../typography";
-import Button from "../../components/Button";
 import Icon from "../../components/Icon";
-import TableView from "../../components/TableView";
-import { IAvaliationTableProps } from "./interfaces/SubjectDetails.interface";
-import AvaliationTable from "./components/AvaliationTable";
-import Link from "../../components/Link";
-import { useParams } from "react-router-dom";
-import NewTestShortcut from "./components/NewTestShortcut";
+import styles from './styles.module.css';
+import Header from "../../components/Header"
+import Button from "../../components/Button";
 import Divider from "../../components/Divider";
+import TableView from "../../components/TableView";
+import formatDate from "../../constants/formatDate";
 import ReturnButton from "../../components/ReturnButton";
+import internalAPI from "../../service/internal.services";
+import AvaliationTable from "./components/AvaliationTable";
 
-export default () => {
+import { useEffect, useState } from "react"
+import { ISubject } from "../../interfaces/models/ISubject"
+import { IAvaliationTableProps } from "./interfaces/SubjectDetails.interface";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
-    const params = useParams();
-    const idSubject = params.id;
-    
+const SubjectDetails = () => {
 
-    const [subject, setSubject] = useState<ISubject>({
-        classId:1,
-        curricularUnitId:1,
-        duration:10,
-        instructorId:1,
-        name:"Lógica de Programação",
-        period:1,
-        class: {
-            name: 'Digital Talent Academy 2022',
-            course: {
-                abbreviation: 'DTA',
-                name: 'Digital Talent Academy',
-                id: 1
-            },
-            idCourse: 1,
-            id:1
-        },
-        objectives: [
-            {
-                evaluationCriteria: "",
-                identification: "Utilizar entrada e saída de informações",
-                ressources: "",
-                subjectId: 1,
-                time: 20,
-            },
-            {
-                evaluationCriteria: "",
-                identification: "Aplicar funções aritméticas",
-                ressources: "",
-                subjectId: 2,
-                time: 30,
-            },
-            {
-                evaluationCriteria: "",
-                identification: "Aplicar transformando tipos de dados com funções embutidas",
-                ressources: "",
-                subjectId: 3,
-                time: 40,
+    const { subjectId } = useParams();
+
+    const navigate = useNavigate();
+
+    const [subject, setSubject] = useState<ISubject>();
+    const [exams, setExams] = useState<IAvaliationTableProps[]>([]);
+
+    const getData = async () => {
+        const response = await internalAPI.jsonRequest(`/subjects/${subjectId}`, "GET");
+
+        if (!response || response.statusCode != 200) {
+            if (!toast.isActive("subject-load-error"))
+                toast.error("Something went wrong.", { toastId: "subject-load-error" });
+            navigate("/home");
+        }
+
+        const content = response.data;
+
+        setSubject(content.subject);
+
+        setExams(content.exams.map((e: { id: number; name: string; appliedAt: string; skills: any; students: { name: string; mean: number; skillResults: any; }[]; }) => ({
+            idTest: e.id,
+            name: e.name,
+            date: !e.appliedAt ? "No informed date" : formatDate(e.appliedAt),
+            data: {
+                skills: e.skills,
+                students: e.students.map((s: { name: string; mean: number; skillResults: any[] }) => ({
+                    name: s.name,
+                    mean: s.mean,
+                    skillsResults: s.skillResults.reduce((acc: { [key: number]: string | null }, r: { skillId: number; aptitude: string | null }) => {
+                        acc[r.skillId] = r.aptitude;
+                        return acc;
+                    }, {})
+                }))
+                
             }
-        ]
-        
-    })
-
-    const myAvaliations : IAvaliationTableProps[] = [
-        {
-            idTest: 2,
-            name: 'Prova 02',
-            date: new Date()
-        },
-        // {
-        //     idTest: 1,
-        //     name: 'Prova 01',
-        //     date: new Date(),
-        //     data: {
-        //         competences: [
-        //             {
-        //                 competenceId:1,
-        //                 weight:1,
-        //                 efficacy: 0.8,
-        //                 description: "Aplicar For"
-        //             },
-        //             {
-        //                 competenceId:1,
-        //                 weight:1,
-        //                 efficacy: 0.8,
-        //                 description: "Aplicar ForrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrForrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr"
-        //             },
-        //             {
-        //                 competenceId:1,
-        //                 weight:1,
-        //                 efficacy: 0.8,
-        //                 description: "Aplicar For"
-        //             },
-        //             {
-        //                 competenceId:1,
-        //                 weight:1,
-        //                 efficacy: 0.8,
-        //                 description: "Aplicar For"
-        //             },
-        //             {
-        //                 competenceId:1,
-        //                 weight:1,
-        //                 efficacy: 0.8,
-        //                 description: "Aplicar For"
-        //             },
-        //             {
-        //                 competenceId:1,
-        //                 weight:1,
-        //                 efficacy: 0.8,
-        //                 description: "Aplicar For"
-        //             },
-        //         ],
-        //         students:[
-        //             {
-        //                 name: 'irineu', 
-        //                 competencesResult: [
-        //                     {
-        //                         competenceId:1,
-        //                         aptitude: AptitudeEnum.APT
-        //                     }
-        //                 ]
-        //             },
-        //             {
-        //                 name: 'Jonas', 
-        //                 competencesResult: [
-        //                     {
-        //                         competenceId:1,
-        //                         aptitude: AptitudeEnum.INAPT
-        //                     }    
-        //                 ]
-        //             },
-        //             {
-        //                 name: 'Josias', 
-        //                 competencesResult: [
-        //                     {
-        //                         competenceId:1,
-        //                         aptitude: AptitudeEnum.DEVELOPMENT
-        //                     }    
-        //                 ]
-        //             },
-        //             {
-        //                 name: 'Josias', 
-        //                 competencesResult: [
-        //                     {
-        //                         competenceId:1,
-        //                         aptitude: AptitudeEnum.DEVELOPMENT
-        //                     }    
-        //                 ]
-        //             },
-        //             {
-        //                 name: 'Josias', 
-        //                 competencesResult: [
-        //                     {
-        //                         competenceId:1,
-        //                         aptitude: AptitudeEnum.DEVELOPMENT
-        //                     }    
-        //                 ]
-        //             },
-        //             {
-        //                 name: 'Josias', 
-        //                 competencesResult: [
-        //                     {
-        //                         competenceId:1,
-        //                         aptitude: AptitudeEnum.DEVELOPMENT
-        //                     }    
-        //                 ]
-        //             }
-        //         ]
-
-        //     }
-        // }
-    ]
-
-    const getData = () => {
+        })))
 
     }
 
-    
+    useEffect(() => {
+        getData();
+    }, [subjectId])
 
     return (
         <>
             <Header />
             <main>
-                <ReturnButton/>
+                {/* <ReturnButton /> */}
                 <section className={`${styles.title_section} ${styles.align}`}>
-                    <Text fontSize="xl2" fontWeight="bold">{subject.name}</Text>
-                    <Text>{subject.class?.name}</Text>
+                    <Text fontSize="xl2" fontWeight="bold">{subject?.curricularUnit + " - " + subject?.class}</Text>
+                    <Text>
+                        {
+                            (!(subject?.beganAt) ? "No initial date" : "Began at " + formatDate(subject.beganAt))
+                            + " | " +
+                            (!(subject?.durationHours) ? "No duration hours" : "Duration: " + subject.durationHours + "h") +
+                            (!(subject?.period) ? "" : " | " + subject.period + "° Period")
+                        }
+                    </Text>
                 </section >
-
+                <Divider size="big" />
 
                 <section>
-                    <span>
+                    <span className={`${styles.spacing}`}>
                         <div className={`${styles.section_header}`}>
                             <Text fontSize="xl2" fontWeight="bold" >
-                                Avaliações
+                                Exams
                             </Text>
-                            <Link to={`/class/subject/${idSubject}/new-test`}>
-                                <Button variant="primary_icon"><Icon name="add" /></Button>
-                            </Link>
+                            <Button className={`${styles.addBtn} ${styles.align}`} >
+                                <Icon name="add" size="md" />
+                            </Button>
                         </div>
-
-                        {
-                            myAvaliations.map((e) => {
-                                if (e.data == null) 
-                                    return ( 
-                                        <>
-                                            <NewTestShortcut {...e} /> 
-                                            <Divider size="big" />
-                                        </>
-                                    )
-                                return ( 
+                        <span>
+                            {
+                                exams.map((e) =>
                                     <>
-                                        <AvaliationTable {...e} /> 
-                                        <Divider size="big" />
+                                        <AvaliationTable exam={e} />
+                                        <br />
+                                        <br />
                                     </>
                                 )
-                                }
-                            )
-                        }
+                            }
+                        </span>
                     </span>
                 </section>
-
+                <Divider size="big" />
 
                 <section>
                     <div className={`${styles.section_header}`}>
                         <Text fontSize="xl2" fontWeight="bold" >
-                            Objetivos
+                            Subject Goals
                         </Text>
+                        <Button className={`${styles.addBtn} ${styles.align}`} >
+                            <Icon name="add" size="md" />
+                        </Button>
                     </div>
-                    <TableView 
+                    {/* <TableView
                         data={
-                            subject.objectives!.map((e) => 
-                            {
+                            subject.objectives!.map((e) => {
                                 return {
                                     desbription: e.identification
                                 }
                             })
-                        } 
+                        }
                         hasNotation={true}
                         hasOptions={false}
-                    />
+                    /> */}
                 </section>
             </main>
         </>
 
     )
 }
+
+export default SubjectDetails
