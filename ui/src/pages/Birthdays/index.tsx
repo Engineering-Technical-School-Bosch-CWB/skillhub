@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import formatDate from '../../constants/formatDate';
 import Button from '../../components/Button';
+import SectionHeader from '@/components/SectionHeader';
 
 const Birthdays = () => {
 
@@ -36,7 +37,7 @@ const Birthdays = () => {
         setStudents(content.map((s: { id: number; name: string; birthday: string; identification: string; }) => ({
             id: s.id,
             name: s.name,
-            birthday: !s.birthday ? '-' : formatDate(s.birthday),
+            birthday: s.birthday,
             identification: s.identification
         })))
     }
@@ -57,6 +58,7 @@ const Birthdays = () => {
         <>
             <Header />
             <main>
+                <SectionHeader links={[{label: "Birthdays"}]} />
                 <div className={styled.birthday_title}>
                     <Text variant="span" fontWeight="bold" fontSize="xl2">Birthdays</Text>
                 </div>
@@ -71,7 +73,7 @@ const Birthdays = () => {
                     {
                         students.length == 0
                         ? 
-                        <Text variant="span" fontWeight="semibold" fontSize="xl2">No birthdays</Text>
+                        <Text variant="span" fontSize="sm">No birthdays</Text>
                         :
                         students.map(s => {
                             return (
