@@ -9,6 +9,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { SelectView, SelectViewType } from "./Components/SelectView";
 import { IExplorerContainerProps } from "./Interfaces/ExplorerContainer.interfaces";
+import Select from "../Select";
 
 const ExplorerContainer = ({ input, folderPath, onAddHandle, title, data, filter }: IExplorerContainerProps) => {
 
@@ -36,6 +37,13 @@ const ExplorerContainer = ({ input, folderPath, onAddHandle, title, data, filter
                     </Button>
                 }
 
+                {
+                    filter &&
+                    filter.map(f => (
+                        <Select data={f.params} label={f.name} onChange={(e) => f.setValue(e.target.value)} />
+                    ))
+                }
+
                 <SelectView type={view} change={(e: SelectViewType) => setView(e)} />
 
                 {
@@ -46,19 +54,6 @@ const ExplorerContainer = ({ input, folderPath, onAddHandle, title, data, filter
                     >
                         <Icon name="folder_open" size="md" />
                     </Link>
-                }
-
-                {
-                    filter &&
-                    filter.map(f => (
-                        <Button
-                            className={`${styles.addBtn} ${styles.align}`}
-                            // to={addPath}
-                            onClick={(e: any) => onAddHandle!(e)}
-                        >
-                            <Icon name="filter_alt" size="md" />
-                        </Button>
-                    ))
                 }
             </div>
 

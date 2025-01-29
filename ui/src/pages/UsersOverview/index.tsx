@@ -10,27 +10,23 @@ const UsersOverview = () => {
     const [search, setSearch] = useState("");
     const [users, setUsers] = useState([]);
     
-    const [cargo, setCargo] = useState();
+    const [position, setPosition] = useState<number>();
+    const [positions, setPositions] = useState([]);
     
-    const cargo_ = {
+    const positionFilter = {
         name: "Position",
-        params: [
-            {
-                name: "Meio Oficial",
-                value: 1,
-            },
-            {
-                name: "Aprendiz",
-                value: 2
-            }
-        ],
-        setValue: setCargo
+        params: positions,
+        setValue: setPosition
     }
 
     const getData = async () => {
-        const response = await internalAPI.jsonRequest(`/users/paginated?${new URLSearchParams({query: search})}`, "GET");
+
+        const params = new URLSearchParams();
+        if (search) params.append('query', search);
+        if (Number(position)) params.append('positionId', String(position))
+
+        const response = await internalAPI.jsonRequest(`/users/paginated?${params.toString()}`, "GET");
         const content = response.data;
-        console.log(content)
 
         setUsers(content.map((u: { name: string; id: number; position: { name: string; }; sector: { name: string; }; }) => ({
             color: getHex(u.name),
@@ -38,18 +34,23 @@ const UsersOverview = () => {
             title: u.name,
             subtitle: u.position.name + " - " + u.sector.name,
         })))
+
+        const positions = (await internalAPI.jsonRequest("/positions", "GET")).data;
+        setPositions(positions.map((p: { name: string; id: number; }) => ({
+            key: p.name,
+            value: p.id
+        })))
     }
 
     useEffect(() => {
         getData();
-        console.log(search)
-    }, [search])
+    }, [search, position])
 
     return (
         <>
             <Header />
             <main>
-                <ExplorerContainer filter={[cargo_]} data={users} title={"Users"} onAddHandle={() => {}} input={{
+                <ExplorerContainer filter={[positionFilter]} data={users} title={"Users"} onAddHandle={() => {}} input={{
                     search: search,
                     onChange: setSearch
                 }} />

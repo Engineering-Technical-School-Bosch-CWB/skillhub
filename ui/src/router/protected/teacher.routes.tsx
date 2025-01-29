@@ -6,6 +6,7 @@ import ClassesOverview from "../../pages/ClassesOverview";
 import ClassDetails from "../../pages/ClassDetails";
 import SubjectDetails from "../../pages/SubjectDetails";
 import AprenticesProfile from "../../pages/AprenticesProfile";
+import CreateClass from "../../pages/CreateClass";
 import SchoolContent from "../../pages/SchoolContent";
 import UsersOverview from "../../pages/UsersOverview";
 
@@ -31,6 +32,10 @@ export default {
         {
             path: RouteMap.CLASS_DETAILS,
             element: <ClassDetails />
+        },
+        {
+            path: RouteMap.NEW_CLASS,
+            element: <CreateClass />
         },
         {
             path: RouteMap.USERS_OVERVIEW,

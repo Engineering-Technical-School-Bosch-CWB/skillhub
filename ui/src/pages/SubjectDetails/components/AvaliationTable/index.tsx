@@ -3,6 +3,7 @@ import styles from '../../styles.module.css';
 
 import { IAvaliationTableProps } from "../../interfaces/SubjectDetails.interface";
 import Icon from "../../../../components/Icon";
+import { Tooltip } from "recharts";
 
 
 export default ({ exam }: IAvaliationTableProps) => {
@@ -43,10 +44,16 @@ export default ({ exam }: IAvaliationTableProps) => {
                         <th className={`${styles.highlight_border} ${styles.divider}`}>Efficiency</th>
                     </tr>
                     {
-                        exam.data.skills.map((s: { description: string, weight: number, efficiency: number }) => (
+                        exam.data.skills.map((s: { description: string, weight: number, efficiency: number, evaluationCriteria: string }) => (
                             <>
                                 <tr>
-                                    <td className={`${styles.competence_cell} ${styles.td} ${styles.skill}`}>{s.description}</td>
+                                    <td className={`${styles.competence_cell} ${styles.td} ${styles.skill} ${styles.tooltip}`}>
+                                        {s.description}
+                                        <span className={`${styles.tooltiptext}`}>
+                                            <Text fontWeight="bold" fontSize="sm">{s.description}</Text>
+                                            <Text fontSize="sm">{s.evaluationCriteria}</Text>
+                                        </span>
+                                    </td>
                                     <td className={`${styles.competence_cell} ${styles.td}`}>{s.weight == null ? "-" : Number(s.weight.toFixed(2))}</td>
                                     <td className={`${styles.competence_cell} ${styles.td}`}>{s.efficiency == null ? "-" : Number(s.efficiency.toFixed(2)) + "%"}</td>
                                 </tr>

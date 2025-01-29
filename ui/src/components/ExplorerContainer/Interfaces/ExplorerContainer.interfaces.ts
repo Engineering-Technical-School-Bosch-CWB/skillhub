@@ -1,4 +1,3 @@
-import { FunctionInterpolation } from "@emotion/react";
 import IIdentificationCardProps from "../Components/IdentificationCard/interfaces";
 
 export interface IExplorerContainerProps {
@@ -13,7 +12,7 @@ export interface IExplorerContainerProps {
     filter?: {
         name: string
         params: {
-            name: string
+            key: string
             value: number
         }[]
         setValue: Function

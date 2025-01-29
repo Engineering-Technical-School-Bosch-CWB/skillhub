@@ -13,6 +13,7 @@ export enum RouteMap {
     CURRICULAR_UNITY_BY_ID = "/school-content/curricular-unitys",
 
     CLASSES = "/classes",
+    NEW_CLASS = "/classes/new",
     CLASS_DETAILS = "/classes/:classId",    
     SUBJECT_DETAILS = "/classes/:classId/subject/:subjectId",
     NEW_SUBJECT_TEST = "/classes/:classId/subject/:id/new-test",

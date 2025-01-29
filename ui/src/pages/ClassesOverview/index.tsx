@@ -13,6 +13,8 @@ const ClassesOverview = () => {
 
     const [search, setSearch] = useState("");
     const [cardsData, setCardsData] = useState([])
+    
+    const toggleAdd =  () => navigate("new")
 
     const getData = async () => {
         const response = await internalAPI.jsonRequest(`/classes?${new URLSearchParams({ query: search })}`, "GET");
@@ -42,10 +44,16 @@ const ClassesOverview = () => {
         <div>
             <Header />
             <main>
-                <ExplorerContainer title={"Classes"} folderPath={"a"} data={cardsData} input={{
-                    search: search,
-                    onChange: setSearch
-                }} />
+                <ExplorerContainer 
+                    title={"Classes"} 
+                    folderPath={"a"} 
+                    data={cardsData} 
+                    onAddHandle={() => toggleAdd()}
+                    input={{
+                        search: search,
+                        onChange: setSearch,
+                    }} 
+                />
             </main>
         </div>
     )
