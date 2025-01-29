@@ -1,0 +1,33 @@
+.personalized_select {
+    height: 50px;
+    z-index: 2;
+    
+    .options_container {
+        position: relative;
+        height: 0;
+        overflow: hidden;
+        max-height: 20rem;
+        background-color: var(--white);
+        border: var(--default-border);
+        box-shadow: var(--default-box-shadow);
+        
+        li{
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            height: 3rem;
+            padding: 1rem;
+            border: var(--default-border);
+            cursor: pointer ;
+            
+            &:hover{ 
+                background-color: var(--gray-100);
+
+            }
+        }
+    }
+    .focused {
+        z-index: 3;
+        height: fit-content;
+    }
+}

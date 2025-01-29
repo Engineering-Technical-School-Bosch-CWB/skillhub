@@ -2,7 +2,8 @@ import { ComponentPropsWithoutRef, forwardRef } from "react";
 import styles from "./styles.module.css"
 
 interface IButtonProps extends ComponentPropsWithoutRef<'button'> {
-    variant?: "contained" | "outlined" | "primary_icon" | "primary_label_icon" | "secondary_icon" | "secondary_label_icon"
+    variant?: "contained" | "outlined" | "primary_icon" | "primary_label_icon" |
+             "secondary_icon" | "secondary_label_icon" | "rounded" | "select_rounded"
 }
 
 /**

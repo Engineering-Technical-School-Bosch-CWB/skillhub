@@ -24,10 +24,7 @@ interface AvaliationData {
 }
 
 export interface IAvaliationTableProps {
-    idTest?: number,
-    name: string,
-    date?: Date,
-    data?: StudentsCompetences
+    exam: any
 }
 
 

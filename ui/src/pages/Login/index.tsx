@@ -46,7 +46,7 @@ const Login = () => {
             setUser(content.user);
 
             if (content.firstLogin) {
-                navigate("/user/register");
+                navigate("/complete-register");
                 toast.info("Complete registration to gain access.");
                 return;
             }

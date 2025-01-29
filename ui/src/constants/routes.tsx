@@ -5,7 +5,7 @@ import AvaliateAprentices from "../pages/AvaliateAprentices";
 import Birthdays from "../pages/Birthdays";
 import ClassDetais from "../pages/ClassDetails";
 import {CompleteRegistering} from "../pages/CompleteRegistering";
-import ContentOverview from "../pages/ContentOverview";
+import ContentOverview from "../pages/SchoolContent";
 import CreateAvaliation from "../pages/CreateAvaliation";
 import CreateClass from "../pages/CreateClass";
 import CurricularUnitOverview from "../pages/CurricularUnitOverview";

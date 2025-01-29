@@ -18,7 +18,7 @@ export default () => {
             idTest: 1,
             name: 'Prova 01',
             date: new Date(),
-            data: {
+            exam: {
                 students: [
                     {
                         userId: 1,

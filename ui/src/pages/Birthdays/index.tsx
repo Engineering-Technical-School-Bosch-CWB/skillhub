@@ -1,9 +1,11 @@
 import Header from "../../components/Header"
 
-export default () => {
+const Birthdays = () => {
     return (
         <>
             <Header />
         </>
     )
 }
+
+export default Birthdays;
