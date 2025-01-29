@@ -26,14 +26,16 @@ export default () => {
 
         },
         index: 0,
-        setClass: (newClass) => {
+        setClass: (newClass, newCourse) => {
             setData((prev) => ({
               ...prev,
               data: {
                 ...prev.data,
                 class: newClass,
+                course: newCourse
               },
             }));
+            console.log(data);
         },
         setStudents: (students) => {
             setData((prev) => ({

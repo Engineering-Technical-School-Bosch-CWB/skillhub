@@ -11,7 +11,7 @@ import Text from "../../../../typography"
 export default ({data,index, setIndex, setClass, setStudents, setSubjects} : IAddClassPageProps) => {
 
     const pages = [
-        <CourseIndex {...data.course} {...data.class}/>,
+        <CourseIndex updateClass={setClass} _class={data.class} _course={data.course}/>,
         <StudentIndex />,
         <SubjectsIndex />,
         <OverviewIndex /> 

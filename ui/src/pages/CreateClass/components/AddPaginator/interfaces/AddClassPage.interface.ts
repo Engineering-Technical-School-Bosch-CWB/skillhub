@@ -1,4 +1,4 @@
-export interface IGetCourse {
+export interface IAddCourse {
     id?: number,
     name: string
 }
@@ -17,7 +17,7 @@ export interface IAddSubject {
 }
 
 export interface INewClass {
-    course: IGetCourse,
+    course: IAddCourse,
     class: IAddClass,
     students: IAddStudent[],
     subjects: IAddSubject[],
@@ -27,7 +27,7 @@ export interface INewClass {
 export interface  IAddClassPageProps{
     index: number,
     data: INewClass,
-    setClass: (newClass: IAddClass) => void;
+    setClass: (newClass: IAddClass, getCourse: IAddCourse) => void;
     setStudents: (students: IAddStudent[]) => void;
     setSubjects: (subjects: IAddSubject[]) => void;
     setIndex: (index: number) => void;

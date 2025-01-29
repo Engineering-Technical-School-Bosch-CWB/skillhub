@@ -36,7 +36,7 @@ public class CourseController : ControllerBase
         [FromQuery] string? query
     )
     {
-        var result = service.GetCourses(pagination);
+        var result = service.GetCourses(pagination, query);
         return Ok(result);
     }
 

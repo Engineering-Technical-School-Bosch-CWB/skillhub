@@ -8,7 +8,7 @@ import internalAPI from "@/service/internal.services";
 import { toast } from "react-toastify";
 import { ICourse } from "@/interfaces/models/ICourse";
 
-export default ({onChange} : CourseSelectProps) =>  {
+export default ({onChange, defaultValue} : CourseSelectProps) =>  {
 
     const [inputFocus, setInputFocus] = useState(false);
     const [inputKey, setInputKey] = useState("");
@@ -31,12 +31,12 @@ export default ({onChange} : CourseSelectProps) =>  {
             });
     }
 
-    const handleBlur = (e: any ) => {
+    const handleBlur = ( ) => {
         setInputFocus(false);
     }
 
     const getData = async () => {
-        const response = await internalAPI.jsonRequest("/course", "GET");
+        const response = await internalAPI.jsonRequest(`/course?page=1&items=10&query=${inputKey}`, "GET");
         if(!response || response.statusCode != 200)
             if (!toast.isActive("courses-load-error"))
                 toast.error("Error on load courses.", { toastId: "courses-load-error" });
@@ -52,8 +52,14 @@ export default ({onChange} : CourseSelectProps) =>  {
     }
 
     useEffect(() => {
-        getData();
+        if(defaultValue){
+            selectOption(defaultValue)
+        }
     }, [])
+
+    useEffect(() => {
+        getData();
+    }, [inputKey,])
 
     return (
         <>
@@ -61,7 +67,7 @@ export default ({onChange} : CourseSelectProps) =>  {
                 <Input 
                     className={styles.input}
                     onFocus={() => setInputFocus(true)} 
-                    onBlur={(e) => handleBlur(e)}
+                    onBlur={() => handleBlur()}
                     value={inputKey}
                     onChange={changeInput}
                     label="Curso"
