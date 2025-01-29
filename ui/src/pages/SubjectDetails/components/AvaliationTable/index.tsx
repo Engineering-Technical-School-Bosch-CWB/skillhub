@@ -48,7 +48,7 @@ export default ({ exam }: IAvaliationTableProps) => {
                             <>
                                 <tr>
                                     <td className={`${styles.competence_cell} ${styles.td} ${styles.skill} ${styles.tooltip}`}>
-                                        {s.description}
+                                        <span className={`${styles.overflow}`}>{s.description}</span>
                                         <span className={`${styles.tooltiptext}`}>
                                             <Text fontWeight="bold" fontSize="sm">{s.description}</Text>
                                             <Text fontSize="sm">{s.evaluationCriteria}</Text>

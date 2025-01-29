@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import { IFeedback } from "../../interfaces/models/IFeedback";
 import { IOption } from "../../components/TableView/interfaces";
+import SectionHeader from "@/components/SectionHeader";
 
 const SubjectResults = () => {
 
@@ -84,6 +85,13 @@ const SubjectResults = () => {
             <Header />
             <main>
                 <div className={styled.content}>
+                    <SectionHeader links={[{
+                        label: "General Results",
+                        goTo: "/apprentice/results"
+                    },
+                    {
+                        label: subject + " Results"
+                    }]} />
                     <div className={styled.overview_section}>
                         <Text fontWeight="bold" fontSize="xl2">{subject}</Text>
                         <div className={styled.overview_content}>

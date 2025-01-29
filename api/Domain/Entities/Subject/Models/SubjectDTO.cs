@@ -9,7 +9,8 @@ public record SubjectDTO(
     int CurricularUnitId,
     string CurricularUnit,
     int ClassId,
-    string Class
+    string Class,
+    short ClassStartingYear
 )
 {
     public static SubjectDTO Map(Subject obj)
@@ -23,7 +24,8 @@ public record SubjectDTO(
             obj.CurricularUnit.Id,
             obj.CurricularUnit.Name,
             obj.Class.Id, 
-            obj.Class.Name
+            obj.Class.Name,
+            obj.Class.StartingYear
         );
     }
 }
