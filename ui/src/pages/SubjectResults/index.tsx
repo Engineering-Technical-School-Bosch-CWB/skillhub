@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import { IFeedback } from "../../interfaces/models/IFeedback";
 import { IOption } from "../../components/TableView/interfaces";
+import SectionHeader from "@/components/SectionHeader";
 
 const SubjectResults = () => {
 
@@ -84,6 +85,13 @@ const SubjectResults = () => {
             <Header />
             <main>
                 <div className={styled.content}>
+                    <SectionHeader links={[{
+                        label: "General Results",
+                        goTo: "/apprentice/results"
+                    },
+                    {
+                        label: subject + " Results"
+                    }]} />
                     <div className={styled.overview_section}>
                         <Text fontWeight="bold" fontSize="xl2">{subject}</Text>
                         <div className={styled.overview_content}>
@@ -101,8 +109,8 @@ const SubjectResults = () => {
                                 </div>
                             </div>
                             <div className={styled.chart_section}>
-                                <DoughnutChart exploitation={!overallPerformance ? 0 : Number((overallPerformance).toFixed(1))} title="Your Performance" />
-                                <DoughnutChart exploitation={!classOverallPerformance ? 0 : Number((classOverallPerformance).toFixed(1))} title="Average Class Performance" />
+                                <DoughnutChart exploitation={overallPerformance == null ? 0 : Number((overallPerformance).toFixed(1))} title="Your Performance" />
+                                <DoughnutChart exploitation={classOverallPerformance == null ? 0 : Number((classOverallPerformance).toFixed(1))} title="Average Class Performance" />
                             </div>
                         </div>
                     </div>

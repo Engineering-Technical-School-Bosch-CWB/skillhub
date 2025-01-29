@@ -4,6 +4,7 @@ export enum RouteMap {
     COMPLETE_REGISTERING = "/complete-register",
 
     HOME = "/home",
+    APPRENTICE_PROFILE = "/aaa",
     APPRENTICE_RESULTS = "/apprentice/results",
     SUBJECT_RESULTS = "/apprentice/results/:subjectId",
     BIRTHDAYS = "/birthdays",
@@ -13,6 +14,7 @@ export enum RouteMap {
     CURRICULAR_UNITY_BY_ID = "/school-content/curricular-unitys",
 
     CLASSES = "/classes",
+    NEW_CLASS = "/classes/new",
     CLASS_DETAILS = "/classes/:classId",    
     SUBJECT_DETAILS = "/classes/:classId/subject/:subjectId",
     NEW_SUBJECT_TEST = "/classes/:classId/subject/:id/new-test",

@@ -5,11 +5,11 @@ import { RouteMap } from "../map";
 import ClassesOverview from "../../pages/ClassesOverview";
 import ClassDetails from "../../pages/ClassDetails";
 import SubjectDetails from "../../pages/SubjectDetails";
-import NewTest from "../../pages/SubjectDetails/Pages/NewTest";
-import AvaliationResult from "../../pages/SubjectDetails/Pages/AvaliationResult";
 import AprenticesProfile from "../../pages/AprenticesProfile";
+import CreateClass from "../../pages/CreateClass";
 import SchoolContent from "../../pages/SchoolContent";
 import UsersOverview from "../../pages/UsersOverview";
+import ApprenticesProfile from "../../pages/AprenticesProfile";
 
 export default {
     accessLevel: AccessLevel.TEACHER,
@@ -35,6 +35,10 @@ export default {
             element: <ClassDetails />
         },
         {
+            path: RouteMap.NEW_CLASS,
+            element: <CreateClass />
+        },
+        {
             path: RouteMap.USERS_OVERVIEW,
             element: <UsersOverview />
         },
@@ -43,6 +47,10 @@ export default {
             element: <SubjectDetails />,
             children: [
             ]
+        },
+        {
+            path: RouteMap.APPRENTICE_PROFILE,
+            element: <ApprenticesProfile />
         },
         // {
         //     path: RouteMap.NEW_SUBJECT_TEST,

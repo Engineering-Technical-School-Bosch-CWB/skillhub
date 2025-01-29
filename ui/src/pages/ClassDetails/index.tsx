@@ -18,6 +18,7 @@ import { ContentAreaChartValues, StudentSubject } from "./interfaces/ClassDetail
 import { IStudentCardProps } from "../../components/StudentCard/interfaces/IStudentCard.interfaces";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import SectionHeader from "@/components/SectionHeader";
 
 const ClassDetails = () => {
     const { classId } = useParams();
@@ -76,16 +77,16 @@ const ClassDetails = () => {
         setRankingData(content.graphs.studentResults.map((s: { id: number; name: string; performance: number; }) => ({
             id: s.id,
             name: s.name,
-            performance: !s.performance ? 0 : Number(s.performance.toFixed(2))
+            performance: s.performance == null ? 0 : Number(s.performance.toFixed(2))
         })));
         setSubjectsData(content.graphs.subjectResults.map((s: { curricularUnitId: number; performance: number; name: string; }) => ({
             id: s.curricularUnitId,
-            performance: !s.performance ? 0 : Number(s.performance.toFixed(2)),
+            performance: s.performance == null ? 0 : Number(s.performance.toFixed(2)),
             subject: s.name
         })));
         setSubjectAreaData(content.graphs.subjectAreaResults.map((s: { id: number; performance: number; name: string; }) => ({
             id: s.id,
-            performance: !s.performance ? 0 : Number(s.performance.toFixed(2)),
+            performance: s.performance == null ? 0 : Number(s.performance.toFixed(2)),
             area: s.name
         })))
 
@@ -123,6 +124,13 @@ const ClassDetails = () => {
             <Header />
 
             <main>
+                <SectionHeader links={[{
+                    label: "Classes Overview",
+                    goTo: "/classes"
+                },
+                {
+                    label: className
+                }]} />
                 <section>
                     <ExplorerContainer data={subjects} title={className} onAddHandle={() => setModalOpened(true)} input={{
                         search: search,
@@ -136,7 +144,7 @@ const ClassDetails = () => {
                     <Text fontSize="xl2" fontWeight="bold" >Details</Text>
 
                     <section className={`${styles.chart_section} ${styles.align}`}>
-                        <DoughnutChart exploitation={!overallPerformance ? 0 : Number(overallPerformance.toFixed(1))} title="Overall Performance" />
+                        <DoughnutChart exploitation={overallPerformance == null ? 0 : Number(overallPerformance.toFixed(1))} title="Overall Performance" />
                         <Ranking data={rankingData} onClick={handleStudentClick} />
 
                         <SubjectBarChart data={subjectsData} selectedId={selectedSubjectId} onBarClick={handleSubjectClick} />

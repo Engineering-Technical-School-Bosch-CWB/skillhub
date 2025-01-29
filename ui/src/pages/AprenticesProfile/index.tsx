@@ -1,13 +1,13 @@
-import { useState } from "react";
+import Text from "../../typography";
+import styles from './styles.module.css';
 import Header from "../../components/Header";
 import ReturnButton from "../../components/ReturnButton";
 import ProfileCard from "./components/ProfileCard";
+
+import { useState } from "react";
 import {  IStudentProfileData } from "./interfaces/AprenticesProfile.interface";
 
-import styles from './styles.module.css';
-import Text from "../../typography";
-
-export default () => {
+const ApprenticesProfile = () => {
     
     const [data, setStudent] = useState<IStudentProfileData>({
         student: {
@@ -43,3 +43,5 @@ export default () => {
         </>
     )
 }
+
+export default ApprenticesProfile;

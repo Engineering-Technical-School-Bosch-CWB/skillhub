@@ -14,6 +14,7 @@ import { useEffect, useState } from "react"
 import { IResult } from "../Login/interfaces"
 import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
+import SectionHeader from "@/components/SectionHeader"
 
 const AprenticesResults = () => {
 
@@ -26,7 +27,7 @@ const AprenticesResults = () => {
     const [search, setSearch] = useState("");
 
     const getData = async () => {
-        const response = await internalAPI.jsonRequest(`/students/results?${new URLSearchParams({query: search})}`, "GET");
+        const response = await internalAPI.jsonRequest(`/students/results?${new URLSearchParams({ query: search })}`, "GET");
 
         if (!response || response.statusCode != 200) {
             if (!toast.isActive("results-load-error"))
@@ -39,7 +40,7 @@ const AprenticesResults = () => {
 
         setBarChartData(content.userResults.map((r: { subject: { curricularUnit: any }; score: any }) => ({
             subject: r.subject.curricularUnit,
-            performance: !r.score ? 0 : Number((r.score).toFixed(2)),
+            performance: r.score == null ? 0 : Number((r.score).toFixed(2)),
         })));
 
         setCardsData(
@@ -53,7 +54,7 @@ const AprenticesResults = () => {
                     goTo: "/apprentice/results/" + r.subject.id
                 }))
         );
-        
+
     }
 
     useEffect(() => {
@@ -65,10 +66,13 @@ const AprenticesResults = () => {
             <Header />
             <main>
                 <div className={styled.chart_section}>
+                    <SectionHeader links={[{
+                        label: "General Results",
+                    }]} />
                     <Text variant="span" fontWeight="bold" fontSize="xl2">Results</Text>
                     <div className={styled.chart_container}>
                         <ExploitationBarChart data={barChartData} label={"Performance per Subject"} />
-                        <DoughnutChart title="Overall Performance" exploitation={!overallPerformance ? 0 : Number(overallPerformance.toFixed(1))} />
+                        <DoughnutChart title="Overall Performance" exploitation={overallPerformance == null ? 0 : Number(overallPerformance.toFixed(1))} />
                     </div>
                 </div>
                 <Divider size="big" />

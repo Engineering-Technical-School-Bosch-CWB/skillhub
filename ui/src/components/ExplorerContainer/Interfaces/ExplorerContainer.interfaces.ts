@@ -9,4 +9,12 @@ export interface IExplorerContainerProps {
         search: string,
         onChange: (str: string) => void
     }
+    filter?: {
+        name: string
+        params: {
+            key: string
+            value: number
+        }[]
+        setValue: Function
+    }[]
 }

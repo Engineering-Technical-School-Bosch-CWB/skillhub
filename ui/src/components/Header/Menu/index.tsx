@@ -4,6 +4,7 @@ import Link from "../../Link";
 import authenticatedRoutes from "../../../router/protected/authenticated.routes";
 import teacherRoutes from "../../../router/protected/teacher.routes";
 import { useUserContext } from "../../../contexts/user.context";
+import { Divider } from "@mui/material";
 
 interface IMenuProps {
     open: boolean;
@@ -47,6 +48,7 @@ export default ({ open, handleClose }: IMenuProps) => {
                             <Link to={"/users"} >{"Users"}</Link>
                         </>
                     }
+                    <Divider />
                     <Link onClick={() => sessionStorage.removeItem("@AUTH")} to={"/"}>{"Sign out"}</Link>
                 </div>
             </div>

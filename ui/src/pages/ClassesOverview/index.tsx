@@ -6,6 +6,7 @@ import getHex from "../../constants/getHex";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import SectionHeader from "@/components/SectionHeader";
 
 const ClassesOverview = () => {
 
@@ -13,6 +14,8 @@ const ClassesOverview = () => {
 
     const [search, setSearch] = useState("");
     const [cardsData, setCardsData] = useState([])
+
+    const toggleAdd = () => navigate("new")
 
     const getData = async () => {
         const response = await internalAPI.jsonRequest(`/classes?${new URLSearchParams({ query: search })}`, "GET");
@@ -42,10 +45,19 @@ const ClassesOverview = () => {
         <div>
             <Header />
             <main>
-                <ExplorerContainer title={"Classes"} folderPath={"a"} data={cardsData} input={{
-                    search: search,
-                    onChange: setSearch
-                }} />
+                <SectionHeader links={[{
+                    label: "Classes Overview",
+                }]} />
+                <ExplorerContainer
+                    title={"Classes"}
+                    folderPath={"a"}
+                    data={cardsData}
+                    onAddHandle={() => toggleAdd()}
+                    input={{
+                        search: search,
+                        onChange: setSearch,
+                    }}
+                />
             </main>
         </div>
     )

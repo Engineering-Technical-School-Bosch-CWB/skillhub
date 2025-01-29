@@ -1,69 +1,105 @@
 import Text from "../../../../typography";
-import { IAvaliationTableProps } from "../../interfaces/SubjectDetails.interface";
 import styles from '../../styles.module.css';
 
+import { IAvaliationTableProps } from "../../interfaces/SubjectDetails.interface";
+import Icon from "../../../../components/Icon";
+import { Tooltip } from "recharts";
 
 
-export default ({name, data, date}: IAvaliationTableProps) => {
+export default ({ exam }: IAvaliationTableProps) => {
+
+    const getSkillClass = (aptitude?: string) => {
+        if (aptitude === "Skilled") return styles.SKILLED;
+        if (aptitude === "Developing") return styles.DEVELOPMENT;
+        if (aptitude === "Unskilled") return styles.UNSKILLED;
+        return ""
+    };
+
+    const getMeanClass = (mean?: number) => {
+        if (!mean) return ""
+
+        if (mean >= 80) return styles.SKILLED;
+        if (mean >= 60) return styles.DEVELOPMENT;
+        return styles.UNSKILLED
+    }
 
     return (
         <>
             <br />
-                <div className={`${styles.table_header} ${styles.align}`}>
-                    <Text fontSize="lg" fontWeight="bold" >
-                        {name}
-                    </Text>
-                    <Text fontSize="sm">
-                        {date?.getDate()}/{date?.getMonth()}/{date?.getFullYear()}
-                    </Text>
-                </div>
-                <div className={`${styles.tables}`}>
-                    <table  className={`${styles.competence_table }`}>
-                        <tr>
-                            <th>Competence</th>
-                            <th>Weight</th>
-                            <th>Efficacy</th>
-                        </tr>
-                        {
-                            data?.competences.map(competence => (
-                                <>
-                                    <tr>
-                                        <td className={`${styles.competence_cell}`}>{competence.description}</td>
-                                        <td className={`${styles.competence_cell}`}>{competence.weight}</td>
-                                        <td className={`${styles.competence_cell}`}>{competence.efficacy}</td>
-                                    </tr>
-                                </>
-                            ))
-                        }
-                    </table>
+            <div className={`${styles.table_header} ${styles.align}`}>
+                <span className={`${styles.subtitle}`}>
+                    <Text fontSize="lg" fontWeight="bold" >{exam.name}</Text>
+                    <Text fontSize="sm">{exam.date}</Text>
+                </span>
+                <span className={`${styles.subtitle} ${styles.evBtn}`}>
+                    <Text fontSize="sm">Evaluate</Text>
+                    <Icon name={"edit"} />
+                </span>
+            </div>
+            <div className={`${styles.tables}`}>
+                <table className={`${styles.competence_table} ${styles.highlight_border} ${styles.divider}`}>
+                    <tr>
+                        <th className={`${styles.highlight_border}`}>Skill</th>
+                        <th className={`${styles.highlight_border}`}>Weight</th>
+                        <th className={`${styles.highlight_border} ${styles.divider}`}>Efficiency</th>
+                    </tr>
+                    {
+                        exam.data.skills.map((s: { description: string, weight: number, efficiency: number, evaluationCriteria: string }) => (
+                            <>
+                                <tr>
+                                    <td className={`${styles.competence_cell} ${styles.td} ${styles.skill} ${styles.tooltip}`}>
+                                        <span className={`${styles.overflow}`}>{s.description}</span>
+                                        <span className={`${styles.tooltiptext}`}>
+                                            <Text fontWeight="bold" fontSize="sm">{s.description}</Text>
+                                            <Text fontSize="sm">{s.evaluationCriteria}</Text>
+                                        </span>
+                                    </td>
+                                    <td className={`${styles.competence_cell} ${styles.td}`}>{s.weight == null ? "-" : Number(s.weight.toFixed(2))}</td>
+                                    <td className={`${styles.competence_cell} ${styles.td}`}>{s.efficiency == null ? "-" : Number(s.efficiency.toFixed(2)) + "%"}</td>
+                                </tr>
+                            </>
+                        ))
+                    }
+                    <tr className={`${styles.highlight_border} ${styles.divider}`}>
+                        <tr className={`${styles.performance} ${styles.skill}`}>Overall Performance</tr>
+                    </tr>
+                </table>
 
                 <section className={`${styles.table_section}`}>
-                    <table className={`${styles.result_table}`}>
+                    <table className={`${styles.result_table} ${styles.highlight_border}`}>
                         <tr>
                             {
-                                data?.students.map(estudent => (
-                                    <th>{estudent.name}</th>
+                                exam.data.students.map((s: { name: string }) => (
+                                    <th className={`${styles.student_cell} ${styles.highlight_border} `}>{s.name}</th>
                                 ))
                             }
                         </tr>
                         {
-                            data?.competences.map(competence => (
+                            exam.data.skills.map((skill: { id: number; }) => (
                                 <>
                                     <tr>
                                         {
-                                            data?.students.map(student => (
+                                            exam.data.students.map((student: { skillsResults: any[]; }) => (
                                                 <>
-                                                    <td className={`${styles.result_cell} ${styles[student.competencesResult.filter(c => c.competenceId == competence.competenceId)[0].aptitude]}`}>
-                                                        {student.competencesResult.filter(c => c.competenceId == competence.competenceId)[0].aptitude}
+                                                    <td className={`${styles.result_cell} ${getSkillClass(student.skillsResults[skill.id])} ${styles.td}`}>
+                                                        {student.skillsResults[skill.id] || "-"}
                                                     </td>
                                                 </>
                                             ))
                                         }
                                     </tr>
                                 </>
-
                             ))
                         }
+                        <tr>
+                            {
+                                exam.data.students.map((student: { mean: number; }) => (
+                                    <td className={`${styles.result_cell} ${styles.performance_cell} ${getMeanClass(student.mean)} ${styles.highlight_border}`}>
+                                        {!student.mean ? "-" : Number(student.mean.toFixed(2)) + "%"}
+                                    </td>
+                                ))
+                            }
+                        </tr>
                     </table>
                 </section>
             </div>

@@ -1,0 +1,28 @@
+.select_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.label {
+
+}
+
+.select_input {
+    height: 50px;
+    cursor: pointer;
+    position: relative;
+    padding: 12px;
+    border: var(--default-border);
+    font-family: "BoschSans";
+    font-size: 1rem;
+    color: var(--gray-500);
+
+    option {
+        width: 50px;
+    }
+}
+
+.selection {
+    background-color: rgb(0, 0, 0, 0.2);
+}

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Api.Controllers;
 
 [ApiController]
-[Route("api/v1/position")]
+[Route("api/v1/positions")]
 public class PositionController : ControllerBase
 {
     private readonly Mapper _mapper;
@@ -62,7 +62,6 @@ public class PositionController : ControllerBase
     )
     {
         var result = await service.GetPaginatedAsync(pagination);
-
         return Ok(result);
     }
 

@@ -1,0 +1,11 @@
+.section {
+    display: flex;
+    gap: 0.5rem;
+
+    align-items: center;
+    margin-bottom: 1.3rem;
+}
+
+.disabled {
+    cursor: default;
+}
