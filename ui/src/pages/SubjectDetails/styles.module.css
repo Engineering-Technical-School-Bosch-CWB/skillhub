@@ -79,12 +79,18 @@
     .skill {
         text-align: left;
         min-width: 25rem;
+
+        .overflow {
+            display: flex;
+            overflow: hidden;
+            width: 100%;
+        }
     }
 
     tr:first-child {
-        th:first-child {
+        /* th:first-child {
             width: 35%;
-        }
+        } */
 
         th {
             padding: 1rem;

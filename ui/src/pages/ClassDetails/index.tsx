@@ -18,6 +18,7 @@ import { ContentAreaChartValues, StudentSubject } from "./interfaces/ClassDetail
 import { IStudentCardProps } from "../../components/StudentCard/interfaces/IStudentCard.interfaces";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import SectionHeader from "@/components/SectionHeader";
 
 const ClassDetails = () => {
     const { classId } = useParams();
@@ -123,6 +124,13 @@ const ClassDetails = () => {
             <Header />
 
             <main>
+                <SectionHeader links={[{
+                    label: "Classes Overview",
+                    goTo: "/classes"
+                },
+                {
+                    label: className
+                }]} />
                 <section>
                     <ExplorerContainer data={subjects} title={className} onAddHandle={() => setModalOpened(true)} input={{
                         search: search,

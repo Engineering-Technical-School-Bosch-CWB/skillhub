@@ -15,10 +15,11 @@ import { ISubject } from "../../interfaces/models/ISubject"
 import { IAvaliationTableProps } from "./interfaces/SubjectDetails.interface";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import SectionHeader from "@/components/SectionHeader";
 
 const SubjectDetails = () => {
 
-    const { subjectId } = useParams();
+    const { classId, subjectId } = useParams();
 
     const navigate = useNavigate();
 
@@ -52,7 +53,7 @@ const SubjectDetails = () => {
                         return acc;
                     }, {})
                 }))
-                
+
             }
         })))
 
@@ -67,6 +68,17 @@ const SubjectDetails = () => {
             <Header />
             <main>
                 {/* <ReturnButton /> */}
+                <SectionHeader links={[{
+                    label: "Classes Overview",
+                    goTo: "/classes"
+                },
+                {
+                    label: subject?.class + " - " + subject?.classStartingYear,
+                    goTo: `/classes/${classId}`
+                },
+                {
+                    label: subject?.curricularUnit + " - " + subject?.class
+                }]} />
                 <section className={`${styles.title_section} ${styles.align}`}>
                     <Text fontSize="xl2" fontWeight="bold">{subject?.curricularUnit + " - " + subject?.class}</Text>
                     <Text>
