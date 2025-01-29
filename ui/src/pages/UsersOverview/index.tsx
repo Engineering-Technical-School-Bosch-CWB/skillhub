@@ -4,6 +4,7 @@ import internalAPI from "../../service/internal.services";
 import getHex from "../../constants/getHex";
 
 import { useEffect, useState } from "react";
+import SectionHeader from "@/components/SectionHeader";
 
 const UsersOverview = () => {
     
@@ -50,6 +51,9 @@ const UsersOverview = () => {
         <>
             <Header />
             <main>
+                <SectionHeader links={[{
+                    label: "Users Overview"
+                }]} />
                 <ExplorerContainer filter={[positionFilter]} data={users} title={"Users"} onAddHandle={() => {}} input={{
                     search: search,
                     onChange: setSearch
