@@ -1,11 +1,9 @@
 import { useState } from "react";
 import Header from "../../components/Header"
-import ReturnButton from "../../components/ReturnButton"
-import Text from "../../typography"
-
 import styles from "./styles.module.css";
 import { IAddClassPageProps } from "./components/AddPaginator/interfaces/AddClassPage.interface";
 import AddPaginator from "./components/AddPaginator";
+import SectionHeader from "@/components/SectionHeader";
 
 export default () => {
 
@@ -25,15 +23,18 @@ export default () => {
             template: false
 
         },
-        index: 0,
-        setClass: (newClass) => {
+        index: 2,
+        isChecked: false,
+        setClass: (newClass, newCourse) => {
             setData((prev) => ({
               ...prev,
               data: {
                 ...prev.data,
                 class: newClass,
+                course: newCourse
               },
             }));
+            console.log(data);
         },
         setStudents: (students) => {
             setData((prev) => ({
@@ -65,17 +66,23 @@ export default () => {
 
     return (
         <div>
-            {/* <Header /> */}
-            <section className={styles.main_container}>
-                <section className={styles.top_section}>
-                    <ReturnButton />
-                    <Text fontWeight="bold" fontSize="xl2">New Class</Text>
-                </section>
+            <Header />
+            <main>
+                <SectionHeader links={
+                [
+                    {
+                        label: "Classes Overview",
+                        goTo: "/classes"
+                    },
+                    {
+                        label: "New"
+                    }
+                ]} />
 
                 <div className={styles.container}>
                     <AddPaginator {...data}/>
                 </div>
-            </section>
+            </main>
         </div>
     )
 }

@@ -18,7 +18,7 @@ public class PaginationService : IPaginationService
         {
             var totalItems = query.Count();
 
-            if (totalItems <= pagination.Offset)
+            if (totalItems < pagination.Offset)
                 throw new PaginationOffsetException("Offset exceeds maximum of items!");
 
             query = query.Skip(pagination.Offset).Take(pagination.Take);

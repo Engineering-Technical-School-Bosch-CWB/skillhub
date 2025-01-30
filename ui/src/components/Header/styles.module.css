@@ -6,13 +6,15 @@
     top: 0;
     
     background-color: var(--gray-0);
-    box-shadow: 5px 0 0 var(--gray-500);
+    box-shadow: 0 0 10px  var(--black-transluscent-04);
 
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 10px 5% 0;
     z-index: 10;
+
+
 }
 
 .header::after {
