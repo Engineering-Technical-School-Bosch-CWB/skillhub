@@ -4,6 +4,7 @@ import { IAddClass, IAddCourse } from "../interfaces/AddClassPage.interface"
 import styles from "../../../styles.module.css"
 import { ISelectData } from "@/components/Select/interfaces"
 import CourseSelect from "./CourseSelect"
+import Text from "@/typography"
 
 interface ICourseIndexProps{
     updateClass: (classValue: IAddClass, courseValue: IAddCourse) => void,
@@ -27,7 +28,7 @@ export default ({updateClass, _class, _course}: ICourseIndexProps) => {
     return (
         <div className={styles.form_content}>
             <section className={styles.card_page_header}>
-                <h1>Course</h1>
+                <Text fontSize="lg" fontWeight="bold">Class</Text>
             </section>
             
             <CourseSelect
@@ -48,7 +49,6 @@ export default ({updateClass, _class, _course}: ICourseIndexProps) => {
                     onChange={(e) => handleChangeCourse(undefined, undefined, e.target.value)} 
                 /> 
             </section>
-
         </div>
     )
 }

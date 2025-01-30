@@ -12,6 +12,7 @@ export interface IAddStudent {
     identification: string
 }
 export interface IAddSubject {
+    id?: number,
     name: string,
     time: number
 }
@@ -27,6 +28,7 @@ export interface INewClass {
 export interface  IAddClassPageProps{
     index: number,
     data: INewClass,
+    isChecked: boolean,
     setClass: (newClass: IAddClass, getCourse: IAddCourse) => void;
     setStudents: (students: IAddStudent[]) => void;
     setSubjects: (subjects: IAddSubject[]) => void;

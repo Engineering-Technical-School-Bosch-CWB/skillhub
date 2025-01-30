@@ -23,6 +23,15 @@
     border: 1px solid var(--primary-dark);
 }
 
+button:disabled {
+    background-color: var(--gray-100);
+    color: var(--gray-300);
+    border-color: var(--gray-300);
+    cursor: not-allowed;
+    &:hover {
+        background-color: var(--gray-200);
+    }
+}
 
 .outlined {
     background-color: transparent;
@@ -44,8 +53,8 @@
     border: 1px solid var(--primary-main);
     border-radius: 100%;
     padding: .5rem;
-    width: 3rem ;
-    height: 3rem ;
+    width: 2.5rem ;
+    height: 2.5rem ;
 }
 .select_rounded {
     display: flex;
@@ -55,8 +64,8 @@
     border: 1px solid var(--primary-main);
     border-radius: 100%;
     padding: .5rem;
-    width: 3rem ;
-    height: 3rem ;
+    width: 2.5rem ;
+    height: 2.5rem ;
 }
 .rounded:hover {
     background-color: var(--primary-light-low-opacity);

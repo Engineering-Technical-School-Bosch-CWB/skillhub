@@ -1,22 +1,17 @@
 .top_section {
-    display: flex;
-    gap: 2rem;
-    justify-content: start;
-    align-items: center;
+    margin-left: 2rem ;
 }
 .main_container {
-    padding: 2rem;
+    padding: 1rem 0;
     height: 90vh;
+    background-color: white;
+
 }
 .container{
     place-self: center;
-    margin: 2rem;
-    border: 1px solid black;
-    border-radius: 20px;
-    padding: 2rem 4rem;
-    height: calc(100% - 7rem);
-    max-width: 50rem;
-    background-color: white;
+    width: 100%;
+    padding: 0 20rem;
+    height: 95%;
 }
 .content{
     height: 100%;
@@ -40,7 +35,7 @@
 
     .separator {
         position: relative;
-        top: -15px ;
+        top: -10px ;
         width: 4rem;
         height: 2px;
         background-color: var(--primary-light-low-opacity);
@@ -48,7 +43,7 @@
     }
     .separator_activated {
         position: relative;
-        top: -15px ;
+        top: -10px ;
         width: 4rem;
         height: 2px;
         background-color: var(--primary-light);
@@ -62,7 +57,7 @@
 
 .form{
     width: 100%;
-    height: 100%;
+    height: calc(60vh);
     padding: .75rem;
     display: flex;
     justify-content: center;
@@ -71,9 +66,6 @@
     display: flex;
     flex-direction: column;
     justify-content: start;
-    gap: 1rem;
-
-
 }
 .dual_input_zone{
     display: grid;
@@ -90,6 +82,7 @@
 .btn_area {
     display: flex;
     justify-content: space-around;
+    margin: 1rem;
 }
 
 @media (max-width: 1200px) {
