@@ -89,8 +89,6 @@ const ClassDetails = () => {
             performance: s.performance == null ? 0 : Number(s.performance.toFixed(2)),
             area: s.name
         })))
-
-        console.log(response);
     }
 
     const handleSubjectClick = (id: number | null) => {

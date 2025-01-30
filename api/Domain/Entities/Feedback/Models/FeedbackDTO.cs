@@ -17,3 +17,23 @@ public record FeedbackDTO(
         );
     }
 }
+
+public record CompleteFeedbackDTO(
+    int Id,
+    string Content,
+    DateOnly UpdatedAt,
+    string Instructor,
+    string? Subject
+)
+{
+    public static CompleteFeedbackDTO Map(Feedback obj)
+    {
+        return new CompleteFeedbackDTO(
+            obj.Id,
+            obj.Content,
+            obj.UpdatedAt,
+            obj.Instructor.Name,
+            obj.Subject?.CurricularUnit.Name
+        );
+    }
+}

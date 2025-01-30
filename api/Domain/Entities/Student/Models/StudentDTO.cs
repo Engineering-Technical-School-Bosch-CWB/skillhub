@@ -55,3 +55,39 @@ public record SimpleStudentDTO(
         );
     }
 }
+
+public record InstructorStudentDTO(
+    int Id,
+    int UserId,
+    string Name,
+    string Identification,
+    DateOnly? Birthday,
+    string ClassName,
+    int? ClassPosition,
+    double? Performance,
+    string Position,
+    string Sector,
+    IEnumerable<SubjectResultDTO> SubjectResults,
+    IEnumerable<CompleteFeedbackDTO> SubjectFeedBacks,
+    IEnumerable<CompleteFeedbackDTO> Feedbacks
+)
+{
+    public static InstructorStudentDTO Map(Student obj, IEnumerable<SubjectResultDTO> subjectResults, IEnumerable<CompleteFeedbackDTO> feedbacks, int? position = null)
+    {
+        return new InstructorStudentDTO(
+            obj.Id,
+            obj.User.Id,
+            obj.User.Name,
+            obj.User.Identification,
+            obj.User.Birthday,
+            obj.Class.Name + " - " + obj.Class.StartingYear,
+            position,
+            obj.OverallScore,
+            obj.User.Position.Name,
+            obj.User.Sector.Name,
+            subjectResults,
+            feedbacks.Where(f => f.Subject is not null),
+            feedbacks.Where(f => f.Subject is null)
+        );
+    }
+}

@@ -1,18 +1,22 @@
-export interface studentData {
+export interface IStudentData {
+    id: number,
     userId: number,
-    image?: string,
     name: string,
-    class: {
-        name: string
-    }
+    identification: string,
+    birthday: string,
+    className: string,
+    classPosition: number,
+    performance: number,
+    position: string,
+    sector: string
 }
 
-export interface rankingData {
+export interface IRankingData {
     position: number,
     exploitation: number
 }
 
-export interface subjectFeedback {
+export interface ISubjectData {
     id: number, 
     date: Date,
     user: {
@@ -26,7 +30,7 @@ export interface subjectFeedback {
     feedback: string
 }
 
-export interface personalFeedback {
+export interface IFeedback {
     id: number, 
     date: Date,
     user: {
@@ -37,8 +41,8 @@ export interface personalFeedback {
 }
 
 export interface IStudentProfileData {
-    student: studentData,
-    ranking: rankingData,
-    subjectFeedbacks: subjectFeedback[],
-    personalFeedbacks: personalFeedback[]
+    student: IStudentData,
+    ranking: IRankingData,
+    subjectFeedbacks: ISubjectData[],
+    personalFeedbacks: IFeedback[]
 }

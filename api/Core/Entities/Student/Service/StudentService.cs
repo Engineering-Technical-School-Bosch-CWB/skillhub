@@ -178,5 +178,48 @@ public class StudentService(
         );
     }
 
+    public async Task<AppResponse<InstructorStudentDTO>> GetInstructorPage(int id)
+    {
+        var student = await _repo.Get()
+            .Where(s => s.IsActive)
+            .Include(s => s.User.Position)
+            .Include(s => s.User.Sector)
+            .Include(s => s.Class)
+            .SingleOrDefaultAsync(s => s.Id == id)
+            ?? throw new NotFoundException("Student not found!");
+
+        var subjects = await _subjectRepo.Get()
+            .Where(s => s.IsActive)
+            .Where(s => s.Class.Id == student.Class.Id)
+            .Include(s => s.CurricularUnit)
+            .Include(s => s.Instructor)
+            .ToListAsync();
+
+        var results = subjects.Select(s => SubjectResultDTO.Map(s, GetSubjectGrade(id, s.Id)));
+
+        var position = _repo.Get()
+            .Where(s => s.IsActive)
+            .Where(s => s.Class.Id == student.Class.Id)
+            .Where(s => s.OverallScore != null)
+            .OrderBy(s => s.OverallScore)
+            .AsEnumerable()
+            .Select((s, index) => new { s.Id, Position = index + 1 })
+            .FirstOrDefault(x => x.Id == student.Id)?.Position;
+
+        var feedbacks = await _feedbackRepo.Get()
+            .Where(f => f.IsActive)
+            .Where(f => f.Student.Id == id)
+            .Include(f => f.Student)
+            .Include(f => f.Instructor)
+            .Include(f => f.Subject!.CurricularUnit)
+            .Select(f => CompleteFeedbackDTO.Map(f))
+            .ToListAsync();
+
+        return new AppResponse<InstructorStudentDTO>(
+            InstructorStudentDTO.Map(student, results, feedbacks, position),
+            "Student info found!"
+        );
+    }
+
     #endregion
 }

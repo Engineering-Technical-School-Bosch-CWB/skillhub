@@ -11,4 +11,5 @@ public interface IStudentService : IService<Student>
     public StudentExamResultsDTO GetExamResults(int id, int examId);
     public Task<AppResponse<StudentResultResponse>> GetResultsPage(int id, string query);
     public Task<AppResponse<StudentSubjectResultResponse>> GetSubjectResultsPage(int id, int subjectId);
+    public Task<AppResponse<InstructorStudentDTO>> GetInstructorPage(int id);
 }

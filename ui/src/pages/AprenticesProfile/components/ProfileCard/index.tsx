@@ -2,11 +2,11 @@ import Avatar from "../../../../components/Avatar"
 import Button from "../../../../components/Button"
 import Icon from "../../../../components/Icon"
 import Text from "../../../../typography"
-import { studentData } from "../../interfaces/AprenticesProfile.interface"
+import { IStudentData } from "../../interfaces/AprenticesProfile.interface"
 
 import styles from '../../styles.module.css'
 
-export default (e: studentData) => {
+export default (e: IStudentData) => {
     return (
         <div className={`${styles.profile_section} ${styles.align}`}>
 

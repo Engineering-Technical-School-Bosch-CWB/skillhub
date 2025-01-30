@@ -30,6 +30,34 @@
     }
 }
 
+.gap {
+    display: flex;
+    gap: 1rem;
+
+    align-items: center;
+}
+
+.spacing {
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.4rem;
+}
+
+.space_between {
+    display: flex;
+    justify-content: space-between;
+
+    align-items: center;
+}
+
+.section {
+    display: flex;
+    flex-direction: column;
+
+    gap: 2rem;
+}
+
 .feedback_section {
 
 }
