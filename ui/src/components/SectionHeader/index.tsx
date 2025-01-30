@@ -1,25 +1,34 @@
 import styles from "./style.module.css"
 import { ISectionHeaderProps } from "./interfaces"
 import Link from "../Link"
+import Text from "@/typography"
 
 export default ({ links }: ISectionHeaderProps) => {
     return (
         <>
             <div className={`${styles.section}`}>
-                <span className={`${styles.disabled}`}>/</span>
                 {
                     !links
                     ? <span className={`${styles.disabled}`}>Home</span>
-                    : <Link to={"/home"}>Home</Link>
+                    : <Link to={"/home"}>
+                        <Text fontSize="sm">Home</Text>
+                    </Link>
                 }
                 {links?.map(l => (
                     <>
-                        <span className={`${styles.disabled}`}>/</span>
+                        <span className={`${styles.disabled}`}> </span>
+                        <span className={`material-symbols-outlined ${styles.arrow}`}>
+                            arrow_forward_ios
+                        </span>
                         {
 
                             !l.goTo
-                                ? <span className={`${styles.disabled}`}>{l.label}</span>
-                                : <Link to={l.goTo}>{l.label}</Link>
+                                ? <span className={`${styles.disabled}`}>
+                                    <Text  fontSize="sm">{l.label}</Text>
+                                </span>
+                                : <Link to={l.goTo}>
+                                    <Text fontSize="sm">{l.label}</Text>
+                                </Link>
                         }
                     </>
                 ))}

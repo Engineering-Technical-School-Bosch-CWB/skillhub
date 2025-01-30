@@ -1,90 +1,54 @@
 import Input from "@/components/Input"
-import { IAddClass, IGetCourse } from "../interfaces/AddClassPage.interface"
+import { IAddClass, IAddCourse } from "../interfaces/AddClassPage.interface"
 
 import styles from "../../../styles.module.css"
-import { useEffect, useState } from "react"
-import { IClass } from "@/interfaces/models/IClass"
-import { ISelectProps } from "@/components/Select/interfaces"
-import internalAPI from "@/service/internal.services"
-import { toast } from "react-toastify"
-import { ICourse } from "@/interfaces/models/ICourse"
-import Select from "@/components/Select"
+import { ISelectData } from "@/components/Select/interfaces"
 import CourseSelect from "./CourseSelect"
+import Text from "@/typography"
 
-export default (classData: IAddClass, course: IGetCourse) => {
+interface ICourseIndexProps{
+    updateClass: (classValue: IAddClass, courseValue: IAddCourse) => void,
+    _class: IAddClass,
+    _course: IAddCourse
+}
+
+export default ({updateClass, _class, _course}: ICourseIndexProps) => {
     
-    const [classes, setClasses] = useState<IClass[]>([]);
-    const [isTemplate, setIsTemplate] = useState(false);
-
-    const [courses, setCourses] = useState<ISelectProps>({
-        data: [],
-        label: "Select a course:",
-        hasDefault: false,
-        onChange: (e) => {
-            e.target.value
-        }
-    });
-    
-    const getCourses = async () => {
-        const response = await internalAPI.jsonRequest("/course", "GET");
-        if(!response || response.statusCode != 200)
-            if(!toast.isActive("get-courses-error"))
-                toast.error("Error on get courses.",{toastId: "get-courses-error"  })
-
-        let _courses = response.data as ICourse[];
-        console.log(_courses);
-
-        setCourses((prev) => ({
-            ...prev,
-            data: _courses.map((item) => {
-                return {
-                    key: item.name,
-                    value: `${item.id}`
-                }
-            })
-        }))
-        
+    const handleChangeCourse = (obj?: ISelectData, className?: string, classAbbreviation?: string ) => {
+        updateClass({
+            name: className ?? _class.name,
+            abbreviation: classAbbreviation ?? _class.abbreviation,
+            periods: 1
+        }, {
+            name: obj?.key ?? _course.name,
+            id: obj?.value ?? _course.id
+        });
     }
-
-    const getFakeCourses = () => {
-        setCourses((prev) => ({
-            ...prev,
-            data: [
-                {
-                    key: "Digital Talent Academy",
-                    value:"1"
-                },
-                {
-                    key: "Cibersistemas",
-                    value:"2"
-                },
-                {
-                    key: "Mecânica",
-                    value:"3"
-                },
-                {
-                    key: "Desenvolvimento de sistemas",
-                    value:"4"
-                },
-            ]
-        }))
-    }
-
-    useEffect(() => {
-        // getCourses();
-        getFakeCourses()
-    }, [])
 
     return (
         <div className={styles.form_content}>
-            <h1>Course</h1>
-            <CourseSelect />
-            <Select {...courses} />
-            <section>
-                <Input label="Class name" />
-                <Input label="Abbreviation" /> 
+            <section className={styles.card_page_header}>
+                <Text fontSize="lg" fontWeight="bold">Class</Text>
             </section>
-
+            
+            <CourseSelect
+                defaultValue={{
+                    key: _course.name,
+                    value: _course.id
+                }} 
+                onChange={(e) => handleChangeCourse(e)} 
+            />
+            
+            <section className={`${styles.dual_input_zone} ${styles.divided_input_2_1}`}>
+                <Input label="Class name" 
+                    value={_class.name}
+                    onChange={(e) => handleChangeCourse(undefined, e.target.value)} 
+                />
+                <Input label="Abbreviation" 
+                    value={_class.abbreviation}
+                    onChange={(e) => handleChangeCourse(undefined, undefined, e.target.value)} 
+                /> 
+            </section>
         </div>
     )
 }

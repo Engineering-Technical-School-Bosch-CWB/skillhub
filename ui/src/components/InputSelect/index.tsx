@@ -1,18 +1,19 @@
-import Input from "@/components/Input"
-
-import styles from './styles.module.css';
 import { ChangeEvent, useEffect, useState } from "react";
-import { ISelectData } from "@/components/Select/interfaces";
-import { CourseSelectProps } from "./CourseSelect.interfaces";
-import internalAPI from "@/service/internal.services";
-import { toast } from "react-toastify";
-import { ICourse } from "@/interfaces/models/ICourse";
+import { ISelectData } from "../Select/interfaces";
+import styles from './styles.module.css';
+import Input from "../Input";
 
-export default ({onChange, defaultValue} : CourseSelectProps) =>  {
+export interface InputSelectProps{
+    onChange?: (data : ISelectData) => void;
+    defaultValue?: ISelectData,
+    data: ISelectData[],
+    label?: string
+}
+
+export default ({onChange, defaultValue, data, label }: InputSelectProps) => {
 
     const [inputFocus, setInputFocus] = useState(false);
     const [inputKey, setInputKey] = useState("");
-    const [data, setData] = useState<ISelectData[]>([]);
 
     const changeInput = (e : ChangeEvent<HTMLInputElement>) => {
         setInputKey(e.target.value)
@@ -35,31 +36,11 @@ export default ({onChange, defaultValue} : CourseSelectProps) =>  {
         setInputFocus(false);
     }
 
-    const getData = async () => {
-        const response = await internalAPI.jsonRequest(`/course?page=1&items=10&query=${inputKey}`, "GET");
-        if(!response || response.statusCode != 200)
-            if (!toast.isActive("courses-load-error"))
-                toast.error("Error on load courses.", { toastId: "courses-load-error" });
-
-        const _reqData = response.data as ICourse[];
-
-        setData(_reqData.map((item) => {
-            return {
-                key: item.name,
-                value: item.id
-            }
-        }));
-    }
-
     useEffect(() => {
         if(defaultValue){
             selectOption(defaultValue)
         }
     }, [])
-
-    useEffect(() => {
-        getData();
-    }, [inputKey,])
 
     return (
         <>
@@ -70,7 +51,7 @@ export default ({onChange, defaultValue} : CourseSelectProps) =>  {
                     onBlur={() => handleBlur()}
                     value={inputKey}
                     onChange={changeInput}
-                    label="Curso"
+                    label={label}
                 />
                 
                 <div className={`${styles.options_container} ${inputFocus ? styles.focused : ''}`}>

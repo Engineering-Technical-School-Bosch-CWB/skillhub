@@ -12,11 +12,16 @@ public class CourseService : BaseService<Course>, ICourseService
 {
     private readonly IOccupationAreaRepository _areaRepo;
     private readonly ICourseRepository _repo;
-    public CourseService(IOccupationAreaRepository areaRepository, 
-        BaseRepository<Course> repository) : base(repository)
+    private readonly IPaginationService _pagService;
+
+    public CourseService(
+        IOccupationAreaRepository areaRepository, 
+        BaseRepository<Course> repository,
+        IPaginationService pagService
+    ) : base(repository)
     {
         _areaRepo = areaRepository;
-
+        _pagService = pagService;
         _repo = repository is ICourseRepository CourseRepository
         ? CourseRepository
         : throw new ServiceConfigurationException(
@@ -51,7 +56,7 @@ public class CourseService : BaseService<Course>, ICourseService
             "Course created successfully!"
         );
     }
-
+    
     public async Task DeleteCourse(int id)
     {
         var course = await repository.Get()
@@ -80,13 +85,25 @@ public class CourseService : BaseService<Course>, ICourseService
         );
     }
 
-    public PaginatedAppResponse<CourseDTO> GetCourses(PaginationQuery pagination)
+    public PaginatedAppResponse<CourseDTO> GetCourses(PaginationQuery pagination, string? querry = null)
     {
-        var paginatedCourses = _repo.GetPaginated(pagination.ToOptions());
+        Console.WriteLine(querry);
+        var entities = _repo.GetAllNoTracking()
+            .Where(course => string.IsNullOrEmpty(querry) || EF.Functions.Like(course.Name, $"%{querry}%"))
+            .Where(course => course.IsActive)
+            .Include(c => c.DefaultOccupationArea);
+        
+        var result =  _pagService.Paginate(
+            entities,
+            pagination.ToOptions()
+        );
+
+        List<CourseDTO> mappedCourses = result.Item1.Select(c => CourseDTO.Map(c)).ToList();
 
         return new PaginatedAppResponse<CourseDTO>(
-            paginatedCourses.Item1.Select(c => CourseDTO.Map(c)),
-            paginatedCourses.Item2!,
+            // paginatedCourses.Item1.Select(c => CourseDTO.Map(c)),
+            mappedCourses,
+            result.Item2,
             "Courses found!"
         );
     }
