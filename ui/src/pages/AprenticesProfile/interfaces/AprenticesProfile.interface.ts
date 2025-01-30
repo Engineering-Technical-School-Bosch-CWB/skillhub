@@ -1,14 +1,39 @@
 export interface IStudentData {
     id: number,
-    userId: number,
+    performance?: number,
+    className: string,
+    classPosition?: number,
+    subjectResults:
+    {
+        id: number,
+        curricularUnitId: number,
+        name: string,
+        instructor: string,
+        performance?: number
+    }[],
+    subjectFeedBacks:
+    {
+        id: number,
+        content: string,
+        updatedAt: string,
+        instructor: string,
+        subject: string
+    }[],
+    feedbacks: {
+        id: number,
+        content: string,
+        updatedAt: string,
+        instructor: string
+    }[]
+}
+
+export interface IUserData {
+    id: number,
     name: string,
     identification: string,
-    birthday: string,
-    className: string,
-    classPosition: number,
-    performance: number,
+    birthday?: string,
     position: string,
-    sector: string
+    sector: string,
 }
 
 export interface IRankingData {
@@ -17,7 +42,7 @@ export interface IRankingData {
 }
 
 export interface ISubjectData {
-    id: number, 
+    id: number,
     date: Date,
     user: {
         name: string,
@@ -31,7 +56,7 @@ export interface ISubjectData {
 }
 
 export interface IFeedback {
-    id: number, 
+    id: number,
     date: Date,
     user: {
         name: string,

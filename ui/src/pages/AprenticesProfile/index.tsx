@@ -9,20 +9,21 @@ import internalAPI from "@/service/internal.services";
 import SectionHeader from "@/components/SectionHeader";
 
 import { useEffect, useState } from "react";
-import { IStudentData } from "./interfaces/AprenticesProfile.interface";
+import { IStudentData, IUserData } from "./interfaces/AprenticesProfile.interface";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const ApprenticesProfile = () => {
 
-    const { classId, studentId } = useParams();
+    const { classId, userId } = useParams();
 
     const navigate = useNavigate();
 
     const [student, setStudent] = useState<IStudentData>();
+    const [user, setUser] = useState<IUserData>();
 
     const getData = async () => {
-        const response = await internalAPI.jsonRequest(`/students/${studentId}`, "GET");
+        const response = await internalAPI.jsonRequest(`/users/profile?${new URLSearchParams({ id: userId! })}`, "GET");
 
         if (!response || response.statusCode != 200) {
             if (!toast.isActive("profile-load-error"))
@@ -31,19 +32,17 @@ const ApprenticesProfile = () => {
         }
 
         const content = response.data;
+        console.log(content)
 
-        setStudent({
+        setStudent(content.student);
+        setUser({
             id: content.id,
-            userId: content.userId,
             name: content.name,
             identification: content.identification,
             birthday: content.birthday,
-            className: content.className,
-            classPosition: content.classPosition,
-            performance: content.performance,
             position: content.position,
             sector: content.sector,
-        })
+        });
 
         console.log(content);
     }
@@ -84,14 +83,14 @@ const ApprenticesProfile = () => {
                     goTo: `/classes/${classId}`
                 },
                 {
-                    label: student?.name!
+                    label: user?.name!
                 }]} />
                 <section className={`${styles.section}`}>
                     <div className={`${styles.space_between}`}>
                         <div className={`${styles.spacing}`}>
                             <div className={`${styles.gap}`}>
-                                <Text variant="span" fontWeight="bold" fontSize="xl2">{student?.name}</Text>
-                                <Text>{student?.identification}</Text>
+                                <Text variant="span" fontWeight="bold" fontSize="xl2">{user?.name}</Text>
+                                <Text>{user?.identification}</Text>
 
                             </div>
                             <Text fontSize="md" fontWeight="semibold" >{"From " + student?.className}</Text>
@@ -101,8 +100,8 @@ const ApprenticesProfile = () => {
                     <div className={`${styles.gap}`}>
                         <Avatar src={"/avatar.png"} size="xl" />
                         <div className={`${styles.spacing}`}>
-                            <Text fontSize="lg" fontWeight="bold" >{student?.position + " - " + student?.sector}</Text>
-                            <Text>{!student?.birthday ? "---" : formatDate(student.birthday)}</Text>
+                            <Text fontSize="lg" fontWeight="bold" >{user?.position + " - " + user?.sector}</Text>
+                            <Text>{!user?.birthday ? "---" : formatDate(user.birthday)}</Text>
 
                         </div>
                     </div>

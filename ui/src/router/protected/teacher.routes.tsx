@@ -49,7 +49,7 @@ export default {
             ]
         },
         {
-            path: RouteMap.APPRENTICE_PROFILE,
+            path: RouteMap.USER_PROFILE,
             element: <ApprenticesProfile />
         },
         // {
@@ -61,7 +61,7 @@ export default {
         //     element: <AvaliationResult />
         // },
         {
-            path: RouteMap.STUDENT_OVERVIEW,
+            path: RouteMap.APPRENTICE_OVERVIEW,
             element: <AprenticesProfile />
         }
     ]

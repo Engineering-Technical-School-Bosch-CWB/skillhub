@@ -129,7 +129,7 @@ const SubjectDetails = () => {
                         <Text fontSize="xl2" fontWeight="bold" >
                             Students Feedbacks
                         </Text>
-                        <Text fontSize="sm" >** Apprentices can see subject feedback!</Text>
+                        <Text fontSize="sm" >** Apprentices can see subject feedbacks!</Text>
                     </section>
                     {
                         feedbacks.map(f => (

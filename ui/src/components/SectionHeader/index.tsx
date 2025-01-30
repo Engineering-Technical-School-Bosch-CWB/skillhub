@@ -9,10 +9,11 @@ export default ({ links }: ISectionHeaderProps) => {
             <div className={`${styles.section}`}>
                 {
                     !links
-                    ? <span className={`${styles.disabled}`}>Home</span>
-                    : <Link to={"/home"}>
-                        <Text fontSize="sm">Home</Text>
-                    </Link>
+                        ? <span className={`${styles.disabled}`}><Text fontSize="sm">Home</Text></span>
+                        :
+                        <Link to={"/home"}>
+                            <Text fontSize="sm">Home</Text>
+                        </Link>
                 }
                 {links?.map(l => (
                     <>
@@ -23,10 +24,12 @@ export default ({ links }: ISectionHeaderProps) => {
                         {
 
                             !l.goTo
-                                ? <span className={`${styles.disabled}`}>
-                                    <Text  fontSize="sm">{l.label}</Text>
+                                ?
+                                <span className={`${styles.disabled}`}>
+                                    <Text fontSize="sm">{l.label}</Text>
                                 </span>
-                                : <Link to={l.goTo}>
+                                :
+                                <Link to={l.goTo}>
                                     <Text fontSize="sm">{l.label}</Text>
                                 </Link>
                         }

@@ -53,16 +53,16 @@ public class StudentController : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet]
-    [Route("{id}")]
-    public async Task<ActionResult> GetInstructorPage(
-        [FromServices] IStudentService service, UserContext userContext, int id
-    )
-    {
-         if (userContext.PermissionLevel != EPermissionLevel.Admin)
-            throw new ForbiddenAccessException("User don't have permission to this service!");
+    // [HttpGet]
+    // [Route("{id}")]
+    // public async Task<ActionResult> GetInstructorPage(
+    //     [FromServices] IStudentService service, UserContext userContext, int id
+    // )
+    // {
+    //      if (userContext.PermissionLevel != EPermissionLevel.Admin)
+    //         throw new ForbiddenAccessException("User don't have permission to this service!");
 
-            var result = await service.GetInstructorPage(id);
-            return Ok(result);
-    }
+    //         var result = await service.GetInstructorPage(id);
+    //         return Ok(result);
+    // }
 }

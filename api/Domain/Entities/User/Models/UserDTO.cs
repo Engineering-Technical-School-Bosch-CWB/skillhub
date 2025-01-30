@@ -41,3 +41,27 @@ public record UserDTO(
         );
     }
 }
+
+public record UserProfileDTO(
+    int Id,
+    string Name,
+    string Identification,
+    DateOnly? Birthday,
+    string Position,
+    string Sector,
+    StudentProfileDTO? Student
+)
+{
+    public static UserProfileDTO Map(User obj, StudentProfileDTO studentProfile)
+    {
+        return new UserProfileDTO(
+            obj.Id,
+            obj.Name,
+            obj.Identification,
+            obj.Birthday,
+            obj.Position.Name,
+            obj.Sector.Name,
+            studentProfile
+        );
+    }
+}

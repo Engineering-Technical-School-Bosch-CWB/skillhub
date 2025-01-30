@@ -38,6 +38,7 @@ public record StudentExamResultsDTO(
 
 public record SimpleStudentDTO(
     int Id,
+    int UserId,
     string Name,
     string Identification,
     double? Performance,
@@ -48,6 +49,7 @@ public record SimpleStudentDTO(
     {
         return new SimpleStudentDTO(
             obj.Id,
+            obj.User.Id,
             obj.User.Name,
             obj.User.Identification,
             performance,
@@ -56,35 +58,23 @@ public record SimpleStudentDTO(
     }
 }
 
-public record InstructorStudentDTO(
+public record StudentProfileDTO(
     int Id,
-    int UserId,
-    string Name,
-    string Identification,
-    DateOnly? Birthday,
+    double? Performance,
     string ClassName,
     int? ClassPosition,
-    double? Performance,
-    string Position,
-    string Sector,
     IEnumerable<SubjectResultDTO> SubjectResults,
     IEnumerable<CompleteFeedbackDTO> SubjectFeedBacks,
     IEnumerable<CompleteFeedbackDTO> Feedbacks
 )
 {
-    public static InstructorStudentDTO Map(Student obj, IEnumerable<SubjectResultDTO> subjectResults, IEnumerable<CompleteFeedbackDTO> feedbacks, int? position = null)
+    public static StudentProfileDTO Map(Student obj, IEnumerable<SubjectResultDTO> subjectResults, IEnumerable<CompleteFeedbackDTO> feedbacks, int? position = null)
     {
-        return new InstructorStudentDTO(
+        return new StudentProfileDTO(
             obj.Id,
-            obj.User.Id,
-            obj.User.Name,
-            obj.User.Identification,
-            obj.User.Birthday,
+            obj.OverallScore,
             obj.Class.Name + " - " + obj.Class.StartingYear,
             position,
-            obj.OverallScore,
-            obj.User.Position.Name,
-            obj.User.Sector.Name,
             subjectResults,
             feedbacks.Where(f => f.Subject is not null),
             feedbacks.Where(f => f.Subject is null)

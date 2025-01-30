@@ -57,6 +57,10 @@ const UsersOverview = () => {
                 <ExplorerContainer filter={[positionFilter]} data={users} title={"Users"} onAddHandle={() => {}} input={{
                     search: search,
                     onChange: setSearch
+                }} button={{
+                    icon: "settings",
+                    onClick: () => {}
+                    // criate position create sector and create occupation area
                 }} />
             </main>
         </>

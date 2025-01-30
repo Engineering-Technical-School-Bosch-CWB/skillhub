@@ -89,6 +89,8 @@ const ClassDetails = () => {
             performance: s.performance == null ? 0 : Number(s.performance.toFixed(2)),
             area: s.name
         })))
+
+        console.log(content.students)
     }
 
     const handleSubjectClick = (id: number | null) => {
