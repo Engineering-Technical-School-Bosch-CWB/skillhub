@@ -9,13 +9,14 @@ using Api.Core.Errors;
 namespace Api.Core.Services;
 
 public class SubjectService(BaseRepository<Subject> repository, IUserRepository userRepository, IStudentService studentService,
-    ICurricularUnitRepository curricularUnitRepository, IClassRepository classRepository, IExamService examService
+    ICurricularUnitRepository curricularUnitRepository, IClassRepository classRepository, IExamService examService, IStudentRepository studentRepository
     ) : BaseService<Subject>(repository), ISubjectService
 {
     private readonly BaseRepository<Subject> _repo = repository;
     private readonly IClassRepository _classRepo = classRepository;
     private readonly ICurricularUnitRepository _curricularUnitRepo = curricularUnitRepository;
     private readonly IUserRepository _userRepo = userRepository;
+    private readonly IStudentRepository _studentRepo = studentRepository;
 
     private readonly IExamService _examService = examService;
     private readonly IStudentService _studentService = studentService;
@@ -71,10 +72,19 @@ public class SubjectService(BaseRepository<Subject> repository, IUserRepository 
             .SingleOrDefaultAsync(s => s.Id == id)
             ?? throw new NotFoundException("Subject not found!");
 
+        var feedbacks = await _studentRepo.Get()
+            .Where(s => s.IsActive)
+            .Where(s => s.Class.Id == subject.Class.Id)
+            .Include(s => s.Feedbacks)
+            .ThenInclude(f => f.Instructor)
+            .Include(s => s.User)
+            .Select(s => SimpleFeedbackDTO.Map(s.Feedbacks.SingleOrDefault(f => f.Subject!.Id == id), s))
+            .ToListAsync();
+
         var results = subject.Exams.Select(e => ExamResultsDTO.Map(e, _examService.GetExamSkills(e.Id), subject.Class.Students.Select(s => _studentService.GetExamResults(s.Id, e.Id))));
 
         return new AppResponse<InstructorSubjectDTO>(
-            InstructorSubjectDTO.Map(subject, results),
+            InstructorSubjectDTO.Map(subject, results, feedbacks),
             "Subject info found!"
         );
     }

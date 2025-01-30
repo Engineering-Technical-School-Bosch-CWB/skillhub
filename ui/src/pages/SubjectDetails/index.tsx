@@ -12,10 +12,11 @@ import AvaliationTable from "./components/AvaliationTable";
 
 import { useEffect, useState } from "react"
 import { ISubject } from "../../interfaces/models/ISubject"
-import { IAvaliationTableProps } from "./interfaces/SubjectDetails.interface";
+import { IAvaliationTableProps, IFeedback, IFeedbackData } from "./interfaces/SubjectDetails.interface";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import SectionHeader from "@/components/SectionHeader";
+import getHex from "@/constants/getHex";
 
 const SubjectDetails = () => {
 
@@ -25,6 +26,7 @@ const SubjectDetails = () => {
 
     const [subject, setSubject] = useState<ISubject>();
     const [exams, setExams] = useState<IAvaliationTableProps[]>([]);
+    const [feedbacks, setFeedbacks] = useState<IFeedback[]>([]);
 
     const getData = async () => {
         const response = await internalAPI.jsonRequest(`/subjects/${subjectId}`, "GET");
@@ -56,6 +58,11 @@ const SubjectDetails = () => {
 
             }
         })))
+
+        setFeedbacks(content.feedbacks.map(({ id, content, updatedAt, instructor, student }: IFeedbackData) => ({
+            feedback: id ? { id, content, updatedAt, instructor } : null,
+            student
+        })));
 
     }
 
@@ -115,6 +122,49 @@ const SubjectDetails = () => {
                         </span>
                     </span>
                 </section>
+                <Divider size="big" />
+
+                <section className={`${styles.spacing}`}>
+                    <Text fontSize="xl2" fontWeight="bold" >
+                        Students Feedbacks
+                    </Text>
+                    <br />
+                    {
+                        feedbacks.map(f => (
+                            <div className={`${styles.identificationCard}`}>
+                                <div className={`${styles.space_between}`}>
+                                    <section className={`${styles.align}`}>
+                                        <section className={`${styles.identificationCardMarker}`} style={{ backgroundColor: getHex(f.student.name) }}></section>
+                                        <section className={`${styles.cardContent}`}>
+                                            <Text fontWeight="bold">{f.student.name}</Text>
+                                            <Text fontWeight="semibold" fontSize="xs">
+                                                {
+                                                    !f.feedback
+                                                    ? "No feedback provided..."
+                                                    : "Last update • " + formatDate(f.feedback.updatedAt) + " by " + f.feedback.instructor
+                                                }
+                                            </Text>
+                                        </section>
+                                    </section>
+                                    <section>
+                                        <div className={`${styles.align}`}>
+                                            <span className={`${styles.subtitle} ${styles.evBtn}`}>
+                                                <Text fontSize="sm">Edit Feedback</Text>
+                                                <Icon name={"edit"} />
+                                            </span>
+                                        </div>
+                                    </section>
+                                </div>
+                                {
+                                    f.feedback &&
+                                    <Text>{f.feedback.content}</Text>
+                                }
+                            </div>
+                        ))
+                    }
+
+                </section>
+
                 <Divider size="big" />
 
                 <section>

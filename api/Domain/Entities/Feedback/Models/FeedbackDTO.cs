@@ -18,6 +18,26 @@ public record FeedbackDTO(
     }
 }
 
+public record SimpleFeedbackDTO(
+    int? Id,
+    string? Content,
+    DateOnly? UpdatedAt,
+    string? Instructor,
+    SimpleStudentDTO Student
+)
+{
+    public static SimpleFeedbackDTO Map(Feedback? obj, Student student)
+    {
+        return new SimpleFeedbackDTO(
+            obj?.Id,
+            obj?.Content,
+            obj?.UpdatedAt,
+            obj?.Instructor.Name,
+            SimpleStudentDTO.Map(student)
+        );
+    }
+}
+
 public record CompleteFeedbackDTO(
     int Id,
     string Content,

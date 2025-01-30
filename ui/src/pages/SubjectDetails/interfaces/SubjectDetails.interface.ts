@@ -1,5 +1,32 @@
-import { AptitudeEnum } from "../../../enums/AptitudeEnum"
-import { StudentsCompetences } from "../Pages/AvaliationResult/components/StudentCompetences/interfaces/StudentCompetences.interface"
+import { AptitudeEnum } from "@/enums/AptitudeEnum"
+
+export interface IFeedbackData {
+    id?: number,
+    content?: string,
+    updatedAt?: string,
+    instructor?: string,
+    student: {
+        id: number,
+        name: string,
+        identification: string,
+        birthday?: string
+    }
+}
+
+export interface IFeedback {
+    feedback?: {
+        id: number,
+        content: string,
+        updatedAt: string,
+        instructor: string,
+    }
+    student: {
+        id: number,
+        name: string,
+        identification: string,
+        birthday?: string
+    }
+}
 
 interface Competence {
     competenceId: number,
@@ -29,5 +56,5 @@ export interface IAvaliationTableProps {
 
 
 export interface IStudentsCompetencesProps {
-    
+
 }
