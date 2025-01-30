@@ -125,10 +125,12 @@ const SubjectDetails = () => {
                 <Divider size="big" />
 
                 <section className={`${styles.spacing}`}>
-                    <Text fontSize="xl2" fontWeight="bold" >
-                        Students Feedbacks
-                    </Text>
-                    <br />
+                    <section className={`${styles.title_section} ${styles.align}`}>
+                        <Text fontSize="xl2" fontWeight="bold" >
+                            Students Feedbacks
+                        </Text>
+                        <Text fontSize="sm" >** Apprentices can see subject feedback!</Text>
+                    </section>
                     {
                         feedbacks.map(f => (
                             <div className={`${styles.identificationCard}`}>
@@ -140,8 +142,8 @@ const SubjectDetails = () => {
                                             <Text fontWeight="semibold" fontSize="xs">
                                                 {
                                                     !f.feedback
-                                                    ? "No feedback provided..."
-                                                    : "Last update • " + formatDate(f.feedback.updatedAt) + " by " + f.feedback.instructor
+                                                        ? "No feedback provided..."
+                                                        : "Last update • " + formatDate(f.feedback.updatedAt) + " by " + f.feedback.instructor
                                                 }
                                             </Text>
                                         </section>
