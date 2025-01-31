@@ -39,11 +39,32 @@ export default ({ data, setDataChecked } : IOverviewIndexProps) => {
                     data.students.map((student) => {
                         return (
                             <>
-
+                                <section>
+                                    <div></div>
+                                </section>
                             </>
                         )
                     })
                 } 
+            </>
+        )
+    }
+
+    const renderSubjects = () => {
+        return (
+            <>
+                {
+                    data.subjects.map((subject) => {
+                        return (
+                            <>
+                                <div>
+                                    <Text fontSize="sm">- {subject.name}</Text>
+                                    <Text fontSize="sm">  ({subject.duration} Hours)</Text>
+                                </div>
+                            </>
+                        )
+                    })
+                }
             </>
         )
     }
@@ -84,7 +105,7 @@ export default ({ data, setDataChecked } : IOverviewIndexProps) => {
                 <section className={overviewStyles.overview_section}>
                     <Text fontSize="md" fontWeight="bold">Subjects:</Text>
                     <div>
-
+                        {renderSubjects()}
                     </div>
                 </section>
             </div>

@@ -8,14 +8,17 @@ import styles from '../../../../styles.module.css';
 import InputSelect from "@/components/InputSelect";
 import Input from "@/components/Input";
 import { IAddSubject } from "../../interfaces/AddClassPage.interface";
+import Button from "@/components/Button";
+import Icon from "@/components/Icon";
 
 export interface ISubjectSelectProps {
     data?: IAddSubject,
     onSelect: (data: ISelectData) => void,
-    onChangeInput?: (value: string) => void
+    onChangeInput?: (value: string) => void,
+    onToggleDelete?: () => void
 }
 
-export default ({data, onSelect: onChange, onChangeInput}: ISubjectSelectProps) => {
+export default ({data, onSelect: onChange, onChangeInput, onToggleDelete}: ISubjectSelectProps) => {
     const [options, setOption] = useState<ISelectData[]>([]);
     const [selected, setSelected] = useState<ISelectData>();
 
@@ -56,9 +59,13 @@ export default ({data, onSelect: onChange, onChangeInput}: ISubjectSelectProps) 
 
     return (
         <>
-            <section className={`${styles.dual_input_zone} ${styles.divided_input_2_1}`}>
+            <section className={`${styles.dual_input_zone} ${styles.divided_input_3_1}`}>
                 <InputSelect data={options} label="Subject" defaultValue={selected} onChange={onChange} /> 
                 <Input label="Duration" value={data?.duration} onChange={(e) => onChangeInput!(e.target.value)}/>
+                {
+                    onToggleDelete &&
+                        <Button variant="rounded" kind="danger" onClick={onToggleDelete} > <Icon name="close"/></Button>
+                }
             </section>
         </>
     )

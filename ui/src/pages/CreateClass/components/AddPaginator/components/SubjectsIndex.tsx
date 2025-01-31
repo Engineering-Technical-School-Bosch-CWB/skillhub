@@ -37,6 +37,12 @@ export default ({subjects, alterSubjects}: ISubjectIndex) => {
         alterSubjects(_selecteds)
     }
 
+    const toggleDelete = (index: number) => {
+        const _selecteds = subjects;
+        delete _selecteds[index]
+        alterSubjects(_selecteds)
+    }
+
     return (
         <div className={styles.form_content}>
             <section className={styles.card_page_header}>
@@ -49,7 +55,12 @@ export default ({subjects, alterSubjects}: ISubjectIndex) => {
                 subjects.map((subject, _index) => {
                     return (
                         <>
-                            <SubjectSelect data={subject} onSelect={(e) => handleAlterSubject(e, _index)} onChangeInput={(e) => changeDuration(e, _index)} />
+                            <SubjectSelect 
+                                data={subject} 
+                                onSelect={(e) => handleAlterSubject(e, _index)} 
+                                onChangeInput={(e) => changeDuration(e, _index)} 
+                                onToggleDelete={() => toggleDelete(_index)}
+                            />
                         </>
                     )
                 })

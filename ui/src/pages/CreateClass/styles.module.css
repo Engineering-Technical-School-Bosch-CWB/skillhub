@@ -79,6 +79,9 @@
 .divided_input_2_1 {
     grid-template-columns: calc(75% - 1rem) 25%;
 }
+.divided_input_3_1 {
+    grid-template-columns: calc(75% - 1rem) 25% 3rem;
+}
 .form_input_container {
     display: flex;
     justify-content: center;
