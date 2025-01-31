@@ -52,7 +52,7 @@ public record UserProfileDTO(
     StudentProfileDTO? Student
 )
 {
-    public static UserProfileDTO Map(User obj, StudentProfileDTO studentProfile)
+    public static UserProfileDTO Map(User obj, StudentProfileDTO? studentProfile)
     {
         return new UserProfileDTO(
             obj.Id,

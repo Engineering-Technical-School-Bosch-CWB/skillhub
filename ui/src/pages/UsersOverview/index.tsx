@@ -31,7 +31,7 @@ const UsersOverview = () => {
 
         setUsers(content.map((u: { name: string; id: number; position: { name: string; }; sector: { name: string; }; }) => ({
             color: getHex(u.name),
-            goTo:  u.id,
+            goTo:  "/user-profile?userId=" + u.id,
             title: u.name,
             subtitle: u.position.name + " - " + u.sector.name,
         })))

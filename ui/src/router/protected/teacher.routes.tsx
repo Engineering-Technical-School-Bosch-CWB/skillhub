@@ -5,11 +5,10 @@ import { RouteMap } from "../map";
 import ClassesOverview from "../../pages/ClassesOverview";
 import ClassDetails from "../../pages/ClassDetails";
 import SubjectDetails from "../../pages/SubjectDetails";
-import AprenticesProfile from "../../pages/AprenticesProfile";
 import CreateClass from "../../pages/CreateClass";
 import SchoolContent from "../../pages/SchoolContent";
 import UsersOverview from "../../pages/UsersOverview";
-import ApprenticesProfile from "../../pages/AprenticesProfile";
+import UserProfile from "@/pages/UserProfile";
 
 export default {
     accessLevel: AccessLevel.TEACHER,
@@ -50,7 +49,7 @@ export default {
         },
         {
             path: RouteMap.USER_PROFILE,
-            element: <ApprenticesProfile />
+            element: <UserProfile />
         },
         // {
         //     path: RouteMap.NEW_SUBJECT_TEST,
@@ -60,9 +59,5 @@ export default {
         //     path: RouteMap.AVALIATION_RESULT,
         //     element: <AvaliationResult />
         // },
-        {
-            path: RouteMap.APPRENTICE_OVERVIEW,
-            element: <AprenticesProfile />
-        }
     ]
 } as IAccessRoutes

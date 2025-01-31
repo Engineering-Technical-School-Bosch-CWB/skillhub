@@ -18,7 +18,7 @@ export default ({ links }: ISectionHeaderProps) => {
                 {links?.map(l => (
                     <>
                         <span className={`${styles.disabled}`}> </span>
-                        <span className={`material-symbols-outlined ${styles.arrow}`}>
+                        <span className={`material-symbols-outlined ${styles.arrow} ${styles.disabled}`}>
                             arrow_forward_ios
                         </span>
                         {

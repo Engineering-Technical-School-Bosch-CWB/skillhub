@@ -18,7 +18,7 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
     private readonly IPositionRepository _positionRepo = positionRepository;
     private readonly ISectorRepository _sectorRepo = sectorRepository;
     private readonly IOccupationAreaRepository _areaRepo = areaRepository;
-    
+
     private readonly PasswordHasher<User> _hasher = hasher;
     private readonly IPaginationService _pagService = paginationService;
     private readonly IStudentService _studentservice = studentService;
@@ -235,17 +235,19 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
 
     #region Pages
 
-    public async Task<AppResponse<UserProfileDTO>> GetUserProfile(int id)
+    public async Task<AppResponse<UserProfileDTO>> GetUserProfile(int? id, int loggedId)
     {
+        var userId = id ?? loggedId;
+
         var user = await _repo.Get()
             .Where(u => u.IsActive)
             .Include(u => u.Position)
             .Include(u => u.Sector)
-            .SingleOrDefaultAsync(u => u.Id == id)
+            .SingleOrDefaultAsync(u => u.Id == userId)
             ?? throw new NotFoundException("User not found!");
 
         return new AppResponse<UserProfileDTO>(
-            UserProfileDTO.Map(user, await _studentservice.GetStudentProfile(id)),
+            UserProfileDTO.Map(user, await _studentservice.GetStudentProfile(userId, id.HasValue)),
             "User found!"
         );
     }

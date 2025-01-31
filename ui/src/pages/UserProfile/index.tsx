@@ -10,20 +10,22 @@ import SectionHeader from "@/components/SectionHeader";
 
 import { useEffect, useState } from "react";
 import { IStudentData, IUserData } from "./interfaces/AprenticesProfile.interface";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const ApprenticesProfile = () => {
+const UserProfile = () => {
 
-    const { classId, userId } = useParams();
+    const [searchParams] = useSearchParams();
+    const classId = searchParams.get("classId");
+    const userId = searchParams.get("userId");
 
     const navigate = useNavigate();
 
     const [student, setStudent] = useState<IStudentData>();
-    const [user, setUser] = useState<IUserData>();
+    const [userData, setUserData] = useState<IUserData>();
 
     const getData = async () => {
-        const response = await internalAPI.jsonRequest(`/users/profile?${new URLSearchParams({ id: userId! })}`, "GET");
+        const response = await internalAPI.jsonRequest(`/users/profile?${!userId || new URLSearchParams({ id: userId })}`, "GET");
 
         if (!response || response.statusCode != 200) {
             if (!toast.isActive("profile-load-error"))
@@ -35,7 +37,7 @@ const ApprenticesProfile = () => {
         console.log(content)
 
         setStudent(content.student);
-        setUser({
+        setUserData({
             id: content.id,
             name: content.name,
             identification: content.identification,
@@ -43,28 +45,7 @@ const ApprenticesProfile = () => {
             position: content.position,
             sector: content.sector,
         });
-
-        console.log(content);
     }
-
-    const [data, setData] = useState({
-        student: {
-            name: "Joãosinho da silva",
-            userId: 1,
-            class: {
-                id: 1,
-                name: "DTA 1",
-                startingYear: 2023
-            }
-        },
-        personalFeedbacks: [],
-        subjectFeedbacks: [],
-        ranking: {
-            exploitation: 98,
-            position: 2
-        }
-    })
-
     useEffect(() => {
         getData();
     }, []);
@@ -74,23 +55,38 @@ const ApprenticesProfile = () => {
             <Header />
             <main>
                 {/* <ReturnButton /> */}
-                <SectionHeader links={[{
-                    label: "Classes Overview",
-                    goTo: "/classes"
-                },
                 {
-                    label: data.student.class.name + " - " + data.student.class.startingYear,
-                    goTo: `/classes/${classId}`
-                },
-                {
-                    label: user?.name!
-                }]} />
+                    classId ?
+                        <SectionHeader links={[{
+                            label: "Classes Overview",
+                            goTo: "/classes"
+                        },
+                        {
+                            label: student?.className!,
+                            goTo: `/classes/${classId}`
+                        },
+                        {
+                            label: userData?.name!
+                        }]} />
+                        : userId ?
+                            <SectionHeader links={[{
+                                label: "Users Overview",
+                                goTo: "/users"
+                            },
+                            {
+                                label: userData?.name!
+                            }]} />
+                            :
+                            <SectionHeader links={[{
+                                label: userData?.name!
+                            }]} />
+                }
                 <section className={`${styles.section}`}>
                     <div className={`${styles.space_between}`}>
                         <div className={`${styles.spacing}`}>
                             <div className={`${styles.gap}`}>
-                                <Text variant="span" fontWeight="bold" fontSize="xl2">{user?.name}</Text>
-                                <Text>{user?.identification}</Text>
+                                <Text variant="span" fontWeight="bold" fontSize="xl2">{userData?.name}</Text>
+                                <Text>{userData?.identification}</Text>
 
                             </div>
                             <Text fontSize="md" fontWeight="semibold" >{"From " + student?.className}</Text>
@@ -100,24 +96,21 @@ const ApprenticesProfile = () => {
                     <div className={`${styles.gap}`}>
                         <Avatar src={"/avatar.png"} size="xl" />
                         <div className={`${styles.spacing}`}>
-                            <Text fontSize="lg" fontWeight="bold" >{user?.position + " - " + user?.sector}</Text>
-                            <Text>{!user?.birthday ? "---" : formatDate(user.birthday)}</Text>
+                            <Text fontSize="lg" fontWeight="bold" >{userData?.position + " - " + userData?.sector}</Text>
+                            <Text>{!userData?.birthday ? "Missing birth date..." : "Birthday: " + formatDate(userData.birthday)}</Text>
 
                         </div>
                     </div>
                     {/* <ProfileCard {...data.student} /> */}
-                    <section className={`${styles.chart_section} ${styles.align}`}>
-                        <div className={`${styles.student_highlight} ${styles.align}`}>
-                            <Text fontSize="lg">Highlights</Text>
-
-                        </div>
-                        <div></div>
-                    </section>
                 </section>
-
+                <br />
+                <br />
+                <section className={`${styles.section}`}>
+                    aa
+                </section>
             </main>
         </>
     )
 }
 
-export default ApprenticesProfile;
+export default UserProfile;

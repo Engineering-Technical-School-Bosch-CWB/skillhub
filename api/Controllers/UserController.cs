@@ -71,10 +71,10 @@ public class UserController : ControllerBase
         [FromServices] IUserService service, UserContext userContext, [FromQuery] int? id
     )
     {
-        if (userContext.PermissionLevel != EPermissionLevel.Admin && id != userContext.UserId)
+        if (userContext.PermissionLevel != EPermissionLevel.Admin && id.HasValue && id.Value != userContext.UserId)
             throw new ForbiddenAccessException("User don't have permission to this service!");
 
-        var result = await service.GetUserProfile(id ?? userContext.UserId);
+        var result = await service.GetUserProfile(id, userContext.UserId);
         return Ok(result);
     }
 

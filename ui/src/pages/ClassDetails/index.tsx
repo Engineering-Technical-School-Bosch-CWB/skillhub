@@ -65,13 +65,13 @@ const ClassDetails = () => {
             subtitle: s.instructor,
             title: s.name,
         })));
-        setStudentsData(content.students.map((s: { id: any; name: any; birthday: any; identification: any; }) => ({
+        setStudentsData(content.students.map((s: { id: number; name: string; birthday: string; identification: string; userId: number }) => ({
             id: s.id,
             name: s.name,
             birthday: s.birthday,
             identification: s.identification,
             tooltip: s.identification,
-            goTo: "student/" + s.id
+            goTo: "/user-profile?classId=" + classId + "&userId=" + s.userId
         })));
         setOverallPerformance(content.graphs.overallPerformance ?? 0);
         setRankingData(content.graphs.studentResults.map((s: { id: number; name: string; performance: number; }) => ({

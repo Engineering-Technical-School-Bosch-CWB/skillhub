@@ -68,16 +68,16 @@ public record StudentProfileDTO(
     IEnumerable<CompleteFeedbackDTO> Feedbacks
 )
 {
-    public static StudentProfileDTO Map(Student obj, IEnumerable<SubjectResultDTO> subjectResults, IEnumerable<CompleteFeedbackDTO> feedbacks, int? position = null)
+    public static StudentProfileDTO Map(Student obj, IEnumerable<SubjectResultDTO> subjectResults, IEnumerable<CompleteFeedbackDTO> feedbacks, bool show, int? position = null)
     {
         return new StudentProfileDTO(
             obj.Id,
             obj.OverallScore,
             obj.Class.Name + " - " + obj.Class.StartingYear,
-            position,
-            subjectResults,
+            show ? position : null,
+            show ? subjectResults : [],
             feedbacks.Where(f => f.Subject is not null),
-            feedbacks.Where(f => f.Subject is null)
+            show ? feedbacks.Where(f => f.Subject is null) : []
         );
     }
 }
