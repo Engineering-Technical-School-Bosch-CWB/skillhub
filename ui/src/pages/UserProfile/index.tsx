@@ -12,12 +12,17 @@ import { useEffect, useState } from "react";
 import { IStudentData, IUserData } from "./interfaces/AprenticesProfile.interface";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import getHex from "@/constants/getHex";
+import { useUserContext } from "@/contexts/user.context";
+import Divider from "@/components/Divider";
 
 const UserProfile = () => {
 
     const [searchParams] = useSearchParams();
     const classId = searchParams.get("classId");
     const userId = searchParams.get("userId");
+
+    const { user } = useUserContext();
 
     const navigate = useNavigate();
 
@@ -34,7 +39,6 @@ const UserProfile = () => {
         }
 
         const content = response.data;
-        console.log(content)
 
         setStudent(content.student);
         setUserData({
@@ -103,10 +107,88 @@ const UserProfile = () => {
                     </div>
                     {/* <ProfileCard {...data.student} /> */}
                 </section>
-                <br />
-                <br />
                 <section className={`${styles.section}`}>
-                    aa
+                    <Divider size="big" />
+                    <div className={`${styles.section_header}`}>
+                        <Text variant="span" fontWeight="bold" fontSize="xl2">Feedbacks</Text>
+                        <Button className={`${styles.addBtn} ${styles.align}`} >
+                            <Icon name="add" size="md" />
+                        </Button>
+                    </div>
+                    {
+                        student?.subjectFeedBacks.length! > 0 &&
+                        <section className={`${styles.feedbacks}`}>
+                            <Text fontSize="lg" fontWeight="bold">Subject Feedbacks</Text>
+                            {
+                                student?.subjectFeedBacks.map(f => (
+                                    <div className={`${styles.identificationCard}`}>
+                                        <div className={`${styles.space_between}`}>
+                                            <section className={`${styles.align}`}>
+                                                <section className={`${styles.identificationCardMarker}`} style={{ backgroundColor: getHex(f.subject) }}></section>
+                                                <section className={`${styles.cardContent}`}>
+                                                    <Text fontWeight="bold">
+                                                        {f.subject}
+                                                    </Text>
+                                                    <Text fontWeight="semibold" fontSize="xs">
+                                                        {"Last update • " + formatDate(f.updatedAt) + " by " + f.instructor}
+                                                    </Text>
+                                                </section>
+                                            </section>
+                                            {
+                                                user?.permissionLevel == 2 &&
+                                                <section>
+                                                    <div className={`${styles.align}`}>
+                                                        <span className={`${styles.subtitle} ${styles.evBtn}`}>
+                                                            <Text fontSize="sm">Edit Feedback</Text>
+                                                            <Icon name={"edit"} />
+                                                        </span>
+                                                    </div>
+                                                </section>
+                                            }
+                                        </div>
+                                        <Text>{f.content}</Text>
+                                    </div>
+                                ))
+                            }
+                        </section>
+                    }
+                    {
+                        user?.permissionLevel == 2 && student?.feedbacks.length! > 0 &&
+                        <section className={`${styles.feedbacks}`}>
+                            <Text fontSize="lg" fontWeight="bold">Personal Feedbacks</Text>
+                            {
+                                student?.feedbacks.map(f => (
+                                    <div className={`${styles.identificationCard}`}>
+                                        <div className={`${styles.space_between}`}>
+                                            <section className={`${styles.align}`}>
+                                                <section className={`${styles.identificationCardMarker}`} style={{ backgroundColor: getHex(f.instructor) }}></section>
+                                                <section className={`${styles.cardContent}`}>
+                                                    <Text fontWeight="bold">
+                                                        {f.instructor}
+                                                    </Text>
+                                                    <Text fontWeight="semibold" fontSize="xs">
+                                                        {"Last update • " + formatDate(f.updatedAt)}
+                                                    </Text>
+                                                </section>
+                                            </section>
+                                            {
+                                                user?.permissionLevel == 2 && user?.id == f.instructorId &&
+                                                <section>
+                                                    <div className={`${styles.align}`}>
+                                                        <span className={`${styles.subtitle} ${styles.evBtn}`}>
+                                                            <Text fontSize="sm">Edit Feedback</Text>
+                                                            <Icon name={"edit"} />
+                                                        </span>
+                                                    </div>
+                                                </section>
+                                            }
+                                        </div>
+                                        <Text>{f.content}</Text>
+                                    </div>
+                                ))
+                            }
+                        </section>
+                    }
                 </section>
             </main>
         </>

@@ -17,13 +17,15 @@ export interface IStudentData {
         content: string,
         updatedAt: string,
         instructor: string,
-        subject: string
+        subject: string,
+        instructorId: number
     }[],
     feedbacks: {
         id: number,
         content: string,
         updatedAt: string,
-        instructor: string
+        instructor: string,
+        instructorId: number
     }[]
 }
 

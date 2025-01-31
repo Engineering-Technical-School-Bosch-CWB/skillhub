@@ -43,6 +43,7 @@ public record CompleteFeedbackDTO(
     string Content,
     DateOnly UpdatedAt,
     string Instructor,
+    int InstructorId,
     string? Subject
 )
 {
@@ -53,6 +54,7 @@ public record CompleteFeedbackDTO(
             obj.Content,
             obj.UpdatedAt,
             obj.Instructor.Name,
+            obj .Instructor.Id,
             obj.Subject?.CurricularUnit.Name
         );
     }
