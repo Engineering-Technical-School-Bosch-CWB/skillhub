@@ -19,17 +19,11 @@ export default () => {
                 id: 0
             },
             students:[],
-            subjects: [
-                {
-                    curricularUnitId: 1,
-                    duration: 10,
-                    name: "C# Básico"
-                }
-            ],
+            subjects: [],
             template: false
 
         },
-        index: 3,
+        index: 2,
         isChecked: false,
         setClass: (newClass, newCourse) => {
             setData((prev) => ({
