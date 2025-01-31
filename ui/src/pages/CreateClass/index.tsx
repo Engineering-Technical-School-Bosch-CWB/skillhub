@@ -23,7 +23,7 @@ export default () => {
             template: false
 
         },
-        index: 2,
+        index: 1,
         isChecked: false,
         setClass: (newClass, newCourse) => {
             setData((prev) => ({

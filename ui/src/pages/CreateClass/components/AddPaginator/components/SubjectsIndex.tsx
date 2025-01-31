@@ -3,6 +3,7 @@ import styles from "../../../styles.module.css"
 import { IAddSubject } from "../interfaces/AddClassPage.interface"
 import SubjectSelect from "./SubjectSelect"
 import { ISelectData } from "@/components/Select/interfaces"
+import Button from "@/components/Button"
 
 export interface ISubjectIndex{
     subjects: IAddSubject[],
@@ -21,11 +22,11 @@ export default ({subjects, alterSubjects}: ISubjectIndex) => {
         alterSubjects(_selecteds);
     }
 
-    const handleNewSubject = (data: ISelectData) => {
+    const handleNewSubject = () => {
         const _selecteds = subjects;
         _selecteds.push({
-            curricularUnitId: data.value!,
-            name: data.key,
+            curricularUnitId: 0,
+            name: "",
             duration: 0
         });
         alterSubjects(_selecteds);
@@ -65,7 +66,9 @@ export default ({subjects, alterSubjects}: ISubjectIndex) => {
                     )
                 })
             }
-            <SubjectSelect onSelect={(e) => handleNewSubject(e)} />
+            <div className={styles.btn_area}>
+                <Button onClick={() => handleNewSubject()} >+</Button>
+            </div>
             </section>
         </div>
     )

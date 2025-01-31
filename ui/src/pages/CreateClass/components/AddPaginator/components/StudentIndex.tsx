@@ -59,9 +59,7 @@ export default ({students, setStudents}: IStudentIndexProps) => {
                         )
                     })
                 }
-                {/* <Input label="Name" onChange={(e) => newStudentChanged(e.target.value)} /> */}
                 <div className={styles.btn_area}>
-
                     <Button onClick={() => newStudentChanged()}>+</Button>
                 </div>
             </section>
