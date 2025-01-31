@@ -1,7 +1,10 @@
 .personalized_select {
     height: 50px;
-    z-index: 2;
     
+    .input{
+        z-index: 2;
+    }
+
     .options_container {
         position: relative;
         height: 0;
@@ -10,7 +13,10 @@
         background-color: var(--white);
         border: var(--default-border);
         box-shadow: var(--default-box-shadow);
+        z-index: 3;
         
+
+
         li{
             display: flex;
             justify-content: start;
@@ -19,7 +25,6 @@
             padding: 1rem;
             border: var(--default-border);
             cursor: pointer ;
-            
             &:hover{ 
                 background-color: var(--gray-100);
 
@@ -27,7 +32,7 @@
         }
     }
     .focused {
-        z-index: 3;
+        z-index: 100;
         height: fit-content;
     }
 }

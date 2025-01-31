@@ -12,9 +12,9 @@ export interface IAddStudent {
     identification: string
 }
 export interface IAddSubject {
-    id?: number,
-    name: string,
-    time: number
+    curricularUnitId: number,
+    duration: number,
+    name: string
 }
 
 export interface INewClass {

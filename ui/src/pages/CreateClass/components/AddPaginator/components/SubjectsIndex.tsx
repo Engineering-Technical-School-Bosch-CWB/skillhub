@@ -1,47 +1,60 @@
 import Text from "@/typography"
 import styles from "../../../styles.module.css"
-import Input from "@/components/Input"
-import InputSelect from "@/components/InputSelect"
 import { IAddSubject } from "../interfaces/AddClassPage.interface"
-import internalAPI from "@/service/internal.services"
-import { toast } from "react-toastify"
-import { ISubject } from "@/interfaces/models/ISubject"
-import { useState } from "react"
-import Button from "@/components/Button"
+import SubjectSelect from "./SubjectSelect"
+import { ISelectData } from "@/components/Select/interfaces"
 
 export interface ISubjectIndex{
     subjects: IAddSubject[],
     alterSubjects: (values: IAddSubject[]) => void
 }
 
-export default ({subjects: selectedSubjects, alterSubjects}: ISubjectIndex) => {
+export default ({subjects, alterSubjects}: ISubjectIndex) => {
 
-    const [subjects, setSubjects] = useState([])
+    const handleAlterSubject = (data: ISelectData, index: number) => {
+        const _selecteds = subjects;
+        _selecteds[index] = {
+            curricularUnitId: data.value!,
+            name: data.key,
+            duration: _selecteds[index].duration
+        };
+        alterSubjects(_selecteds);
+    }
 
-    const loadSubjects = async () => {
-        const response = await internalAPI.jsonRequest('/subject', 'GET')
-        if(!response || response.statusCode != 200)
-            if (!toast.isActive("user-load-error"))
-                toast.error("Authentication required.", { toastId: "user-load-error" });
+    const handleNewSubject = (data: ISelectData) => {
+        const _selecteds = subjects;
+        _selecteds.push({
+            curricularUnitId: data.value!,
+            name: data.key,
+            duration: 0
+        });
+        alterSubjects(_selecteds);
+    }
 
-        const _data = response.data as ISubject[];
-        
-        alterSubjects(selectedSubjects)
+    const changeDuration = (value: string, index: number) => {
+        const _selecteds = subjects;
+        _selecteds[index].duration = + value;
+        alterSubjects(_selecteds)
     }
 
     return (
         <div className={styles.form_content}>
             <section className={styles.card_page_header}>
                 <Text fontSize="lg" fontWeight="bold">Subjects</Text>
+                <br />
+                <Text fontSize="sm">(Optional)</Text>
             </section>
-            
-            <section className={`${styles.dual_input_zone} ${styles.divided_input_2_1}`}>
-                <InputSelect data={subjects} label="Subject" /> 
-                <Input label="Duration" />
-            </section>
-
-            <section className={`${styles.btn_area}`}>
-                <Button>ADD +</Button>
+            <section className={styles.card_page_content}>
+            {
+                subjects.map((subject, _index) => {
+                    return (
+                        <>
+                            <SubjectSelect data={subject} onSelect={(e) => handleAlterSubject(e, _index)} onChangeInput={(e) => changeDuration(e, _index)} />
+                        </>
+                    )
+                })
+            }
+            <SubjectSelect onSelect={(e) => handleNewSubject(e)} />
             </section>
         </div>
     )

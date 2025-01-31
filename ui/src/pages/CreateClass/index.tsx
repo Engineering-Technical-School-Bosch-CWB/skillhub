@@ -19,7 +19,13 @@ export default () => {
                 id: 0
             },
             students:[],
-            subjects: [],
+            subjects: [
+                {
+                    curricularUnitId: 1,
+                    duration: 10,
+                    name: "C# Básico"
+                }
+            ],
             template: false
 
         },
