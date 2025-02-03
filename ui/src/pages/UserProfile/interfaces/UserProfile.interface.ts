@@ -1,6 +1,7 @@
 export interface IStudentData {
     id: number,
     performance?: number,
+    classId: number,
     className: string,
     classPosition?: number,
     subjectResults:

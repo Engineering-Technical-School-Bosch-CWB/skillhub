@@ -17,7 +17,7 @@ public class SubjectService(BaseRepository<Subject> repository, IUserRepository 
     private readonly ICurricularUnitRepository _curricularUnitRepo = curricularUnitRepository;
     private readonly IUserRepository _userRepo = userRepository;
     private readonly IStudentRepository _studentRepo = studentRepository;
-    private readonly IPaginationService _pageService = paginationService;
+    private readonly IPaginationService _pagService = paginationService;
 
     private readonly IExamService _examService = examService;
     private readonly IStudentService _studentService = studentService;
@@ -60,27 +60,22 @@ public class SubjectService(BaseRepository<Subject> repository, IUserRepository 
     }
 
 
-    public async Task<PaginatedAppResponse<SubjectDTO>> GetSubjectPaginated(PaginationQuery pagination, string? query = null)
+    public async Task<PaginatedAppResponse<SubjectDTO>> GetSubjectPaginated(PaginationQuery pagination, int classId, string? query = null)
     {
-        var entities = _repo.GetAllNoTracking()
-            .Include(subject => subject.CurricularUnit)
-            .Where(subject => subject.IsActive)
-            .Where(subject => string.IsNullOrEmpty(query) || EF.Functions.Like(subject.CurricularUnit.Name, $"%{query}%"));
-
-        var result = await _pageService.PaginateAsync(
-            _repo.GetAllNoTracking()
-                .Include(subject => subject.CurricularUnit)
-                .Where(subject => subject.IsActive)
-                .Where(subject => string.IsNullOrEmpty(query) || EF.Functions.Like(subject.CurricularUnit.Name, $"%{query}%")),
-            pagination.ToOptions()
-        );
-
-        List<SubjectDTO> resultList = result.Item1.Select(subject => SubjectDTO.Map(subject)).ToList();
+        var result = await _pagService.PaginateAsync(
+           _repo.GetAllNoTracking()
+               .Include(s => s.CurricularUnit)
+               .Include(s => s.Class)
+               .Where(s => s.Class.Id == classId)
+               .Where(s => string.IsNullOrEmpty(query) || EF.Functions.Like(s.CurricularUnit.Name, $"%{query}%"))
+               .Where(s => s.IsActive),
+           pagination.ToOptions()
+       );
 
         return new PaginatedAppResponse<SubjectDTO>(
-            resultList,
-            result.Item2,
-            ""
+            result.Item1.Select(SubjectDTO.Map),
+            result.Item2!,
+            "Subjects found!"
         );
 
     }

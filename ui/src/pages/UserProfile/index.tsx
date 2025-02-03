@@ -202,13 +202,17 @@ const UserProfile = () => {
                         </>
                     }
                 </section>
-                <FeedbackModal
-                    isOpen={modalProps.isFeedbackModalOpen}
-                    handleIsOpen={() => setModalProps({
-                        feedbackId: undefined,
-                        isFeedbackModalOpen: false
-                    })}
-                    feedbackId={modalProps.feedbackId} />
+                {
+                    studentData &&
+                    <FeedbackModal
+                        isOpen={modalProps.isFeedbackModalOpen}
+                        handleIsOpen={() => setModalProps({
+                            feedbackId: undefined,
+                            isFeedbackModalOpen: false
+                        })}
+                        feedbackId={modalProps.feedbackId}
+                        classId={studentData.classId} />
+                }
             </main>
         </>
     )

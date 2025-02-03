@@ -36,13 +36,14 @@ public class SubjectController : ControllerBase
     }
 
     [HttpGet]
+    [Route("class/{classId}")]
     public async Task<ActionResult> GetSubjectPaginated(
         [FromServices] ISubjectService service,
         [FromQuery] PaginationQuery pagination,
-        [FromQuery] string? query
+        [FromQuery] string? query, int classId
     )
     {
-        var result = await service.GetSubjectPaginated(pagination, query);
+        var result = await service.GetSubjectPaginated(pagination, classId, query);
         return Ok(result);
     }
 }

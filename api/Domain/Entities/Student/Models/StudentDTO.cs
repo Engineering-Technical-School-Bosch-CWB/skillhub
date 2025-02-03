@@ -61,6 +61,7 @@ public record SimpleStudentDTO(
 public record StudentProfileDTO(
     int Id,
     double? Performance,
+    int ClassId,
     string ClassName,
     int? ClassPosition,
     IEnumerable<SubjectResultDTO> SubjectResults,
@@ -73,6 +74,7 @@ public record StudentProfileDTO(
         return new StudentProfileDTO(
             obj.Id,
             obj.OverallScore,
+            obj.Class.Id,
             obj.Class.Name + " - " + obj.Class.StartingYear,
             show ? position : null,
             show ? subjectResults : [],
