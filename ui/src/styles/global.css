@@ -22,10 +22,12 @@
     --secondary-dark: #551151;
     
     --danger-light: #e78f8f;
+    --danger-light-hover: #c76d6d;
     --danger-main: #be0004;
     --danger-dark: #920002;
     
-    --warning-light: #e9e97c;
+    --warning-light: #fafa8e;
+    --warning-light-hover: #bbbb4e;
     --warning-main: #deb300;
     --warning-dark: #bd9900;
     
@@ -34,6 +36,7 @@
     --info-dark: #0a4f4b;
     
     --success-light: #67b467;
+    --success-light-hover: #498549;
     --success-main: #006c3a;
     --success-dark: #00512a;
 

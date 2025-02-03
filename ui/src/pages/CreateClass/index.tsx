@@ -12,7 +12,8 @@ export default () => {
             class: {
                 abbreviation: "",
                 name: "",
-                periods: 0
+                period: 1,
+                startingYear: (new Date()).getFullYear()
             },
             course: {
                 name: "",
@@ -23,7 +24,7 @@ export default () => {
             template: false
 
         },
-        index: 2,
+        index: 0,
         isChecked: false,
         setClass: (newClass, newCourse) => {
             setData((prev) => ({

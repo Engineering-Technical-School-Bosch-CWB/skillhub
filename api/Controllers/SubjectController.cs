@@ -34,4 +34,15 @@ public class SubjectController : ControllerBase
         var result = await service.GetInstructorPage(id);
         return Ok(result);
     }
+
+    [HttpGet]
+    public async Task<ActionResult> GetSubjectPaginated(
+        [FromServices] ISubjectService service,
+        [FromQuery] PaginationQuery pagination,
+        [FromQuery] string? query
+    )
+    {
+        var result = await service.GetSubjectPaginated(pagination, query);
+        return Ok(result);
+    }
 }

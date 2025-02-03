@@ -40,7 +40,7 @@ export default ({onChange, defaultValue, data, label }: InputSelectProps) => {
         if(defaultValue){
             selectOption(defaultValue)
         }
-    }, [])
+    }, [defaultValue,])
 
     return (
         <>

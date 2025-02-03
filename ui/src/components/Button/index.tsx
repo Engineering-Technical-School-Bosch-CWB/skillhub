@@ -3,7 +3,9 @@ import styles from "./styles.module.css"
 
 interface IButtonProps extends ComponentPropsWithoutRef<'button'> {
     variant?: "contained" | "outlined" | "primary_icon" | "primary_label_icon" |
-             "secondary_icon" | "secondary_label_icon" | "rounded" | "select_rounded"
+             "secondary_icon" | "secondary_label_icon" | "rounded" | "select_rounded",
+    kind?: "success" | "alert" | "danger" | "default"
+    
 }
 
 /**
@@ -30,11 +32,11 @@ interface IButtonProps extends ComponentPropsWithoutRef<'button'> {
  *   Cancel
  * </Button>
  */
-const Button = forwardRef<HTMLButtonElement, IButtonProps>(({ variant = "outlined", className, ...props}, ref) => 
+const Button = forwardRef<HTMLButtonElement, IButtonProps>(({ variant = "outlined", kind = "default", className, ...props}, ref) => 
     <button
         ref={ref}
         {...props}
-        className={`${styles.common} ${styles[variant]} ${className}`}
+        className={`${styles.common} ${styles[variant]} ${styles[kind]} ${className}`}
     />
 )
 

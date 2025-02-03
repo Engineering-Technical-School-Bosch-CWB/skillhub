@@ -5,16 +5,17 @@ export interface IAddCourse {
 export interface IAddClass {
     name: string,
     abbreviation: string,
-    periods: number
+    period: number,
+    startingYear: number
 }
 export interface IAddStudent {
     name: string,
     identification: string
 }
 export interface IAddSubject {
-    id?: number,
-    name: string,
-    time: number
+    curricularUnitId: number,
+    duration: number,
+    name: string
 }
 
 export interface INewClass {

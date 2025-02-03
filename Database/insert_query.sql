@@ -33,3 +33,17 @@ GO
 INSERT INTO [student] VALUES (100, 100,1, 1, 2);
 GO
 
+INSERT INTO [subject_area] VALUES ('Backend', 1);
+INSERT INTO [subject_area] VALUES ('Frontend', 1);
+INSERT INTO [subject_area] VALUES ('Mecanica', 1);
+INSERT INTO [subject_area] VALUES ('Eletronica', 1);
+INSERT INTO [subject_area] VALUES ('Programação', 1);
+GO
+
+select * from [curricular_unit] 
+INSERT INTO [curricular_unit] VALUES ('C# Básico', 1, 1);
+INSERT INTO [curricular_unit] VALUES ('WEB', 2, 1);
+INSERT INTO [curricular_unit] VALUES ('CNC', 3, 1);
+INSERT INTO [curricular_unit] VALUES ('Eletronica Digital', 4, 1);
+INSERT INTO [curricular_unit] VALUES ('Python', 5, 1);
+GO
