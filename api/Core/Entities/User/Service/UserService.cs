@@ -247,7 +247,7 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
             ?? throw new NotFoundException("User not found!");
 
         return new AppResponse<UserProfileDTO>(
-            UserProfileDTO.Map(user, await _studentservice.GetStudentProfile(userId, id.HasValue)),
+            UserProfileDTO.Map(user, await _studentservice.GetStudentProfile(userId, id.HasValue && id.Value != loggedId)),
             "User found!"
         );
     }

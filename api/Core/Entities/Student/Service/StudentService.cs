@@ -134,7 +134,7 @@ public class StudentService(
             .Where(s => s.IsActive)
             .Where(s => s.Class.Id == student.Class.Id)
             .Where(s => s.OverallScore != null)
-            .OrderBy(s => s.OverallScore)
+            .OrderByDescending(s => s.OverallScore)
             .AsEnumerable()
             .Select((s, index) => new { s.Id, Position = index + 1 })
             .FirstOrDefault(x => x.Id == student.Id)?.Position;

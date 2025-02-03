@@ -17,6 +17,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import SectionHeader from "@/components/SectionHeader";
 import getHex from "@/constants/getHex";
+import FeedbackCard from "@/components/FeedbackCard";
 
 const SubjectDetails = () => {
 
@@ -133,35 +134,20 @@ const SubjectDetails = () => {
                     </section>
                     {
                         feedbacks.map(f => (
-                            <div className={`${styles.identificationCard}`}>
-                                <div className={`${styles.space_between}`}>
-                                    <section className={`${styles.align}`}>
-                                        <section className={`${styles.identificationCardMarker}`} style={{ backgroundColor: getHex(f.student.name) }}></section>
-                                        <section className={`${styles.cardContent}`}>
-                                            <Text fontWeight="bold">{f.student.name}</Text>
-                                            <Text fontWeight="semibold" fontSize="xs">
-                                                {
-                                                    !f.feedback
-                                                        ? "No feedback provided..."
-                                                        : "Last update • " + formatDate(f.feedback.updatedAt) + " by " + f.feedback.instructor
-                                                }
-                                            </Text>
-                                        </section>
-                                    </section>
-                                    <section>
-                                        <div className={`${styles.align}`}>
-                                            <span className={`${styles.subtitle} ${styles.evBtn}`}>
-                                                <Text fontSize="sm">Edit Feedback</Text>
-                                                <Icon name={"edit"} />
-                                            </span>
-                                        </div>
-                                    </section>
-                                </div>
-                                {
-                                    f.feedback &&
-                                    <Text>{f.feedback.content}</Text>
+                            <FeedbackCard
+                                color={getHex(f.student.name)}
+                                title={f.student.name}
+                                subtitle={
+                                    !f.feedback
+                                        ? "No feedback provided..."
+                                        : "Last update • " + formatDate(f.feedback.updatedAt) + " by " + f.feedback.instructor
                                 }
-                            </div>
+                                editButton={{
+                                    label: "Edit Feedback",
+                                    action: () => {}
+                                }}
+                                content={f.feedback?.content}
+                            />
                         ))
                     }
 

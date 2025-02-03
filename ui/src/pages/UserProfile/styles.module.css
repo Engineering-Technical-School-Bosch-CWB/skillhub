@@ -34,7 +34,6 @@
     display: flex;
     justify-content: space-between;
 
-    align-items: center;
 }
 
 .section {
@@ -50,23 +49,6 @@
     gap: .8rem;
 }
 
-.subtitle {
-    display: flex;
-    gap: .7rem;
-
-    align-items: center;
-    justify-content: center;
-}
-
-.evBtn {
-    cursor: pointer;
-    padding: 7px 17px;
-    border-radius: 20px;
-}
-
-.evBtn:hover {
-    background-color: rgba(0, 0, 0, 0.1);
-}
 
 .addBtn {
     display: flex;
@@ -84,34 +66,6 @@
     }
 }
 
-.identificationCard {
-    border: var(--default-border);
-    width: 100%;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    padding: 1rem 1.25rem ;
-    gap: 1.25rem;
-    background-color: var(--background-card);
-
-    &:hover {
-        box-shadow: var();
-    }
-
-    .identificationCardMarker {
-        width: 1.25rem;
-        height: 2rem;
-    }
-
-    .cardContent {
-        display: flex;
-        flex-direction: column;
-        gap: 0.3rem;
-        max-width: 100%;
-        margin-left: 1rem ;
-    }
-
-}
 
 .section_header {
     /* padding: 3rem; */

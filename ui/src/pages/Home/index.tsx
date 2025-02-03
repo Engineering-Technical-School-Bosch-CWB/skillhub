@@ -15,6 +15,7 @@ const Home = () => {
                 {/* <SectionHeader /> */}
                 <div className={styles.homeContainer} >
                     <div className={styles.linksContainer}>
+                        <Card to="/user-profile" label="User Profile" iconName="person" iconSize="md" />
                         {
                             user?.studentProfile &&
                             <Card to="/apprentice/results" label="Student Results" iconName="book_2" iconSize="md" />

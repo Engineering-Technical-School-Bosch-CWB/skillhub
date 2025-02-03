@@ -9,12 +9,14 @@ import internalAPI from "@/service/internal.services";
 import SectionHeader from "@/components/SectionHeader";
 
 import { useEffect, useState } from "react";
-import { IStudentData, IUserData } from "./interfaces/AprenticesProfile.interface";
+import { IStudentData, IUserData } from "./interfaces/UserProfile.interface";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import getHex from "@/constants/getHex";
 import { useUserContext } from "@/contexts/user.context";
 import Divider from "@/components/Divider";
+import FeedbackCard from "@/components/FeedbackCard";
+import PositionCard from "./components/PositionCard";
 
 const UserProfile = () => {
 
@@ -26,8 +28,8 @@ const UserProfile = () => {
 
     const navigate = useNavigate();
 
-    const [student, setStudent] = useState<IStudentData>();
     const [userData, setUserData] = useState<IUserData>();
+    const [studentData, setStudentData] = useState<IStudentData>();
 
     const getData = async () => {
         const response = await internalAPI.jsonRequest(`/users/profile?${!userId || new URLSearchParams({ id: userId })}`, "GET");
@@ -40,7 +42,7 @@ const UserProfile = () => {
 
         const content = response.data;
 
-        setStudent(content.student);
+        setStudentData(content.student);
         setUserData({
             id: content.id,
             name: content.name,
@@ -49,6 +51,8 @@ const UserProfile = () => {
             position: content.position,
             sector: content.sector,
         });
+
+        console.log(content)
     }
     useEffect(() => {
         getData();
@@ -58,7 +62,6 @@ const UserProfile = () => {
         <>
             <Header />
             <main>
-                {/* <ReturnButton /> */}
                 {
                     classId ?
                         <SectionHeader links={[{
@@ -66,7 +69,7 @@ const UserProfile = () => {
                             goTo: "/classes"
                         },
                         {
-                            label: student?.className!,
+                            label: studentData?.className!,
                             goTo: `/classes/${classId}`
                         },
                         {
@@ -82,7 +85,7 @@ const UserProfile = () => {
                             }]} />
                             :
                             <SectionHeader links={[{
-                                label: userData?.name!
+                                label: "User Profile"
                             }]} />
                 }
                 <section className={`${styles.section}`}>
@@ -93,7 +96,10 @@ const UserProfile = () => {
                                 <Text>{userData?.identification}</Text>
 
                             </div>
-                            <Text fontSize="md" fontWeight="semibold" >{"From " + student?.className}</Text>
+                            {
+                                studentData &&
+                                <Text fontSize="md" fontWeight="semibold" >{"From " + studentData?.className}</Text>
+                            }
                         </div>
                         <Button variant="primary_icon"><Icon name="settings" /></Button>
                     </div>
@@ -109,85 +115,71 @@ const UserProfile = () => {
                 </section>
                 <section className={`${styles.section}`}>
                     <Divider size="big" />
-                    <div className={`${styles.section_header}`}>
-                        <Text variant="span" fontWeight="bold" fontSize="xl2">Feedbacks</Text>
-                        <Button className={`${styles.addBtn} ${styles.align}`} >
-                            <Icon name="add" size="md" />
-                        </Button>
-                    </div>
                     {
-                        student?.subjectFeedBacks.length! > 0 &&
-                        <section className={`${styles.feedbacks}`}>
-                            <Text fontSize="lg" fontWeight="bold">Subject Feedbacks</Text>
-                            {
-                                student?.subjectFeedBacks.map(f => (
-                                    <div className={`${styles.identificationCard}`}>
-                                        <div className={`${styles.space_between}`}>
-                                            <section className={`${styles.align}`}>
-                                                <section className={`${styles.identificationCardMarker}`} style={{ backgroundColor: getHex(f.subject) }}></section>
-                                                <section className={`${styles.cardContent}`}>
-                                                    <Text fontWeight="bold">
-                                                        {f.subject}
-                                                    </Text>
-                                                    <Text fontWeight="semibold" fontSize="xs">
-                                                        {"Last update • " + formatDate(f.updatedAt) + " by " + f.instructor}
-                                                    </Text>
-                                                </section>
-                                            </section>
-                                            {
-                                                user?.permissionLevel == 2 &&
-                                                <section>
-                                                    <div className={`${styles.align}`}>
-                                                        <span className={`${styles.subtitle} ${styles.evBtn}`}>
-                                                            <Text fontSize="sm">Edit Feedback</Text>
-                                                            <Icon name={"edit"} />
-                                                        </span>
-                                                    </div>
-                                                </section>
-                                            }
-                                        </div>
-                                        <Text>{f.content}</Text>
-                                    </div>
-                                ))
-                            }
-                        </section>
+                        studentData?.classPosition &&
+                        <>
+                            <PositionCard name={userData?.name!} position={studentData.classPosition} score={studentData.performance} />
+                            <Divider size="big" />
+                        </>
                     }
                     {
-                        user?.permissionLevel == 2 && student?.feedbacks.length! > 0 &&
-                        <section className={`${styles.feedbacks}`}>
-                            <Text fontSize="lg" fontWeight="bold">Personal Feedbacks</Text>
+                        studentData &&
+                        <>
+                            <div className={`${styles.section_header}`}>
+                                <Text variant="span" fontWeight="bold" fontSize="xl2">Feedbacks</Text>
+                                {
+                                    user?.permissionLevel == 2 &&
+                                    <Button className={`${styles.addBtn} ${styles.align}`} >
+                                        <Icon name="add" size="md" />
+                                    </Button>
+                                }
+                            </div>
                             {
-                                student?.feedbacks.map(f => (
-                                    <div className={`${styles.identificationCard}`}>
-                                        <div className={`${styles.space_between}`}>
-                                            <section className={`${styles.align}`}>
-                                                <section className={`${styles.identificationCardMarker}`} style={{ backgroundColor: getHex(f.instructor) }}></section>
-                                                <section className={`${styles.cardContent}`}>
-                                                    <Text fontWeight="bold">
-                                                        {f.instructor}
-                                                    </Text>
-                                                    <Text fontWeight="semibold" fontSize="xs">
-                                                        {"Last update • " + formatDate(f.updatedAt)}
-                                                    </Text>
-                                                </section>
-                                            </section>
-                                            {
-                                                user?.permissionLevel == 2 && user?.id == f.instructorId &&
-                                                <section>
-                                                    <div className={`${styles.align}`}>
-                                                        <span className={`${styles.subtitle} ${styles.evBtn}`}>
-                                                            <Text fontSize="sm">Edit Feedback</Text>
-                                                            <Icon name={"edit"} />
-                                                        </span>
-                                                    </div>
-                                                </section>
-                                            }
-                                        </div>
-                                        <Text>{f.content}</Text>
-                                    </div>
-                                ))
+                                studentData?.subjectFeedBacks.length! > 0 &&
+                                <section className={`${styles.feedbacks}`}>
+                                    <Text fontSize="lg" fontWeight="bold">Subject Feedbacks</Text>
+                                    {
+                                        studentData?.subjectFeedBacks.map(f => (
+                                            <FeedbackCard
+                                                color={getHex(f.subject)}
+                                                title={f.subject}
+                                                subtitle={"Last update • " + formatDate(f.updatedAt) + " by " + f.instructor} content={f.content}
+                                                editButton={
+                                                    user?.permissionLevel == 2 ?
+                                                        {
+                                                            label: "Edit Feedback",
+                                                            action: () => { }
+                                                        } : undefined
+                                                }
+                                            />
+                                        ))
+                                    }
+                                </section>
                             }
-                        </section>
+                            {
+                                user?.permissionLevel == 2 && studentData?.feedbacks.length! > 0 &&
+                                <section className={`${styles.feedbacks}`}>
+                                    <Text fontSize="lg" fontWeight="bold">Personal Feedbacks</Text>
+                                    {
+                                        studentData?.feedbacks.map(f => (
+                                            <FeedbackCard
+                                                color={getHex(f.instructor)}
+                                                title={f.instructor}
+                                                subtitle={"Last update • " + formatDate(f.updatedAt)}
+                                                editButton={
+                                                    user?.permissionLevel == 2 && user?.id == f.instructorId ?
+                                                        {
+                                                            label: "Edit Feedback",
+                                                            action: () => { }
+                                                        } : undefined
+                                                }
+                                                content={f.content}
+                                            />
+                                        ))
+                                    }
+                                </section>
+                            }
+                        </>
                     }
                 </section>
             </main>
