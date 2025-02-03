@@ -82,7 +82,7 @@ export default ({ data, setDataChecked } : IOverviewIndexProps) => {
     return (
         <div className={`${styles.form_content} ${overviewStyles.form_content}`}>
             <section className={styles.card_page_header}>
-                <Text fontSize="xl" fontWeight="bold">Overview</Text>
+                <Text fontSize="lg" fontWeight="bold">Overview</Text>
             </section>
 
             <div className={overviewStyles.overview_container}>
@@ -102,7 +102,7 @@ export default ({ data, setDataChecked } : IOverviewIndexProps) => {
                     </div>
                     <div>
                         <Text fontSize="sm">Periods: </Text>
-                        <Text>{data.class.periods}</Text>
+                        <Text>{data.class.period}</Text>
                     </div>
                 </section>
                 

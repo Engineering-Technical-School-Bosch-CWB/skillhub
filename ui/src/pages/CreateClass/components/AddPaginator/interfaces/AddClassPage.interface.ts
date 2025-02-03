@@ -5,7 +5,8 @@ export interface IAddCourse {
 export interface IAddClass {
     name: string,
     abbreviation: string,
-    periods: number
+    period: number,
+    startingYear: number
 }
 export interface IAddStudent {
     name: string,

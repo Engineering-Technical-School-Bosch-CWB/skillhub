@@ -5,6 +5,7 @@ import styles from '../../../styles.module.css';
 import { IAddStudent } from "../interfaces/AddClassPage.interface";
 import Button from "@/components/Button";
 import ButtonGroup from "@/components/ButtonGroup";
+import Icon from "@/components/Icon";
 
 export interface IStudentIndexProps {
     students?: IAddStudent[],
@@ -22,6 +23,14 @@ export default ({students, setStudents}: IStudentIndexProps) => {
         const student = students!;
         student[_index].identification = value;
         setStudents!(student);
+    }
+
+    const removeStudent = (index: number) => {
+        const _students = students;
+        if(_students && setStudents ){
+            delete _students![index];
+            setStudents(_students);
+        }
     }
 
     const newStudentChanged = () => {
@@ -43,7 +52,7 @@ export default ({students, setStudents}: IStudentIndexProps) => {
                 {
                     students?.map((subject, _index) => {
                         return (
-                            <div className={`${styles.dual_input_zone} ${styles.divided_input_2_1}`}>
+                            <div className={`${styles.dual_input_zone} ${styles.divided_input_3_1}`}>
                                 <Input 
                                     value={subject.name} 
                                     onChange={(e) => changeName(_index, e.target.value)} 
@@ -55,6 +64,7 @@ export default ({students, setStudents}: IStudentIndexProps) => {
                                     maxLength={8}
                                     label="EDV"
                                     />
+                                    <Button variant="rounded" kind="danger" onClick={() => removeStudent(_index)} > <Icon name="close"/></Button>
                             </div>
                         )
                     })

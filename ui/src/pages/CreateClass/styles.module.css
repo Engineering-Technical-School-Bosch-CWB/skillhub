@@ -10,6 +10,7 @@
 .container{
     place-self: center;
     width: 100%;
+    max-width: 90rem;
     padding: 0 20rem;
     height: 95%;
 }

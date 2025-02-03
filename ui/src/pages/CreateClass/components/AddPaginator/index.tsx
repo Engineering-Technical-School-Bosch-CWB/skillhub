@@ -8,6 +8,9 @@ import { IAddClassPageProps } from "./interfaces/AddClassPage.interface"
 import styles from "../../styles.module.css";
 import Text from "../../../../typography"
 import { useState } from "react"
+import internalAPI from "@/service/internal.services"
+import { toast } from "react-toastify"
+import { useNavigate } from "react-router-dom"
 
 export default ({data,index, setIndex, setClass, setStudents, setSubjects} : IAddClassPageProps) => {
 
@@ -20,6 +23,18 @@ export default ({data,index, setIndex, setClass, setStudents, setSubjects} : IAd
         <OverviewIndex data={data} setDataChecked={setDataChecked} /> 
     ]
     const pagesTitle = ["Class","Students","Subjects","Overview"]
+    const navigate = useNavigate()
+
+    const handleSend = async () => {  
+        const response = await internalAPI.jsonRequest("/classes", "POST", undefined, data)
+
+        if (!response || response.statusCode != 200) {
+            if (!toast.isActive("create-class-error"))
+                toast.error("Error on create class.", { toastId: "create-class-error" });
+        }
+        const _data = response.data;
+        navigate(`/classes/${_data.id}`)
+    }
 
     const renderIndexes = () => {
         return pages.map((_, _index ) => 
@@ -69,7 +84,7 @@ export default ({data,index, setIndex, setClass, setStudents, setSubjects} : IAd
                 {
                     index != pages.length - 1 ?
                         <Button variant="contained" onClick={() => handleSetIndex(true)}>Next</Button> :
-                        <Button variant="contained" disabled={!dataChecked}  >Send</Button>
+                        <Button variant="contained" disabled={!dataChecked} onClick={() => handleSend()} >Send</Button>
 
                 }
             </section>
