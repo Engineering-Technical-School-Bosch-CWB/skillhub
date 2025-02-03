@@ -21,7 +21,7 @@ export default ({ color, title, subtitle, editButton, content }: IFeedbackCardPr
                     </section>
                     {
                         editButton &&
-                        <span className={`${styles.evBtn} ${styles.align}`}>
+                        <span className={`${styles.evBtn} ${styles.align}`} onClick={() => editButton.action()}>
                             <Text fontSize="sm">{editButton.label}</Text>
                             <Icon name={"edit"} />
                         </span>

@@ -17,6 +17,12 @@ import { useUserContext } from "@/contexts/user.context";
 import Divider from "@/components/Divider";
 import FeedbackCard from "@/components/FeedbackCard";
 import PositionCard from "./components/PositionCard";
+import FeedbackModal from "./components/FeedbackModal";
+
+interface IModalProps {
+    feedbackId?: number
+    isFeedbackModalOpen: boolean
+}
 
 const UserProfile = () => {
 
@@ -30,6 +36,12 @@ const UserProfile = () => {
 
     const [userData, setUserData] = useState<IUserData>();
     const [studentData, setStudentData] = useState<IStudentData>();
+
+
+    const [modalProps, setModalProps] = useState<IModalProps>({
+        isFeedbackModalOpen: false
+    })
+
 
     const getData = async () => {
         const response = await internalAPI.jsonRequest(`/users/profile?${!userId || new URLSearchParams({ id: userId })}`, "GET");
@@ -129,7 +141,12 @@ const UserProfile = () => {
                                 <Text variant="span" fontWeight="bold" fontSize="xl2">Feedbacks</Text>
                                 {
                                     user?.permissionLevel == 2 &&
-                                    <Button className={`${styles.addBtn} ${styles.align}`} >
+                                    <Button
+                                        className={`${styles.addBtn} ${styles.align}`}
+                                        onClick={() => setModalProps({
+                                            feedbackId: undefined,
+                                            isFeedbackModalOpen: true
+                                        })} >
                                         <Icon name="add" size="md" />
                                     </Button>
                                 }
@@ -148,7 +165,10 @@ const UserProfile = () => {
                                                     user?.permissionLevel == 2 ?
                                                         {
                                                             label: "Edit Feedback",
-                                                            action: () => { }
+                                                            action: () => setModalProps({
+                                                                feedbackId: f.id,
+                                                                isFeedbackModalOpen: true
+                                                            })
                                                         } : undefined
                                                 }
                                             />
@@ -182,6 +202,13 @@ const UserProfile = () => {
                         </>
                     }
                 </section>
+                <FeedbackModal
+                    isOpen={modalProps.isFeedbackModalOpen}
+                    handleIsOpen={() => setModalProps({
+                        feedbackId: undefined,
+                        isFeedbackModalOpen: false
+                    })}
+                    feedbackId={modalProps.feedbackId} />
             </main>
         </>
     )

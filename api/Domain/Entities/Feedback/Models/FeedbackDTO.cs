@@ -54,7 +54,7 @@ public record CompleteFeedbackDTO(
             obj.Content,
             obj.UpdatedAt,
             obj.Instructor.Name,
-            obj .Instructor.Id,
+            obj.Instructor.Id,
             obj.Subject?.CurricularUnit.Name
         );
     }

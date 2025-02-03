@@ -5,5 +5,5 @@ namespace Api.Domain.Services;
 
 public interface IFeedbackService : IService<Feedback>
 {
-
+    public Task<AppResponse<CompleteFeedbackDTO>> GetFeedbackById(int id);
 }
