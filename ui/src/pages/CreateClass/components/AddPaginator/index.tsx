@@ -15,7 +15,7 @@ export default ({data,index, setIndex, setClass, setStudents, setSubjects} : IAd
 
     const pages = [
         <CourseIndex updateClass={setClass} _class={data.class} _course={data.course}/>,
-        <StudentIndex />,
+        <StudentIndex students={data.students} setStudents={setStudents} />,
         <SubjectsIndex subjects={data.subjects} alterSubjects={setSubjects} />,
         <OverviewIndex data={data} setDataChecked={setDataChecked} /> 
     ]

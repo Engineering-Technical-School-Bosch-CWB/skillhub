@@ -5,12 +5,19 @@ using Api.Domain.Services;
 using Api.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Api.Core.Errors;
+using Api.Core.Repositories;
+using Microsoft.AspNetCore.Identity;
 
 namespace Api.Core.Services;
 
 public class ClassService(
     BaseRepository<Class> repository, IStudentService studentService, IStudentRepository studentRepository,
-    ICourseRepository courseRepository, ISubjectRepository subjectRepository
+    ICourseRepository courseRepository, ISubjectRepository subjectRepository,
+    IPositionRepository positionRepo,
+    ISectorRepository sectorRepo,
+    IOccupationAreaRepository occupationAreaRepo,
+    PasswordHasher<User> passwordHasher
+
 ) : BaseService<Class>(repository), IClassService
 {
 
@@ -18,6 +25,12 @@ public class ClassService(
     private readonly ICourseRepository _courseRepo = courseRepository;
     private readonly IStudentRepository _studentRepo = studentRepository;
     private readonly ISubjectRepository _subjectRepo = subjectRepository;
+
+    private readonly IPositionRepository _positionRepo = positionRepo;
+    private readonly ISectorRepository _sectorRepo = sectorRepo;
+    private readonly IOccupationAreaRepository _occupationAreaRepo = occupationAreaRepo;
+    private readonly PasswordHasher<User> _passwordHasher = passwordHasher;
+
 
     private readonly IStudentService _studentService = studentService;
 
@@ -41,15 +54,41 @@ public class ClassService(
     public async Task<AppResponse<ClassDTO>> CreateClass(ClassCreatePayload payload)
     {
         var course = await _courseRepo.Get()
-            .SingleOrDefaultAsync(c => c.Id == payload.CourseId)
+            .Include(c => c.DefaultOccupationArea)
+            .SingleOrDefaultAsync(c => c.Id == payload.Course.Id)
             ?? throw new NotFoundException("Course not found!");
+
+
+        var _sector = await _sectorRepo.GetAllNoTracking().SingleOrDefaultAsync(s => s.Name == "ETS")
+            ?? throw new Exception("Not found sector ETS");
+        var _position = await _positionRepo.GetAllNoTracking().SingleOrDefaultAsync( p => p.PositionLevel == 1)
+            ?? throw new Exception("Not found user with ");
+        
+
+        List<User> users = payload.Students.Select(s =>
+        {
+            User __user = new()
+            {
+                Sector = _sector,
+                Position = _position,
+                OccupationArea = course.DefaultOccupationArea,
+                Name = s.Name,
+                Identification = s.Identification,
+                Hash = "",
+                IsActive = true
+            };
+            __user.Hash = _passwordHasher.HashPassword(__user, s.Identification);
+
+            return __user;
+        }).ToList();
+
 
         var newClass = new Class
         {
-            Name = payload.Name,
+            Name = payload.Class.Name,
             Course = course,
-            StartingYear = payload.StartingYear,
-            DurationPeriods = payload.DurationPeriods
+            StartingYear = (short)new DateOnly().Year,
+            DurationPeriods = payload.Class.Period
         };
 
         var class_ = _repo.Add(newClass)

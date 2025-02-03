@@ -89,3 +89,41 @@ button:disabled {
     border: 1px solid var(--primary-dark);
     color: var(--primary-dark);
 }
+
+/*
+    Kind options
+*/
+
+.danger{
+    background-color: var(--danger-light);
+    border-color: var(--danger-main);
+    color: var(--danger-main);
+    
+    &:hover {
+        background-color: var(--danger-light-hover);
+        border-color: var(--danger-main);
+        color: var(--danger-main);
+    }
+}
+.alert {
+    background-color: var(--warning-light);
+    border-color: var(--warning-main);
+    color: var(--warning-main);
+    
+    &:hover {
+        background-color: var(--warning-light-hover);
+        border-color: var(--warning-main);
+        color: var(--warning-main);
+    }
+}
+.success {
+    background-color: var(--success-light);
+    border-color: var(--success-main);
+    color: var(--success-main);
+    
+    &:hover {
+        background-color: var(--success-light-hover);
+        border-color: var(--success-main);
+        color: var(--success-main);
+    }
+}

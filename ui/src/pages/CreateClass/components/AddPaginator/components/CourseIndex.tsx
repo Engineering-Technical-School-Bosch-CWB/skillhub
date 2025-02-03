@@ -30,24 +30,25 @@ export default ({updateClass, _class, _course}: ICourseIndexProps) => {
             <section className={styles.card_page_header}>
                 <Text fontSize="lg" fontWeight="bold">Class</Text>
             </section>
-            
-            <CourseSelect
-                defaultValue={{
-                    key: _course.name,
-                    value: _course.id
-                }} 
-                onChange={(e) => handleChangeCourse(e)} 
-            />
-            
-            <section className={`${styles.dual_input_zone} ${styles.divided_input_2_1}`}>
-                <Input label="Class name" 
-                    value={_class.name}
-                    onChange={(e) => handleChangeCourse(undefined, e.target.value)} 
-                />
-                <Input label="Abbreviation" 
-                    value={_class.abbreviation}
-                    onChange={(e) => handleChangeCourse(undefined, undefined, e.target.value)} 
-                /> 
+                <section className={styles.card_page_content}>
+                <CourseSelect
+                    defaultValue={{
+                        key: _course.name,
+                        value: _course.id
+                    }} 
+                    onChange={(e) => handleChangeCourse(e)} 
+                    />
+                
+                <section className={`${styles.dual_input_zone} ${styles.divided_input_2_1}`}>
+                    <Input label="Class name" 
+                        value={_class.name}
+                        onChange={(e) => handleChangeCourse(undefined, e.target.value)} 
+                        />
+                    <Input label="Abbreviation" 
+                        value={_class.abbreviation}
+                        onChange={(e) => handleChangeCourse(undefined, undefined, e.target.value)} 
+                        /> 
+                </section>
             </section>
         </div>
     )
