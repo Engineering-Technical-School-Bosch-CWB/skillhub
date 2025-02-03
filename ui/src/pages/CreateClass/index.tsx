@@ -12,7 +12,8 @@ export default () => {
             class: {
                 abbreviation: "",
                 name: "",
-                periods: 0
+                period: 1,
+                startingYear: (new Date()).getFullYear()
             },
             course: {
                 name: "",
