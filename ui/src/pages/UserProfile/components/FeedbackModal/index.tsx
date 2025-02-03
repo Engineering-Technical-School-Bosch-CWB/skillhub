@@ -1,70 +1,84 @@
-import Modal from "@/components/Modal"
-import Select from "@/components/Select"
-import TextArea from "@/components/TextArea"
-import internalAPI from "@/service/internal.services"
-import styles from "../../styles.module.css"
-import Text from "@/typography"
+// import Modal from "@/components/Modal"
+// import Select from "@/components/Select"
+// import TextArea from "@/components/TextArea"
+// import internalAPI from "@/service/internal.services"
+// import styles from "../../styles.module.css"
+// import Text from "@/typography"
 
-import { useEffect, useState } from "react"
-import { ISelectData } from "@/components/Select/interfaces"
-import Button from "@/components/Button"
+// import { useEffect, useState } from "react"
+// import { ISelectData } from "@/components/Select/interfaces"
+// import Button from "@/components/Button"
+// import InputSelect from "@/components/InputSelect"
 
-interface IModalProps {
-    isOpen: boolean
-    handleIsOpen: Function
-    feedbackId?: number
-    classId: number
-    userName: string
-    className: string
-    studentId: number
-}
+// interface IModalProps {
+//     isOpen: boolean
+//     handleIsOpen: Function
+//     feedbackId?: number
+//     classId: number
+//     userName: string
+//     className: string
+//     studentId: number
+// }
 
 
-export default ({ isOpen, handleIsOpen, feedbackId, classId, userName, className, studentId }: IModalProps) => {
+// export default ({ isOpen, handleIsOpen, feedbackId, classId, userName, className, studentId }: IModalProps) => {
 
-    const [subjectData, setSubjectData] = useState<ISelectData[]>([]);
-    const [feedbackContent, setFeedbackContent] = useState("");
+//     const [subjectData, setSubjectData] = useState<ISelectData[]>([]);
+//     const [feedbackContent, setFeedbackContent] = useState("");
 
-    const getData = async () => {
+//     const [selectedSubject, setSelectedSubject] = useState<number>();
 
-        if (feedbackId) {
-            const response = await internalAPI.jsonRequest(`/feedbacks/${feedbackId}`, "GET");
-            const content = response.data;
+//     const getData = async () => {
 
-        } else if (classId) {
-            const response = await internalAPI.jsonRequest(`/subjects/class/${classId}?${new URLSearchParams({ studentId: studentId.toString() })}`, "GET");
-            const content = response.data;
+//         if (feedbackId) {
+//             const response = await internalAPI.jsonRequest(`/feedbacks/${feedbackId}`, "GET");
+//             const content = response.data;
 
-            setSubjectData(content.map((s: { curricularUnit: string; id: number }) => ({
-                key: s.curricularUnit,
-                value: s.id
-            })))
+//         } else {
+//             const response = await internalAPI.jsonRequest(`/subjects/class/${classId}?${new URLSearchParams({ studentId: studentId.toString() })}`, "GET");
+//             const content = response.data;
 
-        }
+//             setSubjectData(content.map((s: { curricularUnit: string; id: number }) => ({
+//                 key: s.curricularUnit,
+//                 value: s.id
+//             })))
 
-    }
+//         }
 
-    useEffect(() => {
-        getData();
-    }, [feedbackId, classId])
+//     }
 
-    return (
-        <>
-            <Modal open={isOpen} handleClose={() => handleIsOpen()} title={!feedbackId ? "Write Feedback" : "Edit Feedback"} >
-                <div className={`${styles.feedbacks}`}>
-                    <Text>{"Write your feedback for " + userName + " from " + className}</Text>
-                    {
-                        !feedbackId &&
-                        <Select data={subjectData} label="Personal Feedback" />
-                    }
-                    <TextArea value={feedbackContent} setValue={setFeedbackContent} placeHolder="Write your feedback here..." />
-                    <div className={`${styles.bttns}`}>
-                        <Button onClick={() => handleIsOpen()}>Cancel</Button>
-                        <Button variant="contained">Confirm</Button>
-                    </div>
-                </div>
-            </Modal>
+//     const handleSubmit = async () => {
 
-        </>
-    )
-}
+//         if (!feedbackId) {
+//             const response = await internalAPI.jsonRequest("/feedbacks", "POST", undefined, {
+//                 studentId: studentId,
+//                 subjectId: 
+//             })
+//         }
+
+//     }
+
+//     useEffect(() => {
+//         getData();
+//     }, [feedbackId, classId])
+
+//     return (
+//         <>
+//             <Modal open={isOpen} handleClose={() => handleIsOpen()} title={!feedbackId ? "Write Feedback" : "Edit Feedback"} >
+//                 <div className={`${styles.feedbacks}`}>
+//                     <Text>{"Write your feedback for " + userName + " from " + className}</Text>
+//                     {
+//                         !feedbackId &&
+//                         // <InputSelect data={subjectData} label="Personal Feedback" onChange={(e) => setSelectedSubject(e.target.value)} />
+//                     }
+//                     <TextArea value={feedbackContent} setValue={setFeedbackContent} placeHolder="Write your feedback here..." />
+//                     <div className={`${styles.bttns}`}>
+//                         <Button onClick={() => handleIsOpen()}>Cancel</Button>
+//                         <Button variant="contained">Confirm</Button>
+//                     </div>
+//                 </div>
+//             </Modal>
+
+//         </>
+//     )
+// }

@@ -16,19 +16,17 @@
 }
 
 .modal {
-    max-height: 35rem;
+    max-height: 70%;
     overflow: auto;
     width: 98%;
     max-width: 600px;
 
     background-color: var(--gray-0);
-    padding: 45px;
+    padding: 30px;
     border-radius: 5px;
 
     position: relative;
     border: 10px white solid;
-
-
 }
 
 .close {

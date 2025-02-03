@@ -26,7 +26,7 @@ public record UserDTO(
     StudentDTO? StudentProfile
 )
 {
-    public static UserDTO Map(User obj, StudentDTO? student)
+    public static UserDTO Map(User obj, StudentDTO? student = null)
     {
         return new UserDTO(
             obj.Id,

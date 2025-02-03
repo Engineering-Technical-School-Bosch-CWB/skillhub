@@ -6,8 +6,7 @@ import styles from "./styles.module.css"
 export default (data: ISelectProps) => {
 
     const onChange = (e: ChangeEvent<HTMLSelectElement>) => {
-        if (data.onChange)
-            data.onChange!(e);
+        if (data.onChange) data.onChange(e);
     }
 
     return (

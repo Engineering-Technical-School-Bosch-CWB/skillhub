@@ -67,7 +67,7 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
         await _repo.SaveAsync();
 
         return new AppResponse<UserDTO>(
-            UserDTO.Map(saveUser, null),
+            UserDTO.Map(saveUser),
             "User created successfully!"
         );
     }

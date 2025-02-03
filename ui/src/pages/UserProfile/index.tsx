@@ -17,7 +17,7 @@ import { useUserContext } from "@/contexts/user.context";
 import Divider from "@/components/Divider";
 import FeedbackCard from "@/components/FeedbackCard";
 import PositionCard from "./components/PositionCard";
-import FeedbackModal from "./components/FeedbackModal";
+// import FeedbackModal from "./components/FeedbackModal";
 
 interface IModalProps {
     feedbackId?: number
@@ -120,7 +120,6 @@ const UserProfile = () => {
                         <div className={`${styles.spacing}`}>
                             <Text fontSize="lg" fontWeight="bold" >{userData?.position + " - " + userData?.sector}</Text>
                             <Text>{!userData?.birthday ? "Missing birth date..." : "Birthday: " + formatDate(userData.birthday)}</Text>
-
                         </div>
                     </div>
                     {/* <ProfileCard {...data.student} /> */}
@@ -162,7 +161,7 @@ const UserProfile = () => {
                                                 title={f.subject}
                                                 subtitle={"Last update • " + formatDate(f.updatedAt) + " by " + f.instructor} content={f.content}
                                                 editButton={
-                                                    user?.permissionLevel == 2 ?
+                                                    user?.permissionLevel == 2 && user.id != userData?.id ?
                                                         {
                                                             label: "Edit Feedback",
                                                             action: () => setModalProps({
@@ -202,7 +201,7 @@ const UserProfile = () => {
                         </>
                     }
                 </section>
-                {
+                {/* {
                     studentData &&
                     <FeedbackModal
                         isOpen={modalProps.isFeedbackModalOpen}
@@ -215,7 +214,7 @@ const UserProfile = () => {
                         userName={userData?.name!}
                         className={studentData.className}
                         studentId={studentData.id} />
-                }
+                } */}
             </main>
         </>
     )

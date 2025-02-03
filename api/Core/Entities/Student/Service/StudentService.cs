@@ -142,7 +142,7 @@ public class StudentService(
         var feedbacks = await _feedbackRepo.Get()
             .Where(f => f.IsActive)
             .Where(f => f.Student.Id == student.Id)
-            .Include(f => f.Student)
+            .Include(f => f.Student.User)
             .Include(f => f.Instructor)
             .Include(f => f.Subject!.CurricularUnit)
             .Select(f => CompleteFeedbackDTO.Map(f))

@@ -18,20 +18,22 @@ public record FeedbackDTO(
     }
 }
 
-public record SimpleFeedbackDTO(
+public record SubjectFeedbackDTO(
     int? Id,
     string? Content,
     DateOnly? UpdatedAt,
+    int? InstructorId,
     string? Instructor,
     SimpleStudentDTO Student
 )
 {
-    public static SimpleFeedbackDTO Map(Feedback? obj, Student student)
+    public static SubjectFeedbackDTO Map(Feedback? obj, Student student)
     {
-        return new SimpleFeedbackDTO(
+        return new SubjectFeedbackDTO(
             obj?.Id,
             obj?.Content,
             obj?.UpdatedAt,
+            obj?.Instructor.Id,
             obj?.Instructor.Name,
             SimpleStudentDTO.Map(student)
         );
@@ -44,7 +46,10 @@ public record CompleteFeedbackDTO(
     DateOnly UpdatedAt,
     string Instructor,
     int InstructorId,
-    string? Subject
+    int UserId,
+    string? Subject,
+    int? SubjectId,
+    SimpleStudentDTO Student
 )
 {
     public static CompleteFeedbackDTO Map(Feedback obj)
@@ -55,7 +60,10 @@ public record CompleteFeedbackDTO(
             obj.UpdatedAt,
             obj.Instructor.Name,
             obj.Instructor.Id,
-            obj.Subject?.CurricularUnit.Name
+            obj.Student.User.Id,
+            obj.Subject?.CurricularUnit.Name,
+            obj.Subject?.Id,
+            SimpleStudentDTO.Map(obj.Student)
         );
     }
 }

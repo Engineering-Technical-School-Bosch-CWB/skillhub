@@ -113,7 +113,7 @@ public class SubjectService(BaseRepository<Subject> repository, IUserRepository 
             .Include(s => s.Feedbacks)
             .ThenInclude(f => f.Instructor)
             .Include(s => s.User)
-            .Select(s => SimpleFeedbackDTO.Map(s.Feedbacks.SingleOrDefault(f => f.Subject!.Id == id), s))
+            .Select(s => SubjectFeedbackDTO.Map(s.Feedbacks.SingleOrDefault(f => f.Subject!.Id == id), s))
             .ToListAsync();
 
         var results = subject.Exams.Select(e => ExamResultsDTO.Map(e, _examService.GetExamSkills(e.Id), subject.Class.Students.Select(s => _studentService.GetExamResults(s.Id, e.Id))));
