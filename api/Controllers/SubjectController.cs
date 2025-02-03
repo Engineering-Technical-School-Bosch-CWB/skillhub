@@ -40,10 +40,10 @@ public class SubjectController : ControllerBase
     public async Task<ActionResult> GetSubjectPaginated(
         [FromServices] ISubjectService service,
         [FromQuery] PaginationQuery pagination,
-        [FromQuery] string? query, int classId
+        [FromQuery] string? query, [FromQuery] int? studentId, int classId
     )
     {
-        var result = await service.GetSubjectPaginated(pagination, classId, query);
+        var result = await service.GetSubjectPaginated(pagination, classId, studentId, query);
         return Ok(result);
     }
 }

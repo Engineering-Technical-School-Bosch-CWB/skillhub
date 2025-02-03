@@ -8,7 +8,7 @@ using Api.Core.Errors;
 
 namespace Api.Core.Services;
 
-public class SubjectService(BaseRepository<Subject> repository, IUserRepository userRepository, IStudentService studentService,
+public class SubjectService(BaseRepository<Subject> repository, IUserRepository userRepository, IStudentService studentService, IFeedbackRepository feedbackRepository,
     ICurricularUnitRepository curricularUnitRepository, IClassRepository classRepository, IExamService examService, IStudentRepository studentRepository, IPaginationService paginationService
     ) : BaseService<Subject>(repository), ISubjectService
 {
@@ -18,6 +18,7 @@ public class SubjectService(BaseRepository<Subject> repository, IUserRepository 
     private readonly IUserRepository _userRepo = userRepository;
     private readonly IStudentRepository _studentRepo = studentRepository;
     private readonly IPaginationService _pagService = paginationService;
+    private readonly IFeedbackRepository _feedbackRepo = feedbackRepository;
 
     private readonly IExamService _examService = examService;
     private readonly IStudentService _studentService = studentService;
@@ -60,7 +61,7 @@ public class SubjectService(BaseRepository<Subject> repository, IUserRepository 
     }
 
 
-    public async Task<PaginatedAppResponse<SubjectDTO>> GetSubjectPaginated(PaginationQuery pagination, int classId, string? query = null)
+    public async Task<PaginatedAppResponse<SubjectDTO>> GetSubjectPaginated(PaginationQuery pagination, int classId, int? studentId, string? query = null)
     {
         var result = await _pagService.PaginateAsync(
            _repo.GetAllNoTracking()
@@ -71,6 +72,18 @@ public class SubjectService(BaseRepository<Subject> repository, IUserRepository 
                .Where(s => s.IsActive),
            pagination.ToOptions()
        );
+
+       if (studentId.HasValue)
+       {
+            var hasFeedback  = await _feedbackRepo.Get()
+                .Where(f => f.IsActive)
+                .Where(f => f.Student.Id == studentId)
+                .Where(f => f.Subject != null)
+                .Select(f => f.Subject!.Id)
+                .ToListAsync();
+            
+            result.Item1 = [.. result.Item1.ExceptBy(hasFeedback, s => s.Id)];
+       }
 
         return new PaginatedAppResponse<SubjectDTO>(
             result.Item1.Select(SubjectDTO.Map),

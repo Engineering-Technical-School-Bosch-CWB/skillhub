@@ -140,7 +140,7 @@ const UserProfile = () => {
                             <div className={`${styles.section_header}`}>
                                 <Text variant="span" fontWeight="bold" fontSize="xl2">Feedbacks</Text>
                                 {
-                                    user?.permissionLevel == 2 &&
+                                    user?.permissionLevel == 2 && user.id != userData?.id &&
                                     <Button
                                         className={`${styles.addBtn} ${styles.align}`}
                                         onClick={() => setModalProps({
@@ -211,7 +211,10 @@ const UserProfile = () => {
                             isFeedbackModalOpen: false
                         })}
                         feedbackId={modalProps.feedbackId}
-                        classId={studentData.classId} />
+                        classId={studentData.classId}
+                        userName={userData?.name!}
+                        className={studentData.className}
+                        studentId={studentData.id} />
                 }
             </main>
         </>
