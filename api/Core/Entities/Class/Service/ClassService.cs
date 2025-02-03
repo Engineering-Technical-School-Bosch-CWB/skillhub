@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Api.Core.Errors;
 using Api.Core.Repositories;
 using Microsoft.AspNetCore.Identity;
+using System.Net.WebSockets;
 
 namespace Api.Core.Services;
 
@@ -16,6 +17,8 @@ public class ClassService(
     IPositionRepository positionRepo,
     ISectorRepository sectorRepo,
     IOccupationAreaRepository occupationAreaRepo,
+    ICurricularUnitRepository curricularUnitRepository,
+    IUserRepository userRepository,
     PasswordHasher<User> passwordHasher
 
 ) : BaseService<Class>(repository), IClassService
@@ -25,7 +28,8 @@ public class ClassService(
     private readonly ICourseRepository _courseRepo = courseRepository;
     private readonly IStudentRepository _studentRepo = studentRepository;
     private readonly ISubjectRepository _subjectRepo = subjectRepository;
-
+    private readonly IUserRepository _userRepo = userRepository;
+    private readonly ICurricularUnitRepository _curricularUnitRepository = curricularUnitRepository;
     private readonly IPositionRepository _positionRepo = positionRepo;
     private readonly ISectorRepository _sectorRepo = sectorRepo;
     private readonly IOccupationAreaRepository _occupationAreaRepo = occupationAreaRepo;
@@ -58,14 +62,30 @@ public class ClassService(
             .SingleOrDefaultAsync(c => c.Id == payload.Course.Id)
             ?? throw new NotFoundException("Course not found!");
 
+        var __curricularUnitIds = payload.Subjects.Select(cu => cu.CurricularUnitId).ToList();
+        List<CurricularUnit> _curricularUnits = [];
+        if (__curricularUnitIds.Count > 0)
+            _curricularUnits = await _curricularUnitRepository.Get()
+                .Where(c => c.IsActive && __curricularUnitIds.Contains(c.Id))
+                .ToListAsync();
 
-        var _sector = await _sectorRepo.GetAllNoTracking().SingleOrDefaultAsync(s => s.Name == "ETS")
+
+        var _sector = await _sectorRepo.Get().SingleOrDefaultAsync(s => s.Name == "ETS")
             ?? throw new Exception("Not found sector ETS");
-        var _position = await _positionRepo.GetAllNoTracking().SingleOrDefaultAsync( p => p.PositionLevel == 1)
+        var _position = await _positionRepo.Get().SingleOrDefaultAsync(p => p.PositionLevel == 1)
             ?? throw new Exception("Not found user with ");
-        
 
-        List<User> users = payload.Students.Select(s =>
+        var createdClass = _repo.Add(new Class
+        {
+            Name = payload.Class.Name,
+            Course = course,
+            StartingYear = (short)new DateOnly().Year,
+            DurationPeriods = payload.Class.Period
+        }) ?? throw new UpsertFailException("Class could not be inserted!");
+
+        await _repo.SaveAsync();
+
+        List<User> insertedUsers = payload.Students.Select(s => 
         {
             User __user = new()
             {
@@ -79,25 +99,48 @@ public class ClassService(
             };
             __user.Hash = _passwordHasher.HashPassword(__user, s.Identification);
 
-            return __user;
+            var inserted = _userRepo.Add(__user);
+            return inserted;
         }).ToList();
+        await _userRepo.SaveAsync();
 
-
-        var newClass = new Class
+        List<Subject> _subjects = _curricularUnits.Select(cu =>
         {
-            Name = payload.Class.Name,
-            Course = course,
-            StartingYear = (short)new DateOnly().Year,
-            DurationPeriods = payload.Class.Period
-        };
+            Subject s = new()
+            {
+                Class = createdClass,
+                CurricularUnit = cu,
+                DurationHours = payload.Subjects.FirstOrDefault(s => s.CurricularUnitId == cu.Id).Duration,
+                Period = payload.Class.Period,
+                IsActive = true,
+                BeganAt = null,
+                Instructor = null
+            };
+            var added = _subjectRepo.Add(s);
 
-        var class_ = _repo.Add(newClass)
-            ?? throw new UpsertFailException("Class could not be inserted!");
 
-        await _repo.SaveAsync();
+            return added; 
+        }).ToList();
+        await _subjectRepo.SaveAsync();
+
+        List<Student> _students =  insertedUsers.Select(u =>
+        {   
+
+            var inserted = _studentRepo.Add(new()
+            {
+                Class = createdClass,
+                User = u,
+            });
+
+            return inserted;
+        }).ToList();
+        await _studentRepo.SaveAsync();
+
+        createdClass.Subjects = _subjects;
+        createdClass.Students = _students;
 
         return new AppResponse<ClassDTO>(
-            ClassDTO.Map(class_),
+            ClassDTO.Map(createdClass),
             "Class created successfully!"
         );
     }

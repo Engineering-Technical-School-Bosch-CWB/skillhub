@@ -46,3 +46,4 @@ INSERT INTO [curricular_unit] VALUES ('WEB', 2, 1);
 INSERT INTO [curricular_unit] VALUES ('CNC', 3, 1);
 INSERT INTO [curricular_unit] VALUES ('Eletronica Digital', 4, 1);
 INSERT INTO [curricular_unit] VALUES ('Python', 5, 1);
+GO

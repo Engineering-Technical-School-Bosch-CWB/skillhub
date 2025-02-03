@@ -30,9 +30,9 @@ public class SubjectOnCreateClass
     [Required]
     public required string Name { get; set; }
     [Required]
-    public required int duration { get; set; }
+    public required int Duration { get; set; }
     [Required]
-    public required int curricularUnitId { get; set; }
+    public required int CurricularUnitId { get; set; }
 }
 
 public class ClassOnCreate
@@ -41,6 +41,6 @@ public class ClassOnCreate
     public required string Name { get; set; }
     [Required]
     public required string Abbreviation { get; set; }
-    [Required]
+
     public required short Period { get; set; }
 }
