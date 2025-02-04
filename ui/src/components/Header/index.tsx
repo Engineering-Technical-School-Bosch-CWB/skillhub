@@ -37,7 +37,7 @@ const Header = ({ }: IHeaderProps) => {
 
         const response = await internalAPI.jsonRequest("/users", "GET", undefined, undefined);
 
-        if (!response || response.statusCode != 200) {
+        if (!response.success) {
             if (!toast.isActive("user-load-error"))
                 toast.error("Authentication required.", { toastId: "user-load-error" });
             navigate("/");

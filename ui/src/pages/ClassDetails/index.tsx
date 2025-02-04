@@ -50,7 +50,7 @@ const ClassDetails = () => {
 
         const response = await internalAPI.jsonRequest(`/classes/${classId}?${params.toString()}`, "GET");
 
-        if (!response || response.statusCode != 200) {
+        if (!response.success) {
             if (!toast.isActive("class-load-error"))
                 toast.error("Something went wrong.", { toastId: "class-load-error" });
             navigate("/home");

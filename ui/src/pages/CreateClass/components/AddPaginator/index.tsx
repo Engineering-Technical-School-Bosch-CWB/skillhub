@@ -28,7 +28,7 @@ export default ({data,index, setIndex, setClass, setStudents, setSubjects} : IAd
     const handleSend = async () => {  
         const response = await internalAPI.jsonRequest("/classes", "POST", undefined, data)
 
-        if (!response || response.statusCode != 200) {
+        if (!response.success) {
             if (!toast.isActive("create-class-error"))
                 toast.error("Error on create class.", { toastId: "create-class-error" });
         }

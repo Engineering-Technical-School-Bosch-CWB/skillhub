@@ -82,3 +82,7 @@
     width: 100%;
     justify-content: flex-end;
 }
+
+.flex_start {
+    margin-right: auto;
+}

@@ -17,7 +17,7 @@ import { useUserContext } from "@/contexts/user.context";
 import Divider from "@/components/Divider";
 import FeedbackCard from "@/components/FeedbackCard";
 import PositionCard from "./components/PositionCard";
-// import FeedbackModal from "./components/FeedbackModal";
+import FeedbackModal from "./components/FeedbackModal";
 
 interface IModalProps {
     feedbackId?: number
@@ -27,6 +27,7 @@ interface IModalProps {
 const UserProfile = () => {
 
     const [searchParams] = useSearchParams();
+
     const classId = searchParams.get("classId");
     const userId = searchParams.get("userId");
 
@@ -46,7 +47,7 @@ const UserProfile = () => {
     const getData = async () => {
         const response = await internalAPI.jsonRequest(`/users/profile?${!userId || new URLSearchParams({ id: userId })}`, "GET");
 
-        if (!response || response.statusCode != 200) {
+        if (!response.success) {
             if (!toast.isActive("profile-load-error"))
                 toast.error("Something went wrong.", { toastId: "profile-load-error" });
             navigate("/home");
@@ -189,7 +190,10 @@ const UserProfile = () => {
                                                     user?.permissionLevel == 2 && user?.id == f.instructorId ?
                                                         {
                                                             label: "Edit Feedback",
-                                                            action: () => { }
+                                                            action: () => setModalProps({
+                                                                feedbackId: f.id,
+                                                                isFeedbackModalOpen: true
+                                                            })
                                                         } : undefined
                                                 }
                                                 content={f.content}
@@ -201,7 +205,7 @@ const UserProfile = () => {
                         </>
                     }
                 </section>
-                {/* {
+                {
                     studentData &&
                     <FeedbackModal
                         isOpen={modalProps.isFeedbackModalOpen}
@@ -210,11 +214,10 @@ const UserProfile = () => {
                             isFeedbackModalOpen: false
                         })}
                         feedbackId={modalProps.feedbackId}
-                        classId={studentData.classId}
                         userName={userData?.name!}
-                        className={studentData.className}
-                        studentId={studentData.id} />
-                } */}
+                        studentData={studentData}
+                        setStudentData={setStudentData} />
+                }
             </main>
         </>
     )

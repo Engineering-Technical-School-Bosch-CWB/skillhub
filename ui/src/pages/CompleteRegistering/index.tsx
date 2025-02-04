@@ -28,7 +28,7 @@ export const CompleteRegistering = () => {
                 password: data.password
             });
 
-            if (!response || response.statusCode != 200)
+            if (!response.success)
                 throw new Error(response.message);
 
             return response.data;

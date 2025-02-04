@@ -32,7 +32,7 @@ const SubjectDetails = () => {
     const getData = async () => {
         const response = await internalAPI.jsonRequest(`/subjects/${subjectId}`, "GET");
 
-        if (!response || response.statusCode != 200) {
+        if (!response.success) {
             if (!toast.isActive("subject-load-error"))
                 toast.error("Something went wrong.", { toastId: "subject-load-error" });
             navigate("/home");

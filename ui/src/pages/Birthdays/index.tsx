@@ -25,7 +25,7 @@ const Birthdays = () => {
     const getData = async () => {   
         const response = await internalAPI.jsonRequest(`/users/paginated?${new URLSearchParams({birthMonth: String(currentMonth)})}`, 'GET')
         
-        if (!response || response.statusCode != 200) {
+        if (!response.success) {
             if (!toast.isActive('results-load-error'))
                 toast.error('Something went wrong.', { toastId: 'results-load-error' });
             navigate('/home');
