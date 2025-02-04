@@ -24,10 +24,11 @@ const Text = forwardRef<HTMLElement, ITextProps>(
         fontSize = "md",
         fontStyle = "normal",
         children,
+        className
     }, ref) => (
         <Variant 
             ref={ref as any}
-            className={`${f_styles[fontStyle]} ${f_sizes[fontSize]} ${f_weights[fontWeight]}`}
+            className={`${f_styles[fontStyle]} ${f_sizes[fontSize]} ${f_weights[fontWeight]} ${className}`}
             children={children}
         />
     ) 
