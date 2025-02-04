@@ -226,10 +226,6 @@ namespace api.Migrations
                         .HasColumnType("varchar(max)")
                         .HasColumnName("content");
 
-                    b.Property<DateOnly>("CreatedAt")
-                        .HasColumnType("date")
-                        .HasColumnName("created_at");
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit")
                         .HasColumnName("is_active");
@@ -237,6 +233,10 @@ namespace api.Migrations
                     b.Property<bool>("StudentMayVisualize")
                         .HasColumnType("bit")
                         .HasColumnName("student_may_visualize");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("created_at");
 
                     b.Property<int>("instructor_id")
                         .HasColumnType("int");

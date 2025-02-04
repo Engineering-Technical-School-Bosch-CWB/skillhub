@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import AprenticesProfile from "../pages/AprenticesProfile";
+import AprenticesProfile from "../pages/UserProfiel";
 import AprenticesResults from "../pages/AprenticesResults";
 import AvaliateAprentices from "../pages/AvaliateAprentices";
 import Birthdays from "../pages/Birthdays";

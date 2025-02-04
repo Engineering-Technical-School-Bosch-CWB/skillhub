@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace api.Migrations
 {
     [DbContext(typeof(SkillhubContext))]
-    [Migration("20241206184249_UpdateExamName")]
-    partial class UpdateExamName
+    [Migration("20250204164109_NewMigration")]
+    partial class NewMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -75,7 +75,10 @@ namespace api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<byte>("DurationPeriods")
+                    b.Property<string>("Abbreviation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte?>("DurationPeriods")
                         .HasColumnType("tinyint")
                         .HasColumnName("duration_periods");
 
@@ -114,7 +117,6 @@ namespace api.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Abbreviation")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("abbreviation");
@@ -197,7 +199,7 @@ namespace api.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("name");
 
-                    b.Property<int>("instructor_id")
+                    b.Property<int?>("instructor_id")
                         .HasColumnType("int");
 
                     b.Property<int>("subject_id")
@@ -227,10 +229,6 @@ namespace api.Migrations
                         .HasColumnType("varchar(max)")
                         .HasColumnName("content");
 
-                    b.Property<DateOnly>("CreatedAt")
-                        .HasColumnType("date")
-                        .HasColumnName("created_at");
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit")
                         .HasColumnName("is_active");
@@ -238,6 +236,10 @@ namespace api.Migrations
                     b.Property<bool>("StudentMayVisualize")
                         .HasColumnType("bit")
                         .HasColumnName("student_may_visualize");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("created_at");
 
                     b.Property<int>("instructor_id")
                         .HasColumnType("int");
@@ -456,11 +458,14 @@ namespace api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<bool?>("Accepted")
+                        .HasColumnType("bit");
+
                     b.Property<short?>("Aptitude")
                         .HasColumnType("smallint")
                         .HasColumnName("aptitude");
 
-                    b.Property<DateTime>("EvaluatedAt")
+                    b.Property<DateTime?>("EvaluatedAt")
                         .HasColumnType("datetime2")
                         .HasColumnName("evaluated_at");
 
@@ -594,7 +599,7 @@ namespace api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateOnly>("BeganAt")
+                    b.Property<DateOnly?>("BeganAt")
                         .HasColumnType("date")
                         .HasColumnName("began_at");
 
@@ -606,7 +611,7 @@ namespace api.Migrations
                         .HasColumnType("bit")
                         .HasColumnName("is_active");
 
-                    b.Property<byte>("Period")
+                    b.Property<byte?>("Period")
                         .HasColumnType("tinyint")
                         .HasColumnName("period");
 
@@ -616,7 +621,7 @@ namespace api.Migrations
                     b.Property<int>("curricular_unit_id")
                         .HasColumnType("int");
 
-                    b.Property<int>("instructor_id")
+                    b.Property<int?>("instructor_id")
                         .HasColumnType("int");
 
                     b.HasKey("Id")
@@ -792,8 +797,7 @@ namespace api.Migrations
                     b.HasOne("Api.Domain.Models.User", "Instructor")
                         .WithMany()
                         .HasForeignKey("instructor_id")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Api.Domain.Models.Subject", "Subject")
                         .WithMany("Exams")
@@ -948,8 +952,7 @@ namespace api.Migrations
                     b.HasOne("Api.Domain.Models.User", "Instructor")
                         .WithMany("Subjects")
                         .HasForeignKey("instructor_id")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Class");
 

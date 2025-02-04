@@ -38,6 +38,7 @@ public record StudentExamResultsDTO(
 
 public record SimpleStudentDTO(
     int Id,
+    int UserId,
     string Name,
     string Identification,
     double? Performance,
@@ -48,10 +49,37 @@ public record SimpleStudentDTO(
     {
         return new SimpleStudentDTO(
             obj.Id,
+            obj.User.Id,
             obj.User.Name,
             obj.User.Identification,
             performance,
             obj.User.Birthday
+        );
+    }
+}
+
+public record StudentProfileDTO(
+    int Id,
+    double? Performance,
+    int ClassId,
+    string ClassName,
+    int? ClassPosition,
+    IEnumerable<SubjectResultDTO> SubjectResults,
+    IEnumerable<CompleteFeedbackDTO> SubjectFeedBacks,
+    IEnumerable<CompleteFeedbackDTO> Feedbacks
+)
+{
+    public static StudentProfileDTO Map(Student obj, IEnumerable<SubjectResultDTO> subjectResults, IEnumerable<CompleteFeedbackDTO> feedbacks, bool show, int? position = null)
+    {
+        return new StudentProfileDTO(
+            obj.Id,
+            obj.OverallScore,
+            obj.Class.Id,
+            obj.Class.Name + " - " + obj.Class.StartingYear,
+            show ? position : null,
+            show ? subjectResults : [],
+            feedbacks.Where(f => f.Subject is not null),
+            show ? feedbacks.Where(f => f.Subject is null) : []
         );
     }
 }

@@ -18,9 +18,12 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
     private readonly IPositionRepository _positionRepo = positionRepository;
     private readonly ISectorRepository _sectorRepo = sectorRepository;
     private readonly IOccupationAreaRepository _areaRepo = areaRepository;
+
     private readonly PasswordHasher<User> _hasher = hasher;
     private readonly IPaginationService _pagService = paginationService;
     private readonly IStudentService _studentservice = studentService;
+
+    #region CRUD
 
     public async Task<AppResponse<UserDTO>> CreateUser(UserCreatePayload payload)
     {
@@ -59,12 +62,12 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
 
         newUser.Hash = _hasher.HashPassword(newUser, newUser.Hash);
 
-        var saveUser = _repo.Add(newUser)
+        var savedUser = _repo.Add(newUser)
             ?? throw new UpsertFailException("User could not be inserted!");
         await _repo.SaveAsync();
 
         return new AppResponse<UserDTO>(
-            UserDTO.Map(saveUser, null),
+            UserDTO.Map(savedUser),
             "User created successfully!"
         );
     }
@@ -228,4 +231,26 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
         );
     }
 
+    #endregion
+
+    #region Pages
+
+    public async Task<AppResponse<UserProfileDTO>> GetUserProfile(int? id, int loggedId)
+    {
+        var userId = id ?? loggedId;
+
+        var user = await _repo.Get()
+            .Where(u => u.IsActive)
+            .Include(u => u.Position)
+            .Include(u => u.Sector)
+            .SingleOrDefaultAsync(u => u.Id == userId)
+            ?? throw new NotFoundException("User not found!");
+
+        return new AppResponse<UserProfileDTO>(
+            UserProfileDTO.Map(user, await _studentservice.GetStudentProfile(userId, id.HasValue && id.Value != loggedId)),
+            "User found!"
+        );
+    }
+
+    #endregion
 }

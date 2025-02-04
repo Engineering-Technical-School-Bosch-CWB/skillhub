@@ -33,6 +33,7 @@ public class ErrorHandlingMiddleware : IExceptionHandler
 
             // ..server
             ServiceConfigurationException e => new Error(StatusCodes.Status500InternalServerError, e.Message),
+            UnknownServerError e => new Error(StatusCodes.Status500InternalServerError, e.Message),
 
             _ => new Error(StatusCodes.Status500InternalServerError, "Unknown server error!")
         };

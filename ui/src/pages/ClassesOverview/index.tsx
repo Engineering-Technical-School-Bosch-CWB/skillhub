@@ -20,7 +20,7 @@ const ClassesOverview = () => {
     const getData = async () => {
         const response = await internalAPI.jsonRequest(`/classes?${new URLSearchParams({ query: search })}`, "GET");
 
-        if (!response || response.statusCode != 200) {
+        if (!response.success) {
             if (!toast.isActive("classes-load-error"))
                 toast.error("Something went wrong.", { toastId: "classes-load-error" });
             navigate("/home");

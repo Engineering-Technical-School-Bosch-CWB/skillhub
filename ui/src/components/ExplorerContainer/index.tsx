@@ -11,15 +11,21 @@ import { SelectView, SelectViewType } from "./Components/SelectView";
 import { IExplorerContainerProps } from "./Interfaces/ExplorerContainer.interfaces";
 import Select from "../Select";
 
-const ExplorerContainer = ({ input, folderPath, onAddHandle, title, data, filter }: IExplorerContainerProps) => {
+const ExplorerContainer = ({ input, folderPath, onAddHandle, title, data, filter, button }: IExplorerContainerProps) => {
 
     const [view, setView] = useState<SelectViewType>("card");
 
     return (
         <div className={`${styles.explorerContainer}`} >
-            <Text fontSize="xl2" fontWeight="bold" >
-                {title}
-            </Text>
+            <div className={`${styles.space_between}`}>
+                <Text fontSize="xl2" fontWeight="bold" >
+                    {title}
+                </Text>
+                {
+                    button &&
+                    <Button variant="primary_icon"><Icon name="settings" /></Button>
+                }
+            </div>
             <div className={`${styles.explorerHeader} ${styles.align}`}>
 
                 <div className={`${styles.searchContainer} ${styles.align}`}>

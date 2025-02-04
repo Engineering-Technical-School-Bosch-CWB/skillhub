@@ -50,7 +50,7 @@ const ClassDetails = () => {
 
         const response = await internalAPI.jsonRequest(`/classes/${classId}?${params.toString()}`, "GET");
 
-        if (!response || response.statusCode != 200) {
+        if (!response.success) {
             if (!toast.isActive("class-load-error"))
                 toast.error("Something went wrong.", { toastId: "class-load-error" });
             navigate("/home");
@@ -65,13 +65,13 @@ const ClassDetails = () => {
             subtitle: s.instructor,
             title: s.name,
         })));
-        setStudentsData(content.students.map((s: { id: any; name: any; birthday: any; identification: any; }) => ({
+        setStudentsData(content.students.map((s: { id: number; name: string; birthday: string; identification: string; userId: number }) => ({
             id: s.id,
             name: s.name,
             birthday: s.birthday,
             identification: s.identification,
             tooltip: s.identification,
-            goTo: "student/" + s.id
+            goTo: "/user-profile?classId=" + classId + "&userId=" + s.userId
         })));
         setOverallPerformance(content.graphs.overallPerformance ?? 0);
         setRankingData(content.graphs.studentResults.map((s: { id: number; name: string; performance: number; }) => ({
@@ -90,7 +90,7 @@ const ClassDetails = () => {
             area: s.name
         })))
 
-        console.log(response);
+        console.log(content.students)
     }
 
     const handleSubjectClick = (id: number | null) => {

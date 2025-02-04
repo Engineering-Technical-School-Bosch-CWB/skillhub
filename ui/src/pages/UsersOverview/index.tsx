@@ -31,7 +31,7 @@ const UsersOverview = () => {
 
         setUsers(content.map((u: { name: string; id: number; position: { name: string; }; sector: { name: string; }; }) => ({
             color: getHex(u.name),
-            goTo:  u.id,
+            goTo:  "/user-profile?userId=" + u.id,
             title: u.name,
             subtitle: u.position.name + " - " + u.sector.name,
         })))
@@ -57,6 +57,10 @@ const UsersOverview = () => {
                 <ExplorerContainer filter={[positionFilter]} data={users} title={"Users"} onAddHandle={() => {}} input={{
                     search: search,
                     onChange: setSearch
+                }} button={{
+                    icon: "settings",
+                    onClick: () => {}
+                    // criate position create sector and create occupation area
                 }} />
             </main>
         </>

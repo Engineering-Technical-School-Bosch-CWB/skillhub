@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace api.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class NewMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -76,7 +76,7 @@ namespace api.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     default_occupation_area_id = table.Column<int>(type: "int", nullable: false),
                     name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    abbreviation = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    abbreviation = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     is_active = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -156,9 +156,10 @@ namespace api.Migrations
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Abbreviation = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     course_id = table.Column<int>(type: "int", nullable: false),
                     starting_year = table.Column<short>(type: "smallint", nullable: false),
-                    duration_periods = table.Column<byte>(type: "tinyint", nullable: false),
+                    duration_periods = table.Column<byte>(type: "tinyint", nullable: true),
                     is_active = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -250,13 +251,13 @@ namespace api.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    instructor_id = table.Column<int>(type: "int", nullable: false),
                     curricular_unit_id = table.Column<int>(type: "int", nullable: false),
                     class_id = table.Column<int>(type: "int", nullable: false),
-                    period = table.Column<byte>(type: "tinyint", nullable: false),
-                    is_active = table.Column<bool>(type: "bit", nullable: false),
                     duration_hours = table.Column<double>(type: "float", nullable: false),
-                    began_at = table.Column<DateOnly>(type: "date", nullable: false)
+                    period = table.Column<byte>(type: "tinyint", nullable: true),
+                    is_active = table.Column<bool>(type: "bit", nullable: false),
+                    instructor_id = table.Column<int>(type: "int", nullable: true),
+                    began_at = table.Column<DateOnly>(type: "date", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -286,10 +287,11 @@ namespace api.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     applied_at = table.Column<DateOnly>(type: "date", nullable: true),
                     is_active = table.Column<bool>(type: "bit", nullable: false),
-                    instructor_id = table.Column<int>(type: "int", nullable: false),
+                    instructor_id = table.Column<int>(type: "int", nullable: true),
                     subject_id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -318,7 +320,7 @@ namespace api.Migrations
                     student_id = table.Column<int>(type: "int", nullable: false),
                     subject_id = table.Column<int>(type: "int", nullable: true),
                     content = table.Column<string>(type: "varchar(max)", nullable: false),
-                    created_at = table.Column<DateOnly>(type: "date", nullable: false),
+                    created_at = table.Column<DateTime>(type: "datetime2", nullable: false),
                     student_may_visualize = table.Column<bool>(type: "bit", nullable: false),
                     is_active = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -439,11 +441,12 @@ namespace api.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     aptitude = table.Column<short>(type: "smallint", nullable: true),
                     weight = table.Column<double>(type: "float", nullable: false),
-                    evaluated_at = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    evaluated_at = table.Column<DateTime>(type: "datetime2", nullable: true),
                     is_active = table.Column<bool>(type: "bit", nullable: false),
                     subject_id = table.Column<int>(type: "int", nullable: true),
                     exam_id = table.Column<int>(type: "int", nullable: true),
                     objection_id = table.Column<int>(type: "int", nullable: true),
+                    Accepted = table.Column<bool>(type: "bit", nullable: true),
                     skill_id = table.Column<int>(type: "int", nullable: false),
                     student_id = table.Column<int>(type: "int", nullable: false)
                 },

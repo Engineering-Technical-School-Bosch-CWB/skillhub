@@ -1,0 +1,88 @@
+.align{ 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.chart_section{
+    margin-top: 2rem;
+    justify-content: space-between;
+
+    .student_highlight {
+        text-align: center;
+        padding: 1rem;
+        border: var(--default-border);
+        border-radius: var(--default-border-radius);
+    }
+}
+
+.gap {
+    display: flex;
+    gap: 1rem;
+
+    align-items: center;
+}
+
+.spacing {
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.4rem;
+}
+
+.space_between {
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.section {
+    display: flex;
+    flex-direction: column;
+
+    gap: 2rem;
+}
+
+.feedbacks {
+    display: flex;
+    flex-direction: column;
+    gap: .8rem;
+}
+
+
+.addBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 3rem;
+    height: 3rem;
+    padding: 0;
+    color: var(--white);
+    background-color: var(--primary-main);
+
+    &:hover {
+        color: var(--white);
+        background-color: var(--primary-dark);
+    }
+}
+
+
+.section_header {
+    /* padding: 3rem; */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.bttns {
+    display: flex;
+
+    gap: .8rem;
+    width: 100%;
+    justify-content: flex-end;
+}
+
+.flex_start {
+    margin-right: auto;
+}

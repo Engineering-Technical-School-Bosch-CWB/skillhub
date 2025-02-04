@@ -35,7 +35,7 @@ const SubjectResults = () => {
     const getData = async () => {
         const response = await internalAPI.jsonRequest(`/students/results/${subjectId}`, "GET");
 
-        if (!response || response.statusCode != 200) {
+        if (!response.success) {
             if (!toast.isActive("subject-results-load-error"))
                 toast.error("Something went wrong.", { toastId: "subject-results-load-error" });
             navigate("/apprentice/results");

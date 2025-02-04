@@ -1,0 +1,53 @@
+.identificationCard {
+    border: var(--default-border);
+    width: 100%;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 1.25rem;
+    gap: 1.25rem;
+    background-color: var(--background-card);
+
+    &:hover {
+        box-shadow: var();
+    }
+
+    .identificationCardMarker {
+        width: 1.25rem;
+        height: 2rem;
+    }
+
+    .cardContent {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+        max-width: 100%;
+        margin-left: 1rem;
+    }
+
+}
+
+.align {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.space_between {
+    display: flex;
+    justify-content: space-between;
+
+    align-items: center;
+}
+
+.evBtn {
+    cursor: pointer;
+    padding: 7px 17px;
+    border-radius: 20px;
+
+    gap: .5rem;
+}
+
+.evBtn:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}

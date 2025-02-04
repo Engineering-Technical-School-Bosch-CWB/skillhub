@@ -8,15 +8,17 @@ using Api.Core.Errors;
 
 namespace Api.Core.Services;
 
-public class SubjectService(BaseRepository<Subject> repository, IUserRepository userRepository, IStudentService studentService,
-    ICurricularUnitRepository curricularUnitRepository, IClassRepository classRepository, IExamService examService, IPaginationService paginationService
+public class SubjectService(BaseRepository<Subject> repository, IUserRepository userRepository, IStudentService studentService, IFeedbackRepository feedbackRepository,
+    ICurricularUnitRepository curricularUnitRepository, IClassRepository classRepository, IExamService examService, IStudentRepository studentRepository, IPaginationService paginationService
     ) : BaseService<Subject>(repository), ISubjectService
 {
     private readonly BaseRepository<Subject> _repo = repository;
     private readonly IClassRepository _classRepo = classRepository;
     private readonly ICurricularUnitRepository _curricularUnitRepo = curricularUnitRepository;
     private readonly IUserRepository _userRepo = userRepository;
-    private readonly IPaginationService _pageService = paginationService;
+    private readonly IStudentRepository _studentRepo = studentRepository;
+    private readonly IPaginationService _pagService = paginationService;
+    private readonly IFeedbackRepository _feedbackRepo = feedbackRepository;
 
     private readonly IExamService _examService = examService;
     private readonly IStudentService _studentService = studentService;
@@ -59,27 +61,34 @@ public class SubjectService(BaseRepository<Subject> repository, IUserRepository 
     }
 
 
-    public async Task<PaginatedAppResponse<SubjectDTO>> GetSubjectPaginated(PaginationQuery pagination, string? query = null)
+    public async Task<PaginatedAppResponse<SubjectDTO>> GetSubjectPaginated(PaginationQuery pagination, int classId, int? studentId, string? query = null)
     {
-        var entities = _repo.GetAllNoTracking()
-            .Include(subject => subject.CurricularUnit)
-            .Where(subject => subject.IsActive)
-            .Where(subject => string.IsNullOrEmpty(query) || EF.Functions.Like(subject.CurricularUnit.Name, $"%{query}%"));
+        var result = await _pagService.PaginateAsync(
+           _repo.GetAllNoTracking()
+               .Include(s => s.CurricularUnit)
+               .Include(s => s.Class)
+               .Where(s => s.Class.Id == classId)
+               .Where(s => string.IsNullOrEmpty(query) || EF.Functions.Like(s.CurricularUnit.Name, $"%{query}%"))
+               .Where(s => s.IsActive),
+           pagination.ToOptions()
+       );
 
-        var result = await _pageService.PaginateAsync(
-            _repo.GetAllNoTracking()
-                .Include(subject => subject.CurricularUnit)
-                .Where(subject => subject.IsActive)
-                .Where(subject => string.IsNullOrEmpty(query) || EF.Functions.Like(subject.CurricularUnit.Name, $"%{query}%")),
-            pagination.ToOptions()
-        );
-
-        List<SubjectDTO> resultList = result.Item1.Select(subject => SubjectDTO.Map(subject)).ToList();
+       if (studentId.HasValue)
+       {
+            var hasFeedback  = await _feedbackRepo.Get()
+                .Where(f => f.IsActive)
+                .Where(f => f.Student.Id == studentId)
+                .Where(f => f.Subject != null)
+                .Select(f => f.Subject!.Id)
+                .ToListAsync();
+            
+            result.Item1 = [.. result.Item1.ExceptBy(hasFeedback, s => s.Id)];
+       }
 
         return new PaginatedAppResponse<SubjectDTO>(
-            resultList,
-            result.Item2,
-            ""
+            result.Item1.Select(SubjectDTO.Map),
+            result.Item2!,
+            "Subjects found!"
         );
 
     }
@@ -98,10 +107,19 @@ public class SubjectService(BaseRepository<Subject> repository, IUserRepository 
             .SingleOrDefaultAsync(s => s.Id == id)
             ?? throw new NotFoundException("Subject not found!");
 
+        var feedbacks = await _studentRepo.Get()
+            .Where(s => s.IsActive)
+            .Where(s => s.Class.Id == subject.Class.Id)
+            .Include(s => s.Feedbacks)
+            .ThenInclude(f => f.Instructor)
+            .Include(s => s.User)
+            .Select(s => SubjectFeedbackDTO.Map(s.Feedbacks.SingleOrDefault(f => f.Subject!.Id == id), s))
+            .ToListAsync();
+
         var results = subject.Exams.Select(e => ExamResultsDTO.Map(e, _examService.GetExamSkills(e.Id), subject.Class.Students.Select(s => _studentService.GetExamResults(s.Id, e.Id))));
 
         return new AppResponse<InstructorSubjectDTO>(
-            InstructorSubjectDTO.Map(subject, results),
+            InstructorSubjectDTO.Map(subject, results, feedbacks),
             "Subject info found!"
         );
     }
