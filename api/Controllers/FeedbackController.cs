@@ -31,7 +31,37 @@ public class FeedbackController : ControllerBase
         [FromBody] FeedbackCreatePayload payload
     )
     {
+        if (userContext.PermissionLevel != EPermissionLevel.Admin)
+            throw new ForbiddenAccessException("User don't have permission to this service!");
+
         var result = await service.CreateFeedback(payload, userContext.UserId);
         return Created("/api/v1/feedbacks", result);
+    }
+
+    [HttpPatch]
+    [Route("{id}")]
+    public async Task<ActionResult> UpdateFeedback(
+        [FromServices] IFeedbackService service, UserContext userContext,
+        [FromBody] FeedbackUpdatePayload payload, int id
+    )
+    {
+        if (userContext.PermissionLevel != EPermissionLevel.Admin)
+            throw new ForbiddenAccessException("User don't have permission to this service!");
+
+        var result = await service.UpdateFeedback(id, payload, userContext.UserId);
+        return Ok(result);
+    }
+
+    [HttpDelete]
+    [Route("{id}")]
+    public async Task<ActionResult> DeleteFeedback(
+        [FromServices] IFeedbackService service, UserContext userContext, int id
+    )
+    {
+        if (userContext.PermissionLevel != EPermissionLevel.Admin)
+            throw new ForbiddenAccessException("User don't have permission to this service!");
+
+        await service.DeleteFeedback(id, userContext.UserId);
+        return Ok();
     }
 }

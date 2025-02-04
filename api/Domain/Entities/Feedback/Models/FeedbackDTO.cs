@@ -12,7 +12,7 @@ public record FeedbackDTO(
         return new FeedbackDTO(
             obj.Id,
             obj.Content,
-            obj.UpdatedAt,
+            DateOnly.FromDateTime(obj.UpdatedAt),
             obj.Instructor.Name
         );
     }
@@ -32,7 +32,7 @@ public record SubjectFeedbackDTO(
         return new SubjectFeedbackDTO(
             obj?.Id,
             obj?.Content,
-            obj?.UpdatedAt,
+            obj is null ? null : DateOnly.FromDateTime(obj.UpdatedAt),
             obj?.Instructor.Id,
             obj?.Instructor.Name,
             SimpleStudentDTO.Map(student)
@@ -57,7 +57,7 @@ public record CompleteFeedbackDTO(
         return new CompleteFeedbackDTO(
             obj.Id,
             obj.Content,
-            obj.UpdatedAt,
+            DateOnly.FromDateTime(obj.UpdatedAt),
             obj.Instructor.Name,
             obj.Instructor.Id,
             obj.Student.User.Id,

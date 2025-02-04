@@ -145,6 +145,7 @@ public class StudentService(
             .Include(f => f.Student.User)
             .Include(f => f.Instructor)
             .Include(f => f.Subject!.CurricularUnit)
+            .OrderByDescending(f => f.UpdatedAt)
             .Select(f => CompleteFeedbackDTO.Map(f))
             .ToListAsync();
 

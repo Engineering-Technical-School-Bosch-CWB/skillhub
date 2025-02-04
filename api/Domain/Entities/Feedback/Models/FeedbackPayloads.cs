@@ -12,3 +12,9 @@ public class FeedbackCreatePayload
     
     public int? SubjectId { get; set; }
 }
+
+public class FeedbackUpdatePayload
+{
+    [Required]
+    public required string Content { get; set; }
+}

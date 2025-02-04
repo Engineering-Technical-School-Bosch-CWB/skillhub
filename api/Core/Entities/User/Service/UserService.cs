@@ -62,12 +62,12 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
 
         newUser.Hash = _hasher.HashPassword(newUser, newUser.Hash);
 
-        var saveUser = _repo.Add(newUser)
+        var savedUser = _repo.Add(newUser)
             ?? throw new UpsertFailException("User could not be inserted!");
         await _repo.SaveAsync();
 
         return new AppResponse<UserDTO>(
-            UserDTO.Map(saveUser),
+            UserDTO.Map(savedUser),
             "User created successfully!"
         );
     }
