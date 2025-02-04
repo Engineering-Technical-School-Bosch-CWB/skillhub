@@ -34,7 +34,6 @@ const SchoolContent = () => {
             <Nav links={links} />
             <main>
                 {renderTab()}
-
             </main>
         </>
     )

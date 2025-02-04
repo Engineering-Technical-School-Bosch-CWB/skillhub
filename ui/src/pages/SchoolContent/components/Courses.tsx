@@ -1,5 +1,9 @@
+import CRUDComponent from "./CRUDComponent"
+
 export default () => {
     return(
-        <>Courses</>
+        <>
+            <CRUDComponent kind="course" />
+        </>
     )
 }

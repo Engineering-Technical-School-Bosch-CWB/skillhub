@@ -1,6 +1,6 @@
 import { INavLink } from "@/components/Nav/Nav.interfaces";
 
-export type Tabs = "home" | "courses" | "curricularUnit" | "subjectArea"
+export type Tabs = "home" | "course" | "curricularUnits" | "subjectAreas"
 
 export const links: INavLink[] = [
     {
