@@ -12,20 +12,27 @@ export interface ICrudContainerProps {
     kind: Tabs
 }
 import styles from "../styles.module.css"
+import SectionHeader from "@/components/SectionHeader";
+import { ISectionHeaderProps } from "@/components/SectionHeader/interfaces";
+import DeleteModal from "./DeleteModals/DeleteModal";
 
 export default ( {kind}: ICrudContainerProps ) => {
 
     const [data, setData] = useState([]);
     const [options, setOptions] = useState<IOption[]>([]);
-
+    const [editModalOpen, setEditModalOpen] = useState(false);
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
     const [page, setPage] = useState(0);
     const [items, setItems] = useState(0);
 
+    const [focusedId, setFocusedId] = useState(0);
+
     const tabName = {
-        "home":"Home",
-        "course":"Course",
-        "curricularUnits":"Curricular Unit",
-        "subjectAreas":"Subject Area",
+        "home": "Home",
+        "course": "Course",
+        "curricularUnits": "Curricular Unit",
+        "subjectAreas": "Subject Area",
+        "occupationAreas": "Occupation Area"
     }
 
     const loadData = async () => {
@@ -42,11 +49,18 @@ export default ( {kind}: ICrudContainerProps ) => {
         loadData();
     }, [])
 
-    const toggleEdit = (isOpen: boolean, id: number) => {
-        //! edit logic
+    const toggleEdit = (isOpen: boolean,id: number) => {
+        setFocusedId(id)
+        setEditModalOpen(isOpen)
     }
-    const toggleDelete = (isOpen: boolean, id: number) => {
-        //! delete logic
+    const toggleDelete = (isOpen: boolean,id: number) => {
+        setFocusedId(id)
+        setDeleteModalOpen(isOpen)
+    }
+
+    const closeModal = () => {
+        setDeleteModalOpen(false);
+        setEditModalOpen(false);
     }
 
     const setCourseOptions = (data: any) => {
@@ -59,10 +73,10 @@ export default ( {kind}: ICrudContainerProps ) => {
             }
         })
         const options: IOption[] = [
-            {
-                function: toggleEdit,
-                iconName: "edit"
-            },
+            // {
+            //     function: toggleEdit,
+            //     iconName: "edit"
+            // },
             {
                 function: toggleDelete,
                 iconName: "close"
@@ -72,13 +86,37 @@ export default ( {kind}: ICrudContainerProps ) => {
         setOptions(options);
     }
 
+    
+
+    const sectionHeaderProps: ISectionHeaderProps = {
+        links: [
+            {
+                label: "School Content",
+                goTo: "/school-content"
+            },
+            {
+                label: tabName[kind]
+            }
+        ]
+    }
+
+    useEffect(() => {
+        toggleDelete(true, 1)
+    },[])
+
     return(
         <>
+            <SectionHeader {...sectionHeaderProps} />
             <section className={styles.table_header}>
-                <Text fontSize="xl" fontWeight="bold">{tabName[kind]}</Text>
-                <Button variant="primary_icon"><Icon name="add" /></Button>
+                <Text fontSize="xl2" fontWeight="bold">{tabName[kind]}</Text>
+                <Button variant="secondary_icon">
+                    <Icon name="add" size="md"/>
+                </Button>
             </section>
             <TableView data={data} hasNotation={false} hasOptions={true} options={options} />
+
+            {/* { editModalOpen && <DeleteModal id={focusedId} kind={kind} isOpen={true} onClose={closeModal} /> } */}
+            { deleteModalOpen && <DeleteModal id={focusedId} kind={kind}  isOpen={true} onClose={closeModal} /> }
         </>
     )
 }

@@ -12,3 +12,7 @@
 
     box-sizing: border-box;
 }
+
+.page_title_container {
+    margin-bottom: 2rem;
+}

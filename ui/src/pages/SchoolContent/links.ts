@@ -1,26 +1,32 @@
 import { INavLink } from "@/components/Nav/Nav.interfaces";
 
-export type Tabs = "home" | "course" | "curricularUnits" | "subjectAreas"
+export type Tabs =  "course" | "curricularUnits" | "subjectAreas" | "occupationAreas"
 
 export const links: INavLink[] = [
     {
-        label: "Home",
-        to: "/home",
-        icon: "home"
-    },
-    {
         label: "Courses",
-        to: "?tab=courses",
+        to: "?tab=course",
         icon: "school"
     },
     {
         label: "Curricular Unit",
-        to: "?tab=curricularUnit",
+        to: "?tab=curricularUnits",
         icon: "collections_bookmark"
     },
     {
         label: "Subject Area",
-        to: "?tab=subjectArea",
+        to: "?tab=subjectAreaa",
+        icon: "category"
+    },
+    {
+        label: "Occupation Area",
+        to: "?tab=occupationArea",
         icon: "category"
     }
 ]
+
+export enum ESchoolContentTabs {
+    Courses,
+    CurricularUnits,
+    SubjectAreas
+}

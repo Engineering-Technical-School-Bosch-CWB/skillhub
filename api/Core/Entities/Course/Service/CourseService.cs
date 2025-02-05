@@ -60,6 +60,7 @@ public class CourseService : BaseService<Course>, ICourseService
     public async Task DeleteCourse(int id)
     {
         var course = await repository.Get()
+            .Where(c => c.IsActive)
             .SingleOrDefaultAsync(c => c.Id == id)
             ?? throw new NotFoundException("Course not found!");
         

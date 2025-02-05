@@ -4,9 +4,7 @@ import styles from './styles.module.css';
 import Header from "../../components/Header"
 import Button from "../../components/Button";
 import Divider from "../../components/Divider";
-import TableView from "../../components/TableView";
 import formatDate from "../../constants/formatDate";
-import ReturnButton from "../../components/ReturnButton";
 import internalAPI from "../../service/internal.services";
 import AvaliationTable from "./components/AvaliationTable";
 

@@ -1,11 +1,9 @@
 import Header from "../../components/Header";
-import Nav from "@/components/Nav";
 
-import {links, Tabs} from "./links"
-import Courses from "./components/Courses";
-import SubjectArea from "./components/SubjectArea";
-import CurricularUnit from "./components/CurricularUnit";
+import {Tabs} from "./links"
 import { useLocation } from "react-router-dom";
+import Home from "./components/Home";
+import CRUDComponent from "./components/CRUDComponent";
  
 
 const useQuery = () => {
@@ -16,22 +14,16 @@ const SchoolContent = () => {
 
     const query = useQuery();
 
-    const content = {
-        "home":"",
-        "courses": <Courses />,
-        "curricularUnit": <CurricularUnit />,
-        "subjectArea": <SubjectArea />
-    }
-
     const renderTab = () => {
         const tab = query.get("tab")?.toString() as Tabs
-        return content[tab]
+        if(!tab)
+            return <Home/>
+        return <CRUDComponent kind={tab} /> 
     }
 
     return (
         <>
             <Header />
-            <Nav links={links} />
             <main>
                 {renderTab()}
             </main>
