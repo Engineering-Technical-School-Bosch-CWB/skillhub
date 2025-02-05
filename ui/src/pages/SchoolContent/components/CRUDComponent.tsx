@@ -76,7 +76,7 @@ export default ( {kind}: ICrudContainerProps ) => {
         <>
             <section className={styles.table_header}>
                 <Text fontSize="xl" fontWeight="bold">{tabName[kind]}</Text>
-                <Button variant="select_rounded"><Icon name="add" /></Button>
+                <Button variant="primary_icon"><Icon name="add" /></Button>
             </section>
             <TableView data={data} hasNotation={false} hasOptions={true} options={options} />
         </>
