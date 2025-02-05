@@ -5,15 +5,18 @@ using Api.Domain.Services;
 using Api.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Api.Core.Errors;
+using Api.Domain.Enums;
 
 namespace Api.Core.Services;
 public class SkillService(BaseRepository<Skill> repository, ICurricularUnitRepository curricularUnitRepository,
-    ISubjectRepository subjectRepository
+    ISubjectRepository subjectRepository, IUserRepository userRepository
     ) : BaseService<Skill>(repository), ISkillService
 {
     private readonly BaseRepository<Skill> _repo = repository;
     private readonly ICurricularUnitRepository _curricularUnitRepo = curricularUnitRepository;
     private readonly ISubjectRepository _subjectRepo = subjectRepository;
+    private readonly IUserRepository _userRepo = userRepository;
+
 
     #region CRUD
 
@@ -112,8 +115,19 @@ public class SkillService(BaseRepository<Skill> repository, ICurricularUnitRepos
             .Where(s => s.IsActive)
             .Include(s => s.CurricularUnit)
             .Include(s => s.Class)
+            .Include(s => s.Instructor)
             .SingleOrDefaultAsync(s => s.Id == subjectId)
             ?? throw new NotFoundException("Subject not found!");
+        
+        var teachers = await _userRepo.Get()
+            .Where(u => u.IsActive)
+            .Where(u => (EPositionType)u.Position.PositionType == EPositionType.Teacher)
+            .Where(u => u.Id != subject.Instructor!.Id)
+            .OrderBy(u => u.Name)
+            .Select(u => ObjectDTO.Map(u.Id, u.Name))
+            .ToListAsync();
+
+        teachers = [subject.Instructor is not null ? ObjectDTO.Map(subject.Instructor.Id, subject.Instructor.Name) : null, ..teachers];
 
         var skills = await _repo.Get()
             .Where(s => s.CurricularUnit.Id == subject.CurricularUnit.Id)
@@ -122,7 +136,7 @@ public class SkillService(BaseRepository<Skill> repository, ICurricularUnitRepos
             .ToListAsync();
 
         return new AppResponse<ExamSkillsDTO>(
-            ExamSkillsDTO.Map(SubjectDTO.Map(subject), skills),
+            ExamSkillsDTO.Map(SubjectDTO.Map(subject), teachers, skills),
             "Skills found!"
         );
     }

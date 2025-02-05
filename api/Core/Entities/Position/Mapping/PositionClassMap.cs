@@ -21,9 +21,13 @@ public class PositionClassMap : IEntityTypeConfiguration<Position>
         builder.Property(e => e.IsActive)
             .HasColumnName("is_active");
 
-            builder.Property(e => e.PermissionLevel)
+        builder.Property(e => e.PermissionLevel)
             .HasColumnType("tinyint")
-            .HasColumnName("position_level");
+            .HasColumnName("permission_level");
+
+        builder.Property(e => e.PositionType)
+            .HasColumnType("tinyint")
+            .HasColumnName("position_type");
     }
 }
 
