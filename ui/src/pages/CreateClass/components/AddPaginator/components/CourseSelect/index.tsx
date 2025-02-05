@@ -37,7 +37,7 @@ export default ({onChange, defaultValue} : CourseSelectProps) =>  {
 
     const getData = async () => {
         const response = await internalAPI.jsonRequest(`/course?page=1&items=10&query=${inputKey}`, "GET");
-        if(!response || response.statusCode != 200)
+        if(!response.success)
             if (!toast.isActive("courses-load-error"))
                 toast.error("Error on load courses.", { toastId: "courses-load-error" });
 

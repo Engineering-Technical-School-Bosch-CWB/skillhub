@@ -25,10 +25,8 @@ const Login = () => {
 
             const response = await internalAPI.jsonRequest("/login", "POST", undefined, data);
 
-            if (!response || response.statusCode != 200)
+            if (!response.success)
                 throw new Error(response.message);
-
-            console.log(response);
 
             return response.data;
         };

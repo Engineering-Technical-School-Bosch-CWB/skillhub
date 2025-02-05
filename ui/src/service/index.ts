@@ -37,13 +37,13 @@ export default class Service {
             }
         })
 
-        const json = await response.json()
+        const json = await response.json().catch(() => ({}));
 
         return {
             statusCode: response.status,
             data: json.data || null,
             success: response.status < 400,
-            message: json.message
+            message: json.message || null
         }
     }
 

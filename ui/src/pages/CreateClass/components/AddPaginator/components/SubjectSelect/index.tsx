@@ -24,7 +24,7 @@ export default ({data, onSelect: onChange, onChangeInput, onToggleDelete}: ISubj
 
     const loadSubjects = async () => {
         const response = await internalAPI.jsonRequest('/curricularUnits?query', 'GET')
-        if(!response || response.statusCode != 200)
+        if(!response.success)
             if (!toast.isActive("subjects-load-error"))
                 toast.error("Load subjects error.", { toastId: "subjects-load-error" });
 

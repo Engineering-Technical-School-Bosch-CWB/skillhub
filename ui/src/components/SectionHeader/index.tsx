@@ -9,24 +9,27 @@ export default ({ links }: ISectionHeaderProps) => {
             <div className={`${styles.section}`}>
                 {
                     !links
-                    ? <span className={`${styles.disabled}`}>Home</span>
-                    : <Link to={"/home"}>
-                        <Text fontSize="sm">Home</Text>
-                    </Link>
+                        ? <span className={`${styles.disabled}`}><Text fontSize="sm">Home</Text></span>
+                        :
+                        <Link to={"/home"}>
+                            <Text fontSize="sm">Home</Text>
+                        </Link>
                 }
                 {links?.map(l => (
                     <>
                         <span className={`${styles.disabled}`}> </span>
-                        <span className={`material-symbols-outlined ${styles.arrow}`}>
+                        <span className={`material-symbols-outlined ${styles.arrow} ${styles.disabled}`}>
                             arrow_forward_ios
                         </span>
                         {
 
                             !l.goTo
-                                ? <span className={`${styles.disabled}`}>
-                                    <Text  fontSize="sm">{l.label}</Text>
+                                ?
+                                <span className={`${styles.disabled}`}>
+                                    <Text fontSize="sm">{l.label}</Text>
                                 </span>
-                                : <Link to={l.goTo}>
+                                :
+                                <Link to={l.goTo}>
                                     <Text fontSize="sm">{l.label}</Text>
                                 </Link>
                         }

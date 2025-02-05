@@ -12,10 +12,12 @@ import AvaliationTable from "./components/AvaliationTable";
 
 import { useEffect, useState } from "react"
 import { ISubject } from "../../interfaces/models/ISubject"
-import { IAvaliationTableProps } from "./interfaces/SubjectDetails.interface";
+import { IAvaliationTableProps, IFeedback, IFeedbackData } from "./interfaces/SubjectDetails.interface";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import SectionHeader from "@/components/SectionHeader";
+import getHex from "@/constants/getHex";
+import FeedbackCard from "@/components/FeedbackCard";
 
 const SubjectDetails = () => {
 
@@ -25,11 +27,12 @@ const SubjectDetails = () => {
 
     const [subject, setSubject] = useState<ISubject>();
     const [exams, setExams] = useState<IAvaliationTableProps[]>([]);
+    const [feedbacks, setFeedbacks] = useState<IFeedback[]>([]);
 
     const getData = async () => {
         const response = await internalAPI.jsonRequest(`/subjects/${subjectId}`, "GET");
 
-        if (!response || response.statusCode != 200) {
+        if (!response.success) {
             if (!toast.isActive("subject-load-error"))
                 toast.error("Something went wrong.", { toastId: "subject-load-error" });
             navigate("/home");
@@ -56,6 +59,11 @@ const SubjectDetails = () => {
 
             }
         })))
+
+        setFeedbacks(content.feedbacks.map(({ id, content, updatedAt, instructor, student }: IFeedbackData) => ({
+            feedback: id ? { id, content, updatedAt, instructor } : null,
+            student
+        })));
 
     }
 
@@ -115,6 +123,36 @@ const SubjectDetails = () => {
                         </span>
                     </span>
                 </section>
+                <Divider size="big" />
+
+                <section className={`${styles.spacing}`}>
+                    <section className={`${styles.title_section} ${styles.align}`}>
+                        <Text fontSize="xl2" fontWeight="bold" >
+                            Students Feedbacks
+                        </Text>
+                        <Text fontSize="sm" >** Apprentices can see subject feedbacks!</Text>
+                    </section>
+                    {
+                        feedbacks.map(f => (
+                            <FeedbackCard
+                                color={getHex(f.student.name)}
+                                title={f.student.name}
+                                subtitle={
+                                    !f.feedback
+                                        ? "No feedback provided..."
+                                        : "Last update • " + formatDate(f.feedback.updatedAt) + " by " + f.feedback.instructor
+                                }
+                                editButton={{
+                                    label: "Edit Feedback",
+                                    action: () => {}
+                                }}
+                                content={f.feedback?.content}
+                            />
+                        ))
+                    }
+
+                </section>
+
                 <Divider size="big" />
 
                 <section>

@@ -26,7 +26,7 @@ public record UserDTO(
     StudentDTO? StudentProfile
 )
 {
-    public static UserDTO Map(User obj, StudentDTO? student)
+    public static UserDTO Map(User obj, StudentDTO? student = null)
     {
         return new UserDTO(
             obj.Id,
@@ -38,6 +38,30 @@ public record UserDTO(
             ObjectDTO.Map(obj.OccupationArea.Id, obj.OccupationArea.Name),
             obj.Position?.PositionLevel,
             student
+        );
+    }
+}
+
+public record UserProfileDTO(
+    int Id,
+    string Name,
+    string Identification,
+    DateOnly? Birthday,
+    string Position,
+    string Sector,
+    StudentProfileDTO? Student
+)
+{
+    public static UserProfileDTO Map(User obj, StudentProfileDTO? studentProfile)
+    {
+        return new UserProfileDTO(
+            obj.Id,
+            obj.Name,
+            obj.Identification,
+            obj.Birthday,
+            obj.Position.Name,
+            obj.Sector.Name,
+            studentProfile
         );
     }
 }

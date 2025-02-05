@@ -8,7 +8,7 @@ public partial class Feedback : IEntity
   public required Student Student { get; set; }
   public Subject? Subject { get; set; }
   public required string Content { get; set; }
-  public required DateOnly UpdatedAt { get; set; }
+  public required DateTime UpdatedAt { get; set; }
   public required bool StudentMayVisualize { get; set; }
   public bool IsActive { get; set; } = true;
 }

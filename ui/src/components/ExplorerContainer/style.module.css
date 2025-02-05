@@ -88,3 +88,10 @@
         align-items: center;
     }
 }
+
+.space_between {
+    display: flex;
+    justify-content: space-between;
+
+    width: 100%;
+}

@@ -73,6 +73,8 @@ button:disabled {
     color: var(--primary-dark);
 }
 .primary_icon {
+    width: 43px;
+    height: 43px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -83,6 +85,7 @@ button:disabled {
     color: var(--primary-main);
     font-size: x-large;
     font-weight: 300;
+    aspect-ratio: 1/1;
 }
 .primary_icon:hover {
     background-color: var(--primary-light-low-opacity);

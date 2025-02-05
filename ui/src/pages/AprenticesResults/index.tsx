@@ -29,7 +29,7 @@ const AprenticesResults = () => {
     const getData = async () => {
         const response = await internalAPI.jsonRequest(`/students/results?${new URLSearchParams({ query: search })}`, "GET");
 
-        if (!response || response.statusCode != 200) {
+        if (!response.success) {
             if (!toast.isActive("results-load-error"))
                 toast.error("Something went wrong.", { toastId: "results-load-error" });
             navigate("/home");

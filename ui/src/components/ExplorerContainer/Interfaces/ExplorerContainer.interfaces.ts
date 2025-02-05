@@ -17,4 +17,8 @@ export interface IExplorerContainerProps {
         }[]
         setValue: Function
     }[]
+    button?: {
+        icon: string
+        onClick: Function
+    }
 }

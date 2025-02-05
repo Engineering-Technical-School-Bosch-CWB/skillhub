@@ -52,14 +52,16 @@ public record SubjectResultDTO(
 
 public record InstructorSubjectDTO(
     SubjectDTO Subject,
-    IEnumerable<ExamResultsDTO> Exams
+    IEnumerable<ExamResultsDTO> Exams,
+    IEnumerable<SubjectFeedbackDTO> Feedbacks
 )
 {
-    public static InstructorSubjectDTO Map(Subject subject, IEnumerable<ExamResultsDTO> exams)
+    public static InstructorSubjectDTO Map(Subject subject, IEnumerable<ExamResultsDTO> exams, IEnumerable<SubjectFeedbackDTO> feedbacks)
     {
         return new InstructorSubjectDTO(
             SubjectDTO.Map(subject),
-            exams
+            exams,
+            feedbacks
         );
     }
 }

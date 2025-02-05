@@ -116,6 +116,42 @@ public class StudentService(
         );
     }
 
+    public async Task<StudentProfileDTO?> GetStudentProfile(int userId, bool show)
+    {
+        var student = await _repo.Get()
+            .Where(s => s.IsActive)
+            .Include(s => s.Class.Subjects)
+            .ThenInclude(s => s.CurricularUnit)
+            .Include(s => s.Class.Subjects)
+            .ThenInclude(s => s.Instructor)
+            .SingleOrDefaultAsync(s => s.User.Id == userId);
+
+        if (student is null) return null;
+
+        var results = student.Class.Subjects.Select(s => SubjectResultDTO.Map(s, GetSubjectGrade(student.Id, s.Id)));
+
+        var position = _repo.Get()
+            .Where(s => s.IsActive)
+            .Where(s => s.Class.Id == student.Class.Id)
+            .Where(s => s.OverallScore != null)
+            .OrderByDescending(s => s.OverallScore)
+            .AsEnumerable()
+            .Select((s, index) => new { s.Id, Position = index + 1 })
+            .FirstOrDefault(x => x.Id == student.Id)?.Position;
+
+        var feedbacks = await _feedbackRepo.Get()
+            .Where(f => f.IsActive)
+            .Where(f => f.Student.Id == student.Id)
+            .Include(f => f.Student.User)
+            .Include(f => f.Instructor)
+            .Include(f => f.Subject!.CurricularUnit)
+            .OrderByDescending(f => f.UpdatedAt)
+            .Select(f => CompleteFeedbackDTO.Map(f))
+            .ToListAsync();
+
+        return StudentProfileDTO.Map(student, results, feedbacks, show, position);
+    }
+
     #endregion
 
     #region Pages
