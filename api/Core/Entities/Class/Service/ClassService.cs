@@ -72,7 +72,7 @@ public class ClassService(
 
         var _sector = await _sectorRepo.Get().SingleOrDefaultAsync(s => s.Name == "ETS")
             ?? throw new Exception("Not found sector ETS");
-        var _position = await _positionRepo.Get().SingleOrDefaultAsync(p => p.PositionLevel == 1)
+        var _position = await _positionRepo.Get().SingleOrDefaultAsync(p => p.PermissionLevel == 1)
             ?? throw new Exception("Not found user with ");
 
         var createdClass = _repo.Add(new Class

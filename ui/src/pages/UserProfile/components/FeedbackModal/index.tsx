@@ -129,7 +129,7 @@ export default ({ isOpen, handleIsOpen, feedbackId, userName, studentData, setSt
                     ...studentData,
                     subjectFeedBacks: [
                         content,
-                        ...studentData.subjectFeedBacks.filter(fb => fb.id !== feedbackId)
+                        ...studentData.subjectFeedBacks.filter(f => f.id !== feedbackId)
                     ]
                 });
             } else {
@@ -137,7 +137,7 @@ export default ({ isOpen, handleIsOpen, feedbackId, userName, studentData, setSt
                     ...studentData,
                     feedbacks: [
                         content,
-                        ...studentData.feedbacks.filter(fb => fb.id !== feedbackId)
+                        ...studentData.feedbacks.filter(f => f.id !== feedbackId)
                     ]
                 });
             }
@@ -177,7 +177,7 @@ export default ({ isOpen, handleIsOpen, feedbackId, userName, studentData, setSt
             setStudentData({
                 ...studentData,
                 feedbacks: [
-                    ...studentData.feedbacks.filter(fb => fb.id !== feedbackId)
+                    ...studentData.feedbacks.filter(f => f.id !== feedbackId)
                 ]
             });
 

@@ -36,7 +36,7 @@ public record UserDTO(
             ObjectDTO.Map(obj.Position.Id, obj.Position.Name),
             ObjectDTO.Map(obj.Sector.Id, obj.Sector.Name),
             ObjectDTO.Map(obj.OccupationArea.Id, obj.OccupationArea.Name),
-            obj.Position?.PositionLevel,
+            obj.Position?.PermissionLevel,
             student
         );
     }

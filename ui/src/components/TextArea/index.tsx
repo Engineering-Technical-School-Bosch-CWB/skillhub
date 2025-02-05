@@ -5,9 +5,10 @@ interface ITextAreaProps {
     setValue: Function
     placeHolder?: string
     required?: boolean
+    style?: any
 }
 
-export default ({ value, setValue, placeHolder, required }: ITextAreaProps) => {
+export default ({ value, setValue, placeHolder, required, style }: ITextAreaProps) => {
     return (
         <>
             <textarea
@@ -15,6 +16,7 @@ export default ({ value, setValue, placeHolder, required }: ITextAreaProps) => {
                 placeholder={placeHolder}
                 onChange={(e) => setValue(e.target.value)}
                 className={`${styles.textarea}`}
+                style={style}
                 required={required || false} />
         </>
     )

@@ -30,7 +30,7 @@ public class PositionController : ControllerBase
         var position = new Position
         {
             Name = payload.Name,
-            PositionLevel = (short)payload.PositionLevel
+            PermissionLevel = (short)payload.PermissionLevel
         };
 
         var result = await service.AddAsync(position);

@@ -18,26 +18,26 @@ export default ({
     children,
     id,
     className,
-} : ICheckBoxContainerProps ) => {
-    return(
+}: ICheckBoxContainerProps) => {
+    return (
         <div className={`${styles.checkbox_container} ${error ? styles.error : ""} ${styles[className ?? ""]}`}>
 
             {children}
             {
-                label && 
+                label &&
                 <label
-                htmlFor={id}
-                className={`${styles.label}`}
+                    htmlFor={id}
+                    className={`${styles.label}`}
                 >
-                        {label}
-                    </label>
+                    {label}
+                </label>
             }
 
             {
                 helperText &&
-                    <span
-                        className={`${styles.helper_text}`}
-                    >{helperText}</span>
+                <span
+                    className={`${styles.helper_text}`}
+                >{helperText}</span>
             }
         </div>
     )

@@ -15,6 +15,7 @@ type ITextProps = TextElementProps & {
     fontWeight?: TextWeight
     fontSize?: TextFontSize
     fontStyle?: TextStyle
+    style?: any
 }
 
 const Text = forwardRef<HTMLElement, ITextProps>(
@@ -24,11 +25,13 @@ const Text = forwardRef<HTMLElement, ITextProps>(
         fontSize = "md",
         fontStyle = "normal",
         children,
+        style
     }, ref) => (
         <Variant 
             ref={ref as any}
             className={`${f_styles[fontStyle]} ${f_sizes[fontSize]} ${f_weights[fontWeight]}`}
             children={children}
+            style={style}
         />
     ) 
 )

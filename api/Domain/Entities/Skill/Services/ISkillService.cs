@@ -9,5 +9,5 @@ public interface ISkillService : IService<Skill>
     public Task<AppResponse<SkillDTO>> UpdateSkill(int id, SkillUpdatePayload payload);
     public Task DeleteSkill(int id);
     public Task<AppResponse<SkillDTO>> GetSkill(int id);
-    public Task<AppResponse<SkillResponse>> GetByCurricularUnit(int curricularUnitId);
+    public Task<AppResponse<ExamSkillsDTO>> GetCreateExamPage(int curricularUnitId);
 }

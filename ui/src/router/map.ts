@@ -17,6 +17,7 @@ export enum RouteMap {
     NEW_CLASS = "/classes/new",
     CLASS_DETAILS = "/classes/:classId",    
     SUBJECT_DETAILS = "/classes/:classId/subject/:subjectId",
-    NEW_SUBJECT_TEST = "/classes/:classId/subject/:id/new-test",
+    CREATE_EXAM = "/classes/:classId/subject/:subjectId/new-exam",
+    // NEW_SUBJECT_TEST = "/classes/:classId/subject/:id/new-test",
     AVALIATION_RESULT = "/classes/:classId/subject/test/result/:id",
 }

@@ -109,8 +109,8 @@ public class PositionService
         if (!string.IsNullOrEmpty(payload.Name))
             currentPosition.Name = payload.Name;
 
-        if (payload.PositionLevel is not null)
-            currentPosition.PositionLevel = (short)payload.PositionLevel.Value;
+        if (payload.PermissionLevel is not null)
+            currentPosition.PermissionLevel = (short)payload.PermissionLevel.Value;
 
         var result = _repo.Update(currentPosition)
                 ?? throw new UpsertFailException("Could not update position!");

@@ -106,7 +106,7 @@ const SubjectDetails = () => {
                             <Text fontSize="xl2" fontWeight="bold" >
                                 Exams
                             </Text>
-                            <Button className={`${styles.addBtn} ${styles.align}`} >
+                            <Button className={`${styles.addBtn} ${styles.align}`} onClick={() => navigate("new-exam")} >
                                 <Icon name="add" size="md" />
                             </Button>
                         </div>
