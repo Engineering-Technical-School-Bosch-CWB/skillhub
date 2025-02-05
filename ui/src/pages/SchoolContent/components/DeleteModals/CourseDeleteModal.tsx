@@ -1,11 +1,10 @@
 import Text from "@/typography";
 import { useEffect, useState } from "react"
-import { IDeleteModalProps } from "./DeleteModal.interface";
+import { IDeleteModalProps } from "./_DeleteModal.interface";
 import internalAPI from "@/service/internal.services";
 import { ICourse } from "@/interfaces/models/ICourse";
 
 import styles from "./styles.module.css";
-import ButtonGroup from "@/components/ButtonGroup";
 
 export default ({id}: IDeleteModalProps) => {
     const [isOpen, setIsOpen] = useState(true);

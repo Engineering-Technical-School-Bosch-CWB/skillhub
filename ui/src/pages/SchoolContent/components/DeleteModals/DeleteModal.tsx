@@ -1,6 +1,5 @@
 import Modal from "@/components/Modal";
-import { IDeleteModalProps } from "./DeleteModal.interface";
-import Text from "@/typography";
+import { IDeleteModalProps } from "./_DeleteModal.interface";
 import React, { useState } from "react";
 import CourseDeleteModal from "./CourseDeleteModal";
 import SubjectAreaDeleteModal from "./SubjectAreaDeleteModal";

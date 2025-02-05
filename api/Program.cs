@@ -158,6 +158,7 @@ public class Program
         services.AddScoped<ISubjectService, SubjectService>();
         services.AddScoped<ISubjectAreaService, SubjectAreaService>();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IOccupationAreaService, OccupationAreaService>();
 
         #endregion
 

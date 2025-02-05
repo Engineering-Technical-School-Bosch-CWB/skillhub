@@ -2,6 +2,14 @@ import { INavLink } from "@/components/Nav/Nav.interfaces";
 
 export type Tabs =  "course" | "curricularUnits" | "subjectAreas" | "occupationAreas"
 
+export const tabName = {
+    "home": "Home",
+    "course": "Course",
+    "curricularUnits": "Curricular Unit",
+    "subjectAreas": "Subject Area",
+    "occupationAreas": "Occupation Area"
+}
+
 export const links: INavLink[] = [
     {
         label: "Courses",

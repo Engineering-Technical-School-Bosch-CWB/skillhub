@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Tabs } from "../links"
+import { tabName, Tabs } from "../links"
 import internalAPI from "@/service/internal.services";
 import { toast } from "react-toastify";
 import TableView from "@/components/TableView";
@@ -15,6 +15,7 @@ import styles from "../styles.module.css"
 import SectionHeader from "@/components/SectionHeader";
 import { ISectionHeaderProps } from "@/components/SectionHeader/interfaces";
 import DeleteModal from "./DeleteModals/DeleteModal";
+import UpdateModal from "./UpdateModals/UpdateModal";
 
 export default ( {kind}: ICrudContainerProps ) => {
 
@@ -27,13 +28,7 @@ export default ( {kind}: ICrudContainerProps ) => {
 
     const [focusedId, setFocusedId] = useState(0);
 
-    const tabName = {
-        "home": "Home",
-        "course": "Course",
-        "curricularUnits": "Curricular Unit",
-        "subjectAreas": "Subject Area",
-        "occupationAreas": "Occupation Area"
-    }
+
 
     const loadData = async () => {
         const response = await internalAPI.jsonRequest(`/${kind}?page=${page}&items=${items}`, "GET");
@@ -73,10 +68,10 @@ export default ( {kind}: ICrudContainerProps ) => {
             }
         })
         const options: IOption[] = [
-            // {
-            //     function: toggleEdit,
-            //     iconName: "edit"
-            // },
+            {
+                function: toggleEdit,
+                iconName: "edit"
+            },
             {
                 function: toggleDelete,
                 iconName: "close"
@@ -100,9 +95,13 @@ export default ( {kind}: ICrudContainerProps ) => {
         ]
     }
 
+
+    //!!!!!!! TEST ZONE !!!!!!!!!!
     useEffect(() => {
-        toggleDelete(true, 1)
+        // toggleDelete(true, 1)
+        toggleEdit(true, 1);
     },[])
+    //!!!!!!! TEST ZONE !!!!!!!!!!
 
     return(
         <>
@@ -115,7 +114,7 @@ export default ( {kind}: ICrudContainerProps ) => {
             </section>
             <TableView data={data} hasNotation={false} hasOptions={true} options={options} />
 
-            {/* { editModalOpen && <DeleteModal id={focusedId} kind={kind} isOpen={true} onClose={closeModal} /> } */}
+            { editModalOpen && <UpdateModal id={focusedId} kind={kind} isOpen={true} onClose={closeModal} /> }
             { deleteModalOpen && <DeleteModal id={focusedId} kind={kind}  isOpen={true} onClose={closeModal} /> }
         </>
     )

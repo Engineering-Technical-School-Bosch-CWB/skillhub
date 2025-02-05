@@ -53,3 +53,8 @@ select * from [student]
 insert student values (null, null, 1, 1, 1)
 
 update course set is_active = 1
+
+select * from occupation_area
+
+insert into occupation_area values ('mecanica')
+
