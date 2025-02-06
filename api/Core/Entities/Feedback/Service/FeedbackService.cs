@@ -87,7 +87,7 @@ public class FeedbackService(
             .SingleOrDefaultAsync(f => f.Id == id)
             ?? throw new NotFoundException("Feedback not found!");
 
-        if (feedback.Instructor.Id != loggedId)
+        if (feedback.Subject is null && feedback.Instructor.Id != loggedId)
             throw new ForbiddenAccessException("User don't have permission to this service!");
 
         var instructor = await _userRepo.Get()

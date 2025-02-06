@@ -1,14 +1,15 @@
 import { AptitudeEnum } from "@/enums/AptitudeEnum"
 
 export interface IFeedbackData {
-    id?: number,
-    content?: string,
-    updatedAt?: string,
-    instructor?: string,
+    id?: number
+    content?: string
+    updatedAt?: string
+    instructor?: string
     student: {
-        id: number,
-        name: string,
-        identification: string,
+        id: number
+        userId: number
+        name: string
+        identification: string
         birthday?: string
     }
 }
@@ -22,6 +23,7 @@ export interface IFeedback {
     }
     student: {
         id: number,
+        userId: number
         name: string,
         identification: string,
         birthday?: string

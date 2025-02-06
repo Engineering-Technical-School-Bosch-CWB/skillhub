@@ -1,0 +1,13 @@
+.feedbacks {
+    display: flex;
+    flex-direction: column;
+    gap: .8rem;
+}
+
+.bttns {
+    display: flex;
+
+    gap: .8rem;
+    width: 100%;
+    justify-content: flex-end;
+}

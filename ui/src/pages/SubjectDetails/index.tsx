@@ -17,6 +17,21 @@ import { ISubject } from "../../interfaces/models/ISubject"
 import { IAvaliationTableProps, IFeedback, IFeedbackData } from "./interfaces/SubjectDetails.interface";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import FeedbackModal from "./components/FeedbackModal";
+import { useUserContext } from "@/contexts/user.context";
+
+interface IModalProps {
+    student?: {
+        id: number,
+        name: string
+    }
+    feedback?: {
+        id: number
+        content: string
+    }
+    isFeedbackModalOpen: boolean
+}
+
 
 const SubjectDetails = () => {
 
@@ -24,9 +39,15 @@ const SubjectDetails = () => {
 
     const navigate = useNavigate();
 
+    const { user } = useUserContext();
+
     const [subject, setSubject] = useState<ISubject>();
     const [exams, setExams] = useState<IAvaliationTableProps[]>([]);
     const [feedbacks, setFeedbacks] = useState<IFeedback[]>([]);
+
+    const [modalProps, setModalProps] = useState<IModalProps>({
+        isFeedbackModalOpen: false
+    })
 
     const getData = async () => {
 
@@ -144,10 +165,18 @@ const SubjectDetails = () => {
                                         ? "No feedback provided..."
                                         : "Last update • " + formatDate(f.feedback.updatedAt) + " by " + f.feedback.instructor
                                 }
-                                editButton={{
-                                    label: "Edit Feedback",
-                                    action: () => { }
-                                }}
+                                editButton={
+                                    user?.id != f.student.userId ? {
+                                        label: "Edit Feedback",
+                                        action: () => setModalProps({
+                                            student: {
+                                                id: f.student.id,
+                                                name: f.student.name
+                                            },
+                                            feedback: f.feedback,
+                                            isFeedbackModalOpen: true
+                                        })
+                                    } : undefined}
                                 content={f.feedback?.content}
                             />
                         ))
@@ -178,6 +207,23 @@ const SubjectDetails = () => {
                         hasOptions={false}
                     /> */}
                 </section>
+                {
+                    modalProps.student &&
+                    <FeedbackModal
+                        isOpen={modalProps.isFeedbackModalOpen}
+                        handleIsOpen={() => setModalProps({
+                            student: undefined,
+                            feedback: undefined,
+                            isFeedbackModalOpen: false
+                        })}
+                        student={modalProps.student}
+                        feedback={modalProps.feedback}
+                        handleFeedbacks={{
+                            feedbacks: feedbacks,
+                            setFeedbacks: setFeedbacks
+                        }}
+                    />
+                }
             </main>
         </>
 
