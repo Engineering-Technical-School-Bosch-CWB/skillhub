@@ -18,6 +18,7 @@ import { Course } from "@/interfaces/models/ICourse";
 import { OccupationArea } from "@/interfaces/models/IOccupationArea";
 import { SubjectArea } from "@/interfaces/models/ISubjectArea";
 import CreateModal from "./CreateModals/CreateModal";
+import Pagination from "@/components/TableView/Pagination";
 
 export interface ICrudContainerProps {
     kind: Tabs
@@ -37,8 +38,9 @@ export default ( {kind}: ICrudContainerProps ) => {
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
     const [createModalOpen, setCreateModalOpen] = useState(false);
-    const [page, setPage] = useState(0);
-    const [items, setItems] = useState(0);
+    const [page, setPage] = useState(1);
+    const [maxPages, setMaxPages] = useState(1);
+    const [items, setItems] = useState(8);
 
     const [focusedId, setFocusedId] = useState(0);
 
@@ -49,7 +51,9 @@ export default ( {kind}: ICrudContainerProps ) => {
         if (!response || response.statusCode != 200) 
             if (!toast.isActive(`${kind}-load-error`))
                 toast.error(`Error on load ${kind}.`, { toastId: `${kind}-load-error` });
-
+        console.log(response);
+        
+        setMaxPages(response.info?.totalPages ?? 1)
         setCourseOptions(response.data);
     }
 
@@ -104,14 +108,19 @@ export default ( {kind}: ICrudContainerProps ) => {
             }
         ]
     }
-
-    
     
     useEffect(() => {
         loadData();
-        toggleCreate();
     }, [])
+    useEffect(() => {
+        loadData();
+    }, [page, items])
 
+    const changePage = (index: number) => {
+        console.log(index);
+        
+        setPage(index);
+    }
 
     return(
         <>
@@ -123,6 +132,7 @@ export default ( {kind}: ICrudContainerProps ) => {
                 </Button>
             </section>
             <TableView data={data} hasNotation={false} hasOptions={true} options={options} />
+            <Pagination pages={maxPages} current={page} onChange={changePage} />
 
             { editModalOpen && <UpdateModal id={focusedId} kind={kind} isOpen={true} onClose={closeModal} /> }
             { deleteModalOpen && <DeleteModal id={focusedId} kind={kind}  isOpen={true} onClose={closeModal} /> }

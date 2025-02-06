@@ -14,6 +14,8 @@
 
     --primary-light: #0197ee;
     --primary-light-low-opacity: #0197ee36;
+    --primary-light-low-opacity-hover: #185c8376;
+    --primary-light-low-opacity-selected: #2e79a576;
     --primary-main: #00629a;
     --primary-dark: #00395c;
     
