@@ -17,6 +17,7 @@ import { CurricularUnit } from "@/interfaces/models/ICurricularUnit";
 import { Course } from "@/interfaces/models/ICourse";
 import { OccupationArea } from "@/interfaces/models/IOccupationArea";
 import { SubjectArea } from "@/interfaces/models/ISubjectArea";
+import CreateModal from "./CreateModals/CreateModal";
 
 export interface ICrudContainerProps {
     kind: Tabs
@@ -35,6 +36,7 @@ export default ( {kind}: ICrudContainerProps ) => {
     const [options, setOptions] = useState<IOption[]>([]);
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+    const [createModalOpen, setCreateModalOpen] = useState(false);
     const [page, setPage] = useState(0);
     const [items, setItems] = useState(0);
 
@@ -72,11 +74,6 @@ export default ( {kind}: ICrudContainerProps ) => {
         setOptions(options);
     }
 
-    
-    useEffect(() => {
-        loadData();
-    }, [])
-
     const toggleEdit = (isOpen: boolean,id: number) => {
         setFocusedId(id)
         setEditModalOpen(isOpen)
@@ -86,9 +83,14 @@ export default ( {kind}: ICrudContainerProps ) => {
         setDeleteModalOpen(isOpen)
     }
 
+    const toggleCreate = () => {
+        setCreateModalOpen(true);
+    }
+
     const closeModal = () => {
         setDeleteModalOpen(false);
         setEditModalOpen(false);
+        setCreateModalOpen(false);
     }
 
     const sectionHeaderProps: ISectionHeaderProps = {
@@ -103,13 +105,20 @@ export default ( {kind}: ICrudContainerProps ) => {
         ]
     }
 
+    
+    
+    useEffect(() => {
+        loadData();
+        toggleCreate();
+    }, [])
+
 
     return(
         <>
             <SectionHeader {...sectionHeaderProps} />
             <section className={styles.table_header}>
                 <Text fontSize="xl2" fontWeight="bold">{tabName[kind]}</Text>
-                <Button variant="secondary_icon">
+                <Button variant="secondary_icon" onClick={() => toggleCreate()}>
                     <Icon name="add" size="md"/>
                 </Button>
             </section>
@@ -117,6 +126,7 @@ export default ( {kind}: ICrudContainerProps ) => {
 
             { editModalOpen && <UpdateModal id={focusedId} kind={kind} isOpen={true} onClose={closeModal} /> }
             { deleteModalOpen && <DeleteModal id={focusedId} kind={kind}  isOpen={true} onClose={closeModal} /> }
+            { createModalOpen && <CreateModal kind={kind} isOpen={true} onClose={closeModal} />}
         </>
     )
 }

@@ -6,6 +6,7 @@ export interface ICourse extends IEntity
 {
     name: string,
     abbreviation: string,
+    occupationAreaId?: number,
     occupationArea?: IOccupationArea
 }
 
