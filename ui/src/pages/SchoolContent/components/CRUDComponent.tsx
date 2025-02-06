@@ -40,7 +40,7 @@ export default ( {kind}: ICrudContainerProps ) => {
     const [createModalOpen, setCreateModalOpen] = useState(false);
     const [page, setPage] = useState(1);
     const [maxPages, setMaxPages] = useState(1);
-    const [items, setItems] = useState(4);
+    const [items, setItems] = useState(10);
 
     const [focusedId, setFocusedId] = useState(0);
 

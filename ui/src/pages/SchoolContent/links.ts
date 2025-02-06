@@ -19,17 +19,17 @@ export const links: INavLink[] = [
     {
         label: "Curricular Unit",
         to: "?tab=curricularUnits",
-        icon: "collections_bookmark"
+        icon: "design_services"
     },
     {
         label: "Subject Area",
         to: "?tab=subjectAreas",
-        icon: "category"
+        icon: "collections_bookmark"
     },
     {
         label: "Occupation Area",
         to: "?tab=occupationArea",
-        icon: "category"
+        icon: "hub"
     }
 ]
 
