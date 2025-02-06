@@ -5,10 +5,10 @@ public record ExamDTO(
     string Name,
     string? Description,
     DateOnly? AppliedAt,
-    IEnumerable<NewSkillResultDTO> Skills
+    IEnumerable<SkillResultDTO> Skills
 )
 {
-    public static ExamDTO Map(Exam obj, IEnumerable<NewSkillResultDTO> skills)
+    public static ExamDTO Map(Exam obj, IEnumerable<SkillResultDTO> skills)
     {
         return new ExamDTO(
             obj.Id,

@@ -23,7 +23,7 @@ public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRe
 
     #region CRUD
 
-    public async Task<AppResponse<SkillResultDTO>> CreateSkillResult(SkillResultCreatePayload payload)
+    public async Task<AppResponse<CompleteSkillResultDTO>> CreateSkillResult(SkillResultCreatePayload payload)
     {
         var student = await _studentRepo.Get()
             .Include(s => s.Class)
@@ -65,8 +65,8 @@ public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRe
 
         await _repo.SaveAsync();
 
-        return new AppResponse<SkillResultDTO>(
-            SkillResultDTO.Map(createdSkillResult, GetSkillAverageByClass(skill.Id, student.Class.Id)),
+        return new AppResponse<CompleteSkillResultDTO>(
+            CompleteSkillResultDTO.Map(createdSkillResult, GetSkillAverageByClass(skill.Id, student.Class.Id)),
             "Skill result created successfully!"
         );
     }
@@ -75,7 +75,7 @@ public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRe
 
     #region Services
 
-    public async Task<AppResponse<SkillResultDTO>> GetSkillResultBySkill(int skillId, int studentId)
+    public async Task<AppResponse<CompleteSkillResultDTO>> GetSkillResultBySkill(int skillId, int studentId)
     {
         var skillResult = await _repo.Get()
             .Where(s => s.IsActive)
@@ -85,8 +85,8 @@ public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRe
             .FirstAsync()
             ?? throw new NotFoundException("Skill result not found!");
 
-        return new AppResponse<SkillResultDTO>(
-            SkillResultDTO.Map(skillResult),
+        return new AppResponse<CompleteSkillResultDTO>(
+            CompleteSkillResultDTO.Map(skillResult),
             "Skill result found!"
         );
     }
@@ -130,6 +130,23 @@ public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRe
         return new AppResponse<SkillHistoryResponse>(
             SkillHistoryResponse.Map(SkillDTO.Map(skill), history),
             "Skill history found!"
+        );
+    }
+
+    public async Task<AppResponse<IEnumerable<ExamEvaluationResultDTO>>> GetExamEvaluationPage(int examId)
+    {
+        var results = await _repo.Get()
+            .Where(s => s.IsActive)
+            .Where(s => s.Exam!.Id == examId)
+            .Include(s => s.Student.User)
+            .Include(s => s.Skill)
+            .GroupBy(s => s.Student)
+            .Select(g => ExamEvaluationResultDTO.Map(g.Key, g.Select(s => SkillResultDTO.Map(s))))
+            .ToListAsync();
+
+        return new AppResponse<IEnumerable<ExamEvaluationResultDTO>>(
+            results,
+            "Exam results found"
         );
     }
 

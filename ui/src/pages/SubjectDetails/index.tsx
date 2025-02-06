@@ -64,6 +64,8 @@ const SubjectDetails = () => {
 
         setSubject(content.subject);
 
+        console.log(content.exams)
+
         setExams(content.exams.map((e: {
             description: string; id: number; name: string; appliedAt: string; skills: any; students: { name: string; mean: number; skillResults: any; }[];
         }) => ({

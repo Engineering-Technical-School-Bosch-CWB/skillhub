@@ -17,5 +17,5 @@ public class ExamCreatePayload
     public required int SubjectId { get; set; }
 
     [Required]
-    public required IEnumerable<NewSkillResultDTO> Skills { get; set; }
+    public required IEnumerable<SkillResultDTO> Skills { get; set; }
 }

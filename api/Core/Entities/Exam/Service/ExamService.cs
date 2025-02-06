@@ -46,7 +46,7 @@ public class ExamService(BaseRepository<Exam> repository, ISubjectRepository sub
         var createdExam = _repo.Add(newExam)
             ?? throw new UpsertFailException("Exam could not be inserted!");
 
-        var skillResults = new List<NewSkillResultDTO>();
+        var skillResults = new List<SkillResultDTO>();
 
         foreach (var obj in payload.Skills)
         {
@@ -68,7 +68,7 @@ public class ExamService(BaseRepository<Exam> repository, ISubjectRepository sub
                 var createdSkillResult = _skillResultRepo.Add(skillResult)
                     ?? throw new UpsertFailException("Skill result could not be inserted!");
 
-                skillResults.Add(NewSkillResultDTO.Map(createdSkillResult));
+                skillResults.Add(SkillResultDTO.Map(createdSkillResult));
             }
         }
 

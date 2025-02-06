@@ -31,7 +31,7 @@ export default ({ exam }: IAvaliationTableProps) => {
                 <div className={`${styles.table_header} ${styles.align}`}>
                     <span className={`${styles.subtitle}`}>
                         <Text fontSize="lg" fontWeight="bold" >{exam.name}</Text>
-                        <Text fontSize="sm">{exam.date}</Text>
+                        <Text fontSize="sm" fontWeight="semibold">{exam.date}</Text>
                     </span>
                     <span className={`${styles.subtitle} ${styles.evBtn}`}>
                         <Text fontSize="sm">Evaluate</Text>
