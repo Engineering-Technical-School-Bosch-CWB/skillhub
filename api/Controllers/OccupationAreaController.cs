@@ -42,7 +42,7 @@ public class OccupationAreaController : ControllerBase
     {
         if (userContext.PermissionLevel != Api.Domain.Enums.EPermissionLevel.Admin)
             throw new ForbiddenAccessException("User don't have permission to this service!");
-
+        payload.IsActive = true;
         var result = await service.AddAsync(payload);
         return Ok(result);
     }
