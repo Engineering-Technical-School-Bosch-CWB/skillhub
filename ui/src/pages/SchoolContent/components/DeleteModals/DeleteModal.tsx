@@ -14,7 +14,7 @@ const DeleteComponents: Record<Tabs, React.ElementType> =  {
     course: CourseDeleteModal,
     curricularUnits: CurricularUnitDeleteModal,
     subjectAreas: SubjectAreaDeleteModal,
-    occupationAreas: OccupationAreaDeleteModal
+    occupationArea: OccupationAreaDeleteModal
 }
 
 export default ({id, kind, onClose, isOpen}: IDeleteModalProps) => {

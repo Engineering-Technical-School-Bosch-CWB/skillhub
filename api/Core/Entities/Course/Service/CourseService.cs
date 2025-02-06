@@ -139,6 +139,8 @@ public class CourseService : BaseService<Course>, ICourseService
             repository.Update(course)
             ?? throw new UpsertFailException("Course could not be updated!");
 
+        await repository.SaveAsync();
+
         return new AppResponse<CourseDTO>(
             CourseDTO.Map(updatedCourse),
             "Course updated successfully!"

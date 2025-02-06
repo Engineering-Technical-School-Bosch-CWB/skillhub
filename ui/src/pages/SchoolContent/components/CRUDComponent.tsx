@@ -8,14 +8,26 @@ import Text from "@/typography";
 import Button from "@/components/Button";
 import Icon from "@/components/Icon";
 
-export interface ICrudContainerProps {
-    kind: Tabs
-}
 import styles from "../styles.module.css"
 import SectionHeader from "@/components/SectionHeader";
 import { ISectionHeaderProps } from "@/components/SectionHeader/interfaces";
 import DeleteModal from "./DeleteModals/DeleteModal";
 import UpdateModal from "./UpdateModals/UpdateModal";
+import { CurricularUnit } from "@/interfaces/models/ICurricularUnit";
+import { Course } from "@/interfaces/models/ICourse";
+import { OccupationArea } from "@/interfaces/models/IOccupationArea";
+import { SubjectArea } from "@/interfaces/models/ISubjectArea";
+
+export interface ICrudContainerProps {
+    kind: Tabs
+}
+
+const typeMap: Record<Tabs, new (data: any) => any> = {
+    course: Course,
+    curricularUnits: CurricularUnit,
+    occupationArea: OccupationArea,
+    subjectAreas: SubjectArea
+}
 
 export default ( {kind}: ICrudContainerProps ) => {
 
@@ -37,9 +49,30 @@ export default ( {kind}: ICrudContainerProps ) => {
                 toast.error(`Error on load ${kind}.`, { toastId: `${kind}-load-error` });
 
         setCourseOptions(response.data);
-        
     }
 
+    const setCourseOptions = (data: any) => {
+        const classConstructor = typeMap[kind];
+        
+        const values = data.map((e: any) => {
+            const res = new classConstructor(e).convert();
+            return res
+        })
+        const options: IOption[] = [
+            {
+                function: toggleEdit,
+                iconName: "edit"
+            },
+            {
+                function: toggleDelete,
+                iconName: "close"
+            }
+        ] 
+        setData(values);
+        setOptions(options);
+    }
+
+    
     useEffect(() => {
         loadData();
     }, [])
@@ -58,31 +91,6 @@ export default ( {kind}: ICrudContainerProps ) => {
         setEditModalOpen(false);
     }
 
-    const setCourseOptions = (data: any) => {
-        const values = data.map((e: any) => {
-            return {
-                id: e.id,
-                abbreviation: e.abbreviation,
-                name: e.name,
-                occupationArea: e.occupationArea.name
-            }
-        })
-        const options: IOption[] = [
-            {
-                function: toggleEdit,
-                iconName: "edit"
-            },
-            {
-                function: toggleDelete,
-                iconName: "close"
-            }
-        ] 
-        setData(values);
-        setOptions(options);
-    }
-
-    
-
     const sectionHeaderProps: ISectionHeaderProps = {
         links: [
             {
@@ -95,13 +103,6 @@ export default ( {kind}: ICrudContainerProps ) => {
         ]
     }
 
-
-    //!!!!!!! TEST ZONE !!!!!!!!!!
-    useEffect(() => {
-        // toggleDelete(true, 1)
-        toggleEdit(true, 1);
-    },[])
-    //!!!!!!! TEST ZONE !!!!!!!!!!
 
     return(
         <>

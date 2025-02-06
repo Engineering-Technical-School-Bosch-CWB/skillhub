@@ -45,8 +45,7 @@ export default ({id, onChange}: IUpdateModalProps) => {
         }))
     }
     useEffect(() => {
-        console.log(data);
-        
+        onChange!(data)
     }, [data])
 
     return(

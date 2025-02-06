@@ -4,7 +4,7 @@ import ButtonGroup from "@/components/ButtonGroup";
 import internalAPI from "@/service/internal.services";
 import { toast } from "react-toastify";
 import { tabName, Tabs } from "../../links";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CourseUpdateModal from "./CourseUpdateModal";
 import CurricularUnitUpdateModal from "./CurricularUnitUpdateModal";
 import SubjectAreaUpdateModal from "./SubjectAreaUpdateModal";
@@ -15,7 +15,7 @@ const UpdateComponents: Record<Tabs, React.ElementType> = {
     course: CourseUpdateModal,
     curricularUnits: CurricularUnitUpdateModal,
     subjectAreas: SubjectAreaUpdateModal,
-    occupationAreas: OccupationAreaUpdateModal
+    occupationArea: OccupationAreaUpdateModal
 }
 
 export default ({id, kind, onClose, isOpen}: IUpdateModalProps) => {
@@ -29,11 +29,11 @@ export default ({id, kind, onClose, isOpen}: IUpdateModalProps) => {
     }
 
     const submit = async () => {
-        const response = await internalAPI.jsonRequest(`/${kind}/${id}`,"PUT",undefined, data)
+        const response = await internalAPI.jsonRequest(`/${kind}/${id}`,"PATCH",undefined, data)
         console.log(response);
         
         if(!response || response.statusCode != 200)
-            toast.error(`Error on delete ${kind}`, {toastId:`${kind}-delete-error`})
+            toast.error(`Error on delete ${kind}`, {toastId:`${kind}-update-error`})
         else
             location.reload();
     }
@@ -44,7 +44,7 @@ export default ({id, kind, onClose, isOpen}: IUpdateModalProps) => {
             open={isOpen!}
             title={`Update ${tabName[kind!]}`}
         >
-            {Component && <Component id={id}/>}
+            {Component && <Component id={id} onChange={setData} />}
             <ButtonGroup cancel={cancel} submit={submit} />
         </Modal>
         
