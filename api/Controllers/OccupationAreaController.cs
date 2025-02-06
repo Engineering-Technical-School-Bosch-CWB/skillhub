@@ -12,7 +12,7 @@ public class OccupationAreaController : ControllerBase
 {
     [HttpGet]
     [Route("{id}")]
-    public async Task<ActionResult> GetAll (
+    public async Task<ActionResult> GetById (
         [FromServices] IOccupationAreaService service, UserContext userContext,
         int id
     )
@@ -20,7 +20,7 @@ public class OccupationAreaController : ControllerBase
         if(userContext.PermissionLevel != Api.Domain.Enums.EPermissionLevel.Admin)
             throw new ForbiddenAccessException("User don't have permission to this service!");
 
-        var result = await service.GetAsync(new OccupationArea() { Id = id});
+        var result = await service.GetOccupationAreaById(id);
         return Ok(result);
     }
     [HttpGet]

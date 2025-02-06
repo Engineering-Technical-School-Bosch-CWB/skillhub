@@ -65,4 +65,10 @@ public class OccupationAreaService(BaseRepository<OccupationArea> repository,
         return;
     }
 
+    public async Task<AppResponse<OccupationArea>> GetOccupationAreaById(int id)
+    {
+        var entity = await repository.Get().SingleOrDefaultAsync(e => e.IsActive && e.Id == id)
+            ?? throw new NotFoundException("Occupation Area not found!");
+        return new (entity, "Occupation Area found!");
+    }
 }
