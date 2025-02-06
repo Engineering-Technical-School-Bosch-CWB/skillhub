@@ -9,5 +9,5 @@ public interface ISubjectAreaService : IService<SubjectArea>
     public Task<AppResponse<SubjectAreaDTO>> UpdateSubjectArea(int id, SubjectAreaPayload payload);
     public Task DeleteSubjectArea(int id);
     public Task<AppResponse<SubjectAreaDTO>> GetSubjectArea(int id);
-    public Task<AppResponse<IEnumerable<SubjectAreaDTO>>> GetAllSubjectAreas();
+    public Task<PaginatedAppResponse<SubjectAreaDTO>> GetAllSubjectAreas(PaginationQuery? pagination);
 }

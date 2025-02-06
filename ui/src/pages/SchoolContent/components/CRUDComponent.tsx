@@ -40,7 +40,7 @@ export default ( {kind}: ICrudContainerProps ) => {
     const [createModalOpen, setCreateModalOpen] = useState(false);
     const [page, setPage] = useState(1);
     const [maxPages, setMaxPages] = useState(1);
-    const [items, setItems] = useState(8);
+    const [items, setItems] = useState(4);
 
     const [focusedId, setFocusedId] = useState(0);
 
@@ -51,7 +51,6 @@ export default ( {kind}: ICrudContainerProps ) => {
         if (!response || response.statusCode != 200) 
             if (!toast.isActive(`${kind}-load-error`))
                 toast.error(`Error on load ${kind}.`, { toastId: `${kind}-load-error` });
-        console.log(response);
         
         setMaxPages(response.info?.totalPages ?? 1)
         setCourseOptions(response.data);
