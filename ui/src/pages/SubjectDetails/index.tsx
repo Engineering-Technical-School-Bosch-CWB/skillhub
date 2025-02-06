@@ -1,4 +1,5 @@
 import Text from "../../typography";
+import getHex from "@/constants/getHex";
 import Icon from "../../components/Icon";
 import styles from './styles.module.css';
 import Header from "../../components/Header"
@@ -6,7 +7,8 @@ import Button from "../../components/Button";
 import Divider from "../../components/Divider";
 import TableView from "../../components/TableView";
 import formatDate from "../../constants/formatDate";
-import ReturnButton from "../../components/ReturnButton";
+import FeedbackCard from "@/components/FeedbackCard";
+import SectionHeader from "@/components/SectionHeader";
 import internalAPI from "../../service/internal.services";
 import AvaliationTable from "./components/AvaliationTable";
 
@@ -15,9 +17,6 @@ import { ISubject } from "../../interfaces/models/ISubject"
 import { IAvaliationTableProps, IFeedback, IFeedbackData } from "./interfaces/SubjectDetails.interface";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import SectionHeader from "@/components/SectionHeader";
-import getHex from "@/constants/getHex";
-import FeedbackCard from "@/components/FeedbackCard";
 
 const SubjectDetails = () => {
 
@@ -30,6 +29,7 @@ const SubjectDetails = () => {
     const [feedbacks, setFeedbacks] = useState<IFeedback[]>([]);
 
     const getData = async () => {
+
         const response = await internalAPI.jsonRequest(`/subjects/${subjectId}`, "GET");
 
         if (!response.success) {
@@ -39,12 +39,16 @@ const SubjectDetails = () => {
         }
 
         const content = response.data;
+        console.log(content)
 
         setSubject(content.subject);
 
-        setExams(content.exams.map((e: { id: number; name: string; appliedAt: string; skills: any; students: { name: string; mean: number; skillResults: any; }[]; }) => ({
+        setExams(content.exams.map((e: {
+            description: string; id: number; name: string; appliedAt: string; skills: any; students: { name: string; mean: number; skillResults: any; }[];
+        }) => ({
             idTest: e.id,
             name: e.name,
+            description: e.description,
             date: !e.appliedAt ? "No informed date" : formatDate(e.appliedAt),
             data: {
                 skills: e.skills,
@@ -56,7 +60,6 @@ const SubjectDetails = () => {
                         return acc;
                     }, {})
                 }))
-
             }
         })))
 
@@ -75,7 +78,6 @@ const SubjectDetails = () => {
         <>
             <Header />
             <main>
-                {/* <ReturnButton /> */}
                 <SectionHeader links={[{
                     label: "Classes Overview",
                     goTo: "/classes"
@@ -144,7 +146,7 @@ const SubjectDetails = () => {
                                 }
                                 editButton={{
                                     label: "Edit Feedback",
-                                    action: () => {}
+                                    action: () => { }
                                 }}
                                 content={f.feedback?.content}
                             />

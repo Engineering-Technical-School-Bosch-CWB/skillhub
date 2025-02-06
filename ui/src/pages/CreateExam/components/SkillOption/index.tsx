@@ -3,7 +3,7 @@ import styles from "../../styles.module.css";
 import { ChangeEvent, useEffect, useState } from "react";
 
 export interface ISkillSelection {
-    id: number
+    skillId: number
     weight?: number
 }
 
@@ -23,15 +23,15 @@ export default ({ id, description, selectedSkills, setSelectedSkills }: ISkillOp
 
         if (checked) {
             setSelectedSkills([
-                ...selectedSkills,
+                ...selectedSkills.filter(s => s.skillId != id),
                 {
-                    id: id,
+                    skillId: id,
                     weight: weight
                 }
             ]);
         } else {
             setSelectedSkills(
-                selectedSkills.filter(s => s.id != id)
+                selectedSkills.filter(s => s.skillId != id)
             );
         }
     }

@@ -4,6 +4,7 @@ import styles from '../../styles.module.css';
 import { IAvaliationTableProps } from "../../interfaces/SubjectDetails.interface";
 import Icon from "../../../../components/Icon";
 import { Tooltip } from "recharts";
+import { useEffect } from "react";
 
 
 export default ({ exam }: IAvaliationTableProps) => {
@@ -26,18 +27,21 @@ export default ({ exam }: IAvaliationTableProps) => {
     return (
         <>
             <br />
-            <div className={`${styles.table_header} ${styles.align}`}>
-                <span className={`${styles.subtitle}`}>
-                    <Text fontSize="lg" fontWeight="bold" >{exam.name}</Text>
-                    <Text fontSize="sm">{exam.date}</Text>
-                </span>
-                <span className={`${styles.subtitle} ${styles.evBtn}`}>
-                    <Text fontSize="sm">Evaluate</Text>
-                    <Icon name={"edit"} />
-                </span>
-            </div>
+            <span className={`${styles.title}`}>
+                <div className={`${styles.table_header} ${styles.align}`}>
+                    <span className={`${styles.subtitle}`}>
+                        <Text fontSize="lg" fontWeight="bold" >{exam.name}</Text>
+                        <Text fontSize="sm">{exam.date}</Text>
+                    </span>
+                    <span className={`${styles.subtitle} ${styles.evBtn}`}>
+                        <Text fontSize="sm">Evaluate</Text>
+                        <Icon name={"edit"} />
+                    </span>
+                </div>
+                <Text fontSize="sm">{exam.description}</Text>
+            </span>
             <div className={`${styles.tables}`}>
-                <table className={`${styles.competence_table} ${styles.highlight_border} ${styles.divider}`}>
+                <table className={`${styles.competence_table} ${styles.highlight_border}`}>
                     <tr>
                         <th className={`${styles.highlight_border}`}>Skill</th>
                         <th className={`${styles.highlight_border}`}>Weight</th>
@@ -66,11 +70,11 @@ export default ({ exam }: IAvaliationTableProps) => {
                 </table>
 
                 <section className={`${styles.table_section}`}>
-                    <table className={`${styles.result_table} ${styles.highlight_border}`}>
+                    <table className={`${styles.result_table} ${styles.divider}`}>
                         <tr>
                             {
                                 exam.data.students.map((s: { name: string }) => (
-                                    <th className={`${styles.student_cell} ${styles.highlight_border} `}>{s.name}</th>
+                                    <th className={`${styles.student_cell} ${styles.highlight_border} ${styles.divider} `}>{s.name}</th>
                                 ))
                             }
                         </tr>
@@ -81,7 +85,7 @@ export default ({ exam }: IAvaliationTableProps) => {
                                         {
                                             exam.data.students.map((student: { skillsResults: any[]; }) => (
                                                 <>
-                                                    <td className={`${styles.result_cell} ${getSkillClass(student.skillsResults[skill.id])} ${styles.td}`}>
+                                                    <td className={`${styles.result_cell} ${getSkillClass(student.skillsResults[skill.id])} ${styles.td} ${styles.divider}`}>
                                                         {student.skillsResults[skill.id] || "-"}
                                                     </td>
                                                 </>
@@ -94,7 +98,7 @@ export default ({ exam }: IAvaliationTableProps) => {
                         <tr>
                             {
                                 exam.data.students.map((student: { mean: number; }) => (
-                                    <td className={`${styles.result_cell} ${styles.performance_cell} ${getMeanClass(student.mean)} ${styles.highlight_border}`}>
+                                    <td className={`${styles.result_cell} ${styles.performance_cell} ${getMeanClass(student.mean)} ${styles.highlight_border} ${styles.divider}`}>
                                         {!student.mean ? "-" : Number(student.mean.toFixed(2)) + "%"}
                                     </td>
                                 ))

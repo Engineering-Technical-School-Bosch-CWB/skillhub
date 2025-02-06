@@ -6,9 +6,10 @@ interface ITextAreaProps {
     placeHolder?: string
     required?: boolean
     style?: any
+    maxlength?: number
 }
 
-export default ({ value, setValue, placeHolder, required, style }: ITextAreaProps) => {
+export default ({ value, setValue, placeHolder, required, style, maxlength }: ITextAreaProps) => {
     return (
         <>
             <textarea
@@ -17,6 +18,7 @@ export default ({ value, setValue, placeHolder, required, style }: ITextAreaProp
                 onChange={(e) => setValue(e.target.value)}
                 className={`${styles.textarea}`}
                 style={style}
+                maxLength={maxlength}
                 required={required || false} />
         </>
     )
