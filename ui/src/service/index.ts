@@ -43,7 +43,8 @@ export default class Service {
             statusCode: response.status,
             data: json.data || null,
             success: response.status < 400,
-            message: json.message || null
+            message: json.message || null,
+            info: json.info || null
         }
     }
 

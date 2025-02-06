@@ -2,7 +2,6 @@ import Header from "../../components/Header";
 import styles from './styles.module.css';
 import Card from "./components/Card";
 import { useUserContext } from "../../contexts/user.context";
-import SectionHeader from "@/components/SectionHeader";
 
 const Home = () => {
 
@@ -12,7 +11,6 @@ const Home = () => {
         <>
             <Header />
             <main>
-                {/* <SectionHeader /> */}
                 <div className={styles.homeContainer} >
                     <div className={styles.linksContainer}>
                         <Card to="/user-profile" label="User Profile" iconName="person" iconSize="md" />
