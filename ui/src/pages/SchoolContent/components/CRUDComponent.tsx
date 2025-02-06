@@ -75,6 +75,8 @@ export default ( {kind}: ICrudContainerProps ) => {
     
     useEffect(() => {
         loadData();
+        // toggleEdit(true, 1)
+        toggleDelete(true, 1)
     }, [])
 
     const toggleEdit = (isOpen: boolean,id: number) => {

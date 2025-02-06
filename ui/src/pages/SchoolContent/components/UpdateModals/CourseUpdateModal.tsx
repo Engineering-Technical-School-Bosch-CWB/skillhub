@@ -11,7 +11,6 @@ import IOccupationArea from "@/interfaces/models/IOccupationArea";
 
 export default ({id, onChange}: IUpdateModalProps) => {
 
-    const [isOpen, setIsOpen] = useState(true);
     const [selectData, setSelectData] = useState<ISelectProps>();
     const [data, setData] = useState<ICourse>();
 
@@ -26,7 +25,6 @@ export default ({id, onChange}: IUpdateModalProps) => {
             key: e.name!,
             value: e.id!
         }})
-        console.log(response);
         
         setSelectData(prev => ({
             ...prev,

@@ -1,10 +1,9 @@
 import Modal from "@/components/Modal";
-import { IDeleteModalProps } from "../DeleteModals/_DeleteModal.interface";
 import ButtonGroup from "@/components/ButtonGroup";
 import internalAPI from "@/service/internal.services";
 import { toast } from "react-toastify";
 import { tabName, Tabs } from "../../links";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import CourseUpdateModal from "./CourseUpdateModal";
 import CurricularUnitUpdateModal from "./CurricularUnitUpdateModal";
 import SubjectAreaUpdateModal from "./SubjectAreaUpdateModal";

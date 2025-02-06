@@ -7,7 +7,6 @@ import { ICourse } from "@/interfaces/models/ICourse";
 import styles from "./styles.module.css";
 
 export default ({id}: IDeleteModalProps) => {
-    const [isOpen, setIsOpen] = useState(true);
 
     const [data, setData] = useState<ICourse>();
 
