@@ -5,12 +5,13 @@ import getHex from "../../constants/getHex";
 
 import { useEffect, useState } from "react";
 import SectionHeader from "@/components/SectionHeader";
+import { useNavigate, useNavigation } from "react-router-dom";
 
 const UsersOverview = () => {
     
     const [search, setSearch] = useState("");
     const [users, setUsers] = useState([]);
-    
+    const navigation = useNavigate();
     const [position, setPosition] = useState<number>();
     const [positions, setPositions] = useState([]);
     
@@ -52,14 +53,14 @@ const UsersOverview = () => {
             <Header />
             <main>
                 <SectionHeader links={[{
-                    label: "Users Overview"
+                    label: "Users"
                 }]} />
                 <ExplorerContainer filter={[positionFilter]} data={users} title={"Users"} onAddHandle={() => {}} input={{
                     search: search,
                     onChange: setSearch
                 }} button={{
                     icon: "settings",
-                    onClick: () => {}
+                    onClick: () => {navigation("/users-properties")}
                     // criate position create sector and create occupation area
                 }} />
             </main>

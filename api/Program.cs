@@ -152,6 +152,7 @@ public class Program
         services.AddScoped<IObjectionService, ObjectionService>();
         services.AddScoped<IPaginationService, PaginationService>();
         services.AddScoped<IPositionService, PositionService>();
+        services.AddScoped<ISectorService, SectorService>();
         services.AddScoped<ISkillService, SkillService>();
         services.AddScoped<ISkillResultService, SkillResultService>();
         services.AddScoped<IStudentService, StudentService>();
