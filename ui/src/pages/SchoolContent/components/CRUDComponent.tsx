@@ -44,8 +44,6 @@ export default ( {kind}: ICrudContainerProps ) => {
 
     const [focusedId, setFocusedId] = useState(0);
 
-
-
     const loadData = async () => {
         const response = await internalAPI.jsonRequest(`/${kind}?page=${page}&items=${items}`, "GET");
         if (!response || response.statusCode != 200) 

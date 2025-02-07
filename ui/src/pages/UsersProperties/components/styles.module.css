@@ -1,0 +1,8 @@
+.table_header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+.table_container {
+    margin: 2rem;
+}

@@ -9,6 +9,7 @@ import CreateClass from "../../pages/CreateClass";
 import SchoolContent from "../../pages/SchoolContent";
 import UsersOverview from "../../pages/UsersOverview";
 import UserProfile from "@/pages/UserProfile";
+import UsersProperties from "@/pages/UsersProperties";
 
 export default {
     accessLevel: AccessLevel.TEACHER,
@@ -50,6 +51,11 @@ export default {
         {
             path: RouteMap.USER_PROFILE,
             element: <UserProfile />
+        },
+        {
+            path:RouteMap.USERS_PROPERTIES,
+            element: <UsersProperties />
+
         },
         // {
         //     path: RouteMap.NEW_SUBJECT_TEST,

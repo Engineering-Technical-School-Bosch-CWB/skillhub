@@ -23,7 +23,7 @@ const ExplorerContainer = ({ input, folderPath, onAddHandle, title, data, filter
                 </Text>
                 {
                     button &&
-                    <Button variant="primary_icon"><Icon name="settings" /></Button>
+                    <Button variant="primary_icon" onClick={() => button.onClick()}><Icon name="settings" /></Button>
                 }
             </div>
             <div className={`${styles.explorerHeader} ${styles.align}`}>

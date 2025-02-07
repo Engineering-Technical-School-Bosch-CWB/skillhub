@@ -5,9 +5,9 @@ namespace Api.Domain.Services;
 
 public interface ISectorService : IService<Sector>
 {
-    public Task<SectorResponse> CreateSector(SectorCreatePayload payload);
+    public Task<AppResponse<SectorDTO>> CreateSector(SectorCreatePayload payload);
     public Task DeleteSector(int id);
-    public Task<SectorPaginationResponse> GetSectors(PaginationOptions options);
-    public Task<SectorResponse> GetSectorById(int id);
-    public Task<SectorResponse> UpdateSector(int id, SectorUpdatePayload payload);
+    public Task<PaginatedAppResponse<SectorDTO>> GetSectors(PaginationQuery pagination);
+    public Task<AppResponse<SectorDTO>> GetSectorById(int id);
+    public Task<AppResponse<SectorDTO>> UpdateSector(int id, SectorUpdatePayload payload);
 }

@@ -88,7 +88,6 @@ public class CourseService : BaseService<Course>, ICourseService
 
     public PaginatedAppResponse<CourseDTO> GetCourses(PaginationQuery pagination, string? querry = null)
     {
-        Console.WriteLine(querry);
         var entities = _repo.GetAllNoTracking()
             .Where(course => string.IsNullOrEmpty(querry) || EF.Functions.Like(course.Name, $"%{querry}%"))
             .Where(course => course.IsActive)
