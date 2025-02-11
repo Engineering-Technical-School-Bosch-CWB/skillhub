@@ -10,6 +10,7 @@ import SchoolContent from "../../pages/SchoolContent";
 import UsersOverview from "../../pages/UsersOverview";
 import UserProfile from "@/pages/UserProfile";
 import CreateExam from "@/pages/CreateExam";
+import EvaluateExam from "../../pages/SubjectDetails/Pages/EvaluateExam";
 
 export default {
     accessLevel: AccessLevel.TEACHER,
@@ -54,6 +55,10 @@ export default {
             path: RouteMap.USER_PROFILE,
             element: <UserProfile />
         },
+        {
+            path: RouteMap.EVALUATE_EXAM,
+            element: <EvaluateExam />
+        }
         // {
         //     path: RouteMap.NEW_SUBJECT_TEST,
         //     element: <NewTest />

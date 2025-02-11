@@ -1,4 +1,4 @@
-import { AptitudeEnum } from "@/enums/AptitudeEnum"
+import { EAptitude } from "@/enums/AptitudeEnum"
 
 export interface IFeedbackData {
     id?: number
@@ -30,6 +30,20 @@ export interface IFeedback {
     }
 }
 
+export interface IStudentResults {
+    student: {
+        id: number
+        userId: number
+        name: string
+    }
+    results: {
+        skillId: number
+        description: string
+        weight: number
+        aptitude?: EAptitude
+    }[]
+}
+
 interface Competence {
     competenceId: number,
     weight: number,
@@ -39,7 +53,7 @@ interface Competence {
 
 interface CompetenceResult {
     competenceId: number,
-    aptitude: AptitudeEnum
+    aptitude: EAptitude
 }
 
 export interface StudentAvaliationData {
@@ -47,16 +61,24 @@ export interface StudentAvaliationData {
     competencesResult: CompetenceResult[]
 }
 
-interface AvaliationData {
-    competences: Competence[],
-    students: StudentAvaliationData[]
-}
-
 export interface IAvaliationTableProps {
     exam: any
+}
+
+export interface IStudentSkillsProps {
+    results: IStudentResults[]
+    setResults: Function
 }
 
 
 export interface IStudentsCompetencesProps {
 
+}
+
+export interface IEvaluationPayload {
+    studentId: number
+    results : {
+        skillId: number
+        aptitude?: EAptitude
+    }[]
 }

@@ -5,9 +5,14 @@ import { IAvaliationTableProps } from "../../interfaces/SubjectDetails.interface
 import Icon from "../../../../components/Icon";
 import { Tooltip } from "recharts";
 import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 
 export default ({ exam }: IAvaliationTableProps) => {
+
+    const navigate = useNavigate();
+
+    const { classId, subjectId } = useParams();
 
     const getSkillClass = (aptitude?: string) => {
         if (aptitude === "Skilled") return styles.SKILLED;
@@ -33,7 +38,9 @@ export default ({ exam }: IAvaliationTableProps) => {
                         <Text fontSize="lg" fontWeight="bold" >{exam.name}</Text>
                         <Text fontSize="sm" fontWeight="semibold">{exam.date}</Text>
                     </span>
-                    <span className={`${styles.subtitle} ${styles.evBtn}`}>
+                    <span
+                    className={`${styles.subtitle} ${styles.evBtn}`}
+                    onClick={() => navigate(`/classes/${classId}/subject/${subjectId}/evaluate-exam/${exam.idTest}`)}>
                         <Text fontSize="sm">Evaluate</Text>
                         <Icon name={"edit"} />
                     </span>

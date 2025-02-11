@@ -48,7 +48,7 @@ const AprenticesResults = () => {
                 .filter((r: { search: boolean }) => r.search)
                 .map((r: { subject: { curricularUnit: string; beganAt: any; id: string }; score: number }) => ({
                     title: r.subject.curricularUnit,
-                    subtitle: formatDate(r.subject.beganAt),
+                    subtitle: r.subject.beganAt ? formatDate(r.subject.beganAt) : "No informed date",
                     iconDetails: Math.round(r.score) + "%",
                     color: getHex(r.subject.curricularUnit),
                     goTo: "/apprentice/results/" + r.subject.id
