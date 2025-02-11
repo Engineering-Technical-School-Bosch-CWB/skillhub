@@ -66,7 +66,7 @@ export default ({ isOpen, onClose, classId }: AddModalProps) => {
                     </div>
                     {
                         content.map((e, _index: number) => (
-                            <SelectSubject onChange={(e, f) => alterItem(_index, e, f)} onDelete={() => deleteItem(_index)} />
+                            <SelectSubject onChange={(_e, f) => alterItem(_index, _e, f)} def={e} onDelete={() => deleteItem(_index)} />
                         ))
                     }
 
