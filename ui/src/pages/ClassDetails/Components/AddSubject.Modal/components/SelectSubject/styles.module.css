@@ -1,0 +1,22 @@
+.align{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.grid {
+    width: 100%;
+    display: grid;
+}
+.grid_3cell_2_1{
+    align-items: center;
+    grid-template-columns: 70% 20% 5%;
+    gap: 1rem;
+
+    input {
+        padding: 1rem;
+    }
+}
+.grid_3cell_2_05_05{
+    grid-template-columns: 60% 20% 20%;
+}

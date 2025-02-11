@@ -20,6 +20,21 @@ public class SubjectController : ControllerBase
         var result = await service.CreateSubject(payload);
         return Created("api/v1/subjects", result);
     }
+    [HttpPost]
+    [Route("byClass/{id}")]
+    public async Task<ActionResult> CreateSubjectByClass(
+        [FromServices] ISubjectService service,
+        [FromBody] IEnumerable<SubjectCreateByClassPayload> payload,
+        UserContext userContext, 
+        int id
+    )
+    {
+        if (userContext.PermissionLevel != EPermissionLevel.Admin)
+            throw new ForbiddenAccessException("User don't have permission to this service!");
+
+        var result = await service.CreateSubjectsByClass(payload, id);
+        return Created("api/v1/subjects", result);
+    }
 
     [HttpGet]
     [Route("{id}")]
