@@ -86,7 +86,7 @@ export default ({kind, items = 3}: IUserPropertiesTablesProps) => {
                     <Pagination current={page} pages={pages} onChange={changePage} />
             }
 
-            { createModalOpen && <CreateModal kind={kind} isOpen={true} onClose={closeModal} />}
+            { createModalOpen && <CreateModal kind={kind} isOpen={true} onClose={closeModal} list={data} />}
             { editModalOpen && <UpdateModal id={focusedId} kind={kind} isOpen={true} onClose={closeModal} /> }
             { deleteModalOpen && <DeleteModal id={focusedId} kind={kind}  isOpen={true} onClose={closeModal} /> }
         </section>

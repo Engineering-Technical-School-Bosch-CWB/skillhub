@@ -36,6 +36,7 @@ export default ({onChange, defaultValue, data, label }: InputSelectProps) => {
         setInputFocus(false);
     }
 
+
     useEffect(() => {
         if(defaultValue){
             selectOption(defaultValue)

@@ -23,3 +23,14 @@ public class SubjectCreatePayload
     [Required]
     public required DateOnly BeganAt { get; set; }
 }
+
+
+public class SubjectCreateByClassPayload
+{
+    public int Id { get; set; }
+    public string Subject { get; set; }
+    [Required]
+    public int CurricularUnitId { get; set; }
+    [Required]
+    public int Time { get; set; }
+}

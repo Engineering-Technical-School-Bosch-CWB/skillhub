@@ -18,11 +18,14 @@ export interface StudentSubject {
 
 export interface AddModalProps {
     isOpen: boolean,
-    onClose: Function
+    onClose: Function,
+    classId: number
 }
 
 export interface ModalContentProps {
+    id: number,
     subject: string,
+    curricularUnitId: number,
     time: number
 }
 

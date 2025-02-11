@@ -13,7 +13,7 @@ const CreationComponents: Record<UserPropsType, React.ElementType> =  {
     sector: SectorCreateModal
 }
 
-export default ({kind, onClose, isOpen}: ICreateModalProps) => {
+export default ({kind, onClose, isOpen, list}: ICreateModalProps) => {
 
     const [data, setData] = useState<any>();
 
@@ -38,7 +38,7 @@ export default ({kind, onClose, isOpen}: ICreateModalProps) => {
             open={isOpen!}
             title={`Create ${UserPropsTypeToTitle[kind!]}`}
         >
-            {Component && <Component onChange={setData} />}
+            {Component && <Component onChange={setData} list={list} />}
             <ButtonGroup cancel={cancel} submit={submit} />
         </Modal>
     )
