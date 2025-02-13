@@ -62,6 +62,6 @@ public class FeedbackController : ControllerBase
             throw new ForbiddenAccessException("User don't have permission to this service!");
 
         await service.DeleteFeedback(id, userContext.UserId);
-        return Ok();
+        return NoContent();
     }
 }

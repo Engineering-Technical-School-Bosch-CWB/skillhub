@@ -61,6 +61,6 @@ public class CurricularUnitController : ControllerBase
     )
     {
         await service.DeleteCurricularUnit(id);
-        return Ok();
+        return NoContent();
     }
 }

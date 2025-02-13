@@ -3,7 +3,7 @@
     height: 300px;
 
     background-color: transparent;
-    padding: 12px 3rem 12px 12px;
+    padding: 12px;
     border: var(--default-border);
 
     outline: none;
@@ -12,4 +12,5 @@
     font-family: "BoschSans";
     font-size: 1rem;
     color: var(--gray-500);
+    resize: none;
 }

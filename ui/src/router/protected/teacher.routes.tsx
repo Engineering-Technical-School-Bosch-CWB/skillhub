@@ -9,6 +9,8 @@ import CreateClass from "../../pages/CreateClass";
 import SchoolContent from "../../pages/SchoolContent";
 import UsersOverview from "../../pages/UsersOverview";
 import UserProfile from "@/pages/UserProfile";
+import CreateExam from "@/pages/CreateExam";
+import EvaluateExam from "../../pages/SubjectDetails/Pages/EvaluateExam";
 import UsersProperties from "@/pages/UsersProperties";
 
 export default {
@@ -45,8 +47,10 @@ export default {
         {
             path: RouteMap.SUBJECT_DETAILS,
             element: <SubjectDetails />,
-            children: [
-            ]
+        },
+        {
+            path: RouteMap.CREATE_EXAM,
+            element: <CreateExam />
         },
         {
             path: RouteMap.USER_PROFILE,

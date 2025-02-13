@@ -6,7 +6,7 @@ import Birthdays from "../pages/Birthdays";
 import ClassDetais from "../pages/ClassDetails";
 import {CompleteRegistering} from "../pages/CompleteRegistering";
 import ContentOverview from "../pages/SchoolContent";
-import CreateAvaliation from "../pages/CreateAvaliation";
+import CreateAvaliation from "../pages/CreateExam";
 import CreateClass from "../pages/CreateClass";
 import CurricularUnitOverview from "../pages/CurricularUnitOverview";
 import Home from "../pages/Home";

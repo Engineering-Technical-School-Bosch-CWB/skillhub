@@ -6,6 +6,7 @@ export interface ISubject extends IEntity {
     durationHours?: number,
     beganAt?: string,
     instructorId?: number,
+    instructorName?: string,
     curricularUnitId?: number,
     curricularUnit?: ICurricularUnit,
     classId?: number,

@@ -5,17 +5,20 @@ using Api.Domain.Services;
 using Api.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Api.Core.Errors;
-using System.Threading.RateLimiting;
+using Api.Domain.Enums;
 
 namespace Api.Core.Services;
 public class SkillService(BaseRepository<Skill> repository, ICurricularUnitRepository curricularUnitRepository,
-    IPaginationService paginationService, ISkillResultRepository skillResultRepository
+    ISubjectRepository subjectRepository, IUserRepository userRepository
     ) : BaseService<Skill>(repository), ISkillService
 {
     private readonly BaseRepository<Skill> _repo = repository;
     private readonly ICurricularUnitRepository _curricularUnitRepo = curricularUnitRepository;
-    private readonly IPaginationService _pagService = paginationService;
-    private readonly ISkillResultRepository _skillResultRepo = skillResultRepository;
+    private readonly ISubjectRepository _subjectRepo = subjectRepository;
+    private readonly IUserRepository _userRepo = userRepository;
+
+
+    #region CRUD
 
     public async Task<AppResponse<SkillDTO>> CreateSkill(SkillCreatePayload payload)
     {
@@ -54,24 +57,6 @@ public class SkillService(BaseRepository<Skill> repository, ICurricularUnitRepos
         _ = _repo.Update(skill) ?? throw new DeleteFailException("Skill could not be deleted!");
 
         await _repo.SaveAsync();
-    }
-
-    public async Task<AppResponse<SkillResponse>> GetByCurricularUnit(int curricularUnitId)
-    {
-        var curricularUnit = await _curricularUnitRepo.Get()
-            .SingleOrDefaultAsync(c => c.Id == curricularUnitId)
-            ?? throw new NotFoundException("Curricular unit not found!");
-
-        var skills = await _repo.Get()
-            .Where(s => s.CurricularUnit == curricularUnit)
-            .Where(s => s.IsActive)
-            .Select(s => SkillDTO.Map(s))
-            .ToListAsync();
-
-        return new AppResponse<SkillResponse>(
-            SkillResponse.Map(curricularUnit, skills),
-            "Skills found!"
-        );
     }
 
     public async Task<AppResponse<SkillDTO>> GetSkill(int id)
@@ -120,5 +105,41 @@ public class SkillService(BaseRepository<Skill> repository, ICurricularUnitRepos
         );
     }
 
+    #endregion
 
+    #region Pages
+
+    public async Task<AppResponse<ExamSkillsDTO>> GetCreateExamPage(int subjectId)
+    {
+        var subject = await _subjectRepo.Get()
+            .Where(s => s.IsActive)
+            .Include(s => s.CurricularUnit)
+            .Include(s => s.Class)
+            .Include(s => s.Instructor)
+            .SingleOrDefaultAsync(s => s.Id == subjectId)
+            ?? throw new NotFoundException("Subject not found!");
+        
+        var teachers = await _userRepo.Get()
+            .Where(u => u.IsActive)
+            .Where(u => (EPositionType)u.Position.PositionType == EPositionType.Teacher)
+            .Where(u => u.Id != subject.Instructor!.Id)
+            .OrderBy(u => u.Name)
+            .Select(u => ObjectDTO.Map(u.Id, u.Name))
+            .ToListAsync();
+
+        teachers = [subject.Instructor is not null ? ObjectDTO.Map(subject.Instructor.Id, subject.Instructor.Name) : null, ..teachers];
+
+        var skills = await _repo.Get()
+            .Where(s => s.CurricularUnit.Id == subject.CurricularUnit.Id)
+            .Where(s => s.IsActive)
+            .Select(s => SkillDTO.Map(s))
+            .ToListAsync();
+
+        return new AppResponse<ExamSkillsDTO>(
+            ExamSkillsDTO.Map(SubjectDTO.Map(subject), teachers, skills),
+            "Skills found!"
+        );
+    }
+
+    #endregion
 }

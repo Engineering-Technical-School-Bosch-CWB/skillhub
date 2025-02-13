@@ -1,14 +1,15 @@
 namespace Api.Domain.Models;
 
+
 public record ExamDTO(
     int Id,
     string Name,
     string? Description,
     DateOnly? AppliedAt,
-    IEnumerable<NewSkillResultDTO> Skills
+    IEnumerable<SkillResultDTO> Skills
 )
 {
-    public static ExamDTO Map(Exam obj, IEnumerable<NewSkillResultDTO> skills)
+    public static ExamDTO Map(Exam obj, IEnumerable<SkillResultDTO> skills)
     {
         return new ExamDTO(
             obj.Id,
@@ -16,6 +17,24 @@ public record ExamDTO(
             obj.Description,
             obj.AppliedAt,
             skills
+        );
+    }
+}
+
+public record SimpleExamDTO(
+    int Id,
+    string Name,
+    string? Description,
+    DateOnly? AppliedAt
+)
+{
+    public static SimpleExamDTO Map(Exam obj)
+    {
+        return new SimpleExamDTO(
+            obj.Id,
+            obj.Name,
+            obj.Description,
+            obj.AppliedAt
         );
     }
 }
@@ -37,6 +56,22 @@ public record ExamResultsDTO(
             obj.Description,
             obj.AppliedAt,
             skills,
+            students
+        );
+    }
+}
+
+public record EvaluateExamDTO(
+    SubjectDTO Subject,
+    SimpleExamDTO Exam,
+    IEnumerable<ExamEvaluationResultDTO> Students
+)
+{
+    public static EvaluateExamDTO Map(Subject subject, Exam exam, IEnumerable<ExamEvaluationResultDTO> students)
+    {
+        return new EvaluateExamDTO(
+            SubjectDTO.Map(subject),
+            SimpleExamDTO.Map(exam),
             students
         );
     }

@@ -36,8 +36,8 @@ public class PositionService
 
     public override Task<Position> AddAsync(Position entity)
     {
-        if(entity.PositionLevel == 1) {
-            var repoEntity = repository.Get().FirstOrDefaultAsync(position => position.PositionLevel == 1);
+        if(entity.PermissionLevel == 1) {
+            var repoEntity = repository.Get().FirstOrDefaultAsync(position => position.PermissionLevel == 1);
             if(repoEntity is not null)
                 throw new AlreadyExistsException("Position with this level already exists!");
         }
@@ -120,8 +120,11 @@ public class PositionService
         if (!string.IsNullOrEmpty(payload.Name))
             currentPosition.Name = payload.Name;
 
-        if (payload.PositionLevel is not null)
-            currentPosition.PositionLevel = (short)payload.PositionLevel.Value;
+        if (payload.PermissionLevel.HasValue)
+            currentPosition.PermissionLevel = (short)payload.PermissionLevel.Value;
+
+        if (payload.PositionType.HasValue)
+            currentPosition.PositionType = (short)payload.PositionType.Value;
 
         var result = _repo.Update(currentPosition)
                 ?? throw new UpsertFailException("Could not update position!");

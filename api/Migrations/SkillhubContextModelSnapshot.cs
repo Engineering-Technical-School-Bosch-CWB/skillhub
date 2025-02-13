@@ -343,9 +343,13 @@ namespace api.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasColumnName("name");
 
-                    b.Property<byte>("PositionLevel")
+                    b.Property<byte>("PermissionLevel")
                         .HasColumnType("tinyint")
-                        .HasColumnName("position_level");
+                        .HasColumnName("permission_level");
+
+                    b.Property<byte>("PositionType")
+                        .HasColumnType("tinyint")
+                        .HasColumnName("position_type");
 
                     b.HasKey("Id")
                         .HasName("PK____Position");

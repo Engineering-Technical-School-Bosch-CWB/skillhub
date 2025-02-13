@@ -136,7 +136,7 @@ public class SubjectService(BaseRepository<Subject> repository, IUserRepository 
             .Where(s => s.IsActive)
             .Include(s => s.CurricularUnit)
             .Include(s => s.Class.Students)
-            .Include(s => s.Exams)
+            .Include(s => s.Exams.Where(e => e.IsActive))
             .SingleOrDefaultAsync(s => s.Id == id)
             ?? throw new NotFoundException("Subject not found!");
 

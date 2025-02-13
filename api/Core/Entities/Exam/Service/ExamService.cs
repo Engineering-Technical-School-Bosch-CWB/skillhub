@@ -46,7 +46,7 @@ public class ExamService(BaseRepository<Exam> repository, ISubjectRepository sub
         var createdExam = _repo.Add(newExam)
             ?? throw new UpsertFailException("Exam could not be inserted!");
 
-        var skillResults = new List<NewSkillResultDTO>();
+        var skillResults = new List<SkillResultDTO>();
 
         foreach (var obj in payload.Skills)
         {
@@ -68,7 +68,7 @@ public class ExamService(BaseRepository<Exam> repository, ISubjectRepository sub
                 var createdSkillResult = _skillResultRepo.Add(skillResult)
                     ?? throw new UpsertFailException("Skill result could not be inserted!");
 
-                skillResults.Add(NewSkillResultDTO.Map(createdSkillResult));
+                skillResults.Add(SkillResultDTO.Map(createdSkillResult));
             }
         }
 
@@ -79,6 +79,29 @@ public class ExamService(BaseRepository<Exam> repository, ISubjectRepository sub
             ExamDTO.Map(createdExam, skillResults),
             "Exam created successfully!"
         );
+    }
+
+    public async Task DeleteExam(int examId)
+    {
+        var exam = await _repo.Get()
+            .Where(e => e.IsActive)
+            .Include(e => e.SkillResults)
+            .SingleOrDefaultAsync(e => e.Id == examId)
+            ?? throw new NotFoundException("Exam not found!");
+
+        exam.IsActive = false;
+
+        var deletedExam = _repo.Update(exam)
+            ?? throw new DeleteFailException("Exam could not be deleted!");
+
+        foreach (var r in exam.SkillResults)
+        {
+            r.IsActive = false;
+            var deletedSkillResult = _skillResultRepo.Update(r)
+                ?? throw new DeleteFailException("Skill result could not be deleted!");
+        }
+
+        await _repo.SaveAsync();
     }
 
     #endregion

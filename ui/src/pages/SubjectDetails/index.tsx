@@ -1,10 +1,13 @@
 import Text from "../../typography";
+import getHex from "@/constants/getHex";
 import Icon from "../../components/Icon";
 import styles from './styles.module.css';
 import Header from "../../components/Header"
 import Button from "../../components/Button";
 import Divider from "../../components/Divider";
 import formatDate from "../../constants/formatDate";
+import FeedbackCard from "@/components/FeedbackCard";
+import SectionHeader from "@/components/SectionHeader";
 import internalAPI from "../../service/internal.services";
 import AvaliationTable from "./components/AvaliationTable";
 
@@ -13,9 +16,21 @@ import { ISubject } from "../../interfaces/models/ISubject"
 import { IAvaliationTableProps, IFeedback, IFeedbackData } from "./interfaces/SubjectDetails.interface";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import SectionHeader from "@/components/SectionHeader";
-import getHex from "@/constants/getHex";
-import FeedbackCard from "@/components/FeedbackCard";
+import FeedbackModal from "./components/FeedbackModal";
+import { useUserContext } from "@/contexts/user.context";
+
+interface IModalProps {
+    student?: {
+        id: number,
+        name: string
+    }
+    feedback?: {
+        id: number
+        content: string
+    }
+    isFeedbackModalOpen: boolean
+}
+
 
 const SubjectDetails = () => {
 
@@ -23,11 +38,18 @@ const SubjectDetails = () => {
 
     const navigate = useNavigate();
 
+    const { user } = useUserContext();
+
     const [subject, setSubject] = useState<ISubject>();
     const [exams, setExams] = useState<IAvaliationTableProps[]>([]);
     const [feedbacks, setFeedbacks] = useState<IFeedback[]>([]);
 
+    const [modalProps, setModalProps] = useState<IModalProps>({
+        isFeedbackModalOpen: false
+    })
+
     const getData = async () => {
+
         const response = await internalAPI.jsonRequest(`/subjects/${subjectId}`, "GET");
 
         if (!response.success) {
@@ -37,12 +59,15 @@ const SubjectDetails = () => {
         }
 
         const content = response.data;
-
+        
         setSubject(content.subject);
 
-        setExams(content.exams.map((e: { id: number; name: string; appliedAt: string; skills: any; students: { name: string; mean: number; skillResults: any; }[]; }) => ({
+        setExams(content.exams.map((e: {
+            description: string; id: number; name: string; appliedAt: string; skills: any; students: { name: string; mean: number; skillResults: any; }[];
+        }) => ({
             idTest: e.id,
             name: e.name,
+            description: e.description,
             date: !e.appliedAt ? "No informed date" : formatDate(e.appliedAt),
             data: {
                 skills: e.skills,
@@ -54,7 +79,6 @@ const SubjectDetails = () => {
                         return acc;
                     }, {})
                 }))
-
             }
         })))
 
@@ -73,7 +97,6 @@ const SubjectDetails = () => {
         <>
             <Header />
             <main>
-                {/* <ReturnButton /> */}
                 <SectionHeader links={[{
                     label: "Classes Overview",
                     goTo: "/classes"
@@ -104,7 +127,7 @@ const SubjectDetails = () => {
                             <Text fontSize="xl2" fontWeight="bold" >
                                 Exams
                             </Text>
-                            <Button className={`${styles.addBtn} ${styles.align}`} >
+                            <Button className={`${styles.addBtn} ${styles.align}`} onClick={() => navigate("new-exam")} >
                                 <Icon name="add" size="md" />
                             </Button>
                         </div>
@@ -140,10 +163,18 @@ const SubjectDetails = () => {
                                         ? "No feedback provided..."
                                         : "Last update • " + formatDate(f.feedback.updatedAt) + " by " + f.feedback.instructor
                                 }
-                                editButton={{
-                                    label: "Edit Feedback",
-                                    action: () => {}
-                                }}
+                                editButton={
+                                    user?.id != f.student.userId ? {
+                                        label: "Edit Feedback",
+                                        action: () => setModalProps({
+                                            student: {
+                                                id: f.student.id,
+                                                name: f.student.name
+                                            },
+                                            feedback: f.feedback,
+                                            isFeedbackModalOpen: true
+                                        })
+                                    } : undefined}
                                 content={f.feedback?.content}
                             />
                         ))
@@ -174,6 +205,23 @@ const SubjectDetails = () => {
                         hasOptions={false}
                     /> */}
                 </section>
+                {
+                    modalProps.student &&
+                    <FeedbackModal
+                        isOpen={modalProps.isFeedbackModalOpen}
+                        handleIsOpen={() => setModalProps({
+                            student: undefined,
+                            feedback: undefined,
+                            isFeedbackModalOpen: false
+                        })}
+                        student={modalProps.student}
+                        feedback={modalProps.feedback}
+                        handleFeedbacks={{
+                            feedbacks: feedbacks,
+                            setFeedbacks: setFeedbacks
+                        }}
+                    />
+                }
             </main>
         </>
 

@@ -27,6 +27,8 @@ export default ({ isOpen, handleIsOpen, feedbackId, userName, studentData, setSt
     const [subjectData, setSubjectData] = useState<ISelectData[]>([]);
     const [feedbackContent, setFeedbackContent] = useState<string>();
 
+    const [canSee, setCanSee] = useState(false);
+
     const [selectedSubjectId, setSelectedSubjectId] = useState<number>();
     const [subject, setSubject] = useState<string | null>("");
 
@@ -38,8 +40,8 @@ export default ({ isOpen, handleIsOpen, feedbackId, userName, studentData, setSt
 
             setSubject(content.subject)
             setFeedbackContent(content.content);
+            setCanSee(content.studentMayVisualize)
 
-            console.log(content);
 
         } else {
             const response = await internalAPI.jsonRequest(`/subjects/class/${studentData.classId}?${new URLSearchParams({ studentId: studentData.id.toString() })}`, "GET");
@@ -49,16 +51,26 @@ export default ({ isOpen, handleIsOpen, feedbackId, userName, studentData, setSt
                 key: s.curricularUnit,
                 value: s.id
             })))
+            setCanSee(false)
         }
 
     }
 
+    useEffect(() => {
+        console.log(canSee)
+    }, [canSee, feedbackId])
+
     const handleSubmit = async () => {
+
+        if (feedbackContent === "")
+            return;
+
         const apiRequestCreate = async () => {
             const response = await internalAPI.jsonRequest("/feedbacks", "POST", undefined, {
                 studentId: studentData.id,
                 subjectId: selectedSubjectId,
-                content: feedbackContent
+                content: feedbackContent,
+                studentMayVisualize: canSee
             });
 
             if (!response.success)
@@ -69,13 +81,12 @@ export default ({ isOpen, handleIsOpen, feedbackId, userName, studentData, setSt
 
         const apiRequestUpdate = async () => {
             const response = await internalAPI.jsonRequest(`/feedbacks/${feedbackId}`, "PATCH", undefined, {
-                content: feedbackContent
+                content: feedbackContent,
+                studentMayVisualize: canSee
             });
 
             if (!response.success)
                 throw new Error(response.message);
-
-            console.log(response.data);
 
             return response.data;
         }
@@ -129,7 +140,7 @@ export default ({ isOpen, handleIsOpen, feedbackId, userName, studentData, setSt
                     ...studentData,
                     subjectFeedBacks: [
                         content,
-                        ...studentData.subjectFeedBacks.filter(fb => fb.id !== feedbackId)
+                        ...studentData.subjectFeedBacks.filter(f => f.id !== feedbackId)
                     ]
                 });
             } else {
@@ -137,7 +148,7 @@ export default ({ isOpen, handleIsOpen, feedbackId, userName, studentData, setSt
                     ...studentData,
                     feedbacks: [
                         content,
-                        ...studentData.feedbacks.filter(fb => fb.id !== feedbackId)
+                        ...studentData.feedbacks.filter(f => f.id !== feedbackId)
                     ]
                 });
             }
@@ -153,10 +164,13 @@ export default ({ isOpen, handleIsOpen, feedbackId, userName, studentData, setSt
     }
 
     const handleDelete = async () => {
+
+        if (!confirm("Do you really want to delete this feedback?"))
+            return;
+        
+
         const apiRequest = async () => {
             const response = await internalAPI.jsonRequest(`/feedbacks/${feedbackId}`, "DELETE");
-
-            console.log(response)
 
             if (!response.success)
                 throw new Error(response.message);
@@ -177,7 +191,7 @@ export default ({ isOpen, handleIsOpen, feedbackId, userName, studentData, setSt
             setStudentData({
                 ...studentData,
                 feedbacks: [
-                    ...studentData.feedbacks.filter(fb => fb.id !== feedbackId)
+                    ...studentData.feedbacks.filter(f => f.id !== feedbackId)
                 ]
             });
 
@@ -222,6 +236,22 @@ export default ({ isOpen, handleIsOpen, feedbackId, userName, studentData, setSt
                         <Select data={subjectData} label="Personal Feedback" onChange={(e) => setSelectedSubjectId(Number(e.target.value))} />
                     }
                     <TextArea value={feedbackContent!} setValue={setFeedbackContent} placeHolder="Write your feedback here..." required={true} />
+                    {
+                        !selectedSubjectId &&
+                        <div className={`${styles.obs}`}>
+                            <label className={`${styles.toggle_switch}`}>
+                                <input
+                                    type="checkbox"
+                                    checked={canSee}
+                                    onChange={() => setCanSee(!canSee)}
+                                />
+                                <span className={`${styles.slider}`}></span>
+                            </label>
+                            <Text fontSize="sm">
+                                Student can see feedback
+                            </Text>
+                        </div>
+                    }
                     <div className={`${styles.bttns}`}>
                         {
                             feedbackId && subject == null &&

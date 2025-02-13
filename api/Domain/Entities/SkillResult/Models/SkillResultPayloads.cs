@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using Api.Core.Services;
+using Api.Domain.Enums;
 
 namespace Api.Domain.Models;
 
@@ -21,4 +22,12 @@ public class SkillResultCreatePayload
     public int? SubjectId { get; set; }
     public int? ExamId { get; set; }
     public int? ObjectionId { get; set; }
+}
+
+public class SkillResultEvaluatePayload
+{
+    [Required]
+    public required int SkillId { get; set; }
+
+    public EAptitude? Aptitude { get; set; }
 }

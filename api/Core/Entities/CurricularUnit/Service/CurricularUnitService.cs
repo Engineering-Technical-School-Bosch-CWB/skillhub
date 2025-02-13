@@ -16,6 +16,8 @@ public class CurricularUnitService(BaseRepository<CurricularUnit> repository, IS
     private readonly ISubjectAreaRepository _subjectAreaRepo = subjectAreaRepository;
     private readonly IPaginationService _pagService = paginationService;
 
+    #region CRUD
+
     public async Task<AppResponse<CurricularUnitDTO>> CreateCurricularUnit(CurricularUnitCreatePayload payload)
     {
         var subjectArea = await _subjectAreaRepo.Get()
@@ -134,4 +136,6 @@ public class CurricularUnitService(BaseRepository<CurricularUnit> repository, IS
             "Curricular units found!"
         );
     }
+
+    #endregion
 }

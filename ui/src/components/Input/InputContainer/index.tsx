@@ -8,6 +8,7 @@ export interface IInputContainerProps {
     children?: ReactNode
     id?: string
     className?: string
+    disabled?: boolean
 }
 
 export default function InputContainer({
@@ -16,7 +17,8 @@ export default function InputContainer({
     error,
     helperText,
     id,
-    className
+    className,
+    disabled
 }: IInputContainerProps) {
 
     return(
@@ -26,7 +28,7 @@ export default function InputContainer({
             {label &&
                 <label
                     htmlFor={id}
-                    className={`${styles.label}`}
+                    className={`${styles.label} ${disabled ? styles.disabled : ""}`}
                 >{label}</label>
             }
 

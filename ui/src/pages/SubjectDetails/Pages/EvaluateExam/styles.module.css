@@ -1,0 +1,9 @@
+.title_section {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    height: 4rem;
+    gap: .5rem;
+}
