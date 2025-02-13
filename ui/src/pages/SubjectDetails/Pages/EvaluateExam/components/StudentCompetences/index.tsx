@@ -72,7 +72,24 @@ export default ({ results, setResults }: IStudentSkillsProps) => {
                 type: "error",
             })
             console.log(err)
-        })
+        }).finally(() => {
+            navigate(`/classes/${classId}/subject/${subjectId}`, { replace: true });
+        });
+    }
+
+    const handleDelete = async () => {
+
+        if (!confirm("Do you really want to delete this exam?"))
+            return;
+
+        const response = await internalAPI.jsonRequest(`/exams/${examId}`, "DELETE");
+        console.log(response)
+
+        if (!response.success) {
+            toast.error("Failed deleting exam!");
+            return;
+        }
+
         navigate(`/classes/${classId}/subject/${subjectId}`, { replace: true });
     }
 
@@ -118,7 +135,8 @@ export default ({ results, setResults }: IStudentSkillsProps) => {
                 </div>
             </section>
             <div className={`${styles.bttns}`}>
-                <Button>Cancel</Button>
+                <Button kind="danger" className={`${styles.flex_start}`} onClick={handleDelete}>Delete</Button>
+                <Button onClick={() => navigate(`/classes/${classId}/subject/${subjectId}`)}>Cancel</Button>
                 <Button variant='contained' onClick={handleSubmit}>Save</Button>
             </div>
         </>

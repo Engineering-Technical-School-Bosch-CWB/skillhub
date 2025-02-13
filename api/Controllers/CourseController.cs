@@ -60,7 +60,7 @@ public class CourseController : ControllerBase
     )
     {
         await service.DeleteCourse(id);
-        return Ok();
+        return NoContent();
     }
 
 }

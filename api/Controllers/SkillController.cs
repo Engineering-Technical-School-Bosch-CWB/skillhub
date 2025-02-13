@@ -63,7 +63,7 @@ public class SkillController : ControllerBase
     )
     {
         await service.DeleteSkill(id);
-        return Ok();
+        return NoContent();
     }
 
     [HttpGet]

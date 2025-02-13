@@ -33,7 +33,7 @@ public class CourseService : BaseService<Course>, ICourseService
     
     public async Task<AppResponse<CourseDTO>> CreateCourse(CourseCreatePayload payload)
     {
-        if (await repository.Get().AnyAsync(c => string.Equals(c.Name, payload.Name)))
+        if (await _repo.Get().AnyAsync(c => string.Equals(c.Name, payload.Name)))
             throw new AlreadyExistsException("Name of course already exists!");
 
         var area = await _areaRepo.Get()
@@ -47,9 +47,9 @@ public class CourseService : BaseService<Course>, ICourseService
             DefaultOccupationArea = area
         };
 
-        var saveCourse = repository.Add(newCourse)
+        var saveCourse = _repo.Add(newCourse)
             ?? throw new UpsertFailException("Course could not be inserted!");
-        await repository.SaveAsync();
+        await _repo.SaveAsync();
         
         return new AppResponse<CourseDTO>(
             CourseDTO.Map(saveCourse),
@@ -59,22 +59,22 @@ public class CourseService : BaseService<Course>, ICourseService
     
     public async Task DeleteCourse(int id)
     {
-        var course = await repository.Get()
+        var course = await _repo.Get()
             .SingleOrDefaultAsync(c => c.Id == id)
             ?? throw new NotFoundException("Course not found!");
         
         course.IsActive = false;
 
         var deletedCourse =
-            repository.Update(course)
+            _repo.Update(course)
             ?? throw new DeleteFailException("Course could not be deleted!");
 
-        await repository.SaveAsync();
+        await _repo.SaveAsync();
     }
 
     public async Task<AppResponse<CourseDTO>> GetCourseById(int id)
     {
-        var course = await repository.Get()
+        var course = await _repo.Get()
             .Include(c => c.DefaultOccupationArea)
             .SingleOrDefaultAsync(c => c.Id == id)
             ?? throw new NotFoundException("Course not found!");
@@ -110,7 +110,7 @@ public class CourseService : BaseService<Course>, ICourseService
 
     public async Task<AppResponse<CourseDTO>> UpdateCourse(int id, CourseUpdatePayload payload)
     {
-        var course = await repository.Get()
+        var course = await _repo.Get()
             .Include( c => c.DefaultOccupationArea)
             .SingleOrDefaultAsync(c => c.Id == id)
             ?? throw new NotFoundException("Course not found!");
@@ -125,7 +125,7 @@ public class CourseService : BaseService<Course>, ICourseService
 
         if (!string.IsNullOrEmpty(payload.Name) && !string.Equals(payload.Name, course.Name))
         {
-            if (await repository.GetAllNoTracking().AnyAsync(c => string.Equals(c.Name, payload.Name)))
+            if (await _repo.GetAllNoTracking().AnyAsync(c => string.Equals(c.Name, payload.Name)))
                 throw new AlreadyExistsException("Name of course already exists!");
 
             course.Name = payload.Name;
@@ -135,7 +135,7 @@ public class CourseService : BaseService<Course>, ICourseService
             course.Abbreviation = payload.Abbreviation;
 
         var updatedCourse =
-            repository.Update(course)
+            _repo.Update(course)
             ?? throw new UpsertFailException("Course could not be updated!");
 
         return new AppResponse<CourseDTO>(

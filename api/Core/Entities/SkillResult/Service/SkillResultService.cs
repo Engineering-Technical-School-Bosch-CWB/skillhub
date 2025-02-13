@@ -113,21 +113,21 @@ public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRe
             .SingleOrDefaultAsync(e => e.Id == examId)
             ?? throw new NotFoundException("Exam not found!");
 
-        var results = payload.SelectMany(s => s.Results.Select(r => {
-            var obj = _repo.Get().Where(o => o.IsActive).SingleOrDefault(o => o.Exam!.Id == examId && o.Student.Id == s.StudentId)
-                ?? throw new NotFoundException("Skill result not found!");
+        foreach (var s in payload)
+            foreach (var r in s.Results)
+            {
+                var obj = await _repo.Get().Where(o => o.IsActive && o.Exam!.Id == examId).SingleOrDefaultAsync(o => o.Skill.Id == r.SkillId && o.Student.Id == s.StudentId)
+                    ?? throw new NotFoundException("Skill result not found!");
 
-            obj.Aptitude = (short?)r.Aptitude;
-            var updated = _repo.Update(obj)
-                ?? throw new UpsertFailException("Skill result could not be updated!");
-
-            return updated;
-        }));
+                obj.Aptitude = (short?)r.Aptitude;
+                var updated = _repo.Update(obj)
+                    ?? throw new UpsertFailException("Skill result could not be updated!");
+            }
 
         await _repo.SaveAsync();
 
         return new AppResponse<IEnumerable<SkillResult>>(
-            results,
+            [],
             "Skill Results updated successfully!"
         );
     }

@@ -186,6 +186,7 @@ const UserProfile = () => {
                                                 color={getHex(f.instructor)}
                                                 title={f.instructor}
                                                 subtitle={"Last update • " + formatDate(f.updatedAt)}
+                                                isPrivate={!f.studentMayVisualize}
                                                 editButton={
                                                     user?.permissionLevel == 2 && user?.id == f.instructorId ?
                                                         {

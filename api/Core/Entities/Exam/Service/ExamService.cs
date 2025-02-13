@@ -81,6 +81,29 @@ public class ExamService(BaseRepository<Exam> repository, ISubjectRepository sub
         );
     }
 
+    public async Task DeleteExam(int examId)
+    {
+        var exam = await _repo.Get()
+            .Where(e => e.IsActive)
+            .Include(e => e.SkillResults)
+            .SingleOrDefaultAsync(e => e.Id == examId)
+            ?? throw new NotFoundException("Exam not found!");
+
+        exam.IsActive = false;
+
+        var deletedExam = _repo.Update(exam)
+            ?? throw new DeleteFailException("Exam could not be deleted!");
+
+        foreach (var r in exam.SkillResults)
+        {
+            r.IsActive = false;
+            var deletedSkillResult = _skillResultRepo.Update(r)
+                ?? throw new DeleteFailException("Skill result could not be deleted!");
+        }
+
+        await _repo.SaveAsync();
+    }
+
     #endregion
 
     #region Services

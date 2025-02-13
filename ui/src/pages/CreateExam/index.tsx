@@ -87,10 +87,9 @@ const CreateExam = () => {
                 render: err.message || "Something went wrong.",
                 type: "error",
             })
+        }).finally(() => {
+            navigate(`/classes/${classId}/subject/${subjectId}`, { replace: true });
         })
-
-        navigate(`/classes/${classId}/subject/${subjectId}`, { replace: true });
-
     }
 
     useEffect(() => {

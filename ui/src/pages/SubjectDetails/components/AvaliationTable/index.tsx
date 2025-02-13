@@ -22,7 +22,7 @@ export default ({ exam }: IAvaliationTableProps) => {
     };
 
     const getMeanClass = (mean?: number) => {
-        if (!mean) return ""
+        if (mean == null) return ""
 
         if (mean >= 80) return styles.SKILLED;
         if (mean >= 60) return styles.DEVELOPMENT;
@@ -106,7 +106,7 @@ export default ({ exam }: IAvaliationTableProps) => {
                             {
                                 exam.data.students.map((student: { mean: number; }) => (
                                     <td className={`${styles.result_cell} ${styles.performance_cell} ${getMeanClass(student.mean)} ${styles.highlight_border} ${styles.divider}`}>
-                                        {!student.mean ? "-" : Number(student.mean.toFixed(2)) + "%"}
+                                        {student.mean == null ? "-" : Number(student.mean.toFixed(2)) + "%"}
                                     </td>
                                 ))
                             }

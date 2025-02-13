@@ -29,11 +29,15 @@ interface IModalProps {
 
 export default ({ isOpen, handleIsOpen, feedback, student, handleFeedbacks }: IModalProps) => {
 
-    const { classId, subjectId } = useParams();
+    const { subjectId } = useParams();
 
     const [feedbackContent, setFeedbackContent] = useState(feedback?.content || "");
 
     const handleSubmit = async () => {
+
+        if (feedbackContent === "")
+            return;
+
         const apiRequestCreate = async () => {
             const response = await internalAPI.jsonRequest("/feedbacks", "POST", undefined, {
                 studentId: student.id,

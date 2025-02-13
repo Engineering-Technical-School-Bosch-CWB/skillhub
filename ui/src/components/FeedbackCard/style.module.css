@@ -8,6 +8,8 @@
     gap: 1.25rem;
     background-color: var(--background-card);
 
+    position: relative;
+
     &:hover {
         box-shadow: var();
     }
@@ -50,4 +52,45 @@
 
 .evBtn:hover {
     background-color: rgba(0, 0, 0, 0.1);
+}
+
+.not {
+    height: 23px;
+    width: 23px;
+
+    background-color: white;
+    border: var(--active-border);
+    position: absolute;
+
+    top: -5px;
+    left: -5px;
+
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    filter: brightness(.8);
+}
+
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: #fff;
+    text-align: center;
+    padding: 5px;
+    border-radius:4px;
+
+    position: absolute;
+    z-index: 1;
+    width: 250px;
+    font-size: 0.875rem;
+    font-family: "BoschSans";
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+
+    left:30px;
 }

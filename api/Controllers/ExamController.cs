@@ -1,3 +1,4 @@
+using Api.Core.Services;
 using Api.Domain.Models;
 using Api.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -16,5 +17,15 @@ public class ExamController : ControllerBase
     {
         var result = await service.CreateExam(payload);
         return Created("/api/v1/exams", result);
+    }
+
+    [HttpDelete]
+    [Route("{id}")]
+    public async Task<ActionResult> DeleteExam(
+        [FromServices] IExamService service, UserContext userContext, int id
+    )
+    {
+        await service.DeleteExam(id);
+        return NoContent();
     }
 }

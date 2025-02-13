@@ -111,7 +111,7 @@ public class StudentService(
 
         return StudentExamResultsDTO.Map(
             student,
-            results.Any() ? results.Sum(s => s.Aptitude * s.Weight) / results.Sum(s => s.Weight) : null,
+            results.Where(s => s.Aptitude.HasValue).Any() ? results.Sum(s => s.Aptitude * s.Weight) / results.Sum(s => s.Weight) : null,
             results.Select(SimpleSkillResultDTO.Map).OrderBy(s => s.SkillId)
         );
     }

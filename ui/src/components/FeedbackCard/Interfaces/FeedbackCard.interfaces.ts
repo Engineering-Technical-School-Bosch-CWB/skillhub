@@ -7,4 +7,5 @@ export interface IFeedbackCardProps {
         action: Function
     }
     content?: string
+    isPrivate?: boolean
 }

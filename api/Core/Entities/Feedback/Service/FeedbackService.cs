@@ -54,7 +54,6 @@ public class FeedbackService(
                 ?? throw new NotFoundException("Subject not found!");
         }
 
-
         var newFeedback = new Feedback()
         {
             Instructor = instructor,
@@ -62,7 +61,7 @@ public class FeedbackService(
             Subject = subject,
             Content = payload.Content,
             UpdatedAt = DateTime.Now,
-            StudentMayVisualize = payload.SubjectId.HasValue,
+            StudentMayVisualize = payload.SubjectId.HasValue || (payload.StudentMayVisualize ?? false),
         };
 
         var savedFeedback = _repo.Add(newFeedback)
@@ -98,6 +97,7 @@ public class FeedbackService(
         feedback.Content = payload.Content;
         feedback.Instructor = instructor;
         feedback.UpdatedAt = DateTime.Now;
+        feedback.StudentMayVisualize = feedback.Subject is not null || (payload.StudentMayVisualize ?? false);
 
         var updatedFeedback =
             _repo.Update(feedback)

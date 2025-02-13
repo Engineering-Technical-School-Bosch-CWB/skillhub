@@ -38,7 +38,7 @@ public class SubjectAreaController : ControllerBase
     )
     {
         await service.DeleteSubjectArea(id);
-        return Ok();
+        return NoContent();
     }
 
     [HttpGet]

@@ -27,6 +27,7 @@ export interface IStudentData {
         updatedAt: string,
         instructor: string,
         instructorId: number
+        studentMayVisualize?: boolean
     }[]
 }
 

@@ -3,7 +3,7 @@ import { IFeedbackCardProps } from "./Interfaces/FeedbackCard.interfaces";
 import styles from "./style.module.css";
 import Icon from "../Icon";
 
-export default ({ color, title, subtitle, editButton, content }: IFeedbackCardProps) => {
+export default ({ color, title, subtitle, editButton, content, isPrivate }: IFeedbackCardProps) => {
     return (
         <>
             <div className={`${styles.identificationCard}`}>
@@ -30,6 +30,13 @@ export default ({ color, title, subtitle, editButton, content }: IFeedbackCardPr
                 {
                     content &&
                     <Text>{content}</Text>
+                }
+                {
+                    isPrivate &&
+                    <div className={`${styles.not} ${styles.tooltip}`}>
+                        <Icon name={"lock"} />
+                        <span className={`${styles.tooltiptext}`}>Student can't see this feedback!</span>
+                    </div>
                 }
             </div>
         </>
