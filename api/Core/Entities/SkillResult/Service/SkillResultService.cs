@@ -7,11 +7,13 @@ using Api.Core.Errors;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Api.Core.Services;
 
 public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRepository skillRepository, IStudentRepository studentRepository,
-        IExamRepository examRepository, ISubjectRepository subjectRepository, IObjectionRepository objectionRepository
+        IExamRepository examRepository, ISubjectRepository subjectRepository, IObjectionRepository objectionRepository,
+        IStudentService studentService, ISkillService skillService
     ) : BaseService<SkillResult>(repository), ISkillResultService
 {
     private readonly BaseRepository<SkillResult> _repo = repository;
@@ -20,6 +22,9 @@ public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRe
     private readonly IExamRepository _examRepo = examRepository;
     private readonly ISubjectRepository _subjectRepo = subjectRepository;
     private readonly IObjectionRepository _objectionRepo = objectionRepository;
+
+    private readonly IStudentService _studentService = studentService;
+    private readonly ISkillService _skillService = skillService;
 
 
     #region CRUD
@@ -67,7 +72,7 @@ public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRe
         await _repo.SaveAsync();
 
         return new AppResponse<CompleteSkillResultDTO>(
-            CompleteSkillResultDTO.Map(createdSkillResult, GetSkillAverageByClass(skill.Id, student.Class.Id)),
+            CompleteSkillResultDTO.Map(createdSkillResult, _skillService.GetSkillAverageByClass(skill.Id, student.Class.Id)),
             "Skill result created successfully!"
         );
     }
@@ -92,28 +97,22 @@ public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRe
         );
     }
 
-    public double? GetSkillAverageByClass(int skillId, int classId)
-    {
-        var average = _repo.Get()
-            .Where(s => s.IsActive)
-            .Where(s => s.Skill.Id == skillId)
-            .Where(s => s.Student.Class.Id == classId)
-            .GroupBy(s => s.Student)
-            .Select(g => g.OrderBy(s => s.EvaluatedAt).First())
-            .AsEnumerable()
-            .Average(s => s.Aptitude);
-
-        return average;
-    }
-
-    public async Task<AppResponse<IEnumerable<SkillResult>>> EvaluateExam(int examId, IEnumerable<StudentEvaluatePayload> payload)
+        public async Task<AppResponse<IEnumerable<SkillResult>>> EvaluateExam(int examId, IEnumerable<StudentEvaluatePayload> payload)
     {
         var exam = await _examRepo.Get()
             .Where(e => e.IsActive)
+            .Include(e => e.Subject)
             .SingleOrDefaultAsync(e => e.Id == examId)
             ?? throw new NotFoundException("Exam not found!");
 
+        var subject = await _subjectRepo.Get()
+            .Where(s => s.IsActive)
+            .Include(s => s.Exams.Where(e => e.IsActive))
+            .SingleOrDefaultAsync(s => s.Id == exam.Subject.Id)
+            ?? throw new UnknownServerError("Error getting exam subject!");
+
         foreach (var s in payload)
+        {
             foreach (var r in s.Results)
             {
                 var obj = await _repo.Get().Where(o => o.IsActive && o.Exam!.Id == examId).SingleOrDefaultAsync(o => o.Skill.Id == r.SkillId && o.Student.Id == s.StudentId)
@@ -123,8 +122,18 @@ public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRe
                 var updated = _repo.Update(obj)
                     ?? throw new UpsertFailException("Skill result could not be updated!");
             }
+            await _repo.SaveAsync();
 
-        await _repo.SaveAsync();
+            var student = await _studentRepo.Get()
+                .Where(student => student.IsActive)
+                .SingleOrDefaultAsync(student => student.Id == s.StudentId)
+                ?? throw new NotFoundException("Student not found!");
+
+            // student.OverallScore = subject.Exams.Select(e => _studentService.GetExamResults(s.StudentId, e.Id)).Average(r => r.Mean);
+            // student.OverallSkillScore = 
+        }
+
+
 
         return new AppResponse<IEnumerable<SkillResult>>(
             [],

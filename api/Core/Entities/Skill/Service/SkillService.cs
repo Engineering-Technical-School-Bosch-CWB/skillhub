@@ -9,13 +9,14 @@ using Api.Domain.Enums;
 
 namespace Api.Core.Services;
 public class SkillService(BaseRepository<Skill> repository, ICurricularUnitRepository curricularUnitRepository,
-    ISubjectRepository subjectRepository, IUserRepository userRepository
+    ISubjectRepository subjectRepository, IUserRepository userRepository, ISkillResultRepository skillResultRepository
     ) : BaseService<Skill>(repository), ISkillService
 {
     private readonly BaseRepository<Skill> _repo = repository;
     private readonly ICurricularUnitRepository _curricularUnitRepo = curricularUnitRepository;
     private readonly ISubjectRepository _subjectRepo = subjectRepository;
     private readonly IUserRepository _userRepo = userRepository;
+    private readonly ISkillResultRepository _skillResultRepo = skillResultRepository;
 
 
     #region CRUD
@@ -107,6 +108,24 @@ public class SkillService(BaseRepository<Skill> repository, ICurricularUnitRepos
 
     #endregion
 
+    #region Services
+
+    public double? GetSkillAverageByClass(int skillId, int classId)
+    {
+        var average = _skillResultRepo.Get()
+            .Where(s => s.IsActive)
+            .Where(s => s.Skill.Id == skillId)
+            .Where(s => s.Student.Class.Id == classId)
+            .GroupBy(s => s.Student)
+            .Select(g => g.OrderBy(s => s.EvaluatedAt).First())
+            .AsEnumerable()
+            .Average(s => s.Aptitude);
+
+        return average;
+    }
+
+    #endregion
+
     #region Pages
 
     public async Task<AppResponse<ExamSkillsDTO>> GetCreateExamPage(int subjectId)
@@ -118,7 +137,7 @@ public class SkillService(BaseRepository<Skill> repository, ICurricularUnitRepos
             .Include(s => s.Instructor)
             .SingleOrDefaultAsync(s => s.Id == subjectId)
             ?? throw new NotFoundException("Subject not found!");
-        
+
         var teachers = await _userRepo.Get()
             .Where(u => u.IsActive)
             .Where(u => (EPositionType)u.Position.PositionType == EPositionType.Teacher)
@@ -127,7 +146,7 @@ public class SkillService(BaseRepository<Skill> repository, ICurricularUnitRepos
             .Select(u => ObjectDTO.Map(u.Id, u.Name))
             .ToListAsync();
 
-        teachers = [subject.Instructor is not null ? ObjectDTO.Map(subject.Instructor.Id, subject.Instructor.Name) : null, ..teachers];
+        teachers = [subject.Instructor is not null ? ObjectDTO.Map(subject.Instructor.Id, subject.Instructor.Name) : null, .. teachers];
 
         var skills = await _repo.Get()
             .Where(s => s.CurricularUnit.Id == subject.CurricularUnit.Id)

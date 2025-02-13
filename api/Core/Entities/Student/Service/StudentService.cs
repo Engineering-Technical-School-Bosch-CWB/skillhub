@@ -9,7 +9,7 @@ using Api.Core.Errors;
 namespace Api.Core.Services;
 
 public class StudentService(
-    BaseRepository<Student> repository, IUserRepository userRepository, ISubjectRepository subjectRepository, ISkillResultService skillResultService,
+    BaseRepository<Student> repository, IUserRepository userRepository, ISubjectRepository subjectRepository, ISkillService skillService,
     IClassRepository classRepository, ISkillResultRepository skillResultRepository, IFeedbackRepository feedbackRepository, IExamRepository examRepository
 ) : BaseService<Student>(repository), IStudentService
 
@@ -22,7 +22,7 @@ public class StudentService(
     private readonly ISubjectRepository _subjectRepo = subjectRepository;
     private readonly IUserRepository _userRepo = userRepository;
 
-    private readonly ISkillResultService _skillResultService = skillResultService;
+    private readonly ISkillService _skillService = skillService;
 
     #region CRUD
 
@@ -206,7 +206,7 @@ public class StudentService(
             .ToListAsync();
 
         var results = skillResults
-            .Select(s => CompleteSkillResultDTO.Map(s, _skillResultService.GetSkillAverageByClass(s.Skill.Id, subject.Class.Id)));
+            .Select(s => CompleteSkillResultDTO.Map(s, _skillService.GetSkillAverageByClass(s.Skill.Id, subject.Class.Id)));
 
         return new AppResponse<StudentSubjectResultResponse>(
             StudentSubjectResultResponse.Map(student, subject.CurricularUnit.Name, subject.Class.Students.Average(s => GetSubjectGrade(s.Id, subjectId)), results, feedback),
