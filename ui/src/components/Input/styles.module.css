@@ -1,5 +1,6 @@
 .input_box {
     height: 50px;
+    min-height: 100%;
 
     position: relative;
     cursor: text;
@@ -66,6 +67,11 @@
 }
 .input:disabled:hover {
     border: var(--default-border);
+}
+
+.disabled {
+    background-color: transparent;
+    cursor: default;
 }
 
 

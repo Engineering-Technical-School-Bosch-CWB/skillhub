@@ -111,7 +111,7 @@ public class StudentService(
 
         return StudentExamResultsDTO.Map(
             student,
-            results.Any() ? results.Sum(s => s.Aptitude * s.Weight) / results.Sum(s => s.Weight) : null,
+            results.Where(s => s.Aptitude.HasValue).Any() ? results.Sum(s => s.Aptitude * s.Weight) / results.Sum(s => s.Weight) : null,
             results.Select(SimpleSkillResultDTO.Map).OrderBy(s => s.SkillId)
         );
     }
@@ -206,7 +206,7 @@ public class StudentService(
             .ToListAsync();
 
         var results = skillResults
-            .Select(s => SkillResultDTO.Map(s, _skillResultService.GetSkillAverageByClass(s.Skill.Id, subject.Class.Id)));
+            .Select(s => CompleteSkillResultDTO.Map(s, _skillResultService.GetSkillAverageByClass(s.Skill.Id, subject.Class.Id)));
 
         return new AppResponse<StudentSubjectResultResponse>(
             StudentSubjectResultResponse.Map(student, subject.CurricularUnit.Name, subject.Class.Students.Average(s => GetSubjectGrade(s.Id, subjectId)), results, feedback),

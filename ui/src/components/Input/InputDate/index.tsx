@@ -19,7 +19,7 @@ const InputDate = forwardRef<HTMLInputElement, IInputDateProps>(
 
     const handleSetValue = (value: dayjs.Dayjs | null) => {
 
-        if( hasForm)
+        if(hasForm)
         {
             const {setValue} = formContext;
             if(setValue && fieldName)

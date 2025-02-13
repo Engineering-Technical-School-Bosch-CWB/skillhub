@@ -35,6 +35,7 @@ export default ({ open, handleClose }: IMenuProps) => {
 
                 <div className={styles.link_list}>
                     <Link to={"/home"}>{"Home"}</Link>
+                    <Link to={"/user-profile"}>{"User Profile"}</Link>
                     {
                         user?.studentProfile &&
                         <Link to={"/apprentice/results"} >{"Student Results"}</Link>

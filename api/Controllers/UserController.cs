@@ -40,7 +40,7 @@ public class UserController : ControllerBase
     )
     {
         await service.DeleteUser(id);
-        return Ok();
+        return NoContent();
     }
 
     [HttpGet]

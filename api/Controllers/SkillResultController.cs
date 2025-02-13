@@ -1,6 +1,8 @@
 using Api.Core.Errors;
 using Api.Core.Services;
 using Api.Domain.Enums;
+using Api.Domain.Models;
+using Api.Domain.Repositories;
 using Api.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -41,6 +43,33 @@ public class SkillResultController : ControllerBase
             throw new ForbiddenAccessException("User don't have permission to this service!");
 
         var result = await service.GetSkillResultHistory(studentId ?? studentProfile!.Id, skillId);
+        return Ok(result);
+    }
+
+    [HttpGet]
+    [Route("exam/{examId}")]
+    public async Task<ActionResult> GetExamEvaluationPage(
+        [FromServices] ISkillResultService service, UserContext userContext, int examId
+    )
+    {
+        if (userContext.PermissionLevel != EPermissionLevel.Admin)
+            throw new ForbiddenAccessException("User don't have permission to this service!");
+
+        var result = await service.GetExamEvaluationPage(examId);
+        return Ok(result);
+    }
+
+    [HttpPost]
+    [Route("exam/{examId}")]
+    public async Task<ActionResult> EvaluateExam(
+        [FromServices] ISkillResultService service, UserContext userContext,
+        [FromBody] IEnumerable<StudentEvaluatePayload> payload, int examId
+    )
+    {
+        if (userContext.PermissionLevel != EPermissionLevel.Admin)
+            throw new ForbiddenAccessException("User don't have permission to this service!");
+
+        var result = await service.EvaluateExam(examId, payload);
         return Ok(result);
     }
 }

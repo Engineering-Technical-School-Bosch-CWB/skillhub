@@ -4,9 +4,15 @@ import styles from '../../styles.module.css';
 import { IAvaliationTableProps } from "../../interfaces/SubjectDetails.interface";
 import Icon from "../../../../components/Icon";
 import { Tooltip } from "recharts";
+import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 
 export default ({ exam }: IAvaliationTableProps) => {
+
+    const navigate = useNavigate();
+
+    const { classId, subjectId } = useParams();
 
     const getSkillClass = (aptitude?: string) => {
         if (aptitude === "Skilled") return styles.SKILLED;
@@ -16,7 +22,7 @@ export default ({ exam }: IAvaliationTableProps) => {
     };
 
     const getMeanClass = (mean?: number) => {
-        if (!mean) return ""
+        if (mean == null) return ""
 
         if (mean >= 80) return styles.SKILLED;
         if (mean >= 60) return styles.DEVELOPMENT;
@@ -26,18 +32,23 @@ export default ({ exam }: IAvaliationTableProps) => {
     return (
         <>
             <br />
-            <div className={`${styles.table_header} ${styles.align}`}>
-                <span className={`${styles.subtitle}`}>
-                    <Text fontSize="lg" fontWeight="bold" >{exam.name}</Text>
-                    <Text fontSize="sm">{exam.date}</Text>
-                </span>
-                <span className={`${styles.subtitle} ${styles.evBtn}`}>
-                    <Text fontSize="sm">Evaluate</Text>
-                    <Icon name={"edit"} />
-                </span>
-            </div>
+            <span className={`${styles.title}`}>
+                <div className={`${styles.table_header} ${styles.align}`}>
+                    <span className={`${styles.subtitle}`}>
+                        <Text fontSize="lg" fontWeight="bold" >{exam.name}</Text>
+                        <Text fontSize="sm" fontWeight="semibold">{exam.date}</Text>
+                    </span>
+                    <span
+                    className={`${styles.subtitle} ${styles.evBtn}`}
+                    onClick={() => navigate(`/classes/${classId}/subject/${subjectId}/evaluate-exam/${exam.idTest}`)}>
+                        <Text fontSize="sm">Evaluate</Text>
+                        <Icon name={"edit"} />
+                    </span>
+                </div>
+                <Text fontSize="sm">{exam.description}</Text>
+            </span>
             <div className={`${styles.tables}`}>
-                <table className={`${styles.competence_table} ${styles.highlight_border} ${styles.divider}`}>
+                <table className={`${styles.competence_table} ${styles.highlight_border}`}>
                     <tr>
                         <th className={`${styles.highlight_border}`}>Skill</th>
                         <th className={`${styles.highlight_border}`}>Weight</th>
@@ -66,11 +77,11 @@ export default ({ exam }: IAvaliationTableProps) => {
                 </table>
 
                 <section className={`${styles.table_section}`}>
-                    <table className={`${styles.result_table} ${styles.highlight_border}`}>
+                    <table className={`${styles.result_table} ${styles.divider}`}>
                         <tr>
                             {
                                 exam.data.students.map((s: { name: string }) => (
-                                    <th className={`${styles.student_cell} ${styles.highlight_border} `}>{s.name}</th>
+                                    <th className={`${styles.student_cell} ${styles.highlight_border} ${styles.divider} `}>{s.name}</th>
                                 ))
                             }
                         </tr>
@@ -81,7 +92,7 @@ export default ({ exam }: IAvaliationTableProps) => {
                                         {
                                             exam.data.students.map((student: { skillsResults: any[]; }) => (
                                                 <>
-                                                    <td className={`${styles.result_cell} ${getSkillClass(student.skillsResults[skill.id])} ${styles.td}`}>
+                                                    <td className={`${styles.result_cell} ${getSkillClass(student.skillsResults[skill.id])} ${styles.td} ${styles.divider}`}>
                                                         {student.skillsResults[skill.id] || "-"}
                                                     </td>
                                                 </>
@@ -94,8 +105,8 @@ export default ({ exam }: IAvaliationTableProps) => {
                         <tr>
                             {
                                 exam.data.students.map((student: { mean: number; }) => (
-                                    <td className={`${styles.result_cell} ${styles.performance_cell} ${getMeanClass(student.mean)} ${styles.highlight_border}`}>
-                                        {!student.mean ? "-" : Number(student.mean.toFixed(2)) + "%"}
+                                    <td className={`${styles.result_cell} ${styles.performance_cell} ${getMeanClass(student.mean)} ${styles.highlight_border} ${styles.divider}`}>
+                                        {student.mean == null ? "-" : Number(student.mean.toFixed(2)) + "%"}
                                     </td>
                                 ))
                             }

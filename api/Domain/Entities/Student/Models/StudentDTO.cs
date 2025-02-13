@@ -79,7 +79,7 @@ public record StudentProfileDTO(
             show ? position : null,
             show ? subjectResults : [],
             feedbacks.Where(f => f.Subject is not null),
-            show ? feedbacks.Where(f => f.Subject is null) : []
+            feedbacks.Where(f => f.Subject is null && (show || f.StudentMayVisualize))
         );
     }
 }

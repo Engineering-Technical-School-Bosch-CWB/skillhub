@@ -11,10 +11,12 @@ public class FeedbackCreatePayload
     public required string Content { get; set; }
     
     public int? SubjectId { get; set; }
+    public bool? StudentMayVisualize { get; set; }
 }
 
 public class FeedbackUpdatePayload
 {
     [Required]
     public required string Content { get; set; }
+    public bool? StudentMayVisualize { get; set; }
 }

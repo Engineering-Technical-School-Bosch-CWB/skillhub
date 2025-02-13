@@ -28,11 +28,11 @@ public record StudentSubjectResultResponse(
     string Subject,
     double? OverallSkillScore,
     double? ClassOverallSkillScore,
-    IEnumerable<SkillResultDTO> SkillResults,
+    IEnumerable<CompleteSkillResultDTO> SkillResults,
     FeedbackDTO? Feedback
 )
 {
-    public static StudentSubjectResultResponse Map(Student student, string subject, double? classOverallSkillScore, IEnumerable<SkillResultDTO> skillResults, Feedback? feedback)
+    public static StudentSubjectResultResponse Map(Student student, string subject, double? classOverallSkillScore, IEnumerable<CompleteSkillResultDTO> skillResults, Feedback? feedback)
     {
         return new StudentSubjectResultResponse(
             student.Id,

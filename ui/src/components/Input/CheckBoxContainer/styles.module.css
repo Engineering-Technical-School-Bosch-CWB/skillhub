@@ -4,9 +4,10 @@
     justify-content: start;
     align-items: center;
     /* padding: .75rem; */
-    gap: .75rem ;
     height: auto;
+    min-height: 50px;
     border: var(--default-border);
+    width: 100%;
     
     &:hover {
         border: var(--active-border);
@@ -18,14 +19,12 @@
         min-width: 20px;
         min-height: 20px;
         cursor: pointer;
-        margin: 1rem;
+        margin: 12px 1rem 12px 12px;
         /* padding-left: .75rem; */
     }
     .label {
         width: 100%;
         padding: 1rem;
         padding-left: 0;
-        cursor: pointer;
-        overflow-wrap: anywhere;
     } 
 }

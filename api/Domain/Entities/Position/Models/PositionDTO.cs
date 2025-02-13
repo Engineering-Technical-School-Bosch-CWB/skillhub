@@ -5,7 +5,8 @@ namespace Api.Domain.Models;
 public record PositionDTO(
 	int Id,
 	string Name,
-	EPermissionLevel PositionLevel
+	EPermissionLevel PositionLevel,
+	EPositionType PositionType
 )
 {
 	public static PositionDTO Map(Position obj)
@@ -13,7 +14,8 @@ public record PositionDTO(
 		return new PositionDTO(
 		  obj.Id,
 		  obj.Name,
-		  (EPermissionLevel)obj.PositionLevel
+		  (EPermissionLevel)obj.PermissionLevel,
+		  (EPositionType)obj.PositionType
 		);
 	}
 }

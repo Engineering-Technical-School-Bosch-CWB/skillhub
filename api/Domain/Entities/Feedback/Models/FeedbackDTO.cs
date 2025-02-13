@@ -49,7 +49,8 @@ public record CompleteFeedbackDTO(
     int UserId,
     string? Subject,
     int? SubjectId,
-    SimpleStudentDTO Student
+    SimpleStudentDTO Student,
+    bool StudentMayVisualize
 )
 {
     public static CompleteFeedbackDTO Map(Feedback obj)
@@ -63,7 +64,8 @@ public record CompleteFeedbackDTO(
             obj.Student.User.Id,
             obj.Subject?.CurricularUnit.Name,
             obj.Subject?.Id,
-            SimpleStudentDTO.Map(obj.Student)
+            SimpleStudentDTO.Map(obj.Student),
+            obj.StudentMayVisualize
         );
     }
 }

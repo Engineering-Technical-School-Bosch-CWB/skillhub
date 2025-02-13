@@ -1,3 +1,6 @@
+using Api.Core.Errors;
+using Api.Core.Services;
+using Api.Domain.Enums;
 using Api.Domain.Models;
 using Api.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -36,7 +39,7 @@ public class SkillController : ControllerBase
         int curricularUnitId
     )
     {
-        var result = await service.GetByCurricularUnit(curricularUnitId);
+        var result = await service.GetCreateExamPage(curricularUnitId);
         return Ok(result);
     }
 
@@ -60,6 +63,19 @@ public class SkillController : ControllerBase
     )
     {
         await service.DeleteSkill(id);
-        return Ok();
+        return NoContent();
+    }
+
+    [HttpGet]
+    [Route("createExam/{subjectId}")]
+    public async Task<ActionResult> GetCreateExamPage(
+        [FromServices] ISkillService service, UserContext userContext, int subjectId
+    )
+    {
+        if (userContext.PermissionLevel != EPermissionLevel.Admin)
+            throw new ForbiddenAccessException("User don't have permission to this service!");
+
+        var result = await service.GetCreateExamPage(subjectId);
+        return Ok(result);
     }
 }
