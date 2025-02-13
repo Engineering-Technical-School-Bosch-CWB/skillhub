@@ -11,6 +11,7 @@ import UsersOverview from "../../pages/UsersOverview";
 import UserProfile from "@/pages/UserProfile";
 import CreateExam from "@/pages/CreateExam";
 import EvaluateExam from "../../pages/SubjectDetails/Pages/EvaluateExam";
+import UsersProperties from "@/pages/UsersProperties";
 
 export default {
     accessLevel: AccessLevel.TEACHER,
@@ -56,9 +57,10 @@ export default {
             element: <UserProfile />
         },
         {
-            path: RouteMap.EVALUATE_EXAM,
-            element: <EvaluateExam />
-        }
+            path:RouteMap.USERS_PROPERTIES,
+            element: <UsersProperties />
+
+        },
         // {
         //     path: RouteMap.NEW_SUBJECT_TEST,
         //     element: <NewTest />

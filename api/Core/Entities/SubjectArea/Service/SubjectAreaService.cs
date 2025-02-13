@@ -7,10 +7,14 @@ using Api.Core.Errors;
 
 namespace Api.Core.Services;
 
-public class SubjectAreaService(BaseRepository<SubjectArea> repository)
+public class SubjectAreaService(
+        BaseRepository<SubjectArea> repository,
+        IPaginationService paginationService
+    )
     : BaseService<SubjectArea>(repository), ISubjectAreaService
 {
     private readonly BaseRepository<SubjectArea> _repo = repository;
+    private readonly IPaginationService _paginationService = paginationService;
 
     public async Task<AppResponse<SubjectAreaDTO>> CreateSubjectArea(SubjectAreaPayload payload)
     {
@@ -84,16 +88,21 @@ public class SubjectAreaService(BaseRepository<SubjectArea> repository)
         );
     }
 
-    public async Task<AppResponse<IEnumerable<SubjectAreaDTO>>> GetAllSubjectAreas()
+    public async Task<PaginatedAppResponse<SubjectAreaDTO>> GetAllSubjectAreas(PaginationQuery? pagination)
     {
-        var subjectAreas = _repo.Get()
-            .Where(s => s.IsActive)
-            .AsEnumerable()
-            .Select(s => SubjectAreaDTO.Map(s))
-            .ToList();
+        var result = await _paginationService.PaginateAsync(
+            _repo.Get()
+                .Where(s => s.IsActive),
+            pagination!.ToOptions()
+        );
 
-        return new AppResponse<IEnumerable<SubjectAreaDTO>>(
-            subjectAreas,
+        var mappedUsers = new List<SubjectAreaDTO>();
+
+        mappedUsers = result.Item1.Select(e => SubjectAreaDTO.Map(e)).ToList();
+
+        return new PaginatedAppResponse<SubjectAreaDTO>(
+            mappedUsers,
+            result.Item2,
             "Subject areas found!"
         );
     }

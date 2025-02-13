@@ -47,3 +47,14 @@ INSERT INTO [curricular_unit] VALUES ('CNC', 3, 1);
 INSERT INTO [curricular_unit] VALUES ('Eletronica Digital', 4, 1);
 INSERT INTO [curricular_unit] VALUES ('Python', 5, 1);
 GO
+
+select * from [course]
+select * from [student]
+insert student values (null, null, 1, 1, 1)
+
+update course set is_active = 1
+
+select * from occupation_area
+
+insert into occupation_area values ('mecanica')
+

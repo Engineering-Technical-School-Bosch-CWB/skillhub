@@ -5,6 +5,7 @@ export enum RouteMap {
 
     HOME = "/home",
     USER_PROFILE = "/user-profile",
+    USERS_PROPERTIES = "/users-properties",
     APPRENTICE_RESULTS = "/apprentice/results",
     SUBJECT_RESULTS = "/apprentice/results/:subjectId",
     BIRTHDAYS = "/birthdays",

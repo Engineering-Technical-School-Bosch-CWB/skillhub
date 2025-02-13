@@ -67,7 +67,7 @@ public class CurricularUnitService(BaseRepository<CurricularUnit> repository, IS
 
             curricularUnit.Name = payload.Name;
         }
-
+    
         if (payload.SubjectAreaId.HasValue)
         {
             var subjectArea = await _subjectAreaRepo.Get()

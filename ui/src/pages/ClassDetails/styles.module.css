@@ -44,8 +44,10 @@
 
     .modal_input_label_container {
         width: 100%;
-        padding: 0 10%;
-        justify-content: space-between;
+        display: grid;
+        align-items: center;
+        grid-template-columns: 70% 20% 5%;
+        gap: 1rem;
     }
 
     .modal_input_container {

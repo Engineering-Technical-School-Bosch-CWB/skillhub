@@ -5,6 +5,8 @@ using Api.Domain.Services;
 using Api.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Api.Core.Errors;
+using Api.Core.Repositories;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Api.Core.Services;
 
@@ -24,6 +26,37 @@ public class SubjectService(BaseRepository<Subject> repository, IUserRepository 
     private readonly IStudentService _studentService = studentService;
 
     #region CRUD
+
+
+    public async Task<AppResponse<IEnumerable<SubjectDTO>>> CreateSubjectsByClass(IEnumerable<SubjectCreateByClassPayload> payload, int idClass)
+    {
+        var _class = await _classRepo.Get()
+            .SingleOrDefaultAsync(c => c.IsActive && c.Id == idClass)
+                ?? throw new NotFoundException("Class not found!");
+
+
+        List<Subject> subjects = payload.Select(s => new Subject(){
+            DurationHours = s.Time,
+            Class = _class,
+            CurricularUnit = _curricularUnitRepo.Get().SingleOrDefault(c => c.IsActive && c.Id == s.CurricularUnitId) 
+                ?? throw new NotFoundException($"Curricular Unit not found: {s.CurricularUnitId}") 
+        }).ToList();
+
+        List<Subject> inserted = [];
+
+        foreach (var item in subjects){
+            var entity = _repo.Add(item);
+            inserted.Add(entity);
+        }
+
+        await _repo.SaveAsync();
+
+        return new AppResponse<IEnumerable<SubjectDTO>>(
+            inserted.Select(e => SubjectDTO.Map(e)),
+            "Subjects inserted successfully!"
+        )  ;
+    }
+
 
     public async Task<AppResponse<SubjectDTO>> CreateSubject(SubjectCreatePayload payload)
     {
@@ -123,7 +156,6 @@ public class SubjectService(BaseRepository<Subject> repository, IUserRepository 
             "Subject info found!"
         );
     }
-
 
     #endregion
 }

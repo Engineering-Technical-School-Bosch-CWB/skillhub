@@ -1,3 +1,4 @@
+import { ICurricularUnit } from "./ICurricularUnit";
 import IEntity from "./IEntity";
 
 export interface ISubject extends IEntity {
@@ -7,7 +8,7 @@ export interface ISubject extends IEntity {
     instructorId?: number,
     instructorName?: string,
     curricularUnitId?: number,
-    curricularUnit?: string,
+    curricularUnit?: ICurricularUnit,
     classId?: number,
     class?: string,
     classStartingYear?: string

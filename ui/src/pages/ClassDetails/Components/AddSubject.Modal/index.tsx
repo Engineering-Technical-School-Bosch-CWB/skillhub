@@ -1,48 +1,57 @@
 import Modal from "../../../../components/Modal"
 import { AddModalProps, ModalContentProps } from "../../interfaces/ClassDetails.interfaces"
-import Input from "../../../../components/Input"
-
 import styles from '../../styles.module.css'
 import Text from "../../../../typography"
 import { useEffect, useState } from "react"
 import Button from "../../../../components/Button"
 import internalAPI from "../../../../service/internal.services"
+import SelectSubject from "./components/SelectSubject"
+import { toast } from "react-toastify"
 
-export default ({ isOpen, onClose }: AddModalProps) => {
+export default ({ isOpen, onClose, classId }: AddModalProps) => {
 
-    const getData = async () => {
-        const response = await internalAPI.jsonRequest("/curricularUnits", "GET");
-        const content = response.data;
-
-        console.log(content);
-    }
 
     const [content, setContent] = useState<ModalContentProps[]>([
         {
+            id: 0,
             subject: "",
+            curricularUnitId: 0,
             time: 0
         }
     ])
 
     const handleAddContent = () => {
-        setContent([...content, { subject: "", time: 0 }])
+        setContent([...content, {id: 0, subject: "", curricularUnitId: 0, time: 0}])
     }
 
-    const handleInputChange = (index: number, field: keyof ModalContentProps, value: string | number) => {
-        const updatedContent = [...content];
-        field === 'subject' ?
-            updatedContent[index].subject = value as string :
-            updatedContent[index].time = value as number;
-        setContent(updatedContent)
+    const alterItem = (index: number, key: string, value: any) => {
+        setContent(prev => {
+            const temp = [...prev]
+            temp[index] = {
+                ...temp[index], 
+                [key]: value
+            }
+            return temp;
+        })
     }
 
-    const handleSave = () => {
-        // connection with API and reload page
+    const deleteItem = (index: number) => {
+        setContent(prev => {
+            const _temp = [...prev];
+            _temp.splice(index, 1);
+            return _temp
+        })
     }
 
-    useEffect(() => {
-        getData();
-    }, [isOpen])
+    const handleSave = async () => {
+        const response = await internalAPI.jsonRequest(`/subjects/byClass/${classId}`,"POST", undefined, content);
+        if(!response || !response.success)
+            toast.error(`Error on create subject: ${response.message}`, {toastId: "subject-create-error"})
+        else {
+            location.reload();
+
+        }
+    }
 
     return (
         <>
@@ -50,7 +59,6 @@ export default ({ isOpen, onClose }: AddModalProps) => {
                 handleClose={() => onClose()}
                 open={isOpen} title={"Add Subjects"}            >
                 <div className={`${styles.modal_content} ${styles.align}`}>
-                    {/* <Text fontSize="lg" fontWeight="extrabold">Adicionar Matérias</Text> */}
                     <span></span>
                     <div className={`${styles.modal_input_label_container} ${styles.align}`}>
                         <Text>Curricular Unit</Text>
@@ -58,10 +66,7 @@ export default ({ isOpen, onClose }: AddModalProps) => {
                     </div>
                     {
                         content.map((e, _index: number) => (
-                            <div className={`${styles.modal_input_container}`}>
-                                <Input className={`${styles.subject_input}`} onChange={(e) => handleInputChange(_index, 'subject', e.target.value)} />
-                                <Input className={`${styles.time_input}`} onChange={(e) => handleInputChange(_index, 'time', e.target.value)} type="number" />
-                            </div>
+                            <SelectSubject onChange={(e, f) => alterItem(_index, e, f)} onDelete={() => deleteItem(_index)} />
                         ))
                     }
 

@@ -60,6 +60,7 @@ public class CourseService : BaseService<Course>, ICourseService
     public async Task DeleteCourse(int id)
     {
         var course = await _repo.Get()
+            .Where(c => c.IsActive)
             .SingleOrDefaultAsync(c => c.Id == id)
             ?? throw new NotFoundException("Course not found!");
         
@@ -87,7 +88,6 @@ public class CourseService : BaseService<Course>, ICourseService
 
     public PaginatedAppResponse<CourseDTO> GetCourses(PaginationQuery pagination, string? querry = null)
     {
-        Console.WriteLine(querry);
         var entities = _repo.GetAllNoTracking()
             .Where(course => string.IsNullOrEmpty(querry) || EF.Functions.Like(course.Name, $"%{querry}%"))
             .Where(course => course.IsActive)
@@ -137,6 +137,8 @@ public class CourseService : BaseService<Course>, ICourseService
         var updatedCourse =
             _repo.Update(course)
             ?? throw new UpsertFailException("Course could not be updated!");
+
+        await repository.SaveAsync();
 
         return new AppResponse<CourseDTO>(
             CourseDTO.Map(updatedCourse),

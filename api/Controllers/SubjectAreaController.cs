@@ -54,10 +54,11 @@ public class SubjectAreaController : ControllerBase
 
     [HttpGet]
     public async Task<ActionResult> GetAllSubjectAreas(
-        [FromServices] ISubjectAreaService service
+        [FromServices] ISubjectAreaService service,
+        [FromQuery] PaginationQuery pagination
     )
     {
-        var result = await service.GetAllSubjectAreas();
+        var result = await service.GetAllSubjectAreas(pagination);
         return Ok(result);
     }
 }

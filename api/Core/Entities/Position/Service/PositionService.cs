@@ -34,6 +34,17 @@ public class PositionService
         _mapper = new Mapper(mapConfig);
     }
 
+    public override Task<Position> AddAsync(Position entity)
+    {
+        if(entity.PositionLevel == 1) {
+            var repoEntity = repository.Get().FirstOrDefaultAsync(position => position.PositionLevel == 1);
+            if(repoEntity is not null)
+                throw new AlreadyExistsException("Position with this level already exists!");
+        }
+        
+        return base.AddAsync(entity);
+    }
+
     public async Task<AppResponse<PositionDTO>> Get(int id)
     {
         var position = await _repo.Get().SingleOrDefaultAsync(p => p.Id.Equals(id))

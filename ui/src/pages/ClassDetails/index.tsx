@@ -120,7 +120,7 @@ const ClassDetails = () => {
 
     return (
         <div onClick={clearParams}>
-            <AddSubjectModal isOpen={modalOpened} onClose={() => setModalOpened(false)} />
+            <AddSubjectModal isOpen={modalOpened} onClose={() => setModalOpened(false)} classId={(+classId!)} />
             <Header />
 
             <main>
