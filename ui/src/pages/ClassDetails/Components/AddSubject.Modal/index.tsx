@@ -2,7 +2,7 @@ import Modal from "../../../../components/Modal"
 import { AddModalProps, ModalContentProps } from "../../interfaces/ClassDetails.interfaces"
 import styles from '../../styles.module.css'
 import Text from "../../../../typography"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import Button from "../../../../components/Button"
 import internalAPI from "../../../../service/internal.services"
 import SelectSubject from "./components/SelectSubject"

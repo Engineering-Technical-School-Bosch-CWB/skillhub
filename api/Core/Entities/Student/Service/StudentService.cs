@@ -5,6 +5,7 @@ using Api.Domain.Services;
 using Api.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Api.Core.Errors;
+using System.Text.Json;
 
 namespace Api.Core.Services;
 
@@ -122,6 +123,7 @@ public class StudentService(
             .Where(s => s.IsActive)
             .Include(s => s.Class.Subjects)
             .ThenInclude(s => s.CurricularUnit)
+            .ThenInclude(s => s.SubjectArea)
             .Include(s => s.Class.Subjects)
             .ThenInclude(s => s.Instructor)
             .SingleOrDefaultAsync(s => s.User.Id == userId);
@@ -149,7 +151,13 @@ public class StudentService(
             .Select(f => CompleteFeedbackDTO.Map(f))
             .ToListAsync();
 
-        return StudentProfileDTO.Map(student, results, feedbacks, show, position);
+        List<SubjectAreaDTO> subjectAreaResults = results
+            .GroupBy(s => s.SubjectArea)
+            .Select(gs => SubjectAreaDTO.Map(gs.Key!, gs.Average(k => k.Performance)))
+            .ToList();
+
+        var result = StudentProfileDTO.Map(student, subjectAreaResults, results, feedbacks, show, position);
+        return result;
     }
 
     #endregion

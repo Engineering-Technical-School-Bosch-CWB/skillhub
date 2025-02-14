@@ -9,7 +9,7 @@ import internalAPI from "@/service/internal.services";
 import SectionHeader from "@/components/SectionHeader";
 
 import { useEffect, useState } from "react";
-import { IStudentData, IUserData } from "./interfaces/UserProfile.interface";
+import { IStudentData, IStudentProfileData, IUserData } from "./interfaces/UserProfile.interface";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import getHex from "@/constants/getHex";
@@ -18,19 +18,25 @@ import Divider from "@/components/Divider";
 import FeedbackCard from "@/components/FeedbackCard";
 import PositionCard from "./components/PositionCard";
 import FeedbackModal from "./components/FeedbackModal";
+import { PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer, Tooltip } from "recharts";
 
 interface IModalProps {
     feedbackId?: number
     isFeedbackModalOpen: boolean
 }
-
+interface IRadarProps {
+    subject: string,
+    A: number,
+    B?: number,
+    fullMark: number
+}
 const UserProfile = () => {
+    const [radarData, setRadarData] = useState<IRadarProps[]>([]);
 
     const [searchParams] = useSearchParams();
 
     const classId = searchParams.get("classId");
     const userId = searchParams.get("userId");
-
     const { user } = useUserContext();
 
     const navigate = useNavigate();
@@ -53,7 +59,7 @@ const UserProfile = () => {
             navigate("/home");
         }
 
-        const content = response.data;
+        const content = response.data as IStudentProfileData;
 
         setStudentData(content.student);
         setUserData({
@@ -65,11 +71,28 @@ const UserProfile = () => {
             sector: content.sector,
         });
 
+        setRadarData(content.student.subjectAreaResults.map((result) => {
+            const item: IRadarProps = {
+                A: result.performance,
+                subject: result.name,
+                fullMark: 100,
+                B: 0
+            }
+            return item
+        }))
+
         console.log(content)
     }
     useEffect(() => {
         getData();
     }, []);
+
+    useEffect(() => {
+        console.log("++++++++++ DEBUG ++++++++++++");
+        console.log(radarData);
+        console.log("++++++++++ DEBUG ++++++++++++");
+        
+    }, [radarData])
 
     return (
         <>
@@ -130,9 +153,37 @@ const UserProfile = () => {
                     {
                         studentData?.classPosition &&
                         <>
-                            <PositionCard name={userData?.name!} position={studentData.classPosition} score={studentData.performance} />
+                            <div className={`${styles.chart_section}`}>
+                                <PositionCard name={userData?.name!} position={studentData.classPosition} score={studentData.performance} />
+                                {/* !!! HERE !!! */}
+                                <div className={`${styles.chart_container}`}>
+                                    <Text fontSize="lg" fontWeight="bold">Content Area</Text>
+                                    <RadarChart
+                                        cx={200}
+                                        cy={200}
+                                        outerRadius={150}
+                                        width={400}
+                                        height={400}
+                                        data={radarData}
+                                    >
+                                        <PolarGrid />
+                                        <PolarAngleAxis dataKey="subject"  />
+                                        <PolarRadiusAxis />
+                                        <Tooltip />
+                                        <Radar
+                                            name={userData?.name}
+                                            dataKey="A"
+                                            stroke="#8884d8"
+                                            fill="#8884d8"
+                                            fillOpacity={0.6}
+                                        />
+                                    </RadarChart>
+                                </div>
+                            </div>
+
                             <Divider size="big" />
                         </>
+
                     }
                     {
                         studentData &&
