@@ -172,10 +172,6 @@ public class StudentService(
         student.OverallSkillScore = results.Where(s => s.Aptitude.HasValue).Any() ? results.Sum(s => s.Aptitude * s.Weight) / results.Sum(s => s.Weight) : null;
     }
 
-    public async Task AttExamStudentScores(int id, int subjectId)
-    {
-
-    }
 
     #endregion
 

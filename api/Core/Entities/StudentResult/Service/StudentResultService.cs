@@ -2,28 +2,73 @@ using Genesis.Core.Services;
 using Genesis.Core.Repositories;
 using Api.Domain.Models;
 using Api.Domain.Services;
-using Api.Core.Errors;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 using Api.Domain.Repositories;
-using InvalidDataException = Api.Core.Errors.InvalidDataException;
 
 namespace Api.Core.Services;
 
-public class StudentResultService(BaseRepository<User> repository, IPositionRepository positionRepository,
-    ISectorRepository sectorRepository, IOccupationAreaRepository areaRepository, IStudentService studentService,
-    PasswordHasher<User> hasher, IPaginationService paginationService) : BaseService<User>(repository), IStudentResultService
+public class StudentResultService(BaseRepository<User> repository, IStudentResultRepository studentResultRepository
+) : BaseService<User>(repository), IStudentResultService
 {
-    private readonly BaseRepository<User> _repo = repository;
-    private readonly IPositionRepository _positionRepo = positionRepository;
-    private readonly ISectorRepository _sectorRepo = sectorRepository;
-    private readonly IOccupationAreaRepository _areaRepo = areaRepository;
-
-    private readonly PasswordHasher<User> _hasher = hasher;
-    private readonly IPaginationService _pagService = paginationService;
-    private readonly IStudentService _studentservice = studentService;
+    private readonly IStudentResultRepository _repo = studentResultRepository;
 
     #region CRUD
+
+    #endregion
+
+    #region Services
+
+    public async Task UpdateExamResult(Student student, Exam exam, double? score)
+    {
+        var studentResultExam = await _repo.Get()
+            .Where(s => s.IsActive && s.Student.Id == student.Id && s.Exam!.Id == exam.Id)
+            .SingleOrDefaultAsync();
+
+        if (studentResultExam is not null)
+        {
+            studentResultExam.Score = score;
+            _repo.Update(studentResultExam);
+        }
+        else
+        {
+            var studentResult = new StudentResult
+            {
+                Student = student,
+                Score = score,
+                Exam = exam
+            };
+
+            _repo.Add(studentResult);
+        }
+
+        await _repo.SaveAsync();
+    }
+
+    public async Task UpdateSubjectResult(Student student, Subject subject, double? score)
+    {
+        var studentResultSubject = await _repo.Get()
+            .Where(s => s.IsActive && s.Student.Id == student.Id && s.Subject!.Id == subject.Id)
+            .SingleOrDefaultAsync();
+
+        if (studentResultSubject is not null)
+        {
+            studentResultSubject.Score = score;
+            _repo.Update(studentResultSubject);
+        }
+        else
+        {
+            var studentResult = new StudentResult
+            {
+                Student = student,
+                Score = score,
+                Subject = subject
+            };
+
+            _repo.Add(studentResult);
+        }
+
+        await _repo.SaveAsync();
+    }
 
     #endregion
 

@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 namespace Api.Core.Services;
 
 public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRepository skillRepository, IStudentRepository studentRepository,
-        IExamRepository examRepository, ISubjectRepository subjectRepository, IObjectionRepository objectionRepository,
+        IExamRepository examRepository, ISubjectRepository subjectRepository, IObjectionRepository objectionRepository, IStudentResultService studentResultService,
         IStudentService studentService, ISkillService skillService, IStudentResultRepository studentResultRepository
     ) : BaseService<SkillResult>(repository), ISkillResultService
 {
@@ -26,6 +26,7 @@ public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRe
 
     private readonly IStudentService _studentService = studentService;
     private readonly ISkillService _skillService = skillService;
+    private readonly IStudentResultService _studentResultService = studentResultService;
 
 
     #region CRUD
@@ -102,16 +103,9 @@ public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRe
     {
         var exam = await _examRepo.Get()
             .Where(e => e.IsActive)
-            .Include(e => e.Subject.Class)
+            .Include(e => e.Subject)
             .SingleOrDefaultAsync(e => e.Id == examId)
             ?? throw new NotFoundException("Exam not found!");
-
-        var results = _studentResultRepo.Get()
-            .Where(s => s.IsActive)
-            .Where(s => s.Exam!.Subject.Class.Id == exam.Subject.Class.Id || s.Subject!.Class.Id == exam.Subject.Class.Id)
-            .Include(s => s.Exam!.Subject)
-            .Include(s => s.Subject)
-            .Include(s => s.Student);
 
         foreach (var studentPayload in payload)
         {
@@ -120,67 +114,36 @@ public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRe
                 .SingleOrDefaultAsync(s => s.Id == studentPayload.StudentId)
                 ?? throw new NotFoundException("Student not found!");
 
-            var studentResults = results.Where(r => r.Student.Id == studentPayload.StudentId);
-
             foreach (var r in studentPayload.Results)
             {
-                var obj = await _repo.Get().Where(o => o.IsActive && o.Exam!.Id == examId).SingleOrDefaultAsync(o => o.Skill.Id == r.SkillId && o.Student.Id == studentPayload.StudentId)
+                var obj = await _repo.Get()
+                    .Where(o => o.IsActive && o.Exam!.Id == examId && o.Skill.Id == r.SkillId && o.Student.Id == studentPayload.StudentId)
+                    .SingleOrDefaultAsync()
                     ?? throw new NotFoundException("Skill result not found!");
 
                 obj.EvaluatedAt = DateTime.Now;
                 obj.Aptitude = (short?)r.Aptitude;
 
-                var updated = _repo.Update(obj)
-                    ?? throw new UpsertFailException("Skill result could not be updated!");
+                _ = _repo.Update(obj) ?? throw new UpsertFailException("Skill result could not be updated!");
             }
 
             await _repo.SaveAsync();
+
             var examScore = _studentService.GetExamResults(studentPayload.StudentId, examId);
+            await _studentResultService.UpdateExamResult(student, exam, examScore.Mean);
 
-            var studentResultExam = studentResults.SingleOrDefault(s => s.Exam!.Id == examId);
+            var studentResults = await _studentResultRepo.Get()
+                .Where(s => s.IsActive && s.Student.Id == studentPayload.StudentId)
+                .Include(s => s.Exam!.Subject)
+                .Include(s => s.Subject)
+                .ToListAsync();
 
-            if (studentResultExam is not null)
-            {
-                studentResultExam.Score = examScore.Mean;
-                _ = _studentResultRepo.Update(studentResultExam)
-                    ?? throw new UpsertFailException("Student result could not be updated!");
-            }
-            else
-            {
-                var studentResult = new StudentResult
-                {
-                    Student = student,
-                    Score = examScore.Mean,
-                    Exam = exam
-                };
+            var subjectResults = studentResults
+                .Where(r => r.Exam!.Subject.Id == exam.Subject.Id)
+                .Select(s => s.Score)
+                .AsEnumerable();
 
-                _ = _studentResultRepo.Add(studentResult) ?? throw new UpsertFailException("Student result could not be inserted!");
-            }
-
-            await _studentResultRepo.SaveAsync();
-
-            var subjectScore = studentResults.Where(r => r.Exam!.Subject.Id == exam.Subject.Id).Average(s => s.Score);
-            var studentResultSubject = studentResults.SingleOrDefault(r => r.Subject!.Id == exam.Subject.Id);
-
-            if (studentResultSubject is not null)
-            {
-                studentResultSubject.Score = subjectScore;
-                _ = _studentResultRepo.Update(studentResultSubject)
-                    ?? throw new UpsertFailException("Student result could not be updated!");
-            }
-            else
-            {
-                var studentResult = new StudentResult
-                {
-                    Student = student,
-                    Score = subjectScore,
-                    Subject = exam.Subject
-                };
-
-                _ = _studentResultRepo.Add(studentResult) ?? throw new UpsertFailException("Student result could not be inserted!");
-            }
-
-            await _studentResultRepo.SaveAsync();
+            await _studentResultService.UpdateSubjectResult(student, exam.Subject, subjectResults.Any() ? subjectResults.Average() : null);
             await _studentService.AttStudentScores(studentPayload.StudentId);
         }
 
