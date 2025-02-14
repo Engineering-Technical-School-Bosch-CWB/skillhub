@@ -130,6 +130,9 @@ public class Program
         services.AddScoped<BaseRepository<Student>, StudentRepository>();
         services.AddScoped<IStudentRepository, StudentRepository>();
 
+        services.AddScoped<BaseRepository<StudentResult>, StudentResultRepository>();
+        services.AddScoped<IStudentResultRepository, StudentResultRepository>();
+
         services.AddScoped<BaseRepository<Subject>, SubjectRepository>();
         services.AddScoped<ISubjectRepository, SubjectRepository>();
 
@@ -156,6 +159,7 @@ public class Program
         services.AddScoped<ISkillService, SkillService>();
         services.AddScoped<ISkillResultService, SkillResultService>();
         services.AddScoped<IStudentService, StudentService>();
+        services.AddScoped<IStudentResultService, StudentResultService>();
         services.AddScoped<ISubjectService, SubjectService>();
         services.AddScoped<ISubjectAreaService, SubjectAreaService>();
         services.AddScoped<IUserService, UserService>();

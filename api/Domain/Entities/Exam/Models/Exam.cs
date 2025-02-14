@@ -11,4 +11,5 @@ public partial class Exam : IEntity
     public User? Instructor { get; set; }
     public required Subject Subject { get; set; }
     public ICollection<SkillResult> SkillResults { get; set; } = [];
+    public ICollection<StudentResult> Results { get; set; } = [];
 }

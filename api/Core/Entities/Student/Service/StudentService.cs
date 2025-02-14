@@ -152,6 +152,31 @@ public class StudentService(
         return StudentProfileDTO.Map(student, results, feedbacks, show, position);
     }
 
+    public async Task AttStudentScores(int id)
+    {
+        var student = await _repo.Get()
+            .Where(s => s.IsActive)
+            .Include(s => s.Results.Where(r => r.IsActive && r.Score.HasValue && r.Subject!.IsActive))
+            .SingleOrDefaultAsync(s => s.Id == id)
+            ?? throw new NotFoundException("Student not found!");
+
+        student.OverallScore = student.Results.Count != 0 ? student.Results.Average(r => r.Score) : null;
+
+        var results = _skillResultRepo.Get()
+            .Where(s => s.IsActive && s.Student.Id == id)
+            .Where(s => s.Aptitude.HasValue)
+            .GroupBy(s => s.Skill)
+            .Select(g => g.OrderByDescending(s => s.EvaluatedAt).First())
+            .AsEnumerable();
+
+        student.OverallSkillScore = results.Where(s => s.Aptitude.HasValue).Any() ? results.Sum(s => s.Aptitude * s.Weight) / results.Sum(s => s.Weight) : null;
+    }
+
+    public async Task AttExamStudentScores(int id, int subjectId)
+    {
+
+    }
+
     #endregion
 
     #region Pages
