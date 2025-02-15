@@ -19,6 +19,7 @@ import FeedbackCard from "@/components/FeedbackCard";
 import PositionCard from "./components/PositionCard";
 import FeedbackModal from "./components/FeedbackModal";
 import { Bar, BarChart, CartesianGrid, Legend, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import UpdateProfileModal from "./components/UpdateProfileModal";
 
 interface IModalProps {
     feedbackId?: number
@@ -39,6 +40,8 @@ interface IBarProps {
 const UserProfile = () => {
     const [radarData, setRadarData] = useState<IRadarProps[]>([]);
     const [barData, setBarData] = useState<IBarProps[]>([]);
+    const [editModal, setEditModal] = useState(true);
+
     const [searchParams] = useSearchParams();
 
     const classId = searchParams.get("classId");
@@ -50,11 +53,9 @@ const UserProfile = () => {
     const [userData, setUserData] = useState<IUserData>();
     const [studentData, setStudentData] = useState<IStudentData>();
 
-
     const [modalProps, setModalProps] = useState<IModalProps>({
         isFeedbackModalOpen: false
     })
-
 
     const getData = async () => {
         const response = await internalAPI.jsonRequest(`/users/profile?${!userId || new URLSearchParams({ id: userId })}`, "GET");
@@ -146,7 +147,7 @@ const UserProfile = () => {
                                 <Text fontSize="md" fontWeight="semibold" >{"From " + studentData?.className}</Text>
                             }
                         </div>
-                        <Button variant="primary_icon"><Icon name="settings" /></Button>
+                        <Button variant="primary_icon" onClick={() => setEditModal(true)}><Icon name="settings" /></Button>
                     </div>
                     <div className={`${styles.gap}`}>
                         <Avatar src={"/avatar.png"} size="xl" />
@@ -302,6 +303,12 @@ const UserProfile = () => {
                         setStudentData={setStudentData} />
                 }
             </main>
+            <UpdateProfileModal 
+                open={editModal}
+                handleClose={() => setEditModal(false)} 
+                title="Edit Profile" 
+                isCurrentUser={!userId}
+            />
         </>
     )
 }

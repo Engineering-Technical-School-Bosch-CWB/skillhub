@@ -9,7 +9,7 @@ export interface IInputPasswordProps extends IRootInputProps {
 }
 
 const InputPassword = forwardRef<HTMLInputElement, IInputPasswordProps>(
-    ({ error, type: initialType, label, helperText, id, ...props }, ref) => 
+    ({ error, type: initialType, label, helperText, id, className,...props }, ref) => 
 {
     const [type, setType] = useState<"text" | "password">(initialType)
 
@@ -19,12 +19,9 @@ const InputPassword = forwardRef<HTMLInputElement, IInputPasswordProps>(
             error={error}
             helperText={helperText}
             id={id}
+            className={className}
+            disabled={props.disabled}
         >
-            <Icon 
-                name={type == "text" ? "visibility_off" : "visibility"}
-                className={`${styles.input_icon}`}
-                onClick={() => setType(type == "text" ? "password" : "text")}
-            />
 
             <input
                 ref={ref}
@@ -33,6 +30,12 @@ const InputPassword = forwardRef<HTMLInputElement, IInputPasswordProps>(
                 type={type}
                 className={`${styles.input} ${error ? styles.error : ""}`}
                 placeholder=" "
+                value={props.value}
+            />
+            <Icon 
+                name={type == "text" ? "visibility_off" : "visibility"}
+                className={`${styles.input_icon}`}
+                onClick={() => setType(type == "text" ? "password" : "text")}
             />
         </InputContainer>
     )
