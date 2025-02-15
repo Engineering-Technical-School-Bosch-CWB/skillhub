@@ -64,12 +64,13 @@ public record StudentProfileDTO(
     int ClassId,
     string ClassName,
     int? ClassPosition,
+    IEnumerable<SubjectAreaDTO> SubjectAreaResults,
     IEnumerable<SubjectResultDTO> SubjectResults,
     IEnumerable<CompleteFeedbackDTO> SubjectFeedBacks,
     IEnumerable<CompleteFeedbackDTO> Feedbacks
 )
 {
-    public static StudentProfileDTO Map(Student obj, IEnumerable<SubjectResultDTO> subjectResults, IEnumerable<CompleteFeedbackDTO> feedbacks, bool show, int? position = null)
+    public static StudentProfileDTO Map(Student obj, IEnumerable<SubjectAreaDTO> subjectAreaResults, IEnumerable<SubjectResultDTO> subjectResults, IEnumerable<CompleteFeedbackDTO> feedbacks, bool show, int? position = null)
     {
         return new StudentProfileDTO(
             obj.Id,
@@ -77,6 +78,7 @@ public record StudentProfileDTO(
             obj.Class.Id,
             obj.Class.Name + " - " + obj.Class.StartingYear,
             show ? position : null,
+            show ? subjectAreaResults : [],
             show ? subjectResults : [],
             feedbacks.Where(f => f.Subject is not null),
             feedbacks.Where(f => f.Subject is null && (show || f.StudentMayVisualize))

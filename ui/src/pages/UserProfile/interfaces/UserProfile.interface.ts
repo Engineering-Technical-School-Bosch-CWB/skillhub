@@ -4,6 +4,11 @@ export interface IStudentData {
     classId: number,
     className: string,
     classPosition?: number,
+    subjectAreaResults: {
+        id: number,
+        name: string,
+        performance: number,
+    }[],
     subjectResults:
     {
         id: number,
@@ -73,5 +78,15 @@ export interface IStudentProfileData {
     student: IStudentData,
     ranking: IRankingData,
     subjectFeedbacks: ISubjectData[],
-    personalFeedbacks: IFeedback[]
+    personalFeedbacks: IFeedback[],
+    id: number,
+    identification: string,
+    name:string 
+    position: string,
+    sector: string,
+    birthday: string
 }
+
+// export interface IRadarData {
+//     subject
+// }

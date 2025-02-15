@@ -2,7 +2,7 @@ import Modal from "../../../../components/Modal"
 import { AddModalProps, ModalContentProps } from "../../interfaces/ClassDetails.interfaces"
 import styles from '../../styles.module.css'
 import Text from "../../../../typography"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import Button from "../../../../components/Button"
 import internalAPI from "../../../../service/internal.services"
 import SelectSubject from "./components/SelectSubject"
@@ -66,7 +66,7 @@ export default ({ isOpen, onClose, classId }: AddModalProps) => {
                     </div>
                     {
                         content.map((e, _index: number) => (
-                            <SelectSubject onChange={(e, f) => alterItem(_index, e, f)} onDelete={() => deleteItem(_index)} />
+                            <SelectSubject onChange={(_e, f) => alterItem(_index, _e, f)} def={e} onDelete={() => deleteItem(_index)} />
                         ))
                     }
 

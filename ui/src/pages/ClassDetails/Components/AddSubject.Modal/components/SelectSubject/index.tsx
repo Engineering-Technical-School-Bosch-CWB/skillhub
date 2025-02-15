@@ -33,14 +33,13 @@ export default ({onChange, def, onDelete}: ISelectSubjectProps) => {
         if(!response || !response.success) 
             toast.error("Error on load Curricular Units");
         
-        const _data = response.data.map((cUnit: ICurricularUnit) => {
-            if(!def){
-
-            }
-            return {
+        const _data: ISelectData[] = response.data.map((cUnit: ICurricularUnit) => {
+            const val: ISelectData = {
                 key: cUnit.name,
-                value:  cUnit.id
+                value:  cUnit.id, 
+                selected: cUnit.name == def?.subject
             }
+            return val;
         });
         setSelectProps(prev => ({
             ...prev,
@@ -60,7 +59,7 @@ export default ({onChange, def, onDelete}: ISelectSubjectProps) => {
 
     return (
         <section className={`${styles.grid} ${styles.grid_3cell_2_1}`}>
-            <InputSelect data={selectProps.data} onChange={(e) => handleSelect(e)}/> 
+            <InputSelect data={selectProps.data} onChange={(e) => handleSelect(e)} defaultValue={selectProps.data.find((e) => e.selected)}/> 
             <Input type="number" value={def?.time} onChange={(e) => onChange("time", e.target.value)} />
             <Button kind="danger" variant="rounded" onClick={() => onDelete()}><Icon name="close" /></Button>
         </section>
