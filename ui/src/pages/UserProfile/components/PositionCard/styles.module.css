@@ -2,7 +2,7 @@
     background-color: var(--warning-light);
 
     width: 12rem;
-    height: 15rem;
+    height: auto;
 
     border-radius: .5em;
 

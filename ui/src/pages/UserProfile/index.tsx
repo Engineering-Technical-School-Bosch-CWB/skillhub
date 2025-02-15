@@ -18,7 +18,7 @@ import Divider from "@/components/Divider";
 import FeedbackCard from "@/components/FeedbackCard";
 import PositionCard from "./components/PositionCard";
 import FeedbackModal from "./components/FeedbackModal";
-import { PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer, Tooltip } from "recharts";
+import { Bar, BarChart, CartesianGrid, Legend, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 interface IModalProps {
     feedbackId?: number
@@ -30,9 +30,15 @@ interface IRadarProps {
     B?: number,
     fullMark: number
 }
+interface IBarProps {
+    name: string,
+    result: number,
+    recuperation?: number,
+    fullMark: number
+}
 const UserProfile = () => {
     const [radarData, setRadarData] = useState<IRadarProps[]>([]);
-
+    const [barData, setBarData] = useState<IBarProps[]>([]);
     const [searchParams] = useSearchParams();
 
     const classId = searchParams.get("classId");
@@ -81,18 +87,21 @@ const UserProfile = () => {
             return item
         }))
 
+        setBarData(content.student.subjectResults.map((result) => {
+            const item: IBarProps = {
+                result: result.performance ?? 0,
+                recuperation: 2,
+                fullMark: 100,
+                name: result.name
+            };
+            return item;
+        }));
+
         console.log(content)
     }
     useEffect(() => {
         getData();
     }, []);
-
-    useEffect(() => {
-        console.log("++++++++++ DEBUG ++++++++++++");
-        console.log(radarData);
-        console.log("++++++++++ DEBUG ++++++++++++");
-        
-    }, [radarData])
 
     return (
         <>
@@ -159,11 +168,11 @@ const UserProfile = () => {
                                 <div className={`${styles.chart_container}`}>
                                     <Text fontSize="lg" fontWeight="bold">Content Area</Text>
                                     <RadarChart
-                                        cx={200}
-                                        cy={200}
+                                        cx={150}
+                                        cy={170}
                                         outerRadius={150}
-                                        width={400}
-                                        height={400}
+                                        width={370}
+                                        height={370}
                                         data={radarData}
                                     >
                                         <PolarGrid />
@@ -178,6 +187,28 @@ const UserProfile = () => {
                                             fillOpacity={0.6}
                                         />
                                     </RadarChart>
+                                </div>
+                                <div className={`${styles.chart_container}`}>
+                                    <Text fontSize="lg" fontWeight="bold">Subjects</Text>
+                                    <ResponsiveContainer width={600} height={250}>
+                                        <BarChart
+                                            data={barData}
+                                            margin={{
+                                            top: 20,
+                                            right: 30,
+                                            left: 20,
+                                            bottom: 5,
+                                            }}
+                                        >
+                                            {/* <CartesianGrid strokeDasharray="3 3" /> */}
+                                            <XAxis dataKey={"name"} />
+                                            <YAxis domain={[0,100]} />
+                                            <Tooltip  />
+                                            <Legend />
+                                            <Bar dataKey="result" stackId="a" fill="#8884d8" />
+                                            <Bar dataKey="recuperation" stackId="a" fill="#82ca9d" />
+                                        </BarChart>
+                                    </ResponsiveContainer>
                                 </div>
                             </div>
 
