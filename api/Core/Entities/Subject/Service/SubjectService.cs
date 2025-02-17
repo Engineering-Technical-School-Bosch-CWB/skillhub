@@ -11,7 +11,8 @@ using Microsoft.AspNetCore.Http.HttpResults;
 namespace Api.Core.Services;
 
 public class SubjectService(BaseRepository<Subject> repository, IUserRepository userRepository, IStudentService studentService, IFeedbackRepository feedbackRepository,
-    ICurricularUnitRepository curricularUnitRepository, IClassRepository classRepository, IExamService examService, IStudentRepository studentRepository, IPaginationService paginationService
+    ICurricularUnitRepository curricularUnitRepository, IClassRepository classRepository, IExamService examService, IStudentRepository studentRepository,
+    IPaginationService paginationService, IStudentResultRepository studentResultRepository
     ) : BaseService<Subject>(repository), ISubjectService
 {
     private readonly BaseRepository<Subject> _repo = repository;
@@ -21,6 +22,7 @@ public class SubjectService(BaseRepository<Subject> repository, IUserRepository 
     private readonly IStudentRepository _studentRepo = studentRepository;
     private readonly IPaginationService _pagService = paginationService;
     private readonly IFeedbackRepository _feedbackRepo = feedbackRepository;
+    private readonly IStudentRepository _studentRepositoryRepo = studentRepository;
 
     private readonly IExamService _examService = examService;
     private readonly IStudentService _studentService = studentService;
@@ -149,7 +151,7 @@ public class SubjectService(BaseRepository<Subject> repository, IUserRepository 
             .Select(s => SubjectFeedbackDTO.Map(s.Feedbacks.SingleOrDefault(f => f.Subject!.Id == id), s))
             .ToListAsync();
 
-        var results = subject.Exams.Select(e => ExamResultsDTO.Map(e, _examService.GetExamSkills(e.Id), subject.Class.Students.Select(s => _studentService.GetExamResults(s.Id, e.Id))));
+        var results = subject.Exams.Select(e => ExamResultsDTO.Map(e, _examService.GetExamSkills(e.Id), subject.Class.Students.Select(s => _studentService.GetExamResults(s.Id, e.Id)).OrderBy(s => s.Name)));
 
         return new AppResponse<InstructorSubjectDTO>(
             InstructorSubjectDTO.Map(subject, results, feedbacks),

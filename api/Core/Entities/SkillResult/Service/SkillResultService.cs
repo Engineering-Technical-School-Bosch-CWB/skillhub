@@ -7,11 +7,13 @@ using Api.Core.Errors;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Api.Core.Services;
 
 public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRepository skillRepository, IStudentRepository studentRepository,
-        IExamRepository examRepository, ISubjectRepository subjectRepository, IObjectionRepository objectionRepository
+        IExamRepository examRepository, ISubjectRepository subjectRepository, IObjectionRepository objectionRepository, IStudentResultService studentResultService,
+        IStudentService studentService, ISkillService skillService, IStudentResultRepository studentResultRepository
     ) : BaseService<SkillResult>(repository), ISkillResultService
 {
     private readonly BaseRepository<SkillResult> _repo = repository;
@@ -20,6 +22,11 @@ public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRe
     private readonly IExamRepository _examRepo = examRepository;
     private readonly ISubjectRepository _subjectRepo = subjectRepository;
     private readonly IObjectionRepository _objectionRepo = objectionRepository;
+    private readonly IStudentResultRepository _studentResultRepo = studentResultRepository;
+
+    private readonly IStudentService _studentService = studentService;
+    private readonly ISkillService _skillService = skillService;
+    private readonly IStudentResultService _studentResultService = studentResultService;
 
 
     #region CRUD
@@ -67,7 +74,7 @@ public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRe
         await _repo.SaveAsync();
 
         return new AppResponse<CompleteSkillResultDTO>(
-            CompleteSkillResultDTO.Map(createdSkillResult, GetSkillAverageByClass(skill.Id, student.Class.Id)),
+            CompleteSkillResultDTO.Map(createdSkillResult, _skillService.GetSkillAverageByClass(skill.Id, student.Class.Id)),
             "Skill result created successfully!"
         );
     }
@@ -82,7 +89,7 @@ public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRe
             .Where(s => s.IsActive)
             .Where(s => s.Skill.Id == skillId && s.Student.Id == studentId)
             .Include(s => s.Skill)
-            .OrderByDescending(s => s.EvaluatedAt)
+            .OrderByDescending(s => s.Aptitude)
             .FirstAsync()
             ?? throw new NotFoundException("Skill result not found!");
 
@@ -92,39 +99,49 @@ public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRe
         );
     }
 
-    public double? GetSkillAverageByClass(int skillId, int classId)
-    {
-        var average = _repo.Get()
-            .Where(s => s.IsActive)
-            .Where(s => s.Skill.Id == skillId)
-            .Where(s => s.Student.Class.Id == classId)
-            .GroupBy(s => s.Student)
-            .Select(g => g.OrderBy(s => s.EvaluatedAt).First())
-            .AsEnumerable()
-            .Average(s => s.Aptitude);
-
-        return average;
-    }
-
     public async Task<AppResponse<IEnumerable<SkillResult>>> EvaluateExam(int examId, IEnumerable<StudentEvaluatePayload> payload)
     {
         var exam = await _examRepo.Get()
             .Where(e => e.IsActive)
+            .Include(e => e.Subject.CurricularUnit)
             .SingleOrDefaultAsync(e => e.Id == examId)
             ?? throw new NotFoundException("Exam not found!");
 
-        foreach (var s in payload)
-            foreach (var r in s.Results)
+        foreach (var studentPayload in payload)
+        {
+            var student = await _studentRepo.Get()
+                .Where(s => s.IsActive)
+                .SingleOrDefaultAsync(s => s.Id == studentPayload.StudentId)
+                ?? throw new NotFoundException("Student not found!");
+
+            foreach (var r in studentPayload.Results)
             {
-                var obj = await _repo.Get().Where(o => o.IsActive && o.Exam!.Id == examId).SingleOrDefaultAsync(o => o.Skill.Id == r.SkillId && o.Student.Id == s.StudentId)
+                var obj = await _repo.Get()
+                    .Where(o => o.IsActive && o.Exam!.Id == examId && o.Skill.Id == r.SkillId && o.Student.Id == studentPayload.StudentId)
+                    .SingleOrDefaultAsync()
                     ?? throw new NotFoundException("Skill result not found!");
 
+                obj.EvaluatedAt = DateTime.Now;
                 obj.Aptitude = (short?)r.Aptitude;
-                var updated = _repo.Update(obj)
-                    ?? throw new UpsertFailException("Skill result could not be updated!");
+
+                _ = _repo.Update(obj) ?? throw new UpsertFailException("Skill result could not be updated!");
             }
 
-        await _repo.SaveAsync();
+            await _repo.SaveAsync();
+
+            var results = _studentResultRepo.Get()
+                .Where(s => s.IsActive && s.Student.Id == studentPayload.StudentId);
+
+            var examScore = await results.SingleOrDefaultAsync(r => r.Exam!.Id == examId);
+            await _studentResultService.UpdateExamResult(student, exam, examScore?.Score);
+
+            var subjectResults = results
+                .Where(r => r.Exam!.Subject.Id == exam.Subject.Id)
+                .Select(s => s.Score);
+
+            await _studentResultService.UpdateSubjectResult(student, exam.Subject, subjectResults.Any() ? subjectResults.Average() : null);
+            await _studentService.AttStudentScores(studentPayload.StudentId);
+        }
 
         return new AppResponse<IEnumerable<SkillResult>>(
             [],
@@ -175,11 +192,20 @@ public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRe
             .Include(s => s.Student.User)
             .Include(s => s.Skill)
             .GroupBy(s => s.Student)
-            .Select(g => ExamEvaluationResultDTO.Map(g.Key, g.Select(s => SkillResultDTO.Map(s))))
+            .Select(g => new 
+            {
+                Student = g.Key,
+                SkillResults = g.Select(s => SkillResultDTO.Map(s)).AsEnumerable()
+            })
             .ToListAsync();
 
+        var orderedResults = results
+            .Select(g => ExamEvaluationResultDTO.Map(g.Student, g.SkillResults.OrderBy(s => s.SkillId)))
+            .OrderBy(r => r.Student.Name)
+            .ToList();
+
         return new AppResponse<EvaluateExamDTO>(
-            EvaluateExamDTO.Map(exam.Subject, exam, results.OrderBy(r => r.Student.Name)),
+            EvaluateExamDTO.Map(exam.Subject, exam, orderedResults),
             "Exam results found"
         );
     }

@@ -21,6 +21,7 @@ public partial class SkillhubContext : DbContext
     public virtual DbSet<Class> ClassList { get; set; }
     public virtual DbSet<SubjectArea> SubjectAreaList { get; set; }
     public virtual DbSet<Student> StudentList { get; set; }
+    public virtual DbSet<StudentResult> StudentResultList { get; set; }
     public virtual DbSet<Feedback> FeedbackList { get; set; }
     public virtual DbSet<CurricularUnit> CurricularUnitList { get; set; }
     public virtual DbSet<Subject> SubjectList { get; set; }
@@ -33,25 +34,26 @@ public partial class SkillhubContext : DbContext
     public virtual DbSet<Objection> ObjectionList { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfiguration(new SectorClassMap());
+        modelBuilder.ApplyConfiguration(new AttachmentClassMap());
+        modelBuilder.ApplyConfiguration(new ClassClassMap());
+        modelBuilder.ApplyConfiguration(new CourseClassMap());
+        modelBuilder.ApplyConfiguration(new CurricularUnitClassMap());
+        modelBuilder.ApplyConfiguration(new ExamClassMap());
+        modelBuilder.ApplyConfiguration(new FeedbackClassMap());
+        modelBuilder.ApplyConfiguration(new ObjectionClassMap());
         modelBuilder.ApplyConfiguration(new OccupationAreaClassMap());
         modelBuilder.ApplyConfiguration(new PositionClassMap());
-        modelBuilder.ApplyConfiguration(new UserClassMap());
-        modelBuilder.ApplyConfiguration(new UserImageClassMap());
-        modelBuilder.ApplyConfiguration(new CourseClassMap());
-        modelBuilder.ApplyConfiguration(new ClassClassMap());
+        modelBuilder.ApplyConfiguration(new PostClassMap());
+        modelBuilder.ApplyConfiguration(new SectorClassMap());
         modelBuilder.ApplyConfiguration(new SubjectAreaClassMap());
-        modelBuilder.ApplyConfiguration(new StudentClassMap());
-        modelBuilder.ApplyConfiguration(new FeedbackClassMap());
-        modelBuilder.ApplyConfiguration(new CurricularUnitClassMap());
-        modelBuilder.ApplyConfiguration(new SubjectClassMap());
         modelBuilder.ApplyConfiguration(new SkillClassMap());
         modelBuilder.ApplyConfiguration(new SkillResultClassMap());
         modelBuilder.ApplyConfiguration(new SpecificObjectivesClassMap());
-        modelBuilder.ApplyConfiguration(new ExamClassMap());
-        modelBuilder.ApplyConfiguration(new ObjectionClassMap());
-        modelBuilder.ApplyConfiguration(new PostClassMap());
-        modelBuilder.ApplyConfiguration(new AttachmentClassMap());
+        modelBuilder.ApplyConfiguration(new StudentClassMap());
+        modelBuilder.ApplyConfiguration(new StudentResultClassMap());
+        modelBuilder.ApplyConfiguration(new SubjectClassMap());
+        modelBuilder.ApplyConfiguration(new UserClassMap());
+        modelBuilder.ApplyConfiguration(new UserImageClassMap());
         OnModelCreatingPartial(modelBuilder);
     }
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

@@ -8,7 +8,7 @@ export interface IXAxisProps {
 }
 
 export interface IChartStyleProps {
-    width?: number,
+    width?: zz,
     height?: number,
 }
 

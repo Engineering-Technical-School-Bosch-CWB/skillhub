@@ -61,6 +61,10 @@ export default {
             element: <UsersProperties />
 
         },
+        {
+            path: RouteMap.EVALUATE_EXAM,
+            element: <EvaluateExam />
+        }
         // {
         //     path: RouteMap.NEW_SUBJECT_TEST,
         //     element: <NewTest />
