@@ -25,7 +25,7 @@ const SubjectBarChart = ({ data, onBarClick, selectedId }: ISubjectBarChatProps)
                         fontSize:'small'
                     },
                     ChartProps: {
-                        height: 350
+                        height: 350,
                     }
                 }}
             />

@@ -10,7 +10,8 @@ namespace Api.Core.Services;
 
 public class StudentService(
     BaseRepository<Student> repository, IUserRepository userRepository, ISubjectRepository subjectRepository, ISkillService skillService,
-    IClassRepository classRepository, ISkillResultRepository skillResultRepository, IFeedbackRepository feedbackRepository, IExamRepository examRepository
+    IClassRepository classRepository, ISkillResultRepository skillResultRepository, IFeedbackRepository feedbackRepository,
+    IExamRepository examRepository, IStudentResultRepository studentResultRepository
 ) : BaseService<Student>(repository), IStudentService
 
 {
@@ -21,6 +22,7 @@ public class StudentService(
     private readonly ISkillResultRepository _skillResultRepo = skillResultRepository;
     private readonly ISubjectRepository _subjectRepo = subjectRepository;
     private readonly IUserRepository _userRepo = userRepository;
+    private readonly IStudentResultRepository _studentResultRepository = studentResultRepository;
 
     private readonly ISkillService _skillService = skillService;
 
@@ -71,25 +73,12 @@ public class StudentService(
 
     public double? GetSubjectGrade(int id, int subjectId)
     {
-        var subjectExams = _examRepo.Get()
-            .Where(e => e.IsActive)
-            .Where(e => e.Subject.Id == subjectId)
-            .Include(e => e.SkillResults)
-            .ThenInclude(s => s.Student)
-            .Include(e => e.SkillResults)
-            .ThenInclude(s => s.Skill)
-            .AsEnumerable();
 
-        return subjectExams.Select(e =>
-            {
-                var results = e.SkillResults
-                    .Where(s => s.IsActive && s.Student.Id == id && s.Aptitude.HasValue)
-                    .GroupBy(s => s.Skill)
-                    .Select(g => g.OrderBy(s => s.EvaluatedAt).First());
+        var results = _studentResultRepository.Get()
+            .Where(s => s.IsActive && s.Student.Id == id)
+            .Where(s => s.Exam!.Subject.Id == subjectId);
 
-                return results.Any() ? results.Sum(s => s.Aptitude * s.Weight) / results.Sum(s => s.Weight) : null;
-            }
-        ).Average();
+        return results.Any() ? results.Average(r => r.Score) : null;
     }
 
     public StudentExamResultsDTO GetExamResults(int id, int examId)
@@ -156,11 +145,14 @@ public class StudentService(
     {
         var student = await _repo.Get()
             .Where(s => s.IsActive)
-            .Include(s => s.Results.Where(r => r.IsActive && r.Score.HasValue && r.Subject!.IsActive))
+            .Include(s => s.Results)
+            .ThenInclude(s => s.Subject)
             .SingleOrDefaultAsync(s => s.Id == id)
             ?? throw new NotFoundException("Student not found!");
 
-        student.OverallScore = student.Results.Count != 0 ? student.Results.Average(r => r.Score) : null;
+        var studentResults = student.Results.Where(r => r.IsActive && r.Score.HasValue && r.Subject != null && r.Subject.IsActive);
+
+        student.OverallScore = studentResults.Any() ? studentResults.Average(r => r.Score) : null;
 
         var results = _skillResultRepo.Get()
             .Where(s => s.IsActive && s.Student.Id == id)
@@ -170,8 +162,10 @@ public class StudentService(
             .AsEnumerable();
 
         student.OverallSkillScore = results.Where(s => s.Aptitude.HasValue).Any() ? results.Sum(s => s.Aptitude * s.Weight) / results.Sum(s => s.Weight) : null;
-    }
 
+        _repo.Update(student);
+        await _repo.SaveAsync();
+    }
 
     #endregion
 

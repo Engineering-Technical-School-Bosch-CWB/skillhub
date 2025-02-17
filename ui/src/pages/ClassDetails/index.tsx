@@ -19,6 +19,7 @@ import { IStudentCardProps } from "../../components/StudentCard/interfaces/IStud
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import SectionHeader from "@/components/SectionHeader";
+import styled from "@emotion/styled";
 
 const ClassDetails = () => {
     const { classId } = useParams();
@@ -77,7 +78,7 @@ const ClassDetails = () => {
         setRankingData(content.graphs.studentResults.map((s: { id: number; name: string; performance: number; }) => ({
             id: s.id,
             name: s.name,
-            performance: s.performance == null ? 0 : Number(s.performance.toFixed(2))
+            performance: s.performance == null ? null : Number(s.performance.toFixed(2))
         })));
         setSubjectsData(content.graphs.subjectResults.map((s: { curricularUnitId: number; performance: number; name: string; }) => ({
             id: s.curricularUnitId,
@@ -89,8 +90,6 @@ const ClassDetails = () => {
             performance: s.performance == null ? 0 : Number(s.performance.toFixed(2)),
             area: s.name
         })))
-
-        console.log(content.students)
     }
 
     const handleSubjectClick = (id: number | null) => {
@@ -144,12 +143,21 @@ const ClassDetails = () => {
                     <Text fontSize="xl2" fontWeight="bold" >Details</Text>
 
                     <section className={`${styles.chart_section} ${styles.align}`}>
-                        <DoughnutChart exploitation={overallPerformance == null ? 0 : Number(overallPerformance.toFixed(1))} title="Overall Performance" />
-                        <Ranking data={rankingData} onClick={handleStudentClick} />
-
-                        <SubjectBarChart data={subjectsData} selectedId={selectedSubjectId} onBarClick={handleSubjectClick} />
-                        <GeneralChart data={rankingData} selectedId={selectedStudentId} onBarClick={handleStudentClick} />
-                        <ContentAreaChart data={subjectAreaData} selectedId={selectedSubjectAreaId} onBarClick={handleSubjectAreaClick} />
+                        <div className={`${styles.line}`}>
+                            <DoughnutChart exploitation={overallPerformance == null ? 0 : Number(overallPerformance.toFixed(1))} title="Overall Performance" />
+                            <Ranking data={rankingData} onClick={handleStudentClick} />
+                        </div>
+                        <div className={`${styles.full} ${styles.flex}`}>
+                            <div className={`${styles.big}`}>
+                                <SubjectBarChart data={subjectsData} selectedId={selectedSubjectId} onBarClick={handleSubjectClick} />
+                            </div>
+                            <div className={`${styles.small}`}>
+                                <ContentAreaChart data={subjectAreaData} selectedId={selectedSubjectAreaId} onBarClick={handleSubjectAreaClick} />
+                            </div>
+                        </div>
+                        <div className={`${styles.full}`}>
+                            <GeneralChart data={rankingData} selectedId={selectedStudentId} onBarClick={handleStudentClick} />
+                        </div>
                     </section>
                 </section>
 

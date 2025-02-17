@@ -141,7 +141,7 @@ public class SkillService(BaseRepository<Skill> repository, ICurricularUnitRepos
         var teachers = await _userRepo.Get()
             .Where(u => u.IsActive)
             .Where(u => (EPositionType)u.Position.PositionType == EPositionType.Teacher)
-            .Where(u => u.Id != subject.Instructor!.Id)
+            .Where(u => subject.Instructor == null || u.Id != subject.Instructor.Id)
             .OrderBy(u => u.Name)
             .Select(u => ObjectDTO.Map(u.Id, u.Name))
             .ToListAsync();

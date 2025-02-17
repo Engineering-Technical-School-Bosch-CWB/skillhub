@@ -26,7 +26,6 @@ export const ContentAreaChart = ({ data, onBarClick, selectedId }: ContentAreaCh
                     },
                     ChartProps: {
                         height: 350,
-                        width: 600
                     }
                 }}
             />

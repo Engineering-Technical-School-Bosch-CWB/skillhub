@@ -3,8 +3,6 @@ import styles from '../../styles.module.css';
 
 import { IAvaliationTableProps } from "../../interfaces/SubjectDetails.interface";
 import Icon from "../../../../components/Icon";
-import { Tooltip } from "recharts";
-import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 

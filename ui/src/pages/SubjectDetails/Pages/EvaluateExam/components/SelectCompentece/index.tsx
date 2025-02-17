@@ -5,13 +5,12 @@ import styles from './styles.module.css';
 import Text from "../../../../../../typography";
 
 export interface ISelectCompetenceProps {
-    value?: EAptitude,
+    value?: EAptitude
     change: Function
+    selected: boolean
 }
 
-export default ({ value, change }: ISelectCompetenceProps) => {
-
-    const [skill, setSkill] = useState(value);
+export default ({ value, change, selected }: ISelectCompetenceProps) => {
 
     const [selectOpened, setSelectOpened] = useState(false);
 
@@ -19,39 +18,6 @@ export default ({ value, change }: ISelectCompetenceProps) => {
         change(aptitude);
         setSelectOpened(false);
     }
-
-    const onHandleKeyPress = (event: KeyboardEvent) => {
-        const pressed = event.key.toLowerCase();
-        let option: EAptitude | null;
-        switch (pressed) {
-            case '1':
-                option = EAptitude.SKILLED
-                break;
-            case '3':
-                option = EAptitude.UNSKILLED
-                break;
-            case '2':
-                option = EAptitude.DEVELOPMENT
-                break;
-            case 'backspace':
-                option = null
-                break;
-            default:
-                return;
-        }
-        // handleChange(option);
-    }
-
-    useEffect(() => {
-        if (selectOpened) {
-            window.addEventListener('keydown', onHandleKeyPress)
-        } else {
-            window.removeEventListener('keydown', onHandleKeyPress)
-        }
-        return () => {
-            window.removeEventListener('keydown', onHandleKeyPress)
-        }
-    }, [selectOpened])
 
     return (
         <div className={`${styles.container}`}>
@@ -84,8 +50,9 @@ export default ({ value, change }: ISelectCompetenceProps) => {
                 </>
             }
             <div
-                className={`${styles.selected} ${styles.select_cell} ${styles[value ?? ""]} ${selectOpened ? styles.selecting : ""}`}
+                className={`${styles.select_cell} ${styles[value ?? ""]} ${selectOpened ? styles.selecting : ""} ${selected ? styles.selected : ""}`}
                 onClick={() => setSelectOpened(!selectOpened)}
+                onKeyDown={() => setSelectOpened(!selectOpened)}
             >
                 <Text fontSize="sm" fontWeight="semibold">{value}</Text>
             </div>

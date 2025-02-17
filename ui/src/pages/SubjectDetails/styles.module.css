@@ -124,19 +124,23 @@
 
     .performance_cell {
         font-weight: 600;
-        filter: brightness(70%) saturate(120%);
+        filter: brightness(80%) saturate(120%);
+        color: black !important;
     }
 
     .SKILLED {
         background-color: var(--success-light);
+        color: var(--success-dark);
     }
 
     .DEVELOPMENT {
         background-color: var(--warning-light);
+        color: var(--warning-dark);
     }
 
     .UNSKILLED {
         background-color: var(--danger-light);
+        color: var(--danger-dark);
     }
 
 }
