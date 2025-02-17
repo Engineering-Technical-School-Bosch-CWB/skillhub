@@ -117,7 +117,7 @@ public class SkillService(BaseRepository<Skill> repository, ICurricularUnitRepos
             .Where(s => s.Skill.Id == skillId)
             .Where(s => s.Student.Class.Id == classId)
             .GroupBy(s => s.Student)
-            .Select(g => g.OrderBy(s => s.EvaluatedAt).First())
+            .Select(g => g.OrderByDescending(s => s.Aptitude).First())
             .AsEnumerable()
             .Average(s => s.Aptitude);
 

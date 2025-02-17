@@ -7,10 +7,12 @@ using Api.Domain.Repositories;
 
 namespace Api.Core.Services;
 
-public class StudentResultService(BaseRepository<User> repository, IStudentResultRepository studentResultRepository
+public class StudentResultService(BaseRepository<User> repository, IStudentResultRepository studentResultRepository,
+    ISkillResultRepository skillResultRepository
 ) : BaseService<User>(repository), IStudentResultService
 {
     private readonly IStudentResultRepository _repo = studentResultRepository;
+    private readonly ISkillResultRepository _skillResultRepo = skillResultRepository;
 
     #region CRUD
 
@@ -50,9 +52,19 @@ public class StudentResultService(BaseRepository<User> repository, IStudentResul
             .Where(s => s.IsActive && s.Student.Id == student.Id && s.Subject!.Id == subject.Id)
             .SingleOrDefaultAsync();
 
+        var skillResults = await _skillResultRepo.Get()
+            .Where(s => s.IsActive && s.Student.Id == student.Id)
+            .Where(s => s.Skill.CurricularUnit.Id == subject.CurricularUnit.Id)
+            .GroupBy(s => s.Skill)
+            .Select(g => g.OrderByDescending(s => s.Aptitude).First())
+            .ToListAsync();
+
+        var skillScore = skillResults.Count != 0 ? skillResults.Average(s => s.Aptitude) : null;
+
         if (studentResultSubject is not null)
         {
             studentResultSubject.Score = score;
+            studentResultSubject.SkillScore = skillScore;
             _repo.Update(studentResultSubject);
         }
         else
@@ -61,6 +73,7 @@ public class StudentResultService(BaseRepository<User> repository, IStudentResul
             {
                 Student = student,
                 Score = score,
+                SkillScore = skillScore,
                 Subject = subject
             };
 

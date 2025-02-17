@@ -5,7 +5,6 @@ using Api.Domain.Services;
 using Api.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Api.Core.Errors;
-using System.Text.Json;
 
 namespace Api.Core.Services;
 
@@ -72,14 +71,14 @@ public class StudentService(
         return student is not null ? StudentDTO.Map(student) : null;
     }
 
-    public double? GetSubjectGrade(int id, int subjectId)
+    public (double?, double?) GetSubjectGrade(int id, int subjectId)
     {
 
         var results = _studentResultRepository.Get()
             .Where(s => s.IsActive && s.Student.Id == id)
-            .Where(s => s.Exam!.Subject.Id == subjectId);
+            .SingleOrDefault(s => s.Subject!.Id == subjectId);
 
-        return results.Any() ? results.Average(r => r.Score) : null;
+        return (results?.Score, results?.SkillScore);
     }
 
     public StudentExamResultsDTO GetExamResults(int id, int examId)
@@ -119,7 +118,7 @@ public class StudentService(
 
         if (student is null) return null;
 
-        var results = student.Class.Subjects.Select(s => SubjectResultDTO.Map(s, GetSubjectGrade(student.Id, s.Id)));
+        var results = student.Class.Subjects.Select(s => SubjectResultDTO.Map(s, GetSubjectGrade(student.Id, s.Id).Item1));
 
         var position = _repo.Get()
             .Where(s => s.IsActive)
@@ -166,7 +165,7 @@ public class StudentService(
             .Where(s => s.IsActive && s.Student.Id == id)
             .Where(s => s.Aptitude.HasValue)
             .GroupBy(s => s.Skill)
-            .Select(g => g.OrderByDescending(s => s.EvaluatedAt).First())
+            .Select(g => g.OrderByDescending(s => s.Aptitude).First())
             .AsEnumerable();
 
         student.OverallSkillScore = results.Where(s => s.Aptitude.HasValue).Any() ? results.Sum(s => s.Aptitude * s.Weight) / results.Sum(s => s.Weight) : null;
@@ -194,7 +193,7 @@ public class StudentService(
             .Where(s => s.IsActive && s.Class == student.Class)
             .ToListAsync();
 
-        var results = subjects.Select(s => new StudentResultDTO(SubjectDTO.Map(s), GetSubjectGrade(id, s.Id), s.CurricularUnit.Name.Contains(query, StringComparison.OrdinalIgnoreCase)));
+        var results = subjects.Select(s => new StudentResultDTO(SubjectDTO.Map(s), GetSubjectGrade(id, s.Id).Item2, s.CurricularUnit.Name.Contains(query, StringComparison.OrdinalIgnoreCase)));
 
         return new AppResponse<StudentResultResponse>(
             StudentResultResponse.Map(StudentDTO.Map(student), results),
@@ -224,15 +223,16 @@ public class StudentService(
         var skillResults = await _skillResultRepo.Get()
             .Where(s => s.IsActive && s.Student.Id == id)
             .Where(s => s.Skill.CurricularUnit.Id == subject.CurricularUnit.Id)
+            .Include(s => s.Skill)
             .GroupBy(s => s.Skill)
-            .Select(g => g.OrderByDescending(s => s.EvaluatedAt).First())
+            .Select(g => g.OrderByDescending(s => s.Aptitude).First())
             .ToListAsync();
 
         var results = skillResults
             .Select(s => CompleteSkillResultDTO.Map(s, _skillService.GetSkillAverageByClass(s.Skill.Id, subject.Class.Id)));
 
         return new AppResponse<StudentSubjectResultResponse>(
-            StudentSubjectResultResponse.Map(student, subject.CurricularUnit.Name, subject.Class.Students.Average(s => GetSubjectGrade(s.Id, subjectId)), results, feedback),
+            StudentSubjectResultResponse.Map(student, subject.CurricularUnit.Name, subject.Class.Students.Average(s => s.OverallSkillScore), results, feedback),
             "Subject results found!"
         );
     }

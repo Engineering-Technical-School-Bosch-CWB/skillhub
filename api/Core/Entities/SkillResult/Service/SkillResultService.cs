@@ -89,7 +89,7 @@ public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRe
             .Where(s => s.IsActive)
             .Where(s => s.Skill.Id == skillId && s.Student.Id == studentId)
             .Include(s => s.Skill)
-            .OrderByDescending(s => s.EvaluatedAt)
+            .OrderByDescending(s => s.Aptitude)
             .FirstAsync()
             ?? throw new NotFoundException("Skill result not found!");
 
@@ -103,7 +103,7 @@ public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRe
     {
         var exam = await _examRepo.Get()
             .Where(e => e.IsActive)
-            .Include(e => e.Subject)
+            .Include(e => e.Subject.CurricularUnit)
             .SingleOrDefaultAsync(e => e.Id == examId)
             ?? throw new NotFoundException("Exam not found!");
 
