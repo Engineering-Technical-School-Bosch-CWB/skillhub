@@ -37,7 +37,8 @@ public record SubjectResultDTO(
     int CurricularUnitId,
     string Name,
     string? Instructor,
-    double? Performance
+    double? Performance,
+    SubjectArea? SubjectArea
 )
 {
     public static SubjectResultDTO Map(Subject obj, double? performance = null)
@@ -47,7 +48,8 @@ public record SubjectResultDTO(
             obj.CurricularUnit.Id,
             obj.CurricularUnit.Name,
             obj.Instructor?.Name,
-            performance
+            performance,
+            obj.CurricularUnit.SubjectArea
         );
     }
 }
