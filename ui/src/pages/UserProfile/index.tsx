@@ -18,7 +18,7 @@ import Divider from "@/components/Divider";
 import FeedbackCard from "@/components/FeedbackCard";
 import PositionCard from "./components/PositionCard";
 import FeedbackModal from "./components/FeedbackModal";
-import { Bar, BarChart, CartesianGrid, Legend, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, Legend, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import UpdateProfileModal from "./components/UpdateProfileModal";
 
 interface IModalProps {
@@ -97,8 +97,6 @@ const UserProfile = () => {
             };
             return item;
         }));
-
-        console.log(content)
     }
     useEffect(() => {
         getData();

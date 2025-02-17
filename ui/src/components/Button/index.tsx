@@ -3,7 +3,8 @@ import styles from "./styles.module.css"
 
 interface IButtonProps extends ComponentPropsWithoutRef<'button'> {
     variant?: "contained" | "outlined" | "primary_icon" | "primary_label_icon" |
-             "secondary_icon" | "secondary_label_icon" | "rounded" | "select_rounded",
+             "secondary_icon" | "secondary_label_icon" | "rounded" | "select_rounded" |
+             "link"
     kind?: "success" | "alert" | "danger" | "default"
     
 }
