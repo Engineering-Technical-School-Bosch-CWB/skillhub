@@ -20,6 +20,7 @@ const InputText = forwardRef<HTMLInputElement, IInputTextProps>(
                 id={id}
                 className={className}
                 disabled={props.disabled}
+                width={props.width}
             >
                 {
                     iconName && <Icon name={iconName} size="md" className={styles.input_icon} />

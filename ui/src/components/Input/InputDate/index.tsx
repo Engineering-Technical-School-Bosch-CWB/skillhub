@@ -12,7 +12,7 @@ export interface IInputDateProps extends IRootInputProps {
 }
 
 const InputDate = forwardRef<HTMLInputElement, IInputDateProps>(
-    ({ error, hasForm, label, helperText, id, fieldName, dateChange }, ref) => 
+    ({ error, hasForm, label, helperText, id, fieldName, dateChange, ...props }, ref) => 
 {
 
     const formContext = useFormContext();
@@ -36,6 +36,7 @@ const InputDate = forwardRef<HTMLInputElement, IInputDateProps>(
             error={error}
             helperText={helperText}
             id={id}
+            width={props.width}
         >
             <SInput 
                 label={label}

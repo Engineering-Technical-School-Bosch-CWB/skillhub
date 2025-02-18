@@ -19,9 +19,12 @@ import { IStudentCardProps } from "../../components/StudentCard/interfaces/IStud
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import SectionHeader from "@/components/SectionHeader";
-import styled from "@emotion/styled";
+import Progress from "@/components/Progress";
 
 const ClassDetails = () => {
+
+    const [loading, setLoading] = useState(true);
+
     const { classId } = useParams();
 
     const navigate = useNavigate();
@@ -89,7 +92,9 @@ const ClassDetails = () => {
             id: s.id,
             performance: s.performance == null ? 0 : Number(s.performance.toFixed(2)),
             area: s.name
-        })))
+        })));
+
+        setLoading(false);
     }
 
     const handleSubjectClick = (id: number | null) => {
@@ -115,7 +120,15 @@ const ClassDetails = () => {
 
     useEffect(() => {
         getData();
-    }, [classId, search, selectedSubjectId, selectedStudentId, selectedSubjectAreaId])
+    }, [classId, search, selectedSubjectId, selectedStudentId, selectedSubjectAreaId]);
+
+    if (loading)
+        return (
+        <>
+            <Header />
+            <Progress />
+        </>
+    )
 
     return (
         <div onClick={clearParams}>

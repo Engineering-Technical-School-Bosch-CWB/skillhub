@@ -15,11 +15,17 @@
 
 .title_section {
     width: 100%;
+    
+    display: flex;
+    justify-content: space-between;
+}
+
+.col {
+    display: flex;
     height: 4rem;
-    /* padding: 0 2rem; */
-    /* margin: 2rem 0; */
-    flex-direction: column;
+    
     gap: .5rem;
+    flex-direction: column;
 }
 
 .section_header {
@@ -124,7 +130,7 @@
 
     .performance_cell {
         font-weight: 600;
-        filter: brightness(80%) saturate(120%);
+        filter: brightness(70%) saturate(120%);
         color: black !important;
     }
 

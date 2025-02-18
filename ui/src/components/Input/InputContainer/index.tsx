@@ -1,5 +1,6 @@
 import { ReactNode } from "react"
 import styles from "../styles.module.css"
+import { width } from "@mui/system"
 
 export interface IInputContainerProps {
     label?: string
@@ -9,6 +10,7 @@ export interface IInputContainerProps {
     id?: string
     className?: string
     disabled?: boolean
+    width?: string | number
 }
 
 export default function InputContainer({
@@ -18,12 +20,16 @@ export default function InputContainer({
     helperText,
     id,
     className,
-    disabled
+    disabled,
+    width
 }: IInputContainerProps) {
 
-    return(
-        <div className={`${styles.input_box} ${error ? styles.error : ""} ${className}`}>
-            { children }
+    return (
+        <div
+            className={`${styles.input_box} ${error ? styles.error : ""} ${className}`}
+            style={{ width: width }}
+        >
+            {children}
 
             {label &&
                 <label

@@ -18,7 +18,8 @@ import Divider from "@/components/Divider";
 import FeedbackCard from "@/components/FeedbackCard";
 import PositionCard from "./components/PositionCard";
 import FeedbackModal from "./components/FeedbackModal";
-import { Bar, BarChart, CartesianGrid, Legend, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, Legend, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import Progress from "@/components/Progress";
 
 interface IModalProps {
     feedbackId?: number
@@ -36,7 +37,11 @@ interface IBarProps {
     recuperation?: number,
     fullMark: number
 }
+
 const UserProfile = () => {
+
+    const [loading, setLoading] = useState(true);
+
     const [radarData, setRadarData] = useState<IRadarProps[]>([]);
     const [barData, setBarData] = useState<IBarProps[]>([]);
     const [searchParams] = useSearchParams();
@@ -77,31 +82,43 @@ const UserProfile = () => {
             sector: content.sector,
         });
 
-        setRadarData(content.student.subjectAreaResults.map((result) => {
-            const item: IRadarProps = {
-                A: result.performance,
-                subject: result.name,
-                fullMark: 100,
-                B: 0
-            }
-            return item
-        }))
+        if (content.student) {
+            setRadarData(content.student.subjectAreaResults.map((result) => {
+                const item: IRadarProps = {
+                    A: result.performance,
+                    subject: result.name,
+                    fullMark: 100,
+                    B: 0
+                }
+                return item
+            }))
 
-        setBarData(content.student.subjectResults.map((result) => {
-            const item: IBarProps = {
-                result: result.performance ?? 0,
-                recuperation: 2,
-                fullMark: 100,
-                name: result.name
-            };
-            return item;
-        }));
+            setBarData(content.student.subjectResults.map((result) => {
+                const item: IBarProps = {
+                    result: result.performance ?? 0,
+                    recuperation: 2,
+                    fullMark: 100,
+                    name: result.name
+                };
+                return item;
+            }));
+
+        }
 
         console.log(content)
+        setLoading(false);
     }
     useEffect(() => {
         getData();
     }, []);
+
+    if (loading)
+        return (
+            <>
+                <Header />
+                <Progress />
+            </>
+        )
 
     return (
         <>
@@ -176,7 +193,7 @@ const UserProfile = () => {
                                         data={radarData}
                                     >
                                         <PolarGrid />
-                                        <PolarAngleAxis dataKey="subject"  />
+                                        <PolarAngleAxis dataKey="subject" />
                                         <PolarRadiusAxis />
                                         <Tooltip />
                                         <Radar
@@ -194,16 +211,16 @@ const UserProfile = () => {
                                         <BarChart
                                             data={barData}
                                             margin={{
-                                            top: 20,
-                                            right: 30,
-                                            left: 20,
-                                            bottom: 5,
+                                                top: 20,
+                                                right: 30,
+                                                left: 20,
+                                                bottom: 5,
                                             }}
                                         >
                                             {/* <CartesianGrid strokeDasharray="3 3" /> */}
                                             <XAxis dataKey={"name"} />
-                                            <YAxis domain={[0,100]} />
-                                            <Tooltip  />
+                                            <YAxis domain={[0, 100]} />
+                                            <Tooltip />
                                             <Legend />
                                             <Bar dataKey="result" stackId="a" fill="#8884d8" />
                                             <Bar dataKey="recuperation" stackId="a" fill="#82ca9d" />

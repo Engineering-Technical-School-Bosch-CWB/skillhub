@@ -18,10 +18,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import FeedbackModal from "./components/FeedbackModal";
 import { useUserContext } from "@/contexts/user.context";
+import Progress from "@/components/Progress";
+import UpdateModal from "./components/UpdateModal";
 
-interface IModalProps {
+interface IFeedbackModalProps {
     student?: {
-        id: number,
+        id: number
         name: string
     }
     feedback?: {
@@ -31,8 +33,13 @@ interface IModalProps {
     isFeedbackModalOpen: boolean
 }
 
+interface IUpdateModalProps {
+    isUpdateModalOpen: boolean
+}
 
 const SubjectDetails = () => {
+
+    const [loading, setLoading] = useState(true);
 
     const { classId, subjectId } = useParams();
 
@@ -44,8 +51,12 @@ const SubjectDetails = () => {
     const [exams, setExams] = useState<IAvaliationTableProps[]>([]);
     const [feedbacks, setFeedbacks] = useState<IFeedback[]>([]);
 
-    const [modalProps, setModalProps] = useState<IModalProps>({
+    const [feedbackModalProps, setFeedbackModalProps] = useState<IFeedbackModalProps>({
         isFeedbackModalOpen: false
+    });
+
+    const [updateModalProps, setUpdateModalProps] = useState<IUpdateModalProps>({
+        isUpdateModalOpen: true
     })
 
     const getData = async () => {
@@ -59,7 +70,7 @@ const SubjectDetails = () => {
         }
 
         const content = response.data;
-        
+
         setSubject(content.subject);
 
         setExams(content.exams.map((e: {
@@ -87,11 +98,20 @@ const SubjectDetails = () => {
             student
         })));
 
+        setLoading(false);
     }
 
     useEffect(() => {
         getData();
     }, [subjectId])
+
+    if (loading)
+        return (
+            <>
+                <Header />
+                <Progress />
+            </>
+        )
 
     return (
         <>
@@ -109,15 +129,18 @@ const SubjectDetails = () => {
                     label: subject?.curricularUnit + " - " + subject?.class
                 }]} />
                 <section className={`${styles.title_section} ${styles.align}`}>
-                    <Text fontSize="xl2" fontWeight="bold">{subject?.curricularUnit + " - " + subject?.class}</Text>
-                    <Text>
-                        {
-                            (!(subject?.beganAt) ? "No initial date" : "Began at " + formatDate(subject.beganAt))
-                            + " | " +
-                            (!(subject?.durationHours) ? "No duration hours" : "Duration: " + subject.durationHours + "h") +
-                            (!(subject?.period) ? "" : " | " + subject.period + "° Period")
-                        }
-                    </Text>
+                    <div className={`${styles.col}`}>
+                        <Text fontSize="xl2" fontWeight="bold">{subject?.curricularUnit + " - " + subject?.class}</Text>
+                        <Text>
+                            {
+                                (!(subject?.beganAt) ? "No initial date" : "Began at " + formatDate(subject.beganAt))
+                                + " | " +
+                                (!(subject?.durationHours) ? "No duration hours" : "Duration: " + subject.durationHours + "h") +
+                                (!(subject?.period) ? "" : " | " + subject.period + "° Period")
+                            }
+                        </Text>
+                    </div>
+                    <Button variant="primary_icon" onClick={() => { }}><Icon name="settings" /></Button>
                 </section >
                 <Divider size="big" />
 
@@ -147,11 +170,11 @@ const SubjectDetails = () => {
                 <Divider size="big" />
 
                 <section className={`${styles.spacing}`}>
-                    <section className={`${styles.title_section} ${styles.align}`}>
+                    <section className={`${styles.col} ${styles.align}`}>
                         <Text fontSize="xl2" fontWeight="bold" >
                             Students Feedbacks
                         </Text>
-                        <Text fontSize="sm" >** Apprentices can see subject feedbacks!</Text>
+                        <Text fontSize="sm" >Apprentices can see subject feedbacks!</Text>
                     </section>
                     {
                         feedbacks.map(f => (
@@ -166,7 +189,7 @@ const SubjectDetails = () => {
                                 editButton={
                                     user?.id != f.student.userId ? {
                                         label: "Edit Feedback",
-                                        action: () => setModalProps({
+                                        action: () => setFeedbackModalProps({
                                             student: {
                                                 id: f.student.id,
                                                 name: f.student.name
@@ -206,20 +229,32 @@ const SubjectDetails = () => {
                     /> */}
                 </section>
                 {
-                    modalProps.student &&
+                    feedbackModalProps.student &&
                     <FeedbackModal
-                        isOpen={modalProps.isFeedbackModalOpen}
-                        handleIsOpen={() => setModalProps({
+                        isOpen={feedbackModalProps.isFeedbackModalOpen}
+                        handleIsOpen={() => setFeedbackModalProps({
                             student: undefined,
                             feedback: undefined,
                             isFeedbackModalOpen: false
                         })}
-                        student={modalProps.student}
-                        feedback={modalProps.feedback}
+                        student={feedbackModalProps.student}
+                        feedback={feedbackModalProps.feedback}
                         handleFeedbacks={{
                             feedbacks: feedbacks,
                             setFeedbacks: setFeedbacks
                         }}
+                    />
+                }
+                {
+                    subject &&
+                    <UpdateModal
+                        isOpen={updateModalProps.isUpdateModalOpen}
+                        handleIsOpen={() => setFeedbackModalProps({
+                            student: undefined,
+                            feedback: undefined,
+                            isFeedbackModalOpen: false
+                        })}
+                        subject={subject}
                     />
                 }
             </main>

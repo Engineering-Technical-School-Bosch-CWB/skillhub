@@ -15,8 +15,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { IFeedback } from "../../interfaces/models/IFeedback";
 import { IOption } from "../../components/TableView/interfaces";
 import SectionHeader from "@/components/SectionHeader";
+import Progress from "@/components/Progress";
 
 const SubjectResults = () => {
+
+    const [loading, setLoading] = useState(true);
 
     const { subjectId } = useParams();
 
@@ -52,7 +55,9 @@ const SubjectResults = () => {
             description: r.description,
             aptitude: r.aptitude,
             average_performance: r.classPercentageAptitude
-        })))
+        })));
+
+        setLoading(false);
     }
 
     const handleHistoryModal = (isOpen: boolean, skillId: number) => {
@@ -79,6 +84,15 @@ const SubjectResults = () => {
     useEffect(() => {
         getData();
     }, [])
+
+    if (loading)
+        return (
+            <>
+                <Header />
+                <Progress />
+            </>
+        )
+
 
     return (
         <div>
