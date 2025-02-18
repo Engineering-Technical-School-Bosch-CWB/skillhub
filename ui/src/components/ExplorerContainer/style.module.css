@@ -18,10 +18,17 @@
 
     .explorerHeader{
         width: 90%;
+        flex-direction: row;
+        align-items: center;
         justify-content: start;
         gap: 2rem;
         /* margin: 3rem ; */
         flex-wrap: wrap;
+
+        .filter_container {
+            max-width: 70%;
+            width: 50%;
+        }
 
         .folderBtn {
             display: flex;

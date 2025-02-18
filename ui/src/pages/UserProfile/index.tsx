@@ -138,7 +138,6 @@ const UserProfile = () => {
                             <div className={`${styles.gap}`}>
                                 <Text variant="span" fontWeight="bold" fontSize="xl2">{userData?.name}</Text>
                                 <Text>{userData?.identification}</Text>
-
                             </div>
                             {
                                 studentData &&

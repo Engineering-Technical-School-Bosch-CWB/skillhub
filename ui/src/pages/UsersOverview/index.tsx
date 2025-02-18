@@ -61,7 +61,6 @@ const UsersOverview = () => {
                 }} button={{
                     icon: "settings",
                     onClick: () => {navigation("/users-properties")}
-                    // criate position create sector and create occupation area
                 }} />
             </main>
         </>

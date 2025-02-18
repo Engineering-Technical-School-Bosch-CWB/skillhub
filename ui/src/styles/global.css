@@ -1,7 +1,7 @@
 @import url("./reset.css");
 @import url("./fonts.css");
 @import url("./toast.css");
-
+@import url("./icons.ref.css");
 :root {
     --white: white;
     --black: black;

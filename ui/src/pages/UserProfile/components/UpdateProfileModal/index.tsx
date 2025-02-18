@@ -21,9 +21,10 @@ export interface IUpdateProfileModalProps extends IModalProps {
     isCurrentUser: boolean
 }
 
-export default ({title, handleClose, open, id, isCurrentUser}: IUpdateProfileModalProps) => {
+export default ({title, handleClose, open, isCurrentUser}: IUpdateProfileModalProps) => {
     const _location = useLocation();
     const queryParams = new URLSearchParams(_location.search);
+    const id = queryParams.get("userId");
     const {user: logedUser} = useUserContext();
     const [isUpdatePassword, setIsUpdatePassword] = useState(false);
     const [selectArea, setSelectArea] = useState<ISelectData[]>([]);
@@ -32,7 +33,7 @@ export default ({title, handleClose, open, id, isCurrentUser}: IUpdateProfileMod
     const [userData, setUserData] = useState<IUser>(
         {
             birthday: new Date,
-            id: id,
+            id: 0,
             identification: "",
             image: undefined,
             name: "",
@@ -48,9 +49,9 @@ export default ({title, handleClose, open, id, isCurrentUser}: IUpdateProfileMod
             }
         }
     );
+    const [updatedData, setUpdatedData] = useState({})
 
     const loadData = async () => {
-        const id = queryParams.get("userId");
         const response = await internalAPI.jsonRequest(`/users${isCurrentUser? "": `/?id=${id}`}`, "GET")
         var data = response.data as IUser;
         setUserData(data)
@@ -60,84 +61,80 @@ export default ({title, handleClose, open, id, isCurrentUser}: IUpdateProfileMod
         return dayjs(value).format('DD/MM/YYYY');
     }
 
-    const sendUpdatePassword = async () => {
-        const data = {
-            hash: userData.password
-        }
-        var response = await internalAPI.jsonRequest(`/users/${id}`,"PATCH", undefined, data);
+    const toggleSubmit = async () => {
+        var response = await internalAPI.jsonRequest(`/users/${id}`,"PATCH", undefined, updatedData);
         if(!response || !response.success){
-            toast.error("Error on update password", {toastId:"update-password-error"})
+            toast.error("Error on update user data", {toastId:"update-user-error"})
             return;
         }
-        location.reload();
+        location.reload();    
     }
-    const sendUpdateUserInfo = async () => {
-        var response = await internalAPI.jsonRequest(`/users/${id}`,"PATCH", undefined, userData);
-        if(!response || !response.success){
-            toast.error("Error on update password", {toastId:"update-password-error"})
-            return;
-        }
-        location.reload();
+    
+    const loadSectors = async () => {
+        const response = await internalAPI.jsonRequest("/sectors","GET");
+        if(!response||!response.success)
+            return toast.error("Error on load sectors", {toastId: "sectors-load-error"})
+        const data = response.data as ISector[];
+        setSelectSector(data.map((sector) => {
+            return {
+                key: sector.name!,
+                value: sector.id,
+                selected: sector.name == userData.sector?.name
+            };
+        }))
     }
-
-    const loadPosition = async () => {
+    const loadOccupationArea = async () => {
+        const response = await internalAPI.jsonRequest("/occupationArea","GET");
+        if(!response||!response.success)
+            return toast.error("Error on load occupation areas", {toastId: "occupation-areas-load-error"})
+        const data = response.data as IOccupationArea[];
+        setSelectArea(data.map((area) => {
+            return {
+                key: area.name!,
+                value: area.id!,
+                selected: area.name == userData.occupationArea?.name
+            }
+        }))
+    }
+    const loadPositions = async () => {
         let response = await internalAPI.jsonRequest("/positions","GET");
         if(!response||!response.success)
-            return toast.error("Error on load positions")
+            return toast.error("Error on load positions", {toastId: "positions-load-error"})
         let data = response.data as IPosition[];
-        console.log(data);
         
         setSelectPosition(data.map((position) => {
             return {
                 key: position.name!,
-                value: position.id!
-            }
-        }))
-        response = await internalAPI.jsonRequest("/occupationArea","GET");
-        if(!response||!response.success)
-            return toast.error("Error on load occupation areas")
-        data = response.data as IOccupationArea[];
-        console.log(data);
-        setSelectArea(data.map((area) => {
-            return {
-                key: area.name!,
-                value: area.id!
-            }
-        }))
-        response = await internalAPI.jsonRequest("/sector","GET");
-        if(!response||!response.success)
-            return toast.error("Error on load sectors")
-        data = response.data as ISector[];
-        console.log(data);
-        setSelectSector(data.map((sector) => {
-            return {
-                key: sector.name!,
-                value: sector.id
+                value: position.id!,
+                selected: position.name == userData.position?.name
             }
         }))
     }
-
-    const toggleSubmit = () => {
-        if(isUpdatePassword){
-            sendUpdatePassword();
-            return;
-        }
-        sendUpdateUserInfo();
-    }
-
-    const changeValue = (key: keyof IUser, value: any) => {
-        setUserData(prev => ({
-            ...prev,
-            [key]: value
-        }))
+    const changeValue = (key: string, value: any) => {
+        setUpdatedData(prev => {
+            return {
+                ...prev,
+                [key]: value
+            };
+        });
+        setUserData(prev => {
+            return {
+                ...prev,
+                [key]: value
+            };
+        });
     }
 
     useEffect(() => {
-        console.log(logedUser);
         loadData();
-        loadPosition();
-        
     },[])
+    useEffect(() => {
+        if(logedUser?.permissionLevel && logedUser?.permissionLevel > 1 ) {
+            loadSectors();
+            loadPositions();
+            loadOccupationArea();
+        }
+    }, [userData])
 
     return (
         <Modal title={title} handleClose={handleClose} open={open}>
@@ -148,13 +145,13 @@ export default ({title, handleClose, open, id, isCurrentUser}: IUpdateProfileMod
                 </section>
                 <Input label="Identification" value={userData.identification} onChange={(e) => changeValue("identification", e.target.value)} disabled={isUpdatePassword} />
                 {
-                    logedUser!.permissionLevel! > 1 ? 
-                    <>
-                        <Select data={selectArea}/>
-                        <Select data={selectPosition}/>
-                        <Select data={selectSector}/>
-                    </> :
-                    <Input value={`${userData.position?.name} - ${userData.sector?.name}`} disabled  />
+                    logedUser?.permissionLevel && logedUser?.permissionLevel > 1 ? 
+                        <section className={`${styles.triple_input} ${styles.input_1_1_1}`}>
+                            <Select data={selectSector} label="Sector" disabled={isUpdatePassword} onChange={(e) => changeValue("sectorId", e.target.value)} />
+                            <Select data={selectPosition} label="Position" disabled={isUpdatePassword}  onChange={(e) => changeValue("positionId", e.target.value)} />
+                            <Select data={selectArea} label="Área" disabled={isUpdatePassword} onChange={(e) => changeValue("occupationAreaId", e.target.value)} />
+                        </section> :
+                        <Input value={`${userData.position?.name} - ${userData.sector?.name}`} disabled  />
                 }
                 <Input label="Password" type="password" placeholder="************" disabled={!isUpdatePassword} onChange={(e) => changeValue("password", e.target.value)} />
                 <Button variant="link" onClick={() => setIsUpdatePassword(true)}>Update Password</Button>

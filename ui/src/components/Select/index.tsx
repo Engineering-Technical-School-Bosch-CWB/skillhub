@@ -10,13 +10,17 @@ export default (data: ISelectProps) => {
     }
 
     return (
-        <div className={styles.select_container}>
-            {/* <label htmlFor={data.name} className={styles.label}>{data.label}</label> */}
+        <div className={`${styles.select_container} ${data.className}`}>
+            {
+                data.label &&
+                    <label htmlFor={data.name} className={styles.label}>{data.label}</label>
+            }
             <select
                 name={data.name}
                 id={data.id}
                 className={styles.select_input}
                 onChange={(e) => onChange(e)}
+                disabled={data.disabled}
             >
                 {
                     !data.hasDefault &&

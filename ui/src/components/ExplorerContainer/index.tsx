@@ -46,7 +46,9 @@ const ExplorerContainer = ({ input, folderPath, onAddHandle, title, data, filter
                 {
                     filter &&
                     filter.map(f => (
-                        <Select data={f.params} label={f.name} onChange={(e) => f.setValue(e.target.value)} />
+                        <div className={`${styles.filter_container}  ${styles.align}`}>
+                            <Select data={f.params} label={f.name} onChange={(e) => f.setValue(e.target.value)} />
+                        </div>
                     ))
                 }
 
