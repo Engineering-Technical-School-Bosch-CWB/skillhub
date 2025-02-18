@@ -23,14 +23,15 @@ export default function InputContainer({
 
     return(
         <div className={`${styles.input_box} ${error ? styles.error : ""} ${className}`}>
-            { children }
 
             {label &&
                 <label
-                    htmlFor={id}
-                    className={`${styles.label} ${disabled ? styles.disabled : ""}`}
+                htmlFor={id}
+                className={`${styles.label} ${disabled ? styles.disabled : ""}`}
                 >{label}</label>
             }
+
+            { children }
 
             {helperText &&
                 <span

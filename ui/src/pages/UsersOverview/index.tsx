@@ -6,6 +6,7 @@ import getHex from "../../constants/getHex";
 import { useEffect, useState } from "react";
 import SectionHeader from "@/components/SectionHeader";
 import { useNavigate, useNavigation } from "react-router-dom";
+import UpdateProfileModal from "../UserProfile/components/UpdateProfileModal";
 
 const UsersOverview = () => {
     
@@ -14,6 +15,7 @@ const UsersOverview = () => {
     const navigation = useNavigate();
     const [position, setPosition] = useState<number>();
     const [positions, setPositions] = useState([]);
+    const [createModal, setCreateModal] = useState(false);
     
     const positionFilter = {
         name: "Position",
@@ -55,15 +57,26 @@ const UsersOverview = () => {
                 <SectionHeader links={[{
                     label: "Users"
                 }]} />
-                <ExplorerContainer filter={[positionFilter]} data={users} title={"Users"} onAddHandle={() => {}} input={{
-                    search: search,
-                    onChange: setSearch
-                }} button={{
-                    icon: "settings",
-                    onClick: () => {navigation("/users-properties")}
-                    // criate position create sector and create occupation area
+                <ExplorerContainer 
+                    filter={[positionFilter]} 
+                    data={users} 
+                    title={"Users"} 
+                    onAddHandle={() => setCreateModal(true)} 
+                    input={{
+                        search: search,
+                        onChange: setSearch
+                    }} 
+                    button={{
+                        icon: "settings",
+                        onClick: () => {navigation("/users-properties")}
                 }} />
             </main>
+            <UpdateProfileModal 
+                title="Add User" 
+                handleClose={() => setCreateModal(false)} 
+                isCurrentUser={false} 
+                open={createModal}
+            />
         </>
     )
 }

@@ -7,6 +7,7 @@ import IUserImage from "./IUserImage";
 export default interface IUser extends IEntity {
     name?: string,
     identification?: string,
+    password?: string,
     birthday?: Date,
     image?: IUserImage,
     position?: IPosition,
