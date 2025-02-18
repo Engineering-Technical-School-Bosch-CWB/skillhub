@@ -15,6 +15,7 @@ import { ISelectData } from "@/components/Select/interfaces";
 import IPosition from "@/interfaces/models/IPosition";
 import IOccupationArea from "@/interfaces/models/IOccupationArea";
 import ISector from "@/interfaces/models/ISector";
+import { IServiceResponse } from "@/interfaces/services.interfaces";
 
 export interface IUpdateProfileModalProps extends IModalProps {
     id?: number,
@@ -62,9 +63,14 @@ export default ({title, handleClose, open, isCurrentUser}: IUpdateProfileModalPr
     }
 
     const toggleSubmit = async () => {
-        var response = await internalAPI.jsonRequest(`/users/${id}`,"PATCH", undefined, updatedData);
+        var response : IServiceResponse<any>;
+        if(id)
+            response = await internalAPI.jsonRequest(`/users/${id}`,"PATCH", undefined, updatedData);
+        else
+            response = await internalAPI.jsonRequest(`/users/`,"POST", undefined, userData);
+
         if(!response || !response.success){
-            toast.error("Error on update user data", {toastId:"update-user-error"})
+            toast.error(`Error on ${id ? "update" : "create"} user`, {toastId:"update-user-error"})
             return;
         }
         location.reload();    
@@ -126,7 +132,8 @@ export default ({title, handleClose, open, isCurrentUser}: IUpdateProfileModalPr
     }
 
     useEffect(() => {
-        loadData();
+        if(id)
+            loadData();
     },[])
     useEffect(() => {
         if(logedUser?.permissionLevel && logedUser?.permissionLevel > 1 ) {
@@ -153,8 +160,13 @@ export default ({title, handleClose, open, isCurrentUser}: IUpdateProfileModalPr
                         </section> :
                         <Input value={`${userData.position?.name} - ${userData.sector?.name}`} disabled  />
                 }
-                <Input label="Password" type="password" placeholder="************" disabled={!isUpdatePassword} onChange={(e) => changeValue("password", e.target.value)} />
-                <Button variant="link" onClick={() => setIsUpdatePassword(true)}>Update Password</Button>
+                {
+                    id &&
+                    <>
+                        <Input label="Password" type="password" placeholder="************" disabled={!isUpdatePassword} onChange={(e) => changeValue("password", e.target.value)} />
+                        <Button variant="link" onClick={() => setIsUpdatePassword(true)}>Update Password</Button>
+                    </>
+                }
                 <ButtonGroup cancel={handleClose} submit={toggleSubmit} />
             </div>
         </Modal>
