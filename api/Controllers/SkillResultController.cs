@@ -49,18 +49,6 @@ public class SkillResultController : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet]
-    [Route("exam/{examId}")]
-    public async Task<ActionResult> GetExamEvaluationPage(
-        [FromServices] ISkillResultService service, [FromServices] IPermissionService permissionService, int examId
-    )
-    {
-        permissionService.ValidatePermission();
-
-        var result = await service.GetExamEvaluationPage(examId);
-        return Ok(result);
-    }
-
     [HttpPost]
     [Route("exam/{examId}")]
     public async Task<ActionResult> EvaluateExam(

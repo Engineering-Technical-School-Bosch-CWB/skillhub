@@ -292,14 +292,18 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
 
     #region Services
 
-    public async Task<IEnumerable<ObjectDTO>> GetTeachers()
+    public async Task<IEnumerable<ObjectDTO>> GetTeachers(User? instructor = null)
     {
         var teachers = await _repo.Get()
             .Where(u => u.IsActive)
             .Where(u => (EPositionType)u.Position.PositionType == EPositionType.Teacher)
+            .Where(u => instructor == null || u.Id != instructor.Id)
             .OrderBy(u => u.Name)
             .Select(u => ObjectDTO.Map(u.Id, u.Name))
             .ToListAsync();
+
+        if (instructor is not null)
+            teachers = [ObjectDTO.Map(instructor.Id, instructor.Name), ..teachers];
 
         return teachers;
     }

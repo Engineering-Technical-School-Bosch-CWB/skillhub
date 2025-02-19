@@ -21,6 +21,18 @@ public class ExamController : ControllerBase
         return Created("/api/v1/exams", result);
     }
 
+    [HttpGet]
+    [Route("{id}")]
+    public async Task<ActionResult> GetExamEvaluationPage(
+        [FromServices] IExamService service, [FromServices] IPermissionService permissionService, int id
+    )
+    {
+        permissionService.ValidatePermission();
+
+        var result = await service.GetExamEvaluationPage(id);
+        return Ok(result);
+    }
+
     [HttpDelete]
     [Route("{id}")]
     public async Task<ActionResult> DeleteExam(
@@ -31,5 +43,17 @@ public class ExamController : ControllerBase
 
         await service.DeleteExam(id);
         return NoContent();
+    }
+    
+    [HttpGet]
+    [Route("createExam/{id}")]
+    public async Task<ActionResult> GetCreateExamPage(
+        [FromServices] IExamService service, [FromServices] IPermissionService permissionService, int id
+    )
+    {
+        permissionService.ValidatePermission();
+
+        var result = await service.GetCreateExamPage(id);
+        return Ok(result);
     }
 }

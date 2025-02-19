@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Api.Core.Services;
 
-public class ExamService(BaseRepository<Exam> repository, ISubjectRepository subjectRepository,
+public class ExamService(BaseRepository<Exam> repository, ISubjectRepository subjectRepository, IUserService userService,
     ISkillRepository skillRepository, ISkillResultRepository skillResultRepository, IUserRepository userRepository
 ) : BaseService<Exam>(repository), IExamService
 {
@@ -17,6 +17,8 @@ public class ExamService(BaseRepository<Exam> repository, ISubjectRepository sub
     private readonly ISkillResultRepository _skillResultRepo = skillResultRepository;
     private readonly ISubjectRepository _subjectRepo = subjectRepository;
     private readonly IUserRepository _userRepo = userRepository;
+
+    private readonly IUserService _userService = userService;
 
     #region CRUD
 
@@ -138,4 +140,67 @@ public class ExamService(BaseRepository<Exam> repository, ISubjectRepository sub
     }
 
     #endregion
+
+    #region Pages
+
+
+    public async Task<AppResponse<EvaluateExamDTO>> GetExamEvaluationPage(int examId)
+    {
+        var exam = await _repo.Get()
+            .Where(e => e.IsActive)
+            .Include(e => e.Subject.CurricularUnit)
+            .Include(e => e.Subject.Class)
+            .SingleOrDefaultAsync(e => e.Id == examId)
+            ?? throw new NotFoundException("Exam not found!");
+
+        var results = await _skillResultRepo.Get()
+            .Where(s => s.IsActive)
+            .Where(s => s.Exam!.Id == examId)
+            .Include(s => s.Student.User)
+            .Include(s => s.Skill)
+            .GroupBy(s => s.Student)
+            .Select(g => new
+            {
+                Student = g.Key,
+                SkillResults = g.Select(s => SkillResultDTO.Map(s)).AsEnumerable()
+            })
+            .ToListAsync();
+
+        var orderedResults = results
+            .Select(g => ExamEvaluationResultDTO.Map(g.Student, g.SkillResults.OrderBy(s => s.SkillId)))
+            .OrderBy(r => r.Student.Name)
+            .ToList();
+
+        return new AppResponse<EvaluateExamDTO>(
+            EvaluateExamDTO.Map(exam.Subject, exam, orderedResults),
+            "Exam results found"
+        );
+    }
+
+    public async Task<AppResponse<ExamSkillsDTO>> GetCreateExamPage(int subjectId)
+    {
+        var subject = await _subjectRepo.Get()
+            .Where(s => s.IsActive)
+            .Include(s => s.CurricularUnit)
+            .Include(s => s.Class)
+            .Include(s => s.Instructor)
+            .SingleOrDefaultAsync(s => s.Id == subjectId)
+            ?? throw new NotFoundException("Subject not found!");
+
+        var teachers = await _userService.GetTeachers(subject.Instructor);
+
+        var skills = await _skillRepo.Get()
+            .Where(s => s.CurricularUnit.Id == subject.CurricularUnit.Id)
+            .Where(s => s.IsActive)
+            .Select(s => SkillDTO.Map(s))
+            .ToListAsync();
+
+        return new AppResponse<ExamSkillsDTO>(
+            ExamSkillsDTO.Map(SubjectDTO.Map(subject), teachers, skills),
+            "Skills found!"
+        );
+    }
+
+    #endregion
 }
+

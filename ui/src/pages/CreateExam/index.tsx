@@ -40,7 +40,7 @@ const CreateExam = () => {
     const [examSkills, setExamSkills] = useState<ISkillSelection[]>([]);
 
     const getData = async () => {
-        const response = await internalAPI.jsonRequest(`/skills/createExam/${subjectId}`, "GET");
+        const response = await internalAPI.jsonRequest(`/exams/createExam/${subjectId}`, "GET");
         const content = response.data;
 
         setSubject(content.subject);

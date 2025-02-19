@@ -19,6 +19,7 @@ const InputCheckBox = forwardRef<HTMLInputElement, IInputCheckBoxProps>(
             helperText={helperText}
             id={id}
             className={className}
+            width={props.width}
         >
 
             {

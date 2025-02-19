@@ -43,9 +43,9 @@ export default ({ id, description, selectedSkills, setSelectedSkills }: ISkillOp
     return (
         <>
             <div className={`${styles.option}`}>
-                <Input type="checkBox" label={description} checked={checked} onChange={(e) => setChecked(e.target.checked)}/>
+                <Input type="checkBox" label={description} width={"calc(100% - 8.5rem)"} checked={checked} onChange={(e) => setChecked(e.target.checked)}/>
                 <div className={`${styles.input_weight}`}>
-                    <Input type="number" label="Weight" value={weight} disabled={!checked} min={0} onChange={(e) => setWeight(Number(e.target.value))} />
+                    <Input type="number" label="Weight" value={checked ? weight : ""} disabled={!checked} min={0} onChange={(e) => setWeight(Number(e.target.value))} width={"8rem"} />
                 </div>
             </div>
         </>
