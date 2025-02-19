@@ -14,5 +14,6 @@ export interface ISelectProps {
     id?: string,
     disabled?: boolean,
     hasDefault?: boolean,
+    className?: string,
     onChange?:  (e: ChangeEvent<HTMLSelectElement>) => void
 }

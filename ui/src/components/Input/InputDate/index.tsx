@@ -4,7 +4,7 @@ import { IRootInputProps } from "../interfaces";
 import InputContainer from "../InputContainer";
 import { forwardRef } from "react";
 import { useFormContext } from "react-hook-form";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 
 export interface IInputDateProps extends IRootInputProps {
     type: "date",
@@ -12,14 +12,14 @@ export interface IInputDateProps extends IRootInputProps {
 }
 
 const InputDate = forwardRef<HTMLInputElement, IInputDateProps>(
-    ({ error, hasForm, label, helperText, id, fieldName, dateChange, ...props }, ref) => 
+    ({ error, hasForm, label, helperText, id, fieldName, dateChange, value, className, ...props }, ref) => 
 {
 
     const formContext = useFormContext();
 
     const handleSetValue = (value: dayjs.Dayjs | null) => {
 
-        if(hasForm)
+        if(fieldName || hasForm)
         {
             const {setValue} = formContext;
             if(setValue && fieldName)
@@ -31,6 +31,12 @@ const InputDate = forwardRef<HTMLInputElement, IInputDateProps>(
                 
     }
 
+    const getDefaultValue = (): Dayjs => {
+        let defaultValue = value?.toString().split("/") ?? "";
+        let res = dayjs(`${defaultValue[2]}-${defaultValue[1]}-${defaultValue[0]}`);
+        return res;
+    }
+
     return (
         <InputContainer
             error={error}
@@ -39,10 +45,12 @@ const InputDate = forwardRef<HTMLInputElement, IInputDateProps>(
             width={props.width}
         >
             <SInput 
+                className={className}
                 label={label}
                 error={error}
                 ref={ref}
                 format="DD/MM/YYYY"
+                value={getDefaultValue()}
                 onChange={(value) => handleSetValue(value)}
             />
         </InputContainer>

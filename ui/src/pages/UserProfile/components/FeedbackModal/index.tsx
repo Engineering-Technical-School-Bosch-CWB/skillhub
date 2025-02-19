@@ -57,7 +57,6 @@ export default ({ isOpen, handleIsOpen, feedbackId, userName, studentData, setSt
     }
 
     useEffect(() => {
-        console.log(canSee)
     }, [canSee, feedbackId])
 
     const handleSubmit = async () => {

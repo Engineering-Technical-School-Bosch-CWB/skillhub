@@ -22,9 +22,6 @@ const InputText = forwardRef<HTMLInputElement, IInputTextProps>(
                 disabled={props.disabled}
                 width={props.width}
             >
-                {
-                    iconName && <Icon name={iconName} size="md" className={styles.input_icon} />
-                }
 
                 <input
                     ref={ref}
@@ -32,10 +29,12 @@ const InputText = forwardRef<HTMLInputElement, IInputTextProps>(
                     id={id}
                     type={type}
                     className={`${styles.input} ${error ? styles.error : ""}`}
-                    style={{ padding: type == "number" ? "12px" : "12px 3rem 12px 12px" }}
                     placeholder=" "
-                    value={props.disabled ? "" : props.value}
+                    value={props.value}
                 />
+                {
+                    iconName && <Icon name={iconName} size="md" className={styles.input_icon} />
+                }
             </InputContainer>
         )
     })

@@ -33,6 +33,21 @@ button:disabled {
     }
 }
 
+.link {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    /* font-weight: 500; */
+    color: var(--primary-light);
+
+    &:hover {
+        color: var(--primary-main);
+    }
+    &:active {
+        color: var(--primary-dark);
+    }
+}
+
 .outlined {
     background-color: transparent;
     border: 1px solid var(--primary-main);

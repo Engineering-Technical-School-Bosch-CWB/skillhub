@@ -4,7 +4,7 @@ import Text from "../../typography";
 import Icon from "../Icon";
 import Divider from "../Divider";
 
-interface IModalProps {
+export interface IModalProps {
     open: boolean;
     handleClose: () => void;
     children?: ReactNode;

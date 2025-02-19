@@ -29,14 +29,14 @@ export default function InputContainer({
             className={`${styles.input_box} ${error ? styles.error : ""} ${className}`}
             style={{ width: width }}
         >
-            {children}
-
             {label &&
                 <label
-                    htmlFor={id}
-                    className={`${styles.label} ${disabled ? styles.disabled : ""}`}
+                htmlFor={id}
+                className={`${styles.label} ${disabled ? styles.disabled : ""}`}
                 >{label}</label>
             }
+
+            { children }
 
             {helperText &&
                 <span
