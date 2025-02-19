@@ -14,12 +14,11 @@ public class StudentController : ControllerBase
 {
     [HttpPost]
     public async Task<ActionResult> CreateStudent(
-        [FromServices] IStudentService service, UserContext userContext,
+        [FromServices] IStudentService service, [FromServices] IPermissionService permissionService,
         [FromBody] StudentCreatePayload payload
     )
     {
-        if (userContext.PermissionLevel != EPermissionLevel.Admin)
-            throw new ForbiddenAccessException("User don't have permission to this service!");
+        permissionService.ValidatePermission();
 
         var result = await service.CreateStudent(payload);
         return Created("api/v1/students", result);

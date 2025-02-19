@@ -10,10 +10,12 @@ public class SubjectAreaController : ControllerBase
 {
     [HttpPost]
     public async Task<ActionResult> CreateSubjectArea(
-        [FromServices] ISubjectAreaService service,
+        [FromServices] ISubjectAreaService service, [FromServices] IPermissionService permissionService,
         [FromBody] SubjectAreaPayload payload
     )
     {
+        permissionService.ValidatePermission();
+
         var result = await service.CreateSubjectArea(payload);
         return Created("/api/v1/subjectAreas", result);
     }
@@ -21,11 +23,13 @@ public class SubjectAreaController : ControllerBase
     [HttpPatch]
     [Route("{id}")]
     public async Task<ActionResult> UpdateSubjectArea(
-        [FromServices] ISubjectAreaService service,
+        [FromServices] ISubjectAreaService service, [FromServices] IPermissionService permissionService,
         [FromBody] SubjectAreaPayload payload,
         int id
     )
     {
+        permissionService.ValidatePermission();
+
         var result = await service.UpdateSubjectArea(id, payload);
         return Ok(result);
     }
@@ -33,10 +37,12 @@ public class SubjectAreaController : ControllerBase
     [HttpDelete]
     [Route("{id}")]
     public async Task<IActionResult> DeleteSubjectArea(
-        [FromServices] ISubjectAreaService service,
+        [FromServices] ISubjectAreaService service, [FromServices] IPermissionService permissionService,
         int id
     )
     {
+        permissionService.ValidatePermission();
+
         await service.DeleteSubjectArea(id);
         return NoContent();
     }

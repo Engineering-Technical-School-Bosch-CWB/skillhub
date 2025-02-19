@@ -167,7 +167,7 @@ public class ClassService(
             {
                 Subject = subj,
                 Student = student,
-                Performance = _studentService.GetSubjectGrade(student.Id, subj.Id)
+                Performance = _studentService.GetSubjectGrade(student.Id, subj.Id).Item1
             }
         ));
 

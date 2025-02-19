@@ -13,10 +13,12 @@ public class SkillController : ControllerBase
 {
     [HttpPost]
     public async Task<ActionResult> CreateSkill(
-        [FromServices] ISkillService service,
+        [FromServices] ISkillService service, [FromServices] IPermissionService permissionService,
         [FromBody] SkillCreatePayload payload
     )
     {
+        permissionService.ValidatePermission();
+
         var result = await service.CreateSkill(payload);
         return Created("/api/v1/skills", result);
     }
@@ -46,11 +48,13 @@ public class SkillController : ControllerBase
     [HttpPatch]
     [Route("{id}")]
     public async Task<IActionResult> UpdateSkill(
-        [FromServices] ISkillService service,
+        [FromServices] ISkillService service, [FromServices] IPermissionService permissionService,
         [FromBody] SkillUpdatePayload payload,
         int id
     )
     {
+        permissionService.ValidatePermission();
+
         var result = await service.UpdateSkill(id, payload);
         return Ok(result);
     }
@@ -58,10 +62,12 @@ public class SkillController : ControllerBase
     [HttpDelete]
     [Route("{id}")]
     public async Task<IActionResult> DeleteSkill(
-        [FromServices] ISkillService service,
+        [FromServices] ISkillService service, [FromServices] IPermissionService permissionService,
         int id
     )
     {
+        permissionService.ValidatePermission();
+
         await service.DeleteSkill(id);
         return NoContent();
     }
@@ -69,11 +75,10 @@ public class SkillController : ControllerBase
     [HttpGet]
     [Route("createExam/{subjectId}")]
     public async Task<ActionResult> GetCreateExamPage(
-        [FromServices] ISkillService service, UserContext userContext, int subjectId
+        [FromServices] ISkillService service, [FromServices] IPermissionService permissionService, UserContext userContext, int subjectId
     )
     {
-        if (userContext.PermissionLevel != EPermissionLevel.Admin)
-            throw new ForbiddenAccessException("User don't have permission to this service!");
+        permissionService.ValidatePermission();
 
         var result = await service.GetCreateExamPage(subjectId);
         return Ok(result);

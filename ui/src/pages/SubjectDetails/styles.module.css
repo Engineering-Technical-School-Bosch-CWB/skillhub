@@ -15,11 +15,17 @@
 
 .title_section {
     width: 100%;
+    
+    display: flex;
+    justify-content: space-between;
+}
+
+.col {
+    display: flex;
     height: 4rem;
-    /* padding: 0 2rem; */
-    /* margin: 2rem 0; */
-    flex-direction: column;
+    
     gap: .5rem;
+    flex-direction: column;
 }
 
 .section_header {
@@ -125,18 +131,22 @@
     .performance_cell {
         font-weight: 600;
         filter: brightness(70%) saturate(120%);
+        color: black !important;
     }
 
     .SKILLED {
         background-color: var(--success-light);
+        color: var(--success-dark);
     }
 
     .DEVELOPMENT {
         background-color: var(--warning-light);
+        color: var(--warning-dark);
     }
 
     .UNSKILLED {
         background-color: var(--danger-light);
+        color: var(--danger-dark);
     }
 
 }

@@ -27,12 +27,11 @@ public class FeedbackController : ControllerBase
 
     [HttpPost]
     public async Task<ActionResult> CreateFeedback(
-        [FromServices] IFeedbackService service, UserContext userContext,
-        [FromBody] FeedbackCreatePayload payload
+        [FromServices] IFeedbackService service, [FromServices] IPermissionService permissionService,
+        [FromBody] FeedbackCreatePayload payload, UserContext userContext
     )
     {
-        if (userContext.PermissionLevel != EPermissionLevel.Admin)
-            throw new ForbiddenAccessException("User don't have permission to this service!");
+        permissionService.ValidatePermission();
 
         var result = await service.CreateFeedback(payload, userContext.UserId);
         return Created("/api/v1/feedbacks", result);
@@ -42,11 +41,10 @@ public class FeedbackController : ControllerBase
     [Route("{id}")]
     public async Task<ActionResult> UpdateFeedback(
         [FromServices] IFeedbackService service, UserContext userContext,
-        [FromBody] FeedbackUpdatePayload payload, int id
+        [FromBody] FeedbackUpdatePayload payload, int id, [FromServices] IPermissionService permissionService
     )
     {
-        if (userContext.PermissionLevel != EPermissionLevel.Admin)
-            throw new ForbiddenAccessException("User don't have permission to this service!");
+        permissionService.ValidatePermission();
 
         var result = await service.UpdateFeedback(id, payload, userContext.UserId);
         return Ok(result);
@@ -55,11 +53,10 @@ public class FeedbackController : ControllerBase
     [HttpDelete]
     [Route("{id}")]
     public async Task<ActionResult> DeleteFeedback(
-        [FromServices] IFeedbackService service, UserContext userContext, int id
+        [FromServices] IFeedbackService service, UserContext userContext, int id, [FromServices] IPermissionService permissionService
     )
     {
-        if (userContext.PermissionLevel != EPermissionLevel.Admin)
-            throw new ForbiddenAccessException("User don't have permission to this service!");
+        permissionService.ValidatePermission();
 
         await service.DeleteFeedback(id, userContext.UserId);
         return NoContent();

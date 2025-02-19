@@ -15,8 +15,11 @@ import { IResult } from "../Login/interfaces"
 import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
 import SectionHeader from "@/components/SectionHeader"
+import Progress from "@/components/Progress"
 
 const AprenticesResults = () => {
+
+    const [loading, setLoading] = useState(true);
 
     const navigate = useNavigate();
 
@@ -55,11 +58,22 @@ const AprenticesResults = () => {
                 }))
         );
 
+        setLoading(false);
+
     }
 
     useEffect(() => {
         getData();
     }, [search])
+
+    if (loading)
+        return (
+        <>
+            <Header />
+            <Progress />
+        </>
+    )
+
 
     return (
         <div>

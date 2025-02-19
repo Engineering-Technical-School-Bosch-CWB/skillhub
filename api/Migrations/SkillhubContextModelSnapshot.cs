@@ -591,6 +591,48 @@ namespace api.Migrations
                     b.ToTable("student", (string)null);
                 });
 
+            modelBuilder.Entity("Api.Domain.Models.StudentResult", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit")
+                        .HasColumnName("is_active");
+
+                    b.Property<double?>("Score")
+                        .HasColumnType("float")
+                        .HasColumnName("score");
+
+                    b.Property<double?>("SkillScore")
+                        .HasColumnType("float")
+                        .HasColumnName("skill_score");
+
+                    b.Property<int?>("exam_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("student_id")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("subject_id")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id")
+                        .HasName("PK____StudentResult");
+
+                    b.HasIndex("exam_id");
+
+                    b.HasIndex("student_id");
+
+                    b.HasIndex("subject_id");
+
+                    b.ToTable("student_result", (string)null);
+                });
+
             modelBuilder.Entity("Api.Domain.Models.Subject", b =>
                 {
                     b.Property<int>("Id")
@@ -936,6 +978,29 @@ namespace api.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Api.Domain.Models.StudentResult", b =>
+                {
+                    b.HasOne("Api.Domain.Models.Exam", "Exam")
+                        .WithMany("Results")
+                        .HasForeignKey("exam_id");
+
+                    b.HasOne("Api.Domain.Models.Student", "Student")
+                        .WithMany("Results")
+                        .HasForeignKey("student_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Api.Domain.Models.Subject", "Subject")
+                        .WithMany("Results")
+                        .HasForeignKey("subject_id");
+
+                    b.Navigation("Exam");
+
+                    b.Navigation("Student");
+
+                    b.Navigation("Subject");
+                });
+
             modelBuilder.Entity("Api.Domain.Models.Subject", b =>
                 {
                     b.HasOne("Api.Domain.Models.Class", "Class")
@@ -1021,6 +1086,8 @@ namespace api.Migrations
 
             modelBuilder.Entity("Api.Domain.Models.Exam", b =>
                 {
+                    b.Navigation("Results");
+
                     b.Navigation("SkillResults");
                 });
 
@@ -1054,6 +1121,8 @@ namespace api.Migrations
             modelBuilder.Entity("Api.Domain.Models.Student", b =>
                 {
                     b.Navigation("Feedbacks");
+
+                    b.Navigation("Results");
                 });
 
             modelBuilder.Entity("Api.Domain.Models.Subject", b =>
@@ -1061,6 +1130,8 @@ namespace api.Migrations
                     b.Navigation("Exams");
 
                     b.Navigation("Posts");
+
+                    b.Navigation("Results");
 
                     b.Navigation("SpecificObjectives");
                 });

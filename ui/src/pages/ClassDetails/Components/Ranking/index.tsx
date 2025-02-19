@@ -19,7 +19,7 @@ export default ({ data, onClick }: RankingChartProps) => {
     return (
         <div className={`${styles.ranking_container} ${styles.align} ${styles}`}>
             {
-                data.map((s) => {
+                data.map((s, index) => {
                     const name = s.name!.split(' ')[0] + ' ' + s.name!.split(' ')[1][0].toUpperCase() + "."
                     return (
                         <>
@@ -27,8 +27,11 @@ export default ({ data, onClick }: RankingChartProps) => {
                                 e.stopPropagation();
                                 onClick(s.id)
                             }} >
-                                <Text fontWeight="bold" >{name}</Text>
-                                <Text fontWeight="regular" >{s.performance}%</Text>
+                                <div className={`${styles.pos}`} >
+                                    <Text fontWeight="bold" fontSize="sm" >{`${index + 1}°`}</Text>
+                                    <Text fontWeight="bold" fontSize="sm" >{name}</Text>
+                                </div>
+                                <Text fontWeight="regular" fontSize="sm" >{`${s.performance == null ? "-" : s.performance + "%"}`}</Text>
                             </div>
                         </>
                     )

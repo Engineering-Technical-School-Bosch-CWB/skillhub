@@ -6,10 +6,11 @@
 
 .result_container {
     gap: 3rem;
-    margin: 3rem 0;
+    margin: .5rem 0;
     max-width: 100%;
     justify-content: start;
     align-items: start;
+    outline: none;
 
     .divider_sections {
         width: 1px;
@@ -92,4 +93,20 @@
 
 .flex_start {
     margin-right: auto;
+}
+
+.selected {
+    position: relative;
+}
+
+.selected::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    border: 3px solid black;
+    box-sizing: border-box;
 }

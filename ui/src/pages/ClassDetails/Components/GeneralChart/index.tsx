@@ -25,7 +25,7 @@ const GeneralChart = ({ data, onBarClick, selectedId }: IGeneralChartProps) => {
                         fontSize: 'small'
                     },
                     ChartProps: {
-                        height: 350
+                        height: 350,
                     }
                 }}
             />

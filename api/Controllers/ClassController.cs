@@ -15,12 +15,11 @@ public class ClassController : ControllerBase
 
     [HttpGet]
     public async Task<ActionResult> GetClasses(
-        [FromServices] IClassService service, UserContext userContext,
+        [FromServices] IClassService service, [FromServices] IPermissionService permissionService,
         [FromQuery] string? query
     )
     {
-        if (userContext.PermissionLevel != EPermissionLevel.Admin)
-            throw new ForbiddenAccessException("User don't have permission to this service!");
+        permissionService.ValidatePermission();
 
         var result = await service.GetClasses(query);
         return Ok(result);
@@ -28,10 +27,12 @@ public class ClassController : ControllerBase
 
     [HttpPost]
     public async Task<ActionResult> CreateClass(
-        [FromServices] IClassService service,
+        [FromServices] IClassService service, [FromServices] IPermissionService permissionService,
         [FromBody] ClassCreatePayload payload
     )
     {
+        permissionService.ValidatePermission();
+
         var result = await service.CreateClass(payload);
         return Created("api/v1/classes", result);
     }
@@ -39,13 +40,12 @@ public class ClassController : ControllerBase
     [HttpGet]
     [Route("{id}")]
     public async Task<ActionResult> GetClassPage(
-        [FromServices] IClassService service, UserContext userContext,
+        [FromServices] IClassService service, [FromServices] IPermissionService permissionService,
         [FromQuery] string? query, [FromQuery] int? selectedStudentId,
         [FromQuery] int? selectedCurricularUnitId, [FromQuery] int? selectedSubjectAreaId, int id
     )
     {
-        if (userContext.PermissionLevel != EPermissionLevel.Admin)
-            throw new ForbiddenAccessException("User don't have permission to this service!");
+        permissionService.ValidatePermission();
 
         var result = await service.GetClassPage(id, query, selectedStudentId, selectedCurricularUnitId, selectedSubjectAreaId);
         return Ok(result);

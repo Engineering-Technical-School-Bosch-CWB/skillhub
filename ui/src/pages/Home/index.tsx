@@ -1,6 +1,8 @@
 import Header from "../../components/Header";
 import styles from './styles.module.css';
 import Card from "./components/Card";
+import Progress from "@/components/Progress";
+
 import { useUserContext } from "../../contexts/user.context";
 
 const Home = () => {
