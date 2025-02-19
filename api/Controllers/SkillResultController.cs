@@ -1,3 +1,4 @@
+using System.Security;
 using Api.Core.Errors;
 using Api.Core.Services;
 using Api.Domain.Enums;
@@ -30,16 +31,18 @@ public class SkillResultController : ControllerBase
     [HttpGet]
     [Route("history/skill/{skillId}")]
     public async Task<ActionResult> GetSkillResultHistory(
-        [FromServices] ISkillResultService service, UserContext userContext,
+        [FromServices] ISkillResultService service, UserContext userContext, [FromServices] IPermissionService permissionService,
         [FromServices] IStudentService studentService, [FromQuery] int? studentId, int skillId
     )
     {
+        permissionService.ValidatePermission();
+
         var studentProfile = await studentService.GetByUserId(userContext.UserId);
 
         if (!studentId.HasValue && studentProfile is null)
             throw new NotFoundException("Student not found!");
 
-        if (userContext.PermissionLevel != EPermissionLevel.Admin && studentProfile?.Id != studentId)
+        if (studentProfile?.Id != studentId)
             throw new ForbiddenAccessException("User don't have permission to this service!");
 
         var result = await service.GetSkillResultHistory(studentId ?? studentProfile!.Id, skillId);
@@ -49,11 +52,10 @@ public class SkillResultController : ControllerBase
     [HttpGet]
     [Route("exam/{examId}")]
     public async Task<ActionResult> GetExamEvaluationPage(
-        [FromServices] ISkillResultService service, UserContext userContext, int examId
+        [FromServices] ISkillResultService service, [FromServices] IPermissionService permissionService, int examId
     )
     {
-        if (userContext.PermissionLevel != EPermissionLevel.Admin)
-            throw new ForbiddenAccessException("User don't have permission to this service!");
+        permissionService.ValidatePermission();
 
         var result = await service.GetExamEvaluationPage(examId);
         return Ok(result);
@@ -62,12 +64,11 @@ public class SkillResultController : ControllerBase
     [HttpPost]
     [Route("exam/{examId}")]
     public async Task<ActionResult> EvaluateExam(
-        [FromServices] ISkillResultService service, UserContext userContext,
+        [FromServices] ISkillResultService service, [FromServices] IPermissionService permissionService,
         [FromBody] IEnumerable<StudentEvaluatePayload> payload, int examId
     )
     {
-        if (userContext.PermissionLevel != EPermissionLevel.Admin)
-            throw new ForbiddenAccessException("User don't have permission to this service!");
+        permissionService.ValidatePermission();
 
         var result = await service.EvaluateExam(examId, payload);
         return Ok(result);

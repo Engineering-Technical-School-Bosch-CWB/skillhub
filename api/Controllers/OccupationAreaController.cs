@@ -35,13 +35,13 @@ public class OccupationAreaController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> Post(
-        [FromServices] IOccupationAreaService service, UserContext userContext,
+    public async Task<ActionResult> CreateOccupationArea(
+        [FromServices] IOccupationAreaService service, [FromServices] IPermissionService permissionService,
         [FromBody] OccupationArea payload
     )
     {
-        if (userContext.PermissionLevel != Api.Domain.Enums.EPermissionLevel.Admin)
-            throw new ForbiddenAccessException("User don't have permission to this service!");
+        permissionService.ValidatePermission();
+
         payload.IsActive = true;
         var result = await service.AddAsync(payload);
         return Ok(result);
@@ -50,13 +50,12 @@ public class OccupationAreaController : ControllerBase
     [HttpPatch]
     [Route("{id}")]
     public async Task<ActionResult> Update(
-        [FromServices] IOccupationAreaService service, UserContext userContext,
+        [FromServices] IOccupationAreaService service, [FromServices] IPermissionService permissionService,
         [FromBody] UpdateOcupationAreaPayload payload,
         int id
     )
     {
-        if (userContext.PermissionLevel != Api.Domain.Enums.EPermissionLevel.Admin)
-            throw new ForbiddenAccessException("User don't have permission to this service!");
+        permissionService.ValidatePermission();
 
         var result = await service.UpdateOccupationArea(id, payload);
         return Ok(result);
@@ -65,12 +64,11 @@ public class OccupationAreaController : ControllerBase
     [HttpDelete]
     [Route("{id}")]
     public async Task<ActionResult> Delete(
-        [FromServices] IOccupationAreaService service, UserContext context,
+        [FromServices] IOccupationAreaService service, [FromServices] IPermissionService permissionService,
         int id
     )
     {
-        if (context.PermissionLevel != Api.Domain.Enums.EPermissionLevel.Admin)
-            throw new ForbiddenAccessException("User don't have permission to this service!");
+        permissionService.ValidatePermission();
 
         await service.DeleteOccupationArea(id);
         return Ok();

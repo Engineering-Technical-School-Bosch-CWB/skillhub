@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Api.Domain.Repositories;
 using InvalidDataException = Api.Core.Errors.InvalidDataException;
+using Api.Domain.Enums;
 
 namespace Api.Core.Services;
 
@@ -229,6 +230,22 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
             result.Item2!,
             "Users found!"
         );
+    }
+
+    #endregion
+
+    #region Services
+
+    public async Task<IEnumerable<ObjectDTO>> GetTeachers()
+    {
+        var teachers = await _repo.Get()
+            .Where(u => u.IsActive)
+            .Where(u => (EPositionType)u.Position.PositionType == EPositionType.Teacher)
+            .OrderBy(u => u.Name)
+            .Select(u => ObjectDTO.Map(u.Id, u.Name))
+            .ToListAsync();
+
+        return teachers;
     }
 
     #endregion

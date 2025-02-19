@@ -25,3 +25,11 @@
 .flex_start {
     margin-right: auto;
 }
+
+.center {
+    display: flex;
+    width: 100%;
+
+    align-items: center;
+    justify-content: center;
+}

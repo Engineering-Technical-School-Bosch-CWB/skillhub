@@ -165,6 +165,8 @@ public class Program
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IOccupationAreaService, OccupationAreaService>();
 
+        services.AddScoped<IPermissionService, PermissionService>();
+
         #endregion
 
         #region Config

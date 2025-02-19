@@ -11,19 +11,16 @@ using Api.Domain.Enums;
 namespace Api.Core.Services;
 public class JwtService : IJwtService
 {
-    private readonly IServiceProvider _serviceProvider;
     private readonly JwtSecurityTokenHandler _tokenHandler;
     private readonly SymmetricSecurityKey _securityKey;
     private readonly SigningCredentials _credentials;
     private readonly UserContext _userContext;
 
     public JwtService(
-        IServiceProvider serviceProvider,
         JwtSecurityTokenHandler tokenHandler,
         UserContext userContext,
         JwtSettings settings)
     {
-        _serviceProvider = serviceProvider;
         _tokenHandler = tokenHandler;
         _userContext = userContext;
 
@@ -38,7 +35,8 @@ public class JwtService : IJwtService
             {
                 new("UserId", user.Id.ToString()),
                 new("Name", user.Name),
-                new("PermissionLevel", Enum.GetName(typeof(EPermissionLevel), user.PermissionLevel!)!)
+                new("PermissionLevel", Enum.GetName(typeof(EPermissionLevel), user.PermissionLevel!)!),
+                new("Sector", user.Sector.Name)
             };
 
         var SecToken = new JwtSecurityToken(
@@ -82,7 +80,8 @@ public class JwtService : IJwtService
         {
             UserId = int.Parse(claims.FindFirst("UserId")!.Value),
             Name = claims.FindFirst("Name")!.Value,
-            PermissionLevel = Enum.Parse<EPermissionLevel>(userPosition)
+            PermissionLevel = Enum.Parse<EPermissionLevel>(userPosition),
+            Sector = claims.FindFirst("Sector")!.Value,
         });
     }
 }

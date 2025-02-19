@@ -140,7 +140,7 @@ const SubjectDetails = () => {
                             }
                         </Text>
                     </div>
-                    <Button variant="primary_icon" onClick={() => { }}><Icon name="settings" /></Button>
+                    <Button variant="primary_icon" onClick={() => setUpdateModalProps({isUpdateModalOpen: true})}><Icon name="settings" /></Button>
                 </section >
                 <Divider size="big" />
 
@@ -249,10 +249,8 @@ const SubjectDetails = () => {
                     subject &&
                     <UpdateModal
                         isOpen={updateModalProps.isUpdateModalOpen}
-                        handleIsOpen={() => setFeedbackModalProps({
-                            student: undefined,
-                            feedback: undefined,
-                            isFeedbackModalOpen: false
+                        handleIsOpen={() => setUpdateModalProps({
+                            isUpdateModalOpen: false
                         })}
                         subject={subject}
                     />

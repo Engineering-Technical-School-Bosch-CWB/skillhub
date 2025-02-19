@@ -12,7 +12,17 @@
     align-items: center;
     justify-content: center;
 
+}
+
+
+.col {
+    display: flex;
     flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+    margin: 2rem 0;
 }
 
 .progress_container {
@@ -42,7 +52,7 @@
     }
 }
 
-.span {
+.loading {
     color: #007bc0;
-    font-weight: 500;
+    font-weight: 400;
 }

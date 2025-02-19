@@ -10,10 +10,12 @@ public class CourseController : ControllerBase
 {
     [HttpPost]
     public async Task<ActionResult> CreateCourse(
-        [FromServices] ICourseService service,
+        [FromServices] ICourseService service, [FromServices] IPermissionService permissionService,
         [FromBody] CourseCreatePayload payload
     )
     {
+        permissionService.ValidatePermission();
+        
         var result = await service.CreateCourse(payload);
         return Created("/api/v1/courses", result);
     }
@@ -43,11 +45,13 @@ public class CourseController : ControllerBase
     [HttpPatch]
     [Route("{id}")]
     public async Task<IActionResult> UpdateCourse(
-        [FromServices] ICourseService service,
+        [FromServices] ICourseService service, [FromServices] IPermissionService permissionService,
         [FromBody] CourseUpdatePayload payload,
         int id
     )
     {
+        permissionService.ValidatePermission();
+
         var result = await service.UpdateCourse(id, payload);
         return Ok(result);
     }
@@ -55,10 +59,12 @@ public class CourseController : ControllerBase
     [HttpDelete]
     [Route("{id}")]
     public async Task<IActionResult> DeleteCourse(
-        [FromServices] ICourseService service,
+        [FromServices] ICourseService service, [FromServices] IPermissionService permissionService,
         int id
     )
     {
+        permissionService.ValidatePermission();
+
         await service.DeleteCourse(id);
         return NoContent();
     }

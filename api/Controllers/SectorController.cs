@@ -33,12 +33,11 @@ public class SectorController : ControllerBase
 
     [HttpPost]
     public async Task<ActionResult> Create(
-        [FromBody] SectorCreatePayload payload,
-        [FromServices] ISectorService service,
-        UserContext userContext
+        [FromBody] SectorCreatePayload payload, [FromServices] IPermissionService permissionService,
+        [FromServices] ISectorService service
     ){
-        if (userContext.PermissionLevel != EPermissionLevel.Admin)
-            throw new ForbiddenAccessException("User don't have permission to this service!");
+        permissionService.ValidatePermission();
+
         var result = await service.CreateSector(payload);
         return Ok(result);
     }
@@ -46,13 +45,11 @@ public class SectorController : ControllerBase
     [HttpPatch]
     [Route("{id}")]
     public async Task<ActionResult> Update(
-        [FromBody] SectorUpdatePayload payload,
-        [FromServices] ISectorService service,
-        UserContext userContext,
-        int id
+        [FromBody] SectorUpdatePayload payload, [FromServices] IPermissionService permissionService,
+        [FromServices] ISectorService service, int id
     ){
-        if (userContext.PermissionLevel != EPermissionLevel.Admin)
-            throw new ForbiddenAccessException("User don't have permission to this service!");
+        permissionService.ValidatePermission();
+
         var result = await service.UpdateSector(id, payload);
         return Ok(result);
     }
@@ -60,12 +57,10 @@ public class SectorController : ControllerBase
     [HttpDelete]
     [Route("{id}")]
     public async Task<ActionResult> Delete(
-        [FromServices] ISectorService service,
-        UserContext userContext,
-        int id
+        [FromServices] ISectorService service, [FromServices] IPermissionService permissionService, int id
     ){
-        if (userContext.PermissionLevel != EPermissionLevel.Admin)
-            throw new ForbiddenAccessException("User don't have permission to this service!");
+        permissionService.ValidatePermission();
+        
         await service.DeleteSector(id);
         return NoContent();
     }

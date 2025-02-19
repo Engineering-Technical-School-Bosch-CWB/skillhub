@@ -38,9 +38,6 @@ export default class Service {
         })
 
         const json = await response.json().catch(() => ({}));
-        console.log(response)
-        console.log(json)
-
 
         return {
             statusCode: response.status,

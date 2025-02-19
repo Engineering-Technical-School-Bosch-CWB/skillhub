@@ -13,12 +13,24 @@ public class UserController : ControllerBase
 {
     [HttpPost]
     public async Task<ActionResult> CreateUser(
-        [FromServices] IUserService service,
+        [FromServices] IUserService service, [FromServices] IPermissionService permissionService,
         [FromBody] UserCreatePayload payload
     )
     {
+        permissionService.ValidatePermission();
+
         var result = await service.CreateUser(payload);
         return Created("/api/v1/users", result);
+    }
+
+    [HttpGet]
+    [Route("teachers")]
+    public async Task<ActionResult> GetTeachers(
+        [FromServices] IUserService service
+    )
+    {
+        var result = await service.GetTeachers();
+        return Ok(new { data = result });
     }
 
     [HttpPatch]
@@ -35,10 +47,12 @@ public class UserController : ControllerBase
     [HttpDelete]
     [Route("{id}")]
     public async Task<IActionResult> DeleteUser(
-        [FromServices] IUserService service,
+        [FromServices] IUserService service, [FromServices] IPermissionService permissionService,
         int id
     )
     {
+        permissionService.ValidatePermission();
+
         await service.DeleteUser(id);
         return NoContent();
     }
