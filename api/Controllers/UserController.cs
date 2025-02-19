@@ -24,13 +24,13 @@ public class UserController : ControllerBase
     }
     [HttpPost]
     [Route("byClass/{id}")]
-
     public async Task<ActionResult> AddStudentByClass(
         [FromServices] IUserService service,
         [FromBody] UserCreatePayload payload,
-        int idClass
+        int id
     ){
-        var result = service.CreateUserByClass(payload, idClass);
+        System.Console.WriteLine(id);
+        var result = await service.CreateUserByClass(payload, id);
         return Ok(result);
     }
 

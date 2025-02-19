@@ -52,9 +52,29 @@ select * from [course]
 select * from [student]
 insert student values (null, null, 1, 1, 1)
 
-update course set is_active = 1
 
-select * from occupation_area
+select * from [class] 
+select * from [user] as u left join student as s on u.id = s.user_id
 
-insert into occupation_area values ('mecanica')
+select sr.* from [skill_result] as sr
+    join [student] as s
+        on sr.student_id = s.id
+    join [user] as u 
+        on s.user_id = u.id
+        where u.id = 3
 
+insert into occupation_area values ('mecanica',1)
+select * from position
+select * from student
+
+select * from [user]
+select * from [student]
+
+update [student] set is_active = 0 where id = 5;
+update [user] set is_active = 0 where id = 5;
+
+delete [user] where id = 8
+delete [student] where user_id = 8
+
+
+insert into student values (75,75,1,5, 1)
