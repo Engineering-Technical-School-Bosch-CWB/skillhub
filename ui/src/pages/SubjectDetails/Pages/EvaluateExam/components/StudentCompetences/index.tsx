@@ -253,7 +253,7 @@ export default function StudentCompetences({ results, setResults }: IStudentSkil
                                 </section>
                                 <SelectCompentece
                                     selectOpened={selectOpen && selectedCompetenceIndex == cIndex}
-                                    setSelectOpened={setSelectOpen}
+                                    setSelectOpened={(e) => {setSelectOpen(e);setSelectedCompetenceIndex(cIndex)}}
                                     value={item.aptitude}
                                     change={(value?: EAptitude) => {
                                         handleChange(

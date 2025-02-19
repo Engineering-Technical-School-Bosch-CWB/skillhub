@@ -20,6 +20,9 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import SectionHeader from "@/components/SectionHeader";
 import Progress from "@/components/Progress";
+import Button from "@/components/Button";
+import Icon from "@/components/Icon";
+import UpdateProfileModal from "../UserProfile/components/UpdateProfileModal";
 
 const ClassDetails = () => {
 
@@ -44,6 +47,8 @@ const ClassDetails = () => {
     const [rankingData, setRankingData] = useState<StudentSubject[]>([]);
     const [subjectsData, setSubjectsData] = useState([]);
     const [subjectAreaData, setSubjectAreaData] = useState<ContentAreaChartValues[]>([]);
+
+    const [addStudentModal, setAddStudentModal] = useState<boolean>(false);
 
     const getData = async () => {
         const params = new URLSearchParams();
@@ -189,8 +194,24 @@ const ClassDetails = () => {
                         }
                     </div>
                     <br />
+                    <div className={`${styles.align}`}>
+                        <Button 
+                            variant="primary_label_icon"
+                            onClick={() => setAddStudentModal(true)}
+                        >
+                                Add Student <Icon name="add" size="md" />
+                        </Button>
+                    </div>
                     <br />
                     <br />
+                    <UpdateProfileModal 
+                        handleClose={() => setAddStudentModal(false)} 
+                        isCurrentUser={false}
+                        open={addStudentModal}
+                        title="Add New Student"
+                        subtitle={className}
+                        byClassId={classId}
+                    />
                 </section>
             </main>
         </div>

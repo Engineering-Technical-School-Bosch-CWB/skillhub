@@ -19,10 +19,11 @@ import { IServiceResponse } from "@/interfaces/services.interfaces";
 
 export interface IUpdateProfileModalProps extends IModalProps {
     id?: number,
-    isCurrentUser: boolean
+    isCurrentUser: boolean,
+    byClassId?: string
 }
 
-export default ({title, handleClose, open, isCurrentUser}: IUpdateProfileModalProps) => {
+export default ({title, handleClose, open, isCurrentUser, subtitle, byClassId}: IUpdateProfileModalProps) => {
     const _location = useLocation();
     const queryParams = new URLSearchParams(_location.search);
     const id = queryParams.get("userId");
@@ -66,6 +67,8 @@ export default ({title, handleClose, open, isCurrentUser}: IUpdateProfileModalPr
         var response : IServiceResponse<any>;
         if(id)
             response = await internalAPI.jsonRequest(`/users/${id}`,"PATCH", undefined, updatedData);
+        else if (byClassId)
+            response = await internalAPI.jsonRequest(`/users/byClass/${byClassId}`,"POST", undefined, userData);
         else
             response = await internalAPI.jsonRequest(`/users/`,"POST", undefined, userData);
 
@@ -144,7 +147,7 @@ export default ({title, handleClose, open, isCurrentUser}: IUpdateProfileModalPr
     }, [userData])
 
     return (
-        <Modal title={title} handleClose={handleClose} open={open}>
+        <Modal title={title} subtitle={subtitle} handleClose={handleClose} open={open}>
             <div className={styles.modal_content}>
                 <section className={`${styles.dual_input} ${styles.input_2_3}`}>
                     <Input label="Name" value={userData.name} onChange={(e) => changeValue("name", e.target.value)} disabled={isUpdatePassword}/>

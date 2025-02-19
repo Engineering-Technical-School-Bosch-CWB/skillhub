@@ -10,6 +10,7 @@ export interface IModalProps {
     children?: ReactNode;
     maxWidth?: "xs" | "sm" | "md" | "lg" | "xl";
     title: string;
+    subtitle?: string
 }
 
 /**
@@ -57,7 +58,8 @@ const Modal = ({
     open,
     handleClose,
     maxWidth = "md",
-    title 
+    title ,
+    subtitle
 }:IModalProps) => {
 
     const handleModalClick:MouseEventHandler = (e) => {
@@ -74,7 +76,13 @@ const Modal = ({
                 onClick={handleModalClick}
             >
                 <div className={styled.header}>
-                    <Text fontWeight="bold" fontSize="xl">{ title }</Text>
+                    <section className={styled.header_title}>
+                        <Text fontWeight="bold" fontSize="xl">{ title }</Text>
+                        {
+                            subtitle &&
+                            <Text fontSize="md">{ subtitle }</Text>
+                        }
+                    </section>
                     <div onClick={handleClose} className={styled.close}><Icon name="close" size="md"/></div>
                 </div>
                 <Divider size="small"/>

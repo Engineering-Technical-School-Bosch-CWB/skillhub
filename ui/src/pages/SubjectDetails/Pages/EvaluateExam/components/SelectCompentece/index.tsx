@@ -10,9 +10,10 @@ export interface ISelectCompetenceProps {
     selected: boolean
     selectOpened: boolean 
     setSelectOpened: (value: boolean) => void,
+    onClick?: () => void,
 }
 
-export default ({ value, change, selected, selectOpened, setSelectOpened }: ISelectCompetenceProps) => {
+export default ({ value, change, selected, selectOpened, setSelectOpened, onClick }: ISelectCompetenceProps) => {
 
     const [selectCursor, setSelectCursor] = useState<number>(0);
     const [aptitudes, setAptitudes] = useState<EAptitude[]>(Object.values(EAptitude));
@@ -24,8 +25,6 @@ export default ({ value, change, selected, selectOpened, setSelectOpened }: ISel
     }, [value, aptitudes])
 
     useEffect(() =>{
-        console.log(selectOpened? "opened": "closed");
-        
         if(selectOpened)
             divRef.current?.focus();
     }, [selectOpened])
@@ -36,8 +35,6 @@ export default ({ value, change, selected, selectOpened, setSelectOpened }: ISel
     }
 
     function handleKeyDownSelect(event: React.KeyboardEvent<HTMLDivElement>) {
-        console.log(event);
-        
         switch (event.key) {
             case "ArrowDown":
                 // mover para próxima opção do select, se quiser
@@ -69,7 +66,6 @@ export default ({ value, change, selected, selectOpened, setSelectOpened }: ISel
                         tabIndex={0}
                         className={`${styles.select_container}`}
                         onKeyDown={(key) => handleKeyDownSelect(key)}
-                        onFocus={() => console.log("focused")}
                     >
                         {avaliableAptitudes.map((aptitude, index) =>
                             (

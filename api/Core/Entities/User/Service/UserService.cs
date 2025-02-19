@@ -13,13 +13,16 @@ namespace Api.Core.Services;
 
 public class UserService(BaseRepository<User> repository, IPositionRepository positionRepository,
     ISectorRepository sectorRepository, IOccupationAreaRepository areaRepository, IStudentService studentService,
-    PasswordHasher<User> hasher, IPaginationService paginationService) : BaseService<User>(repository), IUserService
+    PasswordHasher<User> hasher, IPaginationService paginationService, IClassRepository classRepository,
+    IStudentRepository studentRepository
+    )   : BaseService<User>(repository), IUserService
 {
     private readonly BaseRepository<User> _repo = repository;
     private readonly IPositionRepository _positionRepo = positionRepository;
     private readonly ISectorRepository _sectorRepo = sectorRepository;
     private readonly IOccupationAreaRepository _areaRepo = areaRepository;
-
+    private readonly IClassRepository _classRepo = classRepository;
+    private readonly IStudentRepository _studentRepo = studentRepository;
     private readonly PasswordHasher<User> _hasher = hasher;
     private readonly IPaginationService _pagService = paginationService;
     private readonly IStudentService _studentservice = studentService;
@@ -67,6 +70,59 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
             ?? throw new UpsertFailException("User could not be inserted!");
         await _repo.SaveAsync();
 
+        return new AppResponse<UserDTO>(
+            UserDTO.Map(savedUser),
+            "User created successfully!"
+        );
+    }
+
+    public async Task<AppResponse<UserDTO>> CreateUserByClass(UserCreatePayload payload, int idClass)
+    {
+        var _class = await _classRepo.Get().SingleOrDefaultAsync(crrClass => crrClass.Id == idClass )
+            ?? throw new NotFoundException("Class not Found!");
+
+        var userIfExists = await repository.Get().SingleOrDefaultAsync(u => u.Identification == payload.Identification);
+        if(userIfExists is not null)
+            throw new AlreadyExistsException("EDV already in use!");
+
+        var position = await _positionRepo.Get()
+            .Where(p => p.IsActive)
+            .SingleOrDefaultAsync(p => p.Id == payload.PositionId)
+            ?? throw new NotFoundException("Position not found!");
+
+        var sector = await _sectorRepo.Get()
+            .Where(s => s.IsActive)
+            .SingleOrDefaultAsync(s => s.Id == payload.SectorId)
+            ?? throw new NotFoundException("Sector not found!");
+
+        var area = await _areaRepo.Get()
+            .Where(a => a.IsActive)
+            .SingleOrDefaultAsync(a => a.Id == payload.OccupationAreaId)
+            ?? throw new NotFoundException("Area not found");
+        
+        var newUser = new User()
+        {
+            Name = payload.Name,
+            Identification = payload.Identification,
+            Hash = payload.Identification,
+            IsActive = true,
+            Position = position,
+            Sector = sector,
+            OccupationArea = area
+        };
+
+        newUser.Hash = _hasher.HashPassword(newUser, newUser.Hash);
+
+        var savedUser = _repo.Add(newUser)
+            ?? throw new UpsertFailException("User could not be inserted!");
+        await _repo.SaveAsync();
+
+        var savedStudent = _studentRepo.Add(new (){
+            Class = _class,
+            User = savedUser
+        }) ?? throw new UpsertFailException("User could not be inserted!");
+
+        await _studentRepo.SaveAsync();
         return new AppResponse<UserDTO>(
             UserDTO.Map(savedUser),
             "User created successfully!"
