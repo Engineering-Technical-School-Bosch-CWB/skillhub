@@ -136,6 +136,7 @@ public class SubjectService(BaseRepository<Subject> repository, IUserRepository 
     {
         var subject = await _repo.Get()
             .Where(s => s.IsActive)
+            .Include(s => s.Instructor)
             .Include(s => s.CurricularUnit)
             .Include(s => s.Class.Students)
             .Include(s => s.Exams.Where(e => e.IsActive))

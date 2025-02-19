@@ -50,7 +50,7 @@ const InputDate = forwardRef<HTMLInputElement, IInputDateProps>(
                 error={error}
                 ref={ref}
                 format="DD/MM/YYYY"
-                value={getDefaultValue()}
+                value={value ? getDefaultValue() : undefined}
                 onChange={(value) => handleSetValue(value)}
             />
         </InputContainer>
@@ -65,7 +65,13 @@ const SInput = styled(DatePicker)<{ error?: boolean }>(({ error }) => ({
         height: "100%",
         borderRadius: 0,
         border: error ? "var(--danger-border)" : "",
+    },
+
+    ".css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input": {
+        display: "flex",
+        alignItems: "center"
     }
+    
 }))
 
 export default InputDate

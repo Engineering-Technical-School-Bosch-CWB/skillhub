@@ -10,5 +10,7 @@ public interface IExamService : IService<Exam>
     public IEnumerable<ExamSkillDTO> GetExamSkills(int id);
     public Task<ExamResultsDTO> GetClassResults(int id);
 
+    public Task<AppResponse<EvaluateExamDTO>> GetExamEvaluationPage(int examId);
+    public Task<AppResponse<ExamSkillsDTO>> GetCreateExamPage(int curricularUnitId);
     
 }

@@ -10,14 +10,12 @@ namespace Api.Core.Services;
 
 public class StudentService(
     BaseRepository<Student> repository, IUserRepository userRepository, ISubjectRepository subjectRepository, ISkillService skillService,
-    IClassRepository classRepository, ISkillResultRepository skillResultRepository, IFeedbackRepository feedbackRepository,
-    IExamRepository examRepository, IStudentResultRepository studentResultRepository
+    IClassRepository classRepository, ISkillResultRepository skillResultRepository, IFeedbackRepository feedbackRepository, IStudentResultRepository studentResultRepository
 ) : BaseService<Student>(repository), IStudentService
 
 {
     private readonly BaseRepository<Student> _repo = repository;
     private readonly IClassRepository _classRepo = classRepository;
-    private readonly IExamRepository _examRepo = examRepository;
     private readonly IFeedbackRepository _feedbackRepo = feedbackRepository;
     private readonly ISkillResultRepository _skillResultRepo = skillResultRepository;
     private readonly ISubjectRepository _subjectRepo = subjectRepository;

@@ -8,5 +8,5 @@ public interface ISkillResultService : IService<SkillResult>
     public Task<AppResponse<CompleteSkillResultDTO>> GetSkillResultBySkill(int skillId, int studentId);
     public Task<AppResponse<IEnumerable<SkillResult>>> EvaluateExam(int examId, IEnumerable<StudentEvaluatePayload> payload);
     public Task<AppResponse<SkillHistoryResponse>> GetSkillResultHistory(int studentId, int skillId);
-    public Task<AppResponse<EvaluateExamDTO>> GetExamEvaluationPage(int examId);
+    
 }

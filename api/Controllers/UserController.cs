@@ -2,8 +2,10 @@ using Api.Core.Errors;
 using Api.Core.Services;
 using Api.Domain.Enums;
 using Api.Domain.Models;
+using Api.Domain.Repositories;
 using Api.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api.Controllers;
 
@@ -26,10 +28,20 @@ public class UserController : ControllerBase
     [HttpGet]
     [Route("teachers")]
     public async Task<ActionResult> GetTeachers(
-        [FromServices] IUserService service
+        [FromServices] IUserService service, [FromServices] IPermissionService permissionService,
+        ISubjectRepository subjectRepository, [FromQuery] int? subjectId
     )
     {
-        var result = await service.GetTeachers();
+        permissionService.ValidatePermission();
+
+        var subject = subjectId.HasValue
+            ? await subjectRepository.Get()
+                .Where(s => s.IsActive && s.Id == subjectId.Value)
+                .Include(s => s.Instructor)
+                .SingleOrDefaultAsync() ?? throw new NotFoundException("Subject not found!")
+            : null;
+
+        var result = await service.GetTeachers(subject?.Instructor);
         return Ok(new { data = result });
     }
 

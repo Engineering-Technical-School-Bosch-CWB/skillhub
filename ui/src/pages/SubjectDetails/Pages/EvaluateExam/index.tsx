@@ -10,9 +10,12 @@ import internalAPI from "@/service/internal.services";
 import { useEffect, useState } from "react";
 import { ISubject } from "@/interfaces/models/ISubject";
 import { IExam } from "@/interfaces/models/IExam";
+import Progress from "@/components/Progress";
 
 
 export default () => {
+
+    const [loading, setLoading] = useState(true);
 
     const { classId, subjectId, examId } = useParams();
 
@@ -22,17 +25,27 @@ export default () => {
     const [studentResults, setStudentResults] = useState<IStudentResults[]>();
 
     const getData = async () => {
-        const response = await internalAPI.jsonRequest(`/skillResults/exam/${examId}`, "GET");
+        const response = await internalAPI.jsonRequest(`/exams/${examId}`, "GET");
         const content = response.data;
 
         setExam(content.exam);
         setSubject(content.subject);
         setStudentResults(content.students);
+
+        setLoading(false);
     }
 
     useEffect(() => {
         getData();
     }, [examId])
+
+    if (loading)
+        return (
+            <>
+                <Header />
+                <Progress />
+            </>
+        )
 
 
     return (

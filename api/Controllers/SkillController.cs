@@ -34,16 +34,16 @@ public class SkillController : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet]
-    [Route("curricularUnit/{curricularUnitId}")]
-    public async Task<ActionResult> GetByCurricularUnit(
-        [FromServices] ISkillService service,
-        int curricularUnitId
-    )
-    {
-        var result = await service.GetCreateExamPage(curricularUnitId);
-        return Ok(result);
-    }
+    // [HttpGet]
+    // [Route("curricularUnit/{curricularUnitId}")]
+    // public async Task<ActionResult> GetByCurricularUnit(
+    //     [FromServices] ISkillService service,
+    //     int curricularUnitId
+    // )
+    // {
+    //     var result = await service.GetByCurricularUnit(curricularUnitId);
+    //     return Ok(result);
+    // }
 
     [HttpPatch]
     [Route("{id}")]
@@ -72,15 +72,4 @@ public class SkillController : ControllerBase
         return NoContent();
     }
 
-    [HttpGet]
-    [Route("createExam/{subjectId}")]
-    public async Task<ActionResult> GetCreateExamPage(
-        [FromServices] ISkillService service, [FromServices] IPermissionService permissionService, UserContext userContext, int subjectId
-    )
-    {
-        permissionService.ValidatePermission();
-
-        var result = await service.GetCreateExamPage(subjectId);
-        return Ok(result);
-    }
 }

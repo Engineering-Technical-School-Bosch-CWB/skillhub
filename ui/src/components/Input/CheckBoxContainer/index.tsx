@@ -3,12 +3,13 @@ import { ReactNode } from "react"
 import styles from './styles.module.css'
 
 export interface ICheckBoxContainerProps {
-    label: string,
-    error?: boolean,
-    helperText?: string,
-    children?: ReactNode,
-    id?: string,
+    label: string
+    error?: boolean
+    helperText?: string
+    children?: ReactNode
+    id?: string
     className?: string
+    width?: string | number
 }
 
 export default ({
@@ -18,9 +19,10 @@ export default ({
     children,
     id,
     className,
+    width
 }: ICheckBoxContainerProps) => {
     return (
-        <div className={`${styles.checkbox_container} ${error ? styles.error : ""} ${styles[className ?? ""]}`}>
+        <div className={`${styles.checkbox_container} ${error ? styles.error : ""} ${styles[className ?? ""]}`} style={{ width: width || "100%" }} >
 
             {children}
             {
