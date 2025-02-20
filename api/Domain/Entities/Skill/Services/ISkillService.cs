@@ -10,4 +10,6 @@ public interface ISkillService : IService<Skill>
     public Task DeleteSkill(int id);
     public Task<AppResponse<SkillDTO>> GetSkill(int id);
     public double? GetSkillAverageByClass(int skillId, int classId);
+    public Task<PaginatedAppResponse<SkillDTO>> GetByCurricularUnit(PaginationQuery pagination, int id);
+
 }

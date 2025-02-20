@@ -9,13 +9,15 @@ using Api.Domain.Enums;
 
 namespace Api.Core.Services;
 public class SkillService(BaseRepository<Skill> repository, ICurricularUnitRepository curricularUnitRepository,
-    ISubjectRepository subjectRepository, IUserRepository userRepository, ISkillResultRepository skillResultRepository
-    ) : BaseService<Skill>(repository), ISkillService
+    ISubjectRepository subjectRepository, IUserRepository userRepository, ISkillResultRepository skillResultRepository,
+    IPaginationService paginationService
+        ) : BaseService<Skill>(repository), ISkillService
 {
     private readonly BaseRepository<Skill> _repo = repository;
     private readonly ICurricularUnitRepository _curricularUnitRepo = curricularUnitRepository;
     private readonly ISubjectRepository _subjectRepo = subjectRepository;
     private readonly IUserRepository _userRepo = userRepository;
+    private readonly IPaginationService _pageService = paginationService;
     private readonly ISkillResultRepository _skillResultRepo = skillResultRepository;
 
 
@@ -73,6 +75,31 @@ public class SkillService(BaseRepository<Skill> repository, ICurricularUnitRepos
             "Skill found!"
         );
     }
+
+    public async Task<PaginatedAppResponse<SkillDTO>> GetByCurricularUnit(PaginationQuery pagination, int id)
+    {
+        var curricularUnit = await _curricularUnitRepo.Get()
+            .SingleOrDefaultAsync(c => c.Id == id && c.IsActive)
+                ?? throw new NotFoundException("Curricular Unit Not found!");
+        
+        var skills = repository.Get()
+            .Where(skill => skill.IsActive == true)
+            .Where(skill => skill.CurricularUnit.Id == id  );
+
+        var result = await _pageService.PaginateAsync(
+            skills,
+            pagination.ToOptions()
+        );
+
+        var maped = result.Item1.Select(_e => SkillDTO.Map(_e)).ToList();
+
+        return new PaginatedAppResponse<SkillDTO>(
+            maped,
+            result.Item2,
+            "Skills found!"
+        );
+    }
+
 
     public async Task<AppResponse<SkillDTO>> UpdateSkill(int id, SkillUpdatePayload payload)
     {

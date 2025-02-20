@@ -33,4 +33,18 @@ export class CurricularUnit implements ICurricularUnit, IConvertToTable {
         }
     };
 
+
+    static getDefault = (): CurricularUnit => {
+        return new CurricularUnit({
+            courseId: 0,
+            name: "",
+            subjectArea: {
+                name: "",
+                id: 0,
+                performance: 0
+            },
+            subjectAreaId: 0,
+            id: 0
+        })
+    }
 }

@@ -34,16 +34,17 @@ public class SkillController : ControllerBase
         return Ok(result);
     }
 
-    // [HttpGet]
-    // [Route("curricularUnit/{curricularUnitId}")]
-    // public async Task<ActionResult> GetByCurricularUnit(
-    //     [FromServices] ISkillService service,
-    //     int curricularUnitId
-    // )
-    // {
-    //     var result = await service.GetByCurricularUnit(curricularUnitId);
-    //     return Ok(result);
-    // }
+    [HttpGet]
+    [Route("curricularUnit/{curricularUnitId}")]
+    public async Task<ActionResult> GetByCurricularUnit(
+        [FromQuery] PaginationQuery pagination,
+        [FromServices] ISkillService service,
+        int curricularUnitId
+    )
+    {
+        var result = await service.GetByCurricularUnit(pagination, curricularUnitId);
+        return Ok(result);
+    }
 
     [HttpPatch]
     [Route("{id}")]

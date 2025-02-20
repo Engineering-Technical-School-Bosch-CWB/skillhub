@@ -1,5 +1,5 @@
 import { AccessLevel } from "../../enums/AccessLevel";
-import CurricularUnitOverview from "../../pages/CurricularUnitOverview";
+import CurricularUnitOverview from "../../pages/CurricularUnits/Pages/CurricularUnitOverview";
 import { IAccessRoutes } from "../../interfaces/routes.interfaces";
 import { RouteMap } from "../map";
 import ClassesOverview from "../../pages/ClassesOverview";
@@ -12,6 +12,7 @@ import UserProfile from "@/pages/UserProfile";
 import CreateExam from "@/pages/CreateExam";
 import EvaluateExam from "../../pages/SubjectDetails/Pages/EvaluateExam";
 import UsersProperties from "@/pages/UsersProperties";
+import CurricularUnits from "@/pages/CurricularUnits";
 
 export default {
     accessLevel: AccessLevel.TEACHER,
@@ -20,12 +21,6 @@ export default {
             path: RouteMap.SCHOOL_CONTENT,
             title: "School Content",
             element: <SchoolContent/>,
-            children: [
-                {
-                    path: RouteMap.CURRICULAR_UNITY_BY_ID,
-                    element: <CurricularUnitOverview/>
-                }
-            ]
         },
         {
             path: RouteMap.CLASSES,
@@ -64,14 +59,14 @@ export default {
         {
             path: RouteMap.EVALUATE_EXAM,
             element: <EvaluateExam />
+        },
+        {
+            path: RouteMap.CURRICULAR_UNITS,
+            element: <CurricularUnits />
+        },
+        {
+            path: RouteMap.CURRICULAR_UNITY_BY_ID,
+            element: <CurricularUnitOverview/>
         }
-        // {
-        //     path: RouteMap.NEW_SUBJECT_TEST,
-        //     element: <NewTest />
-        // },
-        // {
-        //     path: RouteMap.AVALIATION_RESULT,
-        //     element: <AvaliationResult />
-        // },
     ]
 } as IAccessRoutes
