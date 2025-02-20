@@ -123,9 +123,9 @@ export default () => {
                 <SectionHeader {...sectionHeaderProps} /> 
                 <section className={styles.table_header}>
                 <Text fontSize="xl2" fontWeight="bold">{data.name}</Text>
-                    <Button variant="secondary_icon" onClick={() => onSkillEditToggle()}>
-                        <Icon name="add" size="md"/>
-                    </Button>
+                <Button variant="secondary_icon" onClick={() => onSkillEditToggle()}>
+                    <Icon name="add" size="md"/>
+                </Button>
                 </section>
                 {/* <TableView data={skills} hasNotation={true} hasOptions={true} options={options} /> */}
                 <table>
