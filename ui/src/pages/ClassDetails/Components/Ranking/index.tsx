@@ -28,10 +28,6 @@ export default ({ data, onClick }: RankingChartProps) => {
     useEffect(() => {
         data = data.sort((e, d) => d.performance! - e.performance!)
     },[])
-    useEffect(() => {
-        // console.log(data);
-        
-    },[data])
 
     return (
         <div className={`${styles.ranking_container} ${styles.align} ${styles}`}>

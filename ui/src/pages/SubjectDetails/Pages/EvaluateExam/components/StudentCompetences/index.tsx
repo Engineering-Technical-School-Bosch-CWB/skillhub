@@ -103,30 +103,9 @@ export default function StudentCompetences({ results, setResults }: IStudentSkil
         navigate(`/classes/${classId}/subject/${subjectId}`, { replace: true });
     }
 
-    function handleKeyDownSelect(event: React.KeyboardEvent<HTMLDivElement>) {
-        switch (event.key) {
-            case "ArrowDown":
-                // mover para próxima opção do select, se quiser
-                // setSelectCursor(selectCursor <= 2 ? selectCursor + 1 : selectCursor)
-                break;
-            case "ArrowUp":
-                // mover para a opção anterior do select
-                // setSelectCursor(selectCursor > 0 ? selectCursor - 1 : selectCursor)
-                break;
-            case "Enter":
-                setSelectOpen(false);
-                break;
-            case "Escape":
-                setSelectOpen(false);
-                break;
-            default:
-                break;
-        }
-    }
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
         if (selectOpen) {
-            handleKeyDownSelect(event);
             return;
         }
 
