@@ -45,7 +45,7 @@ const UserProfile = () => {
 
     const [radarData, setRadarData] = useState<IRadarProps[]>([]);
     const [barData, setBarData] = useState<IBarProps[]>([]);
-    const [editModal, setEditModal] = useState(true);
+    const [editModal, setEditModal] = useState(false);
 
     const [searchParams] = useSearchParams();
 

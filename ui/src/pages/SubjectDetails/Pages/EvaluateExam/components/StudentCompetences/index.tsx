@@ -103,26 +103,9 @@ export default function StudentCompetences({ results, setResults }: IStudentSkil
         navigate(`/classes/${classId}/subject/${subjectId}`, { replace: true });
     }
 
-    function handleKeyDownSelect(event: React.KeyboardEvent<HTMLDivElement>) {
-        switch (event.key) {
-            case "ArrowDown":
-                break;
-            case "ArrowUp":
-                break;
-            case "Enter":
-                setSelectOpen(false);
-                break;
-            case "Escape":
-                setSelectOpen(false);
-                break;
-            default:
-                break;
-        }
-    }
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
         if (selectOpen) {
-            handleKeyDownSelect(event);
             return;
         }
 
@@ -187,8 +170,13 @@ export default function StudentCompetences({ results, setResults }: IStudentSkil
     }, [focusArea, selectedStudentIndex, selectedCompetenceIndex]);
 
     useEffect(() => {
-        // containerRef.current?.focus();
-    }, []);
+        containerRef.current?.focus(); // Foca no contêiner após a rolagem
+    }, [])
+
+    useEffect(() => {
+        if(!selectOpen)
+            containerRef.current?.focus(); // Foca no contêiner após a rolagem
+    }, [selectOpen]);
 
     return (
         <>
@@ -196,6 +184,7 @@ export default function StudentCompetences({ results, setResults }: IStudentSkil
                 tabIndex={0}
                 ref={containerRef}
                 onKeyDown={handleKeyDown}
+                autoFocus={true}
                 className={`${styles.align} ${styles.result_container}`}
             >
                 <div className={`${styles.student_list_container} ${styles.align}`}>
@@ -232,6 +221,8 @@ export default function StudentCompetences({ results, setResults }: IStudentSkil
                                     <Text>{item.description}</Text>
                                 </section>
                                 <SelectCompentece
+                                    selectOpened={selectOpen && selectedCompetenceIndex == cIndex}
+                                    setSelectOpened={(e) => {setSelectOpen(e);setSelectedCompetenceIndex(cIndex)}}
                                     value={item.aptitude}
                                     change={(value?: EAptitude) => {
                                         handleChange(

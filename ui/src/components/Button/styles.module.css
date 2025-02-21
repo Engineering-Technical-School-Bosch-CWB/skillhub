@@ -18,6 +18,15 @@
 
     color: var(--gray-0);
 }
+.primary_label_icon {
+    background-color: var(--primary-main);
+    border: 1px solid var(--primary-main);
+    display: flex;
+    gap: .75rem;
+    align-items: center;
+    color: var(--gray-0);
+}
+
 .contained:hover {
     background-color: var(--primary-dark);
     border: 1px solid var(--primary-dark);

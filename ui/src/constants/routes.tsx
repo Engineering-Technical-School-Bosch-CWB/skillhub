@@ -8,7 +8,7 @@ import {CompleteRegistering} from "../pages/CompleteRegistering";
 import ContentOverview from "../pages/SchoolContent";
 import CreateAvaliation from "../pages/CreateExam";
 import CreateClass from "../pages/CreateClass";
-import CurricularUnitOverview from "../pages/CurricularUnitOverview";
+import CurricularUnitOverview from "../pages/CurricularUnits/Pages/CurricularUnitOverview";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 

@@ -24,6 +24,17 @@ public class UserController : ControllerBase
         var result = await service.CreateUser(payload);
         return Created("/api/v1/users", result);
     }
+    [HttpPost]
+    [Route("byClass/{id}")]
+    public async Task<ActionResult> AddStudentByClass(
+        [FromServices] IUserService service,
+        [FromBody] UserCreatePayload payload,
+        int id
+    ){
+        System.Console.WriteLine(id);
+        var result = await service.CreateUserByClass(payload, id);
+        return Ok(result);
+    }
 
     [HttpGet]
     [Route("teachers")]
