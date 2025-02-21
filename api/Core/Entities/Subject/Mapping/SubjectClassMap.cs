@@ -25,6 +25,10 @@ public class SubjectClassMap : IEntityTypeConfiguration<Subject>
             .HasForeignKey("curricular_unit_id")
             .HasPrincipalKey(cu => cu.Id);
 
+        builder.HasMany(s => s.Results)
+            .WithOne(s => s.Subject)
+            .HasPrincipalKey(s => s.Id);
+
         builder.HasOne(s => s.Class)
             .WithMany(c => c.Subjects)
             .HasForeignKey("class_id")

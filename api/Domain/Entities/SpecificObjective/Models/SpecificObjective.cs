@@ -2,7 +2,7 @@ using Genesis.Domain.Models;
 
 namespace Api.Domain.Models;
 
-public partial class SpecificObjectives : IEntity
+public partial class SpecificObjective : IEntity
 {
   public required Subject Subject { get; set; }
   public required string Identification { get; set; } = string.Empty;

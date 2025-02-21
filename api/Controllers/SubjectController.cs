@@ -23,13 +23,25 @@ public class SubjectController : ControllerBase
         var result = await service.CreateSubject(payload);
         return Created("api/v1/subjects", result);
     }
+
+    [HttpPatch]
+    [Route("{id}")]
+    public async Task<ActionResult> UpdateSubject(
+        [FromServices] ISubjectService service, [FromServices] IPermissionService permissionService,
+        [FromBody] SubjectUpdatePayload payload, int id
+    )
+    {
+        permissionService.ValidatePermission();
+
+        var result = await service.UpdateSubject(id, payload);
+        return Ok(result);
+    }
+
     [HttpPost]
     [Route("byClass/{id}")]
     public async Task<ActionResult> CreateSubjectByClass(
         [FromServices] ISubjectService service, [FromServices] IPermissionService permissionService,
-        [FromBody] IEnumerable<SubjectCreateByClassPayload> payload,
-        UserContext userContext,
-        int id
+        [FromBody] IEnumerable<SubjectCreateByClassPayload> payload, int id
     )
     {
         permissionService.ValidatePermission();
@@ -53,12 +65,12 @@ public class SubjectController : ControllerBase
     [HttpDelete]
     [Route("{id}")]
     public async Task<ActionResult> DeleteSubject(
-        [FromServices] ISubjectService service, [FromServices] IPermissionService permissionService, UserContext userContext, int id
+        [FromServices] ISubjectService service, [FromServices] IPermissionService permissionService, int id
     )
     {
         permissionService.ValidatePermission();
 
-        // await service.SeleteSubject(id);
+        await service.DeleteSubject(id);
         return NoContent();
     }
 

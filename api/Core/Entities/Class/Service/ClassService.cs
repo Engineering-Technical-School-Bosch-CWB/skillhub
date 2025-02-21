@@ -208,7 +208,7 @@ public class ClassService(
             .Select(s => SimpleStudentDTO.Map(s));
 
         var selectedSubjects = await _subjectRepo.Get()
-            .Where(s => s.Class.Id == id)
+            .Where(s => s.IsActive && s.Class.Id == id)
             .Where(s => !selectedCurricularUnitId.HasValue || s.CurricularUnit.Id == selectedCurricularUnitId.Value)
             .Where(s => !selectedSubjectAreaId.HasValue || s.CurricularUnit.SubjectArea.Id == selectedSubjectAreaId.Value)
             .ToListAsync();

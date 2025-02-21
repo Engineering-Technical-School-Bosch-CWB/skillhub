@@ -11,7 +11,7 @@ public partial class Subject : IEntity
   public bool IsActive { get; set; } = true;
   public User? Instructor { get; set; }
   public DateOnly? BeganAt { get; set; }
-  public ICollection<SpecificObjectives> SpecificObjectives { get; set; } = [];
+  public ICollection<SpecificObjective> SpecificObjectives { get; set; } = [];
   public ICollection<Post> Posts { get; set; } = [];
   public ICollection<Exam> Exams { get; set; } = [];
   public ICollection<StudentResult> Results { get; set; } = [];
