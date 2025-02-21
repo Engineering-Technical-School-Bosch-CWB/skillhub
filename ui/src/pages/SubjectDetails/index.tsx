@@ -56,7 +56,7 @@ const SubjectDetails = () => {
     });
 
     const [updateModalProps, setUpdateModalProps] = useState<IUpdateModalProps>({
-        isUpdateModalOpen: true
+        isUpdateModalOpen: false
     })
 
     const getData = async () => {
@@ -133,12 +133,13 @@ const SubjectDetails = () => {
                         <Text fontSize="xl2" fontWeight="bold">{subject?.curricularUnit + " - " + subject?.class}</Text>
                         <Text>
                             {
-                                (!(subject?.beganAt) ? "No initial date" : "Began at " + formatDate(subject.beganAt))
+                                (!(subject?.beganAt) ? "No initial date" : "Initial date: " + formatDate(subject.beganAt))
                                 + " | " +
                                 (!(subject?.durationHours) ? "No duration hours" : "Duration: " + subject.durationHours + "h") +
                                 (!(subject?.period) ? "" : " | " + subject.period + "° Period")
                             }
                         </Text>
+                        <Text fontSize="sm" fontWeight="bold">{!(subject?.instructorName) ? "No responsible instructor" : subject.instructorName}</Text>
                     </div>
                     <Button variant="primary_icon" onClick={() => setUpdateModalProps({isUpdateModalOpen: true})}><Icon name="settings" /></Button>
                 </section >
@@ -253,6 +254,7 @@ const SubjectDetails = () => {
                             isUpdateModalOpen: false
                         })}
                         subject={subject}
+                        setSubject={setSubject}
                     />
                 }
             </main>

@@ -15,8 +15,8 @@ export default ({ links }: ISectionHeaderProps) => {
                             <Text fontSize="sm">Home</Text>
                         </Link>
                 }
-                {links?.map(l => (
-                    <>
+                {links?.map((l, i) => (
+                    <div key={i} className={`${styles.div}`}>
                         <span className={`${styles.disabled}`}> </span>
                         <span className={`material-symbols-outlined ${styles.arrow} ${styles.disabled}`}>
                             arrow_forward_ios
@@ -33,7 +33,7 @@ export default ({ links }: ISectionHeaderProps) => {
                                     <Text fontSize="sm">{l.label}</Text>
                                 </Link>
                         }
-                    </>
+                    </div>
                 ))}
             </div>
 

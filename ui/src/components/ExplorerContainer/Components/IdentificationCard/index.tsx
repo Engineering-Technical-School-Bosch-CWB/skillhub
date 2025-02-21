@@ -20,8 +20,8 @@ const IdentificationCard = forwardRef<HTMLButtonElement, IIdentificationCardProp
             to={`${goTo}`}     
         >
             <section className={`${styles.align}`}>
-                <section className={`${styles.identificationCardMarker}`} style={{backgroundColor: color}}></section>
-                <section className={`${styles.cardContent}`}>
+                <section className={`${styles.identificationCardMarker} ${variant == "list" ? styles.identificationCardMarker_line : ""}`} style={{backgroundColor: color}}></section>
+                <section className={`${styles.cardContent} ${variant == "list" ? styles.cardContent_line : ""}`}>
                     <Text fontWeight="bold">{title}</Text>
                     <div className={`${styles.seccondLine} ${styles.align}`}>
                         <Text fontWeight="semibold" fontSize="xs">{subtitle}</Text>

@@ -183,8 +183,8 @@ const ClassDetails = () => {
 
                     <div className={`${styles.student_container} ${styles.align}`} >
                         {
-                            studentsData.map(e => (
-                                <StudentCard  {...e} />
+                            studentsData.map((e, i) => (
+                                <StudentCard key={i}  {...e} />
                             ))
                         }
                     </div>

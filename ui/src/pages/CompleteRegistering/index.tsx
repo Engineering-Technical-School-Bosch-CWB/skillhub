@@ -28,7 +28,6 @@ export const CompleteRegistering = () => {
                 password: data.password
 
             });
-            console.log(data.birthday)
 
             if (!response.success)
                 throw new Error(response.message);

@@ -19,21 +19,19 @@ export default ({ data, onClick }: RankingChartProps) => {
     return (
         <div className={`${styles.ranking_container} ${styles.align} ${styles}`}>
             {
-                data.map((s, index) => {
+                data.map((s, i) => {
                     const name = s.name!.split(' ')[0] + ' ' + s.name!.split(' ')[1][0].toUpperCase() + "."
                     return (
-                        <>
-                            <div className={`${styles.ranking_card} ${styles.align} ${getBgColor(s)}`} onClick={(e) => {
-                                e.stopPropagation();
-                                onClick(s.id)
-                            }} >
-                                <div className={`${styles.pos}`} >
-                                    <Text fontWeight="bold" fontSize="sm" >{`${index + 1}°`}</Text>
-                                    <Text fontWeight="bold" fontSize="sm" >{name}</Text>
-                                </div>
-                                <Text fontWeight="regular" fontSize="sm" >{`${s.performance == null ? "-" : s.performance + "%"}`}</Text>
+                        <div className={`${styles.ranking_card} ${styles.align} ${getBgColor(s)}`} onClick={(e) => {
+                            e.stopPropagation();
+                            onClick(s.id)
+                        }} key={i} >
+                            <div className={`${styles.pos}`} >
+                                <Text fontWeight="bold" fontSize="sm" >{`${i + 1}°`}</Text>
+                                <Text fontWeight="bold" fontSize="sm" >{name}</Text>
                             </div>
-                        </>
+                            <Text fontWeight="regular" fontSize="sm" >{`${s.performance == null ? "-" : s.performance + "%"}`}</Text>
+                        </div>
                     )
                 })
             }

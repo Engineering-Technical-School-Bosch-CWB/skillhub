@@ -10,7 +10,6 @@ import { toast } from "react-toastify"
 
 export default ({ isOpen, onClose, classId }: AddModalProps) => {
 
-
     const [content, setContent] = useState<ModalContentProps[]>([
         {
             id: 0,
@@ -65,8 +64,8 @@ export default ({ isOpen, onClose, classId }: AddModalProps) => {
                         <Text>Duration (h)</Text>
                     </div>
                     {
-                        content.map((e, _index: number) => (
-                            <SelectSubject onChange={(_e, f) => alterItem(_index, _e, f)} def={e} onDelete={() => deleteItem(_index)} />
+                        content.map((e, i: number) => (
+                            <SelectSubject key={i} onChange={(_e, f) => alterItem(i, _e, f)} def={e} onDelete={() => deleteItem(i)} />
                         ))
                     }
 
