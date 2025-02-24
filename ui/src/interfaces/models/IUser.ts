@@ -19,3 +19,30 @@ export default interface IUser extends IEntity {
         classId: number
     }
 }
+
+export class User implements IUser {
+    
+    constructor(data: IUser) {
+        Object.assign(this, data)
+    }
+
+    static getDefault = (): IUser => {
+        return new User({
+            birthday: new Date,
+            id: 0,
+            identification: "",
+            image: undefined,
+            name: "",
+            occupationArea: {
+                id: 0, name: ""
+            },
+            permissionLevel: 0,
+            position: {
+                id: 0, name: ""
+            },
+            sector: {
+                id: 0, name: ""
+            }
+        })
+    }
+}
