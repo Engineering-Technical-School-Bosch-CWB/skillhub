@@ -1,5 +1,5 @@
 import formatDate from "../../constants/formatDate"
-import styled from "./styles.module.css"
+import styles from "./styles.module.css"
 import getHex from "../../constants/getHex"
 import Header from "../../components/Header"
 import internalAPI from "../../service/internal.services"
@@ -15,8 +15,11 @@ import { IResult } from "../Login/interfaces"
 import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
 import SectionHeader from "@/components/SectionHeader"
+import Progress from "@/components/Progress"
 
 const AprenticesResults = () => {
+
+    const [loading, setLoading] = useState(true);
 
     const navigate = useNavigate();
 
@@ -55,28 +58,41 @@ const AprenticesResults = () => {
                 }))
         );
 
+        setLoading(false);
+
     }
 
     useEffect(() => {
         getData();
     }, [search])
 
+    if (loading)
+        return (
+            <>
+                <Header />
+                <Progress />
+            </>
+        )
+
+
     return (
         <div>
             <Header />
             <main>
-                <div className={styled.chart_section}>
+                <div className={styles.chart_section}>
                     <SectionHeader links={[{
                         label: "General Results",
                     }]} />
                     <Text variant="span" fontWeight="bold" fontSize="xl2">Results</Text>
-                    <div className={styled.chart_container}>
-                        <ExploitationBarChart data={barChartData} label={"Performance per Subject"} />
+                    <div className={styles.chart_container}>
+                        <div className={`${styles.chart}`}>
+                            <ExploitationBarChart data={barChartData} label={"Performance per Subject"} />
+                        </div>
                         <DoughnutChart title="Overall Performance" exploitation={overallPerformance == null ? 0 : Number(overallPerformance.toFixed(1))} />
                     </div>
                 </div>
                 <Divider size="big" />
-                <div className={styled.classes_section}>
+                <div className={styles.classes_section}>
                     <ExplorerContainer title={"Subjects"} data={cardsData} input={{
                         search: search,
                         onChange: (str: string) => setSearch(str)

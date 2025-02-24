@@ -13,24 +13,38 @@ public class SubjectController : ControllerBase
 {
     [HttpPost]
     public async Task<ActionResult> CreateSubject(
-        [FromServices] ISubjectService service,
+        [FromServices] ISubjectService service, [FromServices] IPermissionService permissionService,
         [FromBody] SubjectCreatePayload payload
     )
     {
+
+        permissionService.ValidatePermission();
+
         var result = await service.CreateSubject(payload);
         return Created("api/v1/subjects", result);
     }
+
+    [HttpPatch]
+    [Route("{id}")]
+    public async Task<ActionResult> UpdateSubject(
+        [FromServices] ISubjectService service, [FromServices] IPermissionService permissionService,
+        [FromBody] SubjectUpdatePayload payload, int id
+    )
+    {
+        permissionService.ValidatePermission();
+
+        var result = await service.UpdateSubject(id, payload);
+        return Ok(result);
+    }
+
     [HttpPost]
     [Route("byClass/{id}")]
     public async Task<ActionResult> CreateSubjectByClass(
-        [FromServices] ISubjectService service,
-        [FromBody] IEnumerable<SubjectCreateByClassPayload> payload,
-        UserContext userContext, 
-        int id
+        [FromServices] ISubjectService service, [FromServices] IPermissionService permissionService,
+        [FromBody] IEnumerable<SubjectCreateByClassPayload> payload, int id
     )
     {
-        if (userContext.PermissionLevel != EPermissionLevel.Admin)
-            throw new ForbiddenAccessException("User don't have permission to this service!");
+        permissionService.ValidatePermission();
 
         var result = await service.CreateSubjectsByClass(payload, id);
         return Created("api/v1/subjects", result);
@@ -39,15 +53,25 @@ public class SubjectController : ControllerBase
     [HttpGet]
     [Route("{id}")]
     public async Task<ActionResult> GetInstructorSubjectPage(
-        [FromServices] ISubjectService service,
-        UserContext userContext, int id
+        [FromServices] ISubjectService service, [FromServices] IPermissionService permissionService, int id
     )
     {
-        if (userContext.PermissionLevel != EPermissionLevel.Admin)
-            throw new ForbiddenAccessException("User don't have permission to this service!");
+        permissionService.ValidatePermission();
 
         var result = await service.GetInstructorPage(id);
         return Ok(result);
+    }
+
+    [HttpDelete]
+    [Route("{id}")]
+    public async Task<ActionResult> DeleteSubject(
+        [FromServices] ISubjectService service, [FromServices] IPermissionService permissionService, int id
+    )
+    {
+        permissionService.ValidatePermission();
+
+        await service.DeleteSubject(id);
+        return NoContent();
     }
 
     [HttpGet]

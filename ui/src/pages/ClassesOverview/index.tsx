@@ -7,8 +7,11 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import SectionHeader from "@/components/SectionHeader";
+import Progress from "@/components/Progress";
 
 const ClassesOverview = () => {
+
+    const [loading, setLoading] = useState(true);
 
     const navigate = useNavigate();
 
@@ -34,12 +37,23 @@ const ClassesOverview = () => {
             subtitle: c.startingYear,
             title: c.name,
             variant: "card"
-        })))
+        })));
+
+        setLoading(false);
     }
 
     useEffect(() => {
         getData();
     }, [search])
+
+    if (loading)
+        return (
+        <>
+            <Header />
+            <Progress />
+        </>
+    )
+
 
     return (
         <div>

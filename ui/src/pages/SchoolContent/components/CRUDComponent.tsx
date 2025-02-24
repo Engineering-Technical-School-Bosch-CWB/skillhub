@@ -114,8 +114,6 @@ export default ( {kind}: ICrudContainerProps ) => {
     }, [page, items])
 
     const changePage = (index: number) => {
-        console.log(index);
-        
         setPage(index);
     }
 

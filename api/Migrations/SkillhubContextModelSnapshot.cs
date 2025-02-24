@@ -509,7 +509,7 @@ namespace api.Migrations
                     b.ToTable("skill_result", (string)null);
                 });
 
-            modelBuilder.Entity("Api.Domain.Models.SpecificObjectives", b =>
+            modelBuilder.Entity("Api.Domain.Models.SpecificObjective", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -948,7 +948,7 @@ namespace api.Migrations
                     b.Navigation("Subject");
                 });
 
-            modelBuilder.Entity("Api.Domain.Models.SpecificObjectives", b =>
+            modelBuilder.Entity("Api.Domain.Models.SpecificObjective", b =>
                 {
                     b.HasOne("Api.Domain.Models.Subject", "Subject")
                         .WithMany("SpecificObjectives")

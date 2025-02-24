@@ -10,10 +10,12 @@ public class CurricularUnitController : ControllerBase
 {
     [HttpPost]
     public async Task<ActionResult> CreateCurricularUnit(
-        [FromServices] ICurricularUnitService service,
+        [FromServices] ICurricularUnitService service, [FromServices] IPermissionService permissionService,
         [FromBody] CurricularUnitCreatePayload payload
     )
     {
+        permissionService.ValidatePermission();
+
         var result = await service.CreateCurricularUnit(payload);
         return Created("/api/v1/curricularUnits", result);
     }
@@ -44,11 +46,13 @@ public class CurricularUnitController : ControllerBase
     [HttpPatch]
     [Route("{id}")]
     public async Task<IActionResult> UpdateCurricularUnit(
-        [FromServices] ICurricularUnitService service,
+        [FromServices] ICurricularUnitService service, [FromServices] IPermissionService permissionService,
         [FromBody] CurricularUnitUpdatePayload payload,
         int id
     )
     {
+        permissionService.ValidatePermission();
+
         var result = await service.UpdateCurricularUnit(id, payload);
         return Ok(result);
     }
@@ -56,10 +60,12 @@ public class CurricularUnitController : ControllerBase
     [HttpDelete]
     [Route("{id}")]
     public async Task<IActionResult> DeleteCurricularUnit(
-        [FromServices] ICurricularUnitService service,
+        [FromServices] ICurricularUnitService service, [FromServices] IPermissionService permissionService,
         int id
     )
     {
+        permissionService.ValidatePermission();
+
         await service.DeleteCurricularUnit(id);
         return NoContent();
     }

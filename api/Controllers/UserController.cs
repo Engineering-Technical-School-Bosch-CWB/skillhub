@@ -2,8 +2,10 @@ using Api.Core.Errors;
 using Api.Core.Services;
 using Api.Domain.Enums;
 using Api.Domain.Models;
+using Api.Domain.Repositories;
 using Api.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api.Controllers;
 
@@ -13,12 +15,45 @@ public class UserController : ControllerBase
 {
     [HttpPost]
     public async Task<ActionResult> CreateUser(
-        [FromServices] IUserService service,
+        [FromServices] IUserService service, [FromServices] IPermissionService permissionService,
         [FromBody] UserCreatePayload payload
     )
     {
+        permissionService.ValidatePermission();
+
         var result = await service.CreateUser(payload);
         return Created("/api/v1/users", result);
+    }
+    [HttpPost]
+    [Route("byClass/{id}")]
+    public async Task<ActionResult> AddStudentByClass(
+        [FromServices] IUserService service,
+        [FromBody] UserCreatePayload payload,
+        int id
+    ){
+        System.Console.WriteLine(id);
+        var result = await service.CreateUserByClass(payload, id);
+        return Ok(result);
+    }
+
+    [HttpGet]
+    [Route("teachers")]
+    public async Task<ActionResult> GetTeachers(
+        [FromServices] IUserService service, [FromServices] IPermissionService permissionService,
+        ISubjectRepository subjectRepository, [FromQuery] int? subjectId
+    )
+    {
+        permissionService.ValidatePermission();
+
+        var subject = subjectId.HasValue
+            ? await subjectRepository.Get()
+                .Where(s => s.IsActive && s.Id == subjectId.Value)
+                .Include(s => s.Instructor)
+                .SingleOrDefaultAsync() ?? throw new NotFoundException("Subject not found!")
+            : null;
+
+        var result = await service.GetTeachers(subject?.Instructor);
+        return Ok(new { data = result });
     }
 
     [HttpPatch]
@@ -35,10 +70,12 @@ public class UserController : ControllerBase
     [HttpDelete]
     [Route("{id}")]
     public async Task<IActionResult> DeleteUser(
-        [FromServices] IUserService service,
+        [FromServices] IUserService service, [FromServices] IPermissionService permissionService,
         int id
     )
     {
+        permissionService.ValidatePermission();
+
         await service.DeleteUser(id);
         return NoContent();
     }

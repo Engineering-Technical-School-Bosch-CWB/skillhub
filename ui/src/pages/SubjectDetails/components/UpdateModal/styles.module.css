@@ -1,0 +1,35 @@
+.inputs {
+    display: flex;
+    flex-direction: column;
+    gap: .8rem;
+}
+
+.section {
+    display: flex;
+
+    width: 100%;
+    justify-content: space-between;
+
+    gap: .8rem;
+}
+
+.bttns {
+    display: flex;
+
+    gap: .8rem;
+    width: 100%;
+    justify-content: flex-end;
+}
+
+
+.flex_start {
+    margin-right: auto;
+}
+
+.center {
+    display: flex;
+    width: 100%;
+
+    align-items: center;
+    justify-content: center;
+}

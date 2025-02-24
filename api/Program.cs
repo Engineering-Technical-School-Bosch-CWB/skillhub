@@ -18,8 +18,6 @@ public class Program
 {
     static void Main(string[] args)
     {
-        DotNetEnv.Env.Load("./.env");
-
         var builder = WebApplication.CreateBuilder(args);
 
         ConfigureServices(builder.Services, builder.Configuration);
@@ -55,10 +53,7 @@ public class Program
     {
         #region Database connection
 
-        var connectionString = configuration.GetConnectionString("SqlServer");
-        services.AddDbContext<SkillhubContext>(
-            options => options.UseSqlServer(connectionString)
-        );
+        services.ConfigureDatabase(configuration);
 
         #endregion
 
@@ -164,6 +159,8 @@ public class Program
         services.AddScoped<ISubjectAreaService, SubjectAreaService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IOccupationAreaService, OccupationAreaService>();
+
+        services.AddScoped<IPermissionService, PermissionService>();
 
         #endregion
 

@@ -58,9 +58,8 @@ export default function StudentCompetences({ results, setResults }: IStudentSkil
     }
 
     const handleSubmit = async () => {
-        const message = toast.loading("Saving exam evaluation...");
 
-        try {
+        const apiRequest = async () => {
             const response = await internalAPI.jsonRequest(
                 `/skillResults/exam/${examId}`,
                 "POST",
@@ -72,21 +71,25 @@ export default function StudentCompetences({ results, setResults }: IStudentSkil
                 throw new Error(response.message);
             }
 
+            return response.data;
+        }
+
+        const message = toast.loading("Saving exam evaluation...");
+        apiRequest().then(() => {
             toast.update(message, {
                 ...toastifyUpdate,
                 render: "Exam evaluated!",
                 type: "success"
             });
-
-            navigate(`/classes/${classId}/subject/${subjectId}`, { replace: true });
-        } catch (err: any) {
+        }).catch(err => {
             toast.update(message, {
                 ...toastifyUpdate,
                 render: err.message || "Something went wrong.",
                 type: "error",
-            });
-            console.error(err);
-        }
+            })
+        }).finally(() => {
+            navigate(`/classes/${classId}/subject/${subjectId}`, { replace: true });
+        })
     }
 
     const handleDelete = async () => {
@@ -100,52 +103,28 @@ export default function StudentCompetences({ results, setResults }: IStudentSkil
         navigate(`/classes/${classId}/subject/${subjectId}`, { replace: true });
     }
 
-    function handleKeyDownSelect(event: React.KeyboardEvent<HTMLDivElement>) {
-        switch (event.key) {
-            case "ArrowDown":
-                // mover para próxima opção do select, se quiser
-                break;
-            case "ArrowUp":
-                // mover para a opção anterior do select
-                break;
-            case "Enter":
-                // confirma a opção do select (você pode fazer a lógica de “confirmar” aqui ou lá no SelectCompentece)
-                setSelectOpen(false);
-                break;
-            case "Escape":
-                // fecha sem mudar
-                setSelectOpen(false);
-                break;
-            default:
-                break;
-        }
-    }
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-        // Se o select está aberto, desvia para handleKeyDownSelect
         if (selectOpen) {
-            handleKeyDownSelect(event);
             return;
         }
 
         switch (event.key) {
             case "ArrowLeft":
-                // Muda foco para a lista de alunos
                 if (focusArea === "competence") {
                     setFocusArea("student");
                 }
                 break;
             case "ArrowRight":
-                // Muda foco para a lista de competências
                 if (focusArea === "student") {
                     setFocusArea("competence");
+                    setSelectedCompetenceIndex(0);
                 }
                 break;
             case "ArrowUp":
                 if (focusArea === "student") {
                     setSelectedStudentIndex(prev => Math.max(0, prev - 1));
                 } else {
-                    // subindo a competência
                     setSelectedCompetenceIndex(prev => Math.max(0, prev - 1));
                 }
                 break;
@@ -153,10 +132,8 @@ export default function StudentCompetences({ results, setResults }: IStudentSkil
                 if (focusArea === "student") {
                     setSelectedStudentIndex(prev => Math.min(prev + 1, results.length - 1));
                 } else {
-                    // se estiver na última competência e der ArrowDown, pula para o próximo aluno
                     const maxComp = results[selectedStudentIndex].results.length - 1;
                     if (selectedCompetenceIndex === maxComp) {
-                        // só pula se não for o último aluno
                         if (selectedStudentIndex < results.length - 1) {
                             setSelectedStudentIndex(selectedStudentIndex + 1);
                             setSelectedCompetenceIndex(0);
@@ -167,14 +144,11 @@ export default function StudentCompetences({ results, setResults }: IStudentSkil
                 }
                 break;
             case "Enter":
-                // Ao pressionar Enter na área de competência, abre o dropdown
                 if (focusArea === "competence") {
                     setSelectOpen(true);
                 }
-                // Se estiver em "student", você pode decidir se quer alguma ação
                 break;
             default:
-                // CTRL + Enter => submeter
                 if (event.ctrlKey && event.key === "Enter") {
                     handleSubmit();
                 }
@@ -189,7 +163,6 @@ export default function StudentCompetences({ results, setResults }: IStudentSkil
                 block: "center",
             });
         } else {
-            // Foca a competência
             competenceRefs.current[selectedStudentIndex]?.[selectedCompetenceIndex]?.scrollIntoView({
                 behavior: "smooth",
                 block: "center",
@@ -198,8 +171,13 @@ export default function StudentCompetences({ results, setResults }: IStudentSkil
     }, [focusArea, selectedStudentIndex, selectedCompetenceIndex]);
 
     useEffect(() => {
-        // containerRef.current?.focus(); // Foca no contêiner após a rolagem
-    }, []);
+        containerRef.current?.focus();
+    }, [])
+
+    useEffect(() => {
+        if(!selectOpen)
+            containerRef.current?.focus();
+    }, [selectOpen]);
 
     return (
         <>
@@ -207,6 +185,7 @@ export default function StudentCompetences({ results, setResults }: IStudentSkil
                 tabIndex={0}
                 ref={containerRef}
                 onKeyDown={handleKeyDown}
+                autoFocus={true}
                 className={`${styles.align} ${styles.result_container}`}
             >
                 <div className={`${styles.student_list_container} ${styles.align}`}>
@@ -232,7 +211,6 @@ export default function StudentCompetences({ results, setResults }: IStudentSkil
                         <section
                             key={item.skillId}
                             ref={(el) => {
-                                // inicializa o array de arrays
                                 if (!competenceRefs.current[selectedStudentIndex]) {
                                     competenceRefs.current[selectedStudentIndex] = [];
                                 }
@@ -244,6 +222,8 @@ export default function StudentCompetences({ results, setResults }: IStudentSkil
                                     <Text>{item.description}</Text>
                                 </section>
                                 <SelectCompentece
+                                    selectOpened={selectOpen && selectedCompetenceIndex == cIndex}
+                                    setSelectOpened={(e) => {setSelectOpen(e);setSelectedCompetenceIndex(cIndex)}}
                                     value={item.aptitude}
                                     change={(value?: EAptitude) => {
                                         handleChange(
@@ -255,7 +235,6 @@ export default function StudentCompetences({ results, setResults }: IStudentSkil
                                     selected={
                                         cIndex === selectedCompetenceIndex && focusArea === "competence"
                                     }
-                                // Para abrir/fechar dropdown, você pode sincronizar com setSelectOpen
                                 />
                             </div>
                             <Divider size="small" />

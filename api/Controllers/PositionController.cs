@@ -1,3 +1,4 @@
+using Api.Core.Services;
 using Api.Domain.Models;
 using Api.Domain.Services;
 using AutoMapper;
@@ -23,10 +24,12 @@ public class PositionController : ControllerBase
 
     [HttpPost]
     public async Task<ActionResult> CreatePosition(
-        [FromServices] IPositionService service,
+        [FromServices] IPositionService service, [FromServices] IPermissionService permissionService,
         [FromBody] PositionCreatePayload payload
     )
     {
+        permissionService.ValidatePermission();
+
         var position = new Position
         {
             Name = payload.Name,
@@ -46,11 +49,12 @@ public class PositionController : ControllerBase
     [HttpPatch]
     [Route("{id}")]
     public async Task<ActionResult> UpdatePosition(
-        [FromServices] IPositionService service,
-        [FromBody] PositionUpdatePayload payload,
-        int id
+        [FromServices] IPositionService service, [FromServices] IPermissionService permissionService,
+        [FromBody] PositionUpdatePayload payload, int id
     )
     {
+        permissionService.ValidatePermission();
+
         var result = await service.UpdatePositionAsync(id, payload);
 
         return Ok(result);
@@ -80,12 +84,13 @@ public class PositionController : ControllerBase
     [HttpDelete]
     [Route("{id}")]
     public async Task<ActionResult> DeletePosition(
-        [FromServices] IPositionService service,
+        [FromServices] IPositionService service, [FromServices] IPermissionService permissionService,
         int id
     )
     {
-        await service.SoftDeleteAsync(id);
+        permissionService.ValidatePermission();
 
+        await service.SoftDeleteAsync(id);
         return NoContent();
     }
 }

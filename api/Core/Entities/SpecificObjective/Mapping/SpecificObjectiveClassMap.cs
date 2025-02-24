@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Api.Domain.Models;
 namespace Api.Core.Mapping;
 
-public class SpecificObjectivesClassMap : IEntityTypeConfiguration<SpecificObjectives>
+public class SpecificObjectiveClassMap : IEntityTypeConfiguration<SpecificObjective>
 {
-    public void Configure(EntityTypeBuilder<SpecificObjectives> builder)
+    public void Configure(EntityTypeBuilder<SpecificObjective> builder)
     {
         builder.HasKey(e => e.Id).HasName("PK____SpecificObjectives");
 

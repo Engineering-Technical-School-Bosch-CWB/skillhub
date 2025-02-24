@@ -37,18 +37,20 @@ public record SubjectResultDTO(
     int CurricularUnitId,
     string Name,
     string? Instructor,
-    double? Performance,
+    double? Grade,
+    double? Aptitude,
     SubjectArea? SubjectArea
 )
 {
-    public static SubjectResultDTO Map(Subject obj, double? performance = null)
+    public static SubjectResultDTO Map(Subject obj, (double?, double?)? performance = null)
     {
         return new SubjectResultDTO(
             obj.Id,
             obj.CurricularUnit.Id,
             obj.CurricularUnit.Name,
             obj.Instructor?.Name,
-            performance,
+            performance?.Item1,
+            performance?.Item2,
             obj.CurricularUnit.SubjectArea
         );
     }

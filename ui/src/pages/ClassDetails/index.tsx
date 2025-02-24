@@ -19,9 +19,15 @@ import { IStudentCardProps } from "../../components/StudentCard/interfaces/IStud
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import SectionHeader from "@/components/SectionHeader";
-import styled from "@emotion/styled";
+import Progress from "@/components/Progress";
+import Button from "@/components/Button";
+import Icon from "@/components/Icon";
+import UpdateProfileModal from "../UserProfile/components/UpdateProfileModal";
 
 const ClassDetails = () => {
+
+    const [loading, setLoading] = useState(true);
+
     const { classId } = useParams();
 
     const navigate = useNavigate();
@@ -42,6 +48,8 @@ const ClassDetails = () => {
     const [subjectsData, setSubjectsData] = useState([]);
     const [subjectAreaData, setSubjectAreaData] = useState<ContentAreaChartValues[]>([]);
 
+    const [addStudentModal, setAddStudentModal] = useState<boolean>(false);
+
     const getData = async () => {
         const params = new URLSearchParams();
         if (search) params.append('query', search);
@@ -58,6 +66,8 @@ const ClassDetails = () => {
         }
 
         const content = response.data;
+
+        console.log(content.graphs.subjectResults)
 
         setClassName(content.class.name + " - " + content.class.startingYear);
         setSubjects(content.subjects.map((s: { name: string; id: string; instructor: string; }) => ({
@@ -80,16 +90,18 @@ const ClassDetails = () => {
             name: s.name,
             performance: s.performance == null ? null : Number(s.performance.toFixed(2))
         })));
-        setSubjectsData(content.graphs.subjectResults.map((s: { curricularUnitId: number; performance: number; name: string; }) => ({
+        setSubjectsData(content.graphs.subjectResults.map((s: { curricularUnitId: number; grade: number; name: string; }) => ({
             id: s.curricularUnitId,
-            performance: s.performance == null ? 0 : Number(s.performance.toFixed(2)),
+            performance: s.grade == null ? 0 : Number(s.grade.toFixed(2)),
             subject: s.name
         })));
-        setSubjectAreaData(content.graphs.subjectAreaResults.map((s: { id: number; performance: number; name: string; }) => ({
+        setSubjectAreaData(content.graphs.subjectAreaResults.map((s: { id: number; grade: number; name: string; }) => ({
             id: s.id,
-            performance: s.performance == null ? 0 : Number(s.performance.toFixed(2)),
+            performance: s.grade == null ? 0 : Number(s.grade.toFixed(2)),
             area: s.name
-        })))
+        })));
+
+        setLoading(false);
     }
 
     const handleSubjectClick = (id: number | null) => {
@@ -115,7 +127,15 @@ const ClassDetails = () => {
 
     useEffect(() => {
         getData();
-    }, [classId, search, selectedSubjectId, selectedStudentId, selectedSubjectAreaId])
+    }, [classId, search, selectedSubjectId, selectedStudentId, selectedSubjectAreaId]);
+
+    if (loading)
+        return (
+        <>
+            <Header />
+            <Progress />
+        </>
+    )
 
     return (
         <div onClick={clearParams}>
@@ -145,7 +165,7 @@ const ClassDetails = () => {
                     <section className={`${styles.chart_section} ${styles.align}`}>
                         <div className={`${styles.line}`}>
                             <DoughnutChart exploitation={overallPerformance == null ? 0 : Number(overallPerformance.toFixed(1))} title="Overall Performance" />
-                            <Ranking data={rankingData} onClick={handleStudentClick} />
+                            <Ranking data={rankingData.sort((a, b) => (b.performance ?? 0) - (a.performance ?? 0))} onClick={handleStudentClick} />
                         </div>
                         <div className={`${styles.full} ${styles.flex}`}>
                             <div className={`${styles.big}`}>
@@ -170,14 +190,30 @@ const ClassDetails = () => {
 
                     <div className={`${styles.student_container} ${styles.align}`} >
                         {
-                            studentsData.map(e => (
-                                <StudentCard  {...e} />
+                            studentsData.map((e, i) => (
+                                <StudentCard key={i}  {...e} />
                             ))
                         }
                     </div>
                     <br />
+                    <div className={`${styles.align}`}>
+                        <Button 
+                            variant="primary_label_icon"
+                            onClick={() => setAddStudentModal(true)}
+                        >
+                                Add Student <Icon name="add" size="md" />
+                        </Button>
+                    </div>
                     <br />
                     <br />
+                    <UpdateProfileModal 
+                        handleClose={() => setAddStudentModal(false)} 
+                        isCurrentUser={false}
+                        open={addStudentModal}
+                        title="Add New Student"
+                        subtitle={className}
+                        byClassId={classId}
+                    />
                 </section>
             </main>
         </div>

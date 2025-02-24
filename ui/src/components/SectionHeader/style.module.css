@@ -12,3 +12,9 @@
 .arrow{ 
     font-size: small;
 }
+
+.div {
+    display: flex;
+    align-items: center;
+    gap: .3rem;
+}

@@ -10,14 +10,12 @@ namespace Api.Core.Services;
 
 public class StudentService(
     BaseRepository<Student> repository, IUserRepository userRepository, ISubjectRepository subjectRepository, ISkillService skillService,
-    IClassRepository classRepository, ISkillResultRepository skillResultRepository, IFeedbackRepository feedbackRepository,
-    IExamRepository examRepository, IStudentResultRepository studentResultRepository
+    IClassRepository classRepository, ISkillResultRepository skillResultRepository, IFeedbackRepository feedbackRepository, IStudentResultRepository studentResultRepository
 ) : BaseService<Student>(repository), IStudentService
 
 {
     private readonly BaseRepository<Student> _repo = repository;
     private readonly IClassRepository _classRepo = classRepository;
-    private readonly IExamRepository _examRepo = examRepository;
     private readonly IFeedbackRepository _feedbackRepo = feedbackRepository;
     private readonly ISkillResultRepository _skillResultRepo = skillResultRepository;
     private readonly ISubjectRepository _subjectRepo = subjectRepository;
@@ -112,13 +110,13 @@ public class StudentService(
             .Include(s => s.Class.Subjects)
             .ThenInclude(s => s.CurricularUnit)
             .ThenInclude(s => s.SubjectArea)
-            .Include(s => s.Class.Subjects)
+            .Include(s => s.Class.Subjects.Where(s => s.IsActive))
             .ThenInclude(s => s.Instructor)
             .SingleOrDefaultAsync(s => s.User.Id == userId);
 
         if (student is null) return null;
 
-        var results = student.Class.Subjects.Select(s => SubjectResultDTO.Map(s, GetSubjectGrade(student.Id, s.Id).Item1));
+        var results = student.Class.Subjects.Select(s => SubjectResultDTO.Map(s, GetSubjectGrade(student.Id, s.Id)));
 
         var position = _repo.Get()
             .Where(s => s.IsActive)
@@ -139,10 +137,9 @@ public class StudentService(
             .Select(f => CompleteFeedbackDTO.Map(f))
             .ToListAsync();
 
-        List<SubjectAreaDTO> subjectAreaResults = results
+        List<SubjectAreaDTO> subjectAreaResults = [.. results
             .GroupBy(s => s.SubjectArea)
-            .Select(gs => SubjectAreaDTO.Map(gs.Key!, gs.Average(k => k.Performance)))
-            .ToList();
+            .Select(gs => SubjectAreaDTO.Map(gs.Key!, (gs.Average(k => k.Grade), gs.Average(k => k.Aptitude))))];
 
         var result = StudentProfileDTO.Map(student, subjectAreaResults, results, feedbacks, show, position);
         return result;

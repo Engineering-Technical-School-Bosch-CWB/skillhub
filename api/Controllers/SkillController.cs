@@ -13,10 +13,12 @@ public class SkillController : ControllerBase
 {
     [HttpPost]
     public async Task<ActionResult> CreateSkill(
-        [FromServices] ISkillService service,
+        [FromServices] ISkillService service, [FromServices] IPermissionService permissionService,
         [FromBody] SkillCreatePayload payload
     )
     {
+        permissionService.ValidatePermission();
+
         var result = await service.CreateSkill(payload);
         return Created("/api/v1/skills", result);
     }
@@ -35,22 +37,25 @@ public class SkillController : ControllerBase
     [HttpGet]
     [Route("curricularUnit/{curricularUnitId}")]
     public async Task<ActionResult> GetByCurricularUnit(
+        [FromQuery] PaginationQuery pagination,
         [FromServices] ISkillService service,
         int curricularUnitId
     )
     {
-        var result = await service.GetCreateExamPage(curricularUnitId);
+        var result = await service.GetByCurricularUnit(pagination, curricularUnitId);
         return Ok(result);
     }
 
     [HttpPatch]
     [Route("{id}")]
     public async Task<IActionResult> UpdateSkill(
-        [FromServices] ISkillService service,
+        [FromServices] ISkillService service, [FromServices] IPermissionService permissionService,
         [FromBody] SkillUpdatePayload payload,
         int id
     )
     {
+        permissionService.ValidatePermission();
+
         var result = await service.UpdateSkill(id, payload);
         return Ok(result);
     }
@@ -58,24 +63,14 @@ public class SkillController : ControllerBase
     [HttpDelete]
     [Route("{id}")]
     public async Task<IActionResult> DeleteSkill(
-        [FromServices] ISkillService service,
+        [FromServices] ISkillService service, [FromServices] IPermissionService permissionService,
         int id
     )
     {
+        permissionService.ValidatePermission();
+
         await service.DeleteSkill(id);
         return NoContent();
     }
 
-    [HttpGet]
-    [Route("createExam/{subjectId}")]
-    public async Task<ActionResult> GetCreateExamPage(
-        [FromServices] ISkillService service, UserContext userContext, int subjectId
-    )
-    {
-        if (userContext.PermissionLevel != EPermissionLevel.Admin)
-            throw new ForbiddenAccessException("User don't have permission to this service!");
-
-        var result = await service.GetCreateExamPage(subjectId);
-        return Ok(result);
-    }
 }

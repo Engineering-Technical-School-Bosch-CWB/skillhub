@@ -22,12 +22,33 @@
         height: 2rem;
     }
 
+    .identificationCardMarker_line {
+        width: 1.25rem;
+        height: 1rem;
+    }
+
     .cardContent {
         display: flex;
         flex-direction: column;
         gap: 0.3rem;
         max-width: 100%;
         margin-left: 1rem ;
+    }
+
+    .cardContent_line {
+        flex-direction: row;
+
+        gap: 0.5rem;
+
+        span {
+            text-wrap: nowrap;
+        }
+        
+        div {
+            display: flex;
+            align-items: flex-end;
+            padding-bottom: 1px;
+        }
     }
 
     .icon {
@@ -50,4 +71,8 @@
 
 .line {
     width: 100%;
+    padding: .78rem 1.25rem;
+
+    border: none;
+    border-bottom: var(--default-border);
 }

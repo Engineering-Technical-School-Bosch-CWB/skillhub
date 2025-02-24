@@ -5,15 +5,14 @@ using Api.Domain.Services;
 using Api.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Api.Core.Errors;
-using Api.Core.Repositories;
-using Microsoft.AspNetCore.Http.HttpResults;
+using Newtonsoft.Json;
 
 namespace Api.Core.Services;
 
-public class SubjectService(BaseRepository<Subject> repository, IUserRepository userRepository, IStudentService studentService, IFeedbackRepository feedbackRepository,
-    ICurricularUnitRepository curricularUnitRepository, IClassRepository classRepository, IExamService examService, IStudentRepository studentRepository,
-    IPaginationService paginationService, IStudentResultRepository studentResultRepository
-    ) : BaseService<Subject>(repository), ISubjectService
+public class SubjectService(BaseRepository<Subject> repository, IUserRepository userRepository, IStudentService studentService,
+    IFeedbackRepository feedbackRepository, ICurricularUnitRepository curricularUnitRepository, IClassRepository classRepository, IStudentResultRepository studentResultRepository,
+    IExamService examService, IStudentRepository studentRepository, IPaginationService paginationService
+) : BaseService<Subject>(repository), ISubjectService
 {
     private readonly BaseRepository<Subject> _repo = repository;
     private readonly IClassRepository _classRepo = classRepository;
@@ -22,7 +21,7 @@ public class SubjectService(BaseRepository<Subject> repository, IUserRepository 
     private readonly IStudentRepository _studentRepo = studentRepository;
     private readonly IPaginationService _pagService = paginationService;
     private readonly IFeedbackRepository _feedbackRepo = feedbackRepository;
-    private readonly IStudentRepository _studentRepositoryRepo = studentRepository;
+    private readonly IStudentResultRepository _studentResultRepo = studentResultRepository;
 
     private readonly IExamService _examService = examService;
     private readonly IStudentService _studentService = studentService;
@@ -37,16 +36,18 @@ public class SubjectService(BaseRepository<Subject> repository, IUserRepository 
                 ?? throw new NotFoundException("Class not found!");
 
 
-        List<Subject> subjects = payload.Select(s => new Subject(){
+        List<Subject> subjects = payload.Select(s => new Subject()
+        {
             DurationHours = s.Time,
             Class = _class,
-            CurricularUnit = _curricularUnitRepo.Get().SingleOrDefault(c => c.IsActive && c.Id == s.CurricularUnitId) 
-                ?? throw new NotFoundException($"Curricular Unit not found: {s.CurricularUnitId}") 
+            CurricularUnit = _curricularUnitRepo.Get().SingleOrDefault(c => c.IsActive && c.Id == s.CurricularUnitId)
+                ?? throw new NotFoundException($"Curricular Unit not found: {s.CurricularUnitId}")
         }).ToList();
 
         List<Subject> inserted = [];
 
-        foreach (var item in subjects){
+        foreach (var item in subjects)
+        {
             var entity = _repo.Add(item);
             inserted.Add(entity);
         }
@@ -56,7 +57,7 @@ public class SubjectService(BaseRepository<Subject> repository, IUserRepository 
         return new AppResponse<IEnumerable<SubjectDTO>>(
             inserted.Select(e => SubjectDTO.Map(e)),
             "Subjects inserted successfully!"
-        )  ;
+        );
     }
 
 
@@ -95,6 +96,43 @@ public class SubjectService(BaseRepository<Subject> repository, IUserRepository 
         );
     }
 
+    public async Task<AppResponse<SubjectDTO>> UpdateSubject(int id, SubjectUpdatePayload payload)
+    {
+        var subject = await _repo.Get()
+            .Where(s => s.IsActive)
+            .Include(s => s.Instructor)
+            .Include(s => s.CurricularUnit)
+            .Include(s => s.Class)
+            .SingleOrDefaultAsync(s => s.Id == id)
+            ?? throw new NotFoundException("Subject not found!");
+
+        if (payload.Period.HasValue && payload.Period.Value != subject.Period)
+            subject.Period = payload.Period.Value;
+
+        if (payload.DurationHours.HasValue && payload.DurationHours.Value != subject.DurationHours)
+            subject.DurationHours = payload.DurationHours.Value;
+
+        if (payload.BeganAt.HasValue && payload.BeganAt.Value != subject.BeganAt)
+            subject.BeganAt = payload.BeganAt.Value;
+
+        if (payload.InstructorId.HasValue && payload.InstructorId.Value != subject.Instructor?.Id)
+        {
+            var instructor = await _userRepo.Get()
+                .Where(u => u.IsActive)
+                .SingleOrDefaultAsync(u => u.Id == payload.InstructorId.Value)
+                ?? throw new NotFoundException("Instructor not found!");
+
+            subject.Instructor = instructor;
+        }
+
+        _repo.Update(subject);
+        await _repo.SaveAsync();
+
+        return new AppResponse<SubjectDTO>(
+            SubjectDTO.Map(subject),
+            "Subject updated successfully!"
+        );
+    }
 
     public async Task<PaginatedAppResponse<SubjectDTO>> GetSubjectPaginated(PaginationQuery pagination, int classId, int? studentId, string? query = null)
     {
@@ -108,24 +146,59 @@ public class SubjectService(BaseRepository<Subject> repository, IUserRepository 
            pagination.ToOptions()
        );
 
-       if (studentId.HasValue)
-       {
-            var hasFeedback  = await _feedbackRepo.Get()
+        if (studentId.HasValue)
+        {
+            var hasFeedback = await _feedbackRepo.Get()
                 .Where(f => f.IsActive)
                 .Where(f => f.Student.Id == studentId)
                 .Where(f => f.Subject != null)
                 .Select(f => f.Subject!.Id)
                 .ToListAsync();
-            
+
             result.Item1 = [.. result.Item1.ExceptBy(hasFeedback, s => s.Id)];
-       }
+        }
 
         return new PaginatedAppResponse<SubjectDTO>(
             result.Item1.Select(SubjectDTO.Map),
             result.Item2!,
             "Subjects found!"
         );
+    }
 
+    public async Task DeleteSubject(int id)
+    {
+        var subject = await _repo.Get()
+            .Where(s => s.IsActive)
+            .Include(s => s.Exams)
+            .ThenInclude(s => s.SkillResults)
+            .Include(s => s.Exams)
+            .ThenInclude(s => s.Results)
+            .Include(s => s.Results)
+            .Include(s => s.SpecificObjectives)
+            .SingleOrDefaultAsync(s => s.Id == id)
+            ?? throw new NotFoundException("Subject not found!");
+
+        subject.IsActive = false;
+
+        foreach (var exam in subject.Exams)
+        {
+            exam.IsActive = false;
+
+            foreach (var result in exam.SkillResults)
+                result.IsActive = false;
+
+            foreach (var result in exam.Results)
+                result.IsActive = false;
+        }
+
+        foreach (var result in subject.Results)
+            result.IsActive = false;
+
+        foreach (var objective in subject.SpecificObjectives)
+            objective.IsActive = false;
+
+        _repo.Update(subject);
+        await _repo.SaveAsync();
     }
 
     #endregion
@@ -136,6 +209,7 @@ public class SubjectService(BaseRepository<Subject> repository, IUserRepository 
     {
         var subject = await _repo.Get()
             .Where(s => s.IsActive)
+            .Include(s => s.Instructor)
             .Include(s => s.CurricularUnit)
             .Include(s => s.Class.Students)
             .Include(s => s.Exams.Where(e => e.IsActive))

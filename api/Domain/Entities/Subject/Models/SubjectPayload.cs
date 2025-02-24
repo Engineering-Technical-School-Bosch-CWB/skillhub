@@ -24,6 +24,14 @@ public class SubjectCreatePayload
     public required DateOnly BeganAt { get; set; }
 }
 
+public class SubjectUpdatePayload
+{
+    public double? DurationHours { get; set; }
+    public short? Period { get; set; }
+    public DateOnly? BeganAt { get; set; }
+    public int? InstructorId { get; set; }
+}
+
 
 public class SubjectCreateByClassPayload
 {

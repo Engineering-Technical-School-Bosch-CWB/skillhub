@@ -29,7 +29,7 @@ const ExplorerContainer = ({ input, folderPath, onAddHandle, title, data, filter
             <div className={`${styles.explorerHeader} ${styles.align}`}>
 
                 <div className={`${styles.searchContainer} ${styles.align}`}>
-                    <Input type="text" label="Search" iconName="search" value={input.search} onChange={(e) => input.onChange(e.target.value)} />
+                    <Input type="text" label="Search" iconName="search" value={input.search} onChange={(e) => input.onChange(e.target.value)} width={"25rem"} />
                 </div>
 
                 {
@@ -45,8 +45,8 @@ const ExplorerContainer = ({ input, folderPath, onAddHandle, title, data, filter
 
                 {
                     filter &&
-                    filter.map(f => (
-                        <div className={`${styles.filter_container}  ${styles.align}`}>
+                    filter.map((f, i) => (
+                        <div key={i} className={`${styles.filter_container}  ${styles.align}`}>
                             <Select data={f.params} label={f.name} onChange={(e) => f.setValue(e.target.value)} />
                         </div>
                     ))
@@ -67,10 +67,10 @@ const ExplorerContainer = ({ input, folderPath, onAddHandle, title, data, filter
 
             <div className={`${styles.listContainer} ${view == "list" ? styles.tableListContainer : ''} `}>
                 {
-                    data.map((e) => {
+                    data.map((e, i) => {
                         return (
                             <>
-                                <IdentificationCard color={e.color} variant={view} title={e.title} subtitle={e.subtitle} icon={e.icon} iconDetails={e.iconDetails} goTo={e.goTo} />
+                                <IdentificationCard key={i} color={e.color} variant={view} title={e.title} subtitle={e.subtitle} icon={e.icon} iconDetails={e.iconDetails} goTo={e.goTo} />
                                 {/* <IdentificationCard {...e}/> */}
                             </>
                         )

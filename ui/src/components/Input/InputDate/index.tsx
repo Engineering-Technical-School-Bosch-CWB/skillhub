@@ -12,7 +12,7 @@ export interface IInputDateProps extends IRootInputProps {
 }
 
 const InputDate = forwardRef<HTMLInputElement, IInputDateProps>(
-    ({ error, hasForm, label, helperText, id, fieldName, dateChange, value, className }, ref) => 
+    ({ error, hasForm, label, helperText, id, fieldName, dateChange, value, className, ...props }, ref) => 
 {
 
     const formContext = useFormContext();
@@ -42,6 +42,7 @@ const InputDate = forwardRef<HTMLInputElement, IInputDateProps>(
             error={error}
             helperText={helperText}
             id={id}
+            width={props.width}
         >
             <SInput 
                 className={className}
@@ -49,7 +50,7 @@ const InputDate = forwardRef<HTMLInputElement, IInputDateProps>(
                 error={error}
                 ref={ref}
                 format="DD/MM/YYYY"
-                value={getDefaultValue()}
+                value={value ? getDefaultValue() : undefined}
                 onChange={(value) => handleSetValue(value)}
             />
         </InputContainer>
@@ -64,7 +65,13 @@ const SInput = styled(DatePicker)<{ error?: boolean }>(({ error }) => ({
         height: "100%",
         borderRadius: 0,
         border: error ? "var(--danger-border)" : "",
+    },
+
+    ".css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input": {
+        display: "flex",
+        alignItems: "center"
     }
+    
 }))
 
 export default InputDate
