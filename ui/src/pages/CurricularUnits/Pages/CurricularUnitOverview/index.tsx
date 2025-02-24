@@ -20,6 +20,8 @@ import ButtonGroup from "@/components/ButtonGroup"
 import { IHttpMethod, IServiceResponse } from "@/interfaces/services.interfaces"
 import SettingsModal from "./components/SettingsModal"
 
+type SkillKind = "Create" | "Edit"
+
 export default () => {
     const { id } = useParams();
     const [data, setData] = useState<ICurricularUnit>(CurricularUnit.getDefault());
@@ -83,7 +85,7 @@ export default () => {
             method = "PATCH"
         request = await internalAPI.jsonRequest(`/skills/${isEdit? focusedSkill.id : ""}`, method, undefined, data)
         if(!request || !request.success){
-            toast.error(`Error on ${isEdit? "edit":"create"} skill: \n ${request.message}`)
+            toast.error(`Error on ${isEdit? "edit":"create"} skill`)
             return;
         }
         location.reload();
@@ -91,7 +93,7 @@ export default () => {
     const submitSkillDelete = async () => {
         const response = await internalAPI.jsonRequest(`/skills/${focusedSkill?.id}`, "DELETE")
         if(!response || !response.success) {
-            toast.error(`Error on delete skill: \n ${response.message}`, {toastId: "delete-skill-error"});
+            toast.error(`Error on delete skill`, {toastId: "delete-skill-error"});
             return;
         }
         location.reload();
@@ -183,7 +185,7 @@ export default () => {
             </main>            
             { 
                 skillModalOpen && 
-                <Modal title={(focusedSkill ? `Edit` : `Create`) + "Skill"} 
+                <Modal title={(focusedSkill?.id ? `Edit` : `Create`) + " Skill"} 
                     handleClose={() => onSkillEditToggle()} 
                     open={skillModalOpen} 
                     subtitle={data.name}
