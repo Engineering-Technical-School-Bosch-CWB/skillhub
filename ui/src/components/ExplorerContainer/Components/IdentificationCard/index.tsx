@@ -11,7 +11,6 @@ const IdentificationCard = forwardRef<HTMLButtonElement, IIdentificationCardProp
         color = "blue", 
         title = "",
         subtitle = "",
-        icon = "",
         iconDetails = "",
         goTo
     }) => 

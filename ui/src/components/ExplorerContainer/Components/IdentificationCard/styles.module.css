@@ -72,4 +72,7 @@
 .line {
     width: 100%;
     padding: .78rem 1.25rem;
+
+    border: none;
+    border-bottom: var(--default-border);
 }
