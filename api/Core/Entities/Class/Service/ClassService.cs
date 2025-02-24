@@ -57,15 +57,12 @@ public class ClassService(
 
     public async Task<AppResponse<ClassDTO>> CreateClass(ClassCreatePayload payload)
     {
-        System.Console.WriteLine("----- Debug 1");
         var course = await _courseRepo.Get()
             .Include(c => c.DefaultOccupationArea)
             .SingleOrDefaultAsync(c => c.Id == payload.Course.Id)
             ?? throw new NotFoundException("Course not found!");
 
-        System.Console.WriteLine("----- Debug 2");
         var __curricularUnitIds = payload.Subjects.Select(cu => cu.CurricularUnitId).ToList();
-        System.Console.WriteLine("----- Debug 3");
         List<CurricularUnit> _curricularUnits = [];
         if (__curricularUnitIds.Count > 0)
             _curricularUnits = await _curricularUnitRepository.Get()
@@ -73,13 +70,11 @@ public class ClassService(
                 .ToListAsync();
 
 
-        System.Console.WriteLine("----- Debug 4");
         var _sector = await _sectorRepo.Get().SingleOrDefaultAsync(s => s.Name == "ETS")
             ?? throw new Exception("Not found sector ETS");
         var _position = await _positionRepo.Get().SingleOrDefaultAsync(p => p.PermissionLevel == 1)
             ?? throw new Exception("Not found user with ");
 
-        System.Console.WriteLine("----- Debug 6");
         var createdClass = _repo.Add(new Class
         {
             Name = payload.Class.Name,
@@ -88,10 +83,8 @@ public class ClassService(
             DurationPeriods = payload.Class.Period
         }) ?? throw new UpsertFailException("Class could not be inserted!");
 
-        System.Console.WriteLine("----- Debug 7");
         await _repo.SaveAsync();
 
-        System.Console.WriteLine("----- Debug 8");
         List<User> insertedUsers = payload.Students.Select(s => 
         {
             User __user = new()
@@ -109,10 +102,8 @@ public class ClassService(
             var inserted = _userRepo.Add(__user);
             return inserted;
         }).ToList();
-        System.Console.WriteLine("----- Debug 9");
         await _userRepo.SaveAsync();
 
-        System.Console.WriteLine("----- Debug 10");
         List<Subject> _subjects = _curricularUnits.Select(cu =>
         {
             Subject s = new()
@@ -132,7 +123,6 @@ public class ClassService(
         }).ToList();
         await _subjectRepo.SaveAsync();
 
-        System.Console.WriteLine("----- Debug 11");
         List<Student> _students =  insertedUsers.Select(u =>
         {   
 
@@ -145,12 +135,10 @@ public class ClassService(
             return inserted;
         }).ToList();
         await _studentRepo.SaveAsync();
-        System.Console.WriteLine("----- Debug 12");
 
         createdClass.Subjects = _subjects;
         createdClass.Students = _students;
 
-        System.Console.WriteLine("----- Debug 13");
         return new AppResponse<ClassDTO>(
             ClassDTO.Map(createdClass),
             "Class created successfully!"
@@ -171,12 +159,12 @@ public class ClassService(
             }
         ));
 
-        var subjectResults = results.GroupBy(r => r.Subject).Select(g => SubjectResultDTO.Map(g.Key, g.Average(a => a.Performance)));
+        var subjectResults = results.GroupBy(r => r.Subject).Select(g => SubjectResultDTO.Map(g.Key, (g.Average(a => a.Performance), null)));
         var studentResults = results.GroupBy(r => r.Student).Select(g => SimpleStudentDTO.Map(g.Key, g.Average(a => a.Performance)));
-        var subjectAreaResults = results.GroupBy(r => r.Subject.CurricularUnit.SubjectArea).Select(g => SubjectAreaDTO.Map(g.Key, g.Average(a => a.Performance)));
+        var subjectAreaResults = results.GroupBy(r => r.Subject.CurricularUnit.SubjectArea).Select(g => SubjectAreaDTO.Map(g.Key, (g.Average(a => a.Performance), null)));
 
         return new ClassGraphsDTO(
-            subjectResults.Any() ? subjectResults.Average(s => s.Performance) : null,
+            subjectResults.Any() ? subjectResults.Average(s => s.Grade) : null,
             subjectResults,
             studentResults,
             subjectAreaResults

@@ -118,6 +118,7 @@ export default function StudentCompetences({ results, setResults }: IStudentSkil
             case "ArrowRight":
                 if (focusArea === "student") {
                     setFocusArea("competence");
+                    setSelectedCompetenceIndex(0);
                 }
                 break;
             case "ArrowUp":
@@ -170,12 +171,12 @@ export default function StudentCompetences({ results, setResults }: IStudentSkil
     }, [focusArea, selectedStudentIndex, selectedCompetenceIndex]);
 
     useEffect(() => {
-        containerRef.current?.focus(); // Foca no contêiner após a rolagem
+        containerRef.current?.focus();
     }, [])
 
     useEffect(() => {
         if(!selectOpen)
-            containerRef.current?.focus(); // Foca no contêiner após a rolagem
+            containerRef.current?.focus();
     }, [selectOpen]);
 
     return (

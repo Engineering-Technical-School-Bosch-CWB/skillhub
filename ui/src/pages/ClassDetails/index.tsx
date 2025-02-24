@@ -67,6 +67,8 @@ const ClassDetails = () => {
 
         const content = response.data;
 
+        console.log(content.graphs.subjectResults)
+
         setClassName(content.class.name + " - " + content.class.startingYear);
         setSubjects(content.subjects.map((s: { name: string; id: string; instructor: string; }) => ({
             color: getHex(s.name),
@@ -88,14 +90,14 @@ const ClassDetails = () => {
             name: s.name,
             performance: s.performance == null ? null : Number(s.performance.toFixed(2))
         })));
-        setSubjectsData(content.graphs.subjectResults.map((s: { curricularUnitId: number; performance: number; name: string; }) => ({
+        setSubjectsData(content.graphs.subjectResults.map((s: { curricularUnitId: number; grade: number; name: string; }) => ({
             id: s.curricularUnitId,
-            performance: s.performance == null ? 0 : Number(s.performance.toFixed(2)),
+            performance: s.grade == null ? 0 : Number(s.grade.toFixed(2)),
             subject: s.name
         })));
-        setSubjectAreaData(content.graphs.subjectAreaResults.map((s: { id: number; performance: number; name: string; }) => ({
+        setSubjectAreaData(content.graphs.subjectAreaResults.map((s: { id: number; grade: number; name: string; }) => ({
             id: s.id,
-            performance: s.performance == null ? 0 : Number(s.performance.toFixed(2)),
+            performance: s.grade == null ? 0 : Number(s.grade.toFixed(2)),
             area: s.name
         })));
 
@@ -163,7 +165,7 @@ const ClassDetails = () => {
                     <section className={`${styles.chart_section} ${styles.align}`}>
                         <div className={`${styles.line}`}>
                             <DoughnutChart exploitation={overallPerformance == null ? 0 : Number(overallPerformance.toFixed(1))} title="Overall Performance" />
-                            <Ranking data={rankingData} onClick={handleStudentClick} />
+                            <Ranking data={rankingData.sort((a, b) => (b.performance ?? 0) - (a.performance ?? 0))} onClick={handleStudentClick} />
                         </div>
                         <div className={`${styles.full} ${styles.flex}`}>
                             <div className={`${styles.big}`}>
