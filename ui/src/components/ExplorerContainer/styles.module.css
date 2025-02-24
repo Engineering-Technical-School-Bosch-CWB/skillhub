@@ -7,7 +7,7 @@
 .explorerContainer {
     display: flex;
     flex-direction: column;
-    gap: 3rem;
+    gap: 2rem;
     justify-content: start;
     align-items: start;
 
@@ -101,9 +101,10 @@
 
 .col {
     display: flex;
-    height: 4rem;
     
     gap: .5rem;
     flex-direction: column;
+
+    min-height: 43px;
 }
 
