@@ -13,12 +13,12 @@ public class ClassController : ControllerBase
     [HttpGet]
     public async Task<ActionResult> GetClasses(
         [FromServices] IClassService service, [FromServices] IPermissionService permissionService,
-        [FromQuery] string? query, [FromQuery] bool? archived
+        [FromQuery] string? query
     )
     {
         permissionService.ValidateAdmPermission();
 
-        var result = await service.GetClasses(query, archived ?? false);
+        var result = await service.GetClasses(query);
         return Ok(result);
     }
 

@@ -5,7 +5,7 @@ namespace Api.Domain.Services;
 
 public interface IClassService : IService<Class>
 {
-    public Task<AppResponse<IEnumerable<ClassDTO>>> GetClasses(string? query, bool archived);
+    public Task<AppResponse<IEnumerable<ClassDTO>>> GetClasses(string? query);
     public Task<AppResponse<ClassDTO>> CreateClass(ClassCreatePayload payload);
     public Task ArchiveClass(int id);
     public Task<AppResponse<ClassPageDTO>> GetClassPage(int id, string? query, int? selectedStudentId, int? selectedCurricularUnitId, int? selectedSubjectAreaId);

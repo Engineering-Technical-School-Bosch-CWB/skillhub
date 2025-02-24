@@ -7,7 +7,8 @@ public record ClassDTO(
     short StartingYear,
     short? DurationPeriods,
     int CourseId,
-    bool IsActive
+    bool IsActive,
+    bool IsArchived
 )
 {
     public static ClassDTO Map(Class obj)
@@ -19,7 +20,8 @@ public record ClassDTO(
             obj.StartingYear,
             obj.DurationPeriods,
             obj.Course.Id,
-            obj.IsActive
+            obj.IsActive,
+            obj.IsArchived
         );
     }
 }

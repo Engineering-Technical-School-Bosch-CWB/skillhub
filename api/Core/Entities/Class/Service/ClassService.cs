@@ -34,10 +34,10 @@ public class ClassService(
 
     #region CRUD
 
-    public async Task<AppResponse<IEnumerable<ClassDTO>>> GetClasses(string? query, bool archived)
+    public async Task<AppResponse<IEnumerable<ClassDTO>>> GetClasses(string? query)
     {
         var classes = await _repo.Get()
-            .Where(c => c.IsActive && c.IsArchived == archived)
+            .Where(c => c.IsActive)
             .Where(c => string.IsNullOrEmpty(query) || c.Name.Contains(query))
             .Include(c => c.Course)
             .Select(c => ClassDTO.Map(c))

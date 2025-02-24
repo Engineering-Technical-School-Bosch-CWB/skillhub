@@ -12,10 +12,11 @@ const IdentificationCard = forwardRef<HTMLButtonElement, IIdentificationCardProp
         title = "",
         subtitle = "",
         iconDetails = "",
-        goTo
+        goTo,
+        archived = false
     }) => 
         <Link
-            className={`${styles.identificationCard} ${variant == "list" ? styles.line : ""} `}
+            className={`${styles.identificationCard} ${variant == "list" ? styles.line : ""} ${archived ? styles.archived : ""} `}
             to={`${goTo}`}     
         >
             <section className={`${styles.align}`}>

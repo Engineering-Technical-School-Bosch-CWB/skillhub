@@ -1,6 +1,6 @@
 import Button from "../../../Button";
 import Icon from "../../../Icon";
-import styles from "../../style.module.css"
+import styles from "../../styles.module.css"
 
 
 type SelectViewType = "list" | "card"
