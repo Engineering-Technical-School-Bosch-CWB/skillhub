@@ -2,6 +2,18 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 2rem;
+
+    span {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+    }
+    .table_label{
+        flex-direction: column;
+        gap: .25rem;
+        align-items: start;
+    }
 }
 
 

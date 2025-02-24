@@ -18,6 +18,7 @@ import Input from "@/components/Input"
 import TextArea from "@/components/TextArea"
 import ButtonGroup from "@/components/ButtonGroup"
 import { IHttpMethod, IServiceResponse } from "@/interfaces/services.interfaces"
+import SettingsModal from "./components/SettingsModal"
 
 export default () => {
     const { id } = useParams();
@@ -26,6 +27,7 @@ export default () => {
     const [skills, setSkills] = useState<ISkill[]>([]);
     const [focusedSkill, setFocusedSkill] = useState<ISkill | undefined>();
     
+    const [curricularUnitModal, setCurricularUnitModal] = useState<boolean>(false);
     const [skillModalOpen, setSkillModalOpen] = useState<boolean>(false);
     const [deleteSkillModal, setDeleteSkillModal] = useState<boolean>(false);
 
@@ -111,13 +113,13 @@ export default () => {
         setDeleteSkillModal(!deleteSkillModal);
     }
 
+    const onCurricularUnitEditToggle = () => {
+        setCurricularUnitModal(!curricularUnitModal)
+    }
+
     useEffect(() => {
         loadData();
     }, [])
-    useEffect(() => {
-        console.log(focusedSkill);
-        
-    }, [focusedSkill])
 
     return (
         <>
@@ -125,10 +127,18 @@ export default () => {
             <main>
                 <SectionHeader {...sectionHeaderProps} /> 
                 <section className={styles.table_header}>
-                <Text fontSize="xl2" fontWeight="bold">{data.name}</Text>
-                <Button variant="secondary_icon" onClick={() => onSkillEditToggle()}>
-                    <Icon name="add" size="md"/>
-                </Button>
+                    <span className={styles.table_label}>
+                        <Text fontSize="xl2" fontWeight="bold">{data.name}</Text>
+                        <Text fontSize="sm" fontWeight="light">({data.subjectArea?.name})</Text>
+                    </span>
+                    <span>
+                        <Button variant="primary_icon" onClick={() => onCurricularUnitEditToggle()}>
+                            <Icon name="settings" size="md"/>
+                        </Button>
+                        <Button variant="secondary_icon" onClick={() => onSkillEditToggle()}>
+                            <Icon name="add" size="md"/>
+                        </Button>
+                    </span>
                 </section>
                 <table>
                     <tr>
@@ -213,6 +223,12 @@ export default () => {
                     </div>
                 </Modal>
             }
+            <SettingsModal 
+                data={data} 
+                handleClose={() => setCurricularUnitModal(false)} 
+                open={curricularUnitModal}
+                title=""
+            /> 
         </>
     )
 }

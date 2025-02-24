@@ -14,8 +14,8 @@ import getHex from "@/constants/getHex";
 const CurricularUnits = () => {
     const [data, setData] = useState([]);
     const [createModalOpen, setCreateModalOpen] = useState(false);
-    const [page, setPage] = useState(1);
-    const [items, setItems] = useState(0); 
+    const [page] = useState(1);
+    const [items] = useState(0); 
 
     const [search, setSearch] = useState<string>("");
 
@@ -64,9 +64,6 @@ const CurricularUnits = () => {
                     }} 
                     title="Curricular Units"
                 />
-
-                {/* <TableView data={data} hasNotation={true} hasOptions={true} options={options} /> */}
-                {/* <Pagination pages={maxPages} current={page} onChange={changePage} /> */}
             </main>            
             { createModalOpen && <CreateModal kind={"curricularUnits"} isOpen={true} onClose={() => setCreateModalOpen(false)} />}
         </>

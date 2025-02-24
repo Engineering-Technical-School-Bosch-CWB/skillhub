@@ -7,10 +7,11 @@ export interface InputSelectProps{
     onChange?: (data : ISelectData) => void;
     defaultValue?: ISelectData,
     data: ISelectData[],
-    label?: string
+    label?: string,
+    className ?: any
 }
 
-export default ({onChange, defaultValue, data, label }: InputSelectProps) => {
+export default ({onChange, defaultValue, data, label, className }: InputSelectProps) => {
 
     const [inputFocus, setInputFocus] = useState(false);
     const [inputKey, setInputKey] = useState("");
@@ -47,7 +48,7 @@ export default ({onChange, defaultValue, data, label }: InputSelectProps) => {
         <>
             <div className={styles.personalized_select}>
                 <Input 
-                    className={styles.input}
+                    className={`${styles.input} ${className}`}
                     onFocus={() => setInputFocus(true)} 
                     onBlur={() => handleBlur()}
                     value={inputKey}
