@@ -17,7 +17,7 @@ public class SkillController : ControllerBase
         [FromBody] SkillCreatePayload payload
     )
     {
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
 
         var result = await service.CreateSkill(payload);
         return Created("/api/v1/skills", result);
@@ -54,7 +54,7 @@ public class SkillController : ControllerBase
         int id
     )
     {
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
 
         var result = await service.UpdateSkill(id, payload);
         return Ok(result);
@@ -67,7 +67,7 @@ public class SkillController : ControllerBase
         int id
     )
     {
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
 
         await service.DeleteSkill(id);
         return NoContent();

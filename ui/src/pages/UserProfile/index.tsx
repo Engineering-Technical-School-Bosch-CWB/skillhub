@@ -71,6 +71,7 @@ const UserProfile = () => {
 
     const classId = searchParams.get("classId");
     const userId = searchParams.get("userId");
+    
     const { user } = useUserContext();
 
     const navigate = useNavigate();

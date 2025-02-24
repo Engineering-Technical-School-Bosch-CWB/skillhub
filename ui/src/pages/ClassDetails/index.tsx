@@ -14,7 +14,7 @@ import Divider from "../../components/Divider";
 import StudentCard from "../../components/StudentCard";
 
 import { useNavigate, useParams } from "react-router-dom";
-import { ContentAreaChartValues, StudentSubject } from "./interfaces/ClassDetails.interfaces";
+import { ContentAreaChartValues, IClass, IUpdateModalProps, StudentSubject } from "./interfaces/ClassDetails.interfaces";
 import { IStudentCardProps } from "../../components/StudentCard/interfaces/IStudentCard.interfaces";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -23,6 +23,7 @@ import Progress from "@/components/Progress";
 import Button from "@/components/Button";
 import Icon from "@/components/Icon";
 import UpdateProfileModal from "../UserProfile/components/UpdateProfileModal";
+import UpdateModal from "./Components/UpdateModal";
 
 const ClassDetails = () => {
 
@@ -39,7 +40,9 @@ const ClassDetails = () => {
     const [selectedStudentId, setSelectedStudentId] = useState<number | null>(null);
     const [selectedSubjectAreaId, setSelectedSubjectAreaId] = useState<number | null>(null);
 
+    const [_class, setClass] = useState<IClass>();
     const [className, setClassName] = useState("");
+
     const [subjects, setSubjects] = useState([]);
 
     const [studentsData, setStudentsData] = useState<IStudentCardProps[]>([]);
@@ -49,6 +52,10 @@ const ClassDetails = () => {
     const [subjectAreaData, setSubjectAreaData] = useState<ContentAreaChartValues[]>([]);
 
     const [addStudentModal, setAddStudentModal] = useState<boolean>(false);
+
+    const [updateModalProps, setUpdateModalProps] = useState<IUpdateModalProps>({
+        isUpdateModalOpen: false
+    })
 
     const getData = async () => {
         const params = new URLSearchParams();
@@ -67,9 +74,9 @@ const ClassDetails = () => {
 
         const content = response.data;
 
-        console.log(content.graphs.subjectResults)
-
+        setClass(content.class);
         setClassName(content.class.name + " - " + content.class.startingYear);
+
         setSubjects(content.subjects.map((s: { name: string; id: string; instructor: string; }) => ({
             color: getHex(s.name),
             goTo: "subject/" + s.id,
@@ -131,11 +138,11 @@ const ClassDetails = () => {
 
     if (loading)
         return (
-        <>
-            <Header />
-            <Progress />
-        </>
-    )
+            <>
+                <Header />
+                <Progress />
+            </>
+        )
 
     return (
         <div onClick={clearParams}>
@@ -154,7 +161,10 @@ const ClassDetails = () => {
                     <ExplorerContainer data={subjects} title={className} onAddHandle={() => setModalOpened(true)} input={{
                         search: search,
                         onChange: setSearch
-                    }} />
+                    }} button={{
+                        icon: "settings",
+                        onClick: () => setUpdateModalProps({ isUpdateModalOpen: true })
+                    }} subtitle={`${_class?.abbreviation ? _class.abbreviation + " | " : ""} ${_class?.durationPeriods ? _class.durationPeriods + " periods" : "Duration periods not recorded"}`} />
                 </section>
 
                 <Divider size="big" />
@@ -197,17 +207,17 @@ const ClassDetails = () => {
                     </div>
                     <br />
                     <div className={`${styles.align}`}>
-                        <Button 
+                        <Button
                             variant="primary_label_icon"
                             onClick={() => setAddStudentModal(true)}
                         >
-                                Add Student <Icon name="add" size="md" />
+                            Add Student <Icon name="add" size="md" />
                         </Button>
                     </div>
                     <br />
                     <br />
-                    <UpdateProfileModal 
-                        handleClose={() => setAddStudentModal(false)} 
+                    <UpdateProfileModal
+                        handleClose={() => setAddStudentModal(false)}
                         isCurrentUser={false}
                         open={addStudentModal}
                         title="Add New Student"
@@ -215,6 +225,17 @@ const ClassDetails = () => {
                         byClassId={classId}
                     />
                 </section>
+                {
+                    _class &&
+                    <UpdateModal
+                        isOpen={updateModalProps.isUpdateModalOpen}
+                        handleIsOpen={() => setUpdateModalProps({
+                            isUpdateModalOpen: false
+                        })}
+                        _class={_class}
+                        setClass={setClass}
+                    />
+                }
             </main>
         </div>
     )

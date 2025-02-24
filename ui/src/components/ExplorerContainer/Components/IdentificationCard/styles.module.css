@@ -76,3 +76,7 @@
     border: none;
     border-bottom: var(--default-border);
 }
+
+.archived {
+    filter: brightness(.75) saturate(.25);  
+}

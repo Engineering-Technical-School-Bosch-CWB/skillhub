@@ -3,10 +3,12 @@ namespace Api.Domain.Models;
 public record ClassDTO(
     int Id,
     string Name,
+    string? Abbreviation,
     short StartingYear,
     short? DurationPeriods,
     int CourseId,
-    bool IsActive
+    bool IsActive,
+    bool IsArchived
 )
 {
     public static ClassDTO Map(Class obj)
@@ -14,10 +16,12 @@ public record ClassDTO(
         return new ClassDTO(
             obj.Id,
             obj.Name,
+            obj.Abbreviation,
             obj.StartingYear,
             obj.DurationPeriods,
             obj.Course.Id,
-            obj.IsActive
+            obj.IsActive,
+            obj.IsArchived
         );
     }
 }

@@ -10,9 +10,13 @@ import UpdateProfileModal from "../UserProfile/components/UpdateProfileModal";
 
 const UsersOverview = () => {
     
-    const [search, setSearch] = useState("");
-    const [users, setUsers] = useState([]);
     const navigation = useNavigate();
+
+    const [search, setSearch] = useState("");
+
+    const [usersData, setUsersData] = useState([]);
+    const [arquivedUsersData, setArquivedUsersData] = useState([]);
+
     const [position, setPosition] = useState<number>();
     const [positions, setPositions] = useState([]);
     const [createModal, setCreateModal] = useState(false);
@@ -32,7 +36,14 @@ const UsersOverview = () => {
         const response = await internalAPI.jsonRequest(`/users/paginated?${params.toString()}`, "GET");
         const content = response.data;
 
-        setUsers(content.map((u: { name: string; id: number; position: { name: string; }; sector: { name: string; }; }) => ({
+        setUsersData((content.filter((u: { isArchived: boolean; }) => !u.isArchived)).map((u: { name: string; id: number; position: { name: string; }; sector: { name: string; }; }) => ({
+            color: getHex(u.name),
+            goTo:  "/user-profile?userId=" + u.id,
+            title: u.name,
+            subtitle: u.position.name + " - " + u.sector.name,
+        })))
+
+        setArquivedUsersData((content.filter((u: { isArchived: boolean; }) => u.isArchived)).map((u: { name: string; id: number; position: { name: string; }; sector: { name: string; }; }) => ({
             color: getHex(u.name),
             goTo:  "/user-profile?userId=" + u.id,
             title: u.name,
@@ -59,8 +70,9 @@ const UsersOverview = () => {
                 }]} />
                 <ExplorerContainer 
                     filter={[positionFilter]} 
-                    data={users} 
+                    data={usersData} 
                     title={"Users"} 
+                    folderData={arquivedUsersData}
                     onAddHandle={() => setCreateModal(true)} 
                     input={{
                         search: search,
@@ -69,6 +81,7 @@ const UsersOverview = () => {
                     button={{
                         icon: "settings",
                         onClick: () => {navigation("/users-properties")}
+                    
                 }} />
             </main>
             <UpdateProfileModal 

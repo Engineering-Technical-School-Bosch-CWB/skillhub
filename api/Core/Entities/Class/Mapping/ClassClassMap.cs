@@ -8,19 +8,19 @@ public class ClassClassMap : IEntityTypeConfiguration<Class>
 {
     public void Configure(EntityTypeBuilder<Class> builder)
     {
-        builder.HasKey(e => e.Id).HasName("PK____Class");
+        builder.HasKey(c => c.Id).HasName("PK____Class");
 
         builder.ToTable("class");
 
-        builder.Property(e => e.Id)
+        builder.Property(c => c.Id)
             .HasColumnName("id");
 
-        builder.HasOne(cl => cl.Course)
-            .WithMany(co => co.Classes)
+        builder.HasOne(c => c.Course)
+            .WithMany(c => c.Classes)
             .HasForeignKey("course_id")
-            .HasPrincipalKey(co => co.Id);
+            .HasPrincipalKey(c => c.Id);
 
-        builder.Property(e => e.StartingYear)
+        builder.Property(c => c.StartingYear)
             .HasColumnType("smallint")
             .HasColumnName("starting_year");
 
@@ -28,10 +28,13 @@ public class ClassClassMap : IEntityTypeConfiguration<Class>
             .HasColumnType("tinyint")
             .HasColumnName("duration_periods");
 
-        builder.Property(e => e.IsActive)
+        builder.Property(c => c.IsActive)
             .HasColumnName("is_active");
 
-        builder.Property(e => e.Name)
+        builder.Property(c => c.IsArchived)
+            .HasColumnName("is_archived");
+
+        builder.Property(c => c.Name)
             .HasMaxLength(255)
             .HasColumnName("name");
     }

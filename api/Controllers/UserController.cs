@@ -19,7 +19,7 @@ public class UserController : ControllerBase
         [FromBody] UserCreatePayload payload
     )
     {
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
 
         var result = await service.CreateUser(payload);
         return Created("/api/v1/users", result);
@@ -43,7 +43,7 @@ public class UserController : ControllerBase
         ISubjectRepository subjectRepository, [FromQuery] int? subjectId
     )
     {
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
 
         var subject = subjectId.HasValue
             ? await subjectRepository.Get()
@@ -74,7 +74,7 @@ public class UserController : ControllerBase
         int id
     )
     {
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
 
         await service.DeleteUser(id);
         return NoContent();

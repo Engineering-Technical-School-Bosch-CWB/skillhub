@@ -2,25 +2,38 @@ import Icon from "../Icon";
 import Input from "../Input";
 import Button from "../Button";
 import Text from "../../typography";
-import styles from "./style.module.css";
+import styles from "./styles.module.css";
 import IdentificationCard from "./Components/IdentificationCard";
 
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { SelectView, SelectViewType } from "./Components/SelectView";
 import { IExplorerContainerProps } from "./Interfaces/ExplorerContainer.interfaces";
 import Select from "../Select";
+import IIdentificationCardProps from "./Components/IdentificationCard/interfaces";
 
-const ExplorerContainer = ({ input, folderPath, onAddHandle, title, data, filter, button }: IExplorerContainerProps) => {
+const ExplorerContainer = ({ input, folderData, onAddHandle, title, subtitle, data, filter, button }: IExplorerContainerProps) => {
 
     const [view, setView] = useState<SelectViewType>("card");
+    const [archivedView, setArchivedView] = useState(false);
+
+    const [cardsData, setCardsData] = useState<IIdentificationCardProps[]>(data);
+
+    useEffect(() => {
+        setCardsData(archivedView ? folderData! : data);
+    }, [archivedView, data])
 
     return (
         <div className={`${styles.explorerContainer}`} >
             <div className={`${styles.space_between}`}>
-                <Text fontSize="xl2" fontWeight="bold" >
-                    {title}
-                </Text>
+                <div className={`${styles.col}`}>
+                    <Text fontSize="xl2" fontWeight="bold" >
+                        {title}
+                    </Text>
+                    {
+                        subtitle &&
+                        <Text>{subtitle}</Text>
+                    }
+                </div>
                 {
                     button &&
                     <Button variant="primary_icon" onClick={() => button.onClick()}><Icon name="settings" /></Button>
@@ -55,23 +68,23 @@ const ExplorerContainer = ({ input, folderPath, onAddHandle, title, data, filter
                 <SelectView type={view} change={(e: SelectViewType) => setView(e)} />
 
                 {
-                    folderPath &&
-                    <Link
+                    folderData &&
+                    <Button
                         className={`${styles.folderBtn}`}
-                        to={folderPath}
+                        variant={archivedView ? "contained" : "outlined"}
+                        onClick={() => setArchivedView(!archivedView)}
                     >
                         <Icon name="folder_open" size="md" />
-                    </Link>
+                    </Button>
                 }
             </div>
 
             <div className={`${styles.listContainer} ${view == "list" ? styles.tableListContainer : ''} `}>
                 {
-                    data.map((e, i) => {
+                    cardsData.map((e, i) => {
                         return (
                             <>
-                                <IdentificationCard key={i} color={e.color} variant={view} title={e.title} subtitle={e.subtitle} icon={e.icon} iconDetails={e.iconDetails} goTo={e.goTo} />
-                                {/* <IdentificationCard {...e}/> */}
+                                <IdentificationCard key={i} color={e.color} variant={view} title={e.title} subtitle={e.subtitle} icon={e.icon} iconDetails={e.iconDetails} goTo={e.goTo} archived={archivedView} />
                             </>
                         )
                     })

@@ -40,7 +40,7 @@ public class OccupationAreaController : ControllerBase
         [FromBody] OccupationArea payload
     )
     {
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
 
         payload.IsActive = true;
         var result = await service.AddAsync(payload);
@@ -55,7 +55,7 @@ public class OccupationAreaController : ControllerBase
         int id
     )
     {
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
 
         var result = await service.UpdateOccupationArea(id, payload);
         return Ok(result);
@@ -68,7 +68,7 @@ public class OccupationAreaController : ControllerBase
         int id
     )
     {
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
 
         await service.DeleteOccupationArea(id);
         return Ok();

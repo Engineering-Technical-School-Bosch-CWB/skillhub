@@ -14,7 +14,7 @@ public class CurricularUnitController : ControllerBase
         [FromBody] CurricularUnitCreatePayload payload
     )
     {
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
 
         var result = await service.CreateCurricularUnit(payload);
         return Created("/api/v1/curricularUnits", result);
@@ -51,7 +51,7 @@ public class CurricularUnitController : ControllerBase
         int id
     )
     {
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
 
         var result = await service.UpdateCurricularUnit(id, payload);
         return Ok(result);
@@ -64,7 +64,7 @@ public class CurricularUnitController : ControllerBase
         int id
     )
     {
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
 
         await service.DeleteCurricularUnit(id);
         return NoContent();

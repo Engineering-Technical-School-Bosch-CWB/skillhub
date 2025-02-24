@@ -31,7 +31,7 @@ public class FeedbackController : ControllerBase
         [FromBody] FeedbackCreatePayload payload, UserContext userContext
     )
     {
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
 
         var result = await service.CreateFeedback(payload, userContext.UserId);
         return Created("/api/v1/feedbacks", result);
@@ -44,7 +44,7 @@ public class FeedbackController : ControllerBase
         [FromBody] FeedbackUpdatePayload payload, int id, [FromServices] IPermissionService permissionService
     )
     {
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
 
         var result = await service.UpdateFeedback(id, payload, userContext.UserId);
         return Ok(result);
@@ -56,7 +56,7 @@ public class FeedbackController : ControllerBase
         [FromServices] IFeedbackService service, UserContext userContext, int id, [FromServices] IPermissionService permissionService
     )
     {
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
 
         await service.DeleteFeedback(id, userContext.UserId);
         return NoContent();

@@ -10,6 +10,7 @@ public partial class Class : IEntity
   public required short StartingYear { get; set; }
   public short? DurationPeriods { get; set; }
   public bool IsActive { get; set; } = true;
+  public bool IsArchived { get; set; } = false;
   public ICollection<Subject> Subjects { get; set; } = [];
   public ICollection<Student> Students { get; set; } = [];
 }
