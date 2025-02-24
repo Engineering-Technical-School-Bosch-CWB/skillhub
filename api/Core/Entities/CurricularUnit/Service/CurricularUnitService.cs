@@ -62,6 +62,7 @@ public class CurricularUnitService(BaseRepository<CurricularUnit> repository, IS
         {
             if (await _repo.Get()
                     .Where(c => c.IsActive && EF.Functions.Collate(c.Name, "SQL_Latin1_General_CP1_CS_AS") == payload.Name)
+                    .Where(c => c.Id != id)
                     .SingleOrDefaultAsync() is not null)
                 throw new AlreadyExistsException("There's already a curricular unit with this name!");
 

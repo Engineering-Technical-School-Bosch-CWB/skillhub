@@ -1,13 +1,19 @@
-import { ChangeEvent } from "react";
-import { ISelectProps } from "./interfaces"
+import { ChangeEvent, useEffect, useState } from "react";
+import { ISelectData, ISelectProps } from "./interfaces"
 
 import styles from "./styles.module.css"
 
 export default (data: ISelectProps) => {
+    // const [selectedValue, setSelectedValue] = useState(data.data.filter((e) => e.selected)[0].value || "" );
 
     const onChange = (e: ChangeEvent<HTMLSelectElement>) => {
         if (data.onChange) data.onChange(e);
     }
+
+    useEffect(() => {
+        console.log(data);
+        
+    },[data])
 
     return (
         <div className={`${styles.select_container} ${data.className}`}>

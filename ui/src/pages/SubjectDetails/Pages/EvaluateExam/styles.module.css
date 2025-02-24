@@ -7,3 +7,10 @@
     height: 4rem;
     gap: .5rem;
 }
+.evaluate_container{
+    height: calc(100vh - 15rem );
+}
+
+.evaluate_main {
+    margin-bottom: 0 !important;
+}

@@ -11,14 +11,16 @@ import Pagination from "@/components/TableView/Pagination"
 import Icon from "@/components/Icon"
 import internalAPI from "@/service/internal.services"
 import { toast } from "react-toastify"
-import { useNavigate, useParams } from "react-router-dom"
-import { IOption } from "@/components/TableView/interfaces"
+import { useParams } from "react-router-dom"
 import { ISkill } from "@/interfaces/models/ISkill"
 import Modal from "@/components/Modal"
 import Input from "@/components/Input"
 import TextArea from "@/components/TextArea"
 import ButtonGroup from "@/components/ButtonGroup"
 import { IHttpMethod, IServiceResponse } from "@/interfaces/services.interfaces"
+import SettingsModal from "./components/SettingsModal"
+
+type SkillKind = "Create" | "Edit"
 
 export default () => {
     const { id } = useParams();
@@ -27,6 +29,7 @@ export default () => {
     const [skills, setSkills] = useState<ISkill[]>([]);
     const [focusedSkill, setFocusedSkill] = useState<ISkill | undefined>();
     
+    const [curricularUnitModal, setCurricularUnitModal] = useState<boolean>(false);
     const [skillModalOpen, setSkillModalOpen] = useState<boolean>(false);
     const [deleteSkillModal, setDeleteSkillModal] = useState<boolean>(false);
 
@@ -73,16 +76,16 @@ export default () => {
         const isEdit = focusedSkill?.id
         let _id = id
         let method: IHttpMethod = "POST";
-        setFocusedSkill(prev => ({
-            ...prev!,
+        const data = {
+            ...focusedSkill,
             curricularUnitId: Number.parseInt(_id!)
-        }))
+        }
         let request: IServiceResponse<any>;
         if(isEdit)
             method = "PATCH"
-        request = await internalAPI.jsonRequest(`/skills/${isEdit? focusedSkill.id:""}`, method, undefined, focusedSkill)
+        request = await internalAPI.jsonRequest(`/skills/${isEdit? focusedSkill.id : ""}`, method, undefined, data)
         if(!request || !request.success){
-            toast.error(`Error on ${isEdit? "edit":"create"} skill: \n ${request.info}`)
+            toast.error(`Error on ${isEdit? "edit":"create"} skill`)
             return;
         }
         location.reload();
@@ -90,7 +93,7 @@ export default () => {
     const submitSkillDelete = async () => {
         const response = await internalAPI.jsonRequest(`/skills/${focusedSkill?.id}`, "DELETE")
         if(!response || !response.success) {
-            toast.error(`Error on delete skill: \n ${response.message}`, {toastId: "delete-skill-error"});
+            toast.error(`Error on delete skill`, {toastId: "delete-skill-error"});
             return;
         }
         location.reload();
@@ -112,6 +115,10 @@ export default () => {
         setDeleteSkillModal(!deleteSkillModal);
     }
 
+    const onCurricularUnitEditToggle = () => {
+        setCurricularUnitModal(!curricularUnitModal)
+    }
+
     useEffect(() => {
         loadData();
     }, [])
@@ -122,12 +129,19 @@ export default () => {
             <main>
                 <SectionHeader {...sectionHeaderProps} /> 
                 <section className={styles.table_header}>
-                <Text fontSize="xl2" fontWeight="bold">{data.name}</Text>
-                <Button variant="secondary_icon" onClick={() => onSkillEditToggle()}>
-                    <Icon name="add" size="md"/>
-                </Button>
+                    <span className={styles.table_label}>
+                        <Text fontSize="xl2" fontWeight="bold">{data.name}</Text>
+                        <Text fontSize="sm" fontWeight="light">({data.subjectArea?.name})</Text>
+                    </span>
+                    <span>
+                        <Button variant="primary_icon" onClick={() => onCurricularUnitEditToggle()}>
+                            <Icon name="settings" size="md"/>
+                        </Button>
+                        <Button variant="secondary_icon" onClick={() => onSkillEditToggle()}>
+                            <Icon name="add" size="md"/>
+                        </Button>
+                    </span>
                 </section>
-                {/* <TableView data={skills} hasNotation={true} hasOptions={true} options={options} /> */}
                 <table>
                     <tr>
                         <th>#</th>
@@ -171,7 +185,7 @@ export default () => {
             </main>            
             { 
                 skillModalOpen && 
-                <Modal title={(focusedSkill ? `Edit` : `Create`) + "Skill"} 
+                <Modal title={(focusedSkill?.id ? `Edit` : `Create`) + " Skill"} 
                     handleClose={() => onSkillEditToggle()} 
                     open={skillModalOpen} 
                     subtitle={data.name}
@@ -211,6 +225,12 @@ export default () => {
                     </div>
                 </Modal>
             }
+            <SettingsModal 
+                data={data} 
+                handleClose={() => setCurricularUnitModal(false)} 
+                open={curricularUnitModal}
+                title=""
+            /> 
         </>
     )
 }
