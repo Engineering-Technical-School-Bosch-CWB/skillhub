@@ -11,8 +11,7 @@ import Pagination from "@/components/TableView/Pagination"
 import Icon from "@/components/Icon"
 import internalAPI from "@/service/internal.services"
 import { toast } from "react-toastify"
-import { useNavigate, useParams } from "react-router-dom"
-import { IOption } from "@/components/TableView/interfaces"
+import { useParams } from "react-router-dom"
 import { ISkill } from "@/interfaces/models/ISkill"
 import Modal from "@/components/Modal"
 import Input from "@/components/Input"
@@ -73,16 +72,16 @@ export default () => {
         const isEdit = focusedSkill?.id
         let _id = id
         let method: IHttpMethod = "POST";
-        setFocusedSkill(prev => ({
-            ...prev!,
+        const data = {
+            ...focusedSkill,
             curricularUnitId: Number.parseInt(_id!)
-        }))
+        }
         let request: IServiceResponse<any>;
         if(isEdit)
             method = "PATCH"
-        request = await internalAPI.jsonRequest(`/skills/${isEdit? focusedSkill.id:""}`, method, undefined, focusedSkill)
+        request = await internalAPI.jsonRequest(`/skills/${isEdit? focusedSkill.id : ""}`, method, undefined, data)
         if(!request || !request.success){
-            toast.error(`Error on ${isEdit? "edit":"create"} skill: \n ${request.info}`)
+            toast.error(`Error on ${isEdit? "edit":"create"} skill: \n ${request.message}`)
             return;
         }
         location.reload();
@@ -115,6 +114,10 @@ export default () => {
     useEffect(() => {
         loadData();
     }, [])
+    useEffect(() => {
+        console.log(focusedSkill);
+        
+    }, [focusedSkill])
 
     return (
         <>
@@ -127,7 +130,6 @@ export default () => {
                     <Icon name="add" size="md"/>
                 </Button>
                 </section>
-                {/* <TableView data={skills} hasNotation={true} hasOptions={true} options={options} /> */}
                 <table>
                     <tr>
                         <th>#</th>
