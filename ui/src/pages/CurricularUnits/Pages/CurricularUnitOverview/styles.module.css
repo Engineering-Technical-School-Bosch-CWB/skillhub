@@ -26,7 +26,7 @@ table {
     text-align: center;
     border-radius: 10px;
     tr {
-        height: 3rem;
+        /* height: 3rem; */
         border-bottom: var(--default-border);
     }
 

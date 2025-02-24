@@ -19,7 +19,7 @@ export default (data: ISelectProps) => {
         <div className={`${styles.select_container} ${data.className}`}>
             {
                 data.label &&
-                    <label htmlFor={data.name} className={styles.label}>{data.label}</label>
+                <label htmlFor={data.name} className={styles.label}>{data.label}</label>
             }
             <select
                 name={data.name}
@@ -30,20 +30,19 @@ export default (data: ISelectProps) => {
             >
                 {
                     !data.hasDefault &&
-                        <option className={`${styles.selection}`} selected>{data.label ?? "Select a value"}</option>
+                    <option className={`${styles.selection}`} selected>{data.label ?? "Select a value"}</option>
                 }
                 {
-                    data.data.map((item, index) => {
+                    data.data.map((item, i) => {
                         return (
-                            <>
-                                <option
-                                    value={item.value}
-                                    disabled={item.disabled}
-                                    selected={item.selected}
-                                >
-                                    {item.key}
-                                </option>
-                            </>
+                            <option
+                            key={i}
+                                value={item.value}
+                                disabled={item.disabled}
+                                selected={item.selected}
+                            >
+                                {item.key}
+                            </option>
                         )
                     })
                 }

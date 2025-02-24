@@ -15,7 +15,8 @@ export interface IStudentData {
         curricularUnitId: number,
         name: string,
         instructor: string,
-        performance?: number
+        grade?: number
+        aptitude?: number
     }[],
     subjectFeedBacks:
     {
@@ -37,12 +38,13 @@ export interface IStudentData {
 }
 
 export interface IUserData {
-    id: number,
-    name: string,
-    identification: string,
-    birthday?: string,
-    position: string,
-    sector: string,
+    id: number
+    name: string
+    identification: string
+    birthday?: string
+    position: string
+    sector: string
+    occupationArea?: string
 }
 
 export interface IRankingData {

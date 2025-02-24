@@ -29,7 +29,7 @@ public partial class SkillhubContext : DbContext
     public virtual DbSet<SkillResult> SkillResultList { get; set; }
     public virtual DbSet<Post> PostList { get; set; }
     public virtual DbSet<Attachment> AttachmentList { get; set; }
-    public virtual DbSet<SpecificObjectives> SpecificObjectivesList { get; set; }
+    public virtual DbSet<SpecificObjective> SpecificObjectivesList { get; set; }
     public virtual DbSet<Exam> ExamList { get; set; }
     public virtual DbSet<Objection> ObjectionList { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -48,7 +48,7 @@ public partial class SkillhubContext : DbContext
         modelBuilder.ApplyConfiguration(new SubjectAreaClassMap());
         modelBuilder.ApplyConfiguration(new SkillClassMap());
         modelBuilder.ApplyConfiguration(new SkillResultClassMap());
-        modelBuilder.ApplyConfiguration(new SpecificObjectivesClassMap());
+        modelBuilder.ApplyConfiguration(new SpecificObjectiveClassMap());
         modelBuilder.ApplyConfiguration(new StudentClassMap());
         modelBuilder.ApplyConfiguration(new StudentResultClassMap());
         modelBuilder.ApplyConfiguration(new SubjectClassMap());

@@ -7,7 +7,10 @@
     margin: 60px 60px;
 }
 
-/* ..charts section. */
+.chart {
+    width: 100%;
+}
+
 .chart_section {
     display: flex;
     flex-direction: column;
@@ -17,7 +20,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 20%;
+    gap: 2rem;
+
+    margin: 2rem 2rem 0 2rem;
 }
 
 

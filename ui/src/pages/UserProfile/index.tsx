@@ -7,20 +7,21 @@ import Header from "../../components/Header";
 import formatDate from "@/constants/formatDate";
 import internalAPI from "@/service/internal.services";
 import SectionHeader from "@/components/SectionHeader";
-
-import { useEffect, useState } from "react";
-import { IStudentData, IStudentProfileData, IUserData } from "./interfaces/UserProfile.interface";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { toast } from "react-toastify";
 import getHex from "@/constants/getHex";
-import { useUserContext } from "@/contexts/user.context";
 import Divider from "@/components/Divider";
 import FeedbackCard from "@/components/FeedbackCard";
 import PositionCard from "./components/PositionCard";
 import FeedbackModal from "./components/FeedbackModal";
-import { Bar, BarChart, Legend, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import Progress from "@/components/Progress";
 import UpdateProfileModal from "./components/UpdateProfileModal";
+
+import { IStudentData, IStudentProfileData, IUserData } from "./interfaces/UserProfile.interface";
+import { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useUserContext } from "@/contexts/user.context";
+import { Bar, BarChart, Legend, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer, Tooltip, TooltipProps, XAxis, YAxis } from "recharts";
+import { NameType, ValueType } from "recharts/types/component/DefaultTooltipContent";
 
 interface IModalProps {
     feedbackId?: number
@@ -33,11 +34,30 @@ interface IRadarProps {
     fullMark: number
 }
 interface IBarProps {
-    name: string,
-    result: number,
-    recuperation?: number,
+    name: string
+    grade: number
+    aptitude?: number
+    mds?: number
     fullMark: number
 }
+
+const CustomTooltip = ({
+    active,
+    payload,
+    label,
+}: TooltipProps<ValueType, NameType>) => {
+    if (active) {
+        return (
+            <div className={`${styles.custom_tooltip}`}>
+                <Text fontWeight="semibold">{`${label}`}</Text>
+                <Text fontSize="sm">{`Grade : ${payload?.[0].value}`}</Text>
+                <Text fontSize="sm">{`Aptitude : ${payload?.[1].payload.mds}`}</Text>
+            </div>
+        );
+    }
+
+    return null;
+};
 
 const UserProfile = () => {
 
@@ -73,6 +93,8 @@ const UserProfile = () => {
 
         const content = response.data as IStudentProfileData;
 
+        console.log(content);
+
         setStudentData(content.student);
         setUserData({
             id: content.id,
@@ -96,8 +118,10 @@ const UserProfile = () => {
 
             setBarData(content.student.subjectResults.map((result) => {
                 const item: IBarProps = {
-                    result: result.performance ?? 0,
-                    recuperation: 2,
+                    grade: result.grade ?? 0,
+                    aptitude: ((result.aptitude ?? 0) - (result.grade ?? 0)) > 0 ?
+                        ((result.aptitude ?? 0) - (result.grade ?? 0)) : 0,
+                    mds: result.aptitude ?? 0,
                     fullMark: 100,
                     name: result.name
                 };
@@ -181,15 +205,14 @@ const UserProfile = () => {
                         <>
                             <div className={`${styles.chart_section}`}>
                                 <PositionCard name={userData?.name!} position={studentData.classPosition} score={studentData.performance} />
-                                {/* !!! HERE !!! */}
                                 <div className={`${styles.chart_container}`}>
-                                    <Text fontSize="lg" fontWeight="bold">Content Area</Text>
+                                    <Text>Content Area</Text>
                                     <RadarChart
                                         cx={150}
                                         cy={170}
                                         outerRadius={150}
-                                        width={370}
-                                        height={370}
+                                        width={350}
+                                        height={350}
                                         data={radarData}
                                     >
                                         <PolarGrid />
@@ -206,8 +229,8 @@ const UserProfile = () => {
                                     </RadarChart>
                                 </div>
                                 <div className={`${styles.chart_container}`}>
-                                    <Text fontSize="lg" fontWeight="bold">Subjects</Text>
-                                    <ResponsiveContainer width={600} height={250}>
+                                    <Text>Subjects</Text>
+                                    <ResponsiveContainer width={750} height={350}>
                                         <BarChart
                                             data={barData}
                                             margin={{
@@ -217,13 +240,12 @@ const UserProfile = () => {
                                                 bottom: 5,
                                             }}
                                         >
-                                            {/* <CartesianGrid strokeDasharray="3 3" /> */}
-                                            <XAxis dataKey={"name"} />
+                                            <XAxis dataKey={"name"} fontSize={10} />
                                             <YAxis domain={[0, 100]} />
-                                            <Tooltip />
+                                            <Tooltip content={<CustomTooltip />} />
                                             <Legend />
-                                            <Bar dataKey="result" stackId="a" fill="#8884d8" />
-                                            <Bar dataKey="recuperation" stackId="a" fill="#82ca9d" />
+                                            <Bar dataKey="grade" stackId="a" fill="#00629a" />
+                                            <Bar dataKey="aptitude" stackId="a" fill="#0197ee" />
                                         </BarChart>
                                     </ResponsiveContainer>
                                 </div>
@@ -319,12 +341,15 @@ const UserProfile = () => {
                         setStudentData={setStudentData} />
                 }
             </main>
-            <UpdateProfileModal 
-                open={editModal}
-                handleClose={() => setEditModal(false)} 
-                title="Edit Profile" 
-                isCurrentUser={!userId}
-            />
+            {
+                userData &&
+                <UpdateProfileModal
+                    open={editModal}
+                    handleClose={() => setEditModal(false)}
+                    title="Edit Profile"
+                    isCurrentUser={!userId}
+                />
+            }
         </>
     )
 }

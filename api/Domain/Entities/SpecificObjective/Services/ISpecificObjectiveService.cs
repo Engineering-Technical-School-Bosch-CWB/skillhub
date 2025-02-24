@@ -3,7 +3,7 @@ using Api.Domain.Models;
 
 namespace Api.Domain.Services;
 
-public interface ISpecificObjectivesService : IService<SpecificObjectives>
+public interface ISpecificObjectiveService : IService<SpecificObjective>
 {
 
 }
