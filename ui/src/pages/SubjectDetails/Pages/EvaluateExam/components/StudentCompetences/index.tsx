@@ -180,7 +180,9 @@ export default function StudentCompetences({ results, setResults }: IStudentSkil
     }, [selectOpen]);
 
     return (
-        <>
+        <div
+            className={` ${styles.component_container}`}
+        >
             <section
                 tabIndex={0}
                 ref={containerRef}
@@ -216,10 +218,11 @@ export default function StudentCompetences({ results, setResults }: IStudentSkil
                                 }
                                 competenceRefs.current[selectedStudentIndex][cIndex] = el!;
                             }}
-                            className={`${styles.row} ${styles.align}`}>
+                            className={`${styles.row} ${styles.align}`}
+                        >
                             <div className={`${styles.content_row} ${styles.align}`}>
                                 <section className={`${styles.competence_description}`}>
-                                    <Text>{item.description}</Text>
+                                    <Text fontSize='sm'>{item.description}</Text>
                                 </section>
                                 <SelectCompentece
                                     selectOpened={selectOpen && selectedCompetenceIndex == cIndex}
@@ -254,6 +257,6 @@ export default function StudentCompetences({ results, setResults }: IStudentSkil
                     Save
                 </Button>
             </div>
-        </>
+        </div>
     );
 }

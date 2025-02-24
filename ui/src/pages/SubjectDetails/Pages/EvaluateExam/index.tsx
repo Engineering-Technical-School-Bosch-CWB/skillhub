@@ -51,7 +51,7 @@ export default () => {
     return (
         <>
             <Header />
-            <main>
+            <main className={styles.evaluate_main}>
                 <SectionHeader links={[{
                     label: "Classes Overview",
                     goTo: "/classes"
@@ -73,7 +73,9 @@ export default () => {
                 </div>
                 {
                     studentResults &&
-                    <StudentCompetences results={studentResults} setResults={setStudentResults} />
+                    <div className={styles.evaluate_container}>
+                        <StudentCompetences results={studentResults} setResults={setStudentResults} />
+                    </div>
                 }
             </main>
         </>
