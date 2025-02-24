@@ -1,6 +1,6 @@
 namespace Api.Domain.Services;
 public interface IPermissionService
 {
-    public void ValidatePermission();
+    public void ValidateAdmPermission();
     public bool IsLogged(int id);
 }

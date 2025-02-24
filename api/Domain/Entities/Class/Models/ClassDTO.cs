@@ -3,6 +3,7 @@ namespace Api.Domain.Models;
 public record ClassDTO(
     int Id,
     string Name,
+    string? Abbreviation,
     short StartingYear,
     short? DurationPeriods,
     int CourseId,
@@ -14,6 +15,7 @@ public record ClassDTO(
         return new ClassDTO(
             obj.Id,
             obj.Name,
+            obj.Abbreviation,
             obj.StartingYear,
             obj.DurationPeriods,
             obj.Course.Id,

@@ -36,7 +36,7 @@ public class SectorController : ControllerBase
         [FromBody] SectorCreatePayload payload, [FromServices] IPermissionService permissionService,
         [FromServices] ISectorService service
     ){
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
 
         var result = await service.CreateSector(payload);
         return Ok(result);
@@ -48,7 +48,7 @@ public class SectorController : ControllerBase
         [FromBody] SectorUpdatePayload payload, [FromServices] IPermissionService permissionService,
         [FromServices] ISectorService service, int id
     ){
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
 
         var result = await service.UpdateSector(id, payload);
         return Ok(result);
@@ -59,7 +59,7 @@ public class SectorController : ControllerBase
     public async Task<ActionResult> Delete(
         [FromServices] ISectorService service, [FromServices] IPermissionService permissionService, int id
     ){
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
         
         await service.DeleteSector(id);
         return NoContent();

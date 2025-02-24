@@ -15,7 +15,7 @@ public class ExamController : ControllerBase
         [FromBody] ExamCreatePayload payload
     )
     {
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
 
         var result = await service.CreateExam(payload);
         return Created("/api/v1/exams", result);
@@ -27,7 +27,7 @@ public class ExamController : ControllerBase
         [FromServices] IExamService service, [FromServices] IPermissionService permissionService, int id
     )
     {
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
 
         var result = await service.GetExamEvaluationPage(id);
         return Ok(result);
@@ -39,7 +39,7 @@ public class ExamController : ControllerBase
         [FromServices] IExamService service, [FromServices] IPermissionService permissionService, int id
     )
     {
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
 
         await service.DeleteExam(id);
         return NoContent();
@@ -51,7 +51,7 @@ public class ExamController : ControllerBase
         [FromServices] IExamService service, [FromServices] IPermissionService permissionService, int id
     )
     {
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
 
         var result = await service.GetCreateExamPage(id);
         return Ok(result);

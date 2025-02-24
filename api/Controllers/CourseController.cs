@@ -14,7 +14,7 @@ public class CourseController : ControllerBase
         [FromBody] CourseCreatePayload payload
     )
     {
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
         
         var result = await service.CreateCourse(payload);
         return Created("/api/v1/courses", result);
@@ -50,7 +50,7 @@ public class CourseController : ControllerBase
         int id
     )
     {
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
 
         var result = await service.UpdateCourse(id, payload);
         return Ok(result);
@@ -63,7 +63,7 @@ public class CourseController : ControllerBase
         int id
     )
     {
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
 
         await service.DeleteCourse(id);
         return NoContent();

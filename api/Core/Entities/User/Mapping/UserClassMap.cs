@@ -32,6 +32,9 @@ public class UserClassMap : IEntityTypeConfiguration<User>
         builder.Property(u => u.IsActive)
             .HasColumnName("is_active");
 
+        builder.Property(u => u.IsArchived)
+            .HasColumnName("is_archived");
+
         builder.HasOne(u => u.Position)
             .WithMany(p => p.Users)
             .HasForeignKey("position_id")

@@ -1,6 +1,3 @@
-using Api.Core.Errors;
-using Api.Core.Services;
-using Api.Domain.Enums;
 using Api.Domain.Models;
 using Api.Domain.Services;
 
@@ -16,12 +13,12 @@ public class ClassController : ControllerBase
     [HttpGet]
     public async Task<ActionResult> GetClasses(
         [FromServices] IClassService service, [FromServices] IPermissionService permissionService,
-        [FromQuery] string? query
+        [FromQuery] string? query, [FromQuery] bool? archived
     )
     {
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
 
-        var result = await service.GetClasses(query);
+        var result = await service.GetClasses(query, archived ?? false);
         return Ok(result);
     }
 
@@ -31,10 +28,22 @@ public class ClassController : ControllerBase
         [FromBody] ClassCreatePayload payload
     )
     {
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
 
         var result = await service.CreateClass(payload);
         return Created("api/v1/classes", result);
+    }
+
+    [HttpPatch]
+    [Route("archive/{id}")]
+    public async Task<ActionResult> ArchiveClass(
+        [FromServices] IClassService service, [FromServices] IPermissionService permissionService, int id
+    )
+    {
+        permissionService.ValidateAdmPermission();
+
+        await service.ArchiveClass(id);
+        return NoContent();
     }
 
     [HttpGet]
@@ -45,7 +54,7 @@ public class ClassController : ControllerBase
         [FromQuery] int? selectedCurricularUnitId, [FromQuery] int? selectedSubjectAreaId, int id
     )
     {
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
 
         var result = await service.GetClassPage(id, query, selectedStudentId, selectedCurricularUnitId, selectedSubjectAreaId);
         return Ok(result);

@@ -35,7 +35,7 @@ public class SkillResultController : ControllerBase
         [FromServices] IStudentService studentService, [FromQuery] int? studentId, int skillId
     )
     {
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
 
         var studentProfile = await studentService.GetByUserId(userContext.UserId);
 
@@ -56,7 +56,7 @@ public class SkillResultController : ControllerBase
         [FromBody] IEnumerable<StudentEvaluatePayload> payload, int examId
     )
     {
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
 
         var result = await service.EvaluateExam(examId, payload);
         return Ok(result);
