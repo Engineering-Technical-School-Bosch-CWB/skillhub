@@ -5,16 +5,16 @@ import { ISubjectArea } from "./ISubjectArea";
 export interface ICurricularUnit extends IEntity
 {
     name:string,
-    courseId: number,
+    courseId?: number,
     subjectAreaId: number,
-    subjectArea: ISubjectArea,
+    subjectArea?: ISubjectArea,
 }
 
 export class CurricularUnit implements ICurricularUnit, IConvertToTable {
     name: string;
-    courseId: number;
+    courseId?: number;
     subjectAreaId: number;
-    subjectArea: ISubjectArea;
+    subjectArea?: ISubjectArea;
     id?: number | undefined;
 
     constructor(data: ICurricularUnit) {
@@ -29,7 +29,7 @@ export class CurricularUnit implements ICurricularUnit, IConvertToTable {
         return {
             name: this.name,
             id: this.id,
-            subjectArea: this.subjectArea.name,
+            subjectArea: this.subjectArea?.name,
         }
     };
 
