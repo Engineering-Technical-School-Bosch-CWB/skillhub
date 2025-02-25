@@ -11,7 +11,13 @@ import { useEffect, useState } from "react";
 import { ISubject } from "@/interfaces/models/ISubject";
 import { IExam } from "@/interfaces/models/IExam";
 import Progress from "@/components/Progress";
+import Button from "@/components/Button";
+import Icon from "@/components/Icon";
+import UpdateModal from "./components/UpdateModal";
 
+interface IUpdateModalProps {
+    isUpdateModalOpen: boolean
+}
 
 export default () => {
 
@@ -23,6 +29,10 @@ export default () => {
     const [exam, setExam] = useState<IExam>();
 
     const [studentResults, setStudentResults] = useState<IStudentResults[]>();
+
+    const [updateModalProps, setUpdateModalProps] = useState<IUpdateModalProps>({
+        isUpdateModalOpen: false
+    })
 
     const getData = async () => {
         const response = await internalAPI.jsonRequest(`/exams/${examId}`, "GET");
@@ -68,14 +78,30 @@ export default () => {
                     label: exam?.name!
                 }]} />
                 <div className={`${styles.title_section}`}>
-                    <Text fontSize='xl2' fontWeight='bold'>{`Evaluate ${exam?.name}`}</Text>
-                    <Text>{exam?.description}</Text>
+                    <div className={`${styles.col}`}>
+                        <Text fontSize='xl2' fontWeight='bold'>{`Evaluate ${exam?.name}`}</Text>
+                        <Text fontSize="sm" >{exam?.description}</Text>
+                    </div>
+                    <Button variant="primary_icon" onClick={() => setUpdateModalProps({
+                        isUpdateModalOpen: true
+                    })}><Icon name="settings" /></Button>
                 </div>
                 {
                     studentResults &&
                     <div className={styles.evaluate_container}>
                         <StudentCompetences results={studentResults} setResults={setStudentResults} />
                     </div>
+                }
+                {
+                    exam &&
+                    <UpdateModal
+                        isOpen={updateModalProps.isUpdateModalOpen}
+                        handleIsOpen={() => setUpdateModalProps({
+                            isUpdateModalOpen: false
+                        })}
+                        exam={exam}
+                        setExam={setExam}
+                    />
                 }
             </main>
         </>

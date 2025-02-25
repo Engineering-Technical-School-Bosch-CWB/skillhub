@@ -40,19 +40,28 @@ public class UserController : ControllerBase
     [Route("teachers")]
     public async Task<ActionResult> GetTeachers(
         [FromServices] IUserService service, [FromServices] IPermissionService permissionService,
-        ISubjectRepository subjectRepository, [FromQuery] int? subjectId
+        ISubjectRepository subjectRepository, IExamRepository examRepository, [FromQuery] int? subjectId, [FromQuery] int? examId
     )
     {
         permissionService.ValidateAdmPermission();
 
-        var subject = subjectId.HasValue
-            ? await subjectRepository.Get()
+        User? instructor = null;
+
+        if (subjectId.HasValue)
+            instructor = await subjectRepository.Get()
                 .Where(s => s.IsActive && s.Id == subjectId.Value)
                 .Include(s => s.Instructor)
-                .SingleOrDefaultAsync() ?? throw new NotFoundException("Subject not found!")
-            : null;
+                .Select(s => s.Instructor)
+                .SingleOrDefaultAsync() ?? throw new NotFoundException("Subject not found!");
 
-        var result = await service.GetTeachers(subject?.Instructor);
+        else if (examId.HasValue)
+            instructor = await examRepository.Get()
+                .Where(e => e.IsActive && e.Id == examId.Value)
+                .Include(e => e.Instructor)
+                .Select(e => e.Instructor)
+                .SingleOrDefaultAsync() ?? throw new NotFoundException("Exam not found!");
+
+        var result = await service.GetTeachers(instructor);
         return Ok(new { data = result });
     }
 

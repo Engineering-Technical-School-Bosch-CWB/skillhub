@@ -1,7 +1,7 @@
 import styles from "./styles.module.css"
 
 interface ITextAreaProps {
-    value: string
+    value?: string
     setValue: Function
     placeHolder?: string
     required?: boolean

@@ -37,7 +37,7 @@ export default ({ isOpen, handleIsOpen, subject, setSubject }: IModalProps) => {
     const { classId, subjectId } = useParams();
 
     const [teachers, setTeachers] = useState<ISelectData[]>([]);
-    const [payload, setPayload] = useState<IUpdateSubjectPayload>({ ...subject });
+    const [payload, setPayload] = useState<IUpdateSubjectPayload>(subject);
 
     const getData = async () => {
         const response = await internalAPI.jsonRequest(`/users/teachers?${new URLSearchParams({ subjectId: subjectId! })}`, "GET");
