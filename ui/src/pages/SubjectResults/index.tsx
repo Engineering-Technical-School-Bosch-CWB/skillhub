@@ -27,7 +27,7 @@ const SubjectResults = () => {
 
     const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
     const [isContestmentModalOpen, setIsContestmentModalOpen] = useState(false);
-    const [selectedSkill, setSelectedSkill] = useState(-1);
+    const [selectedSkill, setSelectedSkill] = useState<number>();
 
     const [subject, setSubject] = useState("");
     const [feedback, setFeedback] = useState<IFeedback | null>(null);
@@ -137,8 +137,11 @@ const SubjectResults = () => {
                     </div>
                 </div>
 
-                <ContestmentModal isOpen={isContestmentModalOpen} handleIsOpen={handleContestmentModal} skillId={selectedSkill} />
-                <HistoryModal isOpen={isHistoryModalOpen} handleIsOpen={handleHistoryModal} skillId={selectedSkill} />
+                {/* <ContestmentModal isOpen={isContestmentModalOpen} handleIsOpen={handleContestmentModal} skillId={selectedSkill} /> */}
+                {
+                    selectedSkill &&
+                    <HistoryModal isOpen={isHistoryModalOpen} handleIsOpen={handleHistoryModal} skillId={selectedSkill} />
+                }
             </main>
         </div>
     )
