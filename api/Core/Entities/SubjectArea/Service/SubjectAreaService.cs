@@ -102,7 +102,7 @@ public class SubjectAreaService(
 
         return new PaginatedAppResponse<SubjectAreaDTO>(
             mappedUsers,
-            result.Item2,
+            result.Item2!,
             "Subject areas found!"
         );
     }
