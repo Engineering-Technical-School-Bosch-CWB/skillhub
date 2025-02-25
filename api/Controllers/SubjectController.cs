@@ -18,7 +18,7 @@ public class SubjectController : ControllerBase
     )
     {
 
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
 
         var result = await service.CreateSubject(payload);
         return Created("api/v1/subjects", result);
@@ -31,7 +31,7 @@ public class SubjectController : ControllerBase
         [FromBody] SubjectUpdatePayload payload, int id
     )
     {
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
 
         var result = await service.UpdateSubject(id, payload);
         return Ok(result);
@@ -44,7 +44,7 @@ public class SubjectController : ControllerBase
         [FromBody] IEnumerable<SubjectCreateByClassPayload> payload, int id
     )
     {
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
 
         var result = await service.CreateSubjectsByClass(payload, id);
         return Created("api/v1/subjects", result);
@@ -56,7 +56,7 @@ public class SubjectController : ControllerBase
         [FromServices] ISubjectService service, [FromServices] IPermissionService permissionService, int id
     )
     {
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
 
         var result = await service.GetInstructorPage(id);
         return Ok(result);
@@ -68,7 +68,7 @@ public class SubjectController : ControllerBase
         [FromServices] ISubjectService service, [FromServices] IPermissionService permissionService, int id
     )
     {
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
 
         await service.DeleteSubject(id);
         return NoContent();

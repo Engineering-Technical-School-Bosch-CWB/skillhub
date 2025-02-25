@@ -1,3 +1,16 @@
+export interface IClass {
+    id: number
+    name: string
+    abbreviation?: string
+    startingYear: number
+    durationPeriods?: number
+    courseId: number
+}
+
+export interface IUpdateModalProps {
+    isUpdateModalOpen: boolean
+}
+
 export interface ISubjectBarChatProps {
     data: SubjectExploitation[]
     selectedId: number | null
@@ -30,7 +43,7 @@ export interface ModalContentProps {
 }
 
 export interface SubjectExploitation {
-    subjectId: number, 
+    subjectId: number,
     subject: string,
     result: number
 }

@@ -28,7 +28,7 @@ public class PositionController : ControllerBase
         [FromBody] PositionCreatePayload payload
     )
     {
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
 
         var position = new Position
         {
@@ -53,7 +53,7 @@ public class PositionController : ControllerBase
         [FromBody] PositionUpdatePayload payload, int id
     )
     {
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
 
         var result = await service.UpdatePositionAsync(id, payload);
 
@@ -88,7 +88,7 @@ public class PositionController : ControllerBase
         int id
     )
     {
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
 
         await service.SoftDeleteAsync(id);
         return NoContent();

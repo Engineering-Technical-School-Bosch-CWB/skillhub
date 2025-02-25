@@ -13,14 +13,9 @@ namespace Api.Core.Services;
 
 public class ClassService(
     BaseRepository<Class> repository, IStudentService studentService, IStudentRepository studentRepository,
-    ICourseRepository courseRepository, ISubjectRepository subjectRepository,
-    IPositionRepository positionRepo,
-    ISectorRepository sectorRepo,
-    IOccupationAreaRepository occupationAreaRepo,
-    ICurricularUnitRepository curricularUnitRepository,
-    IUserRepository userRepository,
+    ICourseRepository courseRepository, ISubjectRepository subjectRepository, IPositionRepository positionRepo,
+    ISectorRepository sectorRepo, ICurricularUnitRepository curricularUnitRepository, IUserRepository userRepository,
     PasswordHasher<User> passwordHasher
-
 ) : BaseService<Class>(repository), IClassService
 {
 
@@ -32,7 +27,6 @@ public class ClassService(
     private readonly ICurricularUnitRepository _curricularUnitRepository = curricularUnitRepository;
     private readonly IPositionRepository _positionRepo = positionRepo;
     private readonly ISectorRepository _sectorRepo = sectorRepo;
-    private readonly IOccupationAreaRepository _occupationAreaRepo = occupationAreaRepo;
     private readonly PasswordHasher<User> _passwordHasher = passwordHasher;
 
 
@@ -169,6 +163,24 @@ public class ClassService(
             studentResults,
             subjectAreaResults
         );
+    }
+
+    public async Task ArchiveClass(int id)
+    {
+        var _class = await _repo.Get()
+            .Where(c => c.IsActive && !c.IsArchived)
+            .Include(c => c.Students)
+                .ThenInclude(s => s.User)
+            .SingleOrDefaultAsync(c => c.Id == id)
+            ?? throw new NotFoundException("Class not found!");
+
+        _class.IsArchived = true;
+
+        foreach (var student in _class.Students)
+            student.User.IsArchived = true;
+
+        _repo.Update(_class);
+        await _repo.SaveAsync();
     }
 
     #endregion

@@ -16,11 +16,13 @@ const ClassesOverview = () => {
     const navigate = useNavigate();
 
     const [search, setSearch] = useState("");
-    const [cardsData, setCardsData] = useState([])
+    const [cardsData, setCardsData] = useState([]);
+    const [archivedCardsData, setArchivedCardsData] = useState([]);
 
     const toggleAdd = () => navigate("new")
 
     const getData = async () => {
+        
         const response = await internalAPI.jsonRequest(`/classes?${new URLSearchParams({ query: search })}`, "GET");
 
         if (!response.success) {
@@ -31,7 +33,15 @@ const ClassesOverview = () => {
 
         const content = response.data;
 
-        setCardsData(content.map((c: { name: string; id: number; startingYear: string; }) => ({
+        setCardsData((content.filter((c: { isArchived: boolean; }) => !c.isArchived)).map((c: { name: string; id: number; startingYear: string; }) => ({
+            color: getHex(c.name),
+            goTo: c.id,
+            subtitle: c.startingYear,
+            title: c.name,
+            variant: "card"
+        })));
+
+        setArchivedCardsData((content.filter((c: { isArchived: boolean; }) => c.isArchived)).map((c: { name: string; id: number; startingYear: string; }) => ({
             color: getHex(c.name),
             goTo: c.id,
             subtitle: c.startingYear,
@@ -64,7 +74,7 @@ const ClassesOverview = () => {
                 }]} />
                 <ExplorerContainer
                     title={"Classes"}
-                    folderPath={"a"}
+                    folderData={archivedCardsData}
                     data={cardsData}
                     onAddHandle={() => toggleAdd()}
                     input={{

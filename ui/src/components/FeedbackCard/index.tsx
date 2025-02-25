@@ -1,6 +1,6 @@
 import Text from "@/typography";
 import { IFeedbackCardProps } from "./Interfaces/FeedbackCard.interfaces";
-import styles from "./style.module.css";
+import styles from "./styles.module.css";
 import Icon from "../Icon";
 
 export default ({ color, title, subtitle, editButton, content, isPrivate }: IFeedbackCardProps) => {

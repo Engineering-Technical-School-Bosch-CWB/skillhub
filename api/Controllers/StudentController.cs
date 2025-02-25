@@ -18,7 +18,7 @@ public class StudentController : ControllerBase
         [FromBody] StudentCreatePayload payload
     )
     {
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
 
         var result = await service.CreateStudent(payload);
         return Created("api/v1/students", result);

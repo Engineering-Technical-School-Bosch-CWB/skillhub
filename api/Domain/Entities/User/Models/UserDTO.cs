@@ -23,7 +23,8 @@ public record UserDTO(
     ObjectDTO Sector,
     ObjectDTO OccupationArea,
     short? PermissionLevel,
-    StudentDTO? StudentProfile
+    StudentDTO? StudentProfile,
+    bool IsArchived
 )
 {
     public static UserDTO Map(User obj, StudentDTO? student = null)
@@ -37,7 +38,8 @@ public record UserDTO(
             ObjectDTO.Map(obj.Sector.Id, obj.Sector.Name),
             ObjectDTO.Map(obj.OccupationArea.Id, obj.OccupationArea.Name),
             obj.Position?.PermissionLevel,
-            student
+            student,
+            obj.IsArchived
         );
     }
 }

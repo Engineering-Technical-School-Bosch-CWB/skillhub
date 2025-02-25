@@ -14,7 +14,7 @@ public class SubjectAreaController : ControllerBase
         [FromBody] SubjectAreaPayload payload
     )
     {
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
 
         var result = await service.CreateSubjectArea(payload);
         return Created("/api/v1/subjectAreas", result);
@@ -28,7 +28,7 @@ public class SubjectAreaController : ControllerBase
         int id
     )
     {
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
 
         var result = await service.UpdateSubjectArea(id, payload);
         return Ok(result);
@@ -41,7 +41,7 @@ public class SubjectAreaController : ControllerBase
         int id
     )
     {
-        permissionService.ValidatePermission();
+        permissionService.ValidateAdmPermission();
 
         await service.DeleteSubjectArea(id);
         return NoContent();

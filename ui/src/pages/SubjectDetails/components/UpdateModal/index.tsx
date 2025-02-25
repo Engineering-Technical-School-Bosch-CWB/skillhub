@@ -120,6 +120,10 @@ export default ({ isOpen, handleIsOpen, subject, setSubject }: IModalProps) => {
         getData();
     }, [])
 
+    useEffect(() => {
+        setPayload(subject);
+    }, [isOpen]);
+
     if (loading)
         return (
             <Modal open={isOpen} handleClose={handleClose} title={`${subject.curricularUnit} - ${subject.class}`} >

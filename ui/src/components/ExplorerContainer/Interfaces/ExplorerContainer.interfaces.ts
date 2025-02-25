@@ -1,10 +1,11 @@
 import IIdentificationCardProps from "../Components/IdentificationCard/interfaces";
 
 export interface IExplorerContainerProps {
-    title: string,
-    folderPath?: string,
-    onAddHandle?: Function,
+    title: string
+    subtitle?: string
+    onAddHandle?: Function
     data: IIdentificationCardProps[]
+    folderData?: IIdentificationCardProps[]
     input: {
         search: string,
         onChange: (str: string) => void
