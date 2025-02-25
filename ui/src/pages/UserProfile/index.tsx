@@ -94,8 +94,6 @@ const UserProfile = () => {
 
         const content = response.data as IStudentProfileData;
 
-        console.log(content);
-
         setStudentData(content.student);
         setUserData({
             id: content.id,
@@ -130,8 +128,6 @@ const UserProfile = () => {
             }));
 
         }
-
-        console.log(content)
         setLoading(false);
     }
     useEffect(() => {

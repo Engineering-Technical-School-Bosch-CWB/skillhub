@@ -2,7 +2,7 @@ import Modal, { IModalProps } from "@/components/Modal"
 import styles from "./styles.module.css";
 import { useEffect, useState } from "react";
 import internalAPI from "@/service/internal.services";
-import IUser from "@/interfaces/models/IUser";
+import IUser, { User } from "@/interfaces/models/IUser";
 import Input from "@/components/Input";
 import dayjs from "dayjs";
 import ButtonGroup from "@/components/ButtonGroup";
@@ -20,10 +20,11 @@ import { IServiceResponse } from "@/interfaces/services.interfaces";
 export interface IUpdateProfileModalProps extends IModalProps {
     id?: number,
     isCurrentUser: boolean,
-    byClassId?: string
+    byClassId?: string,
 }
 
-export default ({title, handleClose, open, isCurrentUser, subtitle, byClassId}: IUpdateProfileModalProps) => {
+
+export default ({title, handleClose, open, isCurrentUser, subtitle, byClassId }: IUpdateProfileModalProps) => {
     const _location = useLocation();
     const queryParams = new URLSearchParams(_location.search);
     const id = queryParams.get("userId");
@@ -32,25 +33,7 @@ export default ({title, handleClose, open, isCurrentUser, subtitle, byClassId}: 
     const [selectArea, setSelectArea] = useState<ISelectData[]>([]);
     const [selectPosition, setSelectPosition] = useState<ISelectData[]>([]);
     const [selectSector, setSelectSector] = useState<ISelectData[]>([]);
-    const [userData, setUserData] = useState<IUser>(
-        {
-            birthday: new Date,
-            id: 0,
-            identification: "",
-            image: undefined,
-            name: "",
-            occupationArea: {
-                id: 0, name: ""
-            },
-            permissionLevel: 0,
-            position: {
-                id: 0, name: ""
-            },
-            sector: {
-                id: 0, name: ""
-            }
-        }
-    );
+    const [userData, setUserData] = useState<IUser>(User.getDefault());
     const [updatedData, setUpdatedData] = useState({})
 
     const loadData = async () => {
@@ -65,8 +48,8 @@ export default ({title, handleClose, open, isCurrentUser, subtitle, byClassId}: 
 
     const toggleSubmit = async () => {
         var response : IServiceResponse<any>;
-        if(id)
-            response = await internalAPI.jsonRequest(`/users/${id}`,"PATCH", undefined, updatedData);
+        if(id || isCurrentUser)
+            response = await internalAPI.jsonRequest(`/users/${id ?? userData.id}`,"PATCH", undefined, updatedData);
         else if (byClassId)
             response = await internalAPI.jsonRequest(`/users/byClass/${byClassId}`,"POST", undefined, userData);
         else
@@ -135,7 +118,7 @@ export default ({title, handleClose, open, isCurrentUser, subtitle, byClassId}: 
     }
 
     useEffect(() => {
-        if(id)
+        if(id || isCurrentUser)
             loadData();
     },[])
     useEffect(() => {
@@ -153,7 +136,12 @@ export default ({title, handleClose, open, isCurrentUser, subtitle, byClassId}: 
                     <Input label="Name" value={userData.name} onChange={(e) => changeValue("name", e.target.value)} disabled={isUpdatePassword}/>
                     <Input label="Birth" value={formatDate(userData.birthday)} type="date" dateChange={(e) => changeValue("birthday", e?.format("YYYY-MM-DD"))} disabled={isUpdatePassword} />
                 </section>
-                <Input label="Identification" value={userData.identification} onChange={(e) => changeValue("identification", e.target.value)} disabled={isUpdatePassword} />
+                <Input 
+                    label="Identification" 
+                    value={userData.identification} 
+                    onChange={(e) => changeValue("identification", e.target.value)} disabled={isUpdatePassword || !(logedUser?.permissionLevel! > 1)
+                    }
+                />
                 {
                     logedUser?.permissionLevel && logedUser?.permissionLevel > 1 ? 
                         <section className={`${styles.triple_input} ${styles.input_1_1_1}`}>

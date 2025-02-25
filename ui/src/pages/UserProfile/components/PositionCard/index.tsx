@@ -14,7 +14,9 @@ export default ({ position, name, score }: IPositionCardProps) => {
     }
 
     const abbreviate = (name: string) => {
-        return !name ? name : (name!.split(' ')[0] + ' ' + name!.split(' ')[1][0].toUpperCase() + ".")
+        console.log(name);
+        let splittedName =  name!.split(' ')
+        return !name ? name : (splittedName[0] + (splittedName.length > 1 ? ' ' + splittedName[1][0].toUpperCase() + "." : ""))
     }
 
     return (
