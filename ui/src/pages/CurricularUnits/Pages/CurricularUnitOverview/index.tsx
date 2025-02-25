@@ -20,8 +20,6 @@ import ButtonGroup from "@/components/ButtonGroup"
 import { IHttpMethod, IServiceResponse } from "@/interfaces/services.interfaces"
 import SettingsModal from "./components/SettingsModal"
 
-type SkillKind = "Create" | "Edit"
-
 export default () => {
     const { id } = useParams();
     const [data, setData] = useState<ICurricularUnit>(CurricularUnit.getDefault());
