@@ -122,10 +122,8 @@ const SubjectResults = () => {
                                     }
                                 </div>
                             </div>
-                            <div className={styled.chart_section}>
-                                <DoughnutChart exploitation={overallPerformance == null ? 0 : Number((overallPerformance).toFixed(1))} title="Your Performance" />
-                                <DoughnutChart exploitation={classOverallPerformance == null ? 0 : Number((classOverallPerformance).toFixed(1))} title="Average Class Performance" />
-                            </div>
+                            <DoughnutChart performance={overallPerformance == null ? 0 : Number((overallPerformance).toFixed(1))} title="Your Performance" />
+                            <DoughnutChart performance={classOverallPerformance == null ? 0 : Number((classOverallPerformance).toFixed(1))} title="Average Class Performance" />
                         </div>
                     </div>
                     <Divider size="big" />

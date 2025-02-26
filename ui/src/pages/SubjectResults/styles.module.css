@@ -8,7 +8,9 @@
 .overview_content {
     display: flex;
     align-items: center;
-    gap: 8rem
+
+    gap: 1rem;
+    justify-content: space-between;
 }
 
 .feedback_card {
@@ -16,7 +18,7 @@
     flex-direction: column;
     gap: 15px;
 
-    width: 40%;
+    width: 100%;
     height: fit-content;
 
     background-color: var(--gray-0);
@@ -30,9 +32,5 @@
     align-self: flex-end;
 }
 
-.chart_section {
-    display: flex;
-    gap: 8rem;
-}
 
 /* ..competences section */

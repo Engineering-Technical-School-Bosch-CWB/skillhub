@@ -1,4 +1,4 @@
 export interface IDoughnutCharProps {
-    exploitation: number,
+    performance: number,
     title: string
 }
