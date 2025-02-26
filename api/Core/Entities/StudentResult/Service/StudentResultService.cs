@@ -20,6 +20,11 @@ public class StudentResultService(BaseRepository<User> repository, IStudentResul
 
     #region Services
 
+    public async Task AttExamResult(Exam exam)
+    {
+        var aa = exam.SkillResults.GroupBy(s => s.Student.Id);
+    }
+
     public async Task UpdateExamResult(Student student, Exam exam, double? score)
     {
         var studentResultExam = await _repo.Get()

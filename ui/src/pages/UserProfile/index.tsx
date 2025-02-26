@@ -37,7 +37,7 @@ interface IBarProps {
     name: string
     grade: number
     aptitude?: number
-    mds?: number
+    obj?: number
     fullMark: number
 }
 
@@ -50,8 +50,8 @@ const CustomTooltip = ({
         return (
             <div className={`${styles.custom_tooltip}`}>
                 <Text fontWeight="semibold">{`${label}`}</Text>
-                <Text fontSize="sm">{`Grade : ${payload?.[0].value}`}</Text>
-                <Text fontSize="sm">{`Aptitude : ${payload?.[1].payload.mds}`}</Text>
+                <Text fontSize="sm">{`Grade : ${payload?.[0].value == null ? "-" : (payload?.[0].value as number).toFixed(2)}`}</Text>
+                <Text fontSize="sm">{`Aptitude : ${payload?.[1].payload.obj == null ? "-" : payload?.[1].payload.obj.toFixed(2)}`}</Text>
             </div>
         );
     }
@@ -71,7 +71,7 @@ const UserProfile = () => {
 
     const classId = searchParams.get("classId");
     const userId = searchParams.get("userId");
-    
+
     const { user } = useUserContext();
 
     const navigate = useNavigate();
@@ -107,7 +107,7 @@ const UserProfile = () => {
         if (content.student) {
             setRadarData(content.student.subjectAreaResults.map((result) => {
                 const item: IRadarProps = {
-                    A: result.performance,
+                    A: !result.grade ? 0 : Number(result.grade.toFixed(2)),
                     subject: result.name,
                     fullMark: 100,
                     B: 0
@@ -120,7 +120,7 @@ const UserProfile = () => {
                     grade: result.grade ?? 0,
                     aptitude: ((result.aptitude ?? 0) - (result.grade ?? 0)) > 0 ?
                         ((result.aptitude ?? 0) - (result.grade ?? 0)) : 0,
-                    mds: result.aptitude ?? 0,
+                    obj: result.aptitude ?? 0,
                     fullMark: 100,
                     name: result.name
                 };
@@ -201,33 +201,35 @@ const UserProfile = () => {
                         studentData?.classPosition &&
                         <>
                             <div className={`${styles.chart_section}`}>
-                                <PositionCard name={userData?.name!} position={studentData.classPosition} score={studentData.performance} />
-                                <div className={`${styles.chart_container}`}>
-                                    <Text>Content Area</Text>
-                                    <RadarChart
-                                        cx={150}
-                                        cy={170}
-                                        outerRadius={150}
-                                        width={350}
-                                        height={350}
-                                        data={radarData}
-                                    >
-                                        <PolarGrid />
-                                        <PolarAngleAxis dataKey="subject" />
-                                        <PolarRadiusAxis />
-                                        <Tooltip />
-                                        <Radar
-                                            name={userData?.name}
-                                            dataKey="A"
-                                            stroke="#8884d8"
-                                            fill="#8884d8"
-                                            fillOpacity={0.6}
-                                        />
-                                    </RadarChart>
+                                <div className={`${styles.row}`}>
+                                    <PositionCard name={userData?.name!} position={studentData.classPosition} score={studentData.performance} />
+                                    <div className={`${styles.chart_container}`}>
+                                        <Text>Content Area</Text>
+                                        <RadarChart
+                                            cx={300}
+                                            cy={200}
+                                            outerRadius={130}
+                                            width={600}
+                                            height={350}
+                                            data={radarData}
+                                        >
+                                            <PolarGrid />
+                                            <PolarAngleAxis dataKey="subject" />
+                                            <PolarRadiusAxis />
+                                            <Tooltip />
+                                            <Radar
+                                                name={userData?.name}
+                                                dataKey="A"
+                                                stroke="#00629a"
+                                                fill="#00629a"
+                                                fillOpacity={0.6}
+                                            />
+                                        </RadarChart>
+                                    </div>
                                 </div>
                                 <div className={`${styles.chart_container}`}>
                                     <Text>Subjects</Text>
-                                    <ResponsiveContainer width={750} height={350}>
+                                    <ResponsiveContainer width={"100%"} height={350}>
                                         <BarChart
                                             data={barData}
                                             margin={{
@@ -244,6 +246,7 @@ const UserProfile = () => {
                                             <Bar dataKey="grade" stackId="a" fill="#00629a" />
                                             <Bar dataKey="aptitude" stackId="a" fill="#0197ee" />
                                         </BarChart>
+
                                     </ResponsiveContainer>
                                 </div>
                             </div>

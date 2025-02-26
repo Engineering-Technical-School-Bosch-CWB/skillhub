@@ -42,7 +42,7 @@ public class ExamService(BaseRepository<Exam> repository, ISubjectRepository sub
             Description = payload.Description,
             Instructor = instructor,
             Subject = subject,
-            AppliedAt = payload.ApliedAt
+            AppliedAt = payload.AppliedAt
         };
 
         var createdExam = _repo.Add(newExam)
@@ -50,7 +50,11 @@ public class ExamService(BaseRepository<Exam> repository, ISubjectRepository sub
 
         var skillResults = new List<SkillResultDTO>();
 
-        foreach (var obj in payload.Skills)
+        var payloadSkills = payload.Skills
+            .GroupBy(s => s.SkillId)
+            .Select(s => s.Last());
+
+        foreach (var obj in payloadSkills)
         {
             var skill = await _skillRepo.Get()
                 .Where(s => s.IsActive)
@@ -83,12 +87,101 @@ public class ExamService(BaseRepository<Exam> repository, ISubjectRepository sub
         );
     }
 
-    public async Task DeleteExam(int examId)
+    public async Task<AppResponse<ExamDTO>> UpdateExam(int id, ExamUpdatePayload payload)
+    {
+        var exam = await _repo.Get()
+            .Where(e => e.IsActive)
+            .Include(e => e.Instructor)
+            .Include(e => e.SkillResults)
+                .ThenInclude(s => s.Skill)
+            .Include(e => e.SkillResults)
+                .ThenInclude(s => s.Student)
+            .Include(e => e.Subject.Class.Students)
+            .SingleOrDefaultAsync(e => e.Id == id)
+            ?? throw new NotFoundException("Exam not found!");
+
+        if (payload.InstructorId.HasValue)
+        {
+            var instructor = await _userRepo.Get()
+                .Where(u => u.IsActive)
+                .SingleOrDefaultAsync(u => u.Id == payload.InstructorId.Value)
+                ?? throw new NotFoundException("Instructor not found!");
+
+            exam.Instructor = instructor;
+        }
+
+        if (payload.Name is not null)
+            exam.Name = payload.Name;
+
+        if (payload.Description is not null)
+            exam.Description = payload.Description;
+
+        if (payload.AppliedAt.HasValue)
+            exam.AppliedAt = payload.AppliedAt.Value;
+
+        if (payload.Skills is not null)
+        {
+            var payloadSkills = payload.Skills
+                .GroupBy(s => s.SkillId)
+                .ToDictionary(s => s.Key, s => s.First().Weight);
+
+            HashSet<int> existingSkills = [];
+
+            foreach (var result in exam.SkillResults)
+            {
+                if (!payloadSkills.TryGetValue(result.Skill.Id, out var weight))
+                    result.IsActive = false;
+                else
+                {
+                    if (weight != result.Weight)
+                        result.Weight = weight ?? 1;
+
+                    existingSkills.Add(result.Skill.Id);
+                }
+            }
+
+            foreach (var newSkill in payload.Skills)
+            {
+                if (!existingSkills.Contains(newSkill.SkillId))
+                {
+                    var skill = await _skillRepo.Get()
+                        .Where(s => s.IsActive)
+                        .SingleOrDefaultAsync(s => s.Id == newSkill.SkillId)
+                        ?? throw new NotFoundException("Skill not found!");
+
+                    foreach (var student in exam.Subject.Class.Students)
+                    {
+                        var newSkillResult = new SkillResult
+                        {
+                            Student = student,
+                            Skill = skill,
+                            Weight = newSkill.Weight ?? 1,
+                            Aptitude = null,
+                            IsActive = true
+                        };
+
+                        exam.SkillResults.Add(newSkillResult);
+                    }
+                }
+            }
+        }
+
+        repository.Update(exam);
+        await repository.SaveAsync();
+
+        return new AppResponse<ExamDTO>(
+            ExamDTO.Map(exam, exam.SkillResults.Select(SkillResultDTO.Map)),
+            "Exam created successfully!"
+        );
+
+    }
+
+    public async Task DeleteExam(int id)
     {
         var exam = await _repo.Get()
             .Where(e => e.IsActive)
             .Include(e => e.SkillResults)
-            .SingleOrDefaultAsync(e => e.Id == examId)
+            .SingleOrDefaultAsync(e => e.Id == id)
             ?? throw new NotFoundException("Exam not found!");
 
         exam.IsActive = false;
@@ -132,11 +225,6 @@ public class ExamService(BaseRepository<Exam> repository, ISubjectRepository sub
             }).OrderBy(r => r.Id);
 
         return skills;
-    }
-
-    public async Task<ExamResultsDTO> GetClassResults(int id)
-    {
-        return null;
     }
 
     #endregion
@@ -190,13 +278,49 @@ public class ExamService(BaseRepository<Exam> repository, ISubjectRepository sub
         var teachers = await _userService.GetTeachers(subject.Instructor);
 
         var skills = await _skillRepo.Get()
-            .Where(s => s.CurricularUnit.Id == subject.CurricularUnit.Id)
             .Where(s => s.IsActive)
-            .Select(s => SkillDTO.Map(s))
+            .Where(s => s.CurricularUnit.Id == subject.CurricularUnit.Id)
+            .Select(s => new SelectSkillDTO(false, SkillDTO.Map(s, null)))
             .ToListAsync();
 
         return new AppResponse<ExamSkillsDTO>(
             ExamSkillsDTO.Map(SubjectDTO.Map(subject), teachers, skills),
+            "Skills found!"
+        );
+    }
+
+    public async Task<AppResponse<EditExamDTO>> GetEditExamPage(int id)
+    {
+        var exam = await _repo.Get()
+            .Where(e => e.IsActive)
+            .Include(e => e.Instructor)
+            .Include(e => e.Subject.CurricularUnit)
+            .Include(e => e.Subject.Class)
+            .Include(e => e.SkillResults)
+                .ThenInclude(s => s.Skill)
+            .SingleOrDefaultAsync(e => e.Id == id)
+            ?? throw new NotFoundException("Exam not found!");
+
+        var teachers = await _userService.GetTeachers(exam.Instructor);
+
+        var selectedSkills = exam.SkillResults
+            .GroupBy(s => s.Skill.Id)
+            .Select(s => new { s.First().Skill.Id, s.First().Weight })
+            .ToDictionary(s => s.Id, s => s.Weight);
+
+        var skills = await _skillRepo.Get()
+            .Where(s => s.IsActive)
+            .Where(s => s.CurricularUnit.Id == exam.Subject.CurricularUnit.Id)
+            .ToListAsync();
+
+        var weigthSkills = skills
+            .Select(s => new SelectSkillDTO(
+                selectedSkills.ContainsKey(s.Id),
+                SkillDTO.Map(s, selectedSkills.TryGetValue(s.Id, out var value) ? value : null)
+            ));
+
+        return new AppResponse<EditExamDTO>(
+            EditExamDTO.Map(exam, ExamSkillsDTO.Map(SubjectDTO.Map(exam.Subject), teachers, weigthSkills)),
             "Skills found!"
         );
     }

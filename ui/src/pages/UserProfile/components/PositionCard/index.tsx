@@ -26,7 +26,7 @@ export default ({ position, name, score }: IPositionCardProps) => {
                 <Text fontSize="xl5" fontWeight="bold">{!position ? "-" : `${position}°`}</Text>
                 <span className={`${styles.spacing}`}>
                     <Text fontSize="lg" fontWeight="bold">{abbreviate(name)}</Text>
-                    <Text fontSize="sm" fontWeight="bold">{`${score}%`}</Text>
+                    <Text fontSize="sm" fontWeight="bold">{score == null ? "-" : `${score?.toFixed(2)}%`}</Text>
                 </span>
             </div>
         </>
