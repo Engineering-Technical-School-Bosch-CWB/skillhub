@@ -8,7 +8,7 @@ const DoughnutChart: React.FC<IDoughnutCharProps> = ({ performance, title }) => 
 
   const data = [
     { name: "Performance", value: performance },
-    { name: "Remaining", value: 100 - performance },
+    { name: "Remaining", value: performance == null ? 0 : Number((100 - performance).toFixed(2)) },
   ];
 
   return (
