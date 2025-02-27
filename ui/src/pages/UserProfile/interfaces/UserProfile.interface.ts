@@ -7,9 +7,9 @@ export interface IStudentData {
     className: string,
     classPosition?: number,
     subjectAreaResults: {
+        grade: number
         id: number,
         name: string,
-        performance: number,
     }[],
     subjectResults:
     {

@@ -1,8 +1,8 @@
 .card {
     background-color: var(--warning-light);
 
-    width: 12rem;
-    height: auto;
+    width: 15rem;
+    height: 270px;
 
     border-radius: .5em;
 

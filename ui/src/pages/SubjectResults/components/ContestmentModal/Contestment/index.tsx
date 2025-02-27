@@ -26,10 +26,6 @@ const Contestment = ({ option, selectionHandler, current }: IContestmentProps) =
         selectionHandler(status);
     }
 
-    useEffect(() => {
-        console.log(optionsShowing);
-    }, []);
-
     return (
         <div style={{ marginBottom: "3rem" }}>
             <div className={styled.header}>

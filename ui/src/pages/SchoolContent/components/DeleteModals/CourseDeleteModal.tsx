@@ -13,7 +13,6 @@ export default ({id}: IDeleteModalProps) => {
     const loadData = async () => {
         const response = await internalAPI.jsonRequest(`/course/${id}`,"GET");
         const _data = response.data as ICourse;
-        console.log(_data);
         setData(_data);
     }
 

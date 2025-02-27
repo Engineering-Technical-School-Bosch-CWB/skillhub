@@ -1,4 +1,3 @@
-using Api.Core.Services;
 using Api.Domain.Models;
 using Api.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +18,19 @@ public class ExamController : ControllerBase
 
         var result = await service.CreateExam(payload);
         return Created("/api/v1/exams", result);
+    }
+
+    [HttpPatch]
+    [Route("{id}")]
+    public async Task<ActionResult> UpdateExam(
+        [FromServices] IExamService service, [FromServices] IPermissionService permissionService, int id,
+        [FromBody] ExamUpdatePayload payload
+    )
+    {
+        permissionService.ValidateAdmPermission();
+
+        var result = await service.UpdateExam(id, payload);
+        return Ok(result);
     }
 
     [HttpGet]
@@ -46,14 +58,26 @@ public class ExamController : ControllerBase
     }
     
     [HttpGet]
-    [Route("createExam/{id}")]
+    [Route("createExam/{subjectId}")]
     public async Task<ActionResult> GetCreateExamPage(
+        [FromServices] IExamService service, [FromServices] IPermissionService permissionService, int subjectId
+    )
+    {
+        permissionService.ValidateAdmPermission();
+
+        var result = await service.GetCreateExamPage(subjectId);
+        return Ok(result);
+    }
+
+    [HttpGet]
+    [Route("editExam/{id}")]
+    public async Task<ActionResult> GetEditExamPage(
         [FromServices] IExamService service, [FromServices] IPermissionService permissionService, int id
     )
     {
         permissionService.ValidateAdmPermission();
 
-        var result = await service.GetCreateExamPage(id);
+        var result = await service.GetEditExamPage(id);
         return Ok(result);
     }
 }

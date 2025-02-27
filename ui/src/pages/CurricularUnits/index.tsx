@@ -38,8 +38,6 @@ const CurricularUnits = () => {
 
     const getData = async () => {
 
-        console.log(subjectArea)
-
         const apiRequest = async () => {
 
             const params = new URLSearchParams();
@@ -53,8 +51,6 @@ const CurricularUnits = () => {
             if (!response || response.statusCode != 200)
                 if (!toast.isActive(`curricular-units-load-error`))
                     toast.error(`Error on load Curricular Units.`, { toastId: `curricular-units-load-error` });
-
-            console.log(response.data)
 
             return response.data;
         }

@@ -28,6 +28,7 @@ const HistoryModal = ({ isOpen, handleIsOpen, skillId }: IModalProps) => {
             reason: r.reason,
             aptitude: r.aptitude
         })))
+
     }
 
     useEffect(() => {

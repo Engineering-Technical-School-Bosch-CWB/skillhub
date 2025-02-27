@@ -6,6 +6,7 @@ public record ExamDTO(
     string Name,
     string? Description,
     DateOnly? AppliedAt,
+    int? InstructorId,
     IEnumerable<SkillResultDTO> Skills
 )
 {
@@ -16,6 +17,7 @@ public record ExamDTO(
             obj.Name,
             obj.Description,
             obj.AppliedAt,
+            obj.Instructor?.Id,
             skills
         );
     }
@@ -57,6 +59,20 @@ public record ExamResultsDTO(
             obj.AppliedAt,
             skills,
             students
+        );
+    }
+}
+
+public record EditExamDTO(
+    ExamDTO Exam,
+    ExamSkillsDTO Info
+)
+{
+    public static EditExamDTO Map(Exam obj, ExamSkillsDTO dto)
+    {
+        return new EditExamDTO(
+            ExamDTO.Map(obj, []),
+            dto
         );
     }
 }

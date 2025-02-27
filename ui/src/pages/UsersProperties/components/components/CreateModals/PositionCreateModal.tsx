@@ -20,8 +20,6 @@ export default ({onChange, list}: ICreateModalProps) => {
                 : position.positionLevel;
             
             if (level === EPositionLevel.Student) {
-                console.log("is student");
-                
                 return true;
             }
             return false;
@@ -57,10 +55,6 @@ export default ({onChange, list}: ICreateModalProps) => {
     useEffect(() => {
         onChange!(data)
     }, [data]);
-    useEffect(() => {
-        console.log(positionLevelSelectProps);
-        
-    }, []);
 
     return (
         <section className={styles.content_section} >

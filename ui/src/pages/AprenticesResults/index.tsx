@@ -88,7 +88,7 @@ const AprenticesResults = () => {
                         <div className={`${styles.chart}`}>
                             <ExploitationBarChart data={barChartData} label={"Performance per Subject"} />
                         </div>
-                        <DoughnutChart title="Overall Performance" exploitation={overallPerformance == null ? 0 : Number(overallPerformance.toFixed(1))} />
+                        <DoughnutChart title="Overall Performance" performance={overallPerformance == null ? 0 : Number(overallPerformance.toFixed(1))} />
                     </div>
                 </div>
                 <Divider size="big" />

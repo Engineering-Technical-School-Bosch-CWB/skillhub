@@ -10,7 +10,7 @@ public class ExamCreatePayload
 
     [StringLength(255)]
     public string? Description { get; set; }
-    public DateOnly? ApliedAt { get; set; }
+    public DateOnly? AppliedAt { get; set; }
     public int? InstructorId { get; set; }
 
     [Required]
@@ -18,4 +18,17 @@ public class ExamCreatePayload
 
     [Required]
     public required IEnumerable<SkillResultDTO> Skills { get; set; }
+}
+
+public class ExamUpdatePayload
+{
+    [StringLength(50)]
+    public string? Name { get; set; }
+
+    [StringLength(255)]
+    public string? Description { get; set; }
+    public DateOnly? AppliedAt { get; set; }
+    public int? InstructorId { get; set; }
+    
+    public IEnumerable<SkillResultDTO>? Skills { get; set; }
 }

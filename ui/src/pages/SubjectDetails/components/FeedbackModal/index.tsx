@@ -59,8 +59,6 @@ export default ({ isOpen, handleIsOpen, feedback, student, handleFeedbacks }: IM
             if (!response.success)
                 throw new Error(response.message);
 
-            console.log(response.data);
-
             return response.data;
         }
 

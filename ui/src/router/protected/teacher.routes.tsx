@@ -13,6 +13,7 @@ import CreateExam from "@/pages/CreateExam";
 import EvaluateExam from "../../pages/SubjectDetails/Pages/EvaluateExam";
 import UsersProperties from "@/pages/UsersProperties";
 import CurricularUnits from "@/pages/CurricularUnits";
+import EditExam from "@/pages/SubjectDetails/Pages/EditExam";
 
 export default {
     accessLevel: AccessLevel.TEACHER,
@@ -67,6 +68,10 @@ export default {
         {
             path: RouteMap.CURRICULAR_UNITY_BY_ID,
             element: <CurricularUnitOverview/>
+        },
+        {
+            path: RouteMap.EDIT_EXAM,
+            element: <EditExam />
         }
     ]
 } as IAccessRoutes

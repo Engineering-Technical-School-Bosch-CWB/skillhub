@@ -27,7 +27,6 @@ export default ({id, kind, onClose, isOpen}: IDeleteModalProps) => {
 
     const submit = async () => {
         const response = await internalAPI.jsonRequest(`/${kind}/${id}`,"DELETE")
-        console.log(response);
         
         if(!response || response.statusCode != 200)
             toast.error(`Error on delete ${kind}`, {toastId:`${kind}-delete-error`})

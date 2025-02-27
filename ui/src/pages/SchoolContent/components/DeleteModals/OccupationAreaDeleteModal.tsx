@@ -11,7 +11,6 @@ export default ({id}: IDeleteModalProps) => {
     const loadData = async () => {
         const response = await internalAPI.jsonRequest(`/occupationArea/${id}`,"GET");
         const _data = response.data as OccupationArea;
-        console.log(response);
         
         setData(_data);
     }

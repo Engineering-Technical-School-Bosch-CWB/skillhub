@@ -14,7 +14,6 @@ export default ({ position, name, score }: IPositionCardProps) => {
     }
 
     const abbreviate = (name: string) => {
-        console.log(name);
         let splittedName =  name!.split(' ')
         return !name ? name : (splittedName[0] + (splittedName.length > 1 ? ' ' + splittedName[1][0].toUpperCase() + "." : ""))
     }
@@ -26,7 +25,7 @@ export default ({ position, name, score }: IPositionCardProps) => {
                 <Text fontSize="xl5" fontWeight="bold">{!position ? "-" : `${position}°`}</Text>
                 <span className={`${styles.spacing}`}>
                     <Text fontSize="lg" fontWeight="bold">{abbreviate(name)}</Text>
-                    <Text fontSize="sm" fontWeight="bold">{`${score}%`}</Text>
+                    <Text fontSize="sm" fontWeight="bold">{score == null ? "-" : `${score?.toFixed(2)}%`}</Text>
                 </span>
             </div>
         </>

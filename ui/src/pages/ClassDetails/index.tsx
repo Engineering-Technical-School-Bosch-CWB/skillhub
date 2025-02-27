@@ -176,7 +176,7 @@ const ClassDetails = () => {
 
                     <section className={`${styles.chart_section} ${styles.align}`}>
                         <div className={`${styles.line}`}>
-                            <DoughnutChart exploitation={overallPerformance == null ? 0 : Number(overallPerformance.toFixed(1))} title="Overall Performance" />
+                            <DoughnutChart performance={overallPerformance == null ? 0 : Number(overallPerformance.toFixed(1))} title="Overall Performance" />
                             <Ranking data={rankingData.sort((a, b) => (b.performance ?? 0) - (a.performance ?? 0))} onClick={handleStudentClick} />
                         </div>
                         <div className={`${styles.full} ${styles.flex}`}>

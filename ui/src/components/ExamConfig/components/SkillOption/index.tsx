@@ -1,6 +1,6 @@
 import Input from "@/components/Input";
 import styles from "../../styles.module.css";
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export interface ISkillSelection {
     skillId: number
@@ -9,18 +9,19 @@ export interface ISkillSelection {
 
 interface ISkillOptionProps {
     id: number
+    skillWeight?: number
+    selected?: boolean
     description: string
     selectedSkills: ISkillSelection[]
     setSelectedSkills: Function
 }
 
-export default ({ id, description, selectedSkills, setSelectedSkills }: ISkillOptionProps) => {
+export default ({ id, skillWeight, description, selected, selectedSkills, setSelectedSkills }: ISkillOptionProps) => {
 
-    const [checked, setChecked] = useState(false);
-    const [weight, setWeight] = useState(1);
+    const [checked, setChecked] = useState(selected ?? false);
+    const [weight, setWeight] = useState(skillWeight ?? 1);
 
     const handleChange = () => {
-
         if (checked) {
             setSelectedSkills([
                 ...selectedSkills.filter(s => s.skillId != id),

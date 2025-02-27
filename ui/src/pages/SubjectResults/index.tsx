@@ -27,7 +27,7 @@ const SubjectResults = () => {
 
     const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
     const [isContestmentModalOpen, setIsContestmentModalOpen] = useState(false);
-    const [selectedSkill, setSelectedSkill] = useState(-1);
+    const [selectedSkill, setSelectedSkill] = useState<number>();
 
     const [subject, setSubject] = useState("");
     const [feedback, setFeedback] = useState<IFeedback | null>(null);
@@ -122,10 +122,8 @@ const SubjectResults = () => {
                                     }
                                 </div>
                             </div>
-                            <div className={styled.chart_section}>
-                                <DoughnutChart exploitation={overallPerformance == null ? 0 : Number((overallPerformance).toFixed(1))} title="Your Performance" />
-                                <DoughnutChart exploitation={classOverallPerformance == null ? 0 : Number((classOverallPerformance).toFixed(1))} title="Average Class Performance" />
-                            </div>
+                            <DoughnutChart performance={overallPerformance == null ? 0 : Number((overallPerformance).toFixed(1))} title="Your Performance" />
+                            <DoughnutChart performance={classOverallPerformance == null ? 0 : Number((classOverallPerformance).toFixed(1))} title="Average Class Performance" />
                         </div>
                     </div>
                     <Divider size="big" />
@@ -137,8 +135,11 @@ const SubjectResults = () => {
                     </div>
                 </div>
 
-                <ContestmentModal isOpen={isContestmentModalOpen} handleIsOpen={handleContestmentModal} skillId={selectedSkill} />
-                <HistoryModal isOpen={isHistoryModalOpen} handleIsOpen={handleHistoryModal} skillId={selectedSkill} />
+                {/* <ContestmentModal isOpen={isContestmentModalOpen} handleIsOpen={handleContestmentModal} skillId={selectedSkill} /> */}
+                {
+                    selectedSkill &&
+                    <HistoryModal isOpen={isHistoryModalOpen} handleIsOpen={handleHistoryModal} skillId={selectedSkill} />
+                }
             </main>
         </div>
     )

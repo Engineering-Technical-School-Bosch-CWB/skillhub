@@ -1,9 +1,6 @@
-using System.Security;
 using Api.Core.Errors;
 using Api.Core.Services;
-using Api.Domain.Enums;
 using Api.Domain.Models;
-using Api.Domain.Repositories;
 using Api.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,15 +32,13 @@ public class SkillResultController : ControllerBase
         [FromServices] IStudentService studentService, [FromQuery] int? studentId, int skillId
     )
     {
-        permissionService.ValidateAdmPermission();
-
         var studentProfile = await studentService.GetByUserId(userContext.UserId);
 
         if (!studentId.HasValue && studentProfile is null)
             throw new NotFoundException("Student not found!");
 
-        if (studentProfile?.Id != studentId)
-            throw new ForbiddenAccessException("User don't have permission to this service!");
+        // if (studentProfile?.Id != studentId)
+        //     throw new ForbiddenAccessException("User don't have permission to this service!");
 
         var result = await service.GetSkillResultHistory(studentId ?? studentProfile!.Id, skillId);
         return Ok(result);

@@ -17,11 +17,6 @@ export const links: INavLink[] = [
         icon: "school"
     },
     {
-        label: "Curricular Unit",
-        to: "?tab=curricularUnits",
-        icon: "design_services"
-    },
-    {
         label: "Subject Area",
         to: "?tab=subjectAreas",
         icon: "collections_bookmark"

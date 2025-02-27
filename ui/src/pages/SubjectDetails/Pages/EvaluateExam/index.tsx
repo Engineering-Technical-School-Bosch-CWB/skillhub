@@ -5,19 +5,21 @@ import { IStudentResults } from "../../interfaces/SubjectDetails.interface";
 import StudentCompetences from "./components/StudentCompetences";
 
 import SectionHeader from "@/components/SectionHeader";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import internalAPI from "@/service/internal.services";
 import { useEffect, useState } from "react";
 import { ISubject } from "@/interfaces/models/ISubject";
 import { IExam } from "@/interfaces/models/IExam";
 import Progress from "@/components/Progress";
+import Button from "@/components/Button";
+import Icon from "@/components/Icon";
 
-
-export default () => {
+const EvaluateExam = () => {
 
     const [loading, setLoading] = useState(true);
 
     const { classId, subjectId, examId } = useParams();
+    const navigate = useNavigate();
 
     const [subject, setSubject] = useState<ISubject>();
     const [exam, setExam] = useState<IExam>();
@@ -33,6 +35,13 @@ export default () => {
         setStudentResults(content.students);
 
         setLoading(false);
+    }
+
+    const navigateEditExam = () => {
+        if (!confirm("Are you sure you want to leave this page? Your changes will not be saved!"))
+            return;
+
+        navigate(`/classes/${classId}/subject/${subjectId}/edit-exam/${examId}`)
     }
 
     useEffect(() => {
@@ -68,8 +77,11 @@ export default () => {
                     label: exam?.name!
                 }]} />
                 <div className={`${styles.title_section}`}>
-                    <Text fontSize='xl2' fontWeight='bold'>{`Evaluate ${exam?.name}`}</Text>
-                    <Text>{exam?.description}</Text>
+                    <div className={`${styles.col}`}>
+                        <Text fontSize='xl2' fontWeight='bold'>{`Evaluate ${exam?.name}`}</Text>
+                        <Text fontSize="sm" >{exam?.description}</Text>
+                    </div>
+                    <Button variant="primary_icon" onClick={navigateEditExam}><Icon name="settings" /></Button>
                 </div>
                 {
                     studentResults &&
@@ -81,3 +93,5 @@ export default () => {
         </>
     )
 }
+
+export default EvaluateExam;

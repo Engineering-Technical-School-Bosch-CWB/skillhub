@@ -1,62 +1,77 @@
+
 import Header from "@/components/Header";
 import Progress from "@/components/Progress";
-import ExamConfig, { ISkill } from "@/components/ExamConfig";
-import internalAPI from "@/service/internal.services";
 import SectionHeader from "@/components/SectionHeader";
-import toastifyUpdate from "@/constants/toastfyUpdate";
+import internalAPI from "@/service/internal.services";
 
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ISubject } from "@/interfaces/models/ISubject";
-import { toast } from "react-toastify";
-import { Dayjs } from "dayjs";
 import { ISkillSelection } from "@/components/ExamConfig/components/SkillOption";
+import ExamConfig, { ISkill } from "@/components/ExamConfig";
+import { Dayjs } from "dayjs";
+import { toast } from "react-toastify";
+import toastifyUpdate from "@/constants/toastfyUpdate";
 
-
-const CreateExam = () => {
+const EditExam = () => {
 
     const [loading, setLoading] = useState(true);
 
-    const { classId, subjectId } = useParams();
-
+    const { classId, subjectId, examId } = useParams();
     const navigate = useNavigate();
 
     const [subject, setSubject] = useState<ISubject>();
+
     const [skills, setSkills] = useState<ISkill[]>([]);
     const [teachers, setTeachers] = useState<[]>([]);
 
-    const [examName, setExamName] = useState("");
-    const [examDate, setExamDate] = useState<Dayjs>();
-    const [examDescription, setExamDescription] = useState("");
-    const [examInstructorId, setExamInstructorId] = useState<number>();
+    const [exam, setExam] = useState("");
+
     const [examSkills, setExamSkills] = useState<ISkillSelection[]>([]);
 
+    const [examName, setExamName] = useState<string>();
+    const [examDate, setExamDate] = useState<Dayjs>();
+    const [examDescription, setExamDescription] = useState<string>();
+    const [examInstructorId, setExamInstructorId] = useState<number>();
+
     const getData = async () => {
-        const response = await internalAPI.jsonRequest(`/exams/createExam/${subjectId}`, "GET");
+        const response = await internalAPI.jsonRequest(`/exams/editExam/${examId}`, "GET");
+
         const content = response.data;
+        const exam = content.exam;
 
-        setSubject(content.subject);
-        setSkills(content.skills);
+        setExam(exam.name);
 
-        setTeachers(content.teachers.map((t: { name: string; id: number; }) => ({
+        setExamName(exam.name);
+        setExamDate(exam.appliedAt);
+        setExamDescription(exam.description);
+        setExamInstructorId(exam.instructorId);
+
+        setSubject(content.info.subject);
+        setSkills(content.info.skills);
+        setExamSkills(content.info.skills
+            .filter((obj: { selected: boolean; skill: any }) => obj.selected)
+            .map((obj: { skill: any }) => ({
+                skillId: obj.skill.id,
+                weight: obj.skill.weight
+            }) as ISkillSelection)
+        );
+
+        setTeachers(content.info.teachers.map((t: { name: string; id: number; }) => ({
             key: t.name,
             value: t.id
         })))
 
-        setExamName(content.subject.curricularUnit + " Exam");
-        setExamInstructorId(content.subject.instructorId);
-
         setLoading(false);
     }
 
-    const handleSubmit = async () => {
+    const handleSubmit = () => {
         const apiRequest = async () => {
-            const response = await internalAPI.jsonRequest("/exams", "POST", undefined, {
+            const response = await internalAPI.jsonRequest(`/exams/${examId}`, "PATCH", undefined, {
                 name: examName,
                 description: examDescription,
                 appliedAt: examDate?.format("YYYY-MM-DD"),
                 instructorId: examInstructorId,
-                subjectId: Number(subjectId),
                 skills: examSkills
             });
 
@@ -66,23 +81,21 @@ const CreateExam = () => {
             return response.data;
         }
 
-        const message = toast.loading("Creating exam...");
+        const message = toast.loading("Updating exam...");
         apiRequest().then(() => {
-
             toast.update(message, {
                 ...toastifyUpdate,
-                render: "Exam created successfully!",
-                type: "success",
+                render: "Exam updated successfully!",
+                type: "success"
             })
-
         }).catch(err => {
             toast.update(message, {
                 ...toastifyUpdate,
-                render: err.message || "Something went wrong.",
-                type: "error",
+                render: err.message || "Something went wrong!",
+                type: "error"
             })
         }).finally(() => {
-            navigate(`/classes/${classId}/subject/${subjectId}`, { replace: true });
+            navigate(`/classes/${classId}/subject/${subjectId}/evaluate-exam/${examId}`);
         })
     }
 
@@ -115,11 +128,15 @@ const CreateExam = () => {
                     goTo: `/classes/${classId}/subject/${subjectId}`
                 },
                 {
-                    label: "Create Exam"
+                    label: exam,
+                    goTo: `/classes/${classId}/subject/${subjectId}/evaluate-exam/${examId}`
+                },
+                {
+                    label: "Edit exam"
                 }]} />
                 <ExamConfig
                     subject={subject!}
-                    title={"Create exam for " + subject?.curricularUnit}
+                    title={`Edit ${exam}`}
                     classId={Number(classId)}
                     subjectId={Number(subjectId)}
                     skills={skills}
@@ -145,11 +162,11 @@ const CreateExam = () => {
                         setValue: setExamSkills
                     }}
                     handleSubmit={handleSubmit}
-                    button="Create exam"
-                    cancelAction={() => navigate(`/classes/${classId}/subject/${subjectId}`)} />
+                    button="Save exam"
+                    cancelAction={() => navigate(`/classes/${classId}/subject/${subjectId}/evaluate-exam/${examId}`)} />
             </main>
         </>
     )
 }
 
-export default CreateExam;
+export default EditExam;

@@ -2,11 +2,19 @@
     width: 100%;
 
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
 
-    height: 4rem;
-    gap: .5rem;
+    gap: 1rem;
 }
+
+.col {
+    display: flex;
+    height: 4rem;
+    
+    gap: .5rem;
+    flex-direction: column;
+}
+
 .evaluate_container{
     height: calc(100vh - 15rem );
 }
