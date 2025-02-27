@@ -44,6 +44,8 @@ const Header = ({ }: IHeaderProps) => {
         }
 
         const content = response.data;
+        console.log(content);
+        
         setUser(content);
     }
 
@@ -61,7 +63,7 @@ const Header = ({ }: IHeaderProps) => {
 
                 <nav>
                     <Avatar
-                        src="/avatar.png"
+                        src={user?.profilePicture?.pUrl ?? "avatar"}
                         tooltip={user?.name}
                         onClick={() => setMenuOpen(true)}
                         className={styles.user_icon}

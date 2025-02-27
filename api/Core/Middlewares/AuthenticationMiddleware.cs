@@ -1,4 +1,6 @@
+using System.Reflection;
 using Api.Core.Services;
+using Api.Domain.Attributes;
 
 namespace Api.Core.Middlewares;
 
@@ -6,24 +8,13 @@ public class AuthenticationMiddleware : IMiddleware
 {
     private readonly JwtService _jwtService;
 
-    private readonly string[] _pathsToSkip;
-
     public AuthenticationMiddleware(JwtService jwtService)
-    {
-        _jwtService = jwtService;
-        _pathsToSkip =
-        [
-            "/api/v1/login"
-        ];
-    }
+        => _jwtService = jwtService;
 
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
-    {   
-        bool mustSkip = _pathsToSkip.Contains(
-                    context.Request.Path.Value,
-                    StringComparer.OrdinalIgnoreCase);
-
-        if (mustSkip)
+    {
+        var endpoint = context.GetEndpoint();
+        if ( MustSkipAuthetication(endpoint))
         {
             await next.Invoke(context);
             return;
@@ -49,6 +40,14 @@ public class AuthenticationMiddleware : IMiddleware
         await next.Invoke(context);
     }
 
+    private static bool MustSkipAuthetication(Endpoint? endpoint)
+    {
+        if (endpoint is null)
+            return false;
+        
+        var attribute = endpoint.Metadata.GetMetadata<IgnoreAuthenticationAttribute>();
+        return attribute is not null;
+    }
     private bool TryGetBearerToken(string auth, out string? token)
     {
         if (auth is not null)

@@ -57,6 +57,8 @@ public static partial class ServiceCollectionExtension
         services.AddScoped<BaseRepository<User>, UserRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
 
+        services.AddScoped<BaseRepository<Image>, ImageRepository>();
+        services.AddScoped<IImageRepository, ImageRepository>();
         return services;
     }
 }

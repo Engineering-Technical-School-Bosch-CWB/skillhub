@@ -25,6 +25,7 @@
     "path-browserify": "^1.0.1",
     "react": "^18.0.0",
     "react-dom": "^18.3.1",
+    "react-easy-crop": "^5.4.1",
     "react-hook-form": "^7.54.2",
     "react-i18next": "^15.1.1",
     "react-router-dom": "^6.28.0",

@@ -5,8 +5,8 @@ using Api.Domain.Models;
 
 namespace Api.Core.Repositories;
 
-public class UserImageRepository(SkillhubContext context) 
-    : BaseRepository<UserImage>(context), IUserImageRepository
+public class ImageRepository(SkillhubContext context) 
+    : BaseRepository<Image>(context), IImageRepository
 {
 
 }

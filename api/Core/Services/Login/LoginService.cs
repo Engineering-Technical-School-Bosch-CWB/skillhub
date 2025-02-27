@@ -24,6 +24,7 @@ public class LoginService(
             .Include(u => u.OccupationArea)
             .Include(u => u.Position)
             .Include(u => u.Sector)
+            .Include(u => u.ProfilePicture)
             .Where(u => u.IsActive)
             .FirstOrDefaultAsync(u => u.Identification == payload.Identification) ??
                 throw new UserNotRegisteredException("Identification number not registered!");

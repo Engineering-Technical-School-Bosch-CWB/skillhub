@@ -10,7 +10,8 @@ export interface IModalProps {
     children?: ReactNode;
     maxWidth?: "xs" | "sm" | "md" | "lg" | "xl";
     title: string;
-    subtitle?: string
+    subtitle?: string,
+    className?: any
 }
 
 /**
@@ -59,7 +60,8 @@ const Modal = ({
     handleClose,
     maxWidth = "md",
     title ,
-    subtitle
+    subtitle,
+    className
 }:IModalProps) => {
 
     const handleModalClick:MouseEventHandler = (e) => {
@@ -68,11 +70,11 @@ const Modal = ({
 
     return open && (
         <div 
-            className={styled.modal_container}
+            className={`${styled.modal_container}`}
             onClick={handleClose}
         >
             <div 
-                className={`${styled.modal} ${styled[maxWidth]}`}
+                className={`${styled.modal} ${styled[maxWidth]}  ${className}`}
                 onClick={handleModalClick}
             >
                 <div className={styled.header}>
