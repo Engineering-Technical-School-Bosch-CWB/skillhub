@@ -60,11 +60,6 @@ export default ({handleClose, open, title, userId, userThumb}: IImageUploadModal
         clickableRef.current!.classList.remove(styles.visible);
     }
 
-    useEffect(() => {
-        console.log(image);
-        
-    },[image])
-
     const send = async () => {
         if(!file)
             return;

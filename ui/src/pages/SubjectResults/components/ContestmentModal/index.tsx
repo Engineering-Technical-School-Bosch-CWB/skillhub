@@ -16,7 +16,6 @@ const ContestmentModal = ({ isOpen, handleIsOpen, skillId }: IModalProps) => {
 
     const getData = async () => {
         const response = await internalAPI.jsonRequest(`/skillResults/skill/${skillId}`, "GET");
-        console.log(response);
         const content = response.data;
 
         setSkillDescription(content.description);

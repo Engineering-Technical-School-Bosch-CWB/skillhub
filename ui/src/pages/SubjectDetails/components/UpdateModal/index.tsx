@@ -73,7 +73,6 @@ export default ({ isOpen, handleIsOpen, subject, setSubject }: IModalProps) => {
                 ...content
             })
 
-            console.log(content);
         }).catch(err => {
             toast.update(message, {
                 ...toastifyUpdate,

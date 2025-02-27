@@ -57,8 +57,6 @@ const EditExam = () => {
             }) as ISkillSelection)
         );
 
-        console.log(content.info.skills)
-
         setTeachers(content.info.teachers.map((t: { name: string; id: number; }) => ({
             key: t.name,
             value: t.id
@@ -83,14 +81,6 @@ const EditExam = () => {
             return response.data;
         }
 
-        console.log({
-            name: examName,
-            description: examDescription,
-            appliedAt: examDate?.format("YYYY-MM-DD"),
-            instructorId: examInstructorId,
-            skills: examSkills
-        })
-
         const message = toast.loading("Updating exam...");
         apiRequest().then(() => {
             toast.update(message, {
@@ -112,11 +102,6 @@ const EditExam = () => {
     useEffect(() => {
         getData();
     }, []);
-
-    useEffect(() => {
-        console.log(skills)
-        console.log(examSkills)
-    }, [skills, examSkills])
 
     if (loading)
         return (

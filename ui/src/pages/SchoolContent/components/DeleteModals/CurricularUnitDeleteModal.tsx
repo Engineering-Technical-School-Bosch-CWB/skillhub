@@ -11,7 +11,6 @@ export default ({id}: IDeleteModalProps) => {
     const loadData = async () => {
         const response = await internalAPI.jsonRequest(`/curricularUnits/${id}`,"GET");
         const _data = response.data as CurricularUnit;
-        console.log(_data);
         setData(_data);
     }
 

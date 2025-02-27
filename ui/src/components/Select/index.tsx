@@ -10,11 +10,6 @@ export default (data: ISelectProps) => {
         if (data.onChange) data.onChange(e);
     }
 
-    useEffect(() => {
-        console.log(data);
-        
-    },[data])
-
     return (
         <div className={`${styles.select_container} ${data.className}`}>
             {

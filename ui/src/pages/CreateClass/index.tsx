@@ -35,7 +35,6 @@ export default () => {
                 course: newCourse
               },
             }));
-            console.log(data);
         },
         setStudents: (students) => {
             setData((prev) => ({
