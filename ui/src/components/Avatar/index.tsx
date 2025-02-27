@@ -5,21 +5,21 @@ import Icon from "../Icon";
 interface IAvatarProps extends ComponentPropsWithoutRef<'img'> {
     size?: "sm" | "md" | "lg" | "xl"
     tooltip?: string,
-    onClick?: () => void;
+    onEditClick?: () => void;
 }
 
 const Avatar = forwardRef<HTMLImageElement, IAvatarProps>(
-    ({ className, tooltip, size = "md", onClick, ...props }, ref) => (
+    ({ className, tooltip, size = "md", onEditClick, ...props }, ref) => (
         <div className={`${styles[size]} ${styles.avatar_container}`}>
             <img 
                 ref={ref}
                 alt={tooltip || "Avatar"}
-                className={`${styles.avatar} ${className || ""}  ${onclick? styles.clickable : ""}`}
+                className={`${styles.avatar} ${className || ""}  ${onEditClick? styles.clickable : ""}`}
                 {...props}
             />
             {
-                (onClick) && 
-                <span className={`${styles.edit_area}`} onClick={onClick}>
+                (onEditClick) && 
+                <span className={`${styles.edit_area}`} onClick={onEditClick}>
                     <Icon name="edit" size="lg"/> 
                 </span>
             }
