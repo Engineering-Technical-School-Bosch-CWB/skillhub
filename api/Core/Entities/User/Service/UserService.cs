@@ -61,7 +61,8 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
             IsActive = true,
             Position = position,
             Sector = sector,
-            OccupationArea = area
+            OccupationArea = area,
+            ProfilePicture = null
         };
 
         newUser.Hash = _hasher.HashPassword(newUser, newUser.Hash);
@@ -98,7 +99,7 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
         var area = await _areaRepo.Get()
             .Where(a => a.IsActive)
             .SingleOrDefaultAsync(a => a.Id == payload.OccupationAreaId)
-            ?? throw new NotFoundException("Area not found");
+            ?? throw new NotFoundException("Area not found!");
         
         var newUser = new User()
         {
@@ -108,7 +109,8 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
             IsActive = true,
             Position = position,
             Sector = sector,
-            OccupationArea = area
+            OccupationArea = area,
+            ProfilePicture = null
         };
 
         newUser.Hash = _hasher.HashPassword(newUser, newUser.Hash);
@@ -135,6 +137,7 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
             .Include(u => u.Position)
             .Include(u => u.Sector)
             .Include(u => u.OccupationArea)
+            .Include(u => u.ProfilePicture)
             .SingleOrDefaultAsync(u => u.Id == id)
             ?? throw new NotFoundException("User not found!");
 
@@ -227,6 +230,7 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
             .Include(u => u.Position)
             .Include(u => u.Sector)
             .Include(u => u.OccupationArea)
+            .Include(u => u.ProfilePicture)
             .SingleOrDefaultAsync(u => u.Id == id)
             ?? throw new NotFoundException("User not found!");
 
@@ -266,6 +270,7 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
                 .Include(u => u.Position)
                 .Include(u => u.Sector)
                 .Include(u => u.OccupationArea)
+                .Include(u => u.ProfilePicture)
                 .Where(u => string.IsNullOrEmpty(query) || EF.Functions.Like(u.Name, $"%{query}%"))
                 .Where(u => !positionId.HasValue || u.Position.Id == positionId)
                 .Where(u => !birthMonth.HasValue || (u.Birthday.HasValue && u.Birthday.Value.Month == birthMonth.Value))
@@ -296,6 +301,7 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
     {
         var teachers = await _repo.Get()
             .Where(u => u.IsActive)
+            .Include(u => u.ProfilePicture)
             .Where(u => (EPositionType)u.Position.PositionType == EPositionType.Teacher)
             .Where(u => instructor == null || u.Id != instructor.Id)
             .OrderBy(u => u.Name)
@@ -320,6 +326,7 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
             .Where(u => u.IsActive)
             .Include(u => u.Position)
             .Include(u => u.Sector)
+            .Include(u => u.ProfilePicture)
             .SingleOrDefaultAsync(u => u.Id == userId)
             ?? throw new NotFoundException("User not found!");
 

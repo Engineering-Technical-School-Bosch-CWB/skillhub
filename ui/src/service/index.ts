@@ -48,6 +48,32 @@ export default class Service {
         }
     }
 
+    public async fileRequest<T = any>(
+        url: string,
+        method: IHttpMethod,
+        body?: any,
+        headers?: HeadersInit
+    ){ 
+        const response = await fetch(this.baseUrl + url, {
+            method,
+            body,
+            headers: {
+                "Authorization": this.getAuth(),
+                ...headers
+            }
+        })
+
+        const json = await response.json().catch(() => ({}));
+
+        return {
+            statusCode: response.status,
+            data: json.data || null,
+            success: response.status < 400,
+            message: json.message || null,
+            info: json.info || null
+        }
+    }
+
     public async get<T = any>(url: string, headers?: HeadersInit) {
         return await this.jsonRequest<T>(url, "GET", headers)
     }

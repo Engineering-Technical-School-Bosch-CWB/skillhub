@@ -22,6 +22,7 @@ import { toast } from "react-toastify";
 import { useUserContext } from "@/contexts/user.context";
 import { Bar, BarChart, Legend, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer, Tooltip, TooltipProps, XAxis, YAxis } from "recharts";
 import { NameType, ValueType } from "recharts/types/component/DefaultTooltipContent";
+import ImageUploadCard from "@/components/ImageUploadCard";
 
 interface IModalProps {
     feedbackId?: number
@@ -62,11 +63,10 @@ const CustomTooltip = ({
 const UserProfile = () => {
 
     const [loading, setLoading] = useState(true);
-
     const [radarData, setRadarData] = useState<IRadarProps[]>([]);
     const [barData, setBarData] = useState<IBarProps[]>([]);
     const [editModal, setEditModal] = useState(false);
-
+    const [editImageModal, setEditImageModal] = useState(false);
     const [searchParams] = useSearchParams();
 
     const classId = searchParams.get("classId");
@@ -93,7 +93,7 @@ const UserProfile = () => {
         }
 
         const content = response.data as IStudentProfileData;
-
+        
         setStudentData(content.student);
         setUserData({
             id: content.id,
@@ -102,6 +102,7 @@ const UserProfile = () => {
             birthday: content.birthday,
             position: content.position,
             sector: content.sector,
+            profilePicture: content.profilePicture
         });
 
         if (content.student) {
@@ -187,7 +188,13 @@ const UserProfile = () => {
                         <Button variant="primary_icon" onClick={() => setEditModal(true)}><Icon name="settings" /></Button>
                     </div>
                     <div className={`${styles.gap}`}>
-                        <Avatar src={"/avatar.png"} size="xl" />
+                        <div>
+                            <Avatar 
+                                src={userData?.profilePicture?.mUrl || "/avatar.png"} 
+                                size="xl" 
+                                onEditClick={() => setEditImageModal(true)} 
+                            />
+                        </div>
                         <div className={`${styles.spacing}`}>
                             <Text fontSize="lg" fontWeight="bold" >{userData?.position + " - " + userData?.sector}</Text>
                             <Text>{!userData?.birthday ? "Missing birth date..." : "Birthday: " + formatDate(userData.birthday)}</Text>
@@ -349,6 +356,16 @@ const UserProfile = () => {
                     title="Edit Profile"
                     isCurrentUser={!userId}
                 />
+            }
+            {
+                editImageModal &&
+                <ImageUploadCard 
+                    userId={userData?.id ?? 0 } 
+                    handleClose={() => setEditImageModal(false)} 
+                    open={editImageModal} 
+                    title="Profile Image" 
+                    userThumb={userData?.profilePicture?.gUrl ?? "avatar.png"}
+                /> 
             }
         </>
     )

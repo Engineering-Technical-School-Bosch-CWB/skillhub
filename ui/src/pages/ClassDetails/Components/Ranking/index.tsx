@@ -8,7 +8,6 @@ export default ({ data, onClick }: RankingChartProps) => {
 
 
     const getBgColor = (e: StudentSubject): string => {
-        console.log(e.performance!);
         if (e.performance! >= 80) {
             return styles.green;
         } else if (e.performance! < 80 && e.performance! >= 60) {

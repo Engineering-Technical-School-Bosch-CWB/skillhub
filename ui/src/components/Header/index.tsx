@@ -61,7 +61,7 @@ const Header = ({ }: IHeaderProps) => {
 
                 <nav>
                     <Avatar
-                        src="/avatar.png"
+                        src={user?.profilePicture?.pUrl ?? "avatar"}
                         tooltip={user?.name}
                         onClick={() => setMenuOpen(true)}
                         className={styles.user_icon}

@@ -24,6 +24,7 @@ import Button from "@/components/Button";
 import Icon from "@/components/Icon";
 import UpdateProfileModal from "../UserProfile/components/UpdateProfileModal";
 import UpdateModal from "./Components/UpdateModal";
+import IImage from "@/interfaces/models/IImage";
 
 const ClassDetails = () => {
 
@@ -73,7 +74,7 @@ const ClassDetails = () => {
         }
 
         const content = response.data;
-
+        
         setClass(content.class);
         setClassName(content.class.name + " - " + content.class.startingYear);
 
@@ -83,12 +84,13 @@ const ClassDetails = () => {
             subtitle: s.instructor,
             title: s.name,
         })));
-        setStudentsData(content.students.map((s: { id: number; name: string; birthday: string; identification: string; userId: number }) => ({
+        setStudentsData(content.students.map((s: { id: number; name: string; birthday: string; identification: string; userId: number, profilePicture?: IImage }) => ({
             id: s.id,
             name: s.name,
             birthday: s.birthday,
             identification: s.identification,
             tooltip: s.identification,
+            image: s.profilePicture?.mUrl,
             goTo: "/user-profile?classId=" + classId + "&userId=" + s.userId
         })));
         setOverallPerformance(content.graphs.overallPerformance ?? 0);

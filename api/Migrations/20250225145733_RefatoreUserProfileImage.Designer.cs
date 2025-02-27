@@ -4,6 +4,7 @@ using Api.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace api.Migrations
 {
     [DbContext(typeof(SkillhubContext))]
-    partial class SkillhubContextModelSnapshot : ModelSnapshot
+    [Migration("20250225145733_RefatoreUserProfileImage")]
+    partial class RefatoreUserProfileImage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -272,28 +275,14 @@ namespace api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<byte[]>("Content")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max) filestream")
+                        .HasColumnName("content");
+
                     b.Property<Guid>("FileGuid")
                         .HasColumnType("uniqueidentifier rowguidcol")
                         .HasColumnName("file_guid");
-
-                    b.Property<byte[]>("Image_G")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max) filestream")
-                        .HasColumnName("image_g");
-
-                    b.Property<byte[]>("Image_M")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max) filestream")
-                        .HasColumnName("image_m");
-
-                    b.Property<byte[]>("Image_P")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max) filestream")
-                        .HasColumnName("image_p");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit")
-                        .HasColumnName("is_active");
 
                     b.HasKey("Id")
                         .HasName("PK____Image");

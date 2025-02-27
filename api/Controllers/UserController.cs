@@ -13,6 +13,9 @@ namespace Api.Controllers;
 [Route("api/v1/users")]
 public class UserController : ControllerBase
 {
+
+    #region CRUD
+
     [HttpPost]
     public async Task<ActionResult> CreateUser(
         [FromServices] IUserService service, [FromServices] IPermissionService permissionService,
@@ -118,6 +121,10 @@ public class UserController : ControllerBase
         return Ok(result);
     }
 
+    #endregion
+
+    #region Services
+
     [HttpGet]
     [Route("profile")]
     public async Task<ActionResult> GetUserProfile(
@@ -131,4 +138,19 @@ public class UserController : ControllerBase
         return Ok(result);
     }
 
+    #endregion
+
+    #region User Image
+
+    [HttpPost("image/{userId}")]
+    public async Task<ActionResult> UploadProfileImage(
+        [FromServices] IImageService service,
+        IFormFile file,
+        int userId
+    ){
+        System.Console.WriteLine(file.Name);
+        await service.UploadUserProfileImage(file, userId);
+        return Ok();
+    }
+    #endregion
 }

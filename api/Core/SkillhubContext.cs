@@ -16,7 +16,7 @@ public partial class SkillhubContext : DbContext
     public virtual DbSet<OccupationArea> OccupationAreaList { get; set; }
     public virtual DbSet<Position> PositionList { get; set; }
     public virtual DbSet<User> UserList { get; set; }
-    public virtual DbSet<UserImage> UserImageList { get; set; }
+    public virtual DbSet<Image> UserImageList { get; set; }
     public virtual DbSet<Course> CourseList { get; set; }
     public virtual DbSet<Class> ClassList { get; set; }
     public virtual DbSet<SubjectArea> SubjectAreaList { get; set; }
@@ -53,7 +53,7 @@ public partial class SkillhubContext : DbContext
         modelBuilder.ApplyConfiguration(new StudentResultClassMap());
         modelBuilder.ApplyConfiguration(new SubjectClassMap());
         modelBuilder.ApplyConfiguration(new UserClassMap());
-        modelBuilder.ApplyConfiguration(new UserImageClassMap());
+        modelBuilder.ApplyConfiguration(new ImageClassMap());
         OnModelCreatingPartial(modelBuilder);
     }
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

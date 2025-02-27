@@ -194,7 +194,7 @@ public class ClassService(
             .Include(c => c.Course)
             .Include(c => c.Subjects).ThenInclude(s => s.CurricularUnit.SubjectArea)
             .Include(c => c.Subjects).ThenInclude(s => s.Instructor)
-            .Include(c => c.Students).ThenInclude(s => s.User)
+            .Include(c => c.Students).ThenInclude(s => s.User.ProfilePicture)
             .SingleOrDefaultAsync(c => c.Id == id)
             ?? throw new NotFoundException("Class not found!");
 
