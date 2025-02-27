@@ -192,7 +192,7 @@ const UserProfile = () => {
                             <Avatar 
                                 src={userData?.profilePicture?.mUrl || "/avatar.png"} 
                                 size="xl" 
-                                onClick={() => setEditImageModal(true)} 
+                                onEditClick={() => setEditImageModal(true)} 
                             />
                         </div>
                         <div className={`${styles.spacing}`}>
