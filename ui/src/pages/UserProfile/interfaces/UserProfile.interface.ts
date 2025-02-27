@@ -1,3 +1,5 @@
+import IImage from "@/interfaces/models/IImage"
+
 export interface IStudentData {
     id: number,
     performance?: number,
@@ -44,7 +46,8 @@ export interface IUserData {
     birthday?: string
     position: string
     sector: string
-    occupationArea?: string
+    occupationArea?: string,
+    profilePicture?: IImage
 }
 
 export interface IRankingData {
@@ -86,7 +89,8 @@ export interface IStudentProfileData {
     name:string 
     position: string,
     sector: string,
-    birthday: string
+    birthday: string,
+    profilePicture?: IImage
 }
 
 // export interface IRadarData {

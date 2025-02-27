@@ -93,7 +93,7 @@ const UserProfile = () => {
         }
 
         const content = response.data as IStudentProfileData;
-
+        
         setStudentData(content.student);
         setUserData({
             id: content.id,
@@ -102,6 +102,7 @@ const UserProfile = () => {
             birthday: content.birthday,
             position: content.position,
             sector: content.sector,
+            profilePicture: content.profilePicture
         });
 
         if (content.student) {
@@ -188,7 +189,11 @@ const UserProfile = () => {
                     </div>
                     <div className={`${styles.gap}`}>
                         <div>
-                            <Avatar src={"/avatar.png"} size="xl" onClick={() => setEditImageModal(true)} />
+                            <Avatar 
+                                src={userData?.profilePicture?.mUrl || "/avatar.png"} 
+                                size="xl" 
+                                onClick={() => setEditImageModal(true)} 
+                            />
                         </div>
                         <div className={`${styles.spacing}`}>
                             <Text fontSize="lg" fontWeight="bold" >{userData?.position + " - " + userData?.sector}</Text>
@@ -356,7 +361,7 @@ const UserProfile = () => {
                     handleClose={() => setEditImageModal(false)} 
                     open={editImageModal} 
                     title="Profile Image" 
-                    userThumb="http://localhost:5246/api/v1/images/?id=00000000-0000-0000-0000-000000000000&size=G"
+                    userThumb={userData?.profilePicture?.gUrl ?? "avatar.png"}
                 /> 
             }
         </>

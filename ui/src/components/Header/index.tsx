@@ -44,8 +44,6 @@ const Header = ({ }: IHeaderProps) => {
         }
 
         const content = response.data;
-        console.log(content);
-        
         setUser(content);
     }
 

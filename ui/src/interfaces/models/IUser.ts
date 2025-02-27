@@ -1,4 +1,5 @@
 import IEntity from "./IEntity";
+import IImage from "./IImage";
 import IOccupationArea from "./IOccupationArea";
 import IPosition from "./IPosition";
 import ISector from "./ISector";
@@ -14,11 +15,7 @@ export default interface IUser extends IEntity {
     sector?: ISector, 
     occupationArea?: IOccupationArea,
     permissionLevel?: number,
-    profilePicture?: {
-        pUrl: string,
-        mUrl: string,
-        gUrl: string
-    },
+    profilePicture?: IImage,
     studentProfile?: {
         id?: number,
         classId: number

@@ -10,7 +10,7 @@ public partial class Image : IEntity
   public byte[] Image_G { get; set; } = [];
 
   public Image() {
-    FileGuid = new Guid();
+    FileGuid = Guid.NewGuid();
   }
 
 }
