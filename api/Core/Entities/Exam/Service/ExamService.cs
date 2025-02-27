@@ -104,22 +104,15 @@ public class ExamService(BaseRepository<Exam> repository, ISubjectRepository sub
 
         if (payload.InstructorId.HasValue)
         {
-            var instructor = await _userRepo.Get()
-                .Where(u => u.IsActive)
-                .SingleOrDefaultAsync(u => u.Id == payload.InstructorId.Value)
+            exam.Instructor = await _userRepo.Get()
+                .Where(u => u.IsActive && u.Id == payload.InstructorId.Value)
+                .SingleOrDefaultAsync()
                 ?? throw new NotFoundException("Instructor not found!");
-
-            exam.Instructor = instructor;
         }
 
-        if (payload.Name is not null)
-            exam.Name = payload.Name;
-
-        if (payload.Description is not null)
-            exam.Description = payload.Description;
-
-        if (payload.AppliedAt.HasValue)
-            exam.AppliedAt = payload.AppliedAt.Value;
+        exam.Name = payload.Name ?? exam.Name;
+        exam.Description = payload.Description ?? exam.Description;
+        exam.AppliedAt = payload.AppliedAt ?? exam.AppliedAt;
 
         if (payload.Skills is not null)
         {
@@ -129,7 +122,7 @@ public class ExamService(BaseRepository<Exam> repository, ISubjectRepository sub
 
             HashSet<int> existingSkills = [];
 
-            foreach (var result in exam.SkillResults)
+            foreach (var result in exam.SkillResults.Where(s => s.IsActive))
             {
                 if (!payloadSkills.TryGetValue(result.Skill.Id, out var weight))
                     result.IsActive = false;
@@ -142,27 +135,30 @@ public class ExamService(BaseRepository<Exam> repository, ISubjectRepository sub
                 }
             }
 
-            foreach (var newSkill in payload.Skills)
+            var newSkills = payload.Skills.Where(s => !existingSkills.Contains(s.SkillId)).ToList();
+
+            if (newSkills.Count != 0)
             {
-                if (!existingSkills.Contains(newSkill.SkillId))
+                var skillIds = newSkills.Select(s => s.SkillId).ToHashSet();
+                var skills = await _skillRepo.Get()
+                    .Where(s => s.IsActive && skillIds.Contains(s.Id))
+                    .ToDictionaryAsync(s => s.Id);
+
+                foreach (var newSkill in newSkills)
                 {
-                    var skill = await _skillRepo.Get()
-                        .Where(s => s.IsActive)
-                        .SingleOrDefaultAsync(s => s.Id == newSkill.SkillId)
-                        ?? throw new NotFoundException("Skill not found!");
+                    if (!skills.TryGetValue(newSkill.SkillId, out var skill))
+                        throw new NotFoundException($"Skill with ID {newSkill.SkillId} not found!");
 
                     foreach (var student in exam.Subject.Class.Students)
                     {
-                        var newSkillResult = new SkillResult
+                        exam.SkillResults.Add(new SkillResult
                         {
                             Student = student,
                             Skill = skill,
                             Weight = newSkill.Weight ?? 1,
                             Aptitude = null,
                             IsActive = true
-                        };
-
-                        exam.SkillResults.Add(newSkillResult);
+                        });
                     }
                 }
             }
@@ -308,6 +304,7 @@ public class ExamService(BaseRepository<Exam> repository, ISubjectRepository sub
         var teachers = await _userService.GetTeachers(exam.Instructor);
 
         var selectedSkills = exam.SkillResults
+            .Where(s => s.IsActive)
             .GroupBy(s => s.Skill.Id)
             .Select(s => new { s.First().Skill.Id, s.First().Weight })
             .ToDictionary(s => s.Id, s => s.Weight);

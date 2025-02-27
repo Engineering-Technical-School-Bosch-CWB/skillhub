@@ -23,6 +23,7 @@ public class StudentResultService(BaseRepository<User> repository, IStudentResul
     public async Task AttExamResult(Exam exam)
     {
         var examResults = exam.SkillResults
+            .Where(s => s.IsActive)
             .GroupBy(s => s.Skill.Id)
             .Select(g => g.MaxBy(s => s.EvaluatedAt)!)
             .GroupBy(s => s.Student)
@@ -30,18 +31,18 @@ public class StudentResultService(BaseRepository<User> repository, IStudentResul
             {
                 Student = g.Key,
                 Score = g.Sum(s => s.Aptitude * s.Weight) / g.Sum(s => s.Weight)
-            });
+            }).AsEnumerable();
 
         foreach (var result in examResults) await UpdateExamResult(result.Student, exam, result.Score);
 
-        var subjectResults = _repo.Get()
+        var subjectResults = await _repo.Get()
             .Where(s => s.IsActive)
             .Where(s => s.Exam!.Subject.Id == exam.Subject.Id)
             .GroupBy(s => s.Student)
             .Select(g => new {
                 Student = g.Key,
                 Score = g.Average(s => s.Score)
-            });
+            }).ToListAsync();
 
         foreach (var result in examResults) await UpdateSubjectResult(result.Student, exam.Subject, result.Score);
     }
