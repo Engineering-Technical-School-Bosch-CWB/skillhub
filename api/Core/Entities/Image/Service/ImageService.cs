@@ -1,13 +1,11 @@
 using Genesis.Core.Services;
 using Genesis.Core.Repositories;
-
+using Api.Core.Helpers;
 using Api.Domain.Models;
 using Api.Domain.Services;
 using Api.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Api.Core.Errors;
-using Microsoft.Identity.Client.Extensions.Msal;
-using System.Text;
 
 namespace Api.Core.Services;
 
@@ -112,12 +110,14 @@ public class ImageService(
         if(image is null)
             return null;
 
-        string baseUrl = $"http://localhost:5246/api/v1/images/?id={image.FileGuid}&size=";
+        string host = ConfigHelper.GetBaseUrl()
+            ?? throw new UnknownServerError("");
+
+        string baseUrl = $"http://{host}/api/v1/images/?id={image.FileGuid}&size=";
         return new(){
             PUrl = baseUrl + "P",
             MUrl = baseUrl + "M",
             GUrl = baseUrl + "G"
         };
     }
-
 }
