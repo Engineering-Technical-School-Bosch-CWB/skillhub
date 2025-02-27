@@ -49,8 +49,8 @@ table {
             display: none;
             position: absolute;
             border: 1px solid black;
-            top: -50%;
-            left: 5%;
+            top: 10px;
+            left: 10px;
             background-color: var(--gray-100);
             padding: 1rem;
             width: 50vw;
@@ -59,6 +59,8 @@ table {
             align-items: start;
             gap: .25rem;
             border-radius: var(--default-border-radius);
+
+            cursor: pointer;
         }
     }
 

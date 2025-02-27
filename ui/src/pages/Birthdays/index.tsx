@@ -10,8 +10,11 @@ import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Button';
 import SectionHeader from '@/components/SectionHeader';
 import IImage from '@/interfaces/models/IImage';
+import Progress from '@/components/Progress';
 
 const Birthdays = () => {
+
+    const [loading, setLoading] = useState(true);
 
     const navigate = useNavigate();
 
@@ -23,9 +26,9 @@ const Birthdays = () => {
         "July", "August", "September", "October", "November", "December"
     ];
 
-    const getData = async () => {   
-        const response = await internalAPI.jsonRequest(`/users/paginated?${new URLSearchParams({birthMonth: String(currentMonth)})}`, 'GET')
-        
+    const getData = async () => {
+        const response = await internalAPI.jsonRequest(`/users/paginated?${new URLSearchParams({ birthMonth: String(currentMonth) })}`, 'GET')
+
         if (!response.success) {
             if (!toast.isActive('results-load-error'))
                 toast.error('Something went wrong.', { toastId: 'results-load-error' });
@@ -33,14 +36,16 @@ const Birthdays = () => {
         }
 
         const content = response.data;
-        
+
         setStudents(content.map((s: { id: number; name: string; birthday: string; identification: string; profilePicture?: IImage }) => ({
             id: s.id,
             name: s.name,
             birthday: s.birthday,
             identification: s.identification,
             image: s.profilePicture?.mUrl
-        })))
+        })));
+
+        setLoading(false);
     }
 
     useEffect(() => {
@@ -55,11 +60,19 @@ const Birthdays = () => {
         setCurrentMonth(nextMonth => nextMonth == 12 ? 1 : nextMonth + 1);
     }
 
+    if (loading)
+        return (
+            <>
+                <Header />
+                <Progress />
+            </>
+        )
+
     return (
         <>
             <Header />
             <main>
-                <SectionHeader links={[{label: "Birthdays"}]} />
+                <SectionHeader links={[{ label: "Birthdays" }]} />
                 <div className={styled.birthday_title}>
                     <Text variant="span" fontWeight="bold" fontSize="xl2">Birthdays</Text>
                 </div>
@@ -73,14 +86,14 @@ const Birthdays = () => {
                 <div className={styled.body_content}>
                     {
                         students.length == 0
-                        ? 
-                        <Text variant="span" fontSize="sm">No birthdays</Text>
-                        :
-                        students.map(s => {
-                            return (
-                                <StudentCard key={s.id} id={s.id} name={s.name} birthday={s.birthday} identification={s.identification} goTo='' image={s.image} />
-                            )
-                        })
+                            ?
+                            <Text variant="span" fontSize="sm">No birthdays</Text>
+                            :
+                            students.map(s => {
+                                return (
+                                    <StudentCard key={s.id} id={s.id} name={s.name} birthday={s.birthday} identification={s.identification} goTo='' image={s.image} />
+                                )
+                            })
                     }
                 </div>
             </main>

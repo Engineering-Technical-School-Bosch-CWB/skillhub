@@ -28,7 +28,7 @@ const InputText = forwardRef<HTMLInputElement, IInputTextProps>(
                     {...props}
                     id={id}
                     type={type}
-                    className={`${styles.input} ${error ? styles.error : ""}`}
+                    className={`${styles.input} ${error ? styles.error : ""} ${iconName ? styles.search : ""}`}
                     placeholder=" "
                     value={props.value}
                 />
