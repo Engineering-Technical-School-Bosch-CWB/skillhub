@@ -1,3 +1,4 @@
+using Api.Domain.Attributes;
 using Api.Domain.Services;
 
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,7 @@ namespace Api.Controllers;
 public class LoginController : ControllerBase
 {
     [HttpPost]
+    [IgnoreAuthentication]
     public async Task<ActionResult> TryLogin(
         [FromServices] ILoginService service,
         [FromBody] LoginPayload payload

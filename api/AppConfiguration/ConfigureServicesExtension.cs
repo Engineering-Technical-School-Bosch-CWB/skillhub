@@ -24,7 +24,7 @@ public static partial class ServiceCollectionExtension
         services.AddScoped<ISubjectAreaService, SubjectAreaService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IOccupationAreaService, OccupationAreaService>();
-
+        services.AddScoped<IImageService, ImageService>();
         return services;
     }
 }

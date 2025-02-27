@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Button';
 import SectionHeader from '@/components/SectionHeader';
+import IImage from '@/interfaces/models/IImage';
 
 const Birthdays = () => {
 
@@ -32,12 +33,13 @@ const Birthdays = () => {
         }
 
         const content = response.data;
-        console.log(content)
-        setStudents(content.map((s: { id: number; name: string; birthday: string; identification: string; }) => ({
+        
+        setStudents(content.map((s: { id: number; name: string; birthday: string; identification: string; profilePicture?: IImage }) => ({
             id: s.id,
             name: s.name,
             birthday: s.birthday,
-            identification: s.identification
+            identification: s.identification,
+            image: s.profilePicture?.mUrl
         })))
     }
 
@@ -76,7 +78,7 @@ const Birthdays = () => {
                         :
                         students.map(s => {
                             return (
-                                <StudentCard key={s.id} id={s.id} name={s.name} birthday={s.birthday} identification={s.identification} goTo='' />
+                                <StudentCard key={s.id} id={s.id} name={s.name} birthday={s.birthday} identification={s.identification} goTo='' image={s.image} />
                             )
                         })
                     }

@@ -1,3 +1,5 @@
+using Api.Core.Services;
+
 namespace Api.Domain.Models;
 
 public record StudentDTO(
@@ -42,7 +44,8 @@ public record SimpleStudentDTO(
     string Name,
     string Identification,
     double? Performance,
-    DateOnly? Birthday
+    DateOnly? Birthday,
+    ImageDto? ProfilePicture
 )
 {
     public static SimpleStudentDTO Map(Student obj, double? performance = null)
@@ -53,7 +56,8 @@ public record SimpleStudentDTO(
             obj.User.Name,
             obj.User.Identification,
             performance,
-            obj.User.Birthday
+            obj.User.Birthday,
+            ImageService.ConvertToDto(obj.User.ProfilePicture)
         );
     }
 }

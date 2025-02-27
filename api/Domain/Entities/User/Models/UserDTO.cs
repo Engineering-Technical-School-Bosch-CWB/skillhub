@@ -1,3 +1,5 @@
+using Api.Core.Services;
+
 namespace Api.Domain.Models;
 
 public record ObjectDTO(
@@ -24,7 +26,8 @@ public record UserDTO(
     ObjectDTO OccupationArea,
     short? PermissionLevel,
     StudentDTO? StudentProfile,
-    bool IsArchived
+    bool IsArchived,
+    ImageDto? ProfilePicture = null
 )
 {
     public static UserDTO Map(User obj, StudentDTO? student = null)
@@ -39,7 +42,8 @@ public record UserDTO(
             ObjectDTO.Map(obj.OccupationArea.Id, obj.OccupationArea.Name),
             obj.Position?.PermissionLevel,
             student,
-            obj.IsArchived
+            obj.IsArchived,
+            ImageService.ConvertToDto(obj.ProfilePicture)
         );
     }
 }
@@ -51,7 +55,8 @@ public record UserProfileDTO(
     DateOnly? Birthday,
     string Position,
     string Sector,
-    StudentProfileDTO? Student
+    StudentProfileDTO? Student,
+    ImageDto? ProfilePicture
 )
 {
     public static UserProfileDTO Map(User obj, StudentProfileDTO? studentProfile)
@@ -63,7 +68,8 @@ public record UserProfileDTO(
             obj.Birthday,
             obj.Position.Name,
             obj.Sector.Name,
-            studentProfile
+            studentProfile,
+            ImageService.ConvertToDto(obj.ProfilePicture)
         );
     }
 }

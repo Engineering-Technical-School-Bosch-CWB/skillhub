@@ -3,7 +3,7 @@ using Api.Domain.Models;
 
 namespace Api.Domain.Repositories;
 
-public interface IUserImageRepository : IRepository<UserImage>
+public interface IImageRepository : IRepository<Image>
 {
 
 }
