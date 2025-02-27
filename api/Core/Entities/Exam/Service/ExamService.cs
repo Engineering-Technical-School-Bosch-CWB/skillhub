@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Api.Core.Services;
 
 public class ExamService(BaseRepository<Exam> repository, ISubjectRepository subjectRepository, IUserService userService,
-    ISkillRepository skillRepository, ISkillResultRepository skillResultRepository, IUserRepository userRepository
+    ISkillRepository skillRepository, ISkillResultRepository skillResultRepository, IUserRepository userRepository, IStudentResultService studentResultService
 ) : BaseService<Exam>(repository), IExamService
 {
     private readonly BaseRepository<Exam> _repo = repository;
@@ -19,6 +19,7 @@ public class ExamService(BaseRepository<Exam> repository, ISubjectRepository sub
     private readonly IUserRepository _userRepo = userRepository;
 
     private readonly IUserService _userService = userService;
+    private readonly IStudentResultService _studentResultService = studentResultService;
 
     #region CRUD
 
@@ -97,6 +98,7 @@ public class ExamService(BaseRepository<Exam> repository, ISubjectRepository sub
             .Include(e => e.SkillResults)
                 .ThenInclude(s => s.Student)
             .Include(e => e.Subject.Class.Students)
+            .Include(e => e.Subject.CurricularUnit)
             .SingleOrDefaultAsync(e => e.Id == id)
             ?? throw new NotFoundException("Exam not found!");
 
@@ -165,6 +167,8 @@ public class ExamService(BaseRepository<Exam> repository, ISubjectRepository sub
                 }
             }
         }
+
+        await _studentResultService.AttExamResult(exam);
 
         repository.Update(exam);
         await repository.SaveAsync();
