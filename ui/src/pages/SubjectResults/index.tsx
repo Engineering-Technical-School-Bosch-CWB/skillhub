@@ -74,10 +74,6 @@ const SubjectResults = () => {
         {
             iconName: "history",
             function: handleHistoryModal
-        },
-        {
-            iconName: "priority_high",
-            function: handleContestmentModal
         }
     ]
 
