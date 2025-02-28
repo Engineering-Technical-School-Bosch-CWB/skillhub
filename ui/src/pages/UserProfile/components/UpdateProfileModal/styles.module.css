@@ -21,4 +21,14 @@
         grid-template-columns: calc(33% - 1rem) calc(34% - 1rem) 33%;
         gap: 1rem;
     }
+
+    .btn_area {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1rem ;
+        span{
+            display: flex;
+            gap: 1rem;
+        }
+    }
 }

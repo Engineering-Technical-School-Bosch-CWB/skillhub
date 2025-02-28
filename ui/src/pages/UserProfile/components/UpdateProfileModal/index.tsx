@@ -16,6 +16,7 @@ import IPosition from "@/interfaces/models/IPosition";
 import IOccupationArea from "@/interfaces/models/IOccupationArea";
 import ISector from "@/interfaces/models/ISector";
 import { IServiceResponse } from "@/interfaces/services.interfaces";
+import { confirmDialog } from "@/components/ConfirmDialog";
 
 export interface IUpdateProfileModalProps extends IModalProps {
     id?: number,
@@ -62,6 +63,19 @@ export default ({title, handleClose, open, isCurrentUser, subtitle, byClassId }:
         location.reload();    
     }
     
+    const toggleArchive = async () => {
+        // const res = confirm("Voce tem certeza?");
+        const res = await confirmDialog("Deseja arquivar este usuário", "se voce arquivar este usuario ele nao aparecerá mais na turma", "Voltar", "Ok")
+        console.log(res);
+        
+        if(!res){
+            console.log("canceled");
+            return
+        }
+        console.log("OK");
+        
+    }
+
     const loadSectors = async () => {
         const response = await internalAPI.jsonRequest("/sectors","GET");
         if(!response||!response.success)
@@ -158,7 +172,17 @@ export default ({title, handleClose, open, isCurrentUser, subtitle, byClassId }:
                         <Button variant="link" onClick={() => setIsUpdatePassword(true)}>Update Password</Button>
                     </>
                 }
-                <ButtonGroup cancel={handleClose} submit={toggleSubmit} />
+                <section className={styles.btn_area}>
+                    {
+                        logedUser?.permissionLevel && logedUser?.permissionLevel > 1 &&
+                        <Button kind="alert" onClick={toggleArchive} >Archive</Button>
+                    }
+                    <span>
+                        <Button onClick={handleClose} >Cancel</Button>
+                        <Button onClick={toggleSubmit} variant="contained">Submit</Button>
+                    </span>
+                </section>
+                {/* <ButtonGroup cancel={handleClose} submit={toggleSubmit} /> */}
             </div>
         </Modal>
     )
