@@ -4,7 +4,6 @@ import styles from "./styles.module.css";
 import { createRoot } from "react-dom/client";
 import Button from "../Button";
 import Text from "@/typography";
-import Divider from "../Divider";
 
 interface IConfirmDialogProps {
     message?: string,
