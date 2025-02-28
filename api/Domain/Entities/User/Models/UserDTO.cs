@@ -1,3 +1,4 @@
+using api.Migrations;
 using Api.Core.Services;
 
 namespace Api.Domain.Models;
@@ -53,6 +54,7 @@ public record UserProfileDTO(
     string Name,
     string Identification,
     DateOnly? Birthday,
+    Boolean IsArchived,
     string Position,
     string Sector,
     StudentProfileDTO? Student,
@@ -66,6 +68,7 @@ public record UserProfileDTO(
             obj.Name,
             obj.Identification,
             obj.Birthday,
+            obj.IsArchived,
             obj.Position.Name,
             obj.Sector.Name,
             studentProfile,

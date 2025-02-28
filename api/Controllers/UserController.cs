@@ -138,6 +138,21 @@ public class UserController : ControllerBase
         return Ok(result);
     }
 
+    [HttpPatch]
+    [Route("archive/{userId}")]
+    public async Task<ActionResult> ArchiveUser(
+        UserContext userContext,
+        [FromServices] IUserService service,
+        int userId
+    ) {
+        if (userContext.PermissionLevel != EPermissionLevel.Admin && userId != userContext.UserId)
+            throw new ForbiddenAccessException("User don't have permission to this service!");
+
+        await service.ArchiveUser(userId);
+        return Ok();
+    }
+
+
     #endregion
 
     #region User Image
