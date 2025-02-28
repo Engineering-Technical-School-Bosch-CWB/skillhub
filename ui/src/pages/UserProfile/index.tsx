@@ -93,6 +93,7 @@ const UserProfile = () => {
         }
 
         const content = response.data as IStudentProfileData;
+        console.log(content);
         
         setStudentData(content.student);
         setUserData({
@@ -102,7 +103,8 @@ const UserProfile = () => {
             birthday: content.birthday,
             position: content.position,
             sector: content.sector,
-            profilePicture: content.profilePicture
+            profilePicture: content.profilePicture,
+            isArchived: content.isArchived
         });
 
         if (content.student) {
@@ -179,6 +181,7 @@ const UserProfile = () => {
                             <div className={`${styles.gap}`}>
                                 <Text variant="span" fontWeight="bold" fontSize="xl2">{userData?.name}</Text>
                                 <Text>{userData?.identification}</Text>
+                                    <Text>{userData?.isArchived? "(Archived)":""}</Text>
                             </div>
                             {
                                 studentData &&

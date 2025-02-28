@@ -8,6 +8,7 @@ public interface IUserService : IService<User>
     public Task<AppResponse<UserDTO>> CreateUser(UserCreatePayload payload);
     public Task<AppResponse<UserDTO>> CreateUserByClass(UserCreatePayload payload, int idClass);
     public Task<AppResponse<UserDTO>> UpdateUser(int id, UserUpdatePayload payload);
+    public Task ArchiveUser(int id);
     public Task DeleteUser(int id);
     public Task<AppResponse<UserDTO>> GetUser(int id);
     public Task<IEnumerable<ObjectDTO>> GetTeachers(User? instructor = null);

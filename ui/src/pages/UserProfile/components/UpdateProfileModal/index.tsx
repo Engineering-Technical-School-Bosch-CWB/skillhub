@@ -5,7 +5,6 @@ import internalAPI from "@/service/internal.services";
 import IUser, { User } from "@/interfaces/models/IUser";
 import Input from "@/components/Input";
 import dayjs from "dayjs";
-import ButtonGroup from "@/components/ButtonGroup";
 import { useLocation } from "react-router-dom";
 import Button from "@/components/Button";
 import { toast } from "react-toastify";
@@ -16,6 +15,7 @@ import IPosition from "@/interfaces/models/IPosition";
 import IOccupationArea from "@/interfaces/models/IOccupationArea";
 import ISector from "@/interfaces/models/ISector";
 import { IServiceResponse } from "@/interfaces/services.interfaces";
+import { confirmDialog } from "@/components/ConfirmDialog";
 
 export interface IUpdateProfileModalProps extends IModalProps {
     id?: number,
@@ -41,11 +41,9 @@ export default ({title, handleClose, open, isCurrentUser, subtitle, byClassId }:
         var data = response.data as IUser;
         setUserData(data)
     }
-
     const formatDate = (value?: Date): string => {
         return dayjs(value).format('DD/MM/YYYY');
     }
-
     const toggleSubmit = async () => {
         var response : IServiceResponse<any>;
         if(id || isCurrentUser)
@@ -61,7 +59,20 @@ export default ({title, handleClose, open, isCurrentUser, subtitle, byClassId }:
         }
         location.reload();    
     }
-    
+    const toggleArchive = async () => {
+        const confirm = await confirmDialog("Deseja arquivar este usuário", "se voce arquivar este usuario ele nao aparecerá mais na turma", "Voltar", "Ok")
+        if(!confirm){
+            return;
+        }
+        
+        const response = await internalAPI.jsonRequest(`/users/archive/${userData.id}`, "PATCH");
+        if(!response || !response.success) {
+            toast.error("Error on archive user", {toastId: "user-archive-fail"});
+            return;
+        }
+        location.reload();
+        
+    }
     const loadSectors = async () => {
         const response = await internalAPI.jsonRequest("/sectors","GET");
         if(!response||!response.success)
@@ -158,7 +169,16 @@ export default ({title, handleClose, open, isCurrentUser, subtitle, byClassId }:
                         <Button variant="link" onClick={() => setIsUpdatePassword(true)}>Update Password</Button>
                     </>
                 }
-                <ButtonGroup cancel={handleClose} submit={toggleSubmit} />
+                <section className={styles.btn_area}>
+                    {
+                        logedUser?.permissionLevel && logedUser?.permissionLevel > 1 &&
+                        <Button kind="alert" onClick={toggleArchive} >{userData.isArchived ? "Unarchive":"Archive"}</Button>
+                    }
+                    <span>
+                        <Button onClick={handleClose} >Cancel</Button>
+                        <Button onClick={toggleSubmit} variant="contained">Submit</Button>
+                    </span>
+                </section>
             </div>
         </Modal>
     )

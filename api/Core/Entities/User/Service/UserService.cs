@@ -314,6 +314,17 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
         return teachers;
     }
 
+    public async Task ArchiveUser(int id)
+    {
+        var user = await repository.Get()
+            .SingleOrDefaultAsync(u => u.IsActive && u.Id == id)
+                ?? throw new NotFoundException("User not found!");
+        
+        user.IsArchived = !user.IsArchived;
+        repository.Update(user);
+        await repository.SaveAsync();
+    }
+    
     #endregion
 
     #region Pages

@@ -46,6 +46,7 @@ export interface IUserData {
     birthday?: string
     position: string
     sector: string
+    isArchived?: boolean,
     occupationArea?: string,
     profilePicture?: IImage
 }
@@ -90,7 +91,8 @@ export interface IStudentProfileData {
     position: string,
     sector: string,
     birthday: string,
-    profilePicture?: IImage
+    profilePicture?: IImage,
+    isArchived?: boolean
 }
 
 // export interface IRadarData {
