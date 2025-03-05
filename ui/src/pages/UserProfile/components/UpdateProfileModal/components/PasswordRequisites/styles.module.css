@@ -1,0 +1,29 @@
+.requisites_container {
+    display: flex;
+    flex-direction: column;
+
+    span{
+        display: flex;
+        gap: .5rem;
+        margin: .1rem;
+
+        .indicator_icon {
+            border: 1px solid black;
+            border-radius: 50%;
+        }
+    }
+    .incomplete {
+        color: var(--danger-main);
+        .indicator_icon{
+            border-color: var(--danger-dark);
+            background-color: var(--danger-light);
+        }
+    }
+    .complete {
+        color: var(--success-main);
+        .indicator_icon{
+            border-color: var(--success-dark);
+            background-color: var(--success-light);
+        }
+    }
+}
