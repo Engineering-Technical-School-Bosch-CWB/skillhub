@@ -93,7 +93,6 @@ const UserProfile = () => {
         }
 
         const content = response.data as IStudentProfileData;
-        console.log(content);
         
         setStudentData(content.student);
         setUserData({
