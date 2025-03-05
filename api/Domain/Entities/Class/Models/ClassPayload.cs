@@ -19,9 +19,14 @@ public class ClassCreatePayload
     [Required]
     public required ClassOnCreate Class { get; set; }
 
-    public CourseOnCreateClass Course { get; set; }
-    public IEnumerable<StudentOnCreateClass> Students { get; set; }
-    public IEnumerable<SubjectOnCreateClass> Subjects { get; set; }
+    [Required]
+    public required int CourseId { get; set; }
+
+    [Required]
+    public required IEnumerable<StudentOnCreateClass> Students { get; set; } = [];
+
+    [Required]
+    public required IEnumerable<SubjectOnCreateClass> Subjects { get; set; } = [];
     public bool IsTemplate { get; set; } = false;
 }
 
@@ -43,8 +48,6 @@ public class StudentOnCreateClass
 public class SubjectOnCreateClass
 {
     [Required]
-    public required string Name { get; set; }
-    [Required]
     public required int Duration { get; set; }
     [Required]
     public required int CurricularUnitId { get; set; }
@@ -54,8 +57,10 @@ public class ClassOnCreate
 {
     [Required]
     public required string Name { get; set; }
-    [Required]
-    public required string Abbreviation { get; set; }
 
+    [Required]
+    public short StartingYear { get; set; }
+
+    public string? Abbreviation { get; set; }
     public short? DurationPeriods { get; set; }
 }
