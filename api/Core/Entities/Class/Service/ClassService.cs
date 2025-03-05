@@ -5,9 +5,7 @@ using Api.Domain.Services;
 using Api.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Api.Core.Errors;
-using Api.Core.Repositories;
 using Microsoft.AspNetCore.Identity;
-using System.Net.WebSockets;
 
 namespace Api.Core.Services;
 
@@ -53,90 +51,141 @@ public class ClassService(
     {
         var course = await _courseRepo.Get()
             .Include(c => c.DefaultOccupationArea)
-            .SingleOrDefaultAsync(c => c.Id == payload.Course.Id)
+            .SingleOrDefaultAsync(c => c.Id == payload.CourseId)
             ?? throw new NotFoundException("Course not found!");
 
-        var __curricularUnitIds = payload.Subjects.Select(cu => cu.CurricularUnitId).ToList();
-        List<CurricularUnit> _curricularUnits = [];
-        if (__curricularUnitIds.Count > 0)
-            _curricularUnits = await _curricularUnitRepository.Get()
-                .Where(c => c.IsActive && __curricularUnitIds.Contains(c.Id))
+        var curricularUnitIds = payload.Subjects.ToDictionary(s => s.CurricularUnitId, s => s.Duration);
+        var curricularUnitKeys = curricularUnitIds.Keys.ToHashSet();
+
+        var curricularUnits = new List<(CurricularUnit CurricularUnit, int Duration)>();
+        if (curricularUnitIds.Count > 0)
+        {
+            var queryResult = await _curricularUnitRepository.Get()
+                .Where(c => c.IsActive && curricularUnitKeys.Contains(c.Id))
+                .Select(c => new { CurricularUnit = c, Duration = curricularUnitIds[c.Id] })
                 .ToListAsync();
 
+            curricularUnits = [.. queryResult.Select(x => (x.CurricularUnit, x.Duration))];
+        }
 
-        var _sector = await _sectorRepo.Get().SingleOrDefaultAsync(s => s.Name == "ETS")
-            ?? throw new Exception("Not found sector ETS");
-        var _position = await _positionRepo.Get().SingleOrDefaultAsync(p => p.PermissionLevel == 1)
-            ?? throw new Exception("Not found user with ");
+        var ets = new HashSet<string> { "ETS", "ENGINEERING TECH SCHOOL" };
+
+        var sector = _sectorRepo.Get()
+            .AsEnumerable()
+            .SingleOrDefault(s => ets.Contains(s.Name.ToUpperInvariant()))
+            ?? throw new NotFoundException("Not found sector ETS.");
+
+        var position = await _positionRepo.Get()
+            .SingleOrDefaultAsync(p => p.PositionType == 1)
+            ?? throw new NotFoundException("Not found apprentice position.");
 
         var createdClass = _repo.Add(new Class
         {
             Name = payload.Class.Name,
             Course = course,
-            StartingYear = (short)new DateOnly().Year,
-            DurationPeriods = payload.Class.Period
+            StartingYear = payload.Class.StartingYear,
+            DurationPeriods = payload.Class.DurationPeriods
         }) ?? throw new UpsertFailException("Class could not be inserted!");
 
         await _repo.SaveAsync();
 
-        List<User> insertedUsers = payload.Students.Select(s => 
+        var insertedUsers = payload.Students.Select(s =>
         {
-            User __user = new()
+            var user = new User
             {
-                Sector = _sector,
-                Position = _position,
+                Sector = sector,
+                Position = position,
                 OccupationArea = course.DefaultOccupationArea,
                 Name = s.Name,
                 Identification = s.Identification,
-                Hash = "",
-                IsActive = true
+                Hash = ""
             };
-            __user.Hash = _passwordHasher.HashPassword(__user, s.Identification);
+            user.Hash = _passwordHasher.HashPassword(user, s.Identification);
 
-            var inserted = _userRepo.Add(__user);
-            return inserted;
+            return _userRepo.Add(user);
         }).ToList();
+
         await _userRepo.SaveAsync();
 
-        List<Subject> _subjects = _curricularUnits.Select(cu =>
+        var subjects = curricularUnits.Select(uc =>
         {
-            Subject s = new()
+            var subject = new Subject
             {
                 Class = createdClass,
-                CurricularUnit = cu,
-                DurationHours = payload.Subjects.FirstOrDefault(s => s.CurricularUnitId == cu.Id).Duration,
-                Period = payload.Class.Period,
+                CurricularUnit = uc.CurricularUnit,
+                DurationHours = uc.Duration,
+                Period = payload.Class.DurationPeriods,
                 IsActive = true,
                 BeganAt = null,
                 Instructor = null
             };
-            var added = _subjectRepo.Add(s);
-
-
-            return added; 
+            return _subjectRepo.Add(subject);
         }).ToList();
+
         await _subjectRepo.SaveAsync();
 
-        List<Student> _students =  insertedUsers.Select(u =>
-        {   
-
-            var inserted = _studentRepo.Add(new()
+        var students = insertedUsers.Select(u =>
+        {
+            var student = new Student
             {
                 Class = createdClass,
                 User = u,
-            });
-
-            return inserted;
+            };
+            return _studentRepo.Add(student);
         }).ToList();
+
         await _studentRepo.SaveAsync();
 
-        createdClass.Subjects = _subjects;
-        createdClass.Students = _students;
+        createdClass.Subjects = subjects;
+        createdClass.Students = students;
 
         return new AppResponse<ClassDTO>(
             ClassDTO.Map(createdClass),
             "Class created successfully!"
         );
+    }
+
+
+    public async Task<AppResponse<SimpleClassDTO>> UpdateClass(int id, ClassUpdatePayload payload)
+    {
+        var _class = await _repo.Get()
+            .Where(c => c.IsActive)
+            .SingleOrDefaultAsync(c => c.Id == id)
+            ?? throw new NotFoundException("Class not found!");
+
+        _class.Name = payload.Name ?? _class.Name;
+        _class.Abbreviation = payload.Abbreviation ?? _class.Abbreviation;
+        _class.DurationPeriods = payload.DurationPeriods ?? _class.DurationPeriods;
+        _class.StartingYear = payload.StartingYear ?? _class.StartingYear;
+
+        var updatedClass = _repo.Update(_class);
+        await _repo.SaveAsync();
+
+        return new AppResponse<SimpleClassDTO>(
+            SimpleClassDTO.Map(updatedClass),
+            "Class updated successfully!"
+        );
+    }
+
+    public async Task DeleteClass(int id)
+    {
+        var _class = await _repo.Get()
+            .Where(c => c.IsActive)
+            .Include(c => c.Students)
+                .ThenInclude(s => s.User)
+            .SingleOrDefaultAsync(c => c.Id == id)
+            ?? throw new NotFoundException("Class not found!");
+
+        _class.IsActive = false;
+
+        foreach (var student in _class.Students)
+        {
+            student.IsActive = false;
+            student.User.IsActive = false;
+        }
+
+        _repo.Update(_class);
+        await _repo.SaveAsync();
     }
 
     #endregion
@@ -146,11 +195,11 @@ public class ClassService(
     public ClassGraphsDTO GetClassGraphs(IEnumerable<Subject> subjects, IEnumerable<Student> students)
     {
         var results = subjects.SelectMany(subj => students.Select(student => new
-            {
-                Subject = subj,
-                Student = student,
-                Performance = _studentService.GetSubjectGrade(student.Id, subj.Id).Item1
-            }
+        {
+            Subject = subj,
+            Student = student,
+            Performance = _studentService.GetSubjectGrade(student.Id, subj.Id).Item1
+        }
         ));
 
         var subjectResults = results.GroupBy(r => r.Subject).Select(g => SubjectResultDTO.Map(g.Key, (g.Average(a => a.Performance), null)));
@@ -165,7 +214,7 @@ public class ClassService(
         );
     }
 
-    public async Task ArchiveClass(int id)
+    public async Task ArchiveClass(int id, bool archive)
     {
         var _class = await _repo.Get()
             .Where(c => c.IsActive && !c.IsArchived)
@@ -174,10 +223,10 @@ public class ClassService(
             .SingleOrDefaultAsync(c => c.Id == id)
             ?? throw new NotFoundException("Class not found!");
 
-        _class.IsArchived = true;
+        _class.IsArchived = archive;
 
         foreach (var student in _class.Students)
-            student.User.IsArchived = true;
+            student.User.IsArchived = archive;
 
         _repo.Update(_class);
         await _repo.SaveAsync();

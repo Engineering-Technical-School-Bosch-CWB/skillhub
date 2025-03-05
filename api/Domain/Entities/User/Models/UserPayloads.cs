@@ -42,5 +42,6 @@ public class UserUpdatePayload
     [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$", ErrorMessage = "Password is not valid")]
     public string? Password { get; set; }
 
+    [StringLength(255)]
     public string? ConfirmPassword { get; set; }
 }

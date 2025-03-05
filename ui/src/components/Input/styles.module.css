@@ -5,11 +5,12 @@
     position: relative;
     cursor: text;
 
-    
-    .label + .input {
+
+    .label+.input {
         padding-bottom: 0.315rem;
         padding-top: 1.125rem;
     }
+
     .full_width {
         width: 100%;
     }
@@ -32,7 +33,7 @@
         font-size: .75rem;
     }
 
-    .label:has(+ .input:focus)   {
+    .label:has(+ .input:focus) {
         color: var(--primary-light);
     }
 
@@ -41,7 +42,7 @@
         height: 3rem;
         background-color: transparent;
         padding: 0 1rem;
-        
+
         border: var(--default-border);
 
         outline: none;
@@ -51,15 +52,19 @@
         font-size: 1rem;
         color: var(--gray-500);
     }
+
     .input:focus {
         border: var(--default-border) !important;
     }
+
     .input:hover {
         border: var(--active-border);
     }
+
     .input:disabled {
         background-color: rgb(0, 0, 0, 0.1);
     }
+
     .input:disabled:hover {
         border: var(--default-border);
     }
@@ -67,6 +72,11 @@
     .disabled {
         background-color: transparent;
         cursor: default;
+    }
+
+
+    .search {
+        padding: 0 3rem 0 1rem;
     }
 
 

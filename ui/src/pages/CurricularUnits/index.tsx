@@ -41,9 +41,9 @@ const CurricularUnits = () => {
         const apiRequest = async () => {
 
             const params = new URLSearchParams();
-            if (search) 
+            if (search)
                 params.append('query', search);
-            if (Number(subjectArea)) 
+            if (Number(subjectArea))
                 params.append('subjectAreaId', String(subjectArea));
 
             const response = await internalAPI.jsonRequest(`/curricularUnits?${params.toString()}`, "GET");
@@ -113,7 +113,7 @@ const CurricularUnits = () => {
                     }}
                     title="Curricular Units"
                     filter={[subjectAreaFilter]}
-                    onAddHandle={() => {setCreateModalOpen(true)}}
+                    onAddHandle={() => { setCreateModalOpen(true) }}
                 />
             </main>
             {createModalOpen && <CreateModal kind={"curricularUnits"} isOpen={true} onClose={() => setCreateModalOpen(false)} />}

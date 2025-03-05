@@ -9,12 +9,16 @@ import { toast } from "react-toastify"
 
 interface ISettingsModalProps extends IModalProps {
     data: ICurricularUnit
+    ucState: IState<ICurricularUnit>
 }
 
 import styles from "./styles.module.css"
 import ButtonGroup from "@/components/ButtonGroup"
+import { IState } from "@/interfaces/IState.interface"
+import toastifyUpdate from "@/constants/toastfyUpdate"
+import { SubjectArea } from "@/interfaces/models/ISubjectArea"
 
-export default ({handleClose, open, data}: ISettingsModalProps) => {
+export default ({ handleClose, open, data, ucState }: ISettingsModalProps) => {
 
     const [currentData, setCurrentData] = useState<ICurricularUnit>(data);
     const [subjectAreasSelect, setSubjectAreasSelect] = useState<ISelectData[]>([]);
@@ -28,11 +32,11 @@ export default ({handleClose, open, data}: ISettingsModalProps) => {
 
     const loadSubjectAreas = async () => {
         const response = await internalAPI.jsonRequest(`/subjectAreas?page=1&limit=0`, "GET");
-        if(!response || !response.success)
-            toast.error("Error on load subject areas", {toastId: "subject-areas-error-load"});
-        
+        if (!response || !response.success)
+            toast.error("Error on load subject areas", { toastId: "subject-areas-error-load" });
+
         const _data = response.data as ICurricularUnit[];
-        
+
         setSubjectAreasSelect(_data.map((s) => {
             return {
                 key: s.name,
@@ -43,14 +47,37 @@ export default ({handleClose, open, data}: ISettingsModalProps) => {
     }
 
     const submit = async () => {
-        const response = await internalAPI.jsonRequest(`/curricularUnits/${data.id}`, "PATCH", undefined, currentData)
-        if(!response || !response.success){
-            toast.error(`Error on update Curricular Unit ${response.message}`, {toastId: "curricular-unit-update-error"});
-            return
+
+        const apiRequest = async () => {
+            const response = await internalAPI.jsonRequest(`/curricularUnits/${data.id}`, "PATCH", undefined, currentData)
+            if (!response || !response.success)
+                throw new Error(response.message);
+            // toast.error(`Error on update Curricular Unit ${response.message}`, {toastId: "curricular-unit-update-error"});
+            return response.data;
         }
 
-        location.reload();
-        
+        const message = toast.loading("Updating curricular unit!");
+        apiRequest().then(content => {
+
+            console.log(content)
+
+            toast.update(message, {
+                ...toastifyUpdate,
+                render: "Curricular unit updated successfully!",
+                type: "success"
+            });
+
+            ucState.setValue({ ...ucState.value, name: content.name, subjectArea: content.subjectArea });
+        }).catch(err => {
+            toast.update(message, {
+                ...toastifyUpdate,
+                render: err.message || "Something went wrong.",
+                type: "error"
+            });
+        }).finally(() => {
+            handleClose();
+        })
+
     }
 
     useEffect(() => {
@@ -71,8 +98,8 @@ export default ({handleClose, open, data}: ISettingsModalProps) => {
         >
             <div className={styles.modal_content}>
 
-                <Input value={currentData.name} label="Name" onChange={(e) => changeData("name", e.target.value)}/>
-                <Select 
+                <Input value={currentData.name} label="Name" onChange={(e) => changeData("name", e.target.value)} />
+                <Select
                     label="Subject Area"
                     data={subjectAreasSelect}
                     hasDefault={true}

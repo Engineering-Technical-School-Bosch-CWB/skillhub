@@ -12,50 +12,53 @@ export interface IInputDateProps extends IRootInputProps {
 }
 
 const InputDate = forwardRef<HTMLInputElement, IInputDateProps>(
-    ({ error, hasForm, label, helperText, id, fieldName, dateChange, value, className, ...props }, ref) => 
-{
+    ({ error, hasForm, label, helperText, id, fieldName, dateChange, value, className, ...props }, ref) => {
 
-    const formContext = useFormContext();
+        const formContext = useFormContext();
 
-    const handleSetValue = (value: dayjs.Dayjs | null) => {
+        const handleSetValue = (value: dayjs.Dayjs | null) => {
 
-        if(fieldName || hasForm)
-        {
-            const {setValue} = formContext;
-            if(setValue && fieldName)
-                setValue(fieldName, value?.format("YYYY-MM-DD"))
-            return
+            if (fieldName || hasForm) {
+                const { setValue } = formContext;
+                if (setValue && fieldName)
+                    setValue(fieldName, value?.format("YYYY-MM-DD"))
+                return
+            }
+            if (value && dateChange)
+                dateChange(value);
+
         }
-        if(value && dateChange)
-            dateChange(value);
-                
-    }
 
-    const getDefaultValue = (): Dayjs => {
-        let defaultValue = value?.toString().split("/") ?? "";
-        let res = dayjs(`${defaultValue[2]}-${defaultValue[1]}-${defaultValue[0]}`);
-        return res;
-    }
+        const getDefaultValue = (): Dayjs => {
+            let defaultValue = value?.toString().split("/") ?? "";
+            let res = dayjs(`${defaultValue[2]}-${defaultValue[1]}-${defaultValue[0]}`);
+            return res;
+        }
 
-    return (
-        <InputContainer
-            error={error}
-            helperText={helperText}
-            id={id}
-            width={props.width}
-        >
-            <SInput 
-                className={className}
-                label={label}
+        return (
+            <InputContainer
                 error={error}
-                ref={ref}
-                format="DD/MM/YYYY"
-                value={value ? getDefaultValue() : undefined}
-                onChange={(value) => handleSetValue(value)}
-            />
-        </InputContainer>
-    )
-})
+                helperText={helperText}
+                id={id}
+                width={props.width}
+            >
+                <SInput
+                    className={className}
+                    label={label}
+                    error={error}
+                    ref={ref}
+                    format="DD/MM/YYYY"
+                    slotProps={{
+                        textField: {
+                            required: props.required,
+                        },
+                    }}
+                    value={value ? getDefaultValue() : undefined}
+                    onChange={(value) => handleSetValue(value)}
+                />
+            </InputContainer>
+        )
+    })
 
 const SInput = styled(DatePicker)<{ error?: boolean }>(({ error }) => ({
     width: "100%",
@@ -71,7 +74,7 @@ const SInput = styled(DatePicker)<{ error?: boolean }>(({ error }) => ({
         display: "flex",
         alignItems: "center"
     }
-    
+
 }))
 
 export default InputDate

@@ -1,11 +1,13 @@
 .background {
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
 
     background-image: url("/bosch-colors.svg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: 50%;
+
+    padding: 100px;
 }
 
 .formContainer {

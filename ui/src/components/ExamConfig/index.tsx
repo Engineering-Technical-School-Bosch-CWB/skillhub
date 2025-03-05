@@ -9,6 +9,7 @@ import { Dayjs } from "dayjs";
 import { ISubject } from "@/interfaces/models/ISubject";
 import { useNavigate } from "react-router-dom";
 import SkillOption, { ISkillSelection } from "./components/SkillOption";
+import { IState } from "@/interfaces/IState.interface";
 
 export interface ISkill {
     selected: boolean
@@ -19,11 +20,6 @@ export interface ISkill {
         description: string
         evaluationCriteria: string | null
     }
-}
-
-interface IState<T> {
-    value: T;
-    setValue: Function
 }
 
 interface IExamConfigProps {

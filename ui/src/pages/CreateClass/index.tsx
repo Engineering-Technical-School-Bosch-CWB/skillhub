@@ -10,14 +10,7 @@ export default () => {
     const [data, setData] = useState<IAddClassPageProps>({
         data: {
             class: {
-                abbreviation: "",
-                name: "",
-                period: 1,
                 startingYear: (new Date()).getFullYear()
-            },
-            course: {
-                name: "",
-                id: 0
             },
             students:[],
             subjects: [],
