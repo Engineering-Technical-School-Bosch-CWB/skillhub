@@ -16,7 +16,7 @@ import IOccupationArea from "@/interfaces/models/IOccupationArea";
 import ISector from "@/interfaces/models/ISector";
 import { IServiceResponse } from "@/interfaces/services.interfaces";
 import { confirmDialog } from "@/components/ConfirmDialog";
-import PasswordRequisites from "./components/PasswordRequisites";
+import PasswordRequisites from "../../../../components/PasswordRequisites";
 
 export interface IUpdateProfileModalProps extends IModalProps {
     id?: number,
