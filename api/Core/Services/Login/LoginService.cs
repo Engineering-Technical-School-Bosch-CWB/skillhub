@@ -5,6 +5,8 @@ using Api.Core.Errors.Login;
 using Microsoft.AspNetCore.Identity;
 using Api.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Api.Core.Errors;
+using Api.Core.Repositories;
 
 namespace Api.Core.Services;
 public class LoginService(
@@ -17,6 +19,19 @@ public class LoginService(
     
     private readonly JwtService _jwtService = jwtService;
     private readonly IStudentService _studentService = studentService;
+
+    public async Task ResetPassword(int userId)
+    {
+        var user = await _userRepository.Get()
+            .Where(u => u.IsActive)
+            .Where(u => !u.IsArchived)
+            .SingleOrDefaultAsync(u => u.Id == userId)
+                ?? throw new NotFoundException("User not found");
+
+        user.Hash = _hasher.HashPassword(user, user.Identification);
+        _userRepository.Update(user);
+        await _userRepository.SaveAsync();
+    }
 
     public async Task<AppResponse<LoginResponse>> TryLogin(LoginPayload payload)
     {

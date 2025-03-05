@@ -16,6 +16,7 @@ import IOccupationArea from "@/interfaces/models/IOccupationArea";
 import ISector from "@/interfaces/models/ISector";
 import { IServiceResponse } from "@/interfaces/services.interfaces";
 import { confirmDialog } from "@/components/ConfirmDialog";
+import PasswordRequisites from "./components/PasswordRequisites";
 
 export interface IUpdateProfileModalProps extends IModalProps {
     id?: number,
@@ -34,7 +35,7 @@ export default ({title, handleClose, open, isCurrentUser, subtitle, byClassId }:
     const [selectPosition, setSelectPosition] = useState<ISelectData[]>([]);
     const [selectSector, setSelectSector] = useState<ISelectData[]>([]);
     const [userData, setUserData] = useState<IUser>(User.getDefault());
-    const [updatedData, setUpdatedData] = useState({})
+    const [updatedData, setUpdatedData] = useState<IUser>({})
 
     const loadData = async () => {
         const response = await internalAPI.jsonRequest(`/users${isCurrentUser? "": `/?id=${id}`}`, "GET")
@@ -54,10 +55,23 @@ export default ({title, handleClose, open, isCurrentUser, subtitle, byClassId }:
             response = await internalAPI.jsonRequest(`/users/`,"POST", undefined, userData);
 
         if(!response || !response.success){
+            console.log(response);
             toast.error(`Error on ${id ? "update" : "create"} user`, {toastId:"update-user-error"})
             return;
         }
         location.reload();    
+    }
+    const toggleRestorePassword = async () => {
+        const confirm = await confirmDialog("Deseja Resetar a senha deste usuário?");
+        if(!confirm)
+            return;
+
+        const response = await internalAPI.jsonRequest(`/login/resetPassword/${id}`, "GET")
+        if(!response || !response.success) {            
+            toast.error("Error on reset password", {toastId: "reset-password-fail"});
+            return;
+        }
+        location.reload();
     }
     const toggleArchive = async () => {
         const confirm = await confirmDialog("Deseja arquivar este usuário", "se voce arquivar este usuario ele nao aparecerá mais na turma", "Voltar", "Ok")
@@ -66,7 +80,7 @@ export default ({title, handleClose, open, isCurrentUser, subtitle, byClassId }:
         }
         
         const response = await internalAPI.jsonRequest(`/users/archive/${userData.id}`, "PATCH");
-        if(!response || !response.success) {
+        if(!response || !response.success) {            
             toast.error("Error on archive user", {toastId: "user-archive-fail"});
             return;
         }
@@ -163,11 +177,22 @@ export default ({title, handleClose, open, isCurrentUser, subtitle, byClassId }:
                         <Input value={`${userData.position?.name} - ${userData.sector?.name}`} disabled  />
                 }
                 {
-                    id &&
+                    (logedUser?.id && logedUser?.id == userData.id) &&
                     <>
                         <Input label="Password" type="password" placeholder="************" disabled={!isUpdatePassword} onChange={(e) => changeValue("password", e.target.value)} />
-                        <Button variant="link" onClick={() => setIsUpdatePassword(true)}>Update Password</Button>
+                        {
+                            isUpdatePassword && 
+                            <PasswordRequisites value={updatedData.password?? ""} /> 
+                        }
+                        {
+                            !isUpdatePassword &&
+                            <Button variant="link" onClick={() => setIsUpdatePassword(true)}>Update Password</Button>
+                        }
                     </>
+                }
+                {
+                    (logedUser?.id != userData.id) && logedUser?.permissionLevel && logedUser?.permissionLevel > 1 &&
+                        <Button onClick={() => toggleRestorePassword()}>Restore Password</Button>
                 }
                 <section className={styles.btn_area}>
                     {

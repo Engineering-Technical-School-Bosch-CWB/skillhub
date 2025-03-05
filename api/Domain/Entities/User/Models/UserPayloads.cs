@@ -1,4 +1,6 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json.Serialization;
 
 namespace Api.Domain.Models;
 public class UserCreatePayload
@@ -37,6 +39,7 @@ public class UserUpdatePayload
 
     public DateOnly? Birthday { get; set; }
 
+    [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$", ErrorMessage = "Password is not valid")]
     public string? Password { get; set; }
 
     public string? ConfirmPassword { get; set; }

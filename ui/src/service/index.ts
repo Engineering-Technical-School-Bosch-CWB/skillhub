@@ -44,7 +44,8 @@ export default class Service {
             data: json.data || null,
             success: response.status < 400,
             message: json.message || null,
-            info: json.info || null
+            info: json.info || null,
+            errors: json.errors || null
         }
     }
 
