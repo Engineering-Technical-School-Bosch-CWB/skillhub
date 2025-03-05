@@ -7,37 +7,38 @@ import { CourseSelectProps } from "./CourseSelect.interfaces";
 import internalAPI from "@/service/internal.services";
 import { toast } from "react-toastify";
 import { ICourse } from "@/interfaces/models/ICourse";
+import Select from "@/components/Select";
 
-export default ({onChange, defaultValue} : CourseSelectProps) =>  {
+export default ({ onChange, defaultValue }: CourseSelectProps) => {
 
     const [inputFocus, setInputFocus] = useState(false);
     const [inputKey, setInputKey] = useState("");
     const [data, setData] = useState<ISelectData[]>([]);
 
-    const changeInput = (e : ChangeEvent<HTMLInputElement>) => {
-        setInputKey(e.target.value)
-        if(onChange)
-            onChange!({
-                key: inputKey,
-                value: undefined
-            });
-    }   
-    const selectOption = (e: ISelectData) => {
-        setInputKey(e.key)
-        if(onChange)
-            onChange!({
-                key: e.key,
-                value: e.value
-            });
-    }
+    // const changeInput = (e : ChangeEvent<HTMLInputElement>) => {
+    //     setInputKey(e.target.value)
+    //     if(onChange)
+    //         onChange!({
+    //             key: inputKey,
+    //             value: undefined
+    //         });
+    // }   
+    // const selectOption = (e: ISelectData) => {
+    //     setInputKey(e.key)
+    //     if(onChange)
+    //         onChange!({
+    //             key: e.key,
+    //             value: e.value
+    //         });
+    // }
 
-    const handleBlur = ( ) => {
-        setInputFocus(false);
-    }
+    // const handleBlur = ( ) => {
+    //     setInputFocus(false);
+    // }
 
     const getData = async () => {
         const response = await internalAPI.jsonRequest(`/course?page=1&items=10&query=${inputKey}`, "GET");
-        if(!response.success)
+        if (!response.success)
             if (!toast.isActive("courses-load-error"))
                 toast.error("Error on load courses.", { toastId: "courses-load-error" });
 
@@ -51,19 +52,19 @@ export default ({onChange, defaultValue} : CourseSelectProps) =>  {
         }));
     }
 
-    useEffect(() => {
-        if(defaultValue){
-            selectOption(defaultValue)
-        }
-    }, [])
+    // useEffect(() => {
+    //     if(defaultValue){
+    //         selectOption(defaultValue)
+    //     }
+    // }, [])
 
     useEffect(() => {
         getData();
-    }, [inputKey,])
+    }, [inputKey])
 
     return (
         <>
-            <div className={styles.personalized_select}>
+            {/* <div className={styles.personalized_select}>
                 <Input 
                     className={styles.input}
                     onFocus={() => setInputFocus(true)} 
@@ -89,7 +90,12 @@ export default ({onChange, defaultValue} : CourseSelectProps) =>  {
                         }
                     </ul>
                 </div>
-            </div>
+            </div> */}
+
+            <Select data={data} onChange={(e) => onChange({
+                key: data.find(d => d.value == Number(e.target.value))?.key!,
+                value: Number(e.target.value)
+            })} />
         </>
     )
 }

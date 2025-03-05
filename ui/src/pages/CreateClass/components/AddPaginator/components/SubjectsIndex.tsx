@@ -4,13 +4,14 @@ import { IAddSubject } from "../interfaces/AddClassPage.interface"
 import SubjectSelect from "./SubjectSelect"
 import { ISelectData } from "@/components/Select/interfaces"
 import Button from "@/components/Button"
+import { toast } from "react-toastify"
 
-export interface ISubjectIndex{
+export interface ISubjectIndex {
     subjects: IAddSubject[],
     alterSubjects: (values: IAddSubject[]) => void
 }
 
-export default ({subjects, alterSubjects}: ISubjectIndex) => {
+export default ({ subjects, alterSubjects }: ISubjectIndex) => {
 
     const handleAlterSubject = (data: ISelectData, index: number) => {
         const _selecteds = subjects;
@@ -23,13 +24,12 @@ export default ({subjects, alterSubjects}: ISubjectIndex) => {
     }
 
     const handleNewSubject = () => {
-        const _selecteds = subjects;
-        _selecteds.push({
-            curricularUnitId: 0,
-            name: "",
-            duration: 0
-        });
-        alterSubjects(_selecteds);
+
+        if (subjects?.some(s => !s.curricularUnitId))
+            return toast.error("Fill in all fields.");
+
+        const _selecteds = [...subjects!, { curricularUnitId: 0, name: undefined, duration: 0 }];
+        alterSubjects!(_selecteds);
     }
 
     const changeDuration = (value: string, index: number) => {
@@ -52,23 +52,23 @@ export default ({subjects, alterSubjects}: ISubjectIndex) => {
                 <Text fontSize="sm">(Optional)</Text>
             </section>
             <section className={styles.card_page_content}>
-            {
-                subjects.map((subject, _index) => {
-                    return (
-                        <>
-                            <SubjectSelect 
-                                data={subject} 
-                                onSelect={(e) => handleAlterSubject(e, _index)} 
-                                onChangeInput={(e) => changeDuration(e, _index)} 
-                                onToggleDelete={() => toggleDelete(_index)}
-                            />
-                        </>
-                    )
-                })
-            }
-            <div className={styles.btn_area}>
-                <Button onClick={() => handleNewSubject()} >+</Button>
-            </div>
+                {
+                    subjects.map((subject, _index) => {
+                        return (
+                            <>
+                                <SubjectSelect
+                                    data={subject}
+                                    onSelect={(e) => handleAlterSubject(e, _index)}
+                                    onChangeInput={(e) => changeDuration(e, _index)}
+                                    onToggleDelete={() => toggleDelete(_index)}
+                                />
+                            </>
+                        )
+                    })
+                }
+                <div className={styles.btn_area}>
+                    <Button onClick={() => handleNewSubject()} >+</Button>
+                </div>
             </section>
         </div>
     )

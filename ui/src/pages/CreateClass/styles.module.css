@@ -3,16 +3,12 @@
 }
 .main_container {
     padding: 1rem 0;
-    height: 90vh;
     background-color: white;
-
 }
 .container{
     place-self: center;
     width: 100%;
-    max-width: 90rem;
-    padding: 0 20rem;
-    height: 95%;
+    padding: 0 max(20%, 5rem);
 }
 .content{
     height: 100%;
@@ -66,7 +62,7 @@
 }
 .form{
     width: 100%;
-    height: calc(60vh);
+    height: calc(55vh);
     padding: .75rem;
     display: flex;
     justify-content: center;

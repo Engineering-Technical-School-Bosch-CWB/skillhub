@@ -15,8 +15,8 @@ const Login = () => {
     const navigate = useNavigate();
 
     const fields: IFormInput[] = [
-        { fieldName: "Identification", label: "Identification(EDV)", required: true },
-        { fieldName: "Password", label: "Password", type: "password", required: true }
+        { fieldName: "Identification", label: "Identification(EDV)", required: true, maxLength: 100 },
+        { fieldName: "Password", label: "Password", type: "password", required: true, maxLength: 255 }
     ];
 
     const handleSubmit = async (data: FieldValues) => {
