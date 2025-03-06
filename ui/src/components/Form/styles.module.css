@@ -9,7 +9,14 @@
     gap: 30px;
 }
 
-
 .submit_button {
     width: 100%;
+}
+
+.password {
+    display: flex;
+    width: 100%;
+
+    flex-direction: column;
+    gap: 10px;
 }

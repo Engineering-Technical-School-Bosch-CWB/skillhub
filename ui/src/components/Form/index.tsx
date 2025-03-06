@@ -5,6 +5,7 @@ import { IFormProps } from "./interfaces";
 import { zodResolver } from "@hookform/resolvers/zod"
 import Input from "../Input";
 import { z, ZodTypeAny } from "zod";
+import PasswordRequisites from "../PasswordRequisites";
 
 /**
  * `Form` component: A dynamic and reusable form builder using `react-hook-form` and Zod for validation.
@@ -60,16 +61,16 @@ const Form = <T extends FieldValues>({
     customClassName,
     fields,
     submitText = "Submit",
-}:IFormProps<T>) => {
+}: IFormProps<T>) => {
 
     const schema = z.object(
         fields.reduce((acc, field) => {
-          if (field.zodSchema) {
-            acc[field.fieldName] = field.zodSchema;
-          } else {
-            acc[field.fieldName] = z.any();
-          }
-          return acc;
+            if (field.zodSchema) {
+                acc[field.fieldName] = field.zodSchema;
+            } else {
+                acc[field.fieldName] = z.any();
+            }
+            return acc;
         }, {} as Record<string, ZodTypeAny>)
     );
 
@@ -78,41 +79,52 @@ const Form = <T extends FieldValues>({
         mode: "onBlur"
     })
 
-    const { 
-        register, 
+    const {
+        register,
         handleSubmit,
         formState: { errors },
+        watch
     } = formMethods
 
-    const submit:SubmitHandler<T> = async (data) => 
+    const submit: SubmitHandler<T> = async (data) =>
         await onSubmit(data)
 
     return (
-        <form 
+        <form
             className={`${styles.form} ${customClassName}`}
             onSubmit={handleSubmit(submit)}
         >
             <FormProvider {...formMethods}>
                 {fields.map(({ fieldName, zodSchema, type, locked, value, ...field }, i) => {
                     const id = `${fieldName}-${i}`
+                    const fieldValue = watch(fieldName as any);
 
-                    return <Input
-                        key={id} id={id} type={type}
-                        {...register(fieldName as any)}
-                        {...field}
-                        fieldName={fieldName}
-                        error={!!errors[fieldName]}
-                        helperText={errors[fieldName]?.message as string | undefined}
-                        value={value}
-                        disabled={locked}
-                    />
+                    return (
+                        <div key={id} className={`${styles.password}`} >
+                            <Input
+                                id={id} type={type}
+                                {...register(fieldName as any)}
+                                {...field}
+                                fieldName={fieldName}
+                                error={!!errors[fieldName]}
+                                helperText={errors[fieldName]?.message as string | undefined}
+                                value={value}
+                                disabled={locked}
+                                required={field.required}
+                            />
+                            {
+                                field.password &&
+                                <PasswordRequisites value={fieldValue} />
+                            }
+                        </div>
+                    )
                 })}
 
                 <Button
                     className={styles.submit_button}
                     variant="contained"
                     type="submit"
-                >{ submitText }</Button>
+                >{submitText}</Button>
             </FormProvider>
         </form>
     )

@@ -9,6 +9,7 @@ export type IFormInput = IInputProps & {
     required?: boolean
     locked?: boolean
     value?: string
+    password?: boolean
 }
 
 export interface IFormProps<T> {

@@ -167,3 +167,11 @@
 
     border: var(--default-border)
 }
+
+.center {
+    display: flex;
+    width: 100%;
+
+    align-items: center;
+    justify-content: center;
+}
