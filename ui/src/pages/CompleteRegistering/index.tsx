@@ -59,7 +59,7 @@ export const CompleteRegistering = () => {
         { fieldName: "birthday", label: "Date of Birth", required: true, type: "date" },
         { fieldName: "identification", label: "Identification(EDV)", required: true, locked: true, value: user?.identification, maxLength: 100 },
         { fieldName: "position", label: "Position", required: true, locked: true, value: userPosition },
-        { fieldName: "password", label: "Password", type: "password", required: true, maxLength: 255 },
+        { fieldName: "password", label: "Password", type: "password", required: true, maxLength: 255, password: true },
         { fieldName: "passwordconfirm", label: "Password Confirm", type: "password", required: true, maxLength: 255 }
     ];
 
