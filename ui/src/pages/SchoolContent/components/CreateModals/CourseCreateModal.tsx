@@ -46,7 +46,7 @@ export default ({ onChange, setDisabled }: ICreateModalProps) => {
 
     useEffect(() => {
         onChange!(data);
-        setDisabled(!data?.name || !data.occupationAreaId);
+        setDisabled!(!data?.name || !data.occupationAreaId);
     }, [data]);
 
     return (

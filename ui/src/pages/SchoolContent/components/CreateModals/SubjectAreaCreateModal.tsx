@@ -18,7 +18,7 @@ export default ({ onChange, setDisabled }: ICreateModalProps) => {
 
     useEffect(() => {
         onChange!(data);
-        setDisabled(!data?.name);
+        setDisabled!(!data?.name);
     }, [data]);
 
     return (

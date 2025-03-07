@@ -9,6 +9,7 @@ import CurricularUnitUpdateModal from "./CurricularUnitUpdateModal";
 import SubjectAreaUpdateModal from "./SubjectAreaUpdateModal";
 import OccupationAreaUpdateModal from "./OccupationAreaUpdateModal";
 import { IUpdateModalProps } from "./_UpdateModal.interface";
+import toastifyUpdate from "@/constants/toastfyUpdate";
 
 const UpdateComponents: Record<Tabs, React.ElementType> = {
     course: CourseUpdateModal,
@@ -17,7 +18,7 @@ const UpdateComponents: Record<Tabs, React.ElementType> = {
     occupationArea: OccupationAreaUpdateModal
 }
 
-export default ({ id, kind, onClose, isOpen }: IUpdateModalProps) => {
+export default ({ id, kind, onClose, isOpen, onUpdate }: IUpdateModalProps) => {
 
     const Component = UpdateComponents[kind!]
 
@@ -29,12 +30,35 @@ export default ({ id, kind, onClose, isOpen }: IUpdateModalProps) => {
     }
 
     const submit = async () => {
-        const response = await internalAPI.jsonRequest(`/${kind}/${id}`, "PATCH", undefined, data)
 
-        if (!response || response.statusCode != 200)
-            toast.error(`Error on delete ${kind}`, { toastId: `${kind}-update-error` })
-        else
-            location.reload();
+        const apiRequest = async () => {
+            const response = await internalAPI.jsonRequest(`/${kind}/${id}`, "PATCH", undefined, data)
+
+            if (!response.success)
+                throw new Error(response.message);
+
+            return response.data;
+        }
+
+        const message = toast.loading("Updating...");
+
+        apiRequest().then(content => {
+            toast.update(message, {
+                ...toastifyUpdate,
+                render: "Updated successfully!",
+                type: "success",
+            });
+
+            onUpdate!(content);
+            onClose!();
+
+        }).catch(err => {
+            toast.update(message, {
+                ...toastifyUpdate,
+                render: err.message || "Something went wrong",
+                type: "error",
+            });
+        })
     }
 
     return (

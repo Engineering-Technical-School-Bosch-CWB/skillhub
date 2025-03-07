@@ -6,4 +6,5 @@ export interface ICreateModalProps {
     onClose?: () => void,
     onChange?: (data: any) => void,
     setDisabled?: (data: boolean) => void
+    onCreate?: Function
 }

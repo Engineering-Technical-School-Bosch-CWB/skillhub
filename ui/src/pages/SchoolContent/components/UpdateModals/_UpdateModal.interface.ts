@@ -7,4 +7,5 @@ export interface IUpdateModalProps {
     onChange?: (data: any) => void
     onClose?: () => void
     setDisabled?: (data: boolean) => void
+    onUpdate?: Function
 }

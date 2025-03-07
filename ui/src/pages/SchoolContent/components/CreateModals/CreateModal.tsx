@@ -18,7 +18,7 @@ const CreationComponents: Record<Tabs, React.ElementType> = {
     occupationArea: OccupationAreaCreateModal
 }
 
-export default ({ kind, onClose, isOpen }: ICreateModalProps) => {
+export default ({ kind, onClose, isOpen, onCreate }: ICreateModalProps) => {
 
     const [data, setData] = useState<any>();
     const [disabled, setDisabled] = useState(true);
@@ -42,19 +42,22 @@ export default ({ kind, onClose, isOpen }: ICreateModalProps) => {
 
         const message = toast.loading("Creating...");
 
-        apiRequest().then(() => {
+        apiRequest().then(content => {
             toast.update(message, {
                 ...toastifyUpdate,
                 render: "Created successfully!",
                 type: "success",
             });
+
+            onCreate!(content);
+            onClose!();            
         }).catch(err => {
             toast.update(message, {
                 ...toastifyUpdate,
-                render: err.message || `Error on create ${tabName[kind!]}`,
+            render: err.message || "Something went wrong.",
                 type: "error",
             });
-        }).finally(() => location.reload());
+        })
     }
 
     return (
