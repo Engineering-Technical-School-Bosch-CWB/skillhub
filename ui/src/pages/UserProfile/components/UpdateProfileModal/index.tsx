@@ -7,7 +7,6 @@ import Input from "@/components/Input";
 import dayjs from "dayjs";
 import { useLocation } from "react-router-dom";
 import Button from "@/components/Button";
-// import { toast } from "react-toastify";
 import { useUserContext } from "@/contexts/user.context";
 import Select from "@/components/Select";
 import { ISelectData } from "@/components/Select/interfaces";
@@ -16,9 +15,8 @@ import IOccupationArea from "@/interfaces/models/IOccupationArea";
 import ISector from "@/interfaces/models/ISector";
 import { IServiceResponse } from "@/interfaces/services.interfaces";
 import { confirmDialog } from "@/components/ConfirmDialog";
-import PasswordRequisites from "./components/PasswordRequisites";
+import PasswordRequisites from "../../../../components/PasswordRequisites";
 import { toast } from "@/components/Toast";
-import { object } from "zod";
 
 export interface IUpdateProfileModalProps extends IModalProps {
     id?: number,
@@ -27,11 +25,11 @@ export interface IUpdateProfileModalProps extends IModalProps {
 }
 
 
-export default ({title, handleClose, open, isCurrentUser, subtitle, byClassId }: IUpdateProfileModalProps) => {
+export default ({ title, handleClose, open, isCurrentUser, subtitle, byClassId }: IUpdateProfileModalProps) => {
     const _location = useLocation();
     const queryParams = new URLSearchParams(_location.search);
     const id = queryParams.get("userId");
-    const {user: logedUser} = useUserContext();
+    const { user: logedUser } = useUserContext();
     const [isUpdatePassword, setIsUpdatePassword] = useState(false);
     const [selectArea, setSelectArea] = useState<ISelectData[]>([]);
     const [selectPosition, setSelectPosition] = useState<ISelectData[]>([]);
@@ -40,7 +38,7 @@ export default ({title, handleClose, open, isCurrentUser, subtitle, byClassId }:
     const [updatedData, setUpdatedData] = useState<IUser>({})
 
     const loadData = async () => {
-        const response = await internalAPI.jsonRequest(`/users${isCurrentUser? "": `/?id=${id}`}`, "GET")
+        const response = await internalAPI.jsonRequest(`/users${isCurrentUser ? "" : `/?id=${id}`}`, "GET")
         var data = response.data as IUser;
         setUserData(data)
     }
@@ -48,13 +46,13 @@ export default ({title, handleClose, open, isCurrentUser, subtitle, byClassId }:
         return dayjs(value).format('DD/MM/YYYY');
     }
     const toggleSubmit = async () => {
-        var response : IServiceResponse<any>;
-        if(id || isCurrentUser)
-            response = await internalAPI.jsonRequest(`/users/${id ?? userData.id}`,"PATCH", undefined, updatedData);
+        var response: IServiceResponse<any>;
+        if (id || isCurrentUser)
+            response = await internalAPI.jsonRequest(`/users/${id ?? userData.id}`, "PATCH", undefined, updatedData);
         else if (byClassId)
-            response = await internalAPI.jsonRequest(`/users/byClass/${byClassId}`,"POST", undefined, userData);
+            response = await internalAPI.jsonRequest(`/users/byClass/${byClassId}`, "POST", undefined, userData);
         else
-            response = await internalAPI.jsonRequest(`/users/`,"POST", undefined, userData);
+            response = await internalAPI.jsonRequest(`/users/`, "POST", undefined, userData);
 
         if(!response || !response.success){
             console.log(response);
@@ -63,14 +61,14 @@ export default ({title, handleClose, open, isCurrentUser, subtitle, byClassId }:
                 : "";
             toast({
                 data:{
-                    title:"Error on update user",
+                    title:`Error on ${id ? "update" : "create"} user`,
                     message:error,
                     kind: "error"
                 }
             })
             return;
         }
-        location.reload();    
+        location.reload();
     }
     const toggleRestorePassword = async () => {
         const confirm = await confirmDialog("Deseja Resetar a senha deste usuário?");
@@ -157,7 +155,7 @@ export default ({title, handleClose, open, isCurrentUser, subtitle, byClassId }:
                 },
                 toastId: "positions-load-error"});
         let data = response.data as IPosition[];
-        
+
         setSelectPosition(data.map((position) => {
             return {
                 key: position.name!,
@@ -182,11 +180,11 @@ export default ({title, handleClose, open, isCurrentUser, subtitle, byClassId }:
     }
 
     useEffect(() => {
-        if(id || isCurrentUser)
+        if (id || isCurrentUser)
             loadData();
-    },[])
+    }, [])
     useEffect(() => {
-        if(logedUser?.permissionLevel && logedUser?.permissionLevel > 1 ) {
+        if (logedUser?.permissionLevel && logedUser?.permissionLevel > 1) {
             loadSectors();
             loadPositions();
             loadOccupationArea();
@@ -197,23 +195,23 @@ export default ({title, handleClose, open, isCurrentUser, subtitle, byClassId }:
         <Modal title={title} subtitle={subtitle} handleClose={handleClose} open={open}>
             <div className={styles.modal_content}>
                 <section className={`${styles.dual_input} ${styles.input_2_3}`}>
-                    <Input label="Name" value={userData.name} onChange={(e) => changeValue("name", e.target.value)} disabled={isUpdatePassword}/>
+                    <Input label="Name" value={userData.name} onChange={(e) => changeValue("name", e.target.value)} disabled={isUpdatePassword} maxLength={500} />
                     <Input label="Birth" value={formatDate(userData.birthday)} type="date" dateChange={(e) => changeValue("birthday", e?.format("YYYY-MM-DD"))} disabled={isUpdatePassword} />
                 </section>
-                <Input 
-                    label="Identification" 
-                    value={userData.identification} 
-                    onChange={(e) => changeValue("identification", e.target.value)} disabled={isUpdatePassword || !(logedUser?.permissionLevel! > 1)
-                    }
+                <Input
+                    label="Identification"
+                    value={userData.identification}
+                    onChange={(e) => changeValue("identification", e.target.value)} disabled={isUpdatePassword || !(logedUser?.permissionLevel! > 1)}
+                    maxLength={100}
                 />
                 {
-                    logedUser?.permissionLevel && logedUser?.permissionLevel > 1 ? 
+                    logedUser?.permissionLevel && logedUser?.permissionLevel > 1 ?
                         <section className={`${styles.triple_input} ${styles.input_1_1_1}`}>
                             <Select data={selectSector} label="Sector" disabled={isUpdatePassword} onChange={(e) => changeValue("sectorId", e.target.value)} />
-                            <Select data={selectPosition} label="Position" disabled={isUpdatePassword}  onChange={(e) => changeValue("positionId", e.target.value)} />
+                            <Select data={selectPosition} label="Position" disabled={isUpdatePassword} onChange={(e) => changeValue("positionId", e.target.value)} />
                             <Select data={selectArea} label="Área" disabled={isUpdatePassword} onChange={(e) => changeValue("occupationAreaId", e.target.value)} />
                         </section> :
-                        <Input value={`${userData.position?.name} - ${userData.sector?.name}`} disabled  />
+                        <Input value={`${userData.position?.name} - ${userData.sector?.name}`} disabled />
                 }
                 {
                     (logedUser?.id && logedUser?.id == userData.id) &&

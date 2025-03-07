@@ -10,28 +10,25 @@ interface IOverviewIndexProps {
     setDataChecked: (value: boolean) => void
 }
 
-export default ({ data, setDataChecked } : IOverviewIndexProps) => {
+export default ({ data, setDataChecked }: IOverviewIndexProps) => {
 
-    const checkClass = () : boolean => {
+    const checkClass = (): boolean => {
         const _class = data.class;
-        if(!_class.abbreviation || !_class.name)
+        if (!_class.startingYear || !_class.name || !data.course)
             return false
-        
+
         return true;
     }
 
-    const checkStudents = () : boolean => {
-        if(data.students.length <= 0)
-            return false;
-        return true;
-    }
+    const checkStudents = (): boolean =>
+        !(data.students.length <= 0 || data.students.some(s => !s.name.trim() || !s.identification.trim()));
 
-    const checkSubjects = () : boolean => {
-        return true;
-    }
+
+    const checkSubjects = (): boolean =>
+        !(data.subjects.some(s => !s.curricularUnitId))
 
     const checkData = () => {
-        if(!checkClass() || !checkStudents() || !checkSubjects())
+        if (!checkClass() || !checkStudents() || !checkSubjects())
             return false;
         setDataChecked(true);
         return true;
@@ -51,7 +48,7 @@ export default ({ data, setDataChecked } : IOverviewIndexProps) => {
                             </>
                         )
                     })
-                } 
+                }
             </>
         )
     }
@@ -64,7 +61,7 @@ export default ({ data, setDataChecked } : IOverviewIndexProps) => {
                         return (
                             <>
                                 <div>
-                                    <Text fontSize="sm">- {subject.name}</Text>
+                                    <Text fontSize="sm">- {subject.name ?? "Needs to be selected"}</Text>
                                     <Text fontSize="sm">  ({subject.duration} Hours)</Text>
                                 </div>
                             </>
@@ -90,7 +87,7 @@ export default ({ data, setDataChecked } : IOverviewIndexProps) => {
                     <Text fontSize="md" fontWeight="bold">Class:</Text>
                     <div>
                         <Text fontSize="sm">Course: </Text>
-                        <Text>{data.course.name}</Text>
+                        <Text>{data.course?.name ?? "Needs to be selected"}</Text>
                     </div>
                     <div>
                         <Text fontSize="sm">Name: </Text>
@@ -102,10 +99,10 @@ export default ({ data, setDataChecked } : IOverviewIndexProps) => {
                     </div>
                     <div>
                         <Text fontSize="sm">Periods: </Text>
-                        <Text>{data.class.period}</Text>
+                        <Text>{data.class.durationPeriods}</Text>
                     </div>
                 </section>
-                
+
                 <section className={overviewStyles.overview_section}>
                     <Text fontSize="md" fontWeight="bold">Students:</Text>
                     <div>

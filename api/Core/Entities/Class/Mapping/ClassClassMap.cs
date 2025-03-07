@@ -37,5 +37,9 @@ public class ClassClassMap : IEntityTypeConfiguration<Class>
         builder.Property(c => c.Name)
             .HasMaxLength(255)
             .HasColumnName("name");
+
+        builder.Property(c => c.Abbreviation)
+            .HasMaxLength(10)
+            .HasColumnName("abbreviation");
     }
 }

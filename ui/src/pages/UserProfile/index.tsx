@@ -13,6 +13,7 @@ import FeedbackCard from "@/components/FeedbackCard";
 import PositionCard from "./components/PositionCard";
 import FeedbackModal from "./components/FeedbackModal";
 import Progress from "@/components/Progress";
+import ImageUploadCard from "@/components/ImageUploadCard";
 import UpdateProfileModal from "./components/UpdateProfileModal";
 
 import { IStudentData, IStudentProfileData, IUserData } from "./interfaces/UserProfile.interface";
@@ -22,7 +23,6 @@ import { toast } from "react-toastify";
 import { useUserContext } from "@/contexts/user.context";
 import { Bar, BarChart, Legend, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer, Tooltip, TooltipProps, XAxis, YAxis } from "recharts";
 import { NameType, ValueType } from "recharts/types/component/DefaultTooltipContent";
-import ImageUploadCard from "@/components/ImageUploadCard";
 
 interface IModalProps {
     feedbackId?: number

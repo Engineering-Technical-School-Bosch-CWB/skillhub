@@ -1,47 +1,50 @@
+import Text from "../../../../typography"
+import styles from "../../styles.module.css";
 import Button from "../../../../components/Button"
 import CourseIndex from "./components/CourseIndex"
+import internalAPI from "@/service/internal.services"
 import OverviewIndex from "./components/OverviewIndex/OverviewIndex"
 import StudentIndex from "./components/StudentIndex"
 import SubjectsIndex from "./components/SubjectsIndex"
-import { IAddClassPageProps } from "./interfaces/AddClassPage.interface"
 
-import styles from "../../styles.module.css";
-import Text from "../../../../typography"
 import { useState } from "react"
-import internalAPI from "@/service/internal.services"
 import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
+import { IAddClassPageProps } from "./interfaces/AddClassPage.interface"
 
-export default ({data,index, setIndex, setClass, setStudents, setSubjects} : IAddClassPageProps) => {
+export default ({ data, index, setIndex, setClass, setStudents, setSubjects }: IAddClassPageProps) => {
 
     const [dataChecked, setDataChecked] = useState(false);
 
     const pages = [
-        <CourseIndex updateClass={setClass} _class={data.class} _course={data.course}/>,
+        <CourseIndex updateClass={setClass} _class={data.class} _course={data.course} />,
         <StudentIndex students={data.students} setStudents={setStudents} />,
         <SubjectsIndex subjects={data.subjects} alterSubjects={setSubjects} />,
-        <OverviewIndex data={data} setDataChecked={setDataChecked} /> 
+        <OverviewIndex data={data} setDataChecked={setDataChecked} />
     ]
-    const pagesTitle = ["Class","Students","Subjects","Overview"]
+    const pagesTitle = ["Class", "Students", "Subjects", "Overview"]
     const navigate = useNavigate()
 
-    const handleSend = async () => {  
-        const response = await internalAPI.jsonRequest("/classes", "POST", undefined, data)
+    const handleSend = async () => {
+        const response = await internalAPI.jsonRequest("/classes", "POST", undefined, { ...data, courseId: data.course?.id })
 
         if (!response.success) {
             if (!toast.isActive("create-class-error"))
                 toast.error("Error on create class.", { toastId: "create-class-error" });
         }
-        const _data = response.data;
-        navigate(`/classes/${_data.id}`)
+        const content = response.data;
+
+        console.log(content)
+
+        navigate(`/classes/${content.id}`)
     }
 
     const renderIndexes = () => {
-        return pages.map((_, _index ) => 
+        return pages.map((_, _index) =>
             <>
                 <section>
-                    <Button 
-                        variant={_index <= index ? "select_rounded" : "rounded" }
+                    <Button
+                        variant={_index <= index ? "select_rounded" : "rounded"}
                         onClick={() => setIndex(_index)}
                     >
                         {_index + 1}
@@ -52,8 +55,8 @@ export default ({data,index, setIndex, setClass, setStudents, setSubjects} : IAd
                 </section>
                 {
                     _index != pages.length - 1 ?
-                        <div 
-                            className={_index+1 <= index ?  styles.separator_activated : styles.separator} 
+                        <div
+                            className={_index + 1 <= index ? styles.separator_activated : styles.separator}
                         /> : ""
                 }
             </>
@@ -61,12 +64,12 @@ export default ({data,index, setIndex, setClass, setStudents, setSubjects} : IAd
     }
 
     const handleSetIndex = (next: boolean) => {
-        if (next) 
+        if (next)
             setIndex(index + 1);
         else
-            if(index > 0)
+            if (index > 0)
                 setIndex(index - 1);
-        
+
     }
 
     return (
@@ -75,17 +78,16 @@ export default ({data,index, setIndex, setClass, setStudents, setSubjects} : IAd
                 {renderIndexes()}
             </section>
 
-             <div className={styles.form}>
+            <div className={styles.form}>
                 {pages[index]}
             </div>
 
             <section className={styles.btn_area}>
-                <Button onClick={() => handleSetIndex(false)}>Previous</Button> 
+                <Button onClick={() => handleSetIndex(false)}>Previous</Button>
                 {
                     index != pages.length - 1 ?
                         <Button variant="contained" onClick={() => handleSetIndex(true)}>Next</Button> :
                         <Button variant="contained" disabled={!dataChecked} onClick={() => handleSend()} >Send</Button>
-
                 }
             </section>
         </div>

@@ -26,6 +26,28 @@ public record ClassDTO(
     }
 }
 
+public record SimpleClassDTO(
+    int Id,
+    string Name,
+    string? Abbreviation,
+    short StartingYear,
+    short? DurationPeriods,
+    bool IsArchived
+)
+{
+    public static SimpleClassDTO Map(Class obj)
+    {
+        return new SimpleClassDTO(
+            obj.Id,
+            obj.Name,
+            obj.Abbreviation,
+            obj.StartingYear,
+            obj.DurationPeriods,
+            obj.IsArchived
+        );
+    }
+}
+
 public record ClassGraphsDTO(
     double? OverallPerformance,
     IEnumerable<SubjectResultDTO> SubjectResults,

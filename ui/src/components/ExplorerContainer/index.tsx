@@ -42,7 +42,7 @@ const ExplorerContainer = ({ input, folderData, onAddHandle, title, subtitle, da
             <div className={`${styles.explorerHeader} ${styles.align}`}>
 
                 <div className={`${styles.searchContainer} ${styles.align}`}>
-                    <Input type="text" label="Search" iconName="search" value={input.search} onChange={(e) => input.onChange(e.target.value)} width={"25rem"} />
+                    <Input type="text" label="Search" iconName="search" value={input.search} onChange={(e) => input.onChange(e.target.value)} width={"25rem"} maxLength={50} />
                 </div>
 
                 {

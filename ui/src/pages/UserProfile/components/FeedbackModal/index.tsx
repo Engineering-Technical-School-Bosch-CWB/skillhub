@@ -11,6 +11,7 @@ import { useEffect, useState } from "react"
 import { ISelectData } from "@/components/Select/interfaces"
 import { IStudentData } from "../../interfaces/UserProfile.interface"
 import { toast } from "react-toastify"
+import Progress from "@/components/Progress"
 
 interface IModalProps {
     isOpen: boolean
@@ -24,6 +25,8 @@ interface IModalProps {
 
 export default ({ isOpen, handleIsOpen, feedbackId, userName, studentData, setStudentData }: IModalProps) => {
 
+    const [loading, setLoading] = useState(true);
+
     const [subjectData, setSubjectData] = useState<ISelectData[]>([]);
     const [feedbackContent, setFeedbackContent] = useState<string>();
 
@@ -33,6 +36,8 @@ export default ({ isOpen, handleIsOpen, feedbackId, userName, studentData, setSt
     const [subject, setSubject] = useState<string | null>("");
 
     const getData = async () => {
+
+        setLoading(true);
 
         if (feedbackId) {
             const response = await internalAPI.jsonRequest(`/feedbacks/${feedbackId}`, "GET");
@@ -54,10 +59,8 @@ export default ({ isOpen, handleIsOpen, feedbackId, userName, studentData, setSt
             setCanSee(false)
         }
 
+        setLoading(false);
     }
-
-    useEffect(() => {
-    }, [canSee, feedbackId])
 
     const handleSubmit = async () => {
 
@@ -122,6 +125,8 @@ export default ({ isOpen, handleIsOpen, feedbackId, userName, studentData, setSt
                     render: err.message || "Something went wrong.",
                     type: "error",
                 });
+            }).finally(() => {
+                setSelectedSubjectId(undefined);
             });
 
             return;
@@ -166,7 +171,7 @@ export default ({ isOpen, handleIsOpen, feedbackId, userName, studentData, setSt
 
         if (!confirm("Do you really want to delete this feedback?"))
             return;
-        
+
 
         const apiRequest = async () => {
             const response = await internalAPI.jsonRequest(`/feedbacks/${feedbackId}`, "DELETE");
@@ -211,10 +216,20 @@ export default ({ isOpen, handleIsOpen, feedbackId, userName, studentData, setSt
 
         handleIsOpen();
     }
-
+    
     useEffect(() => {
         getData();
+        console.log(subject)
     }, [feedbackId, studentData])
+
+    if (loading)
+        return (
+            <Modal open={isOpen} handleClose={handleClose} title={!feedbackId ? "Write Feedback" : "Edit Feedback"} >
+                <div className={`${styles.center}`}>
+                    <Progress component={true} />
+                </div>
+            </Modal>
+        )
 
     return (
         <>
@@ -236,8 +251,8 @@ export default ({ isOpen, handleIsOpen, feedbackId, userName, studentData, setSt
                     }
                     <TextArea value={feedbackContent!} setValue={setFeedbackContent} placeHolder="Write your feedback here..." required={true} />
                     {
-                        !selectedSubjectId &&
-                        <div className={`${styles.obs}`}>
+                        ((!feedbackId && !selectedSubjectId) || (feedbackId && !subject)) &&
+                        < div className={`${styles.obs}`}>
                             <label className={`${styles.toggle_switch}`}>
                                 <input
                                     type="checkbox"
@@ -247,7 +262,7 @@ export default ({ isOpen, handleIsOpen, feedbackId, userName, studentData, setSt
                                 <span className={`${styles.slider}`}></span>
                             </label>
                             <Text fontSize="sm">
-                                Student can see feedback
+                                Student can see feedback {subject}
                             </Text>
                         </div>
                     }
@@ -260,7 +275,7 @@ export default ({ isOpen, handleIsOpen, feedbackId, userName, studentData, setSt
                         <Button variant="contained" onClick={handleSubmit} >Confirm</Button>
                     </div>
                 </div>
-            </Modal>
+            </Modal >
 
         </>
     )

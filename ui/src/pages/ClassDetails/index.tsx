@@ -76,7 +76,6 @@ const ClassDetails = () => {
         const content = response.data;
         
         setClass(content.class);
-        setClassName(content.class.name + " - " + content.class.startingYear);
 
         setSubjects(content.subjects.map((s: { name: string; id: string; instructor: string; }) => ({
             color: getHex(s.name),
@@ -133,6 +132,10 @@ const ClassDetails = () => {
         setSelectedStudentId(null);
         setSelectedSubjectAreaId(null);
     }
+
+    useEffect(() => {
+        setClassName(_class?.name + " - " + _class?.startingYear);
+    }, [_class])
 
     useEffect(() => {
         getData();

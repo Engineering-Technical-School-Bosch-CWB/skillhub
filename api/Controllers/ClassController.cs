@@ -35,14 +35,38 @@ public class ClassController : ControllerBase
     }
 
     [HttpPatch]
+    [Route("{id}")]
+    public async Task<ActionResult> UpdateClass(
+        [FromServices] IClassService service, [FromServices] IPermissionService permissionService, [FromBody] ClassUpdatePayload payload, int id
+    )
+    {
+        permissionService.ValidateAdmPermission();
+
+        var result = await service.UpdateClass(id, payload);
+        return Ok(result);
+    }
+
+    [HttpPatch]
     [Route("archive/{id}")]
     public async Task<ActionResult> ArchiveClass(
+        [FromServices] IClassService service, [FromServices] IPermissionService permissionService, int id, bool? archive
+    )
+    {
+        permissionService.ValidateAdmPermission();
+
+        await service.ArchiveClass(id, archive ?? true);
+        return NoContent();
+    }
+
+    [HttpDelete]
+    [Route("{id}")]
+    public async Task<ActionResult> DeleteClass(
         [FromServices] IClassService service, [FromServices] IPermissionService permissionService, int id
     )
     {
         permissionService.ValidateAdmPermission();
 
-        await service.ArchiveClass(id);
+        await service.DeleteClass(id);
         return NoContent();
     }
 
