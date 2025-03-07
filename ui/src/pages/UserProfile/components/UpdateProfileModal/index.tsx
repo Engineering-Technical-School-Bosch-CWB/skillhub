@@ -184,6 +184,11 @@ export default ({ title, handleClose, open, isCurrentUser, subtitle, byClassId }
         setUserData({})
         handleClose();
     }
+    const identificationChange = (value: string) => {
+        const validate = /^\d{0,8}$/;
+        if(validate.test(value))
+            changeValue("identification", value)
+    }
 
     useEffect(() => {
         if (id || isCurrentUser && open)
@@ -211,7 +216,8 @@ export default ({ title, handleClose, open, isCurrentUser, subtitle, byClassId }
                 <Input
                     label="Identification"
                     value={userData.identification}
-                    onChange={(e) => changeValue("identification", e.target.value)} disabled={isUpdatePassword || !(logedUser?.permissionLevel! > 1)}
+                    onChange={(e) => identificationChange(e.target.value)} 
+                    disabled={isUpdatePassword || !(logedUser?.permissionLevel! > 1)}
                     maxLength={100}
                 />
                 {
