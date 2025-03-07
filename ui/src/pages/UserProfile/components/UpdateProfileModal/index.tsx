@@ -7,7 +7,7 @@ import Input from "@/components/Input";
 import dayjs from "dayjs";
 import { useLocation } from "react-router-dom";
 import Button from "@/components/Button";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import { useUserContext } from "@/contexts/user.context";
 import Select from "@/components/Select";
 import { ISelectData } from "@/components/Select/interfaces";
@@ -17,6 +17,8 @@ import ISector from "@/interfaces/models/ISector";
 import { IServiceResponse } from "@/interfaces/services.interfaces";
 import { confirmDialog } from "@/components/ConfirmDialog";
 import PasswordRequisites from "./components/PasswordRequisites";
+import { toast } from "@/components/Toast";
+import { object } from "zod";
 
 export interface IUpdateProfileModalProps extends IModalProps {
     id?: number,
@@ -56,7 +58,16 @@ export default ({title, handleClose, open, isCurrentUser, subtitle, byClassId }:
 
         if(!response || !response.success){
             console.log(response);
-            toast.error(`Error on ${id ? "update" : "create"} user`, {toastId:"update-user-error"})
+            const error = response.errors ? 
+                Object.values(response.errors)[0]?.[0]
+                : "";
+            toast({
+                data:{
+                    title:"Error on update user",
+                    message:error,
+                    kind: "error"
+                }
+            })
             return;
         }
         location.reload();    
@@ -68,7 +79,7 @@ export default ({title, handleClose, open, isCurrentUser, subtitle, byClassId }:
 
         const response = await internalAPI.jsonRequest(`/login/resetPassword/${id}`, "GET")
         if(!response || !response.success) {            
-            toast.error("Error on reset password", {toastId: "reset-password-fail"});
+            // toast.error("Error on reset password", {toastId: "reset-password-fail"});
             return;
         }
         location.reload();
@@ -81,7 +92,7 @@ export default ({title, handleClose, open, isCurrentUser, subtitle, byClassId }:
         
         const response = await internalAPI.jsonRequest(`/users/archive/${userData.id}`, "PATCH");
         if(!response || !response.success) {            
-            toast.error("Error on archive user", {toastId: "user-archive-fail"});
+            // toast.error("Error on archive user", {toastId: "user-archive-fail"});
             return;
         }
         location.reload();
@@ -89,8 +100,8 @@ export default ({title, handleClose, open, isCurrentUser, subtitle, byClassId }:
     }
     const loadSectors = async () => {
         const response = await internalAPI.jsonRequest("/sectors","GET");
-        if(!response||!response.success)
-            return toast.error("Error on load sectors", {toastId: "sectors-load-error"})
+        // if(!response||!response.success)
+            // return toast.error("Error on load sectors", {toastId: "sectors-load-error"})
         const data = response.data as ISector[];
         setSelectSector(data.map((sector) => {
             return {
@@ -102,8 +113,8 @@ export default ({title, handleClose, open, isCurrentUser, subtitle, byClassId }:
     }
     const loadOccupationArea = async () => {
         const response = await internalAPI.jsonRequest("/occupationArea","GET");
-        if(!response||!response.success)
-            return toast.error("Error on load occupation areas", {toastId: "occupation-areas-load-error"})
+        // if(!response||!response.success)
+            // return toast.error("Error on load occupation areas", {toastId: "occupation-areas-load-error"})
         const data = response.data as IOccupationArea[];
         setSelectArea(data.map((area) => {
             return {
@@ -115,8 +126,8 @@ export default ({title, handleClose, open, isCurrentUser, subtitle, byClassId }:
     }
     const loadPositions = async () => {
         let response = await internalAPI.jsonRequest("/positions","GET");
-        if(!response||!response.success)
-            return toast.error("Error on load positions", {toastId: "positions-load-error"})
+        // if(!response||!response.success)
+        //     return toast.error("Error on load positions", {toastId: "positions-load-error"})
         let data = response.data as IPosition[];
         
         setSelectPosition(data.map((position) => {
