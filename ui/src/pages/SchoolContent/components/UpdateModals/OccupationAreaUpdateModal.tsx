@@ -9,7 +9,7 @@ import { OccupationArea } from "@/interfaces/models/IOccupationArea";
 export default ({ id, onChange, setDisabled }: IUpdateModalProps) => {
 
     const [data, setData] = useState<OccupationArea>();
-    const loadData = async () => {
+    const getData = async () => {
         let response = await internalAPI.jsonRequest(`/occupationArea/${id}`, "GET")
         if (!response || response.statusCode != 200)
             toast.error(`Error on load object`, { toastId: "subject-area-load-error" });
@@ -18,7 +18,7 @@ export default ({ id, onChange, setDisabled }: IUpdateModalProps) => {
     }
 
     useEffect(() => {
-        loadData();
+        getData();
     }, [])
 
     const change = (key: keyof OccupationArea, value: any) => {
@@ -30,7 +30,7 @@ export default ({ id, onChange, setDisabled }: IUpdateModalProps) => {
 
     useEffect(() => {
         onChange!(data);
-        setDisabled(!data?.name);
+        setDisabled!(!data?.name);
     }, [data])
 
     return (

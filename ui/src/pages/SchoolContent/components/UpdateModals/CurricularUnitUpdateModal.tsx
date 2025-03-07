@@ -13,7 +13,7 @@ export default ({ id, onChange, setDisabled }: IUpdateModalProps) => {
 
     const [data, setData] = useState<CurricularUnit>();
     const [subjectAreaSelect, setsubjectAreaSelect] = useState<ISelectProps>();
-    const loadData = async () => {
+    const getData = async () => {
         let response = await internalAPI.jsonRequest(`/curricularUnits/${id}`, "GET")
         if (!response || response.statusCode != 200)
             toast.error(`Error on load object`, { toastId: "curricular-unit-load-error" });
@@ -35,7 +35,7 @@ export default ({ id, onChange, setDisabled }: IUpdateModalProps) => {
     }
 
     useEffect(() => {
-        loadData();
+        getData();
     }, [])
 
     const change = (key: keyof CurricularUnit, value: any) => {
@@ -47,7 +47,7 @@ export default ({ id, onChange, setDisabled }: IUpdateModalProps) => {
 
     useEffect(() => {
         onChange!(data);
-        setDisabled(!data?.name || !data?.subjectAreaId);
+        setDisabled!(!data?.name || !data?.subjectAreaId);
 
         console.log(data);
         console.log(!data?.name || !data?.subjectAreaId)

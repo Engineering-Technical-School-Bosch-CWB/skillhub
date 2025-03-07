@@ -15,7 +15,7 @@ public class CourseService : BaseService<Course>, ICourseService
     private readonly IPaginationService _pagService;
 
     public CourseService(
-        IOccupationAreaRepository areaRepository, 
+        IOccupationAreaRepository areaRepository,
         BaseRepository<Course> repository,
         IPaginationService pagService
     ) : base(repository)
@@ -30,11 +30,11 @@ public class CourseService : BaseService<Course>, ICourseService
                 repository.GetType()
         );
     }
-    
+
     public async Task<AppResponse<CourseDTO>> CreateCourse(CourseCreatePayload payload)
     {
-        if (await _repo.Get().AnyAsync(c => string.Equals(c.Name, payload.Name)))
-            throw new AlreadyExistsException("Name of course already exists!");
+        if (await _repo.Get().Where(c => c.IsActive).AnyAsync(c => string.Equals(c.Name, payload.Name)))
+            throw new AlreadyExistsException("Course already exists!");
 
         var area = await _areaRepo.Get()
             .SingleOrDefaultAsync(oa => oa.Id == payload.OccupationAreaId)
@@ -50,20 +50,20 @@ public class CourseService : BaseService<Course>, ICourseService
         var saveCourse = _repo.Add(newCourse)
             ?? throw new UpsertFailException("Course could not be inserted!");
         await _repo.SaveAsync();
-        
+
         return new AppResponse<CourseDTO>(
             CourseDTO.Map(saveCourse),
             "Course created successfully!"
         );
     }
-    
+
     public async Task DeleteCourse(int id)
     {
         var course = await _repo.Get()
             .Where(c => c.IsActive)
             .SingleOrDefaultAsync(c => c.Id == id)
             ?? throw new NotFoundException("Course not found!");
-        
+
         course.IsActive = false;
 
         var deletedCourse =
@@ -92,18 +92,18 @@ public class CourseService : BaseService<Course>, ICourseService
             .Where(course => string.IsNullOrEmpty(querry) || EF.Functions.Like(course.Name, $"%{querry}%"))
             .Where(course => course.IsActive)
             .Include(c => c.DefaultOccupationArea);
-        
-        var result =  _pagService.Paginate(
+
+        var result = _pagService.Paginate(
             entities,
             pagination.ToOptions()
         );
 
-        List<CourseDTO> mappedCourses = result.Item1.Select(c => CourseDTO.Map(c)).ToList();
+        List<CourseDTO> mappedCourses = [.. result.Item1.Select(c => CourseDTO.Map(c))];
 
         return new PaginatedAppResponse<CourseDTO>(
             // paginatedCourses.Item1.Select(c => CourseDTO.Map(c)),
             mappedCourses,
-            result.Item2,
+            result.Item2!,
             "Courses found!"
         );
     }
@@ -111,22 +111,22 @@ public class CourseService : BaseService<Course>, ICourseService
     public async Task<AppResponse<CourseDTO>> UpdateCourse(int id, CourseUpdatePayload payload)
     {
         var course = await _repo.Get()
-            .Include( c => c.DefaultOccupationArea)
+            .Include(c => c.DefaultOccupationArea)
             .SingleOrDefaultAsync(c => c.Id == id)
             ?? throw new NotFoundException("Course not found!");
-        
+
         if (payload.OccupationAreaId is not null)
         {
             var area = await _areaRepo.Get()
-                .SingleOrDefaultAsync(u => u.Id == payload.OccupationAreaId) 
+                .SingleOrDefaultAsync(u => u.Id == payload.OccupationAreaId)
                 ?? throw new NotFoundException("Occupation area not found!");
             course.DefaultOccupationArea = area;
         }
 
         if (!string.IsNullOrEmpty(payload.Name) && !string.Equals(payload.Name, course.Name))
         {
-            if (await _repo.GetAllNoTracking().AnyAsync(c => string.Equals(c.Name, payload.Name)))
-                throw new AlreadyExistsException("Name of course already exists!");
+            if (await _repo.GetAllNoTracking().Where(c => c.IsActive && c.Id != id).AnyAsync(c => string.Equals(c.Name, payload.Name)))
+                throw new AlreadyExistsException("Course already exists!");
 
             course.Name = payload.Name;
         }

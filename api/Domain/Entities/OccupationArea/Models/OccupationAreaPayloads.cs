@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Api.Domain.Models;
 
-public record UpdateOcupationAreaPayload
+public record UpdateOccupationAreaPayload
 {
     [Required]
     public int Id { get; set; }
@@ -10,7 +10,7 @@ public record UpdateOcupationAreaPayload
     public string Name { get; set; }
 
 
-    public static UpdateOcupationAreaPayload Map(OccupationArea obj) => new UpdateOcupationAreaPayload
+    public static UpdateOccupationAreaPayload Map(OccupationArea obj) => new UpdateOccupationAreaPayload
     {
         Id = obj.Id,
         Name = obj.Name

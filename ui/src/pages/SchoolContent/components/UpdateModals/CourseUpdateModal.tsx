@@ -1,27 +1,28 @@
-import { useEffect, useState } from "react";
-import { IUpdateModalProps } from "./_UpdateModal.interface"
-import { ICourse } from "@/interfaces/models/ICourse";
-import internalAPI from "@/service/internal.services";
-
 import styles from './styles.module.css';
 import Input from "@/components/Input";
 import Select from "@/components/Select";
-import { ISelectData, ISelectProps } from "@/components/Select/interfaces";
+import internalAPI from "@/service/internal.services";
 import IOccupationArea from "@/interfaces/models/IOccupationArea";
+
+import { useEffect, useState } from "react";
+import { IUpdateModalProps } from "./_UpdateModal.interface"
+import { ICourse } from "@/interfaces/models/ICourse";
+import { ISelectData, ISelectProps } from "@/components/Select/interfaces";
 
 export default ({ id, onChange, setDisabled }: IUpdateModalProps) => {
 
     const [selectData, setSelectData] = useState<ISelectProps>();
     const [data, setData] = useState<ICourse>();
 
-    const loadData = async () => {
-        let response = await internalAPI.jsonRequest(`/course/${id}`, "GET");
-        let _data = response.data as ICourse;
-        setData(_data);
+    const getData = async () => {
 
-        response = await internalAPI.jsonRequest(`/occupationArea?page=1&items=100`, "GET")
-        let _occupationData = response.data as IOccupationArea[]
-        const _select: ISelectData[] = _occupationData.map((e) => {
+        const courseResponse = await internalAPI.jsonRequest(`/course/${id}`, "GET");
+        setData(courseResponse.data);
+
+        const selectResponse = await internalAPI.jsonRequest(`/occupationArea?${new URLSearchParams({ id: courseResponse.data.occupationArea?.id ?? "" })}`, "GET")
+        const occupationData = selectResponse.data as IOccupationArea[]
+
+        const select: ISelectData[] = occupationData.map((e) => {
             return {
                 key: e.name!,
                 value: e.id!
@@ -30,12 +31,12 @@ export default ({ id, onChange, setDisabled }: IUpdateModalProps) => {
 
         setSelectData(prev => ({
             ...prev,
-            data: _select
+            data: select
         }))
     }
 
     useEffect(() => {
-        loadData();
+        getData();
     }, [])
 
     const change = (key: keyof ICourse, value: any) => {
@@ -46,14 +47,19 @@ export default ({ id, onChange, setDisabled }: IUpdateModalProps) => {
     }
     useEffect(() => {
         onChange!(data);
-        setDisabled(!data?.name || !data.occupationArea);
+        setDisabled!(!data?.name || !data.occupationAreaId);
+
+        console.log(data);
     }, [data])
 
     return (
         <section className={styles.content_section}>
             <Input label="Name" value={data?.name} onChange={(e) => change("name", e.target.value)} maxLength={255} />
             {/* <Input label="Abbreviation" value={data?.abbreviation} onChange={(e) => change("abbreviation", e.target.value)} /> */}
-            <Select data={selectData?.data ?? []} hasDefault={true} label={"Occupation Area Area"} onChange={(e) => change("occupationArea", e.target.value)} />
+            <Select data={selectData?.data ?? []}
+                hasDefault={data?.occupationArea?.id != null}
+                label={"Occupation Area"}
+                onChange={(e) => change("occupationAreaId", Number(e.target.value))} />
         </section>
     )
 }

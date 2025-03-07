@@ -31,21 +31,22 @@ const typeMap: Record<Tabs, new (data: any) => any> = {
 };
 
 export default ({ kind }: ICrudContainerProps) => {
+
+    const [page, setPage] = useState(1);
+    const [items, setItems] = useState(10);
+    const [maxPages, setMaxPages] = useState(1);
+    const [focusedId, setFocusedId] = useState(0);
     const [data, setData] = useState<any[]>([]);
     const [options, setOptions] = useState<IOption[]>([]);
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
     const [createModalOpen, setCreateModalOpen] = useState(false);
-    const [page, setPage] = useState(1);
-    const [maxPages, setMaxPages] = useState(1);
-    const [items, setItems] = useState(10);
-    const [focusedId, setFocusedId] = useState(0);
-    
+
     const classConstructor = typeMap[kind];
 
-    const loadData = async () => {
+    const getData = async () => {
         const response = await internalAPI.jsonRequest(`/${kind}?page=${page}&items=${items}`, "GET");
-        if (!response || response.statusCode !== 200) {
+        if (!response.success) {
             if (!toast.isActive(`${kind}-load-error`))
                 toast.error(`Error on load ${kind}.`, { toastId: `${kind}-load-error` });
             return;
@@ -106,7 +107,7 @@ export default ({ kind }: ICrudContainerProps) => {
     };
 
     useEffect(() => {
-        loadData();
+        getData();
     }, [page, items]);
 
     return (
@@ -121,15 +122,18 @@ export default ({ kind }: ICrudContainerProps) => {
             <TableView data={data} hasNotation={false} hasOptions={true} options={options} />
             <Pagination pages={maxPages} current={page} onChange={setPage} />
 
-            {editModalOpen && (
+            {
+                editModalOpen &&
                 <UpdateModal id={focusedId} kind={kind} isOpen={true} onClose={closeModal} onUpdate={handleUpdate} />
-            )}
-            {deleteModalOpen && (
+            }
+            {
+                deleteModalOpen &&
                 <DeleteModal id={focusedId} kind={kind} isOpen={true} onClose={closeModal} onDelete={handleDelete} />
-            )}
-            {createModalOpen && (
+            }
+            {
+                createModalOpen &&
                 <CreateModal kind={kind} isOpen={true} onClose={closeModal} onCreate={handleCreate} />
-            )}
+            }
         </>
     );
 };
