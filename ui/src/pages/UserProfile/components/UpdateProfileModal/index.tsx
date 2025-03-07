@@ -241,7 +241,7 @@ export default ({ title, handleClose, open, isCurrentUser, subtitle, byClassId }
                     </>
                 }
                 {
-                    (logedUser?.id != userData.id) && logedUser?.permissionLevel && logedUser?.permissionLevel > 1 &&
+                    (logedUser?.id != userData.id) && id && logedUser?.permissionLevel && logedUser?.permissionLevel > 1 &&
                         <Button onClick={() => toggleRestorePassword()}>Restore Password</Button>
                 }
                 <section className={styles.btn_area}>
