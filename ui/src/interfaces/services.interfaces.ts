@@ -12,5 +12,5 @@ export interface IServiceResponse<T> {
     statusCode: number
     message: string | undefined
     info?: IPaginationInfo
-    errors?: any
+    errors?: Record<string, string[]> | null
 }

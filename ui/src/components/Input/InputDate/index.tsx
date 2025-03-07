@@ -12,7 +12,7 @@ export interface IInputDateProps extends IRootInputProps {
 }
 
 const InputDate = forwardRef<HTMLInputElement, IInputDateProps>(
-    ({ error, hasForm, label, helperText, id, fieldName, dateChange, value, className, ...props }, ref) => {
+    ({ error, hasForm, label, helperText, id, fieldName, dateChange, value, className, disabled, ...props }, ref) => {
 
         const formContext = useFormContext();
 
@@ -53,6 +53,7 @@ const InputDate = forwardRef<HTMLInputElement, IInputDateProps>(
                             required: props.required,
                         },
                     }}
+                    disabled={disabled}
                     value={value ? getDefaultValue() : undefined}
                     onChange={(value) => handleSetValue(value)}
                 />

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Api.Domain.Repositories;
 using InvalidDataException = Api.Core.Errors.InvalidDataException;
 using Api.Domain.Enums;
+using System.Text.RegularExpressions;
 
 namespace Api.Core.Services;
 
@@ -148,6 +149,12 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
 
             if (exists)
                 throw new AlreadyExistsException("Identification already in use!");
+            
+            string pattern = @"^\d{8}$";
+            Regex regex = new Regex(pattern);
+            bool isValid = regex.IsMatch(payload.Identification);
+            if(!isValid)
+                throw new InvalidDataException("Invalid identification");
 
             user.Identification = payload.Identification;
         }
@@ -179,7 +186,7 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
 
         if (!string.IsNullOrEmpty(payload.Password))
         {
-            if (payload.Password == user.Identification)
+            if (payload.Password == user.Identification )
             {
                 throw new InvalidDataException("Invalid password!");
             }

@@ -1,0 +1,9 @@
+.toast_container, .text_section {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    gap: .15rem;
+}
+.text_section{
+    flex-direction: column;
+}

@@ -7,7 +7,6 @@ import Input from "@/components/Input";
 import dayjs from "dayjs";
 import { useLocation } from "react-router-dom";
 import Button from "@/components/Button";
-import { toast } from "react-toastify";
 import { useUserContext } from "@/contexts/user.context";
 import Select from "@/components/Select";
 import { ISelectData } from "@/components/Select/interfaces";
@@ -17,6 +16,7 @@ import ISector from "@/interfaces/models/ISector";
 import { IServiceResponse } from "@/interfaces/services.interfaces";
 import { confirmDialog } from "@/components/ConfirmDialog";
 import PasswordRequisites from "../../../../components/PasswordRequisites";
+import { toast } from "@/components/Toast";
 
 export interface IUpdateProfileModalProps extends IModalProps {
     id?: number,
@@ -46,6 +46,7 @@ export default ({ title, handleClose, open, isCurrentUser, subtitle, byClassId }
         return dayjs(value).format('DD/MM/YYYY');
     }
     const toggleSubmit = async () => {
+        
         var response: IServiceResponse<any>;
         if (id || isCurrentUser)
             response = await internalAPI.jsonRequest(`/users/${id ?? userData.id}`, "PATCH", undefined, updatedData);
@@ -54,8 +55,17 @@ export default ({ title, handleClose, open, isCurrentUser, subtitle, byClassId }
         else
             response = await internalAPI.jsonRequest(`/users/`, "POST", undefined, userData);
 
-        if (!response || !response.success) {
-            toast.error(`Error on ${id ? "update" : "create"} user`, { toastId: "update-user-error" })
+        if(!response || !response.success){
+            const error = response.errors ? 
+                Object.values(response.errors)[0]?.[0]
+                : response.message;
+            toast({
+                data:{
+                    title:`Error on ${id ? "update" : "create"} user`,
+                    message:error,
+                    kind: "error"
+                }
+            })
             return;
         }
         location.reload();
@@ -67,7 +77,12 @@ export default ({ title, handleClose, open, isCurrentUser, subtitle, byClassId }
 
         const response = await internalAPI.jsonRequest(`/login/resetPassword/${id}`, "GET")
         if(!response || !response.success) {            
-            toast.error("Error on reset password", {toastId: "reset-password-fail"});
+            toast({
+                data: {
+                    title: "Error on reset password",
+                    kind: "error"
+                },
+                toastId: "reset-password-fail"});
             return;
         }
         location.reload();
@@ -80,16 +95,28 @@ export default ({ title, handleClose, open, isCurrentUser, subtitle, byClassId }
         
         const response = await internalAPI.jsonRequest(`/users/archive/${userData.id}`, "PATCH");
         if(!response || !response.success) {            
-            toast.error("Error on archive user", {toastId: "user-archive-fail"});
+            toast({
+                data: {
+                    title: "Error on archive user",
+                    kind: "error"
+                },
+                toastId: "user-archive-fail"});
+
             return;
         }
         location.reload();
         
     }
     const loadSectors = async () => {
-        const response = await internalAPI.jsonRequest("/sectors", "GET");
-        if (!response || !response.success)
-            return toast.error("Error on load sectors", { toastId: "sectors-load-error" })
+        const response = await internalAPI.jsonRequest("/sectors","GET");
+        if(!response||!response.success)
+            toast({
+                data: {
+                    title: "Error on load sectors",
+                    kind: "error"
+                },
+                toastId: "sectors-load-error"});
+
         const data = response.data as ISector[];
         setSelectSector(data.map((sector) => {
             return {
@@ -100,9 +127,15 @@ export default ({ title, handleClose, open, isCurrentUser, subtitle, byClassId }
         }))
     }
     const loadOccupationArea = async () => {
-        const response = await internalAPI.jsonRequest("/occupationArea", "GET");
-        if (!response || !response.success)
-            return toast.error("Error on load occupation areas", { toastId: "occupation-areas-load-error" })
+        const response = await internalAPI.jsonRequest("/occupationArea","GET");
+        if(!response||!response.success)
+            toast({
+                data: {
+                    title: "Error on load occupation areas",
+                    kind: "error"
+                },
+                toastId: "occupation-areas-load-error"});
+
         const data = response.data as IOccupationArea[];
         setSelectArea(data.map((area) => {
             return {
@@ -113,9 +146,14 @@ export default ({ title, handleClose, open, isCurrentUser, subtitle, byClassId }
         }))
     }
     const loadPositions = async () => {
-        let response = await internalAPI.jsonRequest("/positions", "GET");
-        if (!response || !response.success)
-            return toast.error("Error on load positions", { toastId: "positions-load-error" })
+        let response = await internalAPI.jsonRequest("/positions","GET");
+        if(!response||!response.success)
+            toast({
+                data: {
+                    title: "Error on load positions",
+                    kind: "error"
+                },
+                toastId: "positions-load-error"});
         let data = response.data as IPosition[];
 
         setSelectPosition(data.map((position) => {
@@ -140,11 +178,26 @@ export default ({ title, handleClose, open, isCurrentUser, subtitle, byClassId }
             };
         });
     }
+    const handleCancel = () => {
+        setIsUpdatePassword(false);
+        setUpdatedData({})
+        setUserData({})
+        handleClose();
+    }
+    const identificationChange = (value: string) => {
+        const validate = /^\d{0,8}$/;
+        if(validate.test(value))
+            changeValue("identification", value)
+    }
 
+    useEffect(() => {
+        if (id || isCurrentUser && open)
+            loadData();
+    }, [, open])
     useEffect(() => {
         if (id || isCurrentUser)
             loadData();
-    }, [])
+    }, [isUpdatePassword])
     useEffect(() => {
         if (logedUser?.permissionLevel && logedUser?.permissionLevel > 1) {
             loadSectors();
@@ -163,7 +216,8 @@ export default ({ title, handleClose, open, isCurrentUser, subtitle, byClassId }
                 <Input
                     label="Identification"
                     value={userData.identification}
-                    onChange={(e) => changeValue("identification", e.target.value)} disabled={isUpdatePassword || !(logedUser?.permissionLevel! > 1)}
+                    onChange={(e) => identificationChange(e.target.value)} 
+                    disabled={isUpdatePassword || !(logedUser?.permissionLevel! > 1)}
                     maxLength={100}
                 />
                 {
@@ -181,7 +235,10 @@ export default ({ title, handleClose, open, isCurrentUser, subtitle, byClassId }
                         <Input label="Password" type="password" placeholder="************" disabled={!isUpdatePassword} onChange={(e) => changeValue("password", e.target.value)} />
                         {
                             isUpdatePassword && 
-                            <PasswordRequisites value={updatedData.password?? ""} /> 
+                            <>
+                                <PasswordRequisites value={updatedData.password?? ""} /> 
+                                <Button variant="link" onClick={() => setIsUpdatePassword(false)}>Update User</Button>
+                            </>
                         }
                         {
                             !isUpdatePassword &&
@@ -190,7 +247,7 @@ export default ({ title, handleClose, open, isCurrentUser, subtitle, byClassId }
                     </>
                 }
                 {
-                    (logedUser?.id != userData.id) && logedUser?.permissionLevel && logedUser?.permissionLevel > 1 &&
+                    (logedUser?.id != userData.id) && id && logedUser?.permissionLevel && logedUser?.permissionLevel > 1 &&
                         <Button onClick={() => toggleRestorePassword()}>Restore Password</Button>
                 }
                 <section className={styles.btn_area}>
@@ -199,7 +256,7 @@ export default ({ title, handleClose, open, isCurrentUser, subtitle, byClassId }
                         <Button kind="alert" onClick={toggleArchive} >{userData.isArchived ? "Unarchive":"Archive"}</Button>
                     }
                     <span>
-                        <Button onClick={handleClose} >Cancel</Button>
+                        <Button onClick={handleCancel} >Cancel</Button>
                         <Button onClick={toggleSubmit} variant="contained">Submit</Button>
                     </span>
                 </section>
