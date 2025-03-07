@@ -45,8 +45,6 @@ interface IExamConfigProps {
 
 export default ({ subject, title, skills, teachers, nameState, dateState, descriptionState, instructorState, selectedSkillsState, classId, subjectId, handleSubmit, button, cancelAction }: IExamConfigProps) => {
 
-    const navigate = useNavigate();
-
     return (
         <>
             <Text fontSize="xl2" fontWeight="bold">{title}</Text>
@@ -68,7 +66,7 @@ export default ({ subject, title, skills, teachers, nameState, dateState, descri
                                 dateState.setValue(e)
                             }}
                             label="Date"
-                            value={dateState.value?.format("DD/MM/YYYY")}
+                            value={dateState.value?.toString()}
                         />
                     </div>
                     <TextArea placeHolder="Description" style={{ height: "120px" }} value={descriptionState.value} setValue={descriptionState.setValue} maxlength={255} />

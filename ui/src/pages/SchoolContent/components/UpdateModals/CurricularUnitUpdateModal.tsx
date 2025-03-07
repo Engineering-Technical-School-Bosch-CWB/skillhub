@@ -51,7 +51,7 @@ export default ({id, onChange}: IUpdateModalProps) => {
 
     return (
         <section className={styles.content_section}>
-            <Input label="Name" value={data?.name} onChange={(e) => change("name", e.target.value)} />
+            <Input label="Name" value={data?.name} onChange={(e) => change("name", e.target.value)} maxLength={50} />
             <Select data={subjectAreaSelect?.data ?? []} label={data?.name} hasDefault />
         </section>
     )

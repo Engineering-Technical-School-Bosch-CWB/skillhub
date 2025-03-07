@@ -48,8 +48,8 @@ export default ({id, onChange}: IUpdateModalProps) => {
 
     return(
         <section className={styles.content_section}>
-            <Input label="Name" value={data?.name} onChange={(e) => change("name", e.target.value)} />
-            <Input label="Abbreviation" value={data?.abbreviation} onChange={(e) => change("abbreviation", e.target.value)} />
+            <Input label="Name" value={data?.name} onChange={(e) => change("name", e.target.value)} maxLength={255} />
+            {/* <Input label="Abbreviation" value={data?.abbreviation} onChange={(e) => change("abbreviation", e.target.value)} /> */}
             <Select data={selectData?.data ?? []} hasDefault={true} label={data?.name} onChange={(e) => change("occupationArea", e.target.value)} />
         </section>
     )

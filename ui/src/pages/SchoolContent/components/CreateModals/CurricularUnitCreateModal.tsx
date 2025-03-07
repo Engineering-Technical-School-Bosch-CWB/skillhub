@@ -10,15 +10,15 @@ import { CurricularUnit } from "@/interfaces/models/ICurricularUnit";
 
 import styles from '../DeleteModals/styles.module.css'
 
-export default ({onChange}: ICreateModalProps) => {
+export default ({ onChange }: ICreateModalProps) => {
 
     const [data, setData] = useState<CurricularUnit>();
     const [subjectAreasSelect, setSubjectAreasSelect] = useState<ISelectProps>();
 
     const loadSubjectAreas = async () => {
         const response = await internalAPI.jsonRequest(`/subjectAreas?page=1&items=100`, "GET");
-        if(!response || response.statusCode != 200)
-            toast.error("Error on load subject areas", {toastId: "subject-areas-load-error"})
+        if (!response || response.statusCode != 200)
+            toast.error("Error on load subject areas", { toastId: "subject-areas-load-error" })
         const subjectAreas = response.data as SubjectArea[];
         const selectData: ISelectData[] = subjectAreas.map((e) => {
             return {
@@ -48,8 +48,8 @@ export default ({onChange}: ICreateModalProps) => {
 
     return (
         <section className={styles.content_section}>
-            <Input label="Name" value={data?.name} onChange={(e) => change("name", e.target.value)} />
-            <Select data={subjectAreasSelect?.data ?? []} onChange={(e) => change("subjectAreaId", e.target.value)} />  
+            <Input label="Name" value={data?.name} onChange={(e) => change("name", e.target.value)} maxLength={50} />
+            <Select data={subjectAreasSelect?.data ?? []} onChange={(e) => change("subjectAreaId", e.target.value)} />
         </section>
     )
 }
