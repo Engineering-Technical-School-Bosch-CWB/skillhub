@@ -58,7 +58,7 @@ export default ({ title, handleClose, open, isCurrentUser, subtitle, byClassId }
         if(!response || !response.success){
             const error = response.errors ? 
                 Object.values(response.errors)[0]?.[0]
-                : "";
+                : response.message;
             toast({
                 data:{
                     title:`Error on ${id ? "update" : "create"} user`,
