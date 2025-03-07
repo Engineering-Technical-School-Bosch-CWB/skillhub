@@ -17,34 +17,35 @@ const UpdateComponents: Record<Tabs, React.ElementType> = {
     occupationArea: OccupationAreaUpdateModal
 }
 
-export default ({id, kind, onClose, isOpen}: IUpdateModalProps) => {
+export default ({ id, kind, onClose, isOpen }: IUpdateModalProps) => {
 
     const Component = UpdateComponents[kind!]
 
     const [data, setData] = useState<any>({});
+    const [disabled, setDisabled] = useState(true);
 
     const cancel = () => {
         onClose!();
     }
 
     const submit = async () => {
-        const response = await internalAPI.jsonRequest(`/${kind}/${id}`,"PATCH",undefined, data)
-        
-        if(!response || response.statusCode != 200)
-            toast.error(`Error on delete ${kind}`, {toastId:`${kind}-update-error`})
+        const response = await internalAPI.jsonRequest(`/${kind}/${id}`, "PATCH", undefined, data)
+
+        if (!response || response.statusCode != 200)
+            toast.error(`Error on delete ${kind}`, { toastId: `${kind}-update-error` })
         else
             location.reload();
     }
 
     return (
-        <Modal 
+        <Modal
             handleClose={onClose!}
             open={isOpen!}
             title={`Update ${tabName[kind!]}`}
         >
-            {Component && <Component id={id} onChange={setData} />}
-            <ButtonGroup cancel={cancel} submit={submit} />
+            {Component && <Component id={id} onChange={setData} setDisabled={setDisabled} />}
+            <ButtonGroup cancel={cancel} submit={submit} disabled={disabled} />
         </Modal>
-        
+
     )
 }

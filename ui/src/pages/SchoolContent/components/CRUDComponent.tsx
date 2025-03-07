@@ -109,6 +109,7 @@ export default ( {kind}: ICrudContainerProps ) => {
     useEffect(() => {
         loadData();
     }, [])
+    
     useEffect(() => {
         loadData();
     }, [page, items])

@@ -10,7 +10,7 @@ import { CurricularUnit } from "@/interfaces/models/ICurricularUnit";
 
 import styles from '../DeleteModals/styles.module.css'
 
-export default ({ onChange }: ICreateModalProps) => {
+export default ({ onChange, setDisabled }: ICreateModalProps) => {
 
     const [data, setData] = useState<CurricularUnit>();
     const [subjectAreasSelect, setSubjectAreasSelect] = useState<ISelectProps>();
@@ -40,8 +40,10 @@ export default ({ onChange }: ICreateModalProps) => {
     }
 
     useEffect(() => {
-        onChange!(data)
+        onChange!(data);
+        setDisabled(!data?.name || !data?.subjectAreaId);
     }, [data]);
+    
     useEffect(() => {
         loadSubjectAreas();
     }, []);
@@ -49,7 +51,7 @@ export default ({ onChange }: ICreateModalProps) => {
     return (
         <section className={styles.content_section}>
             <Input label="Name" value={data?.name} onChange={(e) => change("name", e.target.value)} maxLength={50} />
-            <Select data={subjectAreasSelect?.data ?? []} onChange={(e) => change("subjectAreaId", e.target.value)} />
+            <Select data={subjectAreasSelect?.data ?? []} label="Subject Area" onChange={(e) => change("subjectAreaId", e.target.value)} />
         </section>
     )
 }

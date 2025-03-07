@@ -5,4 +5,5 @@ export interface ICreateModalProps {
     isOpen?: boolean,
     onClose?: () => void,
     onChange?: (data: any) => void,
+    setDisabled?: (data: boolean) => void
 }

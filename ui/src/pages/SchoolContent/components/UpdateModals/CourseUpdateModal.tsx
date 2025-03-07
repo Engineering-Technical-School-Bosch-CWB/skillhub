@@ -9,23 +9,25 @@ import Select from "@/components/Select";
 import { ISelectData, ISelectProps } from "@/components/Select/interfaces";
 import IOccupationArea from "@/interfaces/models/IOccupationArea";
 
-export default ({id, onChange}: IUpdateModalProps) => {
+export default ({ id, onChange, setDisabled }: IUpdateModalProps) => {
 
     const [selectData, setSelectData] = useState<ISelectProps>();
     const [data, setData] = useState<ICourse>();
 
     const loadData = async () => {
-        let response = await internalAPI.jsonRequest(`/course/${id}`,"GET");
+        let response = await internalAPI.jsonRequest(`/course/${id}`, "GET");
         let _data = response.data as ICourse;
         setData(_data);
 
         response = await internalAPI.jsonRequest(`/occupationArea?page=1&items=100`, "GET")
         let _occupationData = response.data as IOccupationArea[]
-        const _select: ISelectData[] = _occupationData.map((e) => {return {
-            key: e.name!,
-            value: e.id!
-        }})
-        
+        const _select: ISelectData[] = _occupationData.map((e) => {
+            return {
+                key: e.name!,
+                value: e.id!
+            }
+        })
+
         setSelectData(prev => ({
             ...prev,
             data: _select
@@ -43,16 +45,15 @@ export default ({id, onChange}: IUpdateModalProps) => {
         }))
     }
     useEffect(() => {
-        onChange!(data)
+        onChange!(data);
+        setDisabled(!data?.name || !data.occupationArea);
     }, [data])
 
-    return(
+    return (
         <section className={styles.content_section}>
             <Input label="Name" value={data?.name} onChange={(e) => change("name", e.target.value)} maxLength={255} />
             {/* <Input label="Abbreviation" value={data?.abbreviation} onChange={(e) => change("abbreviation", e.target.value)} /> */}
-            <Select data={selectData?.data ?? []} hasDefault={true} label={data?.name} onChange={(e) => change("occupationArea", e.target.value)} />
+            <Select data={selectData?.data ?? []} hasDefault={true} label={"Occupation Area Area"} onChange={(e) => change("occupationArea", e.target.value)} />
         </section>
     )
-
-    return <></>
 }
