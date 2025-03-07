@@ -5,7 +5,7 @@ import styles from '../DeleteModals/styles.module.css'
 import Input from "@/components/Input";
 import { SubjectArea } from "@/interfaces/models/ISubjectArea";
 
-export default ({onChange}: ICreateModalProps) => {
+export default ({ onChange, setDisabled }: ICreateModalProps) => {
 
     const [data, setData] = useState<SubjectArea>();
 
@@ -17,12 +17,13 @@ export default ({onChange}: ICreateModalProps) => {
     }
 
     useEffect(() => {
-        onChange!(data)
+        onChange!(data);
+        setDisabled!(!data?.name);
     }, [data]);
 
     return (
         <section className={styles.content_section}>
-            <Input label="Name" value={data?.name} onChange={(e) => change("name", e.target.value)} /> 
+            <Input label="Name" value={data?.name} onChange={(e) => change("name", e.target.value)} maxLength={50} />
         </section>
     )
 }

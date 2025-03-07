@@ -10,15 +10,15 @@ import Select from "@/components/Select";
 
 import styles from '../DeleteModals/styles.module.css'
 
-export default ({onChange}: ICreateModalProps) => {
+export default ({ onChange, setDisabled }: ICreateModalProps) => {
 
     const [data, setData] = useState<ICourse>();
     const [occupationAreaSelect, setOccupationArea] = useState<ISelectProps>();
 
     const loadData = async () => {
         var response = await internalAPI.jsonRequest("/occupationArea?page=1&items=100", "GET")
-        if(!response || response.statusCode != 200)
-            toast.error(`Error on load Subject Areas`, {toastId: `subject-areas-load-error`});
+        if (!response || response.statusCode != 200)
+            toast.error(`Error on load Subject Areas`, { toastId: `subject-areas-load-error` });
 
         let _data = response.data as OccupationArea[];
         let _selectData: ISelectData[] = _data.map((e) => {
@@ -26,10 +26,10 @@ export default ({onChange}: ICreateModalProps) => {
                 key: e.name!,
                 value: e.id
             }
-        }) ;
+        });
         setOccupationArea(prev => ({
             ...prev!,
-            data: _selectData  
+            data: _selectData
         }))
     }
 
@@ -45,14 +45,15 @@ export default ({onChange}: ICreateModalProps) => {
     }, [])
 
     useEffect(() => {
-        onChange!(data)
+        onChange!(data);
+        setDisabled!(!data?.name || !data.occupationAreaId);
     }, [data]);
 
     return (
         <section className={styles.content_section} >
-            <Input label="Name" value={data?.name} onChange={(e) => change("name", e.target.value)} />
-            <Input label="Abbreviation" value={data?.abbreviation} onChange={(e) => change("abbreviation", e.target.value)} />
-            <Select data={occupationAreaSelect?.data ?? []} onChange={(e) => change("occupationAreaId", e.target.value)} />
+            <Input label="Name" value={data?.name} onChange={(e) => change("name", e.target.value)} maxLength={255} />
+            {/* <Input label="Abbreviation" value={data?.abbreviation} onChange={(e) => change("abbreviation", e.target.value)} /> */}
+            <Select data={occupationAreaSelect?.data ?? []} label="Occupation Area" onChange={(e) => change("occupationAreaId", Number(e.target.value))} />
         </section>
     )
 }

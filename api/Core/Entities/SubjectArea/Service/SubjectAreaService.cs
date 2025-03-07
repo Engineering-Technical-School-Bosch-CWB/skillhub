@@ -18,11 +18,7 @@ public class SubjectAreaService(
 
     public async Task<AppResponse<SubjectAreaDTO>> CreateSubjectArea(SubjectAreaPayload payload)
     {
-        var subjectArea = await _repo.Get()
-            .Where(s => s.IsActive && s.Name == payload.Name)
-            .SingleOrDefaultAsync();
-
-        if (subjectArea is not null)
+        if (await _repo.GetAllNoTracking().Where(s => s.IsActive).AnyAsync(s => string.Equals(s.Name, payload.Name)))
             throw new AlreadyExistsException("There's already a subject area with this name!");
 
         var newSubjectArea = new SubjectArea()
@@ -47,6 +43,9 @@ public class SubjectAreaService(
             .Where(s => s.IsActive)
             .SingleOrDefaultAsync(s => s.Id == id)
             ?? throw new NotFoundException("Subject area not found!");
+
+        if (!string.Equals(payload.Name, subjectArea.Name) && await _repo.GetAllNoTracking().Where(s => s.IsActive && s.Id != id).AnyAsync(s => string.Equals(s.Name, payload.Name)))
+            throw new AlreadyExistsException("There's already a subject area with this name!");
 
         subjectArea.Name = payload.Name;
 

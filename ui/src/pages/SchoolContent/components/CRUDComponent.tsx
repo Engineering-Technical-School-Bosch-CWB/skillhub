@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react"
-import { tabName, Tabs } from "../links"
+import { useEffect, useState } from "react";
+import { tabName, Tabs } from "../links";
 import internalAPI from "@/service/internal.services";
 import { toast } from "react-toastify";
 import TableView from "@/components/TableView";
@@ -7,8 +7,7 @@ import { IOption } from "@/components/TableView/interfaces";
 import Text from "@/typography";
 import Button from "@/components/Button";
 import Icon from "@/components/Icon";
-
-import styles from "../styles.module.css"
+import styles from "../styles.module.css";
 import SectionHeader from "@/components/SectionHeader";
 import { ISectionHeaderProps } from "@/components/SectionHeader/interfaces";
 import DeleteModal from "./DeleteModals/DeleteModal";
@@ -21,117 +20,120 @@ import CreateModal from "./CreateModals/CreateModal";
 import Pagination from "@/components/TableView/Pagination";
 
 export interface ICrudContainerProps {
-    kind: Tabs
+    kind: Tabs;
 }
 
 const typeMap: Record<Tabs, new (data: any) => any> = {
     course: Course,
     curricularUnits: CurricularUnit,
     occupationArea: OccupationArea,
-    subjectAreas: SubjectArea
-}
+    subjectAreas: SubjectArea,
+};
 
-export default ( {kind}: ICrudContainerProps ) => {
+export default ({ kind }: ICrudContainerProps) => {
 
-    const [data, setData] = useState([]);
+    const [page, setPage] = useState(1);
+    const [items, setItems] = useState(10);
+    const [maxPages, setMaxPages] = useState(1);
+    const [focusedId, setFocusedId] = useState(0);
+    const [data, setData] = useState<any[]>([]);
     const [options, setOptions] = useState<IOption[]>([]);
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
     const [createModalOpen, setCreateModalOpen] = useState(false);
-    const [page, setPage] = useState(1);
-    const [maxPages, setMaxPages] = useState(1);
-    const [items, setItems] = useState(10);
 
-    const [focusedId, setFocusedId] = useState(0);
+    const classConstructor = typeMap[kind];
 
-    const loadData = async () => {
+    const getData = async () => {
         const response = await internalAPI.jsonRequest(`/${kind}?page=${page}&items=${items}`, "GET");
-        if (!response || response.statusCode != 200) 
+        if (!response.success) {
             if (!toast.isActive(`${kind}-load-error`))
                 toast.error(`Error on load ${kind}.`, { toastId: `${kind}-load-error` });
-        
-        setMaxPages(response.info?.totalPages ?? 1)
-        setCourseOptions(response.data);
-    }
+            return;
+        }
+        setMaxPages(response.info?.totalPages ?? 1);
+        processData(response.data);
+    };
 
-    const setCourseOptions = (data: any) => {
-        const classConstructor = typeMap[kind];
-        
-        const values = data.map((e: any) => {
-            const res = new classConstructor(e).convert();
-            return res
-        })
-        const options: IOption[] = [
-            {
-                function: toggleEdit,
-                iconName: "edit"
-            },
-            {
-                function: toggleDelete,
-                iconName: "close"
-            }
-        ] 
+    const processData = (data: any) => {
+        const values = data.map((e: any) => new classConstructor(e).convert());
         setData(values);
-        setOptions(options);
-    }
+        setOptions([
+            { function: toggleEdit, iconName: "edit" },
+            { function: toggleDelete, iconName: "close" },
+        ]);
+    };
 
-    const toggleEdit = (isOpen: boolean,id: number) => {
-        setFocusedId(id)
-        setEditModalOpen(isOpen)
-    }
-    const toggleDelete = (isOpen: boolean,id: number) => {
-        setFocusedId(id)
-        setDeleteModalOpen(isOpen)
-    }
+    const toggleEdit = (isOpen: boolean, id: number) => {
+        setFocusedId(id);
+        setEditModalOpen(isOpen);
+    };
+
+    const toggleDelete = (isOpen: boolean, id: number) => {
+        setFocusedId(id);
+        setDeleteModalOpen(isOpen);
+    };
 
     const toggleCreate = () => {
         setCreateModalOpen(true);
-    }
+    };
 
     const closeModal = () => {
         setDeleteModalOpen(false);
         setEditModalOpen(false);
         setCreateModalOpen(false);
-    }
+    };
+
+    const handleCreate = (newItem: any) => {
+        setData([...data, new classConstructor(newItem).convert()]);
+        closeModal();
+    };
+
+    const handleUpdate = (updatedItem: any) => {
+        setData((prev) => prev.map((item) => (item.id === updatedItem.id ? new classConstructor(updatedItem).convert() : item)));
+        closeModal();
+    };
+
+    const handleDelete = (deletedId: number) => {
+        setData((prev) => prev.filter((item) => item.id !== deletedId));
+        closeModal();
+    };
 
     const sectionHeaderProps: ISectionHeaderProps = {
         links: [
-            {
-                label: "School Content",
-                goTo: "/school-content"
-            },
-            {
-                label: tabName[kind]
-            }
-        ]
-    }
-    
-    useEffect(() => {
-        loadData();
-    }, [])
-    useEffect(() => {
-        loadData();
-    }, [page, items])
+            { label: "School Content", goTo: "/school-content" },
+            { label: tabName[kind] },
+        ],
+    };
 
-    const changePage = (index: number) => {
-        setPage(index);
-    }
+    useEffect(() => {
+        getData();
+    }, [page, items]);
 
-    return(
+    return (
         <>
             <SectionHeader {...sectionHeaderProps} />
             <section className={styles.table_header}>
                 <Text fontSize="xl2" fontWeight="bold">{tabName[kind]}</Text>
-                <Button variant="secondary_icon" onClick={() => toggleCreate()}>
-                    <Icon name="add" size="md"/>
+                <Button variant="secondary_icon" onClick={toggleCreate}>
+                    <Icon name="add" size="md" />
                 </Button>
             </section>
             <TableView data={data} hasNotation={false} hasOptions={true} options={options} />
-            <Pagination pages={maxPages} current={page} onChange={changePage} />
+            <Pagination pages={maxPages} current={page} onChange={setPage} />
 
-            { editModalOpen && <UpdateModal id={focusedId} kind={kind} isOpen={true} onClose={closeModal} /> }
-            { deleteModalOpen && <DeleteModal id={focusedId} kind={kind}  isOpen={true} onClose={closeModal} /> }
-            { createModalOpen && <CreateModal kind={kind} isOpen={true} onClose={closeModal} />}
+            {
+                editModalOpen &&
+                <UpdateModal id={focusedId} kind={kind} isOpen={true} onClose={closeModal} onUpdate={handleUpdate} />
+            }
+            {
+                deleteModalOpen &&
+                <DeleteModal id={focusedId} kind={kind} isOpen={true} onClose={closeModal} onDelete={handleDelete} />
+            }
+            {
+                createModalOpen &&
+                <CreateModal kind={kind} isOpen={true} onClose={closeModal} onCreate={handleCreate} />
+            }
         </>
-    )
-}
+    );
+};

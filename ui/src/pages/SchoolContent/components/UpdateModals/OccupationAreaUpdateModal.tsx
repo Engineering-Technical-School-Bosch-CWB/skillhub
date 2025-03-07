@@ -6,20 +6,20 @@ import { toast } from "react-toastify";
 import Input from "@/components/Input";
 import { OccupationArea } from "@/interfaces/models/IOccupationArea";
 
-export default ({id, onChange}: IUpdateModalProps) => {
+export default ({ id, onChange, setDisabled }: IUpdateModalProps) => {
 
     const [data, setData] = useState<OccupationArea>();
-    const loadData = async () => {
+    const getData = async () => {
         let response = await internalAPI.jsonRequest(`/occupationArea/${id}`, "GET")
-        if(!response || response.statusCode != 200)
-            toast.error(`Error on load object`, {toastId: "subject-area-load-error"});
+        if (!response || response.statusCode != 200)
+            toast.error(`Error on load object`, { toastId: "subject-area-load-error" });
 
         setData(response.data as OccupationArea);
     }
 
     useEffect(() => {
-        loadData();
-    },[])
+        getData();
+    }, [])
 
     const change = (key: keyof OccupationArea, value: any) => {
         setData(prev => ({
@@ -30,11 +30,12 @@ export default ({id, onChange}: IUpdateModalProps) => {
 
     useEffect(() => {
         onChange!(data);
+        setDisabled!(!data?.name);
     }, [data])
 
     return (
         <section className={styles.content_section}>
-            <Input label="Name" value={data?.name} onChange={(e) => change("name", e.target.value)} />
+            <Input label="Name" value={data?.name} onChange={(e) => change("name", e.target.value)} maxLength={50} />
         </section>
     )
 }

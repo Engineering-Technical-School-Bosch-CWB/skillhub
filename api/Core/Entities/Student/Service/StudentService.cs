@@ -98,7 +98,7 @@ public class StudentService(
 
         return StudentExamResultsDTO.Map(
             student,
-            results.Where(s => s.Aptitude.HasValue).Any() ? results.Sum(s => s.Aptitude * s.Weight) / results.Sum(s => s.Weight) : null,
+            results.Where(s => s.Aptitude.HasValue).Any() ? results.Where(s => s.Weight != 0).Sum(s => s.Aptitude * s.Weight) / results.Where(s => s.Weight != 0).Sum(s => s.Weight) : null,
             results.Select(SimpleSkillResultDTO.Map).OrderBy(s => s.SkillId)
         );
     }
@@ -160,6 +160,7 @@ public class StudentService(
 
         var results = _skillResultRepo.Get()
             .Where(s => s.IsActive && s.Student.Id == id)
+            .Where(s => s.Weight != 0)
             .Where(s => s.Aptitude.HasValue)
             .GroupBy(s => s.Skill)
             .Select(g => g.OrderByDescending(s => s.Aptitude).First())

@@ -8,67 +8,65 @@ using Microsoft.EntityFrameworkCore;
 namespace Api.Core.Services;
 
 public class OccupationAreaService(BaseRepository<OccupationArea> repository,
-        IPaginationService paginationService
-    )
-    : BaseService<OccupationArea>(repository), IOccupationAreaService
-
+    IPaginationService paginationService
+) : BaseService<OccupationArea>(repository), IOccupationAreaService
 {
+    private readonly BaseRepository<OccupationArea> _repo = repository;
     private readonly IPaginationService _paginationService = paginationService;
 
-
-    public PaginatedAppResponse<UpdateOcupationAreaPayload> GetPaginated(PaginationQuery pagination, string? query)
+    public PaginatedAppResponse<UpdateOccupationAreaPayload> GetPaginated(PaginationQuery pagination, string? query = null, int? id = null)
     {
-        var entities = repository.Get()
-            .Where(e => e.IsActive && 
-                (string.IsNullOrEmpty(query) || EF.Functions.Like(e.Name, $"%{query}%")
-            ));
+        var entities = _repo.Get()
+            .Where(e => e.IsActive)
+            .Where(e => string.IsNullOrEmpty(query) || EF.Functions.Like(e.Name, $"%{query}%"))
+            .OrderByDescending(e => id.HasValue && e.Id == id.Value);
 
         var result = _paginationService.Paginate(
             entities,
             pagination.ToOptions()
         );
 
-        List<UpdateOcupationAreaPayload> mappedEntities = result.Item1.Select(e => UpdateOcupationAreaPayload.Map(e)).ToList();
-
-        return new PaginatedAppResponse<UpdateOcupationAreaPayload>
+        return new PaginatedAppResponse<UpdateOccupationAreaPayload>
             (
-                mappedEntities,
-                result.Item2,
+                [.. result.Item1.Select(UpdateOccupationAreaPayload.Map)],
+                result.Item2!,
                 "Occupation Areas found!"
             );
-
     }
-    public async Task<AppResponse<UpdateOcupationAreaPayload>> UpdateOccupationArea(int id, UpdateOcupationAreaPayload data)
+
+
+    public async Task<AppResponse<UpdateOccupationAreaPayload>> UpdateOccupationArea(int id, UpdateOccupationAreaPayload data)
     {
-        var entity = repository.Get()
+        var entity = _repo.Get()
             .SingleOrDefault(entity => entity.IsActive && entity.Id == id)
                 ?? throw new NotFoundException("Occupation Area not found!");
 
         entity.Name = data.Name;
 
-        repository.Update(entity);
-        await repository.SaveAsync();
+        _repo.Update(entity);
+        await _repo.SaveAsync();
 
-        return new(UpdateOcupationAreaPayload.Map(entity), "Occupation area found!");
+        return new(UpdateOccupationAreaPayload.Map(entity), "Occupation area found!");
     }
 
     public async Task DeleteOccupationArea(int id)
     {
-        var entity = repository.Get()
+        var entity = _repo.Get()
             .SingleOrDefault(entity => entity.IsActive && entity.Id == id)
-                ?? throw new NotFoundException("Ocupation Area not found!");
+            ?? throw new NotFoundException("Ocupation Area not found!");
 
         entity.IsActive = false;
-        repository.Update(entity);
-        await repository.SaveAsync();
+        _repo.Update(entity);
+        await _repo.SaveAsync();
 
         return;
     }
 
     public async Task<AppResponse<OccupationArea>> GetOccupationAreaById(int id)
     {
-        var entity = await repository.Get().SingleOrDefaultAsync(e => e.IsActive && e.Id == id)
-            ?? throw new NotFoundException("Occupation Area not found!");
-        return new (entity, "Occupation Area found!");
+        var entity = await _repo.Get().SingleOrDefaultAsync(e => e.IsActive && e.Id == id)
+        ?? throw new NotFoundException("Occupation Area not found!");
+
+        return new(entity, "Occupation Area found!");
     }
 }

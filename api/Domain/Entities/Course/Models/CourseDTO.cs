@@ -11,7 +11,7 @@ namespace Api.Domain.Models
                 obj.Id, 
                 obj.Name,
                 obj.Abbreviation, 
-                OccupationAreaDTO.Map(obj.DefaultOccupationArea)
+                obj.DefaultOccupationArea.IsActive ? OccupationAreaDTO.Map(obj.DefaultOccupationArea) : null
             );
     };
 

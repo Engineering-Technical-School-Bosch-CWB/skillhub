@@ -1,8 +1,10 @@
 ﻿using Api.Core.Errors;
 using Api.Core.Services;
 using Api.Domain.Models;
+using Api.Domain.Repositories;
 using Api.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace api.Controllers;
 
@@ -24,38 +26,46 @@ public class OccupationAreaController : ControllerBase
         return Ok(result);
     }
     [HttpGet]
-    public async Task<ActionResult> GetPaginated(
+    public ActionResult GetPaginated(
         [FromServices] IOccupationAreaService service,
         [FromQuery] PaginationQuery pagination,
-        [FromQuery] string? query
+        [FromQuery] string? query, [FromQuery] int? id
     )
     {
-        var entities = service.GetPaginated(pagination, query);
+        var entities = service.GetPaginated(pagination, query, id);
         return Ok(entities);
     }
 
     [HttpPost]
     public async Task<ActionResult> CreateOccupationArea(
         [FromServices] IOccupationAreaService service, [FromServices] IPermissionService permissionService,
-        [FromBody] OccupationArea payload
+        [FromBody] OccupationArea payload, IOccupationAreaRepository repository
     )
     {
         permissionService.ValidateAdmPermission();
 
         payload.IsActive = true;
+
+        if (await repository.GetAllNoTracking().Where(o => o.IsActive).AnyAsync(o => string.Equals(o.Name, payload.Name)))
+            throw new AlreadyExistsException("There's already a subject area with this name!");
+
         var result = await service.AddAsync(payload);
-        return Ok(result);
+
+        return Ok(new AppResponse<OccupationAreaDTO>(OccupationAreaDTO.Map(result), "Occupation Area created successfully!"));
     }
 
     [HttpPatch]
     [Route("{id}")]
     public async Task<ActionResult> Update(
         [FromServices] IOccupationAreaService service, [FromServices] IPermissionService permissionService,
-        [FromBody] UpdateOcupationAreaPayload payload,
+        [FromBody] UpdateOccupationAreaPayload payload, IOccupationAreaRepository repository,
         int id
     )
     {
         permissionService.ValidateAdmPermission();
+
+        if (await repository.GetAllNoTracking().Where(o => o.IsActive && o.Id != id).AnyAsync(o => string.Equals(o.Name, payload.Name)))
+            throw new AlreadyExistsException("There's already a subject area with this name!");
 
         var result = await service.UpdateOccupationArea(id, payload);
         return Ok(result);

@@ -9,18 +9,18 @@ import Select from "@/components/Select";
 import { ISelectData, ISelectProps } from "@/components/Select/interfaces";
 import { SubjectArea } from "@/interfaces/models/ISubjectArea";
 
-export default ({id, onChange}: IUpdateModalProps) => {
+export default ({ id, onChange, setDisabled }: IUpdateModalProps) => {
 
     const [data, setData] = useState<CurricularUnit>();
     const [subjectAreaSelect, setsubjectAreaSelect] = useState<ISelectProps>();
-    const loadData = async () => {
+    const getData = async () => {
         let response = await internalAPI.jsonRequest(`/curricularUnits/${id}`, "GET")
-        if(!response || response.statusCode != 200)
-            toast.error(`Error on load object`, {toastId: "curricular-unit-load-error"});
+        if (!response || response.statusCode != 200)
+            toast.error(`Error on load object`, { toastId: "curricular-unit-load-error" });
 
         setData(response.data as CurricularUnit);
 
-        response = await internalAPI.jsonRequest(`/subjectAreas`,"GET");
+        response = await internalAPI.jsonRequest(`/subjectAreas`, "GET");
         let subjectAreas = response.data as SubjectArea[]
         let _select: ISelectData[] = subjectAreas.map((e) => {
             return {
@@ -35,8 +35,8 @@ export default ({id, onChange}: IUpdateModalProps) => {
     }
 
     useEffect(() => {
-        loadData();
-    },[])
+        getData();
+    }, [])
 
     const change = (key: keyof CurricularUnit, value: any) => {
         setData(prev => ({
@@ -47,12 +47,16 @@ export default ({id, onChange}: IUpdateModalProps) => {
 
     useEffect(() => {
         onChange!(data);
+        setDisabled!(!data?.name || !data?.subjectAreaId);
+
+        console.log(data);
+        console.log(!data?.name || !data?.subjectAreaId)
     }, [data])
 
     return (
         <section className={styles.content_section}>
-            <Input label="Name" value={data?.name} onChange={(e) => change("name", e.target.value)} />
-            <Select data={subjectAreaSelect?.data ?? []} label={data?.name} hasDefault />
+            <Input label="Name" value={data?.name} onChange={(e) => change("name", e.target.value)} maxLength={50} />
+            <Select data={subjectAreaSelect?.data ?? []} label="Subject Area" onChange={(e) => change("subjectAreaId", e.target.value)} />
         </section>
     )
 }

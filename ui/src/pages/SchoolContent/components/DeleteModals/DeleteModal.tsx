@@ -9,15 +9,16 @@ import OccupationAreaDeleteModal from "./OccupationAreaDeleteModal";
 import ButtonGroup from "@/components/ButtonGroup";
 import internalAPI from "@/service/internal.services";
 import { toast } from "react-toastify";
+import toastifyUpdate from "@/constants/toastfyUpdate";
 
-const DeleteComponents: Record<Tabs, React.ElementType> =  {
+const DeleteComponents: Record<Tabs, React.ElementType> = {
     course: CourseDeleteModal,
     curricularUnits: CurricularUnitDeleteModal,
     subjectAreas: SubjectAreaDeleteModal,
     occupationArea: OccupationAreaDeleteModal
 }
 
-export default ({id, kind, onClose, isOpen}: IDeleteModalProps) => {
+export default ({ id, kind, onClose, isOpen, onDelete }: IDeleteModalProps) => {
 
     const Component = DeleteComponents[kind!]
 
@@ -26,22 +27,44 @@ export default ({id, kind, onClose, isOpen}: IDeleteModalProps) => {
     }
 
     const submit = async () => {
-        const response = await internalAPI.jsonRequest(`/${kind}/${id}`,"DELETE")
-        
-        if(!response || response.statusCode != 200)
-            toast.error(`Error on delete ${kind}`, {toastId:`${kind}-delete-error`})
-        else
-            location.reload();
-    }
 
-    return (
-        <Modal 
-            handleClose={onClose!}
-            open={isOpen!}
-            title={"Are you sure you want to delete this item?"}
-        >
-            {Component && <Component id={id}/>}
-            <ButtonGroup cancel={cancel} submit={submit} />
-        </Modal>
-    )
+        const apiRequest = async () => {
+            const response = await internalAPI.jsonRequest(`/${kind}/${id}`, "DELETE")
+
+            if (!response.success)
+                throw new Error(response.message);
+        }
+
+        const message = toast.loading("Deleting...");
+
+        apiRequest().then(() => {
+            toast.update(message, {
+                ...toastifyUpdate,
+                render: "Deleted successfully!",
+                type: "success",
+            });
+
+            onDelete!(id);
+            onClose!();
+            
+        }).catch(err => {
+            toast.update(message, {
+                ...toastifyUpdate,
+                render: err.message || "Something went wrong",
+                type: "error",
+            });
+        })
+
+}
+
+return (
+    <Modal
+        handleClose={onClose!}
+        open={isOpen!}
+        title={"Are you sure you want to delete this item?"}
+    >
+        {Component && <Component id={id} />}
+        <ButtonGroup cancel={cancel} submit={submit} />
+    </Modal>
+)
 }

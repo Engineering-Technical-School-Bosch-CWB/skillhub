@@ -24,6 +24,7 @@ public class StudentResultService(BaseRepository<User> repository, IStudentResul
     {
         var examResults = exam.SkillResults
             .Where(s => s.IsActive)
+            .Where(s => s.Weight != 0)
             .GroupBy(s => s.Skill.Id)
             .Select(g => g.MaxBy(s => s.EvaluatedAt)!)
             .GroupBy(s => s.Student)

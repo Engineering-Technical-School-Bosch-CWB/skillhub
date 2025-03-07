@@ -23,7 +23,7 @@ export default ({id}: IDeleteModalProps) => {
     return(
         <section className={styles.content_section}>
             <Text>Name: {data?.name}</Text>
-            <Text>Abbreviation: {data?.abbreviation}</Text>
+            {/* <Text>Abbreviation: {data?.abbreviation}</Text> */}
             <Text>Area: {data?.occupationArea?.name}</Text>
         </section>
     )

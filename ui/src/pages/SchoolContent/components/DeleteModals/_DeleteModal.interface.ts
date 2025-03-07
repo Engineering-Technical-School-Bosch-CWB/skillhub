@@ -5,4 +5,5 @@ export interface IDeleteModalProps {
     id: number,
     isOpen?: boolean
     onClose?: () => void
+    onDelete?: Function
 }
