@@ -71,7 +71,6 @@ export default ({ isOpen, onClose, classId }: AddModalProps) => {
 
                     <Button variant="contained" onClick={() => handleAddContent()}>Add +</Button>
                     <div className={`${styles.btnArea} ${styles.align}`}>
-                        <Button variant="outlined" onClick={() => console.log(content)}>Get from other class</Button>
                         <Button variant="contained" onClick={() => handleSave()}>Save</Button>
                     </div>
                 </div>
