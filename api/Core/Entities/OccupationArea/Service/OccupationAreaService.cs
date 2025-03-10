@@ -69,4 +69,19 @@ public class OccupationAreaService(BaseRepository<OccupationArea> repository,
 
         return new(entity, "Occupation Area found!");
     }
+
+    public async Task<AppResponse<OccupationArea>> CreateOccupationArea(OccupationArea payload)
+    {
+        payload.IsActive = true;
+
+        if (await repository.GetAllNoTracking().Where(o => o.IsActive).AnyAsync(o => string.Equals(o.Name, payload.Name)))
+            throw new AlreadyExistsException("There's already a subject area with this name!");
+
+        var result = repository.Add(payload);
+
+        await repository.SaveAsync();
+
+        return new AppResponse<OccupationArea>(result, "Occupation area created successfully!");
+
+    }
 }
