@@ -39,19 +39,12 @@ public class OccupationAreaController : ControllerBase
     [HttpPost]
     public async Task<ActionResult> CreateOccupationArea(
         [FromServices] IOccupationAreaService service, [FromServices] IPermissionService permissionService,
-        [FromBody] OccupationArea payload, IOccupationAreaRepository repository
+        [FromBody] OccupationArea payload
     )
     {
         permissionService.ValidateAdmPermission();
-
-        payload.IsActive = true;
-
-        if (await repository.GetAllNoTracking().Where(o => o.IsActive).AnyAsync(o => string.Equals(o.Name, payload.Name)))
-            throw new AlreadyExistsException("There's already a subject area with this name!");
-
-        var result = await service.AddAsync(payload);
-
-        return Ok(new AppResponse<OccupationAreaDTO>(OccupationAreaDTO.Map(result), "Occupation Area created successfully!"));
+        var res = await service.CreateOccupationArea(payload);
+        return Ok(res);
     }
 
     [HttpPatch]
