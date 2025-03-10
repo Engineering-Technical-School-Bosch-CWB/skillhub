@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 import styles from '../../../../styles.module.css';
-import InputSelect from "@/components/InputSelect";
 import Input from "@/components/Input";
 import { IAddSubject } from "../../interfaces/AddClassPage.interface";
 import Button from "@/components/Button";
@@ -21,7 +20,6 @@ export interface ISubjectSelectProps {
 
 export default ({ data, onSelect: onChange, onChangeInput, onToggleDelete }: ISubjectSelectProps) => {
     const [options, setOption] = useState<ISelectData[]>([]);
-    const [selected, setSelected] = useState<ISelectData>();
 
     const loadSubjects = async () => {
         const response = await internalAPI.jsonRequest('/curricularUnits?query', 'GET')
@@ -38,33 +36,33 @@ export default ({ data, onSelect: onChange, onChangeInput, onToggleDelete }: ISu
             return {
                 key: e.name,
                 value: e.id,
-                // selected: _default
+                selected: _default
             }
         })
         setOption(values);
     }
 
-    const checkDefault = () => {
-        options.forEach(cUnit => {
-            if (cUnit.selected)
-                setSelected(cUnit)
-        });
+    const handleChange = (e: any) => {
+        onChange({
+            key: options.find(d => d.value == Number(e.target.value))?.key!,
+            value: Number(e.target.value)
+        })
     }
 
     useEffect(() => {
         loadSubjects();
     }, [])
-    useEffect(() => {
-        checkDefault();
-    }, [options])
+    
 
     return (
         <>
             <section className={`${styles.dual_input_zone} ${styles.divided_input_3_1}`}>
-                <Select data={options} label="Subject" onChange={(e) => onChange({
-                    key: options.find(d => d.value == Number(e.target.value))?.key!,
-                    value: Number(e.target.value)
-                })} />
+                <Select     
+                    data={options} 
+                    hasDefault={data?.curricularUnitId != 0}
+                    label="Subject" 
+                    onChange={(e) => handleChange(e)} 
+                />
                 <Input label="Duration" value={data?.duration} onChange={(e) => onChangeInput!(e.target.value)} />
                 {
                     onToggleDelete &&

@@ -6,7 +6,7 @@
     cursor: text;
 
 
-    .label+.input {
+    .label + .input {
         padding-bottom: 0.315rem;
         padding-top: 1.125rem;
     }

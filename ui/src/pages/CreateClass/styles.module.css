@@ -82,9 +82,6 @@
 .divided_input_2_1 {
     grid-template-columns: calc(75% - 1rem) 25%;
     align-items: center;
-    input{
-        padding: 1rem !important;
-    }
 }
 .divided_input_3_1 {
     grid-template-columns: calc(75% - 6rem) 25% 3rem;
