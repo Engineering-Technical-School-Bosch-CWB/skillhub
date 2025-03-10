@@ -15,27 +15,6 @@ export default ({ onChange, defaultValue }: CourseSelectProps) => {
     const [inputKey, setInputKey] = useState("");
     const [data, setData] = useState<ISelectData[]>([]);
 
-    // const changeInput = (e : ChangeEvent<HTMLInputElement>) => {
-    //     setInputKey(e.target.value)
-    //     if(onChange)
-    //         onChange!({
-    //             key: inputKey,
-    //             value: undefined
-    //         });
-    // }   
-    // const selectOption = (e: ISelectData) => {
-    //     setInputKey(e.key)
-    //     if(onChange)
-    //         onChange!({
-    //             key: e.key,
-    //             value: e.value
-    //         });
-    // }
-
-    // const handleBlur = ( ) => {
-    //     setInputFocus(false);
-    // }
-
     const getData = async () => {
         const response = await internalAPI.jsonRequest(`/course?page=1&items=10&query=${inputKey}`, "GET");
         if (!response.success)
@@ -52,50 +31,20 @@ export default ({ onChange, defaultValue }: CourseSelectProps) => {
         }));
     }
 
-    // useEffect(() => {
-    //     if(defaultValue){
-    //         selectOption(defaultValue)
-    //     }
-    // }, [])
-
     useEffect(() => {
         getData();
     }, [inputKey])
 
     return (
         <>
-            {/* <div className={styles.personalized_select}>
-                <Input 
-                    className={styles.input}
-                    onFocus={() => setInputFocus(true)} 
-                    onBlur={() => handleBlur()}
-                    value={inputKey}
-                    onChange={changeInput}
-                    label="Curso"
-                />
-                
-                <div className={`${styles.options_container} ${inputFocus ? styles.focused : ''}`}>
-                    <ul>
-                        {
-                            data.map((item) => {
-                                return (
-                                    <>
-                                        <li
-                                            onClick={() => selectOption(item)}
-                                            onMouseDown={(e) => e.preventDefault()}  
-                                        >{item.key}</li>
-                                    </>
-                                )
-                            })
-                        }
-                    </ul>
-                </div>
-            </div> */}
-
-            <Select data={data} onChange={(e) => onChange({
-                key: data.find(d => d.value == Number(e.target.value))?.key!,
-                value: Number(e.target.value)
-            })} />
+            <Select 
+                label="Course"
+                data={data} 
+                onChange={(e) => onChange({
+                    key: data.find(d => d.value == Number(e.target.value))?.key!,
+                    value: Number(e.target.value)
+                })} 
+            />
         </>
     )
 }

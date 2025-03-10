@@ -61,16 +61,18 @@ export default () => {
         <div>
             <Header />
             <main>
-                <SectionHeader links={
-                [
-                    {
-                        label: "Classes Overview",
-                        goTo: "/classes"
-                    },
-                    {
-                        label: "New"
-                    }
-                ]} />
+                <SectionHeader 
+                    links={
+                        [
+                            {
+                                label: "Classes Overview",
+                                goTo: "/classes"
+                            },
+                            {
+                                label: "New"
+                            }
+                        ]} 
+                />
 
                 <div className={styles.container}>
                     <AddPaginator {...data}/>

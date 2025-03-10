@@ -5,6 +5,7 @@ import SubjectSelect from "./SubjectSelect"
 import { ISelectData } from "@/components/Select/interfaces"
 import Button from "@/components/Button"
 import { toast } from "react-toastify"
+import { useEffect } from "react"
 
 export interface ISubjectIndex {
     subjects: IAddSubject[],
@@ -14,35 +15,39 @@ export interface ISubjectIndex {
 export default ({ subjects, alterSubjects }: ISubjectIndex) => {
 
     const handleAlterSubject = (data: ISelectData, index: number) => {
-        const _selecteds = subjects;
-        _selecteds[index] = {
-            curricularUnitId: data.value!,
-            name: data.key,
-            duration: _selecteds[index].duration
-        };
+        const _selecteds = subjects.map((s, i) =>
+            i === index ? { ...s, curricularUnitId: data.value!, name: data.key } : s
+        );
+    
         alterSubjects(_selecteds);
     }
 
     const handleNewSubject = () => {
 
         if (subjects?.some(s => !s.curricularUnitId))
-            return toast.error("Fill in all fields.");
+            return toast.error("Fill in all fields.", {toastId: "all-fields-not-completed"});
 
         const _selecteds = [...subjects!, { curricularUnitId: 0, name: undefined, duration: 0 }];
         alterSubjects!(_selecteds);
     }
 
     const changeDuration = (value: string, index: number) => {
-        const _selecteds = subjects;
-        _selecteds[index].duration = + value;
+        const _selecteds = subjects.map((s, i) =>
+            i === index ? { ...s, duration: +value } : s
+        );
         alterSubjects(_selecteds)
     }
 
     const toggleDelete = (index: number) => {
-        const _selecteds = subjects;
-        delete _selecteds[index]
-        alterSubjects(_selecteds)
+        console.log(index);
+        
+        const _selecteds = subjects.filter((_, i) => i !== index);
+        alterSubjects([..._selecteds])
     }
+
+    useEffect(() => {
+        
+    },[subjects])
 
     return (
         <div className={styles.form_content}>
@@ -57,6 +62,7 @@ export default ({ subjects, alterSubjects }: ISubjectIndex) => {
                         return (
                             <>
                                 <SubjectSelect
+                                    key={subject.curricularUnitId || _index}
                                     data={subject}
                                     onSelect={(e) => handleAlterSubject(e, _index)}
                                     onChangeInput={(e) => changeDuration(e, _index)}
