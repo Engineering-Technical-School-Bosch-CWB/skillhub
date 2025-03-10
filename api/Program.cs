@@ -5,6 +5,8 @@ using Api.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.WebHost.ConfigureDomain(builder.Configuration);
+
 builder.Services
     .ConfigureDatabase(builder.Configuration)
     .ConfigureJwt(builder.Configuration)
