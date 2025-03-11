@@ -7,7 +7,6 @@ import toastifyUpdate from "@/constants/toastfyUpdate";
 
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
-import { ISelectData } from "@/components/Select/interfaces";
 import { useEffect, useState } from "react";
 import { IClass } from "../../interfaces/ClassDetails.interfaces";
 
@@ -15,17 +14,17 @@ interface IModalProps {
     isOpen: boolean
     handleIsOpen: Function
     _class: IClass
-    setClass: Function
+    setClass: Function,
+    archived: boolean
 }
 
 
-export default ({ isOpen, handleIsOpen, _class, setClass }: IModalProps) => {
+export default ({ isOpen, handleIsOpen, _class, setClass, archived }: IModalProps) => {
 
     const navigate = useNavigate();
 
     const { classId } = useParams();
 
-    const [teachers, setTeachers] = useState<ISelectData[]>([]);
     const [payload, setPayload] = useState<IClass>(_class);
 
     const handleSubmit = async () => {
@@ -119,6 +118,10 @@ export default ({ isOpen, handleIsOpen, _class, setClass }: IModalProps) => {
         })
     }
 
+    const handleUnarchive = () => {
+        
+    }
+
     const handleClose = () => {
         handleIsOpen();
     }
@@ -145,10 +148,19 @@ export default ({ isOpen, handleIsOpen, _class, setClass }: IModalProps) => {
                                 <Button kind="danger" onClick={handleDelete}>Delete</Button>
                                 <span className={`${styles.tooltiptext}`}>Delete this class forever!</span>
                             </div>
-                            <div className={`${styles.not} ${styles.tooltip}`}>
-                                <Button kind="alert" onClick={handleArchive}>Archive</Button>
-                                <span className={`${styles.tooltiptext}`} style={{ width: "180px" }}>Archive finished class!</span>
-                            </div>
+                            {
+                                archived &&
+                                <div className={`${styles.not} ${styles.tooltip}`}>
+                                    <Button kind="alert" onClick={handleUnarchive}>Unarchive</Button>
+                                </div>
+                            }
+                            {
+                                !archived &&
+                                <div className={`${styles.not} ${styles.tooltip}`}>
+                                    <Button kind="alert" onClick={handleArchive}>Archive</Button>
+                                    <span className={`${styles.tooltiptext}`} style={{ width: "180px" }}>Archive finished class!</span>
+                                </div>
+                            }
                         </div>
                         <Button onClick={handleClose}>Cancel</Button>
                         <Button variant="contained" onClick={handleSubmit}>Confirm</Button>

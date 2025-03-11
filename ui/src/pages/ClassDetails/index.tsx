@@ -239,6 +239,7 @@ const ClassDetails = () => {
                         })}
                         _class={_class}
                         setClass={setClass}
+                        archived={false}
                     />
                 }
             </main>
