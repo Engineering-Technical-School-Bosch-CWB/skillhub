@@ -26,7 +26,8 @@ export default ({ kind, onClose, isOpen, onCreate }: ICreateModalProps) => {
     const Component = CreationComponents[kind!]
 
     const cancel = () => {
-        onClose!();
+        if (onClose)
+            onClose();
     }
 
     const submit = async () => {
@@ -48,9 +49,12 @@ export default ({ kind, onClose, isOpen, onCreate }: ICreateModalProps) => {
                 render: "Created successfully!",
                 type: "success",
             });
+            
+            if (onCreate)
+                onCreate(content);
 
-            onCreate!(content);
-            onClose!();            
+            if (onClose)
+                onClose();            
         }).catch(err => {
             toast.update(message, {
                 ...toastifyUpdate,

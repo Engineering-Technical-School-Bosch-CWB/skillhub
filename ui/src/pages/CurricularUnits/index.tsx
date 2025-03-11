@@ -13,7 +13,7 @@ import { CurricularUnit } from "@/interfaces/models/ICurricularUnit";
 import Progress from "@/components/Progress";
 
 const CurricularUnits = () => {
-    const [data, setData] = useState([]);
+    const [data, setData] = useState<CurricularUnit[]>([]);
     const [createModalOpen, setCreateModalOpen] = useState(false);
 
     const [search, setSearch] = useState<string>("");
@@ -75,6 +75,11 @@ const CurricularUnits = () => {
         setLoading(false);
     }
 
+    const appendData = (content: any) => {
+        if (content)
+            setData([content, ...data])
+    }
+
     useEffect(() => {
         getData();
     }, [])
@@ -116,7 +121,8 @@ const CurricularUnits = () => {
                     onAddHandle={() => { setCreateModalOpen(true) }}
                 />
             </main>
-            {createModalOpen && <CreateModal kind={"curricularUnits"} isOpen={true} onClose={() => setCreateModalOpen(false)} />}
+            {createModalOpen && <CreateModal kind={"curricularUnits"} isOpen={true} onClose={() => setCreateModalOpen(false)}
+                onCreate={(content : any) => appendData(content)} />}
         </>
     )
 }
