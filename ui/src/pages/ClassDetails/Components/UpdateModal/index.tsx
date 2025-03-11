@@ -7,7 +7,6 @@ import toastifyUpdate from "@/constants/toastfyUpdate";
 
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
-import { ISelectData } from "@/components/Select/interfaces";
 import { useEffect, useState } from "react";
 import { IClass } from "../../interfaces/ClassDetails.interfaces";
 
@@ -25,7 +24,6 @@ export default ({ isOpen, handleIsOpen, _class, setClass }: IModalProps) => {
 
     const { classId } = useParams();
 
-    const [teachers, setTeachers] = useState<ISelectData[]>([]);
     const [payload, setPayload] = useState<IClass>(_class);
 
     const handleSubmit = async () => {

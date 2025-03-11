@@ -1,6 +1,6 @@
 import Modal from "@/components/Modal";
 import { IDeleteModalProps } from "./_DeleteModal.interface";
-import React, { useState } from "react";
+import React from "react";
 import ButtonGroup from "@/components/ButtonGroup";
 import internalAPI from "@/service/internal.services";
 import { toast } from "react-toastify";

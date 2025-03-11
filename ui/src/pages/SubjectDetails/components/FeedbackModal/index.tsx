@@ -2,7 +2,7 @@ import Modal from "@/components/Modal";
 import styles from "./styles.module.css";
 import Text from "@/typography";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import TextArea from "@/components/TextArea";
 import Button from "@/components/Button";
 import internalAPI from "@/service/internal.services";

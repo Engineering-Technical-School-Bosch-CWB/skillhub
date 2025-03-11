@@ -7,7 +7,6 @@ import styles from "./styles.module.css"
 
 import { Dayjs } from "dayjs";
 import { ISubject } from "@/interfaces/models/ISubject";
-import { useNavigate } from "react-router-dom";
 import SkillOption, { ISkillSelection } from "./components/SkillOption";
 import { IState } from "@/interfaces/IState.interface";
 
@@ -43,7 +42,7 @@ interface IExamConfigProps {
     cancelAction: Function
 }
 
-export default ({ subject, title, skills, teachers, nameState, dateState, descriptionState, instructorState, selectedSkillsState, classId, subjectId, handleSubmit, button, cancelAction }: IExamConfigProps) => {
+export default ({ subject, title, skills, teachers, nameState, dateState, descriptionState, instructorState, selectedSkillsState, handleSubmit, button, cancelAction }: IExamConfigProps) => {
 
     return (
         <>

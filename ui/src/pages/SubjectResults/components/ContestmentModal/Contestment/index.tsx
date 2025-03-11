@@ -2,7 +2,7 @@ import styled from "./styles.module.css";
 import Text from "../../../../../typography";
 import Divider from "../../../../../components/Divider";
 import Icon from "../../../../../components/Icon";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { IContestmentProps } from "./interfaces";
 
 const Contestment = ({ option, selectionHandler, current }: IContestmentProps) => {

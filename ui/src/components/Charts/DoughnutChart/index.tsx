@@ -25,7 +25,7 @@ const DoughnutChart: React.FC<IDoughnutCharProps> = ({ performance, title }) => 
           outerRadius={90}
           fill="#9e2896"
         >
-          {data.map((entry, index) => (
+          {data.map((_, index) => (
             <Cell key={`cell-${index}`} fill={index === 0 ? "#9e2896" : "#b9b9b9"} />
           ))}
 

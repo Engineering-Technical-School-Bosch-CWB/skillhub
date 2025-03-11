@@ -33,7 +33,7 @@ const typeMap: Record<Tabs, new (data: any) => any> = {
 export default ({ kind }: ICrudContainerProps) => {
 
     const [page, setPage] = useState(1);
-    const [items, setItems] = useState(10);
+    const [items] = useState(10);
     const [maxPages, setMaxPages] = useState(1);
     const [focusedId, setFocusedId] = useState(0);
     const [data, setData] = useState<any[]>([]);

@@ -1,6 +1,6 @@
 import styles from "./styles.module.css"
 import NavLink from "./components/NavLink"
-import { INavLink, INavProps } from "./Nav.interfaces"
+import { INavProps } from "./Nav.interfaces"
 
 const Nav = ({links} : INavProps) => {
 

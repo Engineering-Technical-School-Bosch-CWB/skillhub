@@ -1,7 +1,4 @@
-import Input from "@/components/Input"
-
-import styles from './styles.module.css';
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ISelectData } from "@/components/Select/interfaces";
 import { CourseSelectProps } from "./CourseSelect.interfaces";
 import internalAPI from "@/service/internal.services";
@@ -9,10 +6,9 @@ import { toast } from "react-toastify";
 import { ICourse } from "@/interfaces/models/ICourse";
 import Select from "@/components/Select";
 
-export default ({ onChange, defaultValue }: CourseSelectProps) => {
+export default ({ onChange }: CourseSelectProps) => {
 
-    const [inputFocus, setInputFocus] = useState(false);
-    const [inputKey, setInputKey] = useState("");
+    const [inputKey] = useState("");
     const [data, setData] = useState<ISelectData[]>([]);
 
     const getData = async () => {

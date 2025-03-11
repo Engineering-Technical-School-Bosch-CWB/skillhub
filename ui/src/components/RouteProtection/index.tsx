@@ -5,6 +5,6 @@ interface IRouteProtectionProps {
     accessLevel: AccessLevel;
 }
 
-export default ({ accessLevel }:IRouteProtectionProps) => {
+export default ({  }:IRouteProtectionProps) => {
     return <Outlet/>
 }

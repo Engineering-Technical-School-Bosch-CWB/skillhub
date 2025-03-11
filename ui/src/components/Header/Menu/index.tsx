@@ -1,8 +1,6 @@
 import { MouseEventHandler } from "react";
 import styles from "./styles.module.css"
 import Link from "../../Link";
-import authenticatedRoutes from "../../../router/protected/authenticated.routes";
-import teacherRoutes from "../../../router/protected/teacher.routes";
 import { useUserContext } from "../../../contexts/user.context";
 import { Divider } from "@mui/material";
 

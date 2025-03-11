@@ -5,7 +5,7 @@ import getHex from "../../constants/getHex";
 
 import { useEffect, useState } from "react";
 import SectionHeader from "@/components/SectionHeader";
-import { useNavigate, useNavigation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import UpdateProfileModal from "../UserProfile/components/UpdateProfileModal";
 
 const UsersOverview = () => {

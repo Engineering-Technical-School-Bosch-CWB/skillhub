@@ -7,7 +7,6 @@ import TableView from "../../components/TableView";
 import formatDate from "../../constants/formatDate";
 import HistoryModal from "./components/HistoryModal";
 import internalAPI from "../../service/internal.services";
-import ContestmentModal from "./components/ContestmentModal";
 
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -26,7 +25,7 @@ const SubjectResults = () => {
     const navigate = useNavigate();
 
     const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
-    const [isContestmentModalOpen, setIsContestmentModalOpen] = useState(false);
+    // const [isContestmentModalOpen, setIsContestmentModalOpen] = useState(false);
     const [selectedSkill, setSelectedSkill] = useState<number>();
 
     const [subject, setSubject] = useState("");
@@ -65,10 +64,10 @@ const SubjectResults = () => {
         setSelectedSkill(skillId);
     }
 
-    const handleContestmentModal = (isOpen: boolean, skillId: number) => {
-        setIsContestmentModalOpen(isOpen);
-        setSelectedSkill(skillId);
-    }
+    // const handleContestmentModal = (isOpen: boolean, skillId: number) => {
+    //     setIsContestmentModalOpen(isOpen);
+    //     setSelectedSkill(skillId);
+    // }
 
     const options: IOption[] = [
         {
