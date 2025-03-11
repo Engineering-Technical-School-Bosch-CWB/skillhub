@@ -37,7 +37,7 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
             .FirstOrDefaultAsync(u => u.Identification == payload.Identification);
 
         if (exists is not null)
-            throw new AlreadyExistsException("EDV already in use!");
+            throw new AlreadyExistsException($"EDV {payload.Identification} already in use!");
 
         var position = await _positionRepo.Get()
             .Where(p => p.IsActive)

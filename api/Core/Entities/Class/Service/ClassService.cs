@@ -88,8 +88,21 @@ public class ClassService(
         }) ?? throw new UpsertFailException("Class could not be inserted!");
 
         await _repo.SaveAsync();
+        
+        var edvs = payload.Students
+            .Select(s => s.Identification)
+            .ToArray();
+        
+        var repetedEdvs = await _userRepo.GetAllNoTracking()
+            .Where(u => u.IsActive)
+            .Select(u => u.Identification)
+            .Where(edv => edvs.Contains(edv))
+            .ToListAsync();
 
-        var insertedUsers = payload.Students.Select(s =>
+        if (repetedEdvs.Count > 0)
+            throw new AlreadyExistsException($"EDV's {string.Join(", ", repetedEdvs)} already in use!");
+
+        var insertedUsers = payload.Students.Select(s => 
         {
             var user = new User
             {
