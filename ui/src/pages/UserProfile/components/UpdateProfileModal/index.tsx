@@ -211,7 +211,7 @@ export default ({ title, handleClose, open, isCurrentUser, subtitle, byClassId }
             <div className={styles.modal_content}>
                 <section className={`${styles.dual_input} ${styles.input_2_3}`}>
                     <Input label="Name" value={userData.name} onChange={(e) => changeValue("name", e.target.value)} disabled={isUpdatePassword} maxLength={500} />
-                    <Input label="Birth" value={formatDate(userData.birthday)} type="date" dateChange={(e) => changeValue("birthday", e?.format("YYYY-MM-DD"))} disabled={isUpdatePassword} />
+                    <Input label="Birth" max='today' value={formatDate(userData.birthday)} type="date" dateChange={(e) => changeValue("birthday", e?.format("YYYY-MM-DD"))} disabled={isUpdatePassword} />
                 </section>
                 <Input
                     label="Identification"
