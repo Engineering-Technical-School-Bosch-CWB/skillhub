@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Api.Controllers;
 
 [ApiController]
-[Route("api/v1/users")]
+[Route("SkillHub/api/v1/users")]
 public class UserController : ControllerBase
 {
 

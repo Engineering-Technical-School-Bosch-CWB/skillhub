@@ -7,4 +7,4 @@ export const routes = [
     ...protectedRoutes
 ]
 
-export const router = createBrowserRouter(routes)
+export const router = createBrowserRouter(routes, {basename:"/SkillHub/"})

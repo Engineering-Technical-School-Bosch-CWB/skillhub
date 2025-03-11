@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Api.Controllers;
 
 [ApiController]
-[Route("api/v1/feedbacks")]
+[Route("SkillHub/api/v1/feedbacks")]
 public class FeedbackController : ControllerBase
 {
     [HttpGet]

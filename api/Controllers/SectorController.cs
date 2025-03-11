@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Api.Controllers;
 
 [ApiController]
-[Route("api/v1/sectors")]
+[Route("SkillHub/api/v1/sectors")]
 public class SectorController : ControllerBase
 {
     [HttpGet]

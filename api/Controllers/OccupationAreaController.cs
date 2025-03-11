@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace api.Controllers;
 
 [ApiController]
-[Route("api/v1/OccupationArea")]
+[Route("SkillHub/api/v1/OccupationArea")]
 public class OccupationAreaController : ControllerBase
 {
     [HttpGet]

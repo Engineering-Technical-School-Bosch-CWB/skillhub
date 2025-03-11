@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Api.Controllers;
 
 [ApiController]
-[Route("api/v1/positions")]
+[Route("SkillHub/api/v1/positions")]
 public class PositionController : ControllerBase
 {
     private readonly Mapper _mapper;

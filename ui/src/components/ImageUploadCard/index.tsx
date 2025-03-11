@@ -18,7 +18,7 @@ export interface IImageUploadModalProps extends IModalProps{
 
 export default ({handleClose, open, title, userId, userThumb}: IImageUploadModalProps) => {
 
-    const [image, setImage] = useState<string>(userThumb ?? "avatar.png");
+    const [image, setImage] = useState<string>(userThumb ?? "./avatar.png");
     const [file, setFile] = useState<File>();
     const [crop, setCrop] = useState<Point>({x: 0, y: 0});
     const [zoom, setZoom] = useState<number>(1);
