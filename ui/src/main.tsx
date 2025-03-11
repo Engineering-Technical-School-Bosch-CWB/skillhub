@@ -5,7 +5,7 @@ import App from './App.tsx'
 import './hooks/i18n/i18n';
 
 createRoot(document.getElementById('root')!).render(
-    <StrictMode>
+    <StrictMode >
         <App/>
     </StrictMode>
 )

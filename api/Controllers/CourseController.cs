@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Api.Controllers;
 
 [ApiController]
-[Route("api/v1/course")]
+[Route("SkillHub/api/v1/course")]
 public class CourseController : ControllerBase
 {
     [HttpPost]

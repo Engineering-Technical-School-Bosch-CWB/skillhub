@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Api.Controllers;
 
 [ApiController]
-[Route("api/v1/images")]
+[Route("SkillHub/api/v1/images")]
 [IgnoreAuthentication]
 public class ImageController: ControllerBase
 {

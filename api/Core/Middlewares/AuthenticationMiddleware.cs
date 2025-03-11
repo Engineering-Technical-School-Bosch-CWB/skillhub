@@ -14,6 +14,7 @@ public class AuthenticationMiddleware : IMiddleware
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
         var endpoint = context.GetEndpoint();
+        System.Console.WriteLine(context.Request.Path);
         if ( MustSkipAuthetication(endpoint))
         {
             await next.Invoke(context);

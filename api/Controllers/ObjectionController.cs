@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Api.Controllers;
 
 [ApiController]
-[Route("api/v1/objections")]
+[Route("SkillHub/api/v1/objections")]
 public class ObjectionController : ControllerBase
 {
     [HttpPost]
