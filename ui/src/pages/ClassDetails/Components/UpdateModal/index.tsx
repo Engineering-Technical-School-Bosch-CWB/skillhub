@@ -14,12 +14,11 @@ interface IModalProps {
     isOpen: boolean
     handleIsOpen: Function
     _class: IClass
-    setClass: Function,
-    archived: boolean
+    setClass: Function
 }
 
 
-export default ({ isOpen, handleIsOpen, _class, setClass, archived }: IModalProps) => {
+export default ({ isOpen, handleIsOpen, _class, setClass }: IModalProps) => {
 
     const navigate = useNavigate();
 
@@ -119,7 +118,10 @@ export default ({ isOpen, handleIsOpen, _class, setClass, archived }: IModalProp
     }
 
     const handleUnarchive = () => {
+        if (!confirm(`Are you sure you want to UNARCHIVE ${_class.name} - ${_class.startingYear}?`))
+            return
         
+        alert("unimplemented.")
     }
 
     const handleClose = () => {
@@ -149,13 +151,13 @@ export default ({ isOpen, handleIsOpen, _class, setClass, archived }: IModalProp
                                 <span className={`${styles.tooltiptext}`}>Delete this class forever!</span>
                             </div>
                             {
-                                archived &&
+                                _class.isArchived &&
                                 <div className={`${styles.not} ${styles.tooltip}`}>
                                     <Button kind="alert" onClick={handleUnarchive}>Unarchive</Button>
                                 </div>
                             }
                             {
-                                !archived &&
+                                !_class.isArchived &&
                                 <div className={`${styles.not} ${styles.tooltip}`}>
                                     <Button kind="alert" onClick={handleArchive}>Archive</Button>
                                     <span className={`${styles.tooltiptext}`} style={{ width: "180px" }}>Archive finished class!</span>

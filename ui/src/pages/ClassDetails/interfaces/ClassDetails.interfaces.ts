@@ -5,6 +5,7 @@ export interface IClass {
     startingYear: number
     durationPeriods?: number
     courseId: number
+    isArchived: boolean
 }
 
 export interface IUpdateModalProps {
