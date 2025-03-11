@@ -35,6 +35,16 @@ const InputDate = forwardRef<HTMLInputElement, IInputDateProps>(
             return res;
         }
 
+        const getMaxDate = (max: string | number | undefined): Dayjs | undefined => {
+            if (!max)
+                return undefined;
+            
+            if (max == 'today')
+                return dayjs();
+            
+            return dayjs(max)
+        }
+
         return (
             <InputContainer
                 error={error}
@@ -48,6 +58,7 @@ const InputDate = forwardRef<HTMLInputElement, IInputDateProps>(
                     error={error}
                     ref={ref}
                     format="DD/MM/YYYY"
+                    maxDate={getMaxDate(props.max)}
                     slotProps={{
                         textField: {
                             required: props.required,

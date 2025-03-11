@@ -35,7 +35,6 @@ public class UserController : ControllerBase
         int id
     )
     {
-        System.Console.WriteLine(id);
         var result = await service.CreateUserByClass(payload, id);
         return Ok(result);
     }
