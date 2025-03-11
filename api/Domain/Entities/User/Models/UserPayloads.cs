@@ -14,6 +14,8 @@ public class UserCreatePayload
     [Required]
     public required int OccupationAreaId { get; set; }
 
+    public DateOnly? Birthday { get; set; }
+
     [Required]
     [StringLength(500)]
     public required string Name { get; set; }
