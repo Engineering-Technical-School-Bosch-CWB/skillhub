@@ -206,29 +206,6 @@ const SubjectDetails = () => {
 
                 </section>
 
-                <Divider size="big" />
-
-                <section>
-                    <div className={`${styles.section_header}`}>
-                        <Text fontSize="xl2" fontWeight="bold" >
-                            Subject Goals
-                        </Text>
-                        <Button className={`${styles.addBtn} ${styles.align}`} >
-                            <Icon name="add" size="md" />
-                        </Button>
-                    </div>
-                    {/* <TableView
-                        data={
-                            subject.objectives!.map((e) => {
-                                return {
-                                    desbription: e.identification
-                                }
-                            })
-                        }
-                        hasNotation={true}
-                        hasOptions={false}
-                    /> */}
-                </section>
                 {
                     feedbackModalProps.student &&
                     <FeedbackModal
@@ -246,6 +223,7 @@ const SubjectDetails = () => {
                         }}
                     />
                 }
+                
                 {
                     subject &&
                     <UpdateModal
