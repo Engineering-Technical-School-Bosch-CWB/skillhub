@@ -1,5 +1,5 @@
-import { ChangeEvent, useEffect, useState } from "react";
-import { ISelectData, ISelectProps } from "./interfaces"
+import { ChangeEvent } from "react";
+import { ISelectProps } from "./interfaces"
 
 import styles from "./styles.module.css"
 

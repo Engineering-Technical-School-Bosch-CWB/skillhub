@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useRef, useState } from "react"
 import Modal, { IModalProps } from "../Modal"
 import styles from "./styles.module.css"
 import internalAPI from "@/service/internal.services";

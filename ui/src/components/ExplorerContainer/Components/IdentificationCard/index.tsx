@@ -1,7 +1,6 @@
 import { forwardRef } from "react";
 import styles from "./styles.module.css"
 import Text from "../../../../typography";
-import Icon from "../../../Icon";
 import IIdentificationCardProps from "./interfaces";
 import { Link } from "react-router-dom";
 

@@ -1,4 +1,3 @@
-import { ICurricularUnit } from "./ICurricularUnit";
 import IEntity from "./IEntity";
 
 export interface ISubject extends IEntity {

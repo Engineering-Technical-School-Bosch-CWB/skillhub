@@ -13,10 +13,10 @@ export interface ISelectCompetenceProps {
     onClick?: () => void,
 }
 
-export default ({ value, change, selected, selectOpened, setSelectOpened, onClick }: ISelectCompetenceProps) => {
+export default ({ value, change, selected, selectOpened, setSelectOpened }: ISelectCompetenceProps) => {
 
     const [selectCursor, setSelectCursor] = useState<number>(0);
-    const [aptitudes, setAptitudes] = useState<EAptitude[]>(Object.values(EAptitude));
+    const [aptitudes] = useState<EAptitude[]>(Object.values(EAptitude));
     const [avaliableAptitudes, setAvaliableAptitudes] = useState<EAptitude[]>([])
     const divRef = useRef<HTMLDivElement>(null);
 

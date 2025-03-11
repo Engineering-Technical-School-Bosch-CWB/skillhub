@@ -13,7 +13,7 @@ export default forwardRef<HTMLImageElement, IStudentCardProps>(
         size = "medium",
         goTo,
         ...props
-    }, ref) => (
+    }) => (
         <Link
             className={`${styles[size]} ${styles.student_card}`}
             to={`${goTo}`}

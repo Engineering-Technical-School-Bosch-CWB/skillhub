@@ -1,4 +1,3 @@
-import { toast } from "react-toastify";
 import { IHttpMethod, IServiceResponse } from "../interfaces/services.interfaces";
 
 export default class Service {
@@ -49,7 +48,7 @@ export default class Service {
         }
     }
 
-    public async fileRequest<T = any>(
+    public async fileRequest(
         url: string,
         method: IHttpMethod,
         body?: any,

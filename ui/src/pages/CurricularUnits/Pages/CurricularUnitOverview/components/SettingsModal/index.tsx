@@ -16,7 +16,6 @@ import styles from "./styles.module.css"
 import ButtonGroup from "@/components/ButtonGroup"
 import { IState } from "@/interfaces/IState.interface"
 import toastifyUpdate from "@/constants/toastfyUpdate"
-import { SubjectArea } from "@/interfaces/models/ISubjectArea"
 
 export default ({ handleClose, open, data, ucState }: ISettingsModalProps) => {
 

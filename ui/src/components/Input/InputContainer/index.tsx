@@ -1,6 +1,5 @@
 import { ReactNode } from "react"
 import styles from "../styles.module.css"
-import { width } from "@mui/system"
 
 export interface IInputContainerProps {
     label?: string

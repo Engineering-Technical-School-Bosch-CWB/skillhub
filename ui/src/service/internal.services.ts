@@ -1,6 +1,7 @@
 import Service from ".";
-import { Connections } from "../constants/connections";
+import { EConnections } from "../constants/connections";
 
-const internalAPI = new Service(Connections.InternalAPI)
+const isProd = process.env.REACT_APP_SKILLHUB_PROD;
+const internalAPI = new Service(isProd ? EConnections.ProdApi : EConnections.InternalAPI  )
 
 export default internalAPI

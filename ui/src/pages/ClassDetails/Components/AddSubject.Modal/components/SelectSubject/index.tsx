@@ -1,6 +1,5 @@
 import Input from "@/components/Input"
 import InputSelect, { InputSelectProps } from "@/components/InputSelect"
-import { ISubject } from "@/interfaces/models/ISubject"
 import { useEffect, useState } from "react"
 
 import styles from "./styles.module.css";
@@ -25,8 +24,8 @@ export default ({onChange, def, onDelete}: ISelectSubjectProps) => {
     })
 
     const [filter, setFilter] = useState("")
-    const [page, setPage] = useState(1);
-    const [limit, setLimit] = useState(0);
+    const [page] = useState(1);
+    const [limit] = useState(0);
 
     const loadData = async () => {
         const response = await internalAPI.jsonRequest(`/curricularUnits?page=${page}&items=${limit}&query=${filter}`, "GET")

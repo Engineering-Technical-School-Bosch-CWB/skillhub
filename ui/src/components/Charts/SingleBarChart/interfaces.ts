@@ -1,4 +1,3 @@
-import { UserSerie } from "react-charts";
 
 export interface IXAxisProps {
     angle?: number,
@@ -8,7 +7,7 @@ export interface IXAxisProps {
 }
 
 export interface IChartStyleProps {
-    width?: zz,
+    width?: number,
     height?: number,
 }
 
@@ -18,7 +17,7 @@ export interface IBarStyleProps {
 }
 
 export interface IBarChartProps {
-    data: UserSerie<any>[],
+    data: any[],
     xAxis: string,
     yAxis: string,
     onBarClick?: (...props: any[]) => void,

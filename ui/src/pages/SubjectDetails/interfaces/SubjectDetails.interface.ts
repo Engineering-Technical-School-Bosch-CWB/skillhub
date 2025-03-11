@@ -44,13 +44,6 @@ export interface IStudentResults {
     }[]
 }
 
-interface Competence {
-    competenceId: number,
-    weight: number,
-    efficacy: number,
-    description: string
-}
-
 interface CompetenceResult {
     competenceId: number,
     aptitude: EAptitude
