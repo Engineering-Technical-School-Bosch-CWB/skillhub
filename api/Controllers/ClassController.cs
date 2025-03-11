@@ -49,12 +49,24 @@ public class ClassController : ControllerBase
     [HttpPatch]
     [Route("archive/{id}")]
     public async Task<ActionResult> ArchiveClass(
-        [FromServices] IClassService service, [FromServices] IPermissionService permissionService, int id, bool? archive
+        [FromServices] IClassService service, [FromServices] IPermissionService permissionService, int id
     )
     {
         permissionService.ValidateAdmPermission();
 
-        await service.ArchiveClass(id, archive ?? true);
+        await service.ArchiveClass(id);
+        return NoContent();
+    }
+
+    [HttpPatch]
+    [Route("unarchive/{id}")]
+    public async Task<ActionResult> UnarchiveClass(
+        [FromServices] IClassService service, [FromServices] IPermissionService permissionService, int id
+    )
+    {
+        permissionService.ValidateAdmPermission();
+
+        await service.UnarchiveClass(id);
         return NoContent();
     }
 

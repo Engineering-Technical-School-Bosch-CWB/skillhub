@@ -122,7 +122,7 @@ export default ({ isOpen, handleIsOpen, _class, setClass }: IModalProps) => {
             return
         
         const apiRequest = async () => 
-            await internalAPI.jsonRequest(`/classes/archive/${classId}?archive=false`, "PATCH");
+            await internalAPI.jsonRequest(`/classes/unarchive/${classId}`, "PATCH");
 
         const message = toast.loading("Unarchiving class...");
         apiRequest().then(() => {
