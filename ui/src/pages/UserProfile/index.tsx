@@ -192,7 +192,7 @@ const UserProfile = () => {
                     <div className={`${styles.gap}`}>
                         <div>
                             <Avatar 
-                                src={userData?.profilePicture?.mUrl || "./avatar.png"} 
+                                src={userData?.profilePicture?.mUrl || "https://ctp-ets.br.bosch.com/SkillHub/avatar.png"} 
                                 size="xl" 
                                 onEditClick={() => setEditImageModal(true)} 
                             />
@@ -366,7 +366,7 @@ const UserProfile = () => {
                     handleClose={() => setEditImageModal(false)} 
                     open={editImageModal} 
                     title="Profile Image" 
-                    userThumb={userData?.profilePicture?.gUrl ?? "./avatar.png"}
+                    userThumb={userData?.profilePicture?.gUrl ?? "https://ctp-ets.br.bosch.com/SkillHub/avatar.png"}
                 /> 
             }
         </>
