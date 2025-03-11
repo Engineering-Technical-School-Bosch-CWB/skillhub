@@ -214,10 +214,16 @@ public class ClassService(
         );
     }
 
-    public async Task ArchiveClass(int id, bool archive)
+    public async Task ArchiveClass(int id)
+        => await UpdateArchiveState(id, true);
+
+    public async Task UnarchiveClass(int id)
+        => await UpdateArchiveState(id, false);
+
+    async Task UpdateArchiveState(int id, bool archive)
     {
         var _class = await _repo.Get()
-            .Where(c => c.IsActive && !c.IsArchived)
+            .Where(c => c.IsActive && c.IsArchived != archive)
             .Include(c => c.Students)
                 .ThenInclude(s => s.User)
             .SingleOrDefaultAsync(c => c.Id == id)

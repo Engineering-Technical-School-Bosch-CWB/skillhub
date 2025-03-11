@@ -117,6 +117,33 @@ export default ({ isOpen, handleIsOpen, _class, setClass }: IModalProps) => {
         })
     }
 
+    const handleUnarchive = () => {
+        if (!confirm(`Are you sure you want to UNARCHIVE ${_class.name} - ${_class.startingYear}?`))
+            return
+        
+        const apiRequest = async () => 
+            await internalAPI.jsonRequest(`/classes/unarchive/${classId}`, "PATCH");
+
+        const message = toast.loading("Unarchiving class...");
+        apiRequest().then(() => {
+            toast.update(message, {
+                ...toastifyUpdate,
+                render: `${_class.name + " - " + _class.startingYear} unachived successfully!`,
+                type: "success"
+            });
+
+            navigate(`/classes`);
+        }).catch(err => {
+            toast.update(message, {
+                ...toastifyUpdate,
+                render: err.message || `Unable to unarchive ${_class.name + " - " + _class.startingYear}`,
+                type: "error"
+            });
+
+            handleClose();
+        })
+    }
+
     const handleClose = () => {
         handleIsOpen();
     }
@@ -143,10 +170,19 @@ export default ({ isOpen, handleIsOpen, _class, setClass }: IModalProps) => {
                                 <Button kind="danger" onClick={handleDelete}>Delete</Button>
                                 <span className={`${styles.tooltiptext}`}>Delete this class forever!</span>
                             </div>
-                            <div className={`${styles.not} ${styles.tooltip}`}>
-                                <Button kind="alert" onClick={handleArchive}>Archive</Button>
-                                <span className={`${styles.tooltiptext}`} style={{ width: "180px" }}>Archive finished class!</span>
-                            </div>
+                            {
+                                _class.isArchived &&
+                                <div className={`${styles.not} ${styles.tooltip}`}>
+                                    <Button kind="alert" onClick={handleUnarchive}>Unarchive</Button>
+                                </div>
+                            }
+                            {
+                                !_class.isArchived &&
+                                <div className={`${styles.not} ${styles.tooltip}`}>
+                                    <Button kind="alert" onClick={handleArchive}>Archive</Button>
+                                    <span className={`${styles.tooltiptext}`} style={{ width: "180px" }}>Archive finished class!</span>
+                                </div>
+                            }
                         </div>
                         <Button onClick={handleClose}>Cancel</Button>
                         <Button variant="contained" onClick={handleSubmit}>Confirm</Button>
