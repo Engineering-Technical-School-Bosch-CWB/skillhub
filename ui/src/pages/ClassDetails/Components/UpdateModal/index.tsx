@@ -121,7 +121,27 @@ export default ({ isOpen, handleIsOpen, _class, setClass }: IModalProps) => {
         if (!confirm(`Are you sure you want to UNARCHIVE ${_class.name} - ${_class.startingYear}?`))
             return
         
-        alert("unimplemented.")
+        const apiRequest = async () => 
+            await internalAPI.jsonRequest(`/classes/archive/${classId}?archive=false`, "PATCH");
+
+        const message = toast.loading("Unarchiving class...");
+        apiRequest().then(() => {
+            toast.update(message, {
+                ...toastifyUpdate,
+                render: `${_class.name + " - " + _class.startingYear} unachived successfully!`,
+                type: "success"
+            });
+
+            navigate(`/classes`);
+        }).catch(err => {
+            toast.update(message, {
+                ...toastifyUpdate,
+                render: err.message || `Unable to unarchive ${_class.name + " - " + _class.startingYear}`,
+                type: "error"
+            });
+
+            handleClose();
+        })
     }
 
     const handleClose = () => {
