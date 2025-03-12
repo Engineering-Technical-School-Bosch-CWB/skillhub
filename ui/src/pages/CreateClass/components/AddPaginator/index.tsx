@@ -8,9 +8,9 @@ import StudentIndex from "./components/StudentIndex"
 import SubjectsIndex from "./components/SubjectsIndex"
 
 import { useState } from "react"
-import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
 import { IAddClassPageProps } from "./interfaces/AddClassPage.interface"
+import { toast } from "@/components/Toast";
 
 export default ({ data, index, setIndex, setClass, setStudents, setSubjects }: IAddClassPageProps) => {
 
@@ -29,12 +29,17 @@ export default ({ data, index, setIndex, setClass, setStudents, setSubjects }: I
         const response = await internalAPI.jsonRequest("/classes", "POST", undefined, { ...data, courseId: data.course?.id })
 
         if (!response.success) {
-            if (!toast.isActive("create-class-error"))
-                toast.error("Error on create class.", { toastId: "create-class-error" });
+            toast({
+                data: {
+                    title: "Error on create class",
+                    message: response.message,
+                    kind: "error"
+                }, 
+                toastId: "create-class-error"
+            })
+            return;
         }
         const content = response.data;
-
-        console.log(content)
 
         navigate(`/classes/${content.id}`)
     }

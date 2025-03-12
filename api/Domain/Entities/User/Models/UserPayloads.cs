@@ -1,6 +1,4 @@
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using Newtonsoft.Json.Serialization;
 
 namespace Api.Domain.Models;
 public class UserCreatePayload
@@ -17,11 +15,11 @@ public class UserCreatePayload
     public DateOnly? Birthday { get; set; }
 
     [Required]
-    [StringLength(500)]
+    [StringLength(60, MinimumLength = 5)]
     public required string Name { get; set; }
 
     [Required]
-    [StringLength(100)]
+    [StringLength(8, MinimumLength = 8)]
     public required string Identification { get; set; }
 }
 
@@ -32,18 +30,18 @@ public class UserUpdatePayload
     public int? PositionId { get; set; }
 
     public int? OccupationAreaId { get; set; }
-
+  
     public int? ClassId { get; set; }
 
-    [StringLength(500)]
+    [StringLength(60, MinimumLength = 5)]
     public string? Name { get; set; }
 
-    [StringLength(100)]
+    [StringLength(8, MinimumLength = 8)]
     public string? Identification { get; set; }
 
     public DateOnly? Birthday { get; set; }
 
-    [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$", ErrorMessage = "Password is not valid")]
+    [RegularExpression(@"(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9!@#$%&*()_+\-=]{8,}$", ErrorMessage = "Password is not valid")]
     public string? Password { get; set; }
 
     [StringLength(255)]

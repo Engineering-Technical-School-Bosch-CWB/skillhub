@@ -86,10 +86,21 @@ public class ClassService(
             StartingYear = payload.Class.StartingYear,
             DurationPeriods = payload.Class.DurationPeriods
         }) ?? throw new UpsertFailException("Class could not be inserted!");
+        
+        var edvs = payload.Students
+            .Select(s => s.Identification)
+            .ToArray();
+        
+        var repetedEdvs = await _userRepo.GetAllNoTracking()
+            .Where(u => u.IsActive)
+            .Select(u => u.Identification)
+            .Where(edv => edvs.Contains(edv))
+            .ToListAsync();
 
-        await _repo.SaveAsync();
+        if (repetedEdvs.Count > 0)
+            throw new AlreadyExistsException($"EDV's {string.Join(", ", repetedEdvs)} already in use!");
 
-        var insertedUsers = payload.Students.Select(s =>
+        var insertedUsers = payload.Students.Select(s => 
         {
             var user = new User
             {
@@ -104,8 +115,6 @@ public class ClassService(
 
             return _userRepo.Add(user);
         }).ToList();
-
-        await _userRepo.SaveAsync();
 
         var subjects = curricularUnits.Select(uc =>
         {
@@ -122,22 +131,17 @@ public class ClassService(
             return _subjectRepo.Add(subject);
         }).ToList();
 
-        await _subjectRepo.SaveAsync();
-
         var students = insertedUsers.Select(u =>
-        {
-            var student = new Student
-            {
+            _studentRepo.Add(new Student {
                 Class = createdClass,
                 User = u,
-            };
-            return _studentRepo.Add(student);
-        }).ToList();
-
-        await _studentRepo.SaveAsync();
+            })
+        ).ToList();
 
         createdClass.Subjects = subjects;
         createdClass.Students = students;
+
+        await _repo.SaveAsync();
 
         return new AppResponse<ClassDTO>(
             ClassDTO.Map(createdClass),
