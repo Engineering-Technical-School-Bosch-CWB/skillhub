@@ -86,8 +86,6 @@ public class ClassService(
             StartingYear = payload.Class.StartingYear,
             DurationPeriods = payload.Class.DurationPeriods
         }) ?? throw new UpsertFailException("Class could not be inserted!");
-
-        await _repo.SaveAsync();
         
         var edvs = payload.Students
             .Select(s => s.Identification)
@@ -118,8 +116,6 @@ public class ClassService(
             return _userRepo.Add(user);
         }).ToList();
 
-        await _userRepo.SaveAsync();
-
         var subjects = curricularUnits.Select(uc =>
         {
             var subject = new Subject
@@ -135,8 +131,6 @@ public class ClassService(
             return _subjectRepo.Add(subject);
         }).ToList();
 
-        await _subjectRepo.SaveAsync();
-
         var students = insertedUsers.Select(u =>
         {
             var student = new Student
@@ -147,10 +141,10 @@ public class ClassService(
             return _studentRepo.Add(student);
         }).ToList();
 
-        await _studentRepo.SaveAsync();
-
         createdClass.Subjects = subjects;
         createdClass.Students = students;
+
+        await _repo.SaveAsync();
 
         return new AppResponse<ClassDTO>(
             ClassDTO.Map(createdClass),

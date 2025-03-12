@@ -1,6 +1,4 @@
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using Newtonsoft.Json.Serialization;
 
 namespace Api.Domain.Models;
 public class UserCreatePayload
