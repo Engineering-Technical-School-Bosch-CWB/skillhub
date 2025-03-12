@@ -134,7 +134,7 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
         );
     }
 
-    public async Task<AppResponse<UserDTO>> UpdateUser(int id, UserUpdatePayload payload)
+    public async Task<AppResponse<UserDTO>> UpdateUser(int id, UserUpdatePayload payload, UserContext userContext)
     {
         var user = await _repo.Get()
             .Include(u => u.Position)
@@ -146,6 +146,8 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
 
         if (payload.ClassId is not null) 
         {
+            if(userContext.PermissionLevel < EPermissionLevel.Admin)
+                throw new UnauthorizedAccessException("User can't be modify class");
             var _student = await _studentRepo.Get()
                 .Where(s => s.IsActive)
                 .Include(s => s.Class)
@@ -171,6 +173,8 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
 
         if (!string.IsNullOrEmpty(payload.Identification))
         {
+            if(userContext.PermissionLevel < EPermissionLevel.Admin)
+                throw new UnauthorizedAccessException("User can't be modify class");
             var exists = await _repo.Get()
                 .AnyAsync(u => u.Identification == payload.Identification);
 
@@ -188,6 +192,8 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
 
         if (payload.SectorId is not null)
         {
+            if(userContext.PermissionLevel < EPermissionLevel.Admin)
+                throw new UnauthorizedAccessException("User can't be modify sector");
             var sector = await _sectorRepo.Get()
                 .SingleOrDefaultAsync(u => u.Id == payload.SectorId)
                 ?? throw new NotFoundException("Sector not found!");
@@ -205,6 +211,8 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
 
         if (payload.OccupationAreaId is not null)
         {
+            if(userContext.PermissionLevel < EPermissionLevel.Admin)
+                throw new UnauthorizedAccessException("User can't be modify occupation area");
             var area = await _areaRepo.Get()
                 .SingleOrDefaultAsync(u => u.Id == payload.OccupationAreaId)
                 ?? throw new NotFoundException("Area not found!");

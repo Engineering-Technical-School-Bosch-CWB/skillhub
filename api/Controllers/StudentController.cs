@@ -1,5 +1,6 @@
 using Api.Core.Errors;
 using Api.Core.Services;
+using Api.Domain.Attributes;
 using Api.Domain.Enums;
 using Api.Domain.Models;
 using Api.Domain.Services;
@@ -26,6 +27,7 @@ public class StudentController : ControllerBase
 
     [HttpGet]
     [Route("results")]
+    [StudentCanBeAccess]
     public async Task<ActionResult> GetResultsPage(
         [FromServices] IStudentService service,
         UserContext userContext, [FromQuery] string? query
@@ -40,6 +42,7 @@ public class StudentController : ControllerBase
 
     [HttpGet]
     [Route("results/{subjectId}")]
+    [StudentCanBeAccess]
     public async Task<ActionResult> GetSubjectResultsPage(
         [FromServices] IStudentService service,
         UserContext userContext, int subjectId
@@ -51,17 +54,4 @@ public class StudentController : ControllerBase
         var result = await service.GetSubjectResultsPage(student.Id, subjectId);
         return Ok(result);
     }
-
-    // [HttpGet]
-    // [Route("{id}")]
-    // public async Task<ActionResult> GetInstructorPage(
-    //     [FromServices] IStudentService service, UserContext userContext, int id
-    // )
-    // {
-    //      if (userContext.PermissionLevel != EPermissionLevel.Admin)
-    //         throw new ForbiddenAccessException("User don't have permission to this service!");
-
-    //         var result = await service.GetInstructorPage(id);
-    //         return Ok(result);
-    // }
 }

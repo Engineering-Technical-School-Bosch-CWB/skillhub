@@ -1,20 +1,19 @@
-using System.Reflection;
+using Api.Core.Errors;
 using Api.Core.Services;
 using Api.Domain.Attributes;
+using Api.Domain.Services;
 
 namespace Api.Core.Middlewares;
 
-public class AuthenticationMiddleware : IMiddleware
+public class AuthenticationMiddleware (JwtService jwtService, IPermissionService permissionService) : IMiddleware
 {
-    private readonly JwtService _jwtService;
-
-    public AuthenticationMiddleware(JwtService jwtService)
-        => _jwtService = jwtService;
+    private readonly JwtService _jwtService = jwtService;
+    private readonly IPermissionService _permissionService = permissionService;
 
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
         var endpoint = context.GetEndpoint();
-        System.Console.WriteLine(context.Request.Path);
+        
         if ( MustSkipAuthetication(endpoint))
         {
             await next.Invoke(context);
@@ -38,6 +37,9 @@ public class AuthenticationMiddleware : IMiddleware
             return;
         }
 
+        // if(!EndpointCanBeAccessed(endpoint))
+        //     throw new ForbiddenAccessException("User don't have permission to this service!");
+
         await next.Invoke(context);
     }
 
@@ -49,6 +51,19 @@ public class AuthenticationMiddleware : IMiddleware
         var attribute = endpoint.Metadata.GetMetadata<IgnoreAuthenticationAttribute>();
         return attribute is not null;
     }
+
+    private bool EndpointCanBeAccessed(Endpoint? endpoint)
+    {
+        if (endpoint is null)
+            return false;
+
+        var attribute = endpoint.Metadata.GetMetadata<StudentCanBeAccessAttribute>();
+        if(attribute is null)
+            _permissionService.ValidateAdmPermission();
+
+        return true;
+    }
+
     private bool TryGetBearerToken(string auth, out string? token)
     {
         if (auth is not null)
