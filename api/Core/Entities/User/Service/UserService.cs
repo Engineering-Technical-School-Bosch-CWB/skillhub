@@ -134,7 +134,7 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
         );
     }
 
-    public async Task<AppResponse<UserDTO>> UpdateUser(int id, UserUpdatePayload payload)
+    public async Task<AppResponse<UserDTO>> UpdateUser(int id, UserUpdatePayload payload, UserContext userContext)
     {
         var user = await _repo.Get()
             .Include(u => u.Position)
@@ -144,8 +144,37 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
             .SingleOrDefaultAsync(u => u.Id == id)
             ?? throw new NotFoundException("User not found!");
 
+        if (payload.ClassId is not null) 
+        {
+            if(userContext.PermissionLevel < EPermissionLevel.Admin)
+                throw new UnauthorizedAccessException("User can't be modify class");
+            var _student = await _studentRepo.Get()
+                .Where(s => s.IsActive)
+                .Include(s => s.Class)
+                .SingleOrDefaultAsync(s => s.User.Id == id);
+
+            var _class = await _classRepo.Get()
+                .Where(c => c.IsActive)
+                .FirstOrDefaultAsync(c => c.Id == payload.ClassId)
+                    ?? throw new NotFoundException("Class not found!");
+
+            if (_student is null)
+            {
+                _student = new(){
+                    Class = _class,
+                    User = user,
+                };
+                _studentRepo.Add(_student);
+            } else {
+                _student.Class = _class;
+                _studentRepo.Update(_student);
+            }
+        }
+
         if (!string.IsNullOrEmpty(payload.Identification))
         {
+            if(userContext.PermissionLevel < EPermissionLevel.Admin)
+                throw new UnauthorizedAccessException("User can't be modify class");
             var exists = await _repo.Get()
                 .AnyAsync(u => u.Identification == payload.Identification);
 
@@ -163,6 +192,8 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
 
         if (payload.SectorId is not null)
         {
+            if(userContext.PermissionLevel < EPermissionLevel.Admin)
+                throw new UnauthorizedAccessException("User can't be modify sector");
             var sector = await _sectorRepo.Get()
                 .SingleOrDefaultAsync(u => u.Id == payload.SectorId)
                 ?? throw new NotFoundException("Sector not found!");
@@ -180,6 +211,8 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
 
         if (payload.OccupationAreaId is not null)
         {
+            if(userContext.PermissionLevel < EPermissionLevel.Admin)
+                throw new UnauthorizedAccessException("User can't be modify occupation area");
             var area = await _areaRepo.Get()
                 .SingleOrDefaultAsync(u => u.Id == payload.OccupationAreaId)
                 ?? throw new NotFoundException("Area not found!");

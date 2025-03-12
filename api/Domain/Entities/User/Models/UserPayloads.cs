@@ -30,6 +30,8 @@ public class UserUpdatePayload
     public int? PositionId { get; set; }
 
     public int? OccupationAreaId { get; set; }
+  
+    public int? ClassId { get; set; }
 
     [StringLength(60, MinimumLength = 5)]
     public string? Name { get; set; }

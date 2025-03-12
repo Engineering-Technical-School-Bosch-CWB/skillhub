@@ -38,7 +38,7 @@ const BoschLogo = forwardRef<HTMLImageElement, IBoschLogoProps>(
         <img 
             ref={ref}
             alt="Bosch Logo"
-            src="./bosch_logo.png"
+            src="https://ctp-ets.br.bosch.com/SkillHub/bosch_logo.png"
             className={`${styles[size]} ${className ? className : ""}`}
             {...props}
         />
