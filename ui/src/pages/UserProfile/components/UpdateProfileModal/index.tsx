@@ -17,6 +17,7 @@ import { IServiceResponse } from "@/interfaces/services.interfaces";
 import { confirmDialog } from "@/components/ConfirmDialog";
 import PasswordRequisites from "../../../../components/PasswordRequisites";
 import { toast } from "@/components/Toast";
+import { IClass } from "@/interfaces/models/IClass";
 
 export interface IUpdateProfileModalProps extends IModalProps {
     id?: number,
@@ -34,6 +35,7 @@ export default ({ title, handleClose, open, isCurrentUser, subtitle, byClassId }
     const [selectArea, setSelectArea] = useState<ISelectData[]>([]);
     const [selectPosition, setSelectPosition] = useState<ISelectData[]>([]);
     const [selectSector, setSelectSector] = useState<ISelectData[]>([]);
+    const [selectClass, setSelectClass] = useState<ISelectData[]>([]);
     const [userData, setUserData] = useState<IUser>(User.getDefault());
     const [updatedData, setUpdatedData] = useState<IUser>({})
 
@@ -145,6 +147,25 @@ export default ({ title, handleClose, open, isCurrentUser, subtitle, byClassId }
             }
         }))
     }
+    const loadClasses = async () => {
+        let response = await internalAPI.jsonRequest("/classes", "GET");
+        if(!response||!response.success)
+            toast({
+                data: {
+                    title: "Error on load classes",
+                    kind: "error"
+                },
+                toastId: "positions-load-error"});
+        let data = response.data as IClass[];
+
+        setSelectClass(data.map((_class) => {
+            return {
+                key: `${_class.name} (${_class.abbreviation})`,
+                value: _class.id,
+                selected: userData.studentProfile?.classId == _class.id
+            }
+        }))
+    }
     const loadPositions = async () => {
         let response = await internalAPI.jsonRequest("/positions","GET");
         if(!response||!response.success)
@@ -203,6 +224,7 @@ export default ({ title, handleClose, open, isCurrentUser, subtitle, byClassId }
             loadSectors();
             loadPositions();
             loadOccupationArea();
+            loadClasses();
         }
     }, [userData])
 
@@ -228,6 +250,13 @@ export default ({ title, handleClose, open, isCurrentUser, subtitle, byClassId }
                             <Select data={selectArea} label="Área" disabled={isUpdatePassword} onChange={(e) => changeValue("occupationAreaId", e.target.value)} />
                         </section> :
                         <Input value={`${userData.position?.name} - ${userData.sector?.name}`} disabled />
+                }
+                {
+                    (logedUser?.id != userData.id) && id && logedUser?.permissionLevel && logedUser?.permissionLevel > 1 &&
+                    <>
+                        <Select data={selectClass} onChange={(e) => changeValue("classId", e.target.value)} /> 
+                    </>
+
                 }
                 {
                     (logedUser?.id && logedUser?.id == userData.id) &&

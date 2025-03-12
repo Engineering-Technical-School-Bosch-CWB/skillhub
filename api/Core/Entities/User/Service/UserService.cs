@@ -144,6 +144,31 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
             .SingleOrDefaultAsync(u => u.Id == id)
             ?? throw new NotFoundException("User not found!");
 
+        if (payload.ClassId is not null) 
+        {
+            var _student = await _studentRepo.Get()
+                .Where(s => s.IsActive)
+                .Include(s => s.Class)
+                .SingleOrDefaultAsync(s => s.User.Id == id);
+
+            var _class = await _classRepo.Get()
+                .Where(c => c.IsActive)
+                .FirstOrDefaultAsync(c => c.Id == payload.ClassId)
+                    ?? throw new NotFoundException("Class not found!");
+
+            if (_student is null)
+            {
+                _student = new(){
+                    Class = _class,
+                    User = user,
+                };
+                _studentRepo.Add(_student);
+            } else {
+                _student.Class = _class;
+                _studentRepo.Update(_student);
+            }
+        }
+
         if (!string.IsNullOrEmpty(payload.Identification))
         {
             var exists = await _repo.Get()
