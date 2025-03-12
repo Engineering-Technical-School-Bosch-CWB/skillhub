@@ -30,7 +30,8 @@ export default ({ data, index, setIndex, setClass, setStudents, setSubjects }: I
 
         if (!response.success) {
             if (!toast.isActive("create-class-error"))
-                toast.error("Error on create class.", { toastId: "create-class-error" });
+                toast.error("Error on create class:" + response.message, { toastId: "create-class-error" });
+            return;
         }
         const content = response.data;
 
