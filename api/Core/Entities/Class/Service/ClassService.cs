@@ -132,14 +132,11 @@ public class ClassService(
         }).ToList();
 
         var students = insertedUsers.Select(u =>
-        {
-            var student = new Student
-            {
+            _studentRepo.Add(new Student {
                 Class = createdClass,
                 User = u,
-            };
-            return _studentRepo.Add(student);
-        }).ToList();
+            })
+        ).ToList();
 
         createdClass.Subjects = subjects;
         createdClass.Students = students;
