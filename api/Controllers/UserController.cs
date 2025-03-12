@@ -1,5 +1,6 @@
 using Api.Core.Errors;
 using Api.Core.Services;
+using Api.Domain.Attributes;
 using Api.Domain.Enums;
 using Api.Domain.Models;
 using Api.Domain.Repositories;
@@ -76,12 +77,14 @@ public class UserController : ControllerBase
 
     [HttpPatch]
     [Route("{id}")]
+    [StudentCanBeAccess]
     public async Task<ActionResult> UpdateUser(
         [FromServices] IUserService service,
+        [FromServices] UserContext userContext,
         [FromBody] UserUpdatePayload payload, int id
     )
     {
-        var result = await service.UpdateUser(id, payload);
+        var result = await service.UpdateUser(id, payload, userContext);
         return Ok(result);
     }
 
@@ -99,6 +102,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet]
+    [StudentCanBeAccess]
     public async Task<IActionResult> GetUser(
         [FromServices] IUserService service, UserContext userContext,
         [FromQuery] int? id
@@ -111,11 +115,13 @@ public class UserController : ControllerBase
     [HttpGet]
     [Route("paginated")]
     public async Task<ActionResult> GetPaginatedUsers(
+        [FromServices] PermissionService permissionService,
         [FromServices] IUserService service, [FromQuery] PaginationQuery pagination,
         [FromQuery] string? query, [FromQuery] short? birthMonth,
         [FromQuery] int? positionId, [FromQuery] int? classId
     )
     {
+        permissionService.ValidateAdmPermission();
         var result = await service.GetPaginatedUsers(pagination, query, birthMonth, positionId, classId);
         return Ok(result);
     }

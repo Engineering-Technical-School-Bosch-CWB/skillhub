@@ -25,7 +25,6 @@ public class JwtService : IJwtService
         _userContext = userContext;
 
         _securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(settings.SecretKey));
-
         _credentials = new SigningCredentials(_securityKey, SecurityAlgorithms.HmacSha512);
     }
 
