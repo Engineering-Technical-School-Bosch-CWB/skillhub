@@ -1,6 +1,6 @@
 import formatDate from "../../constants/formatDate"
 import styles from "./styles.module.css"
-import getHex from "../../constants/getHex"
+import getColor from "../../constants/getHex"
 import Header from "../../components/Header"
 import internalAPI from "../../service/internal.services"
 import ExploitationBarChart from "./components/ExploitationBarChart"
@@ -53,7 +53,7 @@ const AprenticesResults = () => {
                     title: r.subject.curricularUnit,
                     subtitle: r.subject.beganAt ? formatDate(r.subject.beganAt) : "No informed date",
                     iconDetails: Math.round(r.score) + "%",
-                    color: getHex(r.subject.curricularUnit),
+                    color: getColor(r.subject.curricularUnit),
                     goTo: "/apprentice/results/" + r.subject.id
                 }))
         );

@@ -1,5 +1,5 @@
 import Text from "../../typography";
-import getHex from "@/constants/getHex";
+import getColor from "@/constants/getHex";
 import Icon from "../../components/Icon";
 import styles from './styles.module.css';
 import Header from "../../components/Header"
@@ -180,7 +180,7 @@ const SubjectDetails = () => {
                     {
                         feedbacks.map(f => (
                             <FeedbackCard
-                                color={getHex(f.student.name)}
+                                color={getColor(f.student.name)}
                                 title={f.student.name}
                                 subtitle={
                                     !f.feedback

@@ -1,7 +1,7 @@
 import ExplorerContainer from "../../components/ExplorerContainer"
 import Header from "../../components/Header"
 import internalAPI from "../../service/internal.services";
-import getHex from "../../constants/getHex";
+import getColor from "../../constants/getHex";
 
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -34,7 +34,7 @@ const ClassesOverview = () => {
         const content = response.data;
 
         setCardsData((content.filter((c: { isArchived: boolean; }) => !c.isArchived)).map((c: { name: string; id: number; startingYear: string; }) => ({
-            color: getHex(c.name),
+            color: getColor(c.name),
             goTo: c.id,
             subtitle: c.startingYear,
             title: c.name,
@@ -42,7 +42,7 @@ const ClassesOverview = () => {
         })));
 
         setArchivedCardsData((content.filter((c: { isArchived: boolean; }) => c.isArchived)).map((c: { name: string; id: number; startingYear: string; }) => ({
-            color: getHex(c.name),
+            color: getColor(c.name),
             goTo: c.id,
             subtitle: c.startingYear,
             title: c.name,

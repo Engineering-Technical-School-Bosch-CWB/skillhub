@@ -115,7 +115,7 @@ public class UserController : ControllerBase
     [HttpGet]
     [Route("paginated")]
     public async Task<ActionResult> GetPaginatedUsers(
-        [FromServices] PermissionService permissionService,
+        [FromServices] IPermissionService permissionService,
         [FromServices] IUserService service, [FromQuery] PaginationQuery pagination,
         [FromQuery] string? query, [FromQuery] short? birthMonth,
         [FromQuery] int? positionId, [FromQuery] int? classId

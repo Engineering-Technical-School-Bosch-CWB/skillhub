@@ -7,7 +7,7 @@ import Header from "../../components/Header";
 import formatDate from "@/constants/formatDate";
 import internalAPI from "@/service/internal.services";
 import SectionHeader from "@/components/SectionHeader";
-import getHex from "@/constants/getHex";
+import getColor from "@/constants/getHex";
 import Divider from "@/components/Divider";
 import FeedbackCard from "@/components/FeedbackCard";
 import PositionCard from "./components/PositionCard";
@@ -288,7 +288,7 @@ const UserProfile = () => {
                                     {
                                         studentData?.subjectFeedBacks.map(f => (
                                             <FeedbackCard
-                                                color={getHex(f.subject)}
+                                                color={getColor(f.subject)}
                                                 title={f.subject}
                                                 subtitle={"Last update • " + formatDate(f.updatedAt) + " by " + f.instructor} content={f.content}
                                                 editButton={
@@ -313,7 +313,7 @@ const UserProfile = () => {
                                     {
                                         studentData?.feedbacks.map(f => (
                                             <FeedbackCard
-                                                color={getHex(f.instructor)}
+                                                color={getColor(f.instructor)}
                                                 title={f.instructor}
                                                 subtitle={"Last update • " + formatDate(f.updatedAt)}
                                                 isPrivate={!f.studentMayVisualize}

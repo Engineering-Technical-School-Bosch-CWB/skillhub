@@ -1,7 +1,7 @@
 import ExplorerContainer from "../../components/ExplorerContainer";
 import Header from "../../components/Header";
 import internalAPI from "../../service/internal.services";
-import getHex from "../../constants/getHex";
+import getColor from "../../constants/getHex";
 
 import { useEffect, useState } from "react";
 import SectionHeader from "@/components/SectionHeader";
@@ -37,14 +37,14 @@ const UsersOverview = () => {
         const content = response.data;
 
         setUsersData((content.filter((u: { isArchived: boolean; }) => !u.isArchived)).map((u: { name: string; id: number; position: { name: string; }; sector: { name: string; }; }) => ({
-            color: getHex(u.name),
+            color: getColor(u.name),
             goTo:  "/user-profile?userId=" + u.id,
             title: u.name,
             subtitle: u.position.name + " - " + u.sector.name,
         })))
 
         setArquivedUsersData((content.filter((u: { isArchived: boolean; }) => u.isArchived)).map((u: { name: string; id: number; position: { name: string; }; sector: { name: string; }; }) => ({
-            color: getHex(u.name),
+            color: getColor(u.name),
             goTo:  "/user-profile?userId=" + u.id,
             title: u.name,
             subtitle: u.position.name + " - " + u.sector.name,
