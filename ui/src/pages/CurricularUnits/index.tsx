@@ -1,4 +1,4 @@
-import getHex from "@/constants/getHex";
+import getColor from "@/constants/getHex";
 import Header from "@/components/Header";
 import internalAPI from "@/service/internal.services";
 import ExplorerContainer from "@/components/ExplorerContainer";
@@ -107,7 +107,7 @@ const CurricularUnits = () => {
                         let res: IIdentificationCardProps = {
                             title: cUnit.name,
                             subtitle: cUnit.subjectArea?.name ?? "No subject area",
-                            color: getHex(cUnit.name),
+                            color: getColor(cUnit.name),
                             goTo: `${cUnit.id}`,
                         }
                         return res;

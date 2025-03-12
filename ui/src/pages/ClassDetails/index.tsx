@@ -1,7 +1,7 @@
 import Text from "../../typography";
 import styles from './styles.module.css'
 import Ranking from "./Components/Ranking";
-import getHex from "../../constants/getHex";
+import getColor from "../../constants/getHex";
 import Header from "../../components/Header";
 import GeneralChart from "./Components/GeneralChart";
 import internalAPI from "../../service/internal.services";
@@ -77,7 +77,7 @@ const ClassDetails = () => {
         setClass(content.class);
 
         setSubjects(content.subjects.map((s: { name: string; id: string; instructor: string; }) => ({
-            color: getHex(s.name),
+            color: getColor(s.name),
             goTo: "subject/" + s.id,
             subtitle: s.instructor,
             title: s.name,

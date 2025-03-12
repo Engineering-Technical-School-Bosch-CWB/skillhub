@@ -1,4 +1,4 @@
-const getHex = (str: string) => {
+const getColor = (str: string) => {
 
     let weight = 1.0
     let numberWeight = 1.0
@@ -34,4 +34,4 @@ const getHex = (str: string) => {
     return `hsl(${h}deg ${s}% ${l}%)`;
 }
 
-export default getHex;
+export default getColor;
