@@ -48,18 +48,18 @@ export default ({ students, setStudents }: IStudentIndexProps) => {
             <section className={styles.card_page_content}>
                 {
                     students?.map((subject, _index) => (
-                        <div key={_index} className={`${styles.dual_input_zone} ${styles.divided_input_3_1}`}>
-                            <Input 
-                                value={subject.name} 
-                                onChange={(e) => changeName(_index, e.target.value)} 
-                                label="Name"
-                                maxLength={500}
-                            />
+                        <div key={_index} className={`${styles.dual_input_zone} ${styles.divided_input_1_3}`}>
                             <Input 
                                 value={subject.identification} 
                                 onChange={(e) => changeIdentification(_index, e.target.value)} 
                                 maxLength={8}
                                 label="EDV"
+                            />
+                            <Input 
+                                value={subject.name} 
+                                onChange={(e) => changeName(_index, e.target.value)} 
+                                label="Name"
+                                maxLength={500}
                             />
                             <Button variant="rounded" kind="danger" onClick={() => removeStudent(_index)}>
                                 <Icon name="close"/>
