@@ -65,7 +65,7 @@ const UserProfile = () => {
     const [loading, setLoading] = useState(true);
     const [radarData, setRadarData] = useState<IRadarProps[]>([]);
     const [barData, setBarData] = useState<IBarProps[]>([]);
-    const [editModal, setEditModal] = useState(false);
+    const [editModal, setEditModal] = useState(true);
     const [editImageModal, setEditImageModal] = useState(false);
     const [searchParams] = useSearchParams();
 

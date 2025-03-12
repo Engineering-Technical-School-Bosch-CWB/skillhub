@@ -33,6 +33,8 @@ public class UserUpdatePayload
 
     public int? OccupationAreaId { get; set; }
 
+    public int? ClassId { get; set; }
+
     [StringLength(500)]
     public string? Name { get; set; }
 

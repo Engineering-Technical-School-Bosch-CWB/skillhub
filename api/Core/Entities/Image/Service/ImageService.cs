@@ -113,7 +113,7 @@ public class ImageService(
         string host = ConfigHelper.GetBaseUrl()
             ?? throw new UnknownServerError("");
 
-        string baseUrl = $"{host}/api/v1/images/?id={image.FileGuid}&size=";
+        string baseUrl = $"{host}/SkillHub/api/v1/images/?id={image.FileGuid}&size=";
         return new(){
             PUrl = baseUrl + "P",
             MUrl = baseUrl + "M",
