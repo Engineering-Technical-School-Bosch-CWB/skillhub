@@ -25,7 +25,8 @@ if(app.Environment.IsProduction())
 
 string environment = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT") ?? "Development";
 System.Console.WriteLine($"Environment: {environment}");
-System.Console.WriteLine("To production add 'DOTNET_ENVIRONMENT=Production' variable");
+if(environment == "Development")
+    System.Console.WriteLine("To production add 'DOTNET_ENVIRONMENT=Production' variable");
 
 if (app.Environment.IsDevelopment())
 {
