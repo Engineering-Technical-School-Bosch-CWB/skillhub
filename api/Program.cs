@@ -2,7 +2,6 @@
 using Api.Core.Middlewares;
 using Api.Configuration;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.WebHost.ConfigureDomain(builder.Configuration);
@@ -17,6 +16,16 @@ builder.Services
     .ConfigureMainConfigs();
 
 var app = builder.Build();
+
+if(app.Environment.IsProduction())
+{
+    System.Console.WriteLine("Setting variable DOTNET_ENVIRONMENT to Production");
+    Environment.SetEnvironmentVariable("DOTNET_ENVIRONMENT","Production", EnvironmentVariableTarget.Process);
+}
+
+string environment = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT") ?? "Development";
+System.Console.WriteLine($"Environment: {environment}");
+System.Console.WriteLine("To production add 'DOTNET_ENVIRONMENT=Production' variable");
 
 if (app.Environment.IsDevelopment())
 {

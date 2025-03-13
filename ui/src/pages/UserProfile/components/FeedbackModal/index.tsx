@@ -219,7 +219,6 @@ export default ({ isOpen, handleIsOpen, feedbackId, userName, studentData, setSt
     
     useEffect(() => {
         getData();
-        console.log(subject)
     }, [feedbackId, studentData])
 
     if (loading)

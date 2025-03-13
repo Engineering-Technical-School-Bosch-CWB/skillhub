@@ -128,12 +128,12 @@ public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRe
             await _repo.SaveAsync();
 
             var results = await _skillResultRepo.Get()
-            .Where(s => s.IsActive)
-            .Where(s => s.Weight != 0)
-            .Where(s => s.Exam!.Id == examId && s.Student.Id == studentPayload.StudentId)
-            .GroupBy(s => s.Skill)
-            .Select(g => g.OrderBy(s => s.EvaluatedAt).First())
-            .ToListAsync();
+                .Where(s => s.IsActive)
+                .Where(s => s.Weight != 0)
+                .Where(s => s.Exam!.Id == examId && s.Student.Id == studentPayload.StudentId)
+                .GroupBy(s => s.Skill)
+                .Select(g => g.OrderBy(s => s.EvaluatedAt).First())
+                .ToListAsync();
 
             var examScore = results.Where(s => s.Aptitude.HasValue).Any() ? results.Sum(s => s.Aptitude * s.Weight) / results.Sum(s => s.Weight) : null;
             await _studentResultService.UpdateExamResult(student, exam, examScore);
