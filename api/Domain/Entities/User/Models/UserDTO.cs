@@ -20,7 +20,7 @@ public record ObjectDTO(
 public record UserDTO(
     int Id,
     string Name,
-    string Identification,
+    string? Identification,
     DateOnly? Birthday,
     ObjectDTO Position,
     ObjectDTO Sector,
