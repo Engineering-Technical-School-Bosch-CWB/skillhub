@@ -157,6 +157,16 @@ public class UserController : ControllerBase
         return Ok();
     }
 
+    [HttpGet]
+    [Route("birthdays")]
+    public async Task<ActionResult> GetBirthdays(
+        [FromQuery] PaginationQuery pagination,
+        [FromServices] IUserService service,
+        [FromQuery] short birthMonth
+    ){
+        var response = await service.GetBirthdays(pagination, birthMonth);
+        return Ok(response);
+    }
 
     #endregion
 

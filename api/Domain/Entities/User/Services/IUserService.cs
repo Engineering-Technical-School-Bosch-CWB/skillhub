@@ -13,6 +13,8 @@ public interface IUserService : IService<User>
     public Task DeleteUser(int id);
     public Task<AppResponse<UserDTO>> GetUser(int id);
     public Task<IEnumerable<ObjectDTO>> GetTeachers(User? instructor = null);
+    public Task<PaginatedAppResponse<UserDTO>> GetBirthdays(PaginationQuery pagination, short month);
+
     public Task<PaginatedAppResponse<UserDTO>> GetPaginatedUsers(PaginationQuery pagination, string? query, short? birthmonth, int? positionId, int? classId);
     public Task<AppResponse<UserProfileDTO>> GetUserProfile(int? id, int loggedId);
 }

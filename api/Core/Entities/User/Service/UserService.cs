@@ -389,5 +389,35 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
         );
     }
 
+    public async Task<PaginatedAppResponse<UserDTO>> GetBirthdays(PaginationQuery pagination, short month)
+    {
+        var result = await _pagService.PaginateAsync(
+            _repo.GetAllNoTracking()
+                .Include(u => u.Position)
+                .Include(u => u.Sector)
+                .Include(u => u.OccupationArea)
+                .Include(u => u.ProfilePicture)
+                .Where(u => u.Birthday.HasValue && u.Birthday.Value.Month == month)
+                .Where(u => u.IsActive)
+                .Where(u => !u.IsArchived),
+            pagination.ToOptions()
+        );
+
+        var mappedUsers = new List<UserDTO>();
+
+        foreach (var u in result.Item1)
+            mappedUsers.Add(UserDTO.Map(u, await _studentservice.GetByUserId(u.Id)));
+
+        mappedUsers = mappedUsers.Select(u => {
+            return new UserDTO(0,u.Name, null, u.Birthday, u.Position, u.Sector, u.OccupationArea, null, null, false, u.ProfilePicture);
+        }).ToList();
+
+        return new PaginatedAppResponse<UserDTO>(
+            mappedUsers,
+            result.Item2!,
+            "Users found!"
+        );
+    }
+
     #endregion
 }
