@@ -274,7 +274,7 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
             .Include(u => u.OccupationArea)
             .Include(u => u.ProfilePicture)
             .SingleOrDefaultAsync(u => u.Id == id)
-            ?? throw new NotFoundException("User not found!");
+                ?? throw new NotFoundException("User not found!");
 
         var student = await _studentservice.GetByUserId(id);
 

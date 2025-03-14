@@ -143,7 +143,7 @@ public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRe
                 .Select(s => s.Score);
 
             await _studentResultService.UpdateSubjectResult(student, exam.Subject, subjectResults.Average());
-            await _studentService.AttStudentScores(studentPayload.StudentId);
+            await _studentService.UpdateStudentScores(studentPayload.StudentId);
         }
 
         return new AppResponse<IEnumerable<SkillResult>>(

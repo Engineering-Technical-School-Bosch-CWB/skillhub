@@ -145,7 +145,7 @@ public class StudentService(
         return result;
     }
 
-    public async Task AttStudentScores(int id)
+    public async Task UpdateStudentScores(int id)
     {
         var student = await _repo.Get()
             .Where(s => s.IsActive)
@@ -166,7 +166,7 @@ public class StudentService(
             .Select(g => g.OrderByDescending(s => s.Aptitude).First())
             .AsEnumerable();
 
-        student.OverallSkillScore = results.Where(s => s.Aptitude.HasValue).Any() ? results.Sum(s => s.Aptitude * s.Weight) / results.Sum(s => s.Weight) : null;
+        student.OverallSkillScore = results.Where(s => s.Aptitude.HasValue && s.IsActive).Any() ? results.Sum(s => s.Aptitude * s.Weight) / results.Sum(s => s.Weight) : null;
 
         _repo.Update(student);
         await _repo.SaveAsync();

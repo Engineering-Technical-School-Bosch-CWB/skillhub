@@ -8,11 +8,13 @@ using Api.Domain.Repositories;
 namespace Api.Core.Services;
 
 public class StudentResultService(BaseRepository<User> repository, IStudentResultRepository studentResultRepository,
-    ISkillResultRepository skillResultRepository
+    ISkillResultRepository skillResultRepository,
+    IStudentService studentservice
 ) : BaseService<User>(repository), IStudentResultService
 {
     private readonly IStudentResultRepository _repo = studentResultRepository;
     private readonly ISkillResultRepository _skillResultRepo = skillResultRepository;
+    private readonly IStudentService _studentService = studentservice;
 
     #region CRUD
 
@@ -51,6 +53,7 @@ public class StudentResultService(BaseRepository<User> repository, IStudentResul
         
         foreach (var result in subjectResults) {
             await UpdateSubjectResult(result.Student, subject, result.Score);
+            await _studentService.UpdateStudentScores(result.Student.Id);
         }
     }
 
