@@ -108,10 +108,10 @@ public class StudentService(
         var student = await _repo.Get()
             .Where(s => s.IsActive)
             .Include(s => s.Class.Subjects)
-            .ThenInclude(s => s.CurricularUnit)
-            .ThenInclude(s => s.SubjectArea)
+                .ThenInclude(s => s.CurricularUnit)
+                .ThenInclude(s => s.SubjectArea)
             .Include(s => s.Class.Subjects.Where(s => s.IsActive))
-            .ThenInclude(s => s.Instructor)
+                .ThenInclude(s => s.Instructor)
             .SingleOrDefaultAsync(s => s.User.Id == userId);
 
         if (student is null) return null;

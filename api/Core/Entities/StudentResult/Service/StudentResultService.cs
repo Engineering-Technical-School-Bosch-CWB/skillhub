@@ -20,7 +20,7 @@ public class StudentResultService(BaseRepository<User> repository, IStudentResul
 
     #region Services
 
-    public async Task AttExamResult(Exam exam)
+    public async Task UpdateExamResult(Exam exam)
     {
         var examResults = exam.SkillResults
             .Where(s => s.IsActive)
@@ -35,17 +35,23 @@ public class StudentResultService(BaseRepository<User> repository, IStudentResul
             }).AsEnumerable();
 
         foreach (var result in examResults) await UpdateExamResult(result.Student, exam, result.Score);
+        
+        await UpdateSubjectResultByExam(exam.Subject);
+    }
 
+    public async Task UpdateSubjectResultByExam(Subject subject)
+    {
         var subjectResults = await _repo.Get()
             .Where(s => s.IsActive)
-            .Where(s => s.Exam!.Subject.Id == exam.Subject.Id)
             .GroupBy(s => s.Student)
             .Select(g => new {
                 Student = g.Key,
-                Score = g.Average(s => s.Score)
+                Score = g.Where(s => s.Exam!.Subject.Id == subject.Id).Average(s => s.Score)
             }).ToListAsync();
-
-        foreach (var result in examResults) await UpdateSubjectResult(result.Student, exam.Subject, result.Score);
+        
+        foreach (var result in subjectResults) {
+            await UpdateSubjectResult(result.Student, subject, result.Score);
+        }
     }
 
     public async Task UpdateExamResult(Student student, Exam exam, double? score)
