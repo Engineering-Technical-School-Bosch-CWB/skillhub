@@ -9,7 +9,8 @@ using Microsoft.EntityFrameworkCore;
 namespace Api.Core.Services;
 
 public class ExamService(BaseRepository<Exam> repository, ISubjectRepository subjectRepository, IUserService userService,
-    ISkillRepository skillRepository, ISkillResultRepository skillResultRepository, IUserRepository userRepository, IStudentResultService studentResultService
+    ISkillRepository skillRepository, ISkillResultRepository skillResultRepository, IUserRepository userRepository, IStudentResultService studentResultService,
+    IStudentService studentService
 ) : BaseService<Exam>(repository), IExamService
 {
     private readonly BaseRepository<Exam> _repo = repository;
@@ -17,7 +18,7 @@ public class ExamService(BaseRepository<Exam> repository, ISubjectRepository sub
     private readonly ISkillResultRepository _skillResultRepo = skillResultRepository;
     private readonly ISubjectRepository _subjectRepo = subjectRepository;
     private readonly IUserRepository _userRepo = userRepository;
-
+    private readonly IStudentService _studentService = studentService ;
     private readonly IUserService _userService = userService;
     private readonly IStudentResultService _studentResultService = studentResultService;
 
@@ -164,7 +165,7 @@ public class ExamService(BaseRepository<Exam> repository, ISubjectRepository sub
             }
         }
 
-        await _studentResultService.AttExamResult(exam);
+        await _studentResultService.UpdateExamResult(exam);
 
         repository.Update(exam);
         await repository.SaveAsync();
@@ -180,7 +181,11 @@ public class ExamService(BaseRepository<Exam> repository, ISubjectRepository sub
     {
         var exam = await _repo.Get()
             .Where(e => e.IsActive)
+            .Include(e => e.Results)
+            .Include(e => e.Subject)
+                .ThenInclude(s => s.CurricularUnit)
             .Include(e => e.SkillResults)
+                .ThenInclude(sk => sk.Student)
             .SingleOrDefaultAsync(e => e.Id == id)
             ?? throw new NotFoundException("Exam not found!");
 
@@ -195,8 +200,15 @@ public class ExamService(BaseRepository<Exam> repository, ISubjectRepository sub
             var deletedSkillResult = _skillResultRepo.Update(r)
                 ?? throw new DeleteFailException("Skill result could not be deleted!");
         }
+        foreach (var studentResult in exam.Results)
+        {
+            studentResult.IsActive = false;
+            // var deletedStudentResult = _studentResultService.Update(studentResult)
+                // ?? throw new DeleteFailException("Skill result could not be deleted!");
+        }
 
         await _repo.SaveAsync();
+        await _studentResultService.UpdateSubjectResultByExam(exam.Subject);
     }
 
     #endregion

@@ -14,13 +14,13 @@ public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRe
     ) : BaseService<SkillResult>(repository), ISkillResultService
 {
     private readonly BaseRepository<SkillResult> _repo = repository;
+    private readonly ISkillResultRepository _skillResultRepo = skillResultRepository;
     private readonly ISkillRepository _skillRepo = skillRepository;
     private readonly IStudentRepository _studentRepo = studentRepository;
     private readonly IExamRepository _examRepo = examRepository;
     private readonly ISubjectRepository _subjectRepo = subjectRepository;
     private readonly IObjectionRepository _objectionRepo = objectionRepository;
     private readonly IStudentResultRepository _studentResultRepo = studentResultRepository;
-    private readonly ISkillResultRepository _skillResultRepo = skillResultRepository;
 
     private readonly IStudentService _studentService = studentService;
     private readonly ISkillService _skillService = skillService;
@@ -143,7 +143,7 @@ public class SkillResultService(BaseRepository<SkillResult> repository, ISkillRe
                 .Select(s => s.Score);
 
             await _studentResultService.UpdateSubjectResult(student, exam.Subject, subjectResults.Average());
-            await _studentService.AttStudentScores(studentPayload.StudentId);
+            await _studentService.UpdateStudentScores(studentPayload.StudentId);
         }
 
         return new AppResponse<IEnumerable<SkillResult>>(
