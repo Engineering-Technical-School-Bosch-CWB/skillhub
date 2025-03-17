@@ -9,7 +9,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { ISubject } from "@/interfaces/models/ISubject";
 import { ISkillSelection } from "@/components/ExamConfig/components/SkillOption";
 import ExamConfig, { ISkill } from "@/components/ExamConfig";
-import { Dayjs } from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import { toast } from "react-toastify";
 import toastifyUpdate from "@/constants/toastfyUpdate";
 
@@ -43,7 +43,7 @@ const EditExam = () => {
         setExam(exam.name);
 
         setExamName(exam.name);
-        setExamDate(exam.appliedAt);
+        setExamDate(dayjs(exam.appliedAt));
         setExamDescription(exam.description);
         setExamInstructorId(exam.instructorId);
 
@@ -66,6 +66,7 @@ const EditExam = () => {
     }
 
     const handleSubmit = () => {
+        
         const apiRequest = async () => {
             const response = await internalAPI.jsonRequest(`/exams/${examId}`, "PATCH", undefined, {
                 name: examName,
