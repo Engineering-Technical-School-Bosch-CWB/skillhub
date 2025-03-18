@@ -58,7 +58,26 @@
             "aptitude": "Resultado (sem peso)",
             "classPosition": "Classificação",
             "contentArea":"Área",
-            "subject":"Matéria"
+            "subject":"Matéria",
+            "feedbackModal":{
+                "editTitle": "Editar Feedback",
+                "writeTitle": "Escrever Feedback",
+                "forSubject":"para a matéria de",
+                "from":"de",
+                "select": {
+                    "personal":"Feedback Pessoal"
+                },
+                "description": "Escreva seu feedback para",
+                "here":"Escreva seu feedback aqui...",
+                "canSeeToggle": "O(a) estudante pode ver.",
+                "responses": {
+                    "successDelete":"Feedback deletado com sucesso!",
+                    "deleting":"Deletando feedback...",
+                    "deleteConfirm": "Você tem certeza que deseja deletar este feedback?",
+                    "successUpdate":"Fedback atualizado com sucesso!",
+                    "successCreate":"Feedback criado com sucesso!"
+                }
+            }
         },
         "subjectResults": {
             "skills": "Competências",
@@ -162,6 +181,13 @@
         "tables":{
             "description":"Descrição",
             "options":"Opções"
+        },
+        "buttons":{
+            "cancel":"Cancelar",
+            "delete":"Deletar",
+            "confirm":"Confirmar",
+            "send":"Enviar",
+            "save":"Salvar"
         },
         "errors": {
             "errorLoadCurricularUnit": "Erro em carregar as matérias!",

@@ -12,6 +12,7 @@ import { ISelectData } from "@/components/Select/interfaces"
 import { IStudentData } from "../../interfaces/UserProfile.interface"
 import { toast } from "react-toastify"
 import Progress from "@/components/Progress"
+import { t } from "i18next"
 
 interface IModalProps {
     isOpen: boolean
@@ -102,7 +103,7 @@ export default ({ isOpen, handleIsOpen, feedbackId, userName, studentData, setSt
             apiRequestCreate().then(content => {
                 toast.update(message, {
                     ...toastifyUpdate,
-                    render: "Feedback created successfully!",
+                    render: t('userProfile.feedbackModal.responses.successCreate'),
                     type: "success",
                 });
 
@@ -122,7 +123,7 @@ export default ({ isOpen, handleIsOpen, feedbackId, userName, studentData, setSt
             }).catch(err => {
                 toast.update(message, {
                     ...toastifyUpdate,
-                    render: err.message || "Something went wrong.",
+                    render: err.message || t('errors.somethingWentWrong'),
                     type: "error",
                 });
             }).finally(() => {
@@ -135,7 +136,7 @@ export default ({ isOpen, handleIsOpen, feedbackId, userName, studentData, setSt
         apiRequestUpdate().then(content => {
             toast.update(message, {
                 ...toastifyUpdate,
-                render: "Feedback updated successfully!",
+                render: t('userProfile.feedbackModal.responses.successUpdate'),
                 type: "success",
             });
 
@@ -161,7 +162,7 @@ export default ({ isOpen, handleIsOpen, feedbackId, userName, studentData, setSt
         }).catch(err => {
             toast.update(message, {
                 ...toastifyUpdate,
-                render: err.message || "Something went wrong.",
+                render: err.message || t('errors.somethingWentWrong'),
                 type: "error",
             });
         });
@@ -169,7 +170,7 @@ export default ({ isOpen, handleIsOpen, feedbackId, userName, studentData, setSt
 
     const handleDelete = async () => {
 
-        if (!confirm("Do you really want to delete this feedback?"))
+        if (!confirm(t('userProfile.feedbackModal.responses.deleteConfirm')))
             return;
 
 
@@ -180,7 +181,7 @@ export default ({ isOpen, handleIsOpen, feedbackId, userName, studentData, setSt
                 throw new Error(response.message);
         }
 
-        const message = toast.loading("Deleting feedback...");
+        const message = toast.loading(t('userProfile.feedbackModal.responses.deleting'));
 
         setFeedbackContent("");
         setSubject("");
@@ -188,7 +189,7 @@ export default ({ isOpen, handleIsOpen, feedbackId, userName, studentData, setSt
         apiRequest().then(() => {
             toast.update(message, {
                 ...toastifyUpdate,
-                render: "Feedback deleted successfully!",
+                render: t('userProfile.feedbackModal.responses.successDelete'),
                 type: "success",
             });
 
@@ -204,7 +205,7 @@ export default ({ isOpen, handleIsOpen, feedbackId, userName, studentData, setSt
         }).catch(err => {
             toast.update(message, {
                 ...toastifyUpdate,
-                render: err.message || "Something went wrong.",
+                render: err.message || t('errors.somethingWentWrong'),
                 type: "error",
             });
         });
@@ -232,23 +233,23 @@ export default ({ isOpen, handleIsOpen, feedbackId, userName, studentData, setSt
 
     return (
         <>
-            <Modal open={isOpen} handleClose={handleClose} title={!feedbackId ? "Write Feedback" : "Edit Feedback"} >
+            <Modal open={isOpen} handleClose={handleClose} title={!feedbackId ? t('userProfile.feedbackModal.writeTitle') : t('userProfile.feedbackModal.editTitle')} >
                 <div className={`${styles.feedbacks}`}>
                     <Text>
-                        {"Write your feedback for " + userName + " from " + studentData.className}
+                        {`${t('userProfile.feedbackModal.description')} ` + userName + ` ${t('userProfile.feedbackModal.from')} ` + studentData.className}
                         {
                             subject &&
                             <>
-                                <Text>{" for the subject "}</Text>
+                                <Text>{` ${t('userProfile.feedbackModal.forSubject')} `}</Text>
                                 <Text fontWeight="bold">{subject}</Text>
                             </>
                         }
                     </Text>
                     {
                         !feedbackId &&
-                        <Select data={subjectData} label="Personal Feedback" onChange={(e) => setSelectedSubjectId(Number(e.target.value))} />
+                        <Select data={subjectData} label={t('userProfile.feedbackModal.select.personal')} onChange={(e) => setSelectedSubjectId(Number(e.target.value))} />
                     }
-                    <TextArea value={feedbackContent!} setValue={setFeedbackContent} placeHolder="Write your feedback here..." required={true} />
+                    <TextArea value={feedbackContent!} setValue={setFeedbackContent} placeHolder={t('userProfile.feedbackModal.here')} required={true} />
                     {
                         ((!feedbackId && !selectedSubjectId) || (feedbackId && !subject)) &&
                         < div className={`${styles.obs}`}>
@@ -261,17 +262,17 @@ export default ({ isOpen, handleIsOpen, feedbackId, userName, studentData, setSt
                                 <span className={`${styles.slider}`}></span>
                             </label>
                             <Text fontSize="sm">
-                                Student can see feedback {subject}
+                                {t('userProfile.feedbackModal.canSeeToggle')} {subject}
                             </Text>
                         </div>
                     }
                     <div className={`${styles.bttns}`}>
                         {
                             feedbackId && subject == null &&
-                            <Button kind="danger" className={`${styles.flex_start}`} onClick={handleDelete}>Delete</Button>
+                            <Button kind="danger" className={`${styles.flex_start}`} onClick={handleDelete}>{t('buttons.delete')}</Button>
                         }
-                        <Button onClick={handleClose}>Cancel</Button>
-                        <Button variant="contained" onClick={handleSubmit} >Confirm</Button>
+                        <Button onClick={handleClose}>{t('buttons.cancel')}</Button>
+                        <Button variant="contained" onClick={handleSubmit} >{t('buttons.confirm')}</Button>
                     </div>
                 </div>
             </Modal >
