@@ -39,13 +39,13 @@ const Birthdays = () => {
 
         const content = response.data;
 
-        setStudents(content.map((s: { id: number; name: string; birthday: string; identification: string; profilePicture?: IImage; position: string }) => ({
+        setStudents(content.map((s: { id: number; name: string; birthday: string; profilePicture?: IImage; position: string; group: string }) => ({
             id: s.id,
             name: s.name,
             birthday: s.birthday,
-            identification: s.identification,
             image: s.profilePicture?.mUrl,
-            position: s.position
+            position: s.position,
+            group: s.group
         })));
 
         setLoading(false);

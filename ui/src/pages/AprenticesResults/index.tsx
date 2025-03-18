@@ -1,4 +1,4 @@
-import formatDate from "../../constants/formatDate"
+import { formatDate } from "../../constants/formatDate"
 import styles from "./styles.module.css"
 import getColor from "../../constants/getHex"
 import Header from "../../components/Header"

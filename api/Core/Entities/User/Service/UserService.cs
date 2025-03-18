@@ -389,31 +389,30 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
         );
     }
 
-    public async Task<PaginatedAppResponse<UserDTO>> GetBirthdays(PaginationQuery pagination, short month)
+    public async Task<PaginatedAppResponse<UserBirthdayDTO>> GetBirthdays(PaginationQuery pagination, short month)
     {
+        var users = _repo.GetAllNoTracking()
+            .Include(u => u.Position)
+            .Include(u => u.ProfilePicture)
+            .Where(u => u.Birthday.HasValue && u.Birthday.Value.Month == month)
+            .Where(u => u.IsActive)
+            .Where(u => !u.IsArchived);
+        
+        var students = _studentRepo.GetAllNoTracking()
+            .Include(s => s.Class);
+
         var result = await _pagService.PaginateAsync(
-            _repo.GetAllNoTracking()
-                .Include(u => u.Position)
-                .Include(u => u.Sector)
-                .Include(u => u.OccupationArea)
-                .Include(u => u.ProfilePicture)
-                .Where(u => u.Birthday.HasValue && u.Birthday.Value.Month == month)
-                .Where(u => u.IsActive)
-                .Where(u => !u.IsArchived),
+            from u in users
+            join s in students
+            on u.Id equals s.User.Id
+            into matches
+            from matchStudent in matches.DefaultIfEmpty()
+            select UserBirthdayDTO.Map(u, matchStudent.Class),
             pagination.ToOptions()
         );
 
-        var mappedUsers = new List<UserDTO>();
-
-        foreach (var u in result.Item1)
-            mappedUsers.Add(UserDTO.Map(u, await _studentservice.GetByUserId(u.Id)));
-
-        mappedUsers = mappedUsers.Select(u => {
-            return new UserDTO(0,u.Name, null, u.Birthday, u.Position, u.Sector, u.OccupationArea, null, null, false, u.ProfilePicture);
-        }).ToList();
-
-        return new PaginatedAppResponse<UserDTO>(
-            mappedUsers,
+        return new PaginatedAppResponse<UserBirthdayDTO>(
+            result.Item1,
             result.Item2!,
             "Users found!"
         );

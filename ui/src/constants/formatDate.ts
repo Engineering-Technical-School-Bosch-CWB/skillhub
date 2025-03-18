@@ -1,9 +1,11 @@
-export const formatDate = (date: string) => {
+const formatDate = (date: string) => {
     const [year, month, day] = date.split("-");
     return `${day}/${month}/${year}`;
 }
 
-export const formatShortDate = (date: string) => {
+const formatShortDate = (date: string) => {
     const [year, month, day] = date.split("-");
     return `${day}/${month}`;
 }
+
+export { formatDate, formatShortDate };

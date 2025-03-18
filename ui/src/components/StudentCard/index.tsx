@@ -5,7 +5,7 @@ import styles from './style.module.css';
 import Avatar from "../Avatar";
 import Text from "../../typography";
 import { Link } from "react-router-dom";
-import { formatShortDate, formatDate } from "@/constants/formatDate";
+import { formatDate, formatShortDate } from "@/constants/formatDate";
 
 export default forwardRef<HTMLImageElement, IStudentCardProps>(
     ({

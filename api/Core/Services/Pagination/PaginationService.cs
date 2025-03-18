@@ -10,7 +10,6 @@ public class PaginationService : IPaginationService
     public (IEnumerable<TEntity>, PaginationInfo?) Paginate<TEntity>(
         IQueryable<TEntity> query,
         PaginationOptions pagination)
-        where TEntity : IEntity
     {
         PaginationInfo? paginationInfo = null;
 
@@ -64,7 +63,6 @@ public class PaginationService : IPaginationService
     public async Task<(IEnumerable<TEntity>, PaginationInfo?)> PaginateAsync<TEntity>(
             IQueryable<TEntity> query,
             PaginationOptions pagination)
-            where TEntity : IEntity
     {
 
         PaginationInfo? paginationInfo = null;
