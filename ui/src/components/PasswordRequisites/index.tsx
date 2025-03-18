@@ -7,6 +7,7 @@ interface IPasswordRequisitesProps {
 }
 
 import styles from "./styles.module.css"
+import { t } from "i18next";
 
 export default ({ value }: IPasswordRequisitesProps) => {
 
@@ -34,19 +35,19 @@ export default ({ value }: IPasswordRequisitesProps) => {
         <div className={styles.requisites_container}>
             <span className={haveMinLength ? styles.complete : styles.incomplete}>
                 <Icon className={styles.indicator_icon} name={haveMinLength ? "check" : "close"} />
-                <Text>Min 8 characters</Text>
+                <Text>{t('classDetails.studentCard.passwordChecks.min8char')}</Text>
             </span>
             <span className={haveNumbers ? styles.complete : styles.incomplete}>
                 <Icon className={styles.indicator_icon} name={haveNumbers ? "check" : "close"} />
-                <Text>Have Number</Text>
+                <Text>{t('classDetails.studentCard.passwordChecks.number')}</Text>
             </span>
             <span className={haveLowerCase ? styles.complete : styles.incomplete}>
                 <Icon className={styles.indicator_icon} name={haveLowerCase ? "check" : "close"} />
-                <Text>Lower Case</Text>
+                <Text>{t('classDetails.studentCard.passwordChecks.lower')}</Text>
             </span>
             <span className={haveUpperCase ? styles.complete : styles.incomplete}>
                 <Icon className={styles.indicator_icon} name={haveUpperCase ? "check" : "close"} />
-                <Text>Upper Case</Text>
+                <Text>{t('classDetails.studentCard.passwordChecks.upper')}</Text>
             </span>
         </div>
     )

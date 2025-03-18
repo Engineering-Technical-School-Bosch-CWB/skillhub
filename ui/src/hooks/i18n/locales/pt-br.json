@@ -192,7 +192,45 @@
             "overallPerformance": "Desempenho Geral",
             "students": "Estudantes",
             "addStudent": "Adicionar estudante",
-            "addNewStudent": "Adicionar novo estudante"
+            "addNewStudent": "Adicionar novo estudante",
+            "studentCard":{
+                "newTitle": "Adicionar Novo Estudante",
+                "updateTitle": "Atualizar Estudante",
+                "name":"Nome",
+                "birth":"Nascimento",
+                "identification":"Identificação (EDV)",
+                "sector":"Setor",
+                "position":"Cargo",
+                "area":"Area",
+                "password":"Senha",
+                "resetPasswordConfirm":"Deseja Resetar a senha deste usuário?",
+                "update":"atualizar",
+                "create":"criar",
+                "user":"usuário",
+                "error":"Erro ao",
+                "updateUser":"Atualizar Usuário",
+                "updatePassword":"Atualizar Senha",
+                "resetPassword":"Resetar Senha",
+                "passwordChecks":{
+                    "min8char":"Min 8 caractéres",
+                    "number":"Ter número",
+                    "lower":"Letra minúscula",
+                    "upper":"Letra maiúscula"
+                },
+                "confirms":{
+                    "resetPassword":"Deseja resetar a senha deste usuário?",
+                    "archive":"Deseja arquivar este usuário?",
+                    "archiveDescription":"se voce arquivar este usuario ele nao aparecerá mais na turma"
+                },
+                "errors":{
+                    "resetPassword":"Erro ao resetar senha",
+                    "archive":"Erro ao arquivar usuário",
+                    "loadSectors":"Erro ao carregar setores.",
+                    "loadAreas":"Erro ao carregar area de ocupação.",
+                    "loadClasses":"Erro ao carregar turmas.",
+                    "loadPositions":"Erro ao carregar cargos."
+                }
+            }
         },
         "avaliateAprentices": {  
         },
@@ -215,8 +253,11 @@
             "send":"Enviar",
             "save":"Salvar",
             "previous": "Anterior",
-            "next": "Próximo"
-
+            "next": "Próximo",
+            "archive":"Arquivar",
+            "unarchive":"Desarquivar",
+            "back":"Voltar",
+            "ok":"OK"
         },
         "errors": {
             "errorLoadCurricularUnit": "Erro em carregar as matérias!",

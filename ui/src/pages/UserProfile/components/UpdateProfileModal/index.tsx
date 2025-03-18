@@ -18,6 +18,7 @@ import { confirmDialog } from "@/components/ConfirmDialog";
 import PasswordRequisites from "../../../../components/PasswordRequisites";
 import { toast } from "@/components/Toast";
 import { IClass } from "@/interfaces/models/IClass";
+import { t } from "i18next";
 
 export interface IUpdateProfileModalProps extends IModalProps {
     id?: number,
@@ -63,7 +64,7 @@ export default ({ title, handleClose, open, isCurrentUser, subtitle, byClassId }
                 : response.message;
             toast({
                 data:{
-                    title:`Error on ${id ? "update" : "create"} user`,
+                    title:`${t('classDetails.studentCard.error')} ${id ? t('classDetails.studentCard.update') : t('classDetails.studentCard.create')} ${t('classDetails.studentCard.user')}`,
                     message:error,
                     kind: "error"
                 }
@@ -73,7 +74,7 @@ export default ({ title, handleClose, open, isCurrentUser, subtitle, byClassId }
         location.reload();
     }
     const toggleRestorePassword = async () => {
-        const confirm = await confirmDialog("Deseja Resetar a senha deste usuário?");
+        const confirm = await confirmDialog(t('classDetails.studentCard.confirms.resetPassword'));
         if(!confirm)
             return;
 
@@ -81,7 +82,7 @@ export default ({ title, handleClose, open, isCurrentUser, subtitle, byClassId }
         if(!response || !response.success) {            
             toast({
                 data: {
-                    title: "Error on reset password",
+                    title: t('classDetails.studentCard.errors.resetPassword'),
                     kind: "error"
                 },
                 toastId: "reset-password-fail"});
@@ -90,7 +91,7 @@ export default ({ title, handleClose, open, isCurrentUser, subtitle, byClassId }
         location.reload();
     }
     const toggleArchive = async () => {
-        const confirm = await confirmDialog("Deseja arquivar este usuário", "se voce arquivar este usuario ele nao aparecerá mais na turma", "Voltar", "Ok")
+        const confirm = await confirmDialog(t('classDetails.studentCard.confirms.archive'), t('classDetails.studentCard.confirms.archiveDescription'), t('buttons.back'), t('buttons.ok'))
         if(!confirm){
             return;
         }
@@ -99,7 +100,7 @@ export default ({ title, handleClose, open, isCurrentUser, subtitle, byClassId }
         if(!response || !response.success) {            
             toast({
                 data: {
-                    title: "Error on archive user",
+                    title: t('classDetails.studentCard.errors.archive'),
                     kind: "error"
                 },
                 toastId: "user-archive-fail"});
@@ -114,7 +115,7 @@ export default ({ title, handleClose, open, isCurrentUser, subtitle, byClassId }
         if(!response||!response.success)
             toast({
                 data: {
-                    title: "Error on load sectors",
+                    title: t('classDetails.studentCard.errors.loadSectors'),
                     kind: "error"
                 },
                 toastId: "sectors-load-error"});
@@ -133,7 +134,7 @@ export default ({ title, handleClose, open, isCurrentUser, subtitle, byClassId }
         if(!response||!response.success)
             toast({
                 data: {
-                    title: "Error on load occupation areas",
+                    title: t('classDetails.studentCard.errors.loadAreas'),
                     kind: "error"
                 },
                 toastId: "occupation-areas-load-error"});
@@ -152,7 +153,7 @@ export default ({ title, handleClose, open, isCurrentUser, subtitle, byClassId }
         if(!response||!response.success)
             toast({
                 data: {
-                    title: "Error on load classes",
+                    title: t('classDetails.studentCard.errors.loadClasses'),
                     kind: "error"
                 },
                 toastId: "positions-load-error"});
@@ -171,7 +172,7 @@ export default ({ title, handleClose, open, isCurrentUser, subtitle, byClassId }
         if(!response||!response.success)
             toast({
                 data: {
-                    title: "Error on load positions",
+                    title: t('classDetails.studentCard.errors.loadPositions'),
                     kind: "error"
                 },
                 toastId: "positions-load-error"});
@@ -232,11 +233,11 @@ export default ({ title, handleClose, open, isCurrentUser, subtitle, byClassId }
         <Modal title={title} subtitle={subtitle} handleClose={handleClose} open={open}>
             <div className={styles.modal_content}>
                 <section className={`${styles.dual_input} ${styles.input_2_3}`}>
-                    <Input label="Name" value={userData.name} onChange={(e) => changeValue("name", e.target.value)} disabled={isUpdatePassword} maxLength={500} />
-                    <Input label="Birth" max='today' value={formatDate(userData.birthday)} type="date" dateChange={(e) => changeValue("birthday", e?.format("YYYY-MM-DD"))} disabled={isUpdatePassword} />
+                    <Input label={t('classDetails.studentCard.name')} value={userData.name} onChange={(e) => changeValue("name", e.target.value)} disabled={isUpdatePassword} maxLength={500} />
+                    <Input label={t('classDetails.studentCard.birth')} max='today' value={formatDate(userData.birthday)} type="date" dateChange={(e) => changeValue("birthday", e?.format("YYYY-MM-DD"))} disabled={isUpdatePassword} />
                 </section>
                 <Input
-                    label="Identification"
+                    label={t('classDetails.studentCard.identification')}
                     value={userData.identification}
                     onChange={(e) => identificationChange(e.target.value)} 
                     disabled={isUpdatePassword || !(logedUser?.permissionLevel! > 1)}
@@ -245,9 +246,9 @@ export default ({ title, handleClose, open, isCurrentUser, subtitle, byClassId }
                 {
                     logedUser?.permissionLevel && logedUser?.permissionLevel > 1 ?
                         <section className={`${styles.triple_input} ${styles.input_1_1_1}`}>
-                            <Select data={selectSector} label="Sector" disabled={isUpdatePassword} onChange={(e) => changeValue("sectorId", e.target.value)} />
-                            <Select data={selectPosition} label="Position" disabled={isUpdatePassword} onChange={(e) => changeValue("positionId", e.target.value)} />
-                            <Select data={selectArea} label="Área" disabled={isUpdatePassword} onChange={(e) => changeValue("occupationAreaId", e.target.value)} />
+                            <Select data={selectSector} label={t('classDetails.studentCard.sector')} disabled={isUpdatePassword} onChange={(e) => changeValue("sectorId", e.target.value)} />
+                            <Select data={selectPosition} label={t('classDetails.studentCard.position')} disabled={isUpdatePassword} onChange={(e) => changeValue("positionId", e.target.value)} />
+                            <Select data={selectArea} label={t('classDetails.studentCard.area')} disabled={isUpdatePassword} onChange={(e) => changeValue("occupationAreaId", e.target.value)} />
                         </section> :
                         <Input value={`${userData.position?.name} - ${userData.sector?.name}`} disabled />
                 }
@@ -261,32 +262,32 @@ export default ({ title, handleClose, open, isCurrentUser, subtitle, byClassId }
                 {
                     (logedUser?.id && logedUser?.id == userData.id) &&
                     <>
-                        <Input label="Password" type="password" placeholder="************" disabled={!isUpdatePassword} onChange={(e) => changeValue("password", e.target.value)} />
+                        <Input label={t('classDetails.studentCard.password')} type="password" placeholder="************" disabled={!isUpdatePassword} onChange={(e) => changeValue("password", e.target.value)} />
                         {
                             isUpdatePassword && 
                             <>
                                 <PasswordRequisites value={updatedData.password?? ""} /> 
-                                <Button variant="link" onClick={() => setIsUpdatePassword(false)}>Update User</Button>
+                                <Button variant="link" onClick={() => setIsUpdatePassword(false)}>{t('classDetails.studentCard.updateUser')}</Button>
                             </>
                         }
                         {
                             !isUpdatePassword &&
-                            <Button variant="link" onClick={() => setIsUpdatePassword(true)}>Update Password</Button>
+                            <Button variant="link" onClick={() => setIsUpdatePassword(true)}>{t('classDetails.studentCard.updatePassword')}</Button>
                         }
                     </>
                 }
                 {
                     (logedUser?.id != userData.id) && id && logedUser?.permissionLevel && logedUser?.permissionLevel > 1 &&
-                        <Button onClick={() => toggleRestorePassword()}>Restore Password</Button>
+                        <Button onClick={() => toggleRestorePassword()}>{t('classDetails.studentCard.resetPassword')}</Button>
                 }
                 <section className={styles.btn_area}>
                     {
                         logedUser?.permissionLevel && logedUser?.permissionLevel > 1 &&
-                        <Button kind="alert" onClick={toggleArchive} >{userData.isArchived ? "Unarchive":"Archive"}</Button>
+                        <Button kind="alert" onClick={toggleArchive} >{userData.isArchived ? t('buttons.unarchive'):t('buttons.archive')}</Button>
                     }
                     <span>
-                        <Button onClick={handleCancel} >Cancel</Button>
-                        <Button onClick={toggleSubmit} variant="contained">Submit</Button>
+                        <Button onClick={handleCancel} >{t('buttons.cancel')}</Button>
+                        <Button onClick={toggleSubmit} variant="contained">{t('buttons.save')}</Button>
                     </span>
                 </section>
             </div>
