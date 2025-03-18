@@ -39,12 +39,13 @@ const Birthdays = () => {
 
         const content = response.data;
 
-        setStudents(content.map((s: { id: number; name: string; birthday: string; identification: string; profilePicture?: IImage }) => ({
+        setStudents(content.map((s: { id: number; name: string; birthday: string; identification: string; profilePicture?: IImage; position: string }) => ({
             id: s.id,
             name: s.name,
             birthday: s.birthday,
             identification: s.identification,
-            image: s.profilePicture?.mUrl
+            image: s.profilePicture?.mUrl,
+            position: s.position
         })));
 
         setLoading(false);
@@ -89,11 +90,11 @@ const Birthdays = () => {
                     {
                         students.length == 0
                             ?
-                            <Text variant="span" fontSize="sm">No birthdays</Text>
+                            <Text variant="span" fontSize="sm">{t('birthdays.noData')}</Text>
                             :
                             students.map(s => {
                                 return (
-                                    <StudentCard key={s.id} id={s.id} name={s.name} birthday={s.birthday} identification={s.identification} goTo='' image={s.image} />
+                                    <StudentCard key={s.id} id={s.id} name={s.name} shortBirthday={s.birthday} identification={s.identification} goTo='' image={s.image} />
                                 )
                             })
                     }
