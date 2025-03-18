@@ -52,8 +52,8 @@ const CustomTooltip = ({
         return (
             <div className={`${styles.custom_tooltip}`}>
                 <Text fontWeight="semibold">{`${label}`}</Text>
-                <Text fontSize="sm">{`Grade : ${payload?.[0].value == null ? "-" : (payload?.[0].value as number).toFixed(2)}`}</Text>
-                <Text fontSize="sm">{`Aptitude : ${payload?.[1].payload.obj == null ? "-" : payload?.[1].payload.obj.toFixed(2)}`}</Text>
+                <Text fontSize="sm">{`${t('userProfile.grade')} : ${payload?.[0].value == null ? "-" : (payload?.[0].value as number).toFixed(2)}`}</Text>
+                <Text fontSize="sm">{`${t('userProfile.aptitude')} : ${payload?.[1].payload.obj == null ? "-" : payload?.[1].payload.obj.toFixed(2)}`}</Text>
             </div>
         );
     }
@@ -185,7 +185,7 @@ const UserProfile = () => {
                             </div>
                             {
                                 studentData &&
-                                <Text fontSize="md" fontWeight="semibold" >{`${t('userProfile.from')} ` + studentData?.className}</Text>
+                                <Text fontSize="md" fontWeight="semibold" >{ studentData?.className}</Text>
                             }
                         </div>
                         <Button variant="primary_icon" onClick={() => setEditModal(true)}><Icon name="settings" /></Button>
@@ -203,7 +203,6 @@ const UserProfile = () => {
                             <Text>{!userData?.birthday ? t('userProfile.missingBirthday') : `${t('userProfile.birthdays')}: ` + formatDate(userData.birthday)}</Text>
                         </div>
                     </div>
-                    {/* <ProfileCard {...data.student} /> */}
                 </section>
                 <section className={`${styles.section}`}>
                     <Divider size="big" />
@@ -214,7 +213,7 @@ const UserProfile = () => {
                                 <div className={`${styles.row}`}>
                                     <PositionCard name={userData?.name!} position={studentData.classPosition} score={studentData.performance} />
                                     <div className={`${styles.chart_container}`}>
-                                        <Text>Content Area</Text>
+                                        <Text>{t('userProfile.contentArea')}</Text>
                                         <RadarChart
                                             cx={300}
                                             cy={200}
@@ -238,7 +237,7 @@ const UserProfile = () => {
                                     </div>
                                 </div>
                                 <div className={`${styles.chart_container}`}>
-                                    <Text>Subjects</Text>
+                                    <Text>{t('userProfile.subject')}</Text>
                                     <ResponsiveContainer width={"100%"} height={350}>
                                         <BarChart
                                             data={barData}
@@ -252,8 +251,8 @@ const UserProfile = () => {
                                             <XAxis dataKey={"name"} fontSize={10} />
                                             <YAxis domain={[0, 100]} />
                                             <Tooltip content={<CustomTooltip />} />
-                                            <Legend />
-                                            <Bar dataKey="grade" stackId="a" fill="#00629a" />
+                                            <Legend  />
+                                            <Bar dataKey="grade" stackId="a"  fill="#00629a" />
                                             <Bar dataKey="aptitude" stackId="a" fill="#0197ee" />
                                         </BarChart>
 

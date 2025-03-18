@@ -56,7 +56,9 @@
             "classesOverview": "Turmas",
             "grade": "Resultado",
             "aptitude": "Resultado (sem peso)",
-            "classPosition": "Classificação"
+            "classPosition": "Classificação",
+            "contentArea":"Área",
+            "subject":"Matéria"
         },
         "subjectResults": {
             "skills": "Competências",
@@ -89,8 +91,26 @@
         },
         "curricularUnits": {
             "noSubjectArea": "Sem área de conhecimento",
-            "curricularUnits": "Matérias",
-            "subjectArea": "Área de conhecimento"
+            "curricularUnits": "Disciplinas",
+            "subjectArea": "Área de conhecimento",
+            "skill": "Competência",
+            "name": "Nome",
+            "evaluationCriteria":"Critério Avaliativo",
+            "modal": {
+                "editTitle":"Editar Competência",
+                "createTitle":"Editar Competência",
+                "description":"Descrição",
+                "evaluationCriteria":"Critério Avaliativo"
+            },
+            "deleteModal":{
+                "title":"Deletar Competência",
+                "areYouSure":"Você tem certeza que deseja excluir esta competência?",
+                "description": "Descrição",
+                "evaluationCriteria":"Critério avaliativo"
+            },
+            "settings": {
+                "title":"Configurações da Disciplina"
+            }
         },
         "createExam": {
             "exam": "Avaliação",
@@ -138,6 +158,10 @@
             "performanceSubject": "Desempenho por matéria",
             "overallPerformance": "Desempenho Geral",
             "subjects": "Matérias"
+        },
+        "tables":{
+            "description":"Descrição",
+            "options":"Opções"
         },
         "errors": {
             "errorLoadCurricularUnit": "Erro em carregar as matérias!",

@@ -1,3 +1,4 @@
+import { t } from "i18next";
 import { IPositionCardProps } from "./interfaces";
 import styles from "./styles.module.css";
 import Text from "@/typography";
@@ -21,7 +22,7 @@ export default ({ position, name, score }: IPositionCardProps) => {
     return (
         <>
             <div className={`${styles.card} ${getBgColor(position!)}`}>
-                <Text fontSize="sm" fontWeight="semibold">Class Position</Text>
+                <Text fontSize="sm" fontWeight="semibold">{t('userProfile.classPosition')}</Text>
                 <Text fontSize="xl5" fontWeight="bold">{!position ? "-" : `${position}°`}</Text>
                 <span className={`${styles.spacing}`}>
                     <Text fontSize="lg" fontWeight="bold">{abbreviate(name)}</Text>

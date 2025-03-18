@@ -20,6 +20,7 @@ import { useParams } from "react-router-dom"
 import { ISkill } from "@/interfaces/models/ISkill"
 import { IHttpMethod, IServiceResponse } from "@/interfaces/services.interfaces"
 import Progress from "@/components/Progress"
+import { t } from "i18next"
 
 export default () => {
 
@@ -42,7 +43,7 @@ export default () => {
     const sectionHeaderProps: ISectionHeaderProps = {
         links: [
             {
-                label: "Curricular Units",
+                label: t('curricularUnits.curricularUnits'),
                 goTo: "/curricular-units"
             },
             {
@@ -157,8 +158,8 @@ export default () => {
                 <table>
                     <tr>
                         <th>#</th>
-                        <th>Description</th>
-                        <th>Options</th>
+                        <th>{t('tables.description')}</th>
+                        <th>{t('tables.options')}</th>
                     </tr>
                     {
                         skills.map((skill, _index) => {
@@ -172,7 +173,7 @@ export default () => {
                                                 {skill.description}
                                             </Text>
                                             <Text fontSize="sm">
-                                                {`Evaluation criteria: ${skill.evaluationCriteria}`}
+                                                {`${t('curricularUnits.evaluationCriteria')}: ${skill.evaluationCriteria}`}
                                             </Text>
                                         </span>
                                     </td>
@@ -197,16 +198,16 @@ export default () => {
             </main>
             {
                 skillModalOpen &&
-                <Modal title={(focusedSkill?.id ? `Edit` : `Create`) + " Skill"}
+                <Modal title={(focusedSkill?.id ? t('curricularUnits.modal.editTitle') : t('curricularUnits.modal.createTitle'))}
                     handleClose={() => onSkillEditToggle()}
                     open={skillModalOpen}
                     subtitle={data.name}
                 >
                     <div className={styles.modal}>
 
-                        <Input value={focusedSkill?.description} label="Description" onChange={(e) => changeModalValue("description", e.target.value)} />
+                        <Input value={focusedSkill?.description} label={t('curricularUnits.modal.description')} onChange={(e) => changeModalValue("description", e.target.value)} />
                         <TextArea
-                            label="Evaluation Criteria"
+                            label={t('curricularUnits.modal.evaluationCriteria')}
                             className={styles.textArea}
                             setValue={(e: any) => changeModalValue("evaluationCriteria", e)}
                             value={focusedSkill?.evaluationCriteria ?? ""}
@@ -221,16 +222,16 @@ export default () => {
                 <Modal
                     handleClose={() => onSkillDeleteToggle()}
                     open={deleteSkillModal}
-                    title="Delete skill"
-                    subtitle="Are you sure want to delete this skill?"
+                    title={t('curricularUnits.deleteModal.title')}
+                    subtitle={t('curricularUnits.deleteModal.areYouSure')}
                 >
                     <div className={styles.modal}>
                         <span>
-                            <Text>Description: </Text>
+                            <Text>{t("curricularUnits.deleteModal.description")}: </Text>
                             <Text>{focusedSkill?.description}</Text>
                         </span>
                         <span>
-                            <Text>Evaluation criteria: </Text>
+                            <Text>{t("curricularUnits.deleteModal.evaluationCriteria")}: </Text>
                             <Text>{focusedSkill?.evaluationCriteria}</Text>
                         </span>
                         <ButtonGroup cancel={() => onSkillDeleteToggle()} submit={() => submitSkillDelete()} />

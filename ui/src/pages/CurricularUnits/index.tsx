@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { ISectionHeaderProps } from "@/components/SectionHeader/interfaces";
 import { CurricularUnit } from "@/interfaces/models/ICurricularUnit";
 import Progress from "@/components/Progress";
+import { t } from "i18next";
 
 const CurricularUnits = () => {
     const [data, setData] = useState<CurricularUnit[]>([]);
@@ -23,7 +24,7 @@ const CurricularUnits = () => {
     const [loading, setLoading] = useState(true);
 
     const subjectAreaFilter = {
-        name: "Subject Area",
+        name: t('curricularUnits.subjectArea'),
         params: subjectAreas,
         setValue: setSubjectArea
     }
@@ -31,7 +32,7 @@ const CurricularUnits = () => {
     const sectionHeaderProps: ISectionHeaderProps = {
         links: [
             {
-                label: "Curricular Units"
+                label: t('curricularUnits.curricularUnits')
             }
         ]
     }
@@ -106,7 +107,7 @@ const CurricularUnits = () => {
                     data={data.map((cUnit: CurricularUnit) => {
                         let res: IIdentificationCardProps = {
                             title: cUnit.name,
-                            subtitle: cUnit.subjectArea?.name ?? "No subject area",
+                            subtitle: cUnit.subjectArea?.name ?? t('curricularUnits.noSubjectArea'),
                             color: getColor(cUnit.name),
                             goTo: `${cUnit.id}`,
                         }
@@ -116,7 +117,7 @@ const CurricularUnits = () => {
                         onChange: setSearch,
                         search: search
                     }}
-                    title="Curricular Units"
+                    title={t('curricularUnits.curricularUnits')}
                     filter={[subjectAreaFilter]}
                     onAddHandle={() => { setCreateModalOpen(true) }}
                 />
