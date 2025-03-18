@@ -4,6 +4,7 @@ import { INewClass } from "../../interfaces/AddClassPage.interface"
 import styles from '../../../../styles.module.css';
 import overviewStyles from './styles.module.css'
 import { useEffect } from "react";
+import { t } from "i18next";
 
 interface IOverviewIndexProps {
     data: INewClass,
@@ -62,7 +63,7 @@ export default ({ data, setDataChecked }: IOverviewIndexProps) => {
                             <>
                                 <div>
                                     <Text fontSize="sm">- {subject.name ?? "Needs to be selected"}</Text>
-                                    <Text fontSize="sm">  ({subject.duration} Hours)</Text>
+                                    <Text fontSize="sm">  ({subject.duration} {t('createClass.subjectIndex.timeUnit')})</Text>
                                 </div>
                             </>
                         )
@@ -79,38 +80,38 @@ export default ({ data, setDataChecked }: IOverviewIndexProps) => {
     return (
         <div className={`${styles.form_content} ${overviewStyles.form_content}`}>
             <section className={styles.card_page_header}>
-                <Text fontSize="lg" fontWeight="bold">Overview</Text>
+                <Text fontSize="lg" fontWeight="bold">{t('createClass.tabIndex.overview')}</Text>
             </section>
 
             <div className={overviewStyles.overview_container}>
                 <section className={overviewStyles.overview_section}>
-                    <Text fontSize="md" fontWeight="bold">Class:</Text>
+                    <Text fontSize="md" fontWeight="bold">{t('createClass.tabIndex.class')}:</Text>
                     <div>
-                        <Text fontSize="sm">Course: </Text>
+                        <Text fontSize="sm">{t('createClass.courseIndex.course')}: </Text>
                         <Text>{data.course?.name ?? "Needs to be selected"}</Text>
                     </div>
                     <div>
-                        <Text fontSize="sm">Name: </Text>
+                        <Text fontSize="sm">{t('createClass.courseIndex.className')}: </Text>
                         <Text>{data.class.name}</Text>
                     </div>
                     <div>
-                        <Text fontSize="sm">Abbreviation: </Text>
+                        <Text fontSize="sm">{t('createClass.courseIndex.abbreviation')}: </Text>
                         <Text>{data.class.abbreviation}</Text>
                     </div>
                     <div>
-                        <Text fontSize="sm">Periods: </Text>
+                        <Text fontSize="sm">{t('createClass.courseIndex.periods')}: </Text>
                         <Text>{data.class.durationPeriods}</Text>
                     </div>
                 </section>
 
                 <section className={overviewStyles.overview_section}>
-                    <Text fontSize="md" fontWeight="bold">Students:</Text>
+                    <Text fontSize="md" fontWeight="bold">{t('createClass.tabIndex.students')}:</Text>
                     <div>
                         {renderStudents()}
                     </div>
                 </section>
                 <section className={overviewStyles.overview_section}>
-                    <Text fontSize="md" fontWeight="bold">Subjects:</Text>
+                    <Text fontSize="md" fontWeight="bold">{t('createClass.tabIndex.subjects')}:</Text>
                     <div>
                         {renderSubjects()}
                     </div>

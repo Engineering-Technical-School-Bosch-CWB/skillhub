@@ -5,6 +5,7 @@ import internalAPI from "@/service/internal.services";
 import { toast } from "react-toastify";
 import { ICourse } from "@/interfaces/models/ICourse";
 import Select from "@/components/Select";
+import { t } from "i18next";
 
 export default ({ onChange }: CourseSelectProps) => {
 
@@ -34,7 +35,7 @@ export default ({ onChange }: CourseSelectProps) => {
     return (
         <>
             <Select 
-                label="Course"
+                label={t('createClass.courseIndex.course')}
                 data={data} 
                 onChange={(e) => onChange({
                     key: data.find(d => d.value == Number(e.target.value))?.key!,

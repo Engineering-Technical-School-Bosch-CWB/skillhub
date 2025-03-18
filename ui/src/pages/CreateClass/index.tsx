@@ -4,6 +4,7 @@ import styles from "./styles.module.css";
 import { IAddClassPageProps } from "./components/AddPaginator/interfaces/AddClassPage.interface";
 import AddPaginator from "./components/AddPaginator";
 import SectionHeader from "@/components/SectionHeader";
+import { t } from "i18next";
 
 export default () => {
 
@@ -65,11 +66,11 @@ export default () => {
                     links={
                         [
                             {
-                                label: "Classes Overview",
+                                label: t('classesOverview.classes'),
                                 goTo: "/classes"
                             },
                             {
-                                label: "New"
+                                label: t('createClass.new'),
                             }
                         ]} 
                 />

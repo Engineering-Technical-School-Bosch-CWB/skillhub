@@ -139,8 +139,35 @@
             "examCreated": "Avaliação criada com sucesso!"
         },
         "createClass": {
-            "classesOverview": "Turmas",
-            "new": "Novo"
+            "new": "Novo",
+            "tabIndex": {
+                "class":"Turma",
+                "students":"Alunos",
+                "subjects":"Matérias",
+                "overview":"Geral"
+            },
+            "courseIndex": {
+                "course":"Curso",
+                "className":"Nome da Turma",
+                "abbreviation":"Abreviação",
+                "startingYear":"Ano de Início",
+                "periods":"Períodos"
+            },
+            "studentIndex":{
+                "name":"Nome"
+            },
+            "subjectIndex":{
+                "optional":"Opcional",
+                "subject":"Matéria",
+                "duration":"Duração",
+                "timeUnit":"Horas"
+            },
+            "overviewIndex":{},
+            "errors": {
+                "onCreate":"Erro ao criar turma",
+                "fillAllFields":"Preencha todos os campos",
+                "loadSubjects": "Erro ao carrecar matérias"
+            }
         },
         "completeRegistering": {
             "updatingUser": "Registrando usuário...",
@@ -154,8 +181,7 @@
             "enter": "Entrar"
         },
         "classesOverview": {
-            "classes": "Turmas",
-            "classesOverview": "Turmas"
+            "classes": "Turmas"
         },
         "classDetails": {
             "classes": "Turmas",
@@ -187,7 +213,10 @@
             "delete":"Deletar",
             "confirm":"Confirmar",
             "send":"Enviar",
-            "save":"Salvar"
+            "save":"Salvar",
+            "previous": "Anterior",
+            "next": "Próximo"
+
         },
         "errors": {
             "errorLoadCurricularUnit": "Erro em carregar as matérias!",

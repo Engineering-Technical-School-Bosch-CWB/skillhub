@@ -5,6 +5,7 @@ import styles from "../../../styles.module.css"
 import { ISelectData } from "@/components/Select/interfaces"
 import CourseSelect from "./CourseSelect"
 import Text from "@/typography"
+import { t } from "i18next"
 
 interface ICourseIndexProps {
     updateClass: (classValue: IAddClass, courseValue?: IAddCourse) => void,
@@ -51,7 +52,7 @@ export default ({ updateClass, _class, _course }: ICourseIndexProps) => {
     return (
         <div className={styles.form_content}>
             <section className={styles.card_page_header}>
-                <Text fontSize="lg" fontWeight="bold">Class</Text>
+                <Text fontSize="lg" fontWeight="bold">{t('createClass.tabIndex.class')}</Text>
             </section>
             <section className={styles.card_page_content}>
                 <CourseSelect
@@ -59,12 +60,12 @@ export default ({ updateClass, _class, _course }: ICourseIndexProps) => {
                 />
 
                 <section className={`${styles.dual_input_zone} ${styles.divided_input_2_1}`}>
-                    <Input label="Class name"
+                    <Input label={t('createClass.courseIndex.className')}
                         value={_class.name}
                         onChange={(e) => handleChangeCourse(undefined, e.target.value)}
                         maxLength={255}
                     />
-                    <Input label="Abbreviation"
+                    <Input label={t('createClass.courseIndex.abbreviation')}
                         value={_class.abbreviation}
                         onChange={(e) => handleChangeCourse(undefined, undefined, e.target.value)}
                         maxLength={10}
@@ -72,7 +73,7 @@ export default ({ updateClass, _class, _course }: ICourseIndexProps) => {
                 </section>
                 <section className={`${styles.dual_input_zone} ${styles.divided_input_2_1}`}>
                     <Input
-                        label="Start Year"
+                        label={t('createClass.courseIndex.startingYear')}
                         type="number"
                         value={_class.startingYear}
                         onChange={(e) => changeData(e.target.value)}
@@ -80,7 +81,7 @@ export default ({ updateClass, _class, _course }: ICourseIndexProps) => {
                         max={2200}
                     />
                     <Input
-                        label="Periods"
+                        label={t('createClass.courseIndex.periods')}
                         type="number"
                         value={_class.durationPeriods}
                         onChange={(e) => changePeriod(e.target.value)}

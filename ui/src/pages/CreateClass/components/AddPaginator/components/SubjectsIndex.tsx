@@ -6,6 +6,7 @@ import { ISelectData } from "@/components/Select/interfaces"
 import Button from "@/components/Button"
 import { toast } from "react-toastify"
 import { useEffect } from "react"
+import { t } from "i18next"
 
 export interface ISubjectIndex {
     subjects: IAddSubject[],
@@ -25,7 +26,7 @@ export default ({ subjects, alterSubjects }: ISubjectIndex) => {
     const handleNewSubject = () => {
 
         if (subjects?.some(s => !s.curricularUnitId))
-            return toast.error("Fill in all fields.", {toastId: "all-fields-not-completed"});
+            return toast.error(t('createClass.errors.fillAllFields'), {toastId: "all-fields-not-completed"});
 
         const _selecteds = [...subjects!, { curricularUnitId: 0, name: undefined, duration: 0 }];
         alterSubjects!(_selecteds);
@@ -52,9 +53,9 @@ export default ({ subjects, alterSubjects }: ISubjectIndex) => {
     return (
         <div className={styles.form_content}>
             <section className={styles.card_page_header}>
-                <Text fontSize="lg" fontWeight="bold">Subjects</Text>
+                <Text fontSize="lg" fontWeight="bold">{t('createClass.tabIndex.subjects')}</Text>
                 <br />
-                <Text fontSize="sm">(Optional)</Text>
+                <Text fontSize="sm">({t('createClass.subjectIndex.optional')})</Text>
             </section>
             <section className={styles.card_page_content}>
                 {

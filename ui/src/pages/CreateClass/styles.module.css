@@ -87,6 +87,10 @@
     grid-template-columns: 25% calc(75% - 6rem) 3rem;
     align-items: center;
 }
+.divided_input_3_1{
+    grid-template-columns: calc(75% - 6rem) 25%  3rem;
+    align-items: center;
+}
 .form_input_container {
     display: flex;
     justify-content: center;
