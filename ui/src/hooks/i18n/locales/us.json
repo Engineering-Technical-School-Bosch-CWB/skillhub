@@ -1,7 +1,43 @@
 {
     "translation": {
         "login": {
-            "welcome": "Welcome"
+            "welcome": "Welcome",
+            "identification": "Identification(EDV)",
+            "password": "Password",
+            "authenticating": "Authenticating...",
+            "logged": "Logged in successfully!",
+            "invalidCredential": "Invalid credentials.",
+            "completeRegistration": "Complete registration to gain access.",
+            "enter": "Enter"
+        },
+        "home": {
+            "userProfile": "Profile",
+            "studentResults": "My Results",
+            "birthdays": "Birthdays",
+            "curricularUnits": "Subjects",
+            "classesOverview": "Classes",
+            "schoolContent": "School Content",
+            "users": "Users"
+        },
+        "birthdays": {
+            "birthdays": "Birthdays",
+            "noData": "No birthdays",
+            "january": "January",
+            "february": "February",
+            "march": "March",
+            "april": "April",
+            "may": "May",
+            "june": "June",
+            "july": "July",
+            "august": "August",
+            "september": "September",
+            "october": "October",
+            "november": "November",
+            "december": "December"
+        },
+        "usersOverview": {
+            "users": "Users",
+            "addUser": "Add User"
         }
     }
 }

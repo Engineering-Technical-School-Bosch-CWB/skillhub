@@ -1,7 +1,102 @@
 {
     "translation": {
         "login": {
-            "welcome": "Bem vindo"
+            "welcome": "Bem vindo",
+            "identification": "Identificação(EDV)",
+            "password": "Senha",
+            "authenticating": "Autenticando...",
+            "logged": "Autenticado com sucesso!",
+            "invalidCredential": "Credenciais Inválidas.",
+            "completeRegistration": "Complete o registro para acessar.",
+            "enter": "Acessar"
+        },
+        "home": {
+            "userProfile": "Perfil",
+            "studentResults": "Meus Resultados",
+            "birthdays": "Aniversariantes",
+            "curricularUnits": "Disciplinas",
+            "classesOverview": "Turmas",
+            "schoolContent": "Gestão",
+            "users": "Usuários"
+        },
+        "birthdays": {
+            "birthdays": "Aniversariantes",
+            "noData": "Sem aniversariantes",
+            "january": "Janeiro",
+            "february": "Fevereiro",
+            "march": "Março",
+            "april": "Abril",
+            "may": "Maio",
+            "june": "Junho",
+            "july": "Julho",
+            "august": "Agosto",
+            "september": "Setembro",
+            "october": "Outubro",
+            "november": "Novembro",
+            "december": "Dezembro"
+        },
+        "usersOverview": {
+            "users": "Usuários",
+            "addUser": "Adicionar Usuário"
+        },
+        "userProfile": {
+            "userProfile": "Perfil",
+            "editProfile": "Editar Perfil",
+            "profileImage": "Imagem de Perfil",
+            "editFeedback": "Editar Feedback",
+            "lastUpdate": "Última atualização • ",
+            "personalFeedback": "Feedback pessoal",
+            "by": " por ",
+            "subjectFeedbacks": "Feedback das matérias",
+            "missingBirth": "Sem data de aniversário...",
+            "birthdays": "Nascimento",
+            "from": "De ",
+            "archived": "(Arquivado)",
+            "usersOverview": "Usuários",
+            "classesOverview": "Turmas",
+            "grade": "Resultado",
+            "aptitude": "Resultado (sem peso)"
+        },
+        "subjectResults": {
+            "skills": "Competências",
+            "classPerformance": "Média da turma",
+            "yourPerformance": "Sua performance",
+            "lastUpdate": "Última atualização • ",
+            "by": " por ",
+            "nofeedback": "Sem feedback.",
+            " Results": "",
+            "General Results": "",
+            ""
+        },
+        "subjectDetails": {
+
+        },
+        "schoolContent": {
+
+        },
+        "curricularUnits": {
+
+        },
+        "createExam": {
+
+        },
+        "createClass": {
+
+        },
+        "completeRegistering": {
+
+        },
+        "classesOverview": {
+
+        },
+        "classDetails": {
+
+        },
+        "avaliateAprentices": {
+
+        },
+        "aprenticesResults": {
+
         }
     }
 }

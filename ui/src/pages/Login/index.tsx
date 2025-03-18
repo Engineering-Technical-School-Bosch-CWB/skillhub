@@ -9,13 +9,15 @@ import { useNavigate } from "react-router-dom";
 import { FieldValues } from "react-hook-form";
 import { toast } from "react-toastify";
 import toastifyUpdate from "../../constants/toastfyUpdate";
+import { useTranslation } from "react-i18next";
 
 const Login = () => {
+    const {t} = useTranslation();
     const { setUser } = useUserContext();
     const navigate = useNavigate();
 
     const fields: IFormInput[] = [
-        { fieldName: "Identification", label: "Identification(EDV)", required: true, maxLength: 100 },
+        { fieldName: "Identification", label: t("login.identification"), required: true, maxLength: 100 },
         { fieldName: "Password", label: "Password", type: "password", required: true, maxLength: 255 }
     ];
 
