@@ -62,41 +62,89 @@
             "classPerformance": "Média da turma",
             "yourPerformance": "Sua performance",
             "lastUpdate": "Última atualização • ",
-            "by": " por ",
+            "by": "por",
             "nofeedback": "Sem feedback.",
-            " Results": "",
-            "General Results": "",
-            ""
+            "results": "Resultados",
+            "generalResults": "Resultados Gerais"
         },
         "subjectDetails": {
-
+            "editFeedback": "Editar Feedback",
+            "lastUpdate": "Última atualização • ",
+            "by": "por",
+            "nofeedback": "Sem feedback...",
+            "apprenticeSubjectFeedback": "Os aprendizes podem ver o feedback das matérias!",
+            "studentFeedback": "Feedbacks dos Alunos",
+            "exams": "Avaliações",
+            "noInstructor": "Sem instrutor responsável",
+            "period": "Período",
+            "noDurationHours": "Sem tempo de duração",
+            "duration": "Duração: ",
+            "noinitialDate": "Sem data de início",
+            "initialDate": "Data de início:",
+            "classes": "Turmas"
         },
         "schoolContent": {
 
         },
         "curricularUnits": {
-
+            "noSubjectArea": "Sem área de conhecimento",
+            "curricularUnits": "Matérias",
+            "subjectArea": "Área de conhecimento"
         },
         "createExam": {
-
+            "exam": "Avaliação",
+            "createExam": "Criar Avaliação",
+            "creatingExam": "Criando avaliação...",
+            "createExamFor": "Criar avaliação para",
+            "examCreated": "Avaliação criada com sucesso!"
         },
         "createClass": {
-
+            "classesOverview": "Turmas",
+            "new": "Novo"
         },
         "completeRegistering": {
-
+            "updatingUser": "Registrando usuário...",
+            "userUpdated": "Usuário registrado!",
+            "fullName": "Nome Completo",
+            "dateBirthday": "Data de Nascimento",
+            "identification": "Identificação(EDV)",
+            "position": "Cargo",
+            "password": "Senha",
+            "passwordConfirm": "Confirmar senha",
+            "enter": "Entrar"
         },
         "classesOverview": {
-
+            "classes": "Turmas",
+            "classesOverview": "Turmas"
         },
         "classDetails": {
-
+            "classes": "Turmas",
+            "classesOverview": "Turmas",
+            "periods": "Períodos",
+            "periodsNotRecorded": "Período não informado",
+            "details": "Detalhes",
+            "overallPerformance": "Desempenho Geral",
+            "students": "Estudantes",
+            "addStudent": "Adicionar estudante",
+            "addNewStudent": "Adicionar novo estudante"
         },
-        "avaliateAprentices": {
-
+        "avaliateAprentices": {  
         },
         "aprenticesResults": {
-
+            "noDate": "Data não informada",
+            "generalResults": "Resultados Gerais",
+            "results": "Resultados",
+            "performanceSubject": "Desempenho por matéria",
+            "overallPerformance": "Desempenho Geral",
+            "subjects": "Matérias"
+        },
+        "errors": {
+            "errorLoadCurricularUnit": "Erro em carregar as matérias!",
+            "somethingWentWrong": "Algo de errado não está certo.",
+            "passwordsMustMatch": "As senhas devem ser idênticas!",
+            "invalidCredentials": "Credenciais Inválidas.",
+            "classesLoadError": "Erro ao carregar as turmas.",
+            "resultsLoadError": "Erro ao carregar os resultados."
         }
     }
 }
