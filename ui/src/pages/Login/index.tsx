@@ -9,14 +9,15 @@ import { useNavigate } from "react-router-dom";
 import { FieldValues } from "react-hook-form";
 import { toast } from "react-toastify";
 import toastifyUpdate from "../../constants/toastfyUpdate";
+import { t } from "i18next";
 
 const Login = () => {
     const { setUser } = useUserContext();
     const navigate = useNavigate();
 
     const fields: IFormInput[] = [
-        { fieldName: "Identification", label: "Identification(EDV)", required: true, maxLength: 100 },
-        { fieldName: "Password", label: "Password", type: "password", required: true, maxLength: 255 }
+        { fieldName: "Identification", label: t('login.identification'), required: true, maxLength: 100 },
+        { fieldName: "Password", label: t('login.password'), type: "password", required: true, maxLength: 255 }
     ];
 
     const handleSubmit = async (data: FieldValues) => {
