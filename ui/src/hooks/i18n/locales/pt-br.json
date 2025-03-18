@@ -37,7 +37,29 @@
         },
         "usersOverview": {
             "users": "Usuários",
-            "addUser": "Adicionar Usuário"
+            "addUser": "Adicionar Usuário",
+            "position":"Cargo",
+            "properties": {
+                "properties":"Propriedades",
+                "position": {
+                    "title":"Cargos",
+                    "name":"Nome",
+                    "level":"Nível de Permissão",
+                    "type":"Tipo de Permissão",
+                    "options":"Opções",
+                    "deleteDescription":"Você tem certeza que deseja deletar este item?",
+                    "create":"Criar Cargo",
+                    "edit":"Editar Cargo"
+                },
+                "sector": {
+                    "title":"Setores",
+                    "name":"Nome",
+                    "options":"Opções",
+                    "deleteDescription":"Você tem certeza que deseja deletar este item?",
+                    "create":"Criar Setor",
+                    "edit":"Editar Setor"
+                }
+            }
         },
         "userProfile": {
             "userProfile": "Perfil",

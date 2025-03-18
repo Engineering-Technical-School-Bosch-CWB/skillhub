@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import SectionHeader from "@/components/SectionHeader";
 import { useNavigate } from "react-router-dom";
 import UpdateProfileModal from "../UserProfile/components/UpdateProfileModal";
+import { t } from "i18next";
 
 const UsersOverview = () => {
     
@@ -22,7 +23,7 @@ const UsersOverview = () => {
     const [createModal, setCreateModal] = useState(false);
     
     const positionFilter = {
-        name: "Position",
+        name: t('usersOverview.position'),
         params: positions,
         setValue: setPosition
     }
@@ -66,12 +67,12 @@ const UsersOverview = () => {
             <Header />
             <main>
                 <SectionHeader links={[{
-                    label: "Users"
+                    label: t('usersOverview.users')
                 }]} />
                 <ExplorerContainer 
                     filter={[positionFilter]} 
                     data={usersData} 
-                    title={"Users"} 
+                    title={t('usersOverview.users')} 
                     folderData={arquivedUsersData}
                     onAddHandle={() => setCreateModal(true)} 
                     input={{
@@ -85,7 +86,7 @@ const UsersOverview = () => {
                 }} />
             </main>
             <UpdateProfileModal 
-                title="Add User" 
+                title={t('usersOverview.addUser')} 
                 handleClose={() => setCreateModal(false)} 
                 isCurrentUser={false} 
                 open={createModal}

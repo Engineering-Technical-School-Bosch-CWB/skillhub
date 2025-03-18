@@ -2,17 +2,18 @@ import Header from "@/components/Header";
 import SectionHeader from "@/components/SectionHeader";
 import { ISectionHeaderProps } from "@/components/SectionHeader/interfaces";
 import Table from "./components/table";
+import { t } from "i18next";
 
 
 const UsersProperties = () => {
     const headerSectionProps: ISectionHeaderProps = {
         links: [
             {
-                label: "Users",
+                label: t('usersOverview.users'),
                 goTo: "/users"
             },
             {
-                label: "Properties",
+                label: t('usersOverview.properties.properties'),
             },
 
         ]

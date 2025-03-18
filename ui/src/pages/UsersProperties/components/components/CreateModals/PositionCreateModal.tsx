@@ -6,6 +6,7 @@ import styles from '../DeleteModals/styles.module.css'
 import IPosition, { EPositionLevel } from "@/interfaces/models/IPosition";
 import Select from "@/components/Select";
 import { ISelectProps } from "@/components/Select/interfaces";
+import { t } from "i18next";
 
 export default ({onChange, list}: ICreateModalProps) => {
 
@@ -28,7 +29,7 @@ export default ({onChange, list}: ICreateModalProps) => {
     }
 
     const positionLevelSelectProps: ISelectProps = {
-        label: "Position Level",
+        label: t(`usersOverview.properties.position.level`),
         data: [
             {
                 key: "Admin",
@@ -58,7 +59,7 @@ export default ({onChange, list}: ICreateModalProps) => {
 
     return (
         <section className={styles.content_section} >
-            <Input label="Name" value={data?.name} onChange={(e) => change("name", e.target.value)} />
+            <Input label={t(`usersOverview.properties.position.name`)} value={data?.name} onChange={(e) => change("name", e.target.value)} />
             <Select {...positionLevelSelectProps} />
         </section>
     )

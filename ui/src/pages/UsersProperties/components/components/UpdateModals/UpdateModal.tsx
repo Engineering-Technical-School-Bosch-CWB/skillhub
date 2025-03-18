@@ -7,6 +7,7 @@ import { IUpdateModalProps } from "./_UpdateModal.interface";
 import { UserPropsType, UserPropsTypeToEndpoint, UserPropsTypeToTitle } from "../../PropertiesTable.interface";
 import PositionUpdateModal from "./PositionUpdateModal";
 import SectorUpdateModal from "./SectorUpdateModal";
+import { t } from "i18next";
 
 const UpdateComponents: Record<UserPropsType, React.ElementType> = {
     position: PositionUpdateModal,
@@ -36,7 +37,7 @@ export default ({id, kind, onClose, isOpen}: IUpdateModalProps) => {
         <Modal 
             handleClose={onClose!}
             open={isOpen!}
-            title={`Update ${UserPropsTypeToTitle[kind!]}`}
+            title={t(`usersOverview.properties.${kind}.edit`)}
         >
             {Component && <Component id={id} onChange={setData} />}
             <ButtonGroup cancel={cancel} submit={submit} />

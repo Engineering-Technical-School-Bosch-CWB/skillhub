@@ -5,6 +5,7 @@ import { IDeleteModalProps } from "./_DeleteModal.interface";
 import internalAPI from "@/service/internal.services";
 import { toast } from "react-toastify";
 import Text from "@/typography";
+import { t } from "i18next";
 
 export default ({id}: IDeleteModalProps) => {
 
@@ -25,11 +26,11 @@ export default ({id}: IDeleteModalProps) => {
     return (
         <section className={styles.content_section} >
             <span>
-                <Text>Name: </Text>
+                <Text>{t(`usersOverview.properties.position.name`)}: </Text>
                 <Text>{data?.name}</Text>
             </span>
             <span>
-                <Text>Position Level: </Text>
+                <Text>{t(`usersOverview.properties.position.level`)}: </Text>
                 <Text>{data?.positionLevel}</Text>
             </span>
         </section>

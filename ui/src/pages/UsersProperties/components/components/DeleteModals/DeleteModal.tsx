@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { UserPropsType, UserPropsTypeToEndpoint } from "../../PropertiesTable.interface";
 import PositionDeleteModal from "./PositionDeleteModal";
 import SectorDeleteModal from "./SectorDeleteModal";
+import { t } from "i18next";
 
 const DeleteComponents: Record<UserPropsType, React.ElementType> =  {
     position: PositionDeleteModal,
@@ -34,7 +35,7 @@ export default ({id, kind, onClose, isOpen}: IDeleteModalProps) => {
         <Modal 
             handleClose={onClose!}
             open={isOpen!}
-            title={"Are you sure you want to delete this item?"}
+            title={t(`usersOverview.properties.${kind}.deleteDescription`)}
         >
             {Component && <Component id={id}/>}
             <ButtonGroup cancel={cancel} submit={submit} />

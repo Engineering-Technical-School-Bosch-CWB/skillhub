@@ -6,6 +6,7 @@ import ISector from "@/interfaces/models/ISector";
 import { IUpdateModalProps } from "./_UpdateModal.interface";
 import internalAPI from "@/service/internal.services";
 import { toast } from "react-toastify";
+import { t } from "i18next";
 
 export default ({onChange, id}: IUpdateModalProps) => {
 
@@ -35,7 +36,7 @@ export default ({onChange, id}: IUpdateModalProps) => {
 
     return (
         <section className={styles.content_section} >
-            <Input label="Name" value={data?.name} onChange={(e) => change("name", e.target.value)} />
+            <Input label={t(`usersOverview.properties.sector.name`)} value={data?.name} onChange={(e) => change("name", e.target.value)} />
         </section>
     )
 }

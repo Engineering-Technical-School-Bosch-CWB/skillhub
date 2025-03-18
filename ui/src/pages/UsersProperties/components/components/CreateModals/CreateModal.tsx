@@ -4,9 +4,10 @@ import ButtonGroup from "@/components/ButtonGroup";
 import internalAPI from "@/service/internal.services";
 import { toast } from "react-toastify";
 import { ICreateModalProps } from "./_CreateModal.interface";
-import { UserPropsType, UserPropsTypeToEndpoint, UserPropsTypeToTitle } from "../../PropertiesTable.interface";
+import { UserPropsType, UserPropsTypeToEndpoint } from "../../PropertiesTable.interface";
 import PositionCreateModal from "./PositionCreateModal";
 import SectorCreateModal from "./SectorCreateModal";
+import { t } from "i18next";
 
 const CreationComponents: Record<UserPropsType, React.ElementType> =  {
     position: PositionCreateModal,
@@ -36,7 +37,7 @@ export default ({kind, onClose, isOpen, list}: ICreateModalProps) => {
         <Modal 
             handleClose={onClose!}
             open={isOpen!}
-            title={`Create ${UserPropsTypeToTitle[kind!]}`}
+            title={t(`usersOverview.properties.${kind}.create`)}
         >
             {Component && <Component onChange={setData} list={list} />}
             <ButtonGroup cancel={cancel} submit={submit} />
