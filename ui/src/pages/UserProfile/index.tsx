@@ -23,6 +23,7 @@ import { toast } from "react-toastify";
 import { useUserContext } from "@/contexts/user.context";
 import { Bar, BarChart, Legend, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer, Tooltip, TooltipProps, XAxis, YAxis } from "recharts";
 import { NameType, ValueType } from "recharts/types/component/DefaultTooltipContent";
+import { t } from "i18next";
 
 interface IModalProps {
     feedbackId?: number
@@ -151,7 +152,7 @@ const UserProfile = () => {
                 {
                     classId ?
                         <SectionHeader links={[{
-                            label: "Classes Overview",
+                            label: t('userProfile.classesOverview'),
                             goTo: "/classes"
                         },
                         {
@@ -163,7 +164,7 @@ const UserProfile = () => {
                         }]} />
                         : userId ?
                             <SectionHeader links={[{
-                                label: "Users Overview",
+                                label: t('userProfile.usersOverview'),
                                 goTo: "/users"
                             },
                             {
@@ -171,7 +172,7 @@ const UserProfile = () => {
                             }]} />
                             :
                             <SectionHeader links={[{
-                                label: "User Profile"
+                                label: t('userProfile.userProfile')
                             }]} />
                 }
                 <section className={`${styles.section}`}>
@@ -180,11 +181,11 @@ const UserProfile = () => {
                             <div className={`${styles.gap}`}>
                                 <Text variant="span" fontWeight="bold" fontSize="xl2">{userData?.name}</Text>
                                 <Text>{userData?.identification}</Text>
-                                    <Text>{userData?.isArchived? "(Archived)":""}</Text>
+                                    <Text>{userData?.isArchived? t('userProfile.archived'):""}</Text>
                             </div>
                             {
                                 studentData &&
-                                <Text fontSize="md" fontWeight="semibold" >{"From " + studentData?.className}</Text>
+                                <Text fontSize="md" fontWeight="semibold" >{`${t('userProfile.from')} ` + studentData?.className}</Text>
                             }
                         </div>
                         <Button variant="primary_icon" onClick={() => setEditModal(true)}><Icon name="settings" /></Button>
@@ -199,7 +200,7 @@ const UserProfile = () => {
                         </div>
                         <div className={`${styles.spacing}`}>
                             <Text fontSize="lg" fontWeight="bold" >{userData?.position + " - " + userData?.sector}</Text>
-                            <Text>{!userData?.birthday ? "Missing birth date..." : "Birthday: " + formatDate(userData.birthday)}</Text>
+                            <Text>{!userData?.birthday ? t('userProfile.missingBirthday') : `${t('userProfile.birthdays')}: ` + formatDate(userData.birthday)}</Text>
                         </div>
                     </div>
                     {/* <ProfileCard {...data.student} /> */}
@@ -284,17 +285,17 @@ const UserProfile = () => {
                             {
                                 studentData?.subjectFeedBacks.length! > 0 &&
                                 <section className={`${styles.feedbacks}`}>
-                                    <Text fontSize="lg" fontWeight="bold">Subject Feedbacks</Text>
+                                    <Text fontSize="lg" fontWeight="bold">{t('userProfile.subjectFeedbacks')}</Text>
                                     {
                                         studentData?.subjectFeedBacks.map(f => (
                                             <FeedbackCard
                                                 color={getColor(f.subject)}
                                                 title={f.subject}
-                                                subtitle={"Last update • " + formatDate(f.updatedAt) + " by " + f.instructor} content={f.content}
+                                                subtitle={t('userProfile.lastUpdate') + formatDate(f.updatedAt) + t('userProfile.by') + f.instructor} content={f.content}
                                                 editButton={
                                                     user?.permissionLevel == 2 && user.id != userData?.id ?
                                                         {
-                                                            label: "Edit Feedback",
+                                                            label: t('userProfile.editFeedback'),
                                                             action: () => setModalProps({
                                                                 feedbackId: f.id,
                                                                 isFeedbackModalOpen: true
@@ -309,18 +310,18 @@ const UserProfile = () => {
                             {
                                 user?.permissionLevel == 2 && studentData?.feedbacks.length! > 0 &&
                                 <section className={`${styles.feedbacks}`}>
-                                    <Text fontSize="lg" fontWeight="bold">Personal Feedbacks</Text>
+                                    <Text fontSize="lg" fontWeight="bold">{t('userProfile.personalFeedback')}</Text>
                                     {
                                         studentData?.feedbacks.map(f => (
                                             <FeedbackCard
                                                 color={getColor(f.instructor)}
                                                 title={f.instructor}
-                                                subtitle={"Last update • " + formatDate(f.updatedAt)}
+                                                subtitle={t('userProfile.lastUpdate') + formatDate(f.updatedAt)}
                                                 isPrivate={!f.studentMayVisualize}
                                                 editButton={
                                                     user?.permissionLevel == 2 && user?.id == f.instructorId ?
                                                         {
-                                                            label: "Edit Feedback",
+                                                            label: t('userProfile.editFeedback'),
                                                             action: () => setModalProps({
                                                                 feedbackId: f.id,
                                                                 isFeedbackModalOpen: true
@@ -355,7 +356,7 @@ const UserProfile = () => {
                 <UpdateProfileModal
                     open={editModal}
                     handleClose={() => setEditModal(false)}
-                    title="Edit Profile"
+                    title={t('userProfile.editProfile')}
                     isCurrentUser={!userId}
                 />
             }

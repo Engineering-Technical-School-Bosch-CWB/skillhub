@@ -32,12 +32,12 @@ const Login = () => {
             return response.data;
         };
 
-        const message = toast.loading("Authenticating...");
+        const message = toast.loading(t('login.authenticating'));
         apiRequest().then(content => {
 
             toast.update(message, {
                 ...toastifyUpdate,
-                render: "Logged in successfully!",
+                render: t('login.logged'),
                 type: "success",
             })
 
@@ -46,7 +46,7 @@ const Login = () => {
 
             if (content.firstLogin) {
                 navigate("/complete-register");
-                toast.info("Complete registration to gain access.");
+                toast.info(t('login.completeRegistration'));
                 return;
             }
 
@@ -55,7 +55,7 @@ const Login = () => {
         }).catch(err => {
             toast.update(message, {
                 ...toastifyUpdate,
-                render: err.message || "Invalid credentials.",
+                render: err.message ||  t('login.invalidCredential') ,
                 type: "error",
             })
         })
@@ -67,7 +67,7 @@ const Login = () => {
                 <BoschLogo />
                 <Form
                     fields={fields}
-                    submitText="Enter"
+                    submitText="LOGIN"
                     onSubmit={(data) => handleSubmit(data)}
                 >
                 </Form>

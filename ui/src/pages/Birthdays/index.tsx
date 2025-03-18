@@ -11,6 +11,7 @@ import Button from '../../components/Button';
 import SectionHeader from '@/components/SectionHeader';
 import IImage from '@/interfaces/models/IImage';
 import Progress from '@/components/Progress';
+import { t } from 'i18next';
 
 const Birthdays = () => {
 
@@ -22,8 +23,9 @@ const Birthdays = () => {
     const [students, setStudents] = useState<IStudentCardProps[]>([]);
 
     const months = [
-        "January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
+        t('birthdays.january'), t('birthdays.february'), t('birthdays.march'), t('birthdays.april'), 
+        t('birthdays.may'), t('birthdays.june'), t('birthdays.july'), t('birthdays.august'), 
+        t('birthdays.september'), t('birthdays.october'), t('birthdays.november'), t('birthdays.december')
     ];
 
     const getData = async () => {
@@ -72,9 +74,9 @@ const Birthdays = () => {
         <>
             <Header />
             <main>
-                <SectionHeader links={[{ label: "Birthdays" }]} />
+                <SectionHeader links={[{ label: t('birthdays.birthdays') }]} />
                 <div className={styled.birthday_title}>
-                    <Text variant="span" fontWeight="bold" fontSize="xl2">Birthdays</Text>
+                    <Text variant="span" fontWeight="bold" fontSize="xl2">{t('birthdays.birthdays')}</Text>
                 </div>
                 <div className={styled.month_title}>
                     <Button onClick={handlePreviousMonth}>{'<'}</ Button>
