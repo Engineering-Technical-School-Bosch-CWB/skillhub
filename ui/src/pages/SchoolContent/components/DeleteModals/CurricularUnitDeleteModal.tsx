@@ -4,6 +4,7 @@ import internalAPI from "@/service/internal.services";
 import { CurricularUnit } from "@/interfaces/models/ICurricularUnit";
 import styles from "./styles.module.css";
 import Text from "@/typography";
+import { t } from "i18next";
 
 export default ({id}: IDeleteModalProps) => {
     const [data, setData] = useState<CurricularUnit>();
@@ -20,8 +21,8 @@ export default ({id}: IDeleteModalProps) => {
     
     return (
         <section className={styles.content_section}>
-            <Text>Name: {data?.name}</Text>
-            <Text>Area: {data?.subjectArea?.name}</Text>
+            <Text>{t('schoolContent.curricularUnits.name')}: {data?.name}</Text>
+            <Text>{t('schoolContent.curricularUnits.subjectArea')}: {data?.subjectArea?.name}</Text>
         </section>
     )
 }

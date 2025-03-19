@@ -2,13 +2,13 @@
     "translation": {
         "login": {
             "welcome": "Welcome",
-            "identification": "Identification(EDV)",
+            "identification": "Identification (EDV)",
             "password": "Password",
             "authenticating": "Authenticating...",
-            "logged": "Logged in successfully!",
+            "logged": "Successfully authenticated!",
             "invalidCredential": "Invalid credentials.",
-            "completeRegistration": "Complete registration to gain access.",
-            "enter": "Enter"
+            "completeRegistration": "Complete registration to access.",
+            "enter": "Access"
         },
         "home": {
             "userProfile": "Profile",
@@ -16,8 +16,10 @@
             "birthdays": "Birthdays",
             "curricularUnits": "Subjects",
             "classesOverview": "Classes",
-            "schoolContent": "School Content",
-            "users": "Users"
+            "schoolContent": "Management",
+            "users": "Users",
+            "signout": "Sign Out",
+            "lang": "Language"
         },
         "birthdays": {
             "birthdays": "Birthdays",
@@ -37,7 +39,178 @@
         },
         "usersOverview": {
             "users": "Users",
-            "addUser": "Add User"
+            "addUser": "Add User",
+            "position": "Position",
+            "properties": {
+                "properties": "Properties",
+                "position": {
+                    "title": "Positions",
+                    "name": "Name",
+                    "level": "Permission Level",
+                    "type": "Permission Type",
+                    "options": "Options",
+                    "deleteDescription": "Are you sure you want to delete this item?",
+                    "create": "Create Position",
+                    "edit": "Edit Position"
+                },
+                "sector": {
+                    "title": "Sectors",
+                    "name": "Name",
+                    "options": "Options",
+                    "deleteDescription": "Are you sure you want to delete this item?",
+                    "create": "Create Sector",
+                    "edit": "Edit Sector"
+                }
+            }
+        },
+        "userProfile": {
+            "userProfile": "Profile",
+            "editProfile": "Edit Profile",
+            "profileImage": "Profile Image",
+            "editFeedback": "Edit Feedback",
+            "lastUpdate": "Last update • ",
+            "personalFeedback": "Personal Feedback",
+            "by": " by ",
+            "subjectFeedbacks": "Subject Feedback",
+            "missingBirthday": "No birthday date...",
+            "birthdays": "Birthdate",
+            "from": "From ",
+            "archived": "(Archived)",
+            "usersOverview": "Users",
+            "classesOverview": "Classes",
+            "grade": "Result",
+            "aptitude": "Result (no weight)",
+            "classPosition": "Ranking",
+            "contentArea": "Area",
+            "subject": "Subject",
+            "feedbackModal": {
+                "editTitle": "Edit Feedback",
+                "writeTitle": "Write Feedback",
+                "forSubject": "for the subject of",
+                "from": "from",
+                "select": {
+                    "personal": "Personal Feedback"
+                },
+                "description": "Write your feedback for",
+                "here": "Write your feedback here...",
+                "canSeeToggle": "The student can see it.",
+                "responses": {
+                    "successDelete": "Feedback successfully deleted!",
+                    "deleting": "Deleting feedback...",
+                    "deleteConfirm": "Are you sure you want to delete this feedback?",
+                    "successUpdate": "Feedback successfully updated!",
+                    "successCreate": "Feedback successfully created!"
+                }
+            }
+        },
+        "subjectResults": {
+            "skills": "Skills",
+            "classPerformance": "Class Average",
+            "yourPerformance": "Your Performance",
+            "lastUpdate": "Last update • ",
+            "by": "by",
+            "nofeedback": "No feedback.",
+            "results": "Results",
+            "generalResults": "General Results"
+        },
+        "subjectDetails": {
+            "editFeedback": "Edit Feedback",
+            "lastUpdate": "Last update • ",
+            "by": "by",
+            "nofeedback": "No feedback...",
+            "apprenticeSubjectFeedback": "Apprentices can see subject feedback!",
+            "studentFeedback": "Student Feedback",
+            "exams": "Assessments",
+            "noInstructor": "No responsible instructor",
+            "period": "Period",
+            "noDurationHours": "No duration time",
+            "duration": "Duration: ",
+            "noinitialDate": "No start date",
+            "initialDate": "Start date:",
+            "classes": "Classes"
+        },
+        "schoolContent": {
+            "title": "Management",
+            "delete": "Are you sure you want to delete this item?",
+            "tabIndex": {
+                "courses": "Courses",
+                "subjectArea": "Knowledge Area",
+                "occupationArea": "Occupation Area"
+            },
+            "kind": {
+                "course": "Course",
+                "curricularUnits": "Curricular Unit",
+                "subjectAreas": "Knowledge Areas",
+                "occupationArea": "Occupation Areas"
+            }
+        },
+        "createExam": {
+            "exam": "Assessment",
+            "createExam": "Create Assessment",
+            "creatingExam": "Creating assessment...",
+            "createExamFor": "Create assessment for",
+            "examCreated": "Assessment successfully created!"
+        },
+        "createClass": {
+            "new": "New",
+            "tabIndex": {
+                "class": "Class",
+                "students": "Students",
+                "subjects": "Subjects",
+                "overview": "Overview"
+            }
+        },
+        "completeRegistering": {
+            "updatingUser": "Registering user...",
+            "userUpdated": "User registered!",
+            "fullName": "Full Name",
+            "dateBirthday": "Date of Birth",
+            "identification": "Identification (EDV)",
+            "position": "Position",
+            "password": "Password",
+            "passwordConfirm": "Confirm Password",
+            "enter": "Enter"
+        },
+        "classesOverview": {
+            "classes": "Classes"
+        },
+        "classDetails": {
+            "classes": "Classes",
+            "classesOverview": "Classes",
+            "periods": "Periods",
+            "details": "Details",
+            "overallPerformance": "Overall Performance",
+            "contentArea": "Knowledge Area",
+            "subjectPerformance": "Subject",
+            "studentPerformance": "Student Performance",
+            "students": "Students",
+            "addStudent": "Add Student",
+            "addNewStudent": "Add New Student"
+        },
+        "tables": {
+            "description": "Description",
+            "options": "Options"
+        },
+        "buttons": {
+            "cancel": "Cancel",
+            "delete": "Delete",
+            "confirm": "Confirm",
+            "send": "Send",
+            "save": "Save",
+            "previous": "Previous",
+            "next": "Next",
+            "archive": "Archive",
+            "unarchive": "Unarchive",
+            "back": "Back",
+            "ok": "OK"
+        },
+        "errors": {
+            "errorLoadCurricularUnit": "Error loading subjects!",
+            "somethingWentWrong": "Something went wrong.",
+            "passwordsMustMatch": "Passwords must match!",
+            "invalidCredentials": "Invalid credentials.",
+            "classesLoadError": "Error loading classes.",
+            "resultsLoadError": "Error loading results."
         }
     }
 }

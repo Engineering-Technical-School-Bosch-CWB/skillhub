@@ -16,6 +16,7 @@ import styles from "./styles.module.css"
 import ButtonGroup from "@/components/ButtonGroup"
 import { IState } from "@/interfaces/IState.interface"
 import toastifyUpdate from "@/constants/toastfyUpdate"
+import { t } from "i18next"
 
 export default ({ handleClose, open, data, ucState }: ISettingsModalProps) => {
 
@@ -92,14 +93,14 @@ export default ({ handleClose, open, data, ucState }: ISettingsModalProps) => {
         <Modal
             handleClose={handleClose}
             open={open}
-            title="Curricular Unit Settings"
+            title={t('curricularUnits.settings.title')}
 
         >
             <div className={styles.modal_content}>
 
-                <Input value={currentData.name} label="Name" onChange={(e) => changeData("name", e.target.value)} />
+                <Input value={currentData.name} label={t('curricularUnits.name')} onChange={(e) => changeData("name", e.target.value)} />
                 <Select
-                    label="Subject Area"
+                    label={t('curricularUnits.subjectArea')}
                     data={subjectAreasSelect}
                     hasDefault={true}
 

@@ -1,3 +1,4 @@
+import { t } from "i18next"
 import SingleBarChart from "../../../../components/Charts/SingleBarChart"
 import { ContentAreaChartProps } from "../../interfaces/ClassDetails.interfaces"
 
@@ -5,7 +6,7 @@ export const ContentAreaChart = ({ data, onBarClick, selectedId }: ContentAreaCh
 
     const chartData = [
         {
-            label: "Content Area",
+            label: t('classDetails.contentArea'),
             data: data
         }
     ]

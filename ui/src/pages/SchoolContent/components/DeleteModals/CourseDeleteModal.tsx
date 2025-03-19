@@ -5,6 +5,7 @@ import internalAPI from "@/service/internal.services";
 import { ICourse } from "@/interfaces/models/ICourse";
 
 import styles from "./styles.module.css";
+import { t } from "i18next";
 
 export default ({id}: IDeleteModalProps) => {
 
@@ -22,9 +23,8 @@ export default ({id}: IDeleteModalProps) => {
 
     return(
         <section className={styles.content_section}>
-            <Text>Name: {data?.name}</Text>
-            {/* <Text>Abbreviation: {data?.abbreviation}</Text> */}
-            <Text>Area: {data?.occupationArea?.name}</Text>
+            <Text>{t('schoolContent.course.name')}: {data?.name}</Text>
+            <Text>{t('schoolContent.course.occupationArea')}: {data?.occupationArea?.name}</Text>
         </section>
     )
 }

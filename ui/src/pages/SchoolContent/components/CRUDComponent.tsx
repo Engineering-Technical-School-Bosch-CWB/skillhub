@@ -18,6 +18,7 @@ import { OccupationArea } from "@/interfaces/models/IOccupationArea";
 import { SubjectArea } from "@/interfaces/models/ISubjectArea";
 import CreateModal from "./CreateModals/CreateModal";
 import Pagination from "@/components/TableView/Pagination";
+import { t } from "i18next";
 
 export interface ICrudContainerProps {
     kind: Tabs;
@@ -101,8 +102,8 @@ export default ({ kind }: ICrudContainerProps) => {
 
     const sectionHeaderProps: ISectionHeaderProps = {
         links: [
-            { label: "School Content", goTo: "/school-content" },
-            { label: tabName[kind] },
+            { label: t('schoolContent.title'), goTo: "/school-content" },
+            { label: t(`schoolContent.kind.${kind}`) },
         ],
     };
 
@@ -114,7 +115,7 @@ export default ({ kind }: ICrudContainerProps) => {
         <>
             <SectionHeader {...sectionHeaderProps} />
             <section className={styles.table_header}>
-                <Text fontSize="xl2" fontWeight="bold">{tabName[kind]}</Text>
+                <Text fontSize="xl2" fontWeight="bold">{t(`schoolContent.kind.${kind}`)}</Text>
                 <Button variant="secondary_icon" onClick={toggleCreate}>
                     <Icon name="add" size="md" />
                 </Button>

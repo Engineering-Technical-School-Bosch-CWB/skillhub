@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { IClass } from "../../interfaces/ClassDetails.interfaces";
+import { t } from "i18next";
 
 interface IModalProps {
     isOpen: boolean
@@ -37,12 +38,12 @@ export default ({ isOpen, handleIsOpen, _class, setClass }: IModalProps) => {
             return response.data;
         }
 
-        const message = toast.loading("Updating class...");
+        const message = toast.loading(t('classDetails.updateModal.updatingClass'));
         apiRequest().then(content => {
 
             toast.update(message, {
                 ...toastifyUpdate,
-                render: "Class updated successfully!",
+                render: t('classDetails.updateModal.successfullyUpdated'),
                 type: "success"
             });
 
@@ -55,7 +56,7 @@ export default ({ isOpen, handleIsOpen, _class, setClass }: IModalProps) => {
         }).catch(err => {
             toast.update(message, {
                 ...toastifyUpdate,
-                render: err.message || "Something went wrong.",
+                render: err.message || t('errors.somethingWentWrong'),
                 type: "error"
             });
         }).finally(() => {
@@ -64,17 +65,17 @@ export default ({ isOpen, handleIsOpen, _class, setClass }: IModalProps) => {
     }
 
     const handleDelete = () => {
-        if (!confirm(`Are you sure you want to DELETE ${_class.name} - ${_class.startingYear}?`))
+        if (!confirm(`${t('classDetails.updateModal.deleteMessage')} ${_class.name} - ${_class.startingYear}?`))
             return
 
         const apiRequest = async () => 
             await internalAPI.jsonRequest(`/classes/${classId}`, "DELETE");
 
-        const message = toast.loading("Deleting class...");
+        const message = toast.loading(t('classDetails.updateModal.deleting'));
         apiRequest().then(() => {
             toast.update(message, {
                 ...toastifyUpdate,
-                render: `${_class.name + " - " + _class.startingYear} deleted successfully!`,
+                render: `${_class.name + " - " + _class.startingYear} ${t('classDetails.updateModal.successfullyDeleted')}`,
                 type: "success"
             });
 
@@ -82,7 +83,7 @@ export default ({ isOpen, handleIsOpen, _class, setClass }: IModalProps) => {
         }).catch(err => {
             toast.update(message, {
                 ...toastifyUpdate,
-                render: err.message || `Unable to delete ${_class.name + " - " + _class.startingYear}`,
+                render: err.message || `${t('classDetails.updateModal.unableDelete')} ${_class.name + " - " + _class.startingYear}`,
                 type: "error"
             });
 
@@ -91,17 +92,17 @@ export default ({ isOpen, handleIsOpen, _class, setClass }: IModalProps) => {
     }
 
     const handleArchive = () => {
-        if (!confirm(`Are you sure you want to ARCHIVE ${_class.name} - ${_class.startingYear}?`))
+        if (!confirm(`${t('classDetails.updateModal.archiveMessage')} ${_class.name} - ${_class.startingYear}?`))
             return
 
         const apiRequest = async () => 
             await internalAPI.jsonRequest(`/classes/archive/${classId}`, "PATCH");
 
-        const message = toast.loading("Archiving class...");
+        const message = toast.loading(t('classDetails.updateModal.archiving'));
         apiRequest().then(() => {
             toast.update(message, {
                 ...toastifyUpdate,
-                render: `${_class.name + " - " + _class.startingYear} achived successfully!`,
+                render: `${_class.name + " - " + _class.startingYear} ${t('classDetails.updateModal.successfullyArchived')}`,
                 type: "success"
             });
 
@@ -109,7 +110,7 @@ export default ({ isOpen, handleIsOpen, _class, setClass }: IModalProps) => {
         }).catch(err => {
             toast.update(message, {
                 ...toastifyUpdate,
-                render: err.message || `Unable to archive ${_class.name + " - " + _class.startingYear}`,
+                render: err.message || `${t('classDetails.updateModal.unableArchive')} ${_class.name + " - " + _class.startingYear}`,
                 type: "error"
             });
 
@@ -118,17 +119,17 @@ export default ({ isOpen, handleIsOpen, _class, setClass }: IModalProps) => {
     }
 
     const handleUnarchive = () => {
-        if (!confirm(`Are you sure you want to UNARCHIVE ${_class.name} - ${_class.startingYear}?`))
+        if (!confirm(`${t('classDetails.updateModal.unarchiveMessage')} ${_class.name} - ${_class.startingYear}?`))
             return
         
         const apiRequest = async () => 
             await internalAPI.jsonRequest(`/classes/unarchive/${classId}`, "PATCH");
 
-        const message = toast.loading("Unarchiving class...");
+        const message = toast.loading(t('classDetails.updateModal.unarchiving'));
         apiRequest().then(() => {
             toast.update(message, {
                 ...toastifyUpdate,
-                render: `${_class.name + " - " + _class.startingYear} unachived successfully!`,
+                render: `${_class.name + " - " + _class.startingYear} ${t('classDetails.updateModal.successfullyUnarchived')}`,
                 type: "success"
             });
 
@@ -136,7 +137,7 @@ export default ({ isOpen, handleIsOpen, _class, setClass }: IModalProps) => {
         }).catch(err => {
             toast.update(message, {
                 ...toastifyUpdate,
-                render: err.message || `Unable to unarchive ${_class.name + " - " + _class.startingYear}`,
+                render: err.message || `${t('classDetails.updateModal.unableUnarchive')} ${_class.name + " - " + _class.startingYear}`,
                 type: "error"
             });
 
@@ -156,36 +157,36 @@ export default ({ isOpen, handleIsOpen, _class, setClass }: IModalProps) => {
         <>
             <Modal open={isOpen} handleClose={handleClose} title={_class.name} >
                 <div className={`${styles.inputs}`}>
-                    <Input onChange={(e) => setPayload({ ...payload, name: e.target.value })} label="Class name" value={payload.name} maxLength={255} />
+                    <Input onChange={(e) => setPayload({ ...payload, name: e.target.value })} label={t('classDetails.updateModal.className')} value={payload.name} maxLength={255} />
                     <div className={`${styles.section}`}>
-                        <Input onChange={(e) => setPayload({ ...payload, abbreviation: e.target.value })} label="Abbreviation" width={"calc(100%/3)"} value={payload.abbreviation} maxLength={10} />
-                        <Input onChange={(e) => setPayload({ ...payload, durationPeriods: Number(e.target.value) })} label="Duration periods" width={"calc(100%/3)"} value={payload.durationPeriods} type="number" min={0} max={50} />
-                        <Input onChange={(e) => setPayload({ ...payload, startingYear: Number(e.target.value) })} label="Starting year" width={"calc(100%/3)"} value={payload.startingYear} type="number" min={1980} max={2200} />
+                        <Input onChange={(e) => setPayload({ ...payload, abbreviation: e.target.value })} label={t('classDetails.updateModal.abbreviation')} width={"calc(100%/3)"} value={payload.abbreviation} maxLength={10} />
+                        <Input onChange={(e) => setPayload({ ...payload, durationPeriods: Number(e.target.value) })} label={t('classDetails.updateModal.periods')} width={"calc(100%/3)"} value={payload.durationPeriods} type="number" min={0} max={50} />
+                        <Input onChange={(e) => setPayload({ ...payload, startingYear: Number(e.target.value) })} label={t('classDetails.updateModal.startingYear')} width={"calc(100%/3)"} value={payload.startingYear} type="number" min={1980} max={2200} />
                     </div>
 
                     <br />
                     <div className={`${styles.bttns}`}>
                         <div className={`${styles.bttns} ${styles.flex_start}`}>
                             <div className={`${styles.not} ${styles.tooltip}`}>
-                                <Button kind="danger" onClick={handleDelete}>Delete</Button>
-                                <span className={`${styles.tooltiptext}`}>Delete this class forever!</span>
+                                <Button kind="danger" onClick={handleDelete}>{t('buttons.delete')}</Button>
+                                <span className={`${styles.tooltiptext}`}>{t('classDetails.updateModal.deleteAlert')}</span>
                             </div>
                             {
                                 _class.isArchived &&
                                 <div className={`${styles.not} ${styles.tooltip}`}>
-                                    <Button kind="alert" onClick={handleUnarchive}>Unarchive</Button>
+                                    <Button kind="alert" onClick={handleUnarchive}>{t('buttons.unarchive')}</Button>
                                 </div>
                             }
                             {
                                 !_class.isArchived &&
                                 <div className={`${styles.not} ${styles.tooltip}`}>
-                                    <Button kind="alert" onClick={handleArchive}>Archive</Button>
-                                    <span className={`${styles.tooltiptext}`} style={{ width: "180px" }}>Archive finished class!</span>
+                                    <Button kind="alert" onClick={handleArchive}>{t('buttons.archive')}</Button>
+                                    <span className={`${styles.tooltiptext}`} style={{ width: "180px" }}>{t('classDetails.updateModal.archiveAlert')}</span>
                                 </div>
                             }
                         </div>
-                        <Button onClick={handleClose}>Cancel</Button>
-                        <Button variant="contained" onClick={handleSubmit}>Confirm</Button>
+                        <Button onClick={handleClose}>{t('buttons.cancel')}</Button>
+                        <Button variant="contained" onClick={handleSubmit}>{t('buttons.confirm')}</Button>
                     </div>
                 </div>
             </Modal>

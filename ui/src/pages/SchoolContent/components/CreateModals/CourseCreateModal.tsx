@@ -9,6 +9,7 @@ import Input from "@/components/Input";
 import Select from "@/components/Select";
 
 import styles from '../DeleteModals/styles.module.css'
+import { t } from "i18next";
 
 export default ({ onChange, setDisabled }: ICreateModalProps) => {
 
@@ -51,9 +52,8 @@ export default ({ onChange, setDisabled }: ICreateModalProps) => {
 
     return (
         <section className={styles.content_section} >
-            <Input label="Name" value={data?.name} onChange={(e) => change("name", e.target.value)} maxLength={255} />
-            {/* <Input label="Abbreviation" value={data?.abbreviation} onChange={(e) => change("abbreviation", e.target.value)} /> */}
-            <Select data={occupationAreaSelect?.data ?? []} label="Occupation Area" onChange={(e) => change("occupationAreaId", Number(e.target.value))} />
+            <Input label={t('schoolContent.course.name')} value={data?.name} onChange={(e) => change("name", e.target.value)} maxLength={255} />
+            <Select data={occupationAreaSelect?.data ?? []} label={t('schoolContent.course.occupationArea')} onChange={(e) => change("occupationAreaId", Number(e.target.value))} />
         </section>
     )
 }

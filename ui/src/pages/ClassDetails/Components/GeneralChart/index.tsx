@@ -1,3 +1,4 @@
+import { t } from "i18next";
 import SingleBarChart from "../../../../components/Charts/SingleBarChart";
 import { IGeneralChart as IGeneralChartProps } from "../../interfaces/ClassDetails.interfaces"
 
@@ -5,7 +6,7 @@ const GeneralChart = ({ data, onBarClick, selectedId }: IGeneralChartProps) => {
 
     const chartData = [
         {
-            label: "General Performance",
+            label: t('classDetails.studentPerformance'),
             data: data
         }
     ]

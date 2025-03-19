@@ -25,6 +25,7 @@ import Icon from "@/components/Icon";
 import UpdateProfileModal from "../UserProfile/components/UpdateProfileModal";
 import UpdateModal from "./Components/UpdateModal";
 import IImage from "@/interfaces/models/IImage";
+import { t } from "i18next";
 
 const ClassDetails = () => {
 
@@ -69,7 +70,7 @@ const ClassDetails = () => {
 
         if (!response.success) {
             if (!toast.isActive("class-load-error"))
-                toast.error("Something went wrong.", { toastId: "class-load-error" });
+                toast.error(t('errors.somethingWentWrong'), { toastId: "class-load-error" });
             navigate("/home");
         }
 
@@ -155,7 +156,7 @@ const ClassDetails = () => {
 
             <main>
                 <SectionHeader links={[{
-                    label: "Classes Overview",
+                    label: t('classDetails.classesOverview'),
                     goTo: "/classes"
                 },
                 {
@@ -168,17 +169,17 @@ const ClassDetails = () => {
                     }} button={{
                         icon: "settings",
                         onClick: () => setUpdateModalProps({ isUpdateModalOpen: true })
-                    }} subtitle={`${_class?.abbreviation ? _class.abbreviation + " | " : ""} ${_class?.durationPeriods ? _class.durationPeriods + " periods" : "Duration periods not recorded"}`} />
+                    }} subtitle={`${_class?.abbreviation ? _class.abbreviation + " | " : ""} ${_class?.durationPeriods ? _class.durationPeriods + ` ${t('classDetails.periods')}` : t('classDetails.periodsNotRecorded')}`} />
                 </section>
 
                 <Divider size="big" />
 
                 <section className={styles.chart_container}>
-                    <Text fontSize="xl2" fontWeight="bold" >Details</Text>
+                    <Text fontSize="xl2" fontWeight="bold" >{t('classDetails.details')}</Text>
 
                     <section className={`${styles.chart_section} ${styles.align}`}>
                         <div className={`${styles.line}`}>
-                            <DoughnutChart performance={overallPerformance == null ? 0 : Number(overallPerformance.toFixed(1))} title="Overall Performance" />
+                            <DoughnutChart performance={overallPerformance == null ? 0 : Number(overallPerformance.toFixed(1))} title={t('classDetails.overallPerformance')} />
                             <Ranking data={rankingData.sort((a, b) => (b.performance ?? 0) - (a.performance ?? 0))} onClick={handleStudentClick} />
                         </div>
                         <div className={`${styles.full} ${styles.flex}`}>
@@ -199,7 +200,7 @@ const ClassDetails = () => {
 
                 <section className={styles.students_section}>
                     <Text fontSize="xl2" fontWeight="bold" className={`${styles.section_title}`}>
-                        Students
+                        {t('classDetails.students')}
                     </Text>
 
                     <div className={`${styles.student_container} ${styles.align}`} >
@@ -215,7 +216,7 @@ const ClassDetails = () => {
                             variant="primary_label_icon"
                             onClick={() => setAddStudentModal(true)}
                         >
-                            Add Student <Icon name="add" size="md" />
+                            {t('classDetails.addStudent')} <Icon name="add" size="md" />
                         </Button>
                     </div>
                     <br />
@@ -224,7 +225,7 @@ const ClassDetails = () => {
                         handleClose={() => setAddStudentModal(false)}
                         isCurrentUser={false}
                         open={addStudentModal}
-                        title="Add New Student"
+                        title={t('classDetails.studentCard.newTitle')}
                         subtitle={className}
                         byClassId={classId}
                     />

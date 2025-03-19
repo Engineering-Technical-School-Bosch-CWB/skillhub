@@ -10,6 +10,7 @@ import { ISelectData } from "@/components/Select/interfaces";
 import { ModalContentProps } from "@/pages/ClassDetails/interfaces/ClassDetails.interfaces";
 import Button from "@/components/Button";
 import Icon from "@/components/Icon";
+import { t } from "i18next";
 
 export interface ISelectSubjectProps {
     onChange: (key: string, value: any) => void,
@@ -30,7 +31,7 @@ export default ({onChange, def, onDelete}: ISelectSubjectProps) => {
     const loadData = async () => {
         const response = await internalAPI.jsonRequest(`/curricularUnits?page=${page}&items=${limit}&query=${filter}`, "GET")
         if(!response || !response.success) 
-            toast.error("Error on load Curricular Units");
+            toast.error(t('errors.errorLoadCurricularUnit'));
         
         const _data: ISelectData[] = response.data.map((cUnit: ICurricularUnit) => {
             const val: ISelectData = {

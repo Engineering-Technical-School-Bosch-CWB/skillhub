@@ -6,6 +6,7 @@ import { IAddStudent } from "../interfaces/AddClassPage.interface";
 import Button from "@/components/Button";
 import Icon from "@/components/Icon";
 import { toast } from "react-toastify";
+import { t } from "i18next";
 
 export interface IStudentIndexProps {
     students?: IAddStudent[],
@@ -34,7 +35,7 @@ export default ({ students, setStudents }: IStudentIndexProps) => {
 
     const newStudentChanged = () => {
         if (students?.some(s => !s.name.trim() || !s.identification.trim())) 
-            return toast.error("Fill in all fields.");
+            return toast.error(t('createClass.errors.fillAllFields'), {toastId: "fillAllFields"});
 
         const _students = [...students!, { name: "", identification: "" }];
         setStudents!(_students);
@@ -43,7 +44,7 @@ export default ({ students, setStudents }: IStudentIndexProps) => {
     return (
         <div className={styles.form_content}>
             <section className={styles.card_page_header}>
-                <Text fontSize="lg" fontWeight="bold">Students</Text>
+                <Text fontSize="lg" fontWeight="bold">{t('createClass.tabIndex.students')}</Text>
             </section>
             <section className={styles.card_page_content}>
                 {
@@ -58,7 +59,7 @@ export default ({ students, setStudents }: IStudentIndexProps) => {
                             <Input 
                                 value={subject.name} 
                                 onChange={(e) => changeName(_index, e.target.value)} 
-                                label="Name"
+                                label={t('createClass.studentIndex.name')}
                                 maxLength={500}
                             />
                             <Button variant="rounded" kind="danger" onClick={() => removeStudent(_index)}>

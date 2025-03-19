@@ -8,13 +8,14 @@ import { ISelectProps } from "@/components/Select/interfaces";
 import { IUpdateModalProps } from "./_UpdateModal.interface";
 import internalAPI from "@/service/internal.services";
 import { toast } from "react-toastify";
+import { t } from "i18next";
 
 export default ({onChange, id}: IUpdateModalProps) => {
 
     const [data, setData] = useState<IPosition>();
 
     const [positionLevelSelectProps, setSelectProps] = useState<ISelectProps>({
-        label: "Position Level",
+        label: t(`usersOverview.properties.position.level`),
         data: [
             {
                 key: "Default",
@@ -64,7 +65,7 @@ export default ({onChange, id}: IUpdateModalProps) => {
 
     return (
         <section className={styles.content_section} >
-            <Input label="Name" value={data?.name} onChange={(e) => change("name", e.target.value)} />
+            <Input label={t(`usersOverview.properties.position.name`)} value={data?.name} onChange={(e) => change("name", e.target.value)} />
             <Select {...positionLevelSelectProps} />
         </section>
     )

@@ -11,6 +11,7 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { IAddClassPageProps } from "./interfaces/AddClassPage.interface"
 import { toast } from "@/components/Toast";
+import { t } from "i18next";
 
 export default ({ data, index, setIndex, setClass, setStudents, setSubjects }: IAddClassPageProps) => {
 
@@ -22,7 +23,11 @@ export default ({ data, index, setIndex, setClass, setStudents, setSubjects }: I
         <SubjectsIndex subjects={data.subjects} alterSubjects={setSubjects} />,
         <OverviewIndex data={data} setDataChecked={setDataChecked} />
     ]
-    const pagesTitle = ["Class", "Students", "Subjects", "Overview"]
+    const pagesTitle = [
+        t('createClass.tabIndex.class'), 
+        t('createClass.tabIndex.students'), 
+        t('createClass.tabIndex.subjects'), 
+        t('createClass.tabIndex.overview')]
     const navigate = useNavigate()
 
     const handleSend = async () => {
@@ -31,7 +36,7 @@ export default ({ data, index, setIndex, setClass, setStudents, setSubjects }: I
         if (!response.success) {
             toast({
                 data: {
-                    title: "Error on create class",
+                    title: t('createClass.errors.onCreate'),
                     message: response.message,
                     kind: "error"
                 }, 
@@ -88,11 +93,11 @@ export default ({ data, index, setIndex, setClass, setStudents, setSubjects }: I
             </div>
 
             <section className={styles.btn_area}>
-                <Button onClick={() => handleSetIndex(false)}>Previous</Button>
+                <Button onClick={() => handleSetIndex(false)}>{t('buttons.previous')}</Button>
                 {
                     index != pages.length - 1 ?
-                        <Button variant="contained" onClick={() => handleSetIndex(true)}>Next</Button> :
-                        <Button variant="contained" disabled={!dataChecked} onClick={() => handleSend()} >Send</Button>
+                        <Button variant="contained" onClick={() => handleSetIndex(true)}>{t('buttons.next')}</Button> :
+                        <Button variant="contained" disabled={!dataChecked} onClick={() => handleSend()} >{t('buttons.send')}</Button>
                 }
             </section>
         </div>

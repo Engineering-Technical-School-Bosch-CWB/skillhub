@@ -7,6 +7,7 @@ import Button from "../../../../components/Button"
 import internalAPI from "../../../../service/internal.services"
 import SelectSubject from "./components/SelectSubject"
 import { toast } from "react-toastify"
+import { t } from "i18next"
 
 export default ({ isOpen, onClose, classId }: AddModalProps) => {
 
@@ -56,12 +57,12 @@ export default ({ isOpen, onClose, classId }: AddModalProps) => {
         <>
             <Modal
                 handleClose={() => onClose()}
-                open={isOpen} title={"Add Subjects"}            >
+                open={isOpen} title={t('classDetails.addSubjectModal.title')} >
                 <div className={`${styles.modal_content} ${styles.align}`}>
                     <span></span>
                     <div className={`${styles.modal_input_label_container} ${styles.align}`}>
-                        <Text>Curricular Unit</Text>
-                        <Text>Duration (h)</Text>
+                        <Text>{t('classDetails.addSubjectModal.curricularUnit')}</Text>
+                        <Text>{t('classDetails.addSubjectModal.duration')} (H)</Text>
                     </div>
                     {
                         content.map((e, i: number) => (
@@ -69,9 +70,9 @@ export default ({ isOpen, onClose, classId }: AddModalProps) => {
                         ))
                     }
 
-                    <Button variant="contained" onClick={() => handleAddContent()}>Add +</Button>
+                    <Button variant="contained" onClick={() => handleAddContent()}>{t('classDetails.addSubjectModal.add')} +</Button>
                     <div className={`${styles.btnArea} ${styles.align}`}>
-                        <Button variant="contained" onClick={() => handleSave()}>Save</Button>
+                        <Button variant="contained" onClick={() => handleSave()}>{t('buttons.save')}</Button>
                     </div>
                 </div>
             </Modal>

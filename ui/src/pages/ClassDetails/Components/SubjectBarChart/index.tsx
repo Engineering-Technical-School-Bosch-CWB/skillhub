@@ -1,3 +1,4 @@
+import { t } from "i18next"
 import SingleBarChart from "../../../../components/Charts/SingleBarChart"
 import { ISubjectBarChatProps } from "../../interfaces/ClassDetails.interfaces"
 
@@ -5,7 +6,7 @@ const SubjectBarChart = ({ data, onBarClick, selectedId }: ISubjectBarChatProps)
 
     const chartData = [
         {
-            label: "Subject Chart",
+            label: t('classDetails.subjectPerformance'),
             data: data
         }
     ]

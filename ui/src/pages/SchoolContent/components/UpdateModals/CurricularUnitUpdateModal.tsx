@@ -8,6 +8,7 @@ import Input from "@/components/Input";
 import Select from "@/components/Select";
 import { ISelectData, ISelectProps } from "@/components/Select/interfaces";
 import { SubjectArea } from "@/interfaces/models/ISubjectArea";
+import { t } from "i18next";
 
 export default ({ id, onChange, setDisabled }: IUpdateModalProps) => {
 
@@ -55,8 +56,8 @@ export default ({ id, onChange, setDisabled }: IUpdateModalProps) => {
 
     return (
         <section className={styles.content_section}>
-            <Input label="Name" value={data?.name} onChange={(e) => change("name", e.target.value)} maxLength={50} />
-            <Select data={subjectAreaSelect?.data ?? []} label="Subject Area" onChange={(e) => change("subjectAreaId", e.target.value)} />
+            <Input label={t('schoolContent.curricularUnits.name')} value={data?.name} onChange={(e) => change("name", e.target.value)} maxLength={50} />
+            <Select data={subjectAreaSelect?.data ?? []} label={t('schoolContent.curricularUnits.subjectArea')} onChange={(e) => change("subjectAreaId", e.target.value)} />
         </section>
     )
 }

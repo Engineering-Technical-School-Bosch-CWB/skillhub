@@ -10,6 +10,7 @@ import internalAPI from "@/service/internal.services";
 import { toast } from "react-toastify";
 import { ICreateModalProps } from "./_CreateModal.interface";
 import toastifyUpdate from "@/constants/toastfyUpdate";
+import { t } from "i18next";
 
 const CreationComponents: Record<Tabs, React.ElementType> = {
     course: CourseCreateModal,
@@ -68,7 +69,7 @@ export default ({ kind, onClose, isOpen, onCreate }: ICreateModalProps) => {
         <Modal
             handleClose={onClose!}
             open={isOpen!}
-            title={`Create ${tabName[kind!]}`}
+            title={t(`schoolContent.${kind}.create`)}
         >
             {Component && <Component onChange={setData} setDisabled={setDisabled} />}
             <ButtonGroup cancel={cancel} submit={submit} disabled={disabled} />

@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import SectionHeader from "@/components/SectionHeader";
 import Progress from "@/components/Progress";
+import { t } from "i18next";
 
 const ClassesOverview = () => {
 
@@ -70,10 +71,10 @@ const ClassesOverview = () => {
             <Header />
             <main>
                 <SectionHeader links={[{
-                    label: "Classes Overview",
+                    label: t('classesOverview.classes'),
                 }]} />
                 <ExplorerContainer
-                    title={"Classes"}
+                    title={t('classesOverview.classes')}
                     folderData={archivedCardsData}
                     data={cardsData}
                     onAddHandle={() => toggleAdd()}

@@ -13,6 +13,7 @@ import styles from "./styles.module.css"
 import UpdateModal from "./components/UpdateModals/UpdateModal";
 import DeleteModal from "./components/DeleteModals/DeleteModal";
 import CreateModal from "./components/CreateModals/CreateModal";
+import { t } from "i18next";
 
 export default ({kind, items = 3}: IUserPropertiesTablesProps) => {
 
@@ -75,7 +76,7 @@ export default ({kind, items = 3}: IUserPropertiesTablesProps) => {
     return(
         <section className={styles.table_container}>
             <section className={styles.table_header}>
-                <Text fontSize="xl2" fontWeight="bold">{UserPropsTypeToTitle[kind]}</Text>
+                <Text fontSize="xl2" fontWeight="bold">{ t(`usersOverview.properties.${kind}.title`)}</Text>
                 <Button variant="secondary_icon" onClick={() => toggleCreate()}>
                     <Icon name="add" size="md"/>
                 </Button>

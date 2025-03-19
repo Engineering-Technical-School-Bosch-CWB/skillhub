@@ -5,6 +5,7 @@ import internalAPI from "@/service/internal.services";
 import { toast } from "react-toastify";
 import Text from "@/typography";
 import ISector from "@/interfaces/models/ISector";
+import { t } from "i18next";
 
 export default ({id}: IDeleteModalProps) => {
 
@@ -25,7 +26,7 @@ export default ({id}: IDeleteModalProps) => {
     return (
         <section className={styles.content_section} >
             <span>
-                <Text>Name: </Text>
+                <Text>{t(`usersOverview.properties.sector.name`)}: </Text>
                 <Text>{data?.name}</Text>
             </span>
         </section>

@@ -10,6 +10,7 @@ import { IAddSubject } from "../../interfaces/AddClassPage.interface";
 import Button from "@/components/Button";
 import Icon from "@/components/Icon";
 import Select from "@/components/Select";
+import { t } from "i18next";
 
 export interface ISubjectSelectProps {
     data?: IAddSubject,
@@ -25,7 +26,7 @@ export default ({ data, onSelect: onChange, onChangeInput, onToggleDelete }: ISu
         const response = await internalAPI.jsonRequest('/curricularUnits?query', 'GET')
         if (!response.success)
             if (!toast.isActive("subjects-load-error"))
-                toast.error("Load subjects error.", { toastId: "subjects-load-error" });
+                toast.error(t('createClass.errors.loadSubjects'), { toastId: "subjects-load-error" });
 
 
         const _data = response.data as ICurricularUnit[];
@@ -60,10 +61,10 @@ export default ({ data, onSelect: onChange, onChangeInput, onToggleDelete }: ISu
                 <Select     
                     data={options} 
                     hasDefault={data?.curricularUnitId != 0}
-                    label="Subject" 
+                    label={t('createClass.subjectIndex.subject')}
                     onChange={(e) => handleChange(e)} 
                 />
-                <Input label="Duration" value={data?.duration} onChange={(e) => onChangeInput!(e.target.value)} />
+                <Input label={t('createClass.subjectIndex.duration')} value={data?.duration} onChange={(e) => onChangeInput!(e.target.value)} />
                 {
                     onToggleDelete &&
                     <Button variant="rounded" kind="danger" onClick={onToggleDelete} > <Icon name="close" /></Button>

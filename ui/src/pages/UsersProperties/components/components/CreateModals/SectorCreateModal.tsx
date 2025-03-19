@@ -4,6 +4,7 @@ import Input from "@/components/Input";
 
 import styles from '../DeleteModals/styles.module.css'
 import ISector from "@/interfaces/models/ISector";
+import { t } from "i18next";
 
 export default ({onChange}: ICreateModalProps) => {
 
@@ -24,7 +25,7 @@ export default ({onChange}: ICreateModalProps) => {
 
     return (
         <section className={styles.content_section} >
-            <Input label="Name" value={data?.name} onChange={(e) => change("name", e.target.value)} />
+            <Input label={t(`usersOverview.properties.sector.name`)} value={data?.name} onChange={(e) => change("name", e.target.value)} />
         </section>
     )
 }
