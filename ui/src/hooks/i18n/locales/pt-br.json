@@ -137,6 +137,29 @@
                 "weight": "Peso",
                 "efficiency": "Eficiência",
                 "overallPerformance": "Média de Performance:"
+            },
+            "feedbackModal": {
+                "confirm": "Confirmar",
+                "cancel": "Cancelar",
+                "writeFeedback": "Escreva seu feedback aqui...",
+                "whiteFeedbackFor": "Escreva seu feedback para ",
+                "editFeedback": "Editar Feedback",
+                "feedbackWritten": "Feedback escrito com sucesso!",
+                "writingFeedback": "Escrevendo o feedback..."
+            },
+            "updateModal": {
+                "updatingSubject": "Atualizando matéria...",
+                "feedbackUpdated": "Feedback atualizado com sucesso!",
+                "confirmDelete": "Você realmente deseja deletar essa matéria?",
+                "deletedSuccessfully": " deletado com sucesso!",
+                "unableDelete": "Não é possível deletar ",
+                "durationHours":"Duração de horas",
+                "period":"Período",
+                "initialDate":"Data de início",
+                "responsibleTeacher":"Instrutor responsável",
+                "delete":"Deletar",
+                "cancel":"Cancelar",
+                "confirm":"Confirmar"
             }
         },
         "schoolContent": {

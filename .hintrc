@@ -1,0 +1,17 @@
+{
+  "extends": [
+    "development"
+  ],
+  "hints": {
+    "compat-api/css": [
+      "default",
+      {
+        "ignore": [
+          "text-wrap",
+          "min-width: fit-content",
+          "user-select"
+        ]
+      }
+    ]
+  }
+}

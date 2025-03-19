@@ -137,6 +137,29 @@
                 "weight": "Weight",
                 "efficiency": "Efficiency",
                 "overallPerformance": "Overall Performance:"
+            },
+            "feedbackModal": {
+                "confirm": "Confirm",
+                "cancel": "Cancel",
+                "writeFeedback": "Write your feedback here...",
+                "whiteFeedbackFor": "Write your feedback for ",
+                "editFeedback": "Edit Feedback",
+                "feedbackWritten": "Feedback written successfully!",
+                "writingFeedback": "Writing feedback..."
+            },
+            "updateModal": {
+                "updatingSubject": "Updating subject...",
+                "feedbackUpdated": "Feedback updated successfully!",
+                "confirmDelete": "Do you really want to delete this subject?",
+                "deletedSuccessfully": " deleted successfully!",
+                "unableDelete": "Unable to delete ",
+                "durationHours":"Duration hours",
+                "period":"Period",
+                "initialDate":"Initial date",
+                "responsibleTeacher":"Responsible teacher",
+                "delete":"Delete",
+                "cancel":"Cancel",
+                "confirm":"Confirm"
             }
         },
         "schoolContent": {
