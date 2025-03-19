@@ -158,6 +158,28 @@
                 "students": "Students",
                 "subjects": "Subjects",
                 "overview": "Overview"
+            },
+            "courseIndex": {
+                "course":"Course",
+                "className":"Class Name",
+                "abbreviation":"Abbreviation",
+                "startingYear":"Starting Year",
+                "periods":"Periods"
+            },
+            "studentIndex":{
+                "name":"Name"
+            },
+            "subjectIndex":{
+                "optional":"Optional",
+                "subject":"Subject",
+                "duration":"Duration",
+                "timeUnit":"Hours"
+            },
+            "overviewIndex":{},
+            "errors": {
+                "onCreate":"Error on create class",
+                "fillAllFields":"Fill all fields",
+                "loadSubjects": "Error on load subjects"
             }
         },
         "completeRegistering": {
