@@ -1,8 +1,11 @@
 export interface IStudentCardProps {
     id: number,
     name: string,
-    identification: string,
-
+    
+    classId?: string
+    group?: string
+    position?: string
+    identification?: string,
     birthday?: string,
     shortBirthday?: string,
     size?: string,

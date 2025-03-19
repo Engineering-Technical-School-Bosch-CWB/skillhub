@@ -54,6 +54,7 @@ public record UserBirthdayDTO(
     string Name,
     string Position,
     string Group,
+    int ClassId,
     DateOnly? Birthday,
     ImageDto? ProfilePicture = null
 )
@@ -65,6 +66,7 @@ public record UserBirthdayDTO(
             obj.Name,
             obj.Position.Name,
             @class?.Abbreviation ?? "",
+            @class?.Id ?? 0,
             obj.Birthday,
             ImageService.ConvertToDto(obj.ProfilePicture)
         );

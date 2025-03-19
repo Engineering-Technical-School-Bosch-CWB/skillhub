@@ -25,6 +25,7 @@ export default forwardRef<HTMLImageElement, IStudentCardProps>(
             }
             <div className={`${styles.details} ${styles.align}`}>
                 <Text fontWeight="bold" >{props.name}</Text>
+                <Text>{props.identification}</Text>
                 <Text fontWeight="semibold" >
                     {!props.birthday ? "" : formatDate(props.birthday)}
                     {!props.shortBirthday ? "" : formatShortDate(props.shortBirthday)}
