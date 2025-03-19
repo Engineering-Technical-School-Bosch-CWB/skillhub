@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { tabName, Tabs } from "../links";
+import { Tabs } from "../links";
 import internalAPI from "@/service/internal.services";
 import { toast } from "react-toastify";
 import TableView from "@/components/TableView";

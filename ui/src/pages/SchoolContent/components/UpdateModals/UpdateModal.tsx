@@ -2,7 +2,7 @@ import Modal from "@/components/Modal";
 import ButtonGroup from "@/components/ButtonGroup";
 import internalAPI from "@/service/internal.services";
 import { toast } from "react-toastify";
-import { tabName, Tabs } from "../../links";
+import { Tabs } from "../../links";
 import React, { useState } from "react";
 import CourseUpdateModal from "./CourseUpdateModal";
 import CurricularUnitUpdateModal from "./CurricularUnitUpdateModal";
