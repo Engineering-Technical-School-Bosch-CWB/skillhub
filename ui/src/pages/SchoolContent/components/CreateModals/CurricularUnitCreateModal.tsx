@@ -9,6 +9,7 @@ import Select from "@/components/Select";
 import { CurricularUnit } from "@/interfaces/models/ICurricularUnit";
 
 import styles from '../DeleteModals/styles.module.css'
+import { t } from "i18next";
 
 export default ({ onChange, setDisabled }: ICreateModalProps) => {
 
@@ -50,8 +51,8 @@ export default ({ onChange, setDisabled }: ICreateModalProps) => {
 
     return (
         <section className={styles.content_section}>
-            <Input label="Name" value={data?.name} onChange={(e) => change("name", e.target.value)} maxLength={50} />
-            <Select data={subjectAreasSelect?.data ?? []} label="Subject Area" onChange={(e) => change("subjectAreaId", e.target.value)} />
+            <Input label={t('schoolContent.curricularUnit.name')} value={data?.name} onChange={(e) => change("name", e.target.value)} maxLength={50} />
+            <Select data={subjectAreasSelect?.data ?? []} label={t('schoolContent.curricularUnit.subjectArea')} onChange={(e) => change("subjectAreaId", e.target.value)} />
         </section>
     )
 }

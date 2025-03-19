@@ -10,6 +10,7 @@ import ButtonGroup from "@/components/ButtonGroup";
 import internalAPI from "@/service/internal.services";
 import { toast } from "react-toastify";
 import toastifyUpdate from "@/constants/toastfyUpdate";
+import { t } from "i18next";
 
 const DeleteComponents: Record<Tabs, React.ElementType> = {
     course: CourseDeleteModal,
@@ -61,7 +62,7 @@ return (
     <Modal
         handleClose={onClose!}
         open={isOpen!}
-        title={"Are you sure you want to delete this item?"}
+        title={t('schoolContent.delete')}
     >
         {Component && <Component id={id} />}
         <ButtonGroup cancel={cancel} submit={submit} />

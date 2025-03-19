@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { IUpdateModalProps } from "./_UpdateModal.interface"
 import { ICourse } from "@/interfaces/models/ICourse";
 import { ISelectData, ISelectProps } from "@/components/Select/interfaces";
+import { t } from 'i18next';
 
 export default ({ id, onChange, setDisabled }: IUpdateModalProps) => {
 
@@ -54,11 +55,11 @@ export default ({ id, onChange, setDisabled }: IUpdateModalProps) => {
 
     return (
         <section className={styles.content_section}>
-            <Input label="Name" value={data?.name} onChange={(e) => change("name", e.target.value)} maxLength={255} />
+            <Input label={t('schoolContent.course.name')} value={data?.name} onChange={(e) => change("name", e.target.value)} maxLength={255} />
             {/* <Input label="Abbreviation" value={data?.abbreviation} onChange={(e) => change("abbreviation", e.target.value)} /> */}
             <Select data={selectData?.data ?? []}
                 hasDefault={data?.occupationArea?.id != null}
-                label={"Occupation Area"}
+                label={t('schoolContent.course.occupationArea')}
                 onChange={(e) => change("occupationAreaId", Number(e.target.value))} />
         </section>
     )

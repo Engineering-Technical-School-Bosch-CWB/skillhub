@@ -70,7 +70,7 @@
             "personalFeedback": "Feedback pessoal",
             "by": " por ",
             "subjectFeedbacks": "Feedback das matérias",
-            "missingBirth": "Sem data de aniversário...",
+            "missingBirthday": "Sem data de aniversário...",
             "birthdays": "Nascimento",
             "from": "De ",
             "archived": "(Arquivado)",
@@ -128,7 +128,41 @@
             "classes": "Turmas"
         },
         "schoolContent": {
-
+            "title":"Gestão",
+            "delete": "Você tem certeza que deseja deletar este item?",
+            "tabIndex": {
+                "courses": "Cursos",
+                "subjectArea":"Área de Conhecimento",
+                "occupationArea":"Área de Atuação"
+            },
+            "kind": {
+                "course" :"Curso",
+                "curricularUnits" : "Unidade Curricular",
+                "subjectAreas" : "Áreas de Conhecimentos",
+                "occupationArea": "Áreas de Atuação"
+            },
+            "course" : {
+                "create": "Criar Curso",
+                "update": "Atualizar Curso",
+                "name": "Nome",
+                "occupationArea": "Área"
+            },
+            "subjectAreas" : {
+                "create": "Criar Área de Conhecimento",
+                "update": "Atualizar Área de Conhecimento",
+                "name":"Nome"
+            },
+            "occupationArea": {
+                "create": "Criar Área de Atuação",
+                "update": "Atualizar Área de Atuação",
+                "name":"Nome"
+            },
+            "curricularUnits": {
+                "create": "Criar Disciplina",
+                "update": "Atualizar Disciplina",
+                "name":"Nome",
+                "subjectArea": "Área de Conhecimento"
+            }
         },
         "curricularUnits": {
             "noSubjectArea": "Sem área de conhecimento",

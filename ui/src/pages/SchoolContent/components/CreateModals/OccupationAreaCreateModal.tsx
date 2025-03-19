@@ -4,6 +4,7 @@ import { OccupationArea } from "@/interfaces/models/IOccupationArea";
 
 import styles from "../DeleteModals/styles.module.css"
 import Input from "@/components/Input";
+import { t } from "i18next";
 
 export default ({ onChange, setDisabled }: ICreateModalProps) => {
 
@@ -23,7 +24,7 @@ export default ({ onChange, setDisabled }: ICreateModalProps) => {
 
     return (
         <section className={styles.content_section}>
-            <Input label="Name" value={data?.name} onChange={(e) => change("name", e.target.value)} maxLength={50} />
+            <Input label={t('schoolContent.occupationArea.name')} value={data?.name} onChange={(e) => change("name", e.target.value)} maxLength={50} />
         </section>
     )
 }

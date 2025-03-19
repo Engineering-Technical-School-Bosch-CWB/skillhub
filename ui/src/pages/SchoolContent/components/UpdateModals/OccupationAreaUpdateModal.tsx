@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Input from "@/components/Input";
 import { OccupationArea } from "@/interfaces/models/IOccupationArea";
+import { t } from "i18next";
 
 export default ({ id, onChange, setDisabled }: IUpdateModalProps) => {
 
@@ -35,7 +36,7 @@ export default ({ id, onChange, setDisabled }: IUpdateModalProps) => {
 
     return (
         <section className={styles.content_section}>
-            <Input label="Name" value={data?.name} onChange={(e) => change("name", e.target.value)} maxLength={50} />
+            <Input label={t('schoolContent.occupationArea.name')} value={data?.name} onChange={(e) => change("name", e.target.value)} maxLength={50} />
         </section>
     )
 }

@@ -10,6 +10,7 @@ import SubjectAreaUpdateModal from "./SubjectAreaUpdateModal";
 import OccupationAreaUpdateModal from "./OccupationAreaUpdateModal";
 import { IUpdateModalProps } from "./_UpdateModal.interface";
 import toastifyUpdate from "@/constants/toastfyUpdate";
+import { t } from "i18next";
 
 const UpdateComponents: Record<Tabs, React.ElementType> = {
     course: CourseUpdateModal,
@@ -65,7 +66,7 @@ export default ({ id, kind, onClose, isOpen, onUpdate }: IUpdateModalProps) => {
         <Modal
             handleClose={onClose!}
             open={isOpen!}
-            title={`Update ${tabName[kind!]}`}
+            title={t(`schoolContent.${kind}.update`)}
         >
             {Component && <Component id={id} onChange={setData} setDisabled={setDisabled} />}
             <ButtonGroup cancel={cancel} submit={submit} disabled={disabled} />
