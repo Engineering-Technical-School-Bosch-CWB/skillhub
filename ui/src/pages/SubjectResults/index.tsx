@@ -25,7 +25,6 @@ const SubjectResults = () => {
     const navigate = useNavigate();
 
     const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
-    // const [isContestmentModalOpen, setIsContestmentModalOpen] = useState(false);
     const [selectedSkill, setSelectedSkill] = useState<number>();
 
     const [subject, setSubject] = useState("");
@@ -63,11 +62,6 @@ const SubjectResults = () => {
         setIsHistoryModalOpen(isOpen);
         setSelectedSkill(skillId);
     }
-
-    // const handleContestmentModal = (isOpen: boolean, skillId: number) => {
-    //     setIsContestmentModalOpen(isOpen);
-    //     setSelectedSkill(skillId);
-    // }
 
     const options: IOption[] = [
         {
@@ -130,7 +124,6 @@ const SubjectResults = () => {
                     </div>
                 </div>
 
-                {/* <ContestmentModal isOpen={isContestmentModalOpen} handleIsOpen={handleContestmentModal} skillId={selectedSkill} /> */}
                 {
                     selectedSkill &&
                     <HistoryModal isOpen={isHistoryModalOpen} handleIsOpen={handleHistoryModal} skillId={selectedSkill} />

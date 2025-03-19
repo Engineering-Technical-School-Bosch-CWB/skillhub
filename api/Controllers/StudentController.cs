@@ -49,7 +49,7 @@ public class StudentController : ControllerBase
     )
     {
         var student = await service.GetByUserId(userContext.UserId)
-            ?? throw new NotFoundException("Student found!");
+            ?? throw new NotFoundException("Student not found!");
 
         var result = await service.GetSubjectResultsPage(student.Id, subjectId);
         return Ok(result);
