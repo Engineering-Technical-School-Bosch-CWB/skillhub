@@ -3,6 +3,8 @@ import styles from "./styles.module.css"
 import Link from "../../Link";
 import { useUserContext } from "../../../contexts/user.context";
 import { Divider } from "@mui/material";
+import { t } from "i18next";
+import SelectLang from "./components/SelectLang";
 
 interface IMenuProps {
     open: boolean;
@@ -33,22 +35,24 @@ export default ({ open, handleClose }: IMenuProps) => {
 
                 <div className={styles.link_list}>
                     <Link to={"/home"}>{"Home"}</Link>
-                    <Link to={"/user-profile"}>{"User Profile"}</Link>
+                    <Link to={"/user-profile"}>{t("home.userProfile")}</Link>
                     {
                         user?.studentProfile &&
-                        <Link to={"/apprentice/results"} >{"Student Results"}</Link>
+                        <Link to={"/apprentice/results"} >{t('home.studentResults')}</Link>
                     }
-                    <Link to={"/birthdays"} >{"Birthdays"}</Link>
+                    <Link to={"/birthdays"} >{t('home.birthdays')}</Link>
                     {
                         user?.permissionLevel === 2 &&
                         <>
-                            <Link to={"/classes"} >{"Classes Overview"}</Link>
-                            <Link to={"/school-content"} >{"School Content"}</Link>
-                            <Link to={"/users"} >{"Users"}</Link>
+                            <Link to={"/classes"} >{t('home.classesOverview')}</Link>
+                            <Link to={"/school-content"} >{t('home.schoolContent')}</Link>
+                            <Link to={"/users"} >{t('home.users')}</Link>
                         </>
                     }
                     <Divider />
-                    <Link onClick={() => sessionStorage.removeItem("@AUTH")} to={"/"}>{"Sign out"}</Link>
+                    <SelectLang />
+                    <Divider />
+                    <Link onClick={() => sessionStorage.removeItem("@AUTH")} to={"/"}>{t('home.signout')}</Link>
                 </div>
             </div>
         </div>

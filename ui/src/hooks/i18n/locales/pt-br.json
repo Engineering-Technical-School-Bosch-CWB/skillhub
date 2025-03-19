@@ -17,7 +17,9 @@
             "curricularUnits": "Disciplinas",
             "classesOverview": "Turmas",
             "schoolContent": "Gestão",
-            "users": "Usuários"
+            "users": "Usuários",
+            "signout":"Sair",
+            "lang":"Idioma"
         },
         "birthdays": {
             "birthdays": "Aniversariantes",
@@ -246,9 +248,34 @@
             "periodsNotRecorded": "Período não informado",
             "details": "Detalhes",
             "overallPerformance": "Desempenho Geral",
+            "contentArea": "Área de Conhecimento",
+            "subjectPerformance": "Matéria",
+            "studentPerformance": "Desempenho por Aluno",
             "students": "Estudantes",
             "addStudent": "Adicionar estudante",
             "addNewStudent": "Adicionar novo estudante",
+            "updateModal": {
+                "className" :"Nome da Turma",
+                "abbreviation":"Abreviação",
+                "periods":"Períodos",
+                "startingYear":"Ano de Início",
+                "updatingClass":"Atualizando a turma...",
+                "successfullyUpdated":"Turma atualizada com sucesso!",
+                "deleteMessage":"Você tem certeza que deseja EXCLUIR",
+                "deleting":"Deletando turma...",
+                "successfullyDeleted": "excluido com sucesso",
+                "unableDelete": "Não é permitido excluir",
+                "deleteAlert" :"Deletar esta turma para sempre",
+                "archiveMessage":"Você tem certeza que deseja ARQUIVAR",
+                "archiving":"Arquivando a turma...",
+                "successfullyArchived":"arquivado com sucesso!",
+                "archiveAlert":"Arquivar turma finalizada",
+                "unableArchive": "Não é permitido archivar",
+                "unarchiveMessage":"Você tem certeza que deseja DESARQUIVAR",
+                "unarchiving":"Desarquivando a turma...",
+                "successfullyUnarchived":"arquivado com sucesso!",
+                "unableUnarchive": "Não é permitido desarquivar"
+            },
             "studentCard":{
                 "newTitle": "Adicionar Novo Estudante",
                 "updateTitle": "Atualizar Estudante",
@@ -286,6 +313,12 @@
                     "loadClasses":"Erro ao carregar turmas.",
                     "loadPositions":"Erro ao carregar cargos."
                 }
+            },
+            "addSubjectModal" : {
+                "title": "Adicionar Matéria",
+                "curricularUnit": "Disciplina",
+                "duration": "Duração",
+                "add":"Adicionar"
             }
         },
         "avaliateAprentices": {  
