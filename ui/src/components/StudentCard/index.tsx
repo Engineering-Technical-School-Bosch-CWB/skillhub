@@ -5,7 +5,7 @@ import styles from './style.module.css';
 import Avatar from "../Avatar";
 import Text from "../../typography";
 import { Link } from "react-router-dom";
-import formatDate from "@/constants/formatDate";
+import { formatDate, formatShortDate } from "@/constants/formatDate";
 
 export default forwardRef<HTMLImageElement, IStudentCardProps>(
     ({
@@ -25,11 +25,12 @@ export default forwardRef<HTMLImageElement, IStudentCardProps>(
             }
             <div className={`${styles.details} ${styles.align}`}>
                 <Text fontWeight="bold" >{props.name}</Text>
+                <Text>{props.identification}</Text>
                 <Text fontWeight="semibold" >
-                    {!props.birthday ? "-" : formatDate(props.birthday)}
+                    {!props.birthday ? "" : formatDate(props.birthday)}
+                    {!props.shortBirthday ? "" : formatShortDate(props.shortBirthday)}
                 </Text>
             </div>
         </Link>
     )
 )
-

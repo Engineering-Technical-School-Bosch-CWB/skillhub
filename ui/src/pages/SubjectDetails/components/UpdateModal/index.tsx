@@ -5,7 +5,7 @@ import Input from "@/components/Input";
 import Select from "@/components/Select";
 import internalAPI from "@/service/internal.services";
 import Progress from "@/components/Progress";
-import formatDate from "@/constants/formatDate";
+import { formatDate } from "@/constants/formatDate";
 import toastifyUpdate from "@/constants/toastfyUpdate";
 
 import { toast } from "react-toastify";

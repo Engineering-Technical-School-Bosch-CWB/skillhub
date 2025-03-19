@@ -11,9 +11,12 @@ import Button from '../../components/Button';
 import SectionHeader from '@/components/SectionHeader';
 import IImage from '@/interfaces/models/IImage';
 import Progress from '@/components/Progress';
+import { useUserContext } from "../../contexts/user.context";
 import { t } from 'i18next';
 
 const Birthdays = () => {
+
+    const { user } = useUserContext();
 
     const [loading, setLoading] = useState(true);
 
@@ -39,12 +42,14 @@ const Birthdays = () => {
 
         const content = response.data;
 
-        setStudents(content.map((s: { id: number; name: string; birthday: string; identification: string; profilePicture?: IImage }) => ({
+        setStudents(content.map((s: { id: number; name: string; birthday: string; profilePicture?: IImage; position: string; group: string; classId: number }) => ({
             id: s.id,
             name: s.name,
             birthday: s.birthday,
-            identification: s.identification,
-            image: s.profilePicture?.mUrl
+            image: s.profilePicture?.mUrl,
+            position: s.position,
+            group: s.group,
+            classId: s.classId
         })));
 
         setLoading(false);
@@ -89,13 +94,33 @@ const Birthdays = () => {
                     {
                         students.length == 0
                             ?
-                            <Text variant="span" fontSize="sm">No birthdays</Text>
+                            <Text variant="span" fontSize="sm">{t('birthdays.noData')}</Text>
                             :
                             students.map(s => {
+                                //const goTo = "/user-profile?classId=" + s.classId + "&userId=" + s.id
+                                //const goTo = user?.permissionLevel === 2 ? "aaa" : "";
+                                let identification = s.position === "Aprendiz" ? s.group : s.position;
+                                let goTo;
+                                if(user?.permissionLevel===2) {
+                                    goTo = s.position==="Aprendiz" ?
+                                        "/user-profile?classId=" + s.classId + "&userId=" + s.id :
+                                        "/user-profile?userId=" + s.id 
+                                }
+                                else {
+                                    goTo = ""
+                                }
+
                                 return (
-                                    <StudentCard key={s.id} id={s.id} name={s.name} birthday={s.birthday} identification={s.identification} goTo='' image={s.image} />
+                                    <StudentCard
+                                        key={s.id} id={s.id}
+                                        name={s.name}
+                                        identification={identification}
+                                        shortBirthday={s.birthday}
+                                        goTo={goTo} image={s.image}
+                                    />
+                                    
                                 )
-                            })
+                            }) 
                     }
                 </div>
             </main>

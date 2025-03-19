@@ -3,4 +3,9 @@ const formatDate = (date: string) => {
     return `${day}/${month}/${year}`;
 }
 
-export default formatDate;
+const formatShortDate = (date: string) => {
+    const [year, month, day] = date.split("-");
+    return `${day}/${month}`;
+}
+
+export { formatDate, formatShortDate };

@@ -4,7 +4,7 @@ import DoughnutChart from "../../components/Charts/DoughnutChart";
 import Header from "../../components/Header";
 import Text from "../../typography";
 import TableView from "../../components/TableView";
-import formatDate from "../../constants/formatDate";
+import { formatDate } from "../../constants/formatDate";
 import HistoryModal from "./components/HistoryModal";
 import internalAPI from "../../service/internal.services";
 

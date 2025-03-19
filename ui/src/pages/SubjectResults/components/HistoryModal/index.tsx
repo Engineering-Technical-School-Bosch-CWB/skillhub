@@ -7,7 +7,7 @@ import internalAPI from "../../../../service/internal.services";
 import { IModalProps } from "../../interfaces";
 import { ITableData } from "../../../../components/TableView/interfaces";
 import { useEffect, useState } from "react";
-import formatDate from "../../../../constants/formatDate";
+import { formatDate } from "../../../../constants/formatDate";
 
 const HistoryModal = ({ isOpen, handleIsOpen, skillId }: IModalProps) => {
     const handleClose = () => handleIsOpen(false);

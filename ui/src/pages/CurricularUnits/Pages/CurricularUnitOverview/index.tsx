@@ -165,7 +165,7 @@ export default () => {
                         skills.map((skill, _index) => {
                             return (
                                 <tr>
-                                    <td>{_index}</td>
+                                    <td>{_index+1}</td>
                                     <td className={styles.description}>
                                         {skill.description}
                                         <span className={styles.tooltip}>
