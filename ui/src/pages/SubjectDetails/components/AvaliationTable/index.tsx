@@ -91,7 +91,9 @@ export default ({ exam }: IAvaliationTableProps) => {
                                             exam.data.students.map((student: { skillsResults: any[]; }) => (
                                                 <>
                                                     <td className={`${styles.result_cell} ${getSkillClass(student.skillsResults[skill.id])} ${styles.td} ${styles.divider}`}>
-                                                        { t(`subjectDetails.avaliationTable.${student.skillsResults[skill.id].toLowerCase()}`)  || "-"}
+                                                        {student.skillsResults[skill.id] 
+                                                            ? t(`subjectDetails.avaliationTable.${student.skillsResults[skill.id]}`) 
+                                                            : "-"}
                                                     </td>
                                                 </>
                                             ))

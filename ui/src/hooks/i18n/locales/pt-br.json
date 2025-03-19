@@ -49,7 +49,7 @@
                     "level":"Nível de Permissão",
                     "type":"Tipo de Permissão",
                     "options":"Opções",
-                    "deleteDescription":"Você tem certeza que deseja deletar este item?",
+                    "deleteDescription":"Você tem certeza que deseja excluir este item?",
                     "create":"Criar Cargo",
                     "edit":"Editar Cargo"
                 },
@@ -57,7 +57,7 @@
                     "title":"Setores",
                     "name":"Nome",
                     "options":"Opções",
-                    "deleteDescription":"Você tem certeza que deseja deletar este item?",
+                    "deleteDescription":"Você tem certeza que deseja excluir este item?",
                     "create":"Criar Setor",
                     "edit":"Editar Setor"
                 }
@@ -97,7 +97,7 @@
                 "responses": {
                     "successDelete":"Feedback deletado com sucesso!",
                     "deleting":"Deletando feedback...",
-                    "deleteConfirm": "Você tem certeza que deseja deletar este feedback?",
+                    "deleteConfirm": "Você tem certeza que deseja excluir este feedback?",
                     "successUpdate":"Fedback atualizado com sucesso!",
                     "successCreate":"Feedback criado com sucesso!"
                 }
@@ -129,9 +129,9 @@
             "initialDate": "Data de início: ",
             "classes": "Turmas",
             "avaliationTable": {
-                "skilled": "Apto",
-                "developing": "Desenvolvimento",
-                "unskilled": "Inapto",
+                "Skilled": "Apto",
+                "Developing": "Desenvolvimento",
+                "Unskilled": "Inapto",
                 "evaluate": "Avaliar",
                 "skill": "Competências",
                 "weight": "Peso",
@@ -150,21 +150,42 @@
             "updateModal": {
                 "updatingSubject": "Atualizando matéria...",
                 "feedbackUpdated": "Feedback atualizado com sucesso!",
-                "confirmDelete": "Você realmente deseja deletar essa matéria?",
+                "confirmDelete": "Você realmente deseja excluir essa matéria?",
                 "deletedSuccessfully": " deletado com sucesso!",
-                "unableDelete": "Não é possível deletar ",
-                "durationHours":"Duração de horas",
-                "period":"Período",
-                "initialDate":"Data de início",
-                "responsibleTeacher":"Instrutor responsável",
-                "delete":"Deletar",
-                "cancel":"Cancelar",
-                "confirm":"Confirmar"
+                "unableDelete": "Não é possível excluir ",
+                "durationHours": "Duração de horas",
+                "period": "Período",
+                "initialDate": "Data de início",
+                "responsibleTeacher": "Instrutor responsável",
+                "delete": "Excluir",
+                "cancel": "Cancelar",
+                "confirm": "Confirmar"
+            },
+            "evaluateExam": {
+                "leaveConfirmation": "Tem certeza de que deseja sair desta página? Suas alterações não serão salvas!",
+                "classesOverview": "Turmas",
+                "evaluate": "Avaliar "
+            },
+            "studentCompetences": {
+                "savingExamEvaluation": "Salvando avaliação...",
+                "examEvaluated": "Avaliado com sucesso!",
+                "somethingWentWrong": "Algo deu errado.",
+                "confirmDelete": "Você realmente deseja excluir essa avaliação?",
+                "failedDeleteExam": "Falha ao excluir avaliação!",
+                "delete": "Excluir",
+                "cancel": "Cancelar",
+                "save": "Salvar"
+            },
+            "selectCompetence": {
+                "Skilled": "Apto",
+                "Developing": "Desenvolvimento",
+                "Unskilled": "Inapto",
+                "NotEvaluated": "Não avaliado"
             }
         },
         "schoolContent": {
             "title":"Gestão",
-            "delete": "Você tem certeza que deseja deletar este item?",
+            "delete": "Você tem certeza que deseja excluir este item?",
             "tabIndex": {
                 "courses": "Cursos",
                 "subjectArea":"Área de Conhecimento",
@@ -213,7 +234,7 @@
                 "evaluationCriteria":"Critério Avaliativo"
             },
             "deleteModal":{
-                "title":"Deletar Competência",
+                "title":"Excluir Competência",
                 "areYouSure":"Você tem certeza que deseja excluir esta competência?",
                 "description": "Descrição",
                 "evaluationCriteria":"Critério avaliativo"
@@ -298,7 +319,7 @@
                 "deleting":"Deletando turma...",
                 "successfullyDeleted": "excluido com sucesso",
                 "unableDelete": "Não é permitido excluir",
-                "deleteAlert" :"Deletar esta turma para sempre",
+                "deleteAlert" :"Excluir esta turma para sempre",
                 "archiveMessage":"Você tem certeza que deseja ARQUIVAR",
                 "archiving":"Arquivando a turma...",
                 "successfullyArchived":"Arquivado com sucesso!",
@@ -370,7 +391,7 @@
         },
         "buttons":{
             "cancel":"Cancelar",
-            "delete":"Deletar",
+            "delete":"Excluir",
             "confirm":"Confirmar",
             "send":"Enviar",
             "save":"Salvar",

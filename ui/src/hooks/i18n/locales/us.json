@@ -160,6 +160,21 @@
                 "delete":"Delete",
                 "cancel":"Cancel",
                 "confirm":"Confirm"
+            },
+            "evaluateExam": {
+                "leaveConfirmation": "Are you sure you want to leave this page? Your changes will not be saved!",
+                "classesOverview": "Classes Overview",
+                "evaluate": "Evaluate "
+            },
+            "studentCompetences": {
+                "savingExamEvaluation": "Saving exam evaluation...",
+                "examEvaluated": "Exam evaluated!",
+                "somethingWentWrong": "Something went wrong.",
+                "confirmDelete": "Do you really want to delete this exam?",
+                "failedDeleteExam": "Failed deleting exam!",
+                "delete": "Delete",
+                "cancel": "Cancel",
+                "save": "Save"
             }
         },
         "schoolContent": {

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import { EAptitude } from "../../../../../../enums/AptitudeEnum";
+import { t } from 'i18next';
 
 import styles from './styles.module.css';
 import Text from "../../../../../../typography";
@@ -74,7 +75,7 @@ export default ({ value, change, selected, selectOpened, setSelectOpened }: ISel
                                     className={`${styles.select_cell} ${styles[aptitude]} ${index === selectCursor ? styles.selected : ""}`}
                                     onClick={() => handleChange(aptitude)}
                                 >
-                                    <Text fontSize="sm" fontWeight="semibold">{aptitude}</Text>
+                                    <Text fontSize="sm" fontWeight="semibold">{t(`subjectDetails.selectCompetence.${aptitude}`)}</Text>
                                 </div>
                             )
                         )}
@@ -84,7 +85,7 @@ export default ({ value, change, selected, selectOpened, setSelectOpened }: ISel
                                 className={`${styles.select_cell}  ${2 === selectCursor ? styles.selected : ""}`}
                                 onClick={() => handleChange(undefined)}
                             >
-                                <Text fontSize="sm" fontWeight="semibold" style={{ color: "var(--gray-300)" }}>{"Not evaluated"}</Text>
+                                <Text fontSize="sm" fontWeight="semibold" style={{ color: "var(--gray-300)" }}>{t('subjectDetails.selectCompetence.NotEvaluated')}</Text>
                             </div>
                         }
                     </div>
@@ -96,7 +97,9 @@ export default ({ value, change, selected, selectOpened, setSelectOpened }: ISel
                 onClick={() => setSelectOpened(!selectOpened)}
                 onKeyDown={() => setSelectOpened(!selectOpened)}
             >
-                <Text fontSize="sm" fontWeight="semibold">{value}</Text>
+                <Text fontSize="sm" fontWeight="semibold">
+                    {value ? t(`subjectDetails.selectCompetence.${value}`) : value}
+                </Text>
             </div>
         </div>
     )

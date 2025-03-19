@@ -10,7 +10,7 @@ import FeedbackCard from "@/components/FeedbackCard";
 import SectionHeader from "@/components/SectionHeader";
 import internalAPI from "../../service/internal.services";
 import AvaliationTable from "./components/AvaliationTable";
-import { t } from 'i18next';
+
 import { useEffect, useState } from "react"
 import { ISubject } from "../../interfaces/models/ISubject"
 import { IAvaliationTableProps, IFeedback, IFeedbackData } from "./interfaces/SubjectDetails.interface";
@@ -20,6 +20,7 @@ import FeedbackModal from "./components/FeedbackModal";
 import { useUserContext } from "@/contexts/user.context";
 import Progress from "@/components/Progress";
 import UpdateModal from "./components/UpdateModal";
+import { t } from 'i18next';
 
 interface IFeedbackModalProps {
     student?: {
