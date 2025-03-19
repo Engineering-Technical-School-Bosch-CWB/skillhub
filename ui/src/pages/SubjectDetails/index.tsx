@@ -10,7 +10,7 @@ import FeedbackCard from "@/components/FeedbackCard";
 import SectionHeader from "@/components/SectionHeader";
 import internalAPI from "../../service/internal.services";
 import AvaliationTable from "./components/AvaliationTable";
-
+import { t } from 'i18next';
 import { useEffect, useState } from "react"
 import { ISubject } from "../../interfaces/models/ISubject"
 import { IAvaliationTableProps, IFeedback, IFeedbackData } from "./interfaces/SubjectDetails.interface";
@@ -79,7 +79,7 @@ const SubjectDetails = () => {
             idTest: e.id,
             name: e.name,
             description: e.description,
-            date: !e.appliedAt ? "No informed date" : formatDate(e.appliedAt),
+            date: !e.appliedAt ? t('subjectDetails.noInitialDate') : formatDate(e.appliedAt),
             data: {
                 skills: e.skills,
                 students: e.students.map((s: { name: string; mean: number; skillResults: any[] }) => ({
@@ -118,7 +118,7 @@ const SubjectDetails = () => {
             <Header />
             <main>
                 <SectionHeader links={[{
-                    label: "Classes Overview",
+                    label: t('subjectDetails.classes'),
                     goTo: "/classes"
                 },
                 {
@@ -133,13 +133,13 @@ const SubjectDetails = () => {
                         <Text fontSize="xl2" fontWeight="bold">{subject?.curricularUnit + " - " + subject?.class}</Text>
                         <Text>
                             {
-                                (!(subject?.beganAt) ? "No initial date" : "Initial date: " + formatDate(subject.beganAt))
+                                (!(subject?.beganAt) ? t('subjectDetails.noInitialDate') : t('subjectDetails.initialDate') + formatDate(subject.beganAt))
                                 + " | " +
-                                (!(subject?.durationHours) ? "No duration hours" : "Duration: " + subject.durationHours + "h") +
-                                (!(subject?.period) ? "" : " | " + subject.period + "° Period")
+                                (!(subject?.durationHours) ? t('subjectDetails.noDurationHours') : t('subjectDetails.duration') + subject.durationHours + "h") +
+                                (!(subject?.period) ? "" : " | " + subject.period + "° "+ t('subjectDetails.period'))
                             }
                         </Text>
-                        <Text fontSize="sm" fontWeight="bold">{!(subject?.instructorName) ? "No responsible instructor" : subject.instructorName}</Text>
+                        <Text fontSize="sm" fontWeight="bold">{!(subject?.instructorName) ? t('subjectDetails.noInstructor') : subject.instructorName}</Text>
                     </div>
                     <Button variant="primary_icon" onClick={() => setUpdateModalProps({isUpdateModalOpen: true})}><Icon name="settings" /></Button>
                 </section >
@@ -149,7 +149,7 @@ const SubjectDetails = () => {
                     <span className={`${styles.spacing}`}>
                         <div className={`${styles.section_header}`}>
                             <Text fontSize="xl2" fontWeight="bold" >
-                                Exams
+                                {t('subjectDetails.exams')}
                             </Text>
                             <Button className={`${styles.addBtn} ${styles.align}`} onClick={() => navigate("new-exam")} >
                                 <Icon name="add" size="md" />
@@ -173,9 +173,9 @@ const SubjectDetails = () => {
                 <section className={`${styles.spacing}`}>
                     <section className={`${styles.col} ${styles.align}`}>
                         <Text fontSize="xl2" fontWeight="bold" >
-                            Students Feedbacks
+                            {t('subjectDetails.studentFeedback')}
                         </Text>
-                        <Text fontSize="sm" >Apprentices can see subject feedbacks!</Text>
+                        <Text fontSize="sm" >{t('subjectDetails.apprenticeSubjectFeedback')}</Text>
                     </section>
                     {
                         feedbacks.map(f => (
@@ -184,12 +184,12 @@ const SubjectDetails = () => {
                                 title={f.student.name}
                                 subtitle={
                                     !f.feedback
-                                        ? "No feedback provided..."
-                                        : "Last update • " + formatDate(f.feedback.updatedAt) + " by " + f.feedback.instructor
+                                        ? t('subjectDetails.nofeedback')
+                                        : t('subjectDetails.lastUpdate') + formatDate(f.feedback.updatedAt) + ' ' + t('subjectDetails.by') + ' ' + f.feedback.instructor
                                 }
                                 editButton={
                                     user?.id != f.student.userId ? {
-                                        label: "Edit Feedback",
+                                        label: t('subjectDetails.editFeedback'),
                                         action: () => setFeedbackModalProps({
                                             student: {
                                                 id: f.student.id,

@@ -125,9 +125,19 @@
             "period": "Período",
             "noDurationHours": "Sem tempo de duração",
             "duration": "Duração: ",
-            "noinitialDate": "Sem data de início",
-            "initialDate": "Data de início:",
-            "classes": "Turmas"
+            "noInitialDate": "Sem data de início",
+            "initialDate": "Data de início: ",
+            "classes": "Turmas",
+            "avaliationTable": {
+                "skilled": "Apto",
+                "developing": "Desenvolvimento",
+                "unskilled": "Inapto",
+                "evaluate": "Avaliar",
+                "skill": "Competências",
+                "weight": "Peso",
+                "efficiency": "Eficiência",
+                "overallPerformance": "Média de Performance:"
+            }
         },
         "schoolContent": {
             "title":"Gestão",
@@ -268,12 +278,12 @@
                 "deleteAlert" :"Deletar esta turma para sempre",
                 "archiveMessage":"Você tem certeza que deseja ARQUIVAR",
                 "archiving":"Arquivando a turma...",
-                "successfullyArchived":"arquivado com sucesso!",
-                "archiveAlert":"Arquivar turma finalizada",
+                "successfullyArchived":"Arquivado com sucesso!",
+                "archiveAlert":"Turma arquivada",
                 "unableArchive": "Não é permitido archivar",
                 "unarchiveMessage":"Você tem certeza que deseja DESARQUIVAR",
                 "unarchiving":"Desarquivando a turma...",
-                "successfullyUnarchived":"arquivado com sucesso!",
+                "successfullyUnarchived":"Desarquivado com sucesso!",
                 "unableUnarchive": "Não é permitido desarquivar"
             },
             "studentCard":{
@@ -284,12 +294,12 @@
                 "identification":"Identificação (EDV)",
                 "sector":"Setor",
                 "position":"Cargo",
-                "area":"Area",
+                "area":"Área",
                 "password":"Senha",
                 "resetPasswordConfirm":"Deseja Resetar a senha deste usuário?",
-                "update":"atualizar",
-                "create":"criar",
-                "user":"usuário",
+                "update":"Atualizar",
+                "create":"Criar",
+                "user":"Usuário",
                 "error":"Erro ao",
                 "updateUser":"Atualizar Usuário",
                 "updatePassword":"Atualizar Senha",
@@ -303,7 +313,7 @@
                 "confirms":{
                     "resetPassword":"Deseja resetar a senha deste usuário?",
                     "archive":"Deseja arquivar este usuário?",
-                    "archiveDescription":"se voce arquivar este usuario ele nao aparecerá mais na turma"
+                    "archiveDescription":"Se essa turma for arquivada, não irá mais aparecer"
                 },
                 "errors":{
                     "resetPassword":"Erro ao resetar senha",
@@ -355,6 +365,10 @@
             "invalidCredentials": "Credenciais Inválidas.",
             "classesLoadError": "Erro ao carregar as turmas.",
             "resultsLoadError": "Erro ao carregar os resultados."
+        },
+        "components": {
+            "progress": "Carregando...",
+            "notFound": "Não Encontrado!"
         }
     }
 }
