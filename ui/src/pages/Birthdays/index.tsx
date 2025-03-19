@@ -101,8 +101,10 @@ const Birthdays = () => {
                                 //const goTo = user?.permissionLevel === 2 ? "aaa" : "";
                                 let identification = s.position === "Aprendiz" ? s.group : s.position;
                                 let goTo;
-                                if(user?.permissionLevel===2 && s.position==="Aprendiz") {
-                                    goTo = "/user-profile?classId=" + s.classId + "&userId=" + s.id
+                                if(user?.permissionLevel===2) {
+                                    goTo = s.position==="Aprendiz" ?
+                                        "/user-profile?classId=" + s.classId + "&userId=" + s.id :
+                                        "/user-profile?userId=" + s.id 
                                 }
                                 else {
                                     goTo = ""
