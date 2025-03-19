@@ -32,12 +32,12 @@ public record StudentSubjectResultResponse(
     FeedbackDTO? Feedback
 )
 {
-    public static StudentSubjectResultResponse Map(Student student, string subject, double? classOverallSkillScore, IEnumerable<CompleteSkillResultDTO> skillResults, Feedback? feedback)
+    public static StudentSubjectResultResponse Map(Student student, string subject, double? studentSkillScore, double? classOverallSkillScore, IEnumerable<CompleteSkillResultDTO> skillResults, Feedback? feedback)
     {
         return new StudentSubjectResultResponse(
             student.Id,
             subject,
-            student.OverallSkillScore,
+            studentSkillScore,
             classOverallSkillScore,
             skillResults,
             feedback is null ? null : FeedbackDTO.Map(feedback)

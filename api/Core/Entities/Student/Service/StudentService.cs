@@ -203,6 +203,8 @@ public class StudentService(
     {
         var student = await _repo.Get()
             .Where(s => s.IsActive)
+            .Include(s => s.Results)
+                .ThenInclude(r => r.Subject)
             .SingleOrDefaultAsync(s => s.Id == id)
             ?? throw new NotFoundException("Student not found!");
 
@@ -210,6 +212,8 @@ public class StudentService(
             .Where(s => s.IsActive)
             .Include(s => s.CurricularUnit)
             .Include(s => s.Class.Students.Where(s => s.IsActive))
+            .Include(s => s.Results)
+                .ThenInclude(s => s.Student.User)
             .SingleOrDefaultAsync(s => s.Id == subjectId)
             ?? throw new NotFoundException("Subject not found!");
 
@@ -226,11 +230,14 @@ public class StudentService(
             .Select(g => g.OrderByDescending(s => s.Aptitude).First())
             .ToListAsync();
 
+        
         var results = skillResults
             .Select(s => CompleteSkillResultDTO.Map(s, _skillService.GetSkillAverageByClass(s.Skill.Id, subject.Class.Id)));
 
+        double? studentResult = student.Results.SingleOrDefault(r => r.Subject?.Id == subjectId)?.SkillScore;
+        
         return new AppResponse<StudentSubjectResultResponse>(
-            StudentSubjectResultResponse.Map(student, subject.CurricularUnit.Name, subject.Class.Students.Average(s => s.OverallSkillScore), results, feedback),
+            StudentSubjectResultResponse.Map(student, subject.CurricularUnit.Name, studentResult, subject.Results.Average(result => result.SkillScore), results, feedback),
             "Subject results found!"
         );
     }
