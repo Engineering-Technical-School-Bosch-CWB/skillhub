@@ -1,5 +1,4 @@
 import { INavLink } from "@/components/Nav/Nav.interfaces";
-import { t } from "i18next";
 
 export type Tabs =  "course" | "curricularUnits" | "subjectAreas" | "occupationArea"
 
