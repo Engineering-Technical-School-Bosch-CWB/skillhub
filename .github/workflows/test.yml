@@ -21,17 +21,14 @@ jobs:
         with:
           node-version: 18
 
-      - name: Checking Diretory
-        run: cd ./ui
-
       - name: Install Dependencies
+        working-directory: ./ui
         run: npm install
       
       - name: Build Ui
+        working-directory: ./ui
         run: npm run build
 
-      - name: Change Directory to api
-        run: cd ../api 
-
       - name: Publishing release
+        working-directory: ./api
         run: dotnet publish -c Release 
