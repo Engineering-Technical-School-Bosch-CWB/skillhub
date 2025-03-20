@@ -11,6 +11,7 @@ import { IEvaluationPayload, IStudentSkillsProps } from '../../../../interfaces/
 import { EAptitude } from '@/enums/AptitudeEnum';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { t } from 'i18next';
 
 export default function StudentCompetences({ results, setResults }: IStudentSkillsProps) {
     const { classId, subjectId, examId } = useParams();
@@ -248,13 +249,13 @@ export default function StudentCompetences({ results, setResults }: IStudentSkil
 
             <div className={styles.bttns}>
                 <Button kind="danger" className={styles.flex_start} onClick={handleDelete}>
-                    Delete
+                    {t('subjectDetails.studentCompetences.delete')}
                 </Button>
                 <Button onClick={() => navigate(`/classes/${classId}/subject/${subjectId}`)}>
-                    Cancel
+                    {t('subjectDetails.studentCompetences.cancel')}
                 </Button>
                 <Button variant='contained' onClick={handleSubmit}>
-                    Save
+                    {t('subjectDetails.studentCompetences.save')}
                 </Button>
             </div>
         </div>

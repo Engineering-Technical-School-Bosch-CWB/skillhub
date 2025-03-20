@@ -4,7 +4,7 @@ import styles from '../../styles.module.css';
 import { IAvaliationTableProps } from "../../interfaces/SubjectDetails.interface";
 import Icon from "../../../../components/Icon";
 import { useNavigate, useParams } from "react-router-dom";
-
+import { t } from 'i18next';
 
 export default ({ exam }: IAvaliationTableProps) => {
 
@@ -18,7 +18,7 @@ export default ({ exam }: IAvaliationTableProps) => {
         if (aptitude === "Unskilled") return styles.UNSKILLED;
         return ""
     };
-
+    
     const getMeanClass = (mean?: number) => {
         if (mean == null) return ""
 
@@ -39,7 +39,7 @@ export default ({ exam }: IAvaliationTableProps) => {
                     <span
                     className={`${styles.subtitle} ${styles.evBtn}`}
                     onClick={() => navigate(`/classes/${classId}/subject/${subjectId}/evaluate-exam/${exam.idTest}`)}>
-                        <Text fontSize="sm">Evaluate</Text>
+                        <Text fontSize="sm">{t('subjectDetails.avaliationTable.evaluate')}</Text>
                         <Icon name={"edit"} />
                     </span>
                 </div>
@@ -48,9 +48,9 @@ export default ({ exam }: IAvaliationTableProps) => {
             <div className={`${styles.tables}`}>
                 <table className={`${styles.competence_table} ${styles.highlight_border}`}>
                     <tr>
-                        <th className={`${styles.highlight_border}`}>Skill</th>
-                        <th className={`${styles.highlight_border}`}>Weight</th>
-                        <th className={`${styles.highlight_border} ${styles.divider}`}>Efficiency</th>
+                        <th className={`${styles.highlight_border}`}>{t('subjectDetails.avaliationTable.skill')}</th>
+                        <th className={`${styles.highlight_border}`}>{t('subjectDetails.avaliationTable.weight')}</th>
+                        <th className={`${styles.highlight_border} ${styles.divider}`}>{t('subjectDetails.avaliationTable.efficiency')}</th>
                     </tr>
                     {
                         exam.data.skills.map((s: { description: string, weight: number, efficiency: number, evaluationCriteria: string }) => (
@@ -70,7 +70,7 @@ export default ({ exam }: IAvaliationTableProps) => {
                         ))
                     }
                     <tr className={`${styles.highlight_border} ${styles.divider}`}>
-                        <tr className={`${styles.performance} ${styles.skill}`}>Overall Performance</tr>
+                        <tr className={`${styles.performance} ${styles.skill}`}>{t('subjectDetails.avaliationTable.overallPerformance')}</tr>
                     </tr>
                 </table>
 
@@ -91,7 +91,9 @@ export default ({ exam }: IAvaliationTableProps) => {
                                             exam.data.students.map((student: { skillsResults: any[]; }) => (
                                                 <>
                                                     <td className={`${styles.result_cell} ${getSkillClass(student.skillsResults[skill.id])} ${styles.td} ${styles.divider}`}>
-                                                        {student.skillsResults[skill.id] || "-"}
+                                                        {student.skillsResults[skill.id] 
+                                                            ? t(`subjectDetails.avaliationTable.${student.skillsResults[skill.id]}`) 
+                                                            : "-"}
                                                     </td>
                                                 </>
                                             ))
