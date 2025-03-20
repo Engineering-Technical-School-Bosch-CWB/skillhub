@@ -11,13 +11,27 @@ jobs:
       - name: Checkout código 
         uses: actions/checkout@v4
 
+      - name: Install Dotnet
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '8.x.x'
+
       - name: Configure Node
         uses: actions/setup-node@v4
         with:
           node-version: 18
 
+      - name: Checking Diretory
+        run: cd ./ui
+
       - name: Install Dependencies
-        run: cd .\ui\ && npm install
+        run: npm install
       
-      - name: Buld Ui
-        run: cd .\ui\ && npm run build
+      - name: Build Ui
+        run: npm run build
+
+      - name: Change Directory to api
+        run: cd ../api 
+
+      - name: Publishing release
+        run: dotnet publish -c Release 
