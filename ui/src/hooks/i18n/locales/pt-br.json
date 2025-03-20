@@ -174,9 +174,9 @@
                 "period": "Período",
                 "initialDate": "Data de início",
                 "responsibleTeacher": "Instrutor responsável",
-                "delete": "Excluir",
-                "cancel": "Cancelar",
-                "confirm": "Confirmar"
+                "Delete": "Excluir",
+                "Cancel": "Cancelar",
+                "Confirm": "Confirmar"
             },
             "evaluateExam": {
                 "leaveConfirmation": "Tem certeza de que deseja sair desta página? Suas alterações não serão salvas!",
@@ -188,10 +188,7 @@
                 "examEvaluated": "Avaliado com sucesso!",
                 "somethingWentWrong": "Algo deu errado.",
                 "confirmDelete": "Você realmente deseja excluir essa avaliação?",
-                "failedDeleteExam": "Falha ao excluir avaliação!",
-                "delete": "Excluir",
-                "cancel": "Cancelar",
-                "save": "Salvar"
+                "failedDeleteExam": "Falha ao excluir avaliação!"
             },
             "selectCompetence": {
                 "Skilled": "Apto",

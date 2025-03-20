@@ -174,9 +174,9 @@
                 "period":"Period",
                 "initialDate":"Initial date",
                 "responsibleTeacher":"Responsible teacher",
-                "delete":"Delete",
-                "cancel":"Cancel",
-                "confirm":"Confirm"
+                "Delete":"Delete",
+                "Cancel":"Cancel",
+                "Confirm":"Confirm"
             },
             "evaluateExam": {
                 "leaveConfirmation": "Are you sure you want to leave this page? Your changes will not be saved!",
@@ -188,10 +188,7 @@
                 "examEvaluated": "Exam evaluated!",
                 "somethingWentWrong": "Something went wrong.",
                 "confirmDelete": "Do you really want to delete this exam?",
-                "failedDeleteExam": "Failed deleting exam!",
-                "delete": "Delete",
-                "cancel": "Cancel",
-                "save": "Save"
+                "failedDeleteExam": "Failed deleting exam!"
             },
             "selectCompetence": {
                 "Skilled": "Skilled",
