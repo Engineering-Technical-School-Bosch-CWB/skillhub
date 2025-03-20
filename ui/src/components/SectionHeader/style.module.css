@@ -1,0 +1,20 @@
+.section {
+    display: flex;
+    gap: 0.25rem;
+
+    align-items: center;
+    margin-bottom: 1.3rem;
+
+}
+.disabled {
+    cursor: default;
+}
+.arrow{ 
+    font-size: small;
+}
+
+.div {
+    display: flex;
+    align-items: center;
+    gap: .3rem;
+}

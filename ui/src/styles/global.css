@@ -1,0 +1,77 @@
+@import url("./reset.css");
+@import url("./fonts.css");
+@import url("./toast.css");
+@import url("./icons.ref.css");
+:root {
+    --white: white;
+    --black: black;
+
+    --black-transluscent-02: #00000020;
+    --black-transluscent-04: #00000040;
+    --black-transluscent-06: #000000a0;
+    --black-transluscent-08: #000000ce;
+    
+
+    --primary-light: #0197ee;
+    --primary-light-low-opacity: #0197ee36;
+    --primary-light-low-opacity-hover: #185c8376;
+    --primary-light-low-opacity-selected: #2e79a576;
+    --primary-main: #00629a;
+    --primary-dark: #00395c;
+    
+    --secondary-light: #9e2896;
+    --secondary-main: #791d73;
+    --secondary-dark: #551151;
+    
+    --danger-light: #e78f8f;
+    --danger-light-hover: #c76d6d;
+    --danger-main: #be0004;
+    --danger-dark: #920002;
+    
+    --warning-light: #fafa8e;
+    --warning-light-hover: #bbbb4e;
+    --warning-main: #deb300;
+    --warning-dark: #bd9900;
+    
+    --info-light: #18837e;
+    --info-main: #116864;
+    --info-dark: #0a4f4b;
+    
+    --success-light: #67b467;
+    --success-light-hover: #498549;
+    --success-main: #006c3a;
+    --success-dark: #00512a;
+
+    --gray-0: #ffffff;
+    --gray-100: #eeeeee;
+    --gray-200: #b9b9b9;
+    --gray-300: #919191;
+    --gray-400: #616161;
+    --gray-500: #424242;
+    --gray-600: #2b2b2b;
+    --gray-700: #161616;
+    --gray-full: #000000;
+
+    --active-border: 0.1px solid rgba(0, 0, 0, 0.5);
+    --default-border: .1px solid rgba(0, 0, 0, 0.3);
+    --highlight-border: 2.3px solid rgba(0, 0, 0, 0.7);
+    --danger-border: 1px solid rgba(255, 0, 0, .5);
+    --default-border-radius: 4px;
+    --divider-background: var(--gray-400) ;
+    --default-box-shadow: 0 0 10px var(--black-transluscent-02)
+}
+
+body {
+    font-family: "BoschSans";
+    background-color: var(--white);
+}
+
+main {
+    margin: 30px 60px 60px 60px;
+}
+
+a {
+    text-decoration: none;
+    color: var(--gray-500);
+    font-family: 'BoschSans';
+}

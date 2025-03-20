@@ -1,0 +1,52 @@
+.heading {
+    font-size: 25px;
+    font-weight: 500;
+}
+
+.content {
+    margin: 60px 60px;
+}
+
+.chart {
+    width: 100%;
+}
+
+.chart_section {
+    display: flex;
+    flex-direction: column;
+}
+
+.chart_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+
+    margin: 2rem 2rem 0 2rem;
+}
+
+
+/* ..cards section.. */
+.classes_section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px
+}
+
+.input {
+    width: 31%;
+    background-color: white;
+}
+
+.icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.card_container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+

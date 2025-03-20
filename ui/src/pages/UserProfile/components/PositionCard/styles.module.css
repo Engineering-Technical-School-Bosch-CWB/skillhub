@@ -1,0 +1,36 @@
+.card {
+    background-color: var(--warning-light);
+
+    width: 15rem;
+    height: 270px;
+
+    border-radius: .5em;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: space-between;
+    padding: 2rem;
+
+    cursor: default;
+}
+
+.spacing {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .5rem;
+}
+
+.green {
+    background-color: var(--success-light);
+}
+
+.yellow {
+    background-color: var(--warning-light);
+}
+
+.red {
+    background-color: var(--danger-light);
+}

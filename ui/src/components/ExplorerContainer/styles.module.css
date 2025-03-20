@@ -1,0 +1,110 @@
+.align{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.explorerContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    justify-content: start;
+    align-items: start;
+
+    input {
+        background-color: var(--white);
+        width: 25rem;
+    }
+
+    .explorerHeader{
+        width: 90%;
+        flex-direction: row;
+        align-items: center;
+        justify-content: start;
+        gap: 2rem;
+        /* margin: 3rem ; */
+        flex-wrap: wrap;
+
+        .filter_container {
+            max-width: 70%;
+            width: 15rem;
+        }
+
+        .folderBtn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 3rem;
+            height: 3rem;
+            padding: 0;
+        }
+    }
+
+    .listContainer {
+        display: flex;
+        /* margin: 2rem; */
+        gap: 1rem;
+        /* justify-content: center; */
+        flex-wrap: wrap;
+    }
+
+    .tableListContainer {
+        width: 100%;
+        flex-direction: column;
+        gap: 0;
+
+        border: var(--default-border);
+    }
+
+    .searchContainer {
+        gap: 1rem;        
+    }
+}
+
+.addBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 3rem;
+    height: 3rem;
+    padding: 0;
+    color: var(--white);
+    background-color: var(--primary-main);
+
+    &:hover {
+        color: var(--white);
+        background-color: var(--primary-dark);
+    }
+}
+
+.selectView {
+    display: flex;
+    background-color: var(--white);
+    border-radius: 5px;
+
+    .selectViewBtn {
+        height: 3rem;
+        width: 3rem;
+        padding: .5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+.space_between {
+    display: flex;
+    justify-content: space-between;
+
+    width: 100%;
+}
+
+.col {
+    display: flex;
+    
+    gap: .5rem;
+    flex-direction: column;
+
+    min-height: 43px;
+}
+

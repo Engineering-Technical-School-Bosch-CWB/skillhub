@@ -1,0 +1,30 @@
+.checkbox_container {
+
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    /* padding: .75rem; */
+    height: auto;
+    min-height: 3rem;
+    border: var(--default-border);
+    width: 100%;
+    
+    &:hover {
+        border: var(--active-border);
+    }
+
+    input {
+        width: 20px;
+        height: 20px;
+        min-width: 20px;
+        min-height: 20px;
+        cursor: pointer;
+        margin: 12px 1rem 12px 12px;
+        /* padding-left: .75rem; */
+    }
+    .label {
+        width: 100%;
+        padding: .8rem;
+        padding-left: 0;
+    } 
+}

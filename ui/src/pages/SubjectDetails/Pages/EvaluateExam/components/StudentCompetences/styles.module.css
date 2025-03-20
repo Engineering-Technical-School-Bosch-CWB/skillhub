@@ -1,0 +1,143 @@
+.align {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.component_container {
+    height: 100%;
+    position: relative;
+    display: block;
+    overflow: hidden;
+}
+.result_container {
+    gap: .5rem;
+    margin: .5rem 0;
+    max-width: 100%;
+    justify-content: start;
+    align-items: start;
+    outline: none;
+    position: relative;
+    position: relative;
+    height: 88%;
+    overflow: hidden;
+
+    .divider_sections {
+        width: 1px;
+        min-height: 50vh;
+        height: 100%;
+        background-color: var(--divider-background);
+    }
+}
+
+.student_list_container {
+    height: 100%;
+    flex-direction: column;
+    gap: .5rem;
+    justify-content: start;
+    overflow-y: auto;
+    width: 16.5rem;
+
+    .student_card {
+        width: 12rem;
+
+        border: 0.1px solid rgba(0, 0, 0, 0.2);
+        border-radius: 4px;
+
+        padding: .8rem;
+
+        display: flex;
+        flex-direction: row;
+        background-color: var(--gray-0);
+
+
+        cursor: pointer;
+        transition: box-shadow 0.2s ease-in-out;
+
+        &:hover {
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+    }
+
+    .selected_student {
+        background-color: var(--gray-200);
+    }
+}
+
+.results_list_container {
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    justify-content: start;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.competence_description {
+    width: 100%;
+    text-wrap: wrap;
+    text-overflow: contain;
+}
+
+.row {
+    width: 100%;
+    flex-direction: column;
+    padding: 0 .5rem;
+    hr {
+        margin: 0 .5rem;
+    }
+
+    .divider {
+        margin: 1rem 0;
+        width: 100%;
+        height: 1px;
+        background-color: var(--divider-background);
+    }
+
+}
+.disable-scroll {
+    /* overflow: hidden !important;
+    height: 100vh !important; */
+    /* touch-action: none !important; */
+}
+
+.current_line {
+    background-color: var(--gray-200);
+}
+
+.content_row {
+    width: 100%;
+    justify-content: space-between;
+    text-wrap: wrap;
+    text-overflow: hidden;
+    padding: .5rem
+    ;
+    gap: 1rem;
+}
+
+.bttns {
+    display: flex;
+
+    gap: .8rem;
+    width: 100%;
+    justify-content: flex-end;
+}
+
+.flex_start {
+    margin-right: auto;
+}
+
+.selected {
+    position: relative;
+}
+
+.selected::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    border: 3px solid black;
+    box-sizing: border-box;
+}

@@ -1,0 +1,18 @@
+.homeContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.linksContainer {
+    width: 100%;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    box-sizing: border-box;
+}
+
+.page_title_container {
+    margin-bottom: 2rem;
+}

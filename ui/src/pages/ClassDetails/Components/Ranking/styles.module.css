@@ -1,0 +1,47 @@
+.align {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ranking_container{
+    flex-direction: column;
+    gap: .3rem;
+
+    max-height: 220px;
+    flex-wrap: wrap;
+    max-width: 900px;
+
+    .ranking_card {
+        justify-content: space-between;
+        padding: .5rem 1rem;
+        max-width: 100%;
+        width: 17rem;
+        gap: .5rem;
+        max-height: 3rem;
+        border-radius: 4px;
+
+        cursor: pointer;
+    }
+
+    .ranking_card:hover {
+        filter: brightness(90%) saturate(120%);
+    }
+
+    .green {
+        background-color: var(--success-light);
+    }
+    .yellow {
+        background-color: var(--warning-light);
+    }
+    .red {
+        background-color: var(--danger-light);
+    }
+}
+
+.pos {
+    display: flex;
+    align-items: center;
+
+    gap: .5rem;
+}

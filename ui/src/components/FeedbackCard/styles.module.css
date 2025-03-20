@@ -1,0 +1,96 @@
+.identificationCard {
+    border: var(--default-border);
+    width: 100%;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 1.25rem;
+    gap: 1.25rem;
+    background-color: var(--background-card);
+
+    position: relative;
+
+    &:hover {
+        box-shadow: var();
+    }
+
+    .identificationCardMarker {
+        width: 1.25rem;
+        height: 2rem;
+    }
+
+    .cardContent {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+        max-width: 100%;
+        margin-left: 1rem;
+    }
+
+}
+
+.align {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.space_between {
+    display: flex;
+    justify-content: space-between;
+
+    align-items: center;
+}
+
+.evBtn {
+    cursor: pointer;
+    padding: 7px 17px;
+    border-radius: 20px;
+
+    gap: .5rem;
+}
+
+.evBtn:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.not {
+    height: 23px;
+    width: 23px;
+
+    background-color: white;
+    border: var(--active-border);
+    position: absolute;
+
+    top: -5px;
+    left: -5px;
+
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    filter: brightness(.8);
+}
+
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: #fff;
+    text-align: center;
+    padding: 5px;
+    border-radius:4px;
+
+    position: absolute;
+    z-index: 1;
+    width: 250px;
+    font-size: 0.875rem;
+    font-family: "BoschSans";
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+
+    left:30px;
+}

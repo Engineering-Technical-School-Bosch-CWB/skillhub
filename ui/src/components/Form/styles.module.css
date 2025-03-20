@@ -1,0 +1,22 @@
+.form {
+    width: 100%;
+
+    background-color: white;
+    padding: 40px 20px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.submit_button {
+    width: 100%;
+}
+
+.password {
+    display: flex;
+    width: 100%;
+
+    flex-direction: column;
+    gap: 10px;
+}

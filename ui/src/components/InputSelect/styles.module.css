@@ -1,0 +1,47 @@
+
+.personalized_select {
+    height: 50px;
+    position: relative;
+    display: inline-block;
+
+    .options_container {
+        /* position: relative;
+        height: 0;
+        overflow: hidden;
+        max-height: 20rem;
+        background-color: var(--white);
+        border: var(--default-border);
+        box-shadow: var(--default-box-shadow);
+        z-index: 3; */
+        height: 0;
+        position: absolute;
+        width: 100%;
+        top: 100%;
+        left: 0;
+        overflow: hidden;
+        background: white;
+        border: 1px solid #ccc;
+        display: block;
+    
+        li {
+            display: flex;
+            height: 1.5rem;
+            align-items: center;
+            padding-left: 1rem;
+            &:hover {
+                background-color: var(--gray-200);
+            }
+        }
+
+    }
+    
+
+    .input{
+        z-index: 2;
+    }
+
+    .focused {
+        z-index: 100;
+        height: fit-content;
+    }
+}

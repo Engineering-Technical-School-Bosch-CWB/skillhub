@@ -1,0 +1,63 @@
+.modal_container {
+    width: 100%;
+    height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    background-color: rgba(0, 0, 0, .5);
+    z-index: 15;
+    
+}
+.header_title{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    gap: .25rem;
+}
+.modal {
+    max-height: 70%;
+    overflow: auto;
+    width: 98%;
+    max-width: 600px;
+
+    background-color: var(--gray-0);
+    padding: 30px;
+    border-radius: 5px;
+
+    position: relative;
+    border: 10px white solid;
+}
+
+.close {
+    cursor: pointer;
+}
+
+
+.xs {
+    max-width: 300px;
+}
+.sm {
+    max-width: 500px;
+}
+.md {
+    max-width: 750px;
+}
+.lg {
+    max-width: 1000px;
+}
+.xl {
+    max-width: 1200px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+}

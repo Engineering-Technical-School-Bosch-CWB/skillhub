@@ -1,0 +1,32 @@
+.form_content {
+    width: 100%;
+    height: 100%;
+}
+
+.overview_container{
+    position: relative;
+    width: 100%;
+    overflow-y: scroll;
+    scrollbar-color: white;
+}
+::-webkit-scrollbar{
+    background-color: white;
+    width: .5rem;
+
+}
+::-webkit-scrollbar-thumb{
+    background-color: var(--gray-200);
+    cursor: pointer;
+}
+::-webkit-scrollbar-button{
+    display: none;
+}
+.overview_section {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem;
+    gap: .25rem;
+    div{
+        margin-left: 2rem;
+    }
+}

@@ -1,0 +1,10 @@
+.link {
+    font-size: inherit;
+    color: inherit;
+    text-decoration: none;
+
+    transition: 0.15s;
+}
+.link:hover {
+    color: var(--primary-light);
+}

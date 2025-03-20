@@ -1,0 +1,36 @@
+.nav {
+    position: absolute;
+    max-width: 12.5rem;
+    height: calc(100% - 5rem);
+    top: 5rem;
+    background-color: var(--white);
+    box-shadow: var(--default-box-shadow);
+
+    .nav_link{
+        
+        .label {
+            display: none;
+        }
+    }
+
+    &:hover {
+        .nav_link{
+            
+            .label {
+                display: block;
+            }
+        }
+    }
+}
+
+.nav_link {
+
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding: 1rem;
+    gap: .5rem;
+    &:hover{
+        background-color: var(--gray-100);
+    }
+}

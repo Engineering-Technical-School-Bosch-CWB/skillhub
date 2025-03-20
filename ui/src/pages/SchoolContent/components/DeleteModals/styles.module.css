@@ -1,0 +1,7 @@
+.content_section {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    gap: 1rem;
+    margin: 2rem 0;
+}

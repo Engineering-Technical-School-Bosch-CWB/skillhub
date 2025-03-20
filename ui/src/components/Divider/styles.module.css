@@ -1,0 +1,13 @@
+.big, .small {
+    border: none;
+    border-top: 1px solid #b9b9b9;
+    width: 100%;
+}
+
+.big {
+    margin: 3rem 0rem;
+}
+
+.small {
+    margin: 1rem 0rem;
+}

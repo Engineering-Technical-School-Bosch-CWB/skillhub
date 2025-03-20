@@ -1,0 +1,24 @@
+.title_section {
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+
+    gap: 1rem;
+}
+
+.col {
+    display: flex;
+    height: 4rem;
+    
+    gap: .5rem;
+    flex-direction: column;
+}
+
+.evaluate_container{
+    height: calc(100vh - 15rem );
+}
+
+.evaluate_main {
+    margin-bottom: 0 !important;
+}

@@ -1,0 +1,273 @@
+.align {
+    display: flex;
+    /* justify-content: center;
+    align-items: center; */
+}
+
+.new_test_shortcut_container {
+    justify-content: space-between;
+}
+
+.shortcut_header {
+    gap: 1rem;
+}
+
+
+.title_section {
+    width: 100%;
+    
+    display: flex;
+    justify-content: space-between;
+}
+
+.col {
+    display: flex;
+    height: 4rem;
+    
+    gap: .5rem;
+    flex-direction: column;
+}
+
+.section_header {
+    /* padding: 3rem; */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.table_header {
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: center;
+}
+
+.tables {
+    display: flex;
+}
+
+.table_section {
+    width: 100%;
+    overflow: auto;
+}
+
+.divider {
+    border-left: none !important;
+}
+
+.highlight_border {
+    border: var(--highlight-border);
+}
+
+.result_table,
+.competence_table {
+    background-color: var(--white);
+    text-align: center;
+    padding: 1rem;
+    table-layout: fixed;
+    width: auto;
+
+
+    .performance {
+        padding: .5rem;
+        font-size: 0.9rem;
+        font-weight: 600;
+
+        display: table-cell;
+    }
+
+    .competence_cell {
+        max-width: 20rem;
+        /* overflow: hidden; */
+        padding: .5rem;
+        font-size: 0.9rem;
+    }
+
+    .skill {
+        text-align: left;
+        min-width: 25rem;
+
+        .overflow {
+            display: flex;
+            overflow: hidden;
+            width: 100%;
+        }
+    }
+
+    tr:first-child {
+        /* th:first-child {
+            width: 35%;
+        } */
+
+        th {
+            padding: 1rem;
+        }
+
+    }
+
+    td {
+        text-overflow: hidden;
+        text-wrap: nowrap;
+    }
+
+    .td {
+        border: var(--default-border);
+        border-right: var(--highlight-border);
+    }
+
+    .result_cell {
+        min-width: fit-content;
+        width: 10rem;
+        text-align: center;
+        padding: .5rem;
+
+        font-size: .9rem;
+    }
+
+    .student_cell {
+        white-space: nowrap;
+    }
+
+    .performance_cell {
+        font-weight: 600;
+        filter: brightness(70%) saturate(120%);
+        color: black !important;
+    }
+
+    .SKILLED {
+        background-color: var(--success-light);
+        color: var(--success-dark);
+    }
+
+    .DEVELOPMENT {
+        background-color: var(--warning-light);
+        color: var(--warning-dark);
+    }
+
+    .UNSKILLED {
+        background-color: var(--danger-light);
+        color: var(--danger-dark);
+    }
+
+}
+
+.competence_table {
+    height: calc(100% - 10px);
+}
+
+.addBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 3rem;
+    height: 3rem;
+    padding: 0;
+    color: var(--white);
+    background-color: var(--primary-main);
+
+    &:hover {
+        color: var(--white);
+        background-color: var(--primary-dark);
+    }
+}
+
+.spacing {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.subtitle {
+    display: flex;
+    gap: .7rem;
+
+    align-items: center;
+    justify-content: center;
+}
+
+.evBtn {
+    cursor: pointer;
+    padding: 7px 17px;
+    border-radius: 20px;
+}
+
+.evBtn:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.tooltip {
+    position: relative;
+    cursor: help;
+}
+
+.tooltiptext {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    background-color: var(--gray-100);
+    border: var(--highlight-border);
+    ;
+    padding: 5px;
+
+    position: absolute;
+    z-index: 100;
+    top: 5px;
+    left: 5px;
+
+    width: 550px;
+    min-width: 150px;
+
+    white-space: wrap;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+.space_between {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.identificationCard {
+    border: var(--default-border);
+    width: 100%;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 1.25rem;
+    gap: 1.25rem;
+    background-color: var(--background-card);
+
+    &:hover {
+        box-shadow: var();
+    }
+
+    .identificationCardMarker {
+        width: 1.25rem;
+        height: 2rem;
+    }
+
+    .cardContent {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+        max-width: 100%;
+        margin-left: 1rem;
+    }
+
+}
+
+.title {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: .8rem;
+
+    gap: .2rem;
+}

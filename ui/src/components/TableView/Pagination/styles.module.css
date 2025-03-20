@@ -1,0 +1,39 @@
+.pagination_container {
+    display: flex;
+    justify-content: center;
+    margin: 1rem;
+
+    .pagination_content {
+        display: flex;
+        gap: .25rem;
+    }
+}
+
+.pagination_btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    width: 2rem;
+    height: 2rem;
+
+    &:hover {
+        background-color: transparent;
+        border: none;
+        background-color: var(--gray-100);
+    }
+
+}
+.selected {
+    background-color: var(--primary-main);
+    color: white;
+}
+.arrow {
+    color: var(--gray-300);
+    &:hover {
+        background-color: transparent;
+        color: var(--primary-light);
+
+    }
+}
