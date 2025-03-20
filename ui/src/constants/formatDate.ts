@@ -4,7 +4,7 @@ const formatDate = (date: string) => {
 }
 
 const formatShortDate = (date: string) => {
-    const [month, day] = date.split("-");
+    const [_, month, day] = date.split("-");
     return `${day}/${month}`;
 }
 

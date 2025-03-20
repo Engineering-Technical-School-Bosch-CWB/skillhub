@@ -9,6 +9,7 @@ import internalAPI from "@/service/internal.services";
 import { toast } from "react-toastify";
 import toastifyUpdate from "@/constants/toastfyUpdate";
 import { IFeedback } from "../../interfaces/SubjectDetails.interface";
+import { t } from 'i18next';
 
 interface IModalProps {
     isOpen: boolean
@@ -62,14 +63,14 @@ export default ({ isOpen, handleIsOpen, feedback, student, handleFeedbacks }: IM
             return response.data;
         }
 
-        const message = toast.loading("Writing feedback...");
+        const message = toast.loading(t('subjectDetails.feedbackModal.writingFeedback'));
         handleClose();
 
         if (!feedback) {
             apiRequestCreate().then(content => {
                 toast.update(message, {
                     ...toastifyUpdate,
-                    render: "Feedback written successfully!",
+                    render: t('subjectDetails.feedbackModal.feedbackWritten'),
                     type: "success",
                 });
 
@@ -100,7 +101,7 @@ export default ({ isOpen, handleIsOpen, feedback, student, handleFeedbacks }: IM
         apiRequestUpdate().then(content => {
             toast.update(message, {
                 ...toastifyUpdate,
-                render: "Feedback written successfully!",
+                render: t('subjectDetails.feedbackModal.feedbackWritten'),
                 type: "success",
             });
 
@@ -133,13 +134,13 @@ export default ({ isOpen, handleIsOpen, feedback, student, handleFeedbacks }: IM
 
     return (
         <>
-            <Modal open={isOpen} handleClose={handleClose} title={"Edit Feedback"} >
+            <Modal open={isOpen} handleClose={handleClose} title={t('subjectDetails.feedbackModal.editFeedback')} >
                 <div className={`${styles.feedbacks}`}>
-                    <Text>{"Write your feedback for " + student.name}</Text>
-                    <TextArea value={feedbackContent!} setValue={setFeedbackContent} placeHolder="Write your feedback here..." required={true} />
+                    <Text>{t('subjectDetails.feedbackModal.whiteFeedbackFor') + student.name}</Text>
+                    <TextArea value={feedbackContent!} setValue={setFeedbackContent} placeHolder={t('subjectDetails.feedbackModal.writeFeedback')} required={true} />
                     <div className={`${styles.bttns}`}>
-                        <Button onClick={handleClose}>Cancel</Button>
-                        <Button variant="contained" onClick={handleSubmit} >Confirm</Button>
+                        <Button onClick={handleClose}>{t('subjectDetails.feedbackModal.cancel')}</Button>
+                        <Button variant="contained" onClick={handleSubmit}>{t('subjectDetails.feedbackModal.confirm')}</Button>
                     </div>
                 </div>
             </Modal>

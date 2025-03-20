@@ -13,6 +13,7 @@ import { IExam } from "@/interfaces/models/IExam";
 import Progress from "@/components/Progress";
 import Button from "@/components/Button";
 import Icon from "@/components/Icon";
+import { t } from 'i18next';
 
 const EvaluateExam = () => {
 
@@ -38,7 +39,7 @@ const EvaluateExam = () => {
     }
 
     const navigateEditExam = () => {
-        if (!confirm("Are you sure you want to leave this page? Your changes will not be saved!"))
+        if (!confirm(t('subjectDetails.evaluateExam.leaveConfirmation')))
             return;
 
         navigate(`/classes/${classId}/subject/${subjectId}/edit-exam/${examId}`)
@@ -62,7 +63,7 @@ const EvaluateExam = () => {
             <Header />
             <main className={styles.evaluate_main}>
                 <SectionHeader links={[{
-                    label: "Classes Overview",
+                    label: t('subjectDetails.evaluateExam.classesOverview'),
                     goTo: "/classes"
                 },
                 {
@@ -78,7 +79,7 @@ const EvaluateExam = () => {
                 }]} />
                 <div className={`${styles.title_section}`}>
                     <div className={`${styles.col}`}>
-                        <Text fontSize='xl2' fontWeight='bold'>{`Evaluate ${exam?.name}`}</Text>
+                        <Text fontSize='xl2' fontWeight='bold'>{`${t('subjectDetails.evaluateExam.evaluate')} ${exam?.name}`}</Text>
                         <Text fontSize="sm" >{exam?.description}</Text>
                     </div>
                     <Button variant="primary_icon" onClick={navigateEditExam}><Icon name="settings" /></Button>
