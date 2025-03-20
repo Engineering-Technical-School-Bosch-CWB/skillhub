@@ -3,12 +3,13 @@ import React from "react";
 import { PieChart, Pie, Tooltip, Label, Cell } from "recharts";
 import Text from "../../../typography";
 import { IDoughnutCharProps } from "./interfaces";
+import { t } from 'i18next';
 
 const DoughnutChart: React.FC<IDoughnutCharProps> = ({ performance, title }) => {
 
   const data = [
-    { name: "Performance", value: performance },
-    { name: "Remaining", value: performance == null ? 0 : Number((100 - performance).toFixed(2)) },
+    { name: t('aprenticesResults.performance'), value: performance },
+    { name: t('aprenticesResults.remaining'), value: performance == null ? 0 : Number((100 - performance).toFixed(2)) },
   ];
 
   return (
