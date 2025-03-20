@@ -10,6 +10,19 @@
             "completeRegistration": "Complete registration to access.",
             "enter": "Access"
         },
+        "completeRegistration":{
+            "updating": "Updating user registration...",
+            "updated":"User registration updated!",
+            "invalidCredentials" : "Invalid credentials",
+            "fields": {
+                "fullName":"Name",
+                "birth":"Date of Birth",
+                "identification":"Identification (EDV)",
+                "position" : "Position",
+                "password": "Password",
+                "confirmPassword":"Password Confirm"
+            }
+        },
         "home": {
             "userProfile": "Profile",
             "studentResults": "My Results",
@@ -129,9 +142,9 @@
             "initialDate": "Start date:",
             "classes": "Classes",
             "avaliationTable": {
-                "skilled": "Skilled",
-                "developing": "Developing",
-                "unskilled": "Unskilled",
+                "Skilled": "Skilled",
+                "Developing": "Developing",
+                "Unskilled": "Unskilled",
                 "evaluate": "Evaluate",
                 "skill": "Skill",
                 "weight": "Weight",
@@ -175,6 +188,12 @@
                 "delete": "Delete",
                 "cancel": "Cancel",
                 "save": "Save"
+            },
+            "selectCompetence": {
+                "Skilled": "Skilled",
+                "Developing": "Developing",
+                "Unskilled": "Unskilled",
+                "NotEvaluated": "Not Evaluated"
             }
         },
         "schoolContent": {
@@ -402,7 +421,12 @@
             "passwordsMustMatch": "Passwords must match!",
             "invalidCredentials": "Invalid credentials.",
             "classesLoadError": "Error loading classes.",
-            "resultsLoadError": "Error loading results."
+            "resultsLoadError": "Error loading results.",
+            "passwordMustMatch":"Passwords must match!"
+        },
+        "components": {
+            "progress": "Loading...",
+            "notFound": "Not Found!"
         }
     }
 }

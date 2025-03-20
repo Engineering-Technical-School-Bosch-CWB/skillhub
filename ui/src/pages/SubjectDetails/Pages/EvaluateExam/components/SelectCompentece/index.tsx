@@ -22,11 +22,11 @@ export default ({ value, change, selected, selectOpened, setSelectOpened }: ISel
     const divRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        setAvaliableAptitudes(aptitudes.filter(aptitude => aptitude != value))
+        setAvaliableAptitudes(aptitudes)
     }, [value, aptitudes])
 
     useEffect(() =>{
-        if(selectOpened)
+        if(selectOpened){}
             divRef.current?.focus();
     }, [selectOpened])
 
@@ -38,19 +38,15 @@ export default ({ value, change, selected, selectOpened, setSelectOpened }: ISel
     function handleKeyDownSelect(event: React.KeyboardEvent<HTMLDivElement>) {
         switch (event.key) {
             case "ArrowDown":
-                // mover para próxima opção do select, se quiser
-                setSelectCursor(selectCursor < 2 ? selectCursor + 1 : selectCursor)
+                setSelectCursor(selectCursor < 3 ? selectCursor + 1 : selectCursor)
                 break;
             case "ArrowUp":
-                // mover para a opção anterior do select
                 setSelectCursor(selectCursor > 0 ? selectCursor - 1 : selectCursor)
                 break;
             case "Enter":
-                // confirma a opção do select (você pode fazer a lógica de “confirmar” aqui ou lá no SelectCompentece)
                 handleChange(avaliableAptitudes[selectCursor]);
                 break;
             case "Escape":
-                // fecha sem mudar
                 setSelectOpened(false);
                 break;
             default:
@@ -80,9 +76,8 @@ export default ({ value, change, selected, selectOpened, setSelectOpened }: ISel
                             )
                         )}
                         {
-                            value &&
                             <div
-                                className={`${styles.select_cell}  ${2 === selectCursor ? styles.selected : ""}`}
+                                className={`${styles.select_cell}  ${3 === selectCursor ? styles.selected : ""}`}
                                 onClick={() => handleChange(undefined)}
                             >
                                 <Text fontSize="sm" fontWeight="semibold" style={{ color: "var(--gray-300)" }}>{t('subjectDetails.selectCompetence.NotEvaluated')}</Text>

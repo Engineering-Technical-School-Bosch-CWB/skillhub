@@ -83,7 +83,7 @@
     flex-direction: column;
     padding: 0 .5rem;
     hr {
-        margin: .5rem;
+        margin: 0 .5rem;
     }
 
     .divider {
@@ -92,6 +92,16 @@
         height: 1px;
         background-color: var(--divider-background);
     }
+
+}
+.disable-scroll {
+    /* overflow: hidden !important;
+    height: 100vh !important; */
+    /* touch-action: none !important; */
+}
+
+.current_line {
+    background-color: var(--gray-200);
 }
 
 .content_row {
@@ -99,7 +109,8 @@
     justify-content: space-between;
     text-wrap: wrap;
     text-overflow: hidden;
-
+    padding: .5rem
+    ;
     gap: 1rem;
 }
 

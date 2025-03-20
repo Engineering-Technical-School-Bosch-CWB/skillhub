@@ -10,6 +10,19 @@
             "completeRegistration": "Complete o registro para acessar.",
             "enter": "Acessar"
         },
+        "completeRegistration":{
+            "updating": "Updating user registration...",
+            "updated":"User registration updated!",
+            "invalidCredentials" : "Invalid credentials",
+            "fields": {
+                "fullName":"Nome",
+                "birth":"Nascimento",
+                "identification":"Identificação (EDV)",
+                "position" : "Cargo",
+                "password": "Senha",
+                "confirmPassword":"Confirme a Senha"
+            }
+        },
         "home": {
             "userProfile": "Perfil",
             "studentResults": "Meus Resultados",
@@ -408,7 +421,8 @@
             "passwordsMustMatch": "As senhas devem ser idênticas!",
             "invalidCredentials": "Credenciais Inválidas.",
             "classesLoadError": "Erro ao carregar as turmas.",
-            "resultsLoadError": "Erro ao carregar os resultados."
+            "resultsLoadError": "Erro ao carregar os resultados.",
+            "passwordMustMatch":"As senhas precisam ser iguais"
         },
         "components": {
             "progress": "Carregando...",

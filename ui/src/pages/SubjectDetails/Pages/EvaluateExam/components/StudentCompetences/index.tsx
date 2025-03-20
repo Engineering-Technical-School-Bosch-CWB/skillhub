@@ -180,6 +180,29 @@ export default function StudentCompetences({ results, setResults }: IStudentSkil
             containerRef.current?.focus();
     }, [selectOpen]);
 
+    useEffect(() => {
+        const disableScroll = (event: Event) => {
+            event.preventDefault();
+        };
+    
+        if (selectOpen) {
+            document.body.classList.add("disable-scroll"); // Adiciona classe para bloquear rolagem
+            document.addEventListener("wheel", disableScroll, { passive: false });
+            document.addEventListener("touchmove", disableScroll, { passive: false });
+            document.addEventListener("keydown", disableScroll, { passive: false }); // Bloqueia setas do teclado
+        } else {
+            document.body.classList.remove("disable-scroll"); // Remove classe ao fechar
+        }
+    
+        return () => {
+            document.body.classList.remove("disable-scroll"); // Garante que a rolagem seja restaurada
+            document.removeEventListener("wheel", disableScroll);
+            document.removeEventListener("touchmove", disableScroll);
+            document.removeEventListener("keydown", disableScroll);
+        };
+    }, [selectOpen]); 
+    
+
     return (
         <div
             className={` ${styles.component_container}`}
@@ -221,8 +244,8 @@ export default function StudentCompetences({ results, setResults }: IStudentSkil
                             }}
                             className={`${styles.row} ${styles.align}`}
                         >
-                            <div className={`${styles.content_row} ${styles.align}`}>
-                                <section className={`${styles.competence_description}`}>
+                            <div className={`${styles.content_row} ${styles.align} ${selectedCompetenceIndex == cIndex  && focusArea === "competence"? styles.current_line : ""}` }>
+                                <section className={`${styles.competence_description} `}>
                                     <Text fontSize='sm'>{item.description}</Text>
                                 </section>
                                 <SelectCompentece
