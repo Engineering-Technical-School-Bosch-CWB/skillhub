@@ -33,6 +33,7 @@ export default ({ value, change, selected, selectOpened, setSelectOpened }: ISel
     const handleChange = (aptitude?: EAptitude) => {
         change(aptitude);
         setSelectOpened(false);
+        setSelectCursor(0);
     }
 
     function handleKeyDownSelect(event: React.KeyboardEvent<HTMLDivElement>) {
