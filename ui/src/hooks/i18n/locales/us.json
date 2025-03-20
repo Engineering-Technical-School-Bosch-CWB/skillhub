@@ -209,10 +209,10 @@
                 "occupationArea": "Occupation Area"
             },
             "kind": {
-                "course": "Course",
+                "course": "Courses",
                 "curricularUnits": "Curricular Unit",
-                "subjectAreas": "Knowledge Areas",
-                "occupationArea": "Occupation Areas"
+                "subjectAreas": "Knowledge Area",
+                "occupationArea": "Occupation Area"
             },
             "course" : {
                 "create": "Create Course",
@@ -445,7 +445,9 @@
                 "skillHistory": "Skill History",
                 "Skilled": "Skilled",
                 "Developing": "Developing",
-                "Unskilled": "Unskilled"
+                "Unskilled": "Unskilled",
+                "OccupationArea": "Occupation Area",
+                "Name": "Name"
             }
         }
     }

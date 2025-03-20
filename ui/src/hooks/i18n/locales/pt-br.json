@@ -205,13 +205,13 @@
             "delete": "Você tem certeza que deseja excluir este item?",
             "tabIndex": {
                 "courses": "Cursos",
-                "subjectArea":"Área de Conhecimento",
-                "occupationArea":"Área de Atuação"
+                "subjectArea":"Áreas de Conhecimento",
+                "occupationArea":"Áreas de Atuação"
             },
             "kind": {
-                "course" :"Curso",
+                "course" :"Cursos",
                 "curricularUnits" : "Unidade Curricular",
-                "subjectAreas" : "Áreas de Conhecimentos",
+                "subjectAreas" : "Áreas de Conhecimento",
                 "occupationArea": "Áreas de Atuação"
             },
             "course" : {
@@ -380,7 +380,7 @@
                     "resetPassword":"Erro ao resetar senha",
                     "archive":"Erro ao arquivar usuário",
                     "loadSectors":"Erro ao carregar setores.",
-                    "loadAreas":"Erro ao carregar area de ocupação.",
+                    "loadAreas":"Erro ao carregar área de ocupação.",
                     "loadClasses":"Erro ao carregar turmas.",
                     "loadPositions":"Erro ao carregar cargos."
                 }
@@ -445,7 +445,9 @@
                 "skillHistory": "Histórico de Competências",
                 "Skilled": "Apto",
                 "Developing": "Desenvolvimento",
-                "Unskilled": "Inapto"
+                "Unskilled": "Inapto",
+                "OccupationArea": "Área de atuação",
+                "Name": "Nome"
             }
         }
     }
