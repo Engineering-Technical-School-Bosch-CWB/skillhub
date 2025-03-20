@@ -1,11 +1,11 @@
 import { ChangeEvent } from "react";
 import { ISelectProps } from "./interfaces"
+import { t } from "i18next";
 
 import styles from "./styles.module.css"
 
 export default (data: ISelectProps) => {
-    // const [selectedValue, setSelectedValue] = useState(data.data.filter((e) => e.selected)[0].value || "" );
-
+    
     const onChange = (e: ChangeEvent<HTMLSelectElement>) => {
         if (data.onChange) data.onChange(e);
     }
@@ -25,7 +25,7 @@ export default (data: ISelectProps) => {
             >
                 {
                     !data.hasDefault &&
-                    <option className={`${styles.selection}`} selected>{data.label ?? "Select a value"}</option>
+                    <option className={`${styles.selection}`} selected>{data.label ?? t('components.select')}</option>
                 }
                 {
                     data.data.map((item, i) => {
