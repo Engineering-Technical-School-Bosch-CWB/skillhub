@@ -10,6 +10,7 @@ import Text from "@/typography";
 import Cropper, { Area, Point } from "react-easy-crop";
 import Slider from "@mui/material/Slider";
 import { cropImage } from "./CropImage";
+import { t } from "i18next";
 
 export interface IImageUploadModalProps extends IModalProps{
     userId: number,
@@ -131,18 +132,18 @@ export default ({handleClose, open, title, userId, userThumb}: IImageUploadModal
                         >
                             <Icon name="add_photo_alternate" size="lg" /> 
                             <section>
-                                <Text>Clique ou Arraste para alterar a imagem</Text>
+                                <Text>{t('userProfile.imageUpload.clickHereImage')}</Text>
                             </section>
                         </span>
                     </section>
                     <section className={styles.image_options_container}>
                         <span className={styles.btn_container}>
                             <span>
-                                <Button variant="contained" onClick={imgHandle}>Select Image</Button>
+                                <Button variant="contained" onClick={imgHandle}>{t('userProfile.imageUpload.selectImage')}</Button>
                             </span>
                             <span className={styles.btn_section}>
-                                <Button variant="contained" onClick={send}>Save</Button>
-                                <Button onClick={handleClose}>Cancel</Button>
+                                <Button variant="contained" onClick={send}>{t('buttons.save')}</Button>
+                                <Button onClick={handleClose}>{t('buttons.cancel')}</Button>
                             </span>
                         </span>
                     </section>

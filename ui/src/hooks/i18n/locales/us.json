@@ -2,7 +2,7 @@
     "translation": {
         "login": {
             "welcome": "Welcome",
-            "identification": "Identification (EDV)",
+            "identification": "Identification(EDV)",
             "password": "Password",
             "authenticating": "Authenticating...",
             "logged": "Successfully authenticated!",
@@ -114,6 +114,10 @@
                     "successUpdate": "Feedback successfully updated!",
                     "successCreate": "Feedback successfully created!"
                 }
+            },
+            "imageUpload": {
+                "clickHereImage": "Click or Drag to change the image",
+                "selectImage": "Select Image"
             }
         },
         "subjectResults": {
@@ -121,16 +125,16 @@
             "classPerformance": "Class Average",
             "yourPerformance": "Your Performance",
             "lastUpdate": "Last update • ",
-            "by": "by",
+            "by": " by ",
             "nofeedback": "No feedback.",
             "results": "Results",
-            "generalResults": "General Results"
+            "generalResults": "My Results"
         },
         "subjectDetails": {
             "editFeedback": "Edit Feedback",
             "lastUpdate": "Last update • ",
-            "by": "by",
-            "nofeedback": "No feedback...",
+            "by": " by ",
+            "nofeedback": "Feedback not provided.",
             "apprenticeSubjectFeedback": "Apprentices can see subject feedback!",
             "studentFeedback": "Student Feedback",
             "exams": "Assessments",
@@ -205,10 +209,10 @@
                 "occupationArea": "Occupation Area"
             },
             "kind": {
-                "course": "Course",
+                "course": "Courses",
                 "curricularUnits": "Curricular Unit",
-                "subjectAreas": "Knowledge Areas",
-                "occupationArea": "Occupation Areas"
+                "subjectAreas": "Knowledge Area",
+                "occupationArea": "Occupation Area"
             },
             "course" : {
                 "create": "Create Course",
@@ -392,11 +396,13 @@
         },
         "aprenticesResults": {
             "noDate": "Date not provided",
-            "generalResults": "General Results",
+            "generalResults": "My Results",
             "results": "Results",
             "performanceSubject": "Performance by subject",
             "overallPerformance": "Overall Performance",
-            "subjects": "Subjects"
+            "subjects": "Subjects",
+            "performance": "Performance",
+            "remaining": "Remaining"
         },
         "tables": {
             "description": "Description",
@@ -426,7 +432,23 @@
         },
         "components": {
             "progress": "Loading...",
-            "notFound": "Not Found!"
+            "notFound": "Not Found!",
+            "select": "Select a value",
+            "search": "Search",
+            "tableView": {
+                "options": "Options",
+                "Average Performance": "Average Performance",
+                "Aptitude": "Aptitude",
+                "Description": "Description",
+                "Date": "Date",
+                "Reason": "Reason",
+                "skillHistory": "Skill History",
+                "Skilled": "Skilled",
+                "Developing": "Developing",
+                "Unskilled": "Unskilled",
+                "OccupationArea": "Occupation Area",
+                "Name": "Name"
+            }
         }
     }
 }
