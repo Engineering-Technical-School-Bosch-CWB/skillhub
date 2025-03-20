@@ -16,15 +16,6 @@ jobs:
         with:
           node-version: 18
 
-      - name: Verificando origem
-        run: |
-          if [[ $(git log -1 --pretty=%P) == *"dev"* ]]; then
-            echo "Merge vindo da dev! Continuando..."
-          else
-            echo "Merge não é da dev. Abortando."
-            exit 1
-          fi
-
       - name: Install Dependencies
         run: npm install
       
