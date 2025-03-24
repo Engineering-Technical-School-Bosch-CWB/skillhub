@@ -259,10 +259,17 @@
         },
         "createExam": {
             "exam": "Avaliação",
+            "date": "Data",
+            "description": "Descrição",
+            "examName": "Nome da avaliação",
             "createExam": "Criar Avaliação",
             "creatingExam": "Criando avaliação...",
-            "createExamFor": "Criar avaliação para",
-            "examCreated": "Avaliação criada com sucesso!"
+            "createExamFor": "Criar avaliação para ",
+            "examCreated": "Avaliação criada com sucesso!",
+            "selectExamSkills": "Selecione as competências da avaliação",
+            "selectInstructor": "Selecione um(a) instrutor(a)",
+            "classesOverview": "Turmas",
+            "weight": "Peso"
         },
         "createClass": {
             "new": "Novo",

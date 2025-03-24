@@ -1,6 +1,7 @@
 import Input from "@/components/Input";
 import styles from "../../styles.module.css";
 import { useEffect, useState } from "react";
+import { t } from "i18next";
 
 export interface ISkillSelection {
     skillId: number
@@ -46,7 +47,7 @@ export default ({ id, skillWeight, description, selected, selectedSkills, setSel
             <div className={`${styles.option}`}>
                 <Input type="checkBox" label={description} width={"calc(100% - 8.5rem)"} checked={checked} onChange={(e) => setChecked(e.target.checked)}/>
                 <div className={`${styles.input_weight}`}>
-                    <Input type="number" label="Weight" value={checked ? weight : ""} disabled={!checked} min={0} onChange={(e) => setWeight(Number(e.target.value))} width={"8rem"} />
+                    <Input type="number" label={t('createExam.weight')} value={checked ? weight : ""} disabled={!checked} min={0} onChange={(e) => setWeight(Number(e.target.value))} width={"8rem"} />
                 </div>
             </div>
         </>

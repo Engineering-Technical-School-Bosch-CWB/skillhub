@@ -258,11 +258,18 @@
             }
         },
         "createExam": {
-            "exam": "Assessment",
-            "createExam": "Create Assessment",
-            "creatingExam": "Creating assessment...",
-            "createExamFor": "Create assessment for",
-            "examCreated": "Assessment successfully created!"
+            "exam": "Exam",
+            "date": "Date",
+            "description": "Description",
+            "examName": "Exam name",
+            "createExam": "Create Exam",
+            "creatingExam": "Creating exam...",
+            "createExamFor": "Create exam for ",
+            "examCreated": "Exam successfully created!",
+            "selectExamSkills": "Select the exam skills",
+            "selectInstructor": "Select an instructor",
+            "classesOverview": "Classes",
+            "weight": "Weight"
         },
         "createClass": {
             "new": "New",
