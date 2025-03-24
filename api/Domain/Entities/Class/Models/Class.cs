@@ -13,4 +13,5 @@ public partial class Class : IEntity
   public bool IsArchived { get; set; } = false;
   public ICollection<Subject> Subjects { get; set; } = [];
   public ICollection<Student> Students { get; set; } = [];
+  public ICollection<ClassEvent> ClassEvents { get; set; } = [];
 }
