@@ -36,6 +36,7 @@ interface IRadarProps {
     fullMark: number
 }
 interface IBarProps {
+    subjectId: number
     name: string
     grade: number
     aptitude?: number
@@ -125,7 +126,8 @@ const UserProfile = () => {
                         ((result.aptitude ?? 0) - (result.grade ?? 0)) : 0,
                     obj: result.aptitude ?? 0,
                     fullMark: 100,
-                    name: result.name
+                    name: result.name,
+                    subjectId: result.id
                 };
                 return item;
             }));
@@ -133,6 +135,14 @@ const UserProfile = () => {
         }
         setLoading(false);
     }
+
+    const handleBarClick = (data: any) => {
+        const subjectId = data.subjectId;
+        const classId = studentData?.classId;
+
+        navigate(`/classes/${classId}/subject/${subjectId}`);
+    };
+
     useEffect(() => {
         getData();
     }, []);
@@ -252,7 +262,7 @@ const UserProfile = () => {
                                             <YAxis domain={[0, 100]} />
                                             <Tooltip content={<CustomTooltip />} />
                                             <Legend  />
-                                            <Bar dataKey="grade" stackId="a" name={t('userProfile.grade')}  fill="#00629a" />
+                                            <Bar dataKey="grade" stackId="a" name={t('userProfile.grade')}  fill="#00629a" onClick={handleBarClick} />
                                             <Bar dataKey="aptitude" stackId="a" name={t('userProfile.aptitude')} fill="#0197ee" />
                                         </BarChart>
 
