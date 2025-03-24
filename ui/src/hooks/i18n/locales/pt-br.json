@@ -451,7 +451,9 @@
                 "Developing": "Desenvolvimento",
                 "Unskilled": "Inapto",
                 "OccupationArea": "Área de atuação",
-                "Name": "Nome"
+                "Name": "Nome",
+                "PositionLevel": "Nível",
+                "PositionType": "Tipo de cargo"
             }
         }
     }

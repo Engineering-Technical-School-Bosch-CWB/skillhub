@@ -451,7 +451,9 @@
                 "Developing": "Developing",
                 "Unskilled": "Unskilled",
                 "OccupationArea": "Occupation Area",
-                "Name": "Name"
+                "Name": "Name",
+                "PositionLevel": "Position Level",
+                "PositionType": "Position Type"
             }
         }
     }
