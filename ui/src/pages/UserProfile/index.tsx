@@ -262,8 +262,14 @@ const UserProfile = () => {
                                             <YAxis domain={[0, 100]} />
                                             <Tooltip content={<CustomTooltip />} />
                                             <Legend  />
-                                            <Bar dataKey="grade" stackId="a" name={t('userProfile.grade')}  fill="#00629a" onClick={handleBarClick} />
-                                            <Bar dataKey="aptitude" stackId="a" name={t('userProfile.aptitude')} fill="#0197ee" />
+                                            {["grade", "aptitude"].map((key) => (
+                                                <Bar
+                                                    key={key} dataKey={key} stackId="a"
+                                                    name={t(`userProfile.${key}`)} fill={key === "grade" ? "#00629a" : "#0197ee"}
+                                                    onClick={handleBarClick}
+                                                    style={{ cursor: "pointer" }}
+                                                />
+                                            ))}
                                         </BarChart>
 
                                     </ResponsiveContainer>
