@@ -10,6 +10,7 @@ import { useUserContext } from "../../contexts/user.context";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import toastifyUpdate from "../../constants/toastfyUpdate";
+import { t } from "i18next";
 
 export const CompleteRegistering = () => {
     const { user, setUser } = useUserContext();
@@ -19,7 +20,7 @@ export const CompleteRegistering = () => {
     const handleSubmit = async (data: FieldValues) => {
 
         if (data.password != data.passwordconfirm)
-            return toast.error("Passwords must match!");
+            return toast.error(t('errors.passwordMustMatch'));
 
         const apiRequest = async () => {
             const response = await internalAPI.jsonRequest(`/users/${user?.id}`, "PATCH", undefined, {
@@ -34,12 +35,11 @@ export const CompleteRegistering = () => {
 
             return response.data;
         }
-        const message = toast.loading("Updating user registration...");
+        const message = toast.loading(t('completeRegistration.updating'));
         apiRequest().then(content => {
-
             toast.update(message, {
                 ...toastifyUpdate,
-                render: "User registration updated!",
+                render: t('completeRegistration.updated'),
                 type: "success"
             })
 
@@ -48,19 +48,19 @@ export const CompleteRegistering = () => {
         }).catch(err => {
             toast.update(message, {
                 ...toastifyUpdate,
-                render: err.message || "Invalid credentials.",
+                render: err.message || t('completeRegistration.invalidCredentials'),
                 type: "error"
             })
         })
     }
 
     const fields: IFormInput[] = [
-        { fieldName: "fullname", label: "Full Name", required: true, value: user?.name, maxLength: 500 },
-        { fieldName: "birthday", label: "Date of Birth", required: true, type: "date" },
-        { fieldName: "identification", label: "Identification(EDV)", required: true, locked: true, value: user?.identification, maxLength: 100 },
-        { fieldName: "position", label: "Position", required: true, locked: true, value: userPosition },
-        { fieldName: "password", label: "Password", type: "password", required: true, maxLength: 255, password: true },
-        { fieldName: "passwordconfirm", label: "Password Confirm", type: "password", required: true, maxLength: 255 }
+        { fieldName: "fullname", label: t('completeRegistration.fields.fullName'), required: true, value: user?.name, maxLength: 500 },
+        { fieldName: "birthday", label: t('completeRegistration.fields.birth'), required: true, type: "date", max:'today' },
+        { fieldName: "identification", label: t('completeRegistration.fields.identification'), required: true, locked: true, value: user?.identification, maxLength: 100 },
+        { fieldName: "position", label: t('completeRegistration.fields.position'), required: true, locked: true, value: userPosition },
+        { fieldName: "password", label: t('completeRegistration.fields.password'), type: "password", required: true, maxLength: 255, password: true },
+        { fieldName: "passwordconfirm", label: t('completeRegistration.fields.confirmPassword'), type: "password", required: true, maxLength: 255 }
     ];
 
     useEffect(() => {

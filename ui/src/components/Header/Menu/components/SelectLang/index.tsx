@@ -18,8 +18,8 @@ export default () => {
         <section className={styles.lang_section}>
             <Text fontSize="lg" fontWeight="regular">{t('home.lang')}</Text>
             <span className={styles.flag_container}>
-                <img src="public/image/br-flag.png" alt="br-flag" width={40} onClick={() => toggleLang('ptbr')} className={selectedLang == "ptbr" ? styles.selected : "" } />
-                <img src="public/image/us-flag.png" alt="us-flag" width={40} onClick={() => toggleLang('us')} className={selectedLang == "us" ? styles.selected : "" } />
+                <img src="image/br-flag.png" alt="br-flag" width={40} onClick={() => toggleLang('ptbr')} className={selectedLang == "ptbr" ? styles.selected : "" } />
+                <img src="image/us-flag.png" alt="us-flag" width={40} onClick={() => toggleLang('us')} className={selectedLang == "us" ? styles.selected : "" } />
             </span>
         </section>
     )

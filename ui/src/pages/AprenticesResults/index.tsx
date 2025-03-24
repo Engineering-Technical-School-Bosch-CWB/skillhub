@@ -1,4 +1,4 @@
-import formatDate from "../../constants/formatDate"
+import { formatDate } from "../../constants/formatDate"
 import styles from "./styles.module.css"
 import getColor from "../../constants/getHex"
 import Header from "../../components/Header"
@@ -16,6 +16,7 @@ import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
 import SectionHeader from "@/components/SectionHeader"
 import Progress from "@/components/Progress"
+import { t } from 'i18next';
 
 const AprenticesResults = () => {
 
@@ -51,7 +52,7 @@ const AprenticesResults = () => {
                 .filter((r: { search: boolean }) => r.search)
                 .map((r: { subject: { curricularUnit: string; beganAt: any; id: string }; score: number }) => ({
                     title: r.subject.curricularUnit,
-                    subtitle: r.subject.beganAt ? formatDate(r.subject.beganAt) : "No informed date",
+                    subtitle: r.subject.beganAt ? formatDate(r.subject.beganAt) : t('aprenticesResults.noDate'),
                     iconDetails: Math.round(r.score) + "%",
                     color: getColor(r.subject.curricularUnit),
                     goTo: "/apprentice/results/" + r.subject.id
@@ -81,19 +82,19 @@ const AprenticesResults = () => {
             <main>
                 <div className={styles.chart_section}>
                     <SectionHeader links={[{
-                        label: "General Results",
+                        label: t('aprenticesResults.generalResults'),
                     }]} />
-                    <Text variant="span" fontWeight="bold" fontSize="xl2">Results</Text>
+                    <Text variant="span" fontWeight="bold" fontSize="xl2">{t('aprenticesResults.results')}</Text>
                     <div className={styles.chart_container}>
                         <div className={`${styles.chart}`}>
-                            <ExploitationBarChart data={barChartData} label={"Performance per Subject"} />
+                            <ExploitationBarChart data={barChartData} label={t('aprenticesResults.performanceSubject')} />
                         </div>
-                        <DoughnutChart title="Overall Performance" performance={overallPerformance == null ? 0 : Number(overallPerformance.toFixed(1))} />
+                        <DoughnutChart title={t('aprenticesResults.overallPerformance')} performance={overallPerformance == null ? 0 : Number(overallPerformance.toFixed(1))} />
                     </div>
                 </div>
                 <Divider size="big" />
                 <div className={styles.classes_section}>
-                    <ExplorerContainer title={"Subjects"} data={cardsData} input={{
+                    <ExplorerContainer title={t('aprenticesResults.subjects')} data={cardsData} input={{
                         search: search,
                         onChange: (str: string) => setSearch(str)
                     }} />

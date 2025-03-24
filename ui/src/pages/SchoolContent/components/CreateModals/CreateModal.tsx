@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import CourseCreateModal from "./CourseCreateModal";
 import SubjectAreaCreateModal from "./SubjectAreaCreateModal";
 import CurricularUnitCreateModal from "./CurricularUnitCreateModal";
-import { tabName, Tabs } from "../../links";
+import { Tabs } from "../../links";
 import OccupationAreaCreateModal from "./OccupationAreaCreateModal";
 import ButtonGroup from "@/components/ButtonGroup";
 import internalAPI from "@/service/internal.services";

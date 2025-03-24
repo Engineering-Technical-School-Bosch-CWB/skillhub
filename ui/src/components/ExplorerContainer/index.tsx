@@ -10,6 +10,7 @@ import { SelectView, SelectViewType } from "./Components/SelectView";
 import { IExplorerContainerProps } from "./Interfaces/ExplorerContainer.interfaces";
 import Select from "../Select";
 import IIdentificationCardProps from "./Components/IdentificationCard/interfaces";
+import { t } from "i18next";
 
 const ExplorerContainer = ({ input, folderData, onAddHandle, title, subtitle, data, filter, button }: IExplorerContainerProps) => {
 
@@ -42,7 +43,7 @@ const ExplorerContainer = ({ input, folderData, onAddHandle, title, subtitle, da
             <div className={`${styles.explorerHeader} ${styles.align}`}>
 
                 <div className={`${styles.searchContainer} ${styles.align}`}>
-                    <Input type="text" label="Search" iconName="search" value={input.search} onChange={(e) => input.onChange(e.target.value)} width={"25rem"} maxLength={50} />
+                    <Input type="text" label={t('components.search')} iconName="search" value={input.search} onChange={(e) => input.onChange(e.target.value)} width={"25rem"} maxLength={50} />
                 </div>
 
                 {

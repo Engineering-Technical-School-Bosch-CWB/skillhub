@@ -7,7 +7,8 @@ import internalAPI from "../../../../service/internal.services";
 import { IModalProps } from "../../interfaces";
 import { ITableData } from "../../../../components/TableView/interfaces";
 import { useEffect, useState } from "react";
-import formatDate from "../../../../constants/formatDate";
+import { formatDate } from "../../../../constants/formatDate";
+import { t } from 'i18next';
 
 const HistoryModal = ({ isOpen, handleIsOpen, skillId }: IModalProps) => {
     const handleClose = () => handleIsOpen(false);
@@ -37,7 +38,7 @@ const HistoryModal = ({ isOpen, handleIsOpen, skillId }: IModalProps) => {
 
     return (
         <div>
-            <Modal open={isOpen} handleClose={handleClose} title="Skill History">
+            <Modal open={isOpen} handleClose={handleClose} title={t('components.tableView.skillHistory')}>
                 <div className={styled.information}>
                     <Text fontSize="xl" fontWeight="semibold">{skillDescription}</Text>
                     <Text>{evaluationCriteria}</Text>

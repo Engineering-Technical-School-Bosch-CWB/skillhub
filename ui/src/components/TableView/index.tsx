@@ -3,6 +3,7 @@ import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 import { useEffect, useState } from "react";
 import Icon from "../Icon";
 import { ITableData, ITableViewProps } from "./interfaces";
+import { t } from 'i18next';
 
 // ----*-----
 // the "DATA" props is expected to be an ARRAY OF OBJECTS OF EXACT SAME STRUCTURE,
@@ -78,14 +79,14 @@ const TableView = ({ data, hasOptions, options, hasNotation }: ITableViewProps) 
                             {
                                 keys.map((key) => (
                                     key != "Id" ?
-                                        <TableCell key={key} align="center" className={styled.head}>{key}</TableCell>
+                                        <TableCell key={key} align="center" className={styled.head}>{t(`components.tableView.${key}`)}</TableCell>
                                         : <></>
                                 ))
                             }
 
                             {
                                 hasOptions ?
-                                    <TableCell align="center" className={styled.head}>Options</TableCell>
+                                    <TableCell align="center" className={styled.head}>{t('components.tableView.options')}</TableCell>
                                     : <></>
                             }
                         </TableRow>
@@ -97,7 +98,7 @@ const TableView = ({ data, hasOptions, options, hasNotation }: ITableViewProps) 
                                 <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                     {
                                         hasNotation ?
-                                            <TableCell key={index} align="center" className={styled.row}>{index}</TableCell>
+                                            <TableCell key={index} align="center" className={styled.row}>{index+1}</TableCell>
                                             : <></>
                                     }
 
@@ -106,7 +107,13 @@ const TableView = ({ data, hasOptions, options, hasNotation }: ITableViewProps) 
                                             key != "Id" ?
                                                 <TableCell key={key} align="center">
                                                     <div className={styled.cell}>
-                                                        <div className={handleStyle(key, item)}>{item[key]}</div>
+                                                        <div className={handleStyle(key, item)}>
+                                                        {
+                                                            ["Skilled", "Developing", "Unskilled"].includes(String(item[key])) 
+                                                            ? t(`components.tableView.${item[key]}`) 
+                                                            : item[key]
+                                                        }
+                                                        </div>
                                                     </div>
                                                 </TableCell>
                                                 : <></>

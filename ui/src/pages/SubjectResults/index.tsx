@@ -4,7 +4,7 @@ import DoughnutChart from "../../components/Charts/DoughnutChart";
 import Header from "../../components/Header";
 import Text from "../../typography";
 import TableView from "../../components/TableView";
-import formatDate from "../../constants/formatDate";
+import { formatDate } from "../../constants/formatDate";
 import HistoryModal from "./components/HistoryModal";
 import internalAPI from "../../service/internal.services";
 
@@ -15,6 +15,7 @@ import { IFeedback } from "../../interfaces/models/IFeedback";
 import { IOption } from "../../components/TableView/interfaces";
 import SectionHeader from "@/components/SectionHeader";
 import Progress from "@/components/Progress";
+import { t } from 'i18next';
 
 const SubjectResults = () => {
 
@@ -25,7 +26,6 @@ const SubjectResults = () => {
     const navigate = useNavigate();
 
     const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
-    // const [isContestmentModalOpen, setIsContestmentModalOpen] = useState(false);
     const [selectedSkill, setSelectedSkill] = useState<number>();
 
     const [subject, setSubject] = useState("");
@@ -64,11 +64,6 @@ const SubjectResults = () => {
         setSelectedSkill(skillId);
     }
 
-    // const handleContestmentModal = (isOpen: boolean, skillId: number) => {
-    //     setIsContestmentModalOpen(isOpen);
-    //     setSelectedSkill(skillId);
-    // }
-
     const options: IOption[] = [
         {
             iconName: "history",
@@ -95,42 +90,41 @@ const SubjectResults = () => {
             <main>
                 <div className={styled.content}>
                     <SectionHeader links={[{
-                        label: "General Results",
+                        label: t('subjectResults.generalResults'),
                         goTo: "/apprentice/results"
                     },
                     {
-                        label: subject + " Results"
+                        label: subject
                     }]} />
                     <div className={styled.overview_section}>
                         <Text fontWeight="bold" fontSize="xl2">{subject}</Text>
                         <div className={styled.overview_content}>
                             <div className={styled.feedback_card}>
                                 <Text fontWeight="semibold" fontSize="xl">Feedback</Text>
-                                <Text>{feedback?.content || "No feedback provided."}</Text>
+                                <Text>{feedback?.content || t('subjectResults.nofeedback')}</Text>
                                 <div className={styled.feedback_author}>
                                     {
                                         feedback &&
                                         <>
-                                            <Text fontWeight="light" fontSize="sm">Last update • </Text>
-                                            <Text fontWeight="semibold" fontSize="sm">{formatDate(feedback.updatedAt) + " by " + feedback.instructor}</Text>
+                                            <Text fontWeight="light" fontSize="sm">{t('subjectDetails.lastUpdate')}</Text>
+                                            <Text fontWeight="semibold" fontSize="sm">{formatDate(feedback.updatedAt) + t('subjectResults.by') + feedback.instructor}</Text>
                                         </>
                                     }
                                 </div>
                             </div>
-                            <DoughnutChart performance={overallPerformance == null ? 0 : Number((overallPerformance).toFixed(1))} title="Your Performance" />
-                            <DoughnutChart performance={classOverallPerformance == null ? 0 : Number((classOverallPerformance).toFixed(1))} title="Average Class Performance" />
+                            <DoughnutChart performance={overallPerformance == null ? 0 : Number((overallPerformance).toFixed(1))} title={t('subjectResults.yourPerformance')} />
+                            <DoughnutChart performance={classOverallPerformance == null ? 0 : Number((classOverallPerformance).toFixed(1))} title={t('subjectResults.classPerformance')} />
                         </div>
                     </div>
                     <Divider size="big" />
                     <div className={styled.competences_section}>
-                        <Text fontWeight="bold" fontSize="xl2">Skills</Text>
+                        <Text fontWeight="bold" fontSize="xl2">{t('subjectResults.skills')}</Text>
                         <div className={styled.table_container}>
                             <TableView data={skillsData} hasNotation={true} hasOptions={true} options={options} />
                         </div>
                     </div>
                 </div>
 
-                {/* <ContestmentModal isOpen={isContestmentModalOpen} handleIsOpen={handleContestmentModal} skillId={selectedSkill} /> */}
                 {
                     selectedSkill &&
                     <HistoryModal isOpen={isHistoryModalOpen} handleIsOpen={handleHistoryModal} skillId={selectedSkill} />

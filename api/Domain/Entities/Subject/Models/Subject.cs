@@ -15,4 +15,5 @@ public partial class Subject : IEntity
   public ICollection<Post> Posts { get; set; } = [];
   public ICollection<Exam> Exams { get; set; } = [];
   public ICollection<StudentResult> Results { get; set; } = [];
+  public ICollection<ClassEvent> ClassEvents { get; set; } = [];
 }

@@ -3,6 +3,7 @@ import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Respons
 import { IBarChartProps } from "./interfaces";
 import { BarRectangleItem } from 'recharts/types/cartesian/Bar';
 import Text from "../../../typography";
+import { t } from 'i18next';
 
 const CustomBar = ({ fill, x, y, width, height, onClick }: any) => {
   return (
@@ -48,6 +49,7 @@ export default function SingleBarChart({ data, xAxis, yAxis, onBarClick, barStyl
             className={`${styles.bar} ${!onBarClick ? "" : styles.pointer}`}
             dataKey={yAxis}
             barSize={30}
+            name={t('aprenticesResults.performance')}
             onClick={(e: BarRectangleItem, _i, _e) => {
               _e.stopPropagation();
               onBarClick ? onBarClick(e) : ""

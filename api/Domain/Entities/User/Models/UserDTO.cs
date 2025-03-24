@@ -49,6 +49,30 @@ public record UserDTO(
     }
 }
 
+public record UserBirthdayDTO(
+    int Id,
+    string Name,
+    string Position,
+    string Group,
+    int ClassId,
+    DateOnly? Birthday,
+    ImageDto? ProfilePicture = null
+)
+{
+    public static UserBirthdayDTO Map(User obj, Class? @class = null)
+    {
+        return new UserBirthdayDTO(
+            obj.Id,
+            obj.Name,
+            obj.Position.Name,
+            @class?.Abbreviation ?? "",
+            @class?.Id ?? 0,
+            obj.Birthday,
+            ImageService.ConvertToDto(obj.ProfilePicture)
+        );
+    }
+}
+
 public record UserProfileDTO(
     int Id,
     string Name,

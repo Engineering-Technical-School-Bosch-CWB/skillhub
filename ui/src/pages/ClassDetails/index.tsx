@@ -88,7 +88,6 @@ const ClassDetails = () => {
             name: s.name,
             birthday: s.birthday,
             identification: s.identification,
-            tooltip: s.identification,
             image: s.profilePicture?.mUrl,
             goTo: "/user-profile?classId=" + classId + "&userId=" + s.userId
         })));

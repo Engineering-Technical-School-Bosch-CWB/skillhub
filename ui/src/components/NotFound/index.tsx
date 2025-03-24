@@ -1,4 +1,5 @@
 import Header from "../Header";
+import { t } from 'i18next';
 
 /**
  * `NotFound` component: Displays a "Not Found" message with a header.
@@ -26,7 +27,7 @@ const NotFound = () => {
             <Header/>
 
             <div style={{ margin: "20vh auto" }}>
-                <h3 style={{ textAlign: "center" }}>Not Found</h3>
+                <h3 style={{ textAlign: "center" }}>{t('components.notFound')}</h3>
             </div>
         </>
     )

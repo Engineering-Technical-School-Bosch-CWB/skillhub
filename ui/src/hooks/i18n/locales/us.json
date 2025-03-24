@@ -2,13 +2,26 @@
     "translation": {
         "login": {
             "welcome": "Welcome",
-            "identification": "Identification (EDV)",
+            "identification": "Identification(EDV)",
             "password": "Password",
             "authenticating": "Authenticating...",
             "logged": "Successfully authenticated!",
             "invalidCredential": "Invalid credentials.",
             "completeRegistration": "Complete registration to access.",
             "enter": "Access"
+        },
+        "completeRegistration":{
+            "updating": "Updating user registration...",
+            "updated":"User registration updated!",
+            "invalidCredentials" : "Invalid credentials",
+            "fields": {
+                "fullName":"Name",
+                "birth":"Date of Birth",
+                "identification":"Identification (EDV)",
+                "position" : "Position",
+                "password": "Password",
+                "confirmPassword":"Password Confirm"
+            }
         },
         "home": {
             "userProfile": "Profile",
@@ -101,6 +114,10 @@
                     "successUpdate": "Feedback successfully updated!",
                     "successCreate": "Feedback successfully created!"
                 }
+            },
+            "imageUpload": {
+                "clickHereImage": "Click or Drag to change the image",
+                "selectImage": "Select Image"
             }
         },
         "subjectResults": {
@@ -108,16 +125,16 @@
             "classPerformance": "Class Average",
             "yourPerformance": "Your Performance",
             "lastUpdate": "Last update • ",
-            "by": "by",
+            "by": " by ",
             "nofeedback": "No feedback.",
             "results": "Results",
-            "generalResults": "General Results"
+            "generalResults": "My Results"
         },
         "subjectDetails": {
             "editFeedback": "Edit Feedback",
             "lastUpdate": "Last update • ",
-            "by": "by",
-            "nofeedback": "No feedback...",
+            "by": " by ",
+            "nofeedback": "Feedback not provided.",
             "apprenticeSubjectFeedback": "Apprentices can see subject feedback!",
             "studentFeedback": "Student Feedback",
             "exams": "Assessments",
@@ -125,9 +142,63 @@
             "period": "Period",
             "noDurationHours": "No duration time",
             "duration": "Duration: ",
-            "noinitialDate": "No start date",
+            "noInitialDate": "No start date",
             "initialDate": "Start date:",
-            "classes": "Classes"
+            "classes": "Classes",
+            "avaliationTable": {
+                "Skilled": "Skilled",
+                "Developing": "Developing",
+                "Unskilled": "Unskilled",
+                "evaluate": "Evaluate",
+                "skill": "Skill",
+                "weight": "Weight",
+                "efficiency": "Efficiency",
+                "overallPerformance": "Overall Performance:"
+            },
+            "feedbackModal": {
+                "confirm": "Confirm",
+                "cancel": "Cancel",
+                "writeFeedback": "Write your feedback here...",
+                "whiteFeedbackFor": "Write your feedback for ",
+                "editFeedback": "Edit Feedback",
+                "feedbackWritten": "Feedback written successfully!",
+                "writingFeedback": "Writing feedback..."
+            },
+            "updateModal": {
+                "updatingSubject": "Updating subject...",
+                "feedbackUpdated": "Feedback updated successfully!",
+                "confirmDelete": "Do you really want to delete this subject?",
+                "deletedSuccessfully": " deleted successfully!",
+                "unableDelete": "Unable to delete ",
+                "durationHours":"Duration hours",
+                "period":"Period",
+                "initialDate":"Initial date",
+                "responsibleTeacher":"Responsible teacher",
+                "delete":"Delete",
+                "cancel":"Cancel",
+                "confirm":"Confirm"
+            },
+            "evaluateExam": {
+                "leaveConfirmation": "Are you sure you want to leave this page? Your changes will not be saved!",
+                "classesOverview": "Classes Overview",
+                "evaluate": "Evaluate "
+            },
+            "studentCompetences": {
+                "savingExamEvaluation": "Saving exam evaluation...",
+                "examEvaluated": "Exam evaluated!",
+                "somethingWentWrong": "Something went wrong.",
+                "confirmDelete": "Do you really want to delete this exam?",
+                "failedDeleteExam": "Failed deleting exam!",
+                "delete": "Delete",
+                "cancel": "Cancel",
+                "save": "Save"
+            },
+            "selectCompetence": {
+                "Skilled": "Skilled",
+                "Developing": "Developing",
+                "Unskilled": "Unskilled",
+                "NotEvaluated": "Not Evaluated"
+            }
         },
         "schoolContent": {
             "title": "Management",
@@ -138,10 +209,55 @@
                 "occupationArea": "Occupation Area"
             },
             "kind": {
-                "course": "Course",
+                "course": "Courses",
                 "curricularUnits": "Curricular Unit",
-                "subjectAreas": "Knowledge Areas",
-                "occupationArea": "Occupation Areas"
+                "subjectAreas": "Knowledge Area",
+                "occupationArea": "Occupation Area"
+            },
+            "course" : {
+                "create": "Create Course",
+                "update": "Update Course",
+                "name": "Name",
+                "occupationArea": "Area"
+            },
+            "subjectAreas" : {
+                "create": "Create Knowledge Area",
+                "update": "Update Knowledge Area",
+                "name":"Name"
+            },
+            "occupationArea": {
+                "create": "Create Occupation Area",
+                "update": "Update Occupation Area",
+                "name":"Name"
+            },
+            "curricularUnits": {
+                "create": "Create Subject",
+                "update": "Update Subject",
+                "name":"Name",
+                "subjectArea": "Knowledge Area"
+            }
+        },
+        "curricularUnits": {
+            "noSubjectArea": "Knowledge Area is missing",
+            "curricularUnits": "Subjects",
+            "subjectArea": "Knowledge Area",
+            "skill": "Skills",
+            "name": "Name",
+            "evaluationCriteria":"Evaluation Criteria",
+            "modal": {
+                "editTitle":"Edit Skill",
+                "createTitle":"Create Skill",
+                "description":"Description",
+                "evaluationCriteria":"Evaluation Criteria"
+            },
+            "deleteModal":{
+                "title":"Delete Skill",
+                "areYouSure":"Are you sure you want to delete this skill?",
+                "description": "Description",
+                "evaluationCriteria":"Evaluation Criteria"
+            },
+            "settings": {
+                "title":"Subject Settings"
             }
         },
         "createExam": {
@@ -158,6 +274,28 @@
                 "students": "Students",
                 "subjects": "Subjects",
                 "overview": "Overview"
+            },
+            "courseIndex": {
+                "course":"Course",
+                "className":"Class Name",
+                "abbreviation":"Abbreviation",
+                "startingYear":"Starting Year",
+                "periods":"Periods"
+            },
+            "studentIndex":{
+                "name":"Name"
+            },
+            "subjectIndex":{
+                "optional":"Optional",
+                "subject":"Subject",
+                "duration":"Duration",
+                "timeUnit":"Hours"
+            },
+            "overviewIndex":{},
+            "errors": {
+                "onCreate":"Error on create class",
+                "fillAllFields":"Fill all fields",
+                "loadSubjects": "Error on load subjects"
             }
         },
         "completeRegistering": {
@@ -178,6 +316,7 @@
             "classes": "Classes",
             "classesOverview": "Classes",
             "periods": "Periods",
+            "periodsNotRecorded": "Period is missing",
             "details": "Details",
             "overallPerformance": "Overall Performance",
             "contentArea": "Knowledge Area",
@@ -185,7 +324,85 @@
             "studentPerformance": "Student Performance",
             "students": "Students",
             "addStudent": "Add Student",
-            "addNewStudent": "Add New Student"
+            "addNewStudent": "Add New Student",
+            "updateModal": {
+                "className" :"Class Name",
+                "abbreviation":"Abbreviation",
+                "periods":"Periods",
+                "startingYear":"Starting Year",
+                "updatingClass":"Updating Class...",
+                "successfullyUpdated":"Class updated successfully!",
+                "deleteMessage":"Are you sure you want to DELETE?",
+                "deleting":"Deleting class...",
+                "successfullyDeleted": "Successfully Deleted",
+                "unableDelete": "It is not allowed to delete",
+                "deleteAlert" :"Delete this class forever",
+                "archiveMessage":"Are you sure you want to ARCHIVE",
+                "archiving":"Archiving class...",
+                "successfullyArchived":"Successfully archived!",
+                "archiveAlert":"Class archived",
+                "unableArchive": "Archiving is not allowed",
+                "unarchiveMessage":"Are you sure you want to UNARCHIVE",
+                "unarchiving":"Unarchiving the class...",
+                "successfullyUnarchived":"Successfully unarchived!",
+                "unableUnarchive": "Unarchive is not allowed"
+            },
+            "studentCard":{
+                "newTitle": "Add New Student",
+                "updateTitle": "Update Student",
+                "name":"Name",
+                "birth":"Birth",
+                "identification":"Identification (EDV)",
+                "sector":"Sector",
+                "position":"Position",
+                "area":"Area",
+                "password":"Password",
+                "resetPasswordConfirm":"Do you want to reset this user's password?",
+                "update":"Update",
+                "create":"Criar",
+                "user":"User",
+                "error":"Error to",
+                "updateUser":"Update User",
+                "updatePassword":"Update Password",
+                "resetPassword":"Reset Password",
+                "passwordChecks":{
+                    "min8char":"Min 8 characters",
+                    "number":"Have number",
+                    "lower":"Lowercase letter",
+                    "upper":"Capital letter"
+                },
+                "confirms":{
+                    "resetPassword":"Do you want to reset this user's password?",
+                    "archive":"Do you want to archive this user?",
+                    "archiveDescription":"If this class is archived, it will no longer appear."
+                },
+                "errors":{
+                    "resetPassword":"Error resetting password.",
+                    "archive":"Error archiving user.",
+                    "loadSectors":"Error loading sectors.",
+                    "loadAreas":"Error loading occupation areas.",
+                    "loadClasses":"Error loading classes.",
+                    "loadPositions":"Error loading positions."
+                }
+            },
+            "addSubjectModal" : {
+                "title": "Add Subject",
+                "curricularUnit": "Subject",
+                "duration": "Duration",
+                "add":"Add"
+            }
+        },
+        "avaliateAprentices": {  
+        },
+        "aprenticesResults": {
+            "noDate": "Date not provided",
+            "generalResults": "My Results",
+            "results": "Results",
+            "performanceSubject": "Performance by subject",
+            "overallPerformance": "Overall Performance",
+            "subjects": "Subjects",
+            "performance": "Performance",
+            "remaining": "Remaining"
         },
         "tables": {
             "description": "Description",
@@ -210,7 +427,28 @@
             "passwordsMustMatch": "Passwords must match!",
             "invalidCredentials": "Invalid credentials.",
             "classesLoadError": "Error loading classes.",
-            "resultsLoadError": "Error loading results."
+            "resultsLoadError": "Error loading results.",
+            "passwordMustMatch":"Passwords must match!"
+        },
+        "components": {
+            "progress": "Loading...",
+            "notFound": "Not Found!",
+            "select": "Select a value",
+            "search": "Search",
+            "tableView": {
+                "options": "Options",
+                "Average Performance": "Average Performance",
+                "Aptitude": "Aptitude",
+                "Description": "Description",
+                "Date": "Date",
+                "Reason": "Reason",
+                "skillHistory": "Skill History",
+                "Skilled": "Skilled",
+                "Developing": "Developing",
+                "Unskilled": "Unskilled",
+                "OccupationArea": "Occupation Area",
+                "Name": "Name"
+            }
         }
     }
 }

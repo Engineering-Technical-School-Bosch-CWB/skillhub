@@ -4,7 +4,7 @@ import styles from './styles.module.css';
 import Avatar from "@/components/Avatar";
 import Button from "@/components/Button";
 import Header from "../../components/Header";
-import formatDate from "@/constants/formatDate";
+import { formatDate } from "@/constants/formatDate";
 import internalAPI from "@/service/internal.services";
 import SectionHeader from "@/components/SectionHeader";
 import getColor from "@/constants/getHex";
@@ -252,8 +252,8 @@ const UserProfile = () => {
                                             <YAxis domain={[0, 100]} />
                                             <Tooltip content={<CustomTooltip />} />
                                             <Legend  />
-                                            <Bar dataKey="grade" stackId="a"  fill="#00629a" />
-                                            <Bar dataKey="aptitude" stackId="a" fill="#0197ee" />
+                                            <Bar dataKey="grade" stackId="a" name={t('userProfile.grade')}  fill="#00629a" />
+                                            <Bar dataKey="aptitude" stackId="a" name={t('userProfile.aptitude')} fill="#0197ee" />
                                         </BarChart>
 
                                     </ResponsiveContainer>
@@ -365,7 +365,7 @@ const UserProfile = () => {
                     userId={userData?.id ?? 0 } 
                     handleClose={() => setEditImageModal(false)} 
                     open={editImageModal} 
-                    title="Profile Image" 
+                    title={t('userProfile.profileImage')}
                     userThumb={userData?.profilePicture?.gUrl ?? "https://ctp-ets.br.bosch.com/SkillHub/avatar.png"}
                 /> 
             }

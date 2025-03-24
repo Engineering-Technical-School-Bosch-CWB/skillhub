@@ -10,6 +10,19 @@
             "completeRegistration": "Complete o registro para acessar.",
             "enter": "Acessar"
         },
+        "completeRegistration":{
+            "updating": "Updating user registration...",
+            "updated":"User registration updated!",
+            "invalidCredentials" : "Invalid credentials",
+            "fields": {
+                "fullName":"Nome",
+                "birth":"Nascimento",
+                "identification":"Identificação (EDV)",
+                "position" : "Cargo",
+                "password": "Senha",
+                "confirmPassword":"Confirme a Senha"
+            }
+        },
         "home": {
             "userProfile": "Perfil",
             "studentResults": "Meus Resultados",
@@ -49,7 +62,7 @@
                     "level":"Nível de Permissão",
                     "type":"Tipo de Permissão",
                     "options":"Opções",
-                    "deleteDescription":"Você tem certeza que deseja deletar este item?",
+                    "deleteDescription":"Você tem certeza que deseja excluir este item?",
                     "create":"Criar Cargo",
                     "edit":"Editar Cargo"
                 },
@@ -57,7 +70,7 @@
                     "title":"Setores",
                     "name":"Nome",
                     "options":"Opções",
-                    "deleteDescription":"Você tem certeza que deseja deletar este item?",
+                    "deleteDescription":"Você tem certeza que deseja excluir este item?",
                     "create":"Criar Setor",
                     "edit":"Editar Setor"
                 }
@@ -79,7 +92,7 @@
             "usersOverview": "Usuários",
             "classesOverview": "Turmas",
             "grade": "Resultado",
-            "aptitude": "Resultado (sem peso)",
+            "aptitude": "Resultado(sem peso)",
             "classPosition": "Classificação",
             "contentArea":"Área",
             "subject":"Matéria",
@@ -97,27 +110,31 @@
                 "responses": {
                     "successDelete":"Feedback deletado com sucesso!",
                     "deleting":"Deletando feedback...",
-                    "deleteConfirm": "Você tem certeza que deseja deletar este feedback?",
+                    "deleteConfirm": "Você tem certeza que deseja excluir este feedback?",
                     "successUpdate":"Fedback atualizado com sucesso!",
                     "successCreate":"Feedback criado com sucesso!"
                 }
+            },
+            "imageUpload": {
+                "clickHereImage": "Clique ou Arraste para alterar a imagem",
+                "selectImage": "Selecionar imagem"
             }
         },
         "subjectResults": {
             "skills": "Competências",
             "classPerformance": "Média da turma",
-            "yourPerformance": "Sua performance",
+            "yourPerformance": "Seu desempenho",
             "lastUpdate": "Última atualização • ",
-            "by": "por",
+            "by": " por ",
             "nofeedback": "Sem feedback.",
             "results": "Resultados",
-            "generalResults": "Resultados Gerais"
+            "generalResults": "Meus Resultados"
         },
         "subjectDetails": {
             "editFeedback": "Editar Feedback",
             "lastUpdate": "Última atualização • ",
-            "by": "por",
-            "nofeedback": "Sem feedback...",
+            "by": " por ",
+            "nofeedback": "Sem feedback.",
             "apprenticeSubjectFeedback": "Os aprendizes podem ver o feedback das matérias!",
             "studentFeedback": "Feedbacks dos Alunos",
             "exams": "Avaliações",
@@ -125,22 +142,76 @@
             "period": "Período",
             "noDurationHours": "Sem tempo de duração",
             "duration": "Duração: ",
-            "noinitialDate": "Sem data de início",
-            "initialDate": "Data de início:",
-            "classes": "Turmas"
+            "noInitialDate": "Sem data de início",
+            "initialDate": "Data de início: ",
+            "classes": "Turmas",
+            "avaliationTable": {
+                "Skilled": "Apto",
+                "Developing": "Desenvolvimento",
+                "Unskilled": "Inapto",
+                "evaluate": "Avaliar",
+                "skill": "Competências",
+                "weight": "Peso",
+                "efficiency": "Eficiência",
+                "overallPerformance": "Média de Performance:"
+            },
+            "feedbackModal": {
+                "confirm": "Confirmar",
+                "cancel": "Cancelar",
+                "writeFeedback": "Escreva seu feedback aqui...",
+                "whiteFeedbackFor": "Escreva seu feedback para ",
+                "editFeedback": "Editar Feedback",
+                "feedbackWritten": "Feedback escrito com sucesso!",
+                "writingFeedback": "Escrevendo o feedback..."
+            },
+            "updateModal": {
+                "updatingSubject": "Atualizando matéria...",
+                "feedbackUpdated": "Feedback atualizado com sucesso!",
+                "confirmDelete": "Você realmente deseja excluir essa matéria?",
+                "deletedSuccessfully": " deletado com sucesso!",
+                "unableDelete": "Não é possível excluir ",
+                "durationHours": "Duração de horas",
+                "period": "Período",
+                "initialDate": "Data de início",
+                "responsibleTeacher": "Instrutor responsável",
+                "delete": "Excluir",
+                "cancel": "Cancelar",
+                "confirm": "Confirmar"
+            },
+            "evaluateExam": {
+                "leaveConfirmation": "Tem certeza de que deseja sair desta página? Suas alterações não serão salvas!",
+                "classesOverview": "Turmas",
+                "evaluate": "Avaliar "
+            },
+            "studentCompetences": {
+                "savingExamEvaluation": "Salvando avaliação...",
+                "examEvaluated": "Avaliado com sucesso!",
+                "somethingWentWrong": "Algo deu errado.",
+                "confirmDelete": "Você realmente deseja excluir essa avaliação?",
+                "failedDeleteExam": "Falha ao excluir avaliação!",
+                "delete": "Excluir",
+                "cancel": "Cancelar",
+                "save": "Salvar"
+            },
+            "selectCompetence": {
+                "Skilled": "Apto",
+                "Developing": "Desenvolvimento",
+                "Unskilled": "Inapto",
+                "NotEvaluated": "Não avaliado"
+            }
         },
         "schoolContent": {
             "title":"Gestão",
-            "delete": "Você tem certeza que deseja deletar este item?",
+            "delete": "Você tem certeza que deseja excluir este item?",
             "tabIndex": {
                 "courses": "Cursos",
-                "subjectArea":"Área de Conhecimento",
-                "occupationArea":"Área de Atuação"
+                "subjectArea":"Áreas de Conhecimento",
+                "occupationArea":"Áreas de Atuação"
             },
             "kind": {
-                "course" :"Curso",
+                "course" :"Cursos",
                 "curricularUnits" : "Unidade Curricular",
-                "subjectAreas" : "Áreas de Conhecimentos",
+                "subjectAreas" : "Áreas de Conhecimento",
                 "occupationArea": "Áreas de Atuação"
             },
             "course" : {
@@ -180,7 +251,7 @@
                 "evaluationCriteria":"Critério Avaliativo"
             },
             "deleteModal":{
-                "title":"Deletar Competência",
+                "title":"Excluir Competência",
                 "areYouSure":"Você tem certeza que deseja excluir esta competência?",
                 "description": "Descrição",
                 "evaluationCriteria":"Critério avaliativo"
@@ -265,15 +336,15 @@
                 "deleting":"Deletando turma...",
                 "successfullyDeleted": "excluido com sucesso",
                 "unableDelete": "Não é permitido excluir",
-                "deleteAlert" :"Deletar esta turma para sempre",
+                "deleteAlert" :"Excluir esta turma para sempre",
                 "archiveMessage":"Você tem certeza que deseja ARQUIVAR",
                 "archiving":"Arquivando a turma...",
-                "successfullyArchived":"arquivado com sucesso!",
-                "archiveAlert":"Arquivar turma finalizada",
+                "successfullyArchived":"Arquivado com sucesso!",
+                "archiveAlert":"Turma arquivada",
                 "unableArchive": "Não é permitido archivar",
                 "unarchiveMessage":"Você tem certeza que deseja DESARQUIVAR",
                 "unarchiving":"Desarquivando a turma...",
-                "successfullyUnarchived":"arquivado com sucesso!",
+                "successfullyUnarchived":"Desarquivado com sucesso!",
                 "unableUnarchive": "Não é permitido desarquivar"
             },
             "studentCard":{
@@ -284,12 +355,12 @@
                 "identification":"Identificação (EDV)",
                 "sector":"Setor",
                 "position":"Cargo",
-                "area":"Area",
+                "area":"Área",
                 "password":"Senha",
                 "resetPasswordConfirm":"Deseja Resetar a senha deste usuário?",
-                "update":"atualizar",
-                "create":"criar",
-                "user":"usuário",
+                "update":"Atualizar",
+                "create":"Criar",
+                "user":"Usuário",
                 "error":"Erro ao",
                 "updateUser":"Atualizar Usuário",
                 "updatePassword":"Atualizar Senha",
@@ -303,13 +374,13 @@
                 "confirms":{
                     "resetPassword":"Deseja resetar a senha deste usuário?",
                     "archive":"Deseja arquivar este usuário?",
-                    "archiveDescription":"se voce arquivar este usuario ele nao aparecerá mais na turma"
+                    "archiveDescription":"Se essa turma for arquivada, não irá mais aparecer"
                 },
                 "errors":{
                     "resetPassword":"Erro ao resetar senha",
                     "archive":"Erro ao arquivar usuário",
                     "loadSectors":"Erro ao carregar setores.",
-                    "loadAreas":"Erro ao carregar area de ocupação.",
+                    "loadAreas":"Erro ao carregar área de ocupação.",
                     "loadClasses":"Erro ao carregar turmas.",
                     "loadPositions":"Erro ao carregar cargos."
                 }
@@ -325,11 +396,13 @@
         },
         "aprenticesResults": {
             "noDate": "Data não informada",
-            "generalResults": "Resultados Gerais",
+            "generalResults": "Meus Resultados",
             "results": "Resultados",
             "performanceSubject": "Desempenho por matéria",
             "overallPerformance": "Desempenho Geral",
-            "subjects": "Matérias"
+            "subjects": "Matérias",
+            "performance": "Desempenho",
+            "remaining": "Restante"
         },
         "tables":{
             "description":"Descrição",
@@ -337,7 +410,7 @@
         },
         "buttons":{
             "cancel":"Cancelar",
-            "delete":"Deletar",
+            "delete":"Excluir",
             "confirm":"Confirmar",
             "send":"Enviar",
             "save":"Salvar",
@@ -354,7 +427,28 @@
             "passwordsMustMatch": "As senhas devem ser idênticas!",
             "invalidCredentials": "Credenciais Inválidas.",
             "classesLoadError": "Erro ao carregar as turmas.",
-            "resultsLoadError": "Erro ao carregar os resultados."
+            "resultsLoadError": "Erro ao carregar os resultados.",
+            "passwordMustMatch":"As senhas precisam ser iguais"
+        },
+        "components": {
+            "progress": "Carregando...",
+            "notFound": "Não Encontrado!",
+            "select": "Selecione um valor",
+            "search": "Pesquisar",
+            "tableView": {
+                "options": "Opções",
+                "Average Performance": "Desempenho",
+                "Aptitude": "Competências",
+                "Description": "Descrição",
+                "Date": "Data",
+                "Reason": "Avaliação",
+                "skillHistory": "Histórico de Competências",
+                "Skilled": "Apto",
+                "Developing": "Desenvolvimento",
+                "Unskilled": "Inapto",
+                "OccupationArea": "Área de atuação",
+                "Name": "Nome"
+            }
         }
     }
 }
