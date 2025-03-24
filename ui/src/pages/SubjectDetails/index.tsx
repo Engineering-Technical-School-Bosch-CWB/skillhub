@@ -63,7 +63,7 @@ const SubjectDetails = () => {
     const getData = async () => {
 
         const response = await internalAPI.jsonRequest(`/subjects/${subjectId}`, "GET");
-
+        console.log(response.data) // adsasfasdf
         if (!response.success) {
             if (!toast.isActive("subject-load-error"))
                 toast.error("Something went wrong.", { toastId: "subject-load-error" });
@@ -75,15 +75,18 @@ const SubjectDetails = () => {
         setSubject(content.subject);
 
         setExams(content.exams.map((e: {
-            description: string; id: number; name: string; appliedAt: string; skills: any; students: { name: string; mean: number; skillResults: any; }[];
+            description: string; id: number; name: string; appliedAt: string; skills: any; students: { id: number; name: string; mean: number; skillResults: any; userId: number }[];
         }) => ({
             idTest: e.id,
+            classId: content.subject.classId,
             name: e.name,
             description: e.description,
             date: !e.appliedAt ? t('subjectDetails.noInitialDate') : formatDate(e.appliedAt),
             data: {
                 skills: e.skills,
-                students: e.students.map((s: { name: string; mean: number; skillResults: any[] }) => ({
+                students: e.students.map((s: { id: number; name: string; mean: number; skillResults: any[]; userId: number }) => ({
+                    id: s.id,
+                    userId: s.userId,
                     name: s.name,
                     mean: s.mean,
                     skillsResults: s.skillResults.reduce((acc: { [key: number]: string | null }, r: { skillId: number; aptitude: string | null }) => {
@@ -142,7 +145,7 @@ const SubjectDetails = () => {
                         </Text>
                         <Text fontSize="sm" fontWeight="bold">{!(subject?.instructorName) ? t('subjectDetails.noInstructor') : subject.instructorName}</Text>
                     </div>
-                    <Button variant="primary_icon" onClick={() => setUpdateModalProps({isUpdateModalOpen: true})}><Icon name="settings" /></Button>
+                    <Button variant="primary_icon" onClick={() => setUpdateModalProps({isUpdateModalOpen: true})}><Icon name="settings"/></Button>
                 </section >
                 <Divider size="big" />
 

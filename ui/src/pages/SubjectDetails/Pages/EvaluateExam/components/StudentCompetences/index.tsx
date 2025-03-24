@@ -79,7 +79,7 @@ export default function StudentCompetences({ results, setResults }: IStudentSkil
         apiRequest().then(() => {
             toast.update(message, {
                 ...toastifyUpdate,
-                render: "Exam evaluated!",
+                render: t('subjectDetails.studentCompetences.examEvaluated'),
                 type: "success"
             });
         }).catch(err => {
@@ -272,13 +272,13 @@ export default function StudentCompetences({ results, setResults }: IStudentSkil
 
             <div className={styles.bttns}>
                 <Button kind="danger" className={styles.flex_start} onClick={handleDelete}>
-                    {t('subjectDetails.studentCompetences.delete')}
+                    {t('buttons.delete')}
                 </Button>
                 <Button onClick={() => navigate(`/classes/${classId}/subject/${subjectId}`)}>
-                    {t('subjectDetails.studentCompetences.cancel')}
+                    {t('buttons.cancel')}
                 </Button>
                 <Button variant='contained' onClick={handleSubmit}>
-                    {t('subjectDetails.studentCompetences.save')}
+                    {t('buttons.save')}
                 </Button>
             </div>
         </div>
