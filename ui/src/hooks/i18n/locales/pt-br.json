@@ -92,7 +92,7 @@
             "usersOverview": "Usuários",
             "classesOverview": "Turmas",
             "grade": "Resultado",
-            "aptitude": "Resultado (sem peso)",
+            "aptitude": "Resultado(sem peso)",
             "classPosition": "Classificação",
             "contentArea":"Área",
             "subject":"Matéria",
@@ -114,23 +114,27 @@
                     "successUpdate":"Fedback atualizado com sucesso!",
                     "successCreate":"Feedback criado com sucesso!"
                 }
+            },
+            "imageUpload": {
+                "clickHereImage": "Clique ou Arraste para alterar a imagem",
+                "selectImage": "Selecionar imagem"
             }
         },
         "subjectResults": {
             "skills": "Competências",
             "classPerformance": "Média da turma",
-            "yourPerformance": "Sua performance",
+            "yourPerformance": "Seu desempenho",
             "lastUpdate": "Última atualização • ",
-            "by": "por",
+            "by": " por ",
             "nofeedback": "Sem feedback.",
             "results": "Resultados",
-            "generalResults": "Resultados Gerais"
+            "generalResults": "Meus Resultados"
         },
         "subjectDetails": {
             "editFeedback": "Editar Feedback",
             "lastUpdate": "Última atualização • ",
-            "by": "por",
-            "nofeedback": "Sem feedback...",
+            "by": " por ",
+            "nofeedback": "Sem feedback.",
             "apprenticeSubjectFeedback": "Os aprendizes podem ver o feedback das matérias!",
             "studentFeedback": "Feedbacks dos Alunos",
             "exams": "Avaliações",
@@ -170,9 +174,9 @@
                 "period": "Período",
                 "initialDate": "Data de início",
                 "responsibleTeacher": "Instrutor responsável",
-                "delete": "Excluir",
-                "cancel": "Cancelar",
-                "confirm": "Confirmar"
+                "Delete": "Excluir",
+                "Cancel": "Cancelar",
+                "Confirm": "Confirmar"
             },
             "evaluateExam": {
                 "leaveConfirmation": "Tem certeza de que deseja sair desta página? Suas alterações não serão salvas!",
@@ -184,10 +188,7 @@
                 "examEvaluated": "Avaliado com sucesso!",
                 "somethingWentWrong": "Algo deu errado.",
                 "confirmDelete": "Você realmente deseja excluir essa avaliação?",
-                "failedDeleteExam": "Falha ao excluir avaliação!",
-                "delete": "Excluir",
-                "cancel": "Cancelar",
-                "save": "Salvar"
+                "failedDeleteExam": "Falha ao excluir avaliação!"
             },
             "selectCompetence": {
                 "Skilled": "Apto",
@@ -201,13 +202,13 @@
             "delete": "Você tem certeza que deseja excluir este item?",
             "tabIndex": {
                 "courses": "Cursos",
-                "subjectArea":"Área de Conhecimento",
-                "occupationArea":"Área de Atuação"
+                "subjectArea":"Áreas de Conhecimento",
+                "occupationArea":"Áreas de Atuação"
             },
             "kind": {
-                "course" :"Curso",
+                "course" :"Cursos",
                 "curricularUnits" : "Unidade Curricular",
-                "subjectAreas" : "Áreas de Conhecimentos",
+                "subjectAreas" : "Áreas de Conhecimento",
                 "occupationArea": "Áreas de Atuação"
             },
             "course" : {
@@ -258,10 +259,17 @@
         },
         "createExam": {
             "exam": "Avaliação",
+            "date": "Data",
+            "description": "Descrição",
+            "examName": "Nome da avaliação",
             "createExam": "Criar Avaliação",
             "creatingExam": "Criando avaliação...",
-            "createExamFor": "Criar avaliação para",
-            "examCreated": "Avaliação criada com sucesso!"
+            "createExamFor": "Criar avaliação para ",
+            "examCreated": "Avaliação criada com sucesso!",
+            "selectExamSkills": "Selecione as competências da avaliação",
+            "selectInstructor": "Selecione um(a) instrutor(a)",
+            "classesOverview": "Turmas",
+            "weight": "Peso"
         },
         "createClass": {
             "new": "Novo",
@@ -376,7 +384,7 @@
                     "resetPassword":"Erro ao resetar senha",
                     "archive":"Erro ao arquivar usuário",
                     "loadSectors":"Erro ao carregar setores.",
-                    "loadAreas":"Erro ao carregar area de ocupação.",
+                    "loadAreas":"Erro ao carregar área de ocupação.",
                     "loadClasses":"Erro ao carregar turmas.",
                     "loadPositions":"Erro ao carregar cargos."
                 }
@@ -392,11 +400,13 @@
         },
         "aprenticesResults": {
             "noDate": "Data não informada",
-            "generalResults": "Resultados Gerais",
+            "generalResults": "Meus Resultados",
             "results": "Resultados",
             "performanceSubject": "Desempenho por matéria",
             "overallPerformance": "Desempenho Geral",
-            "subjects": "Matérias"
+            "subjects": "Matérias",
+            "performance": "Desempenho",
+            "remaining": "Restante"
         },
         "tables":{
             "description":"Descrição",
@@ -426,7 +436,25 @@
         },
         "components": {
             "progress": "Carregando...",
-            "notFound": "Não Encontrado!"
+            "notFound": "Não Encontrado!",
+            "select": "Selecione um valor",
+            "search": "Pesquisar",
+            "tableView": {
+                "options": "Opções",
+                "Average Performance": "Desempenho",
+                "Aptitude": "Competências",
+                "Description": "Descrição",
+                "Date": "Data",
+                "Reason": "Avaliação",
+                "skillHistory": "Histórico de Competências",
+                "Skilled": "Apto",
+                "Developing": "Desenvolvimento",
+                "Unskilled": "Inapto",
+                "OccupationArea": "Área de atuação",
+                "Name": "Nome",
+                "PositionLevel": "Nível",
+                "PositionType": "Tipo de cargo"
+            }
         }
     }
 }

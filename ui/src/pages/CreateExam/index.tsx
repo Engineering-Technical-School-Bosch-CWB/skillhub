@@ -11,7 +11,7 @@ import { ISubject } from "@/interfaces/models/ISubject";
 import { toast } from "react-toastify";
 import { Dayjs } from "dayjs";
 import { ISkillSelection } from "@/components/ExamConfig/components/SkillOption";
-
+import { t } from "i18next";
 
 const CreateExam = () => {
 
@@ -43,7 +43,7 @@ const CreateExam = () => {
             value: t.id
         })))
 
-        setExamName(content.subject.curricularUnit + " Exam");
+        setExamName(content.subject.curricularUnit);
         setExamInstructorId(content.subject.instructorId);
 
         setLoading(false);
@@ -66,7 +66,7 @@ const CreateExam = () => {
             return response.data;
         }
 
-        const message = toast.loading("Creating exam...");
+        const message = toast.loading(t('createExam.creatingExam'));
         apiRequest().then(() => {
 
             toast.update(message, {
@@ -103,7 +103,7 @@ const CreateExam = () => {
             <Header />
             <main>
                 <SectionHeader links={[{
-                    label: "Classes Overview",
+                    label: t('createExam.classesOverview'),
                     goTo: "/classes"
                 },
                 {
@@ -115,11 +115,11 @@ const CreateExam = () => {
                     goTo: `/classes/${classId}/subject/${subjectId}`
                 },
                 {
-                    label: "Create Exam"
+                    label: t('createExam.createExam')
                 }]} />
                 <ExamConfig
                     subject={subject!}
-                    title={"Create exam for " + subject?.curricularUnit}
+                    title={t('createExam.createExamFor') + subject?.curricularUnit}
                     classId={Number(classId)}
                     subjectId={Number(subjectId)}
                     skills={skills}
@@ -145,7 +145,7 @@ const CreateExam = () => {
                         setValue: setExamSkills
                     }}
                     handleSubmit={handleSubmit}
-                    button="Create exam"
+                    button={t('createExam.createExam')}
                     cancelAction={() => navigate(`/classes/${classId}/subject/${subjectId}`)} />
             </main>
         </>

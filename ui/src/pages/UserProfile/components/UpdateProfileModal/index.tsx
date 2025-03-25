@@ -283,7 +283,7 @@ export default ({ title, handleClose, open, isCurrentUser, subtitle, byClassId }
                 }
                 <section className={styles.btn_area}>
                     {
-                        logedUser?.permissionLevel && logedUser?.permissionLevel > 1 &&
+                        isCurrentUser && logedUser?.permissionLevel && logedUser?.permissionLevel > 1 &&
                         <Button kind="alert" onClick={toggleArchive} >{userData.isArchived ? t('buttons.unarchive'):t('buttons.archive')}</Button>
                     }
                     <span>

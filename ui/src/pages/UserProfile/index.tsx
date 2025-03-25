@@ -36,6 +36,7 @@ interface IRadarProps {
     fullMark: number
 }
 interface IBarProps {
+    subjectId: number
     name: string
     grade: number
     aptitude?: number
@@ -125,7 +126,8 @@ const UserProfile = () => {
                         ((result.aptitude ?? 0) - (result.grade ?? 0)) : 0,
                     obj: result.aptitude ?? 0,
                     fullMark: 100,
-                    name: result.name
+                    name: result.name,
+                    subjectId: result.id
                 };
                 return item;
             }));
@@ -133,6 +135,14 @@ const UserProfile = () => {
         }
         setLoading(false);
     }
+
+    const handleBarClick = (data: any) => {
+        const subjectId = data.subjectId;
+        const classId = studentData?.classId;
+
+        navigate(`/classes/${classId}/subject/${subjectId}`);
+    };
+
     useEffect(() => {
         getData();
     }, []);
@@ -252,8 +262,14 @@ const UserProfile = () => {
                                             <YAxis domain={[0, 100]} />
                                             <Tooltip content={<CustomTooltip />} />
                                             <Legend  />
-                                            <Bar dataKey="grade" stackId="a"  fill="#00629a" />
-                                            <Bar dataKey="aptitude" stackId="a" fill="#0197ee" />
+                                            {["grade", "aptitude"].map((key) => (
+                                                <Bar
+                                                    key={key} dataKey={key} stackId="a"
+                                                    name={t(`userProfile.${key}`)} fill={key === "grade" ? "#00629a" : "#0197ee"}
+                                                    onClick={handleBarClick}
+                                                    style={{ cursor: "pointer" }}
+                                                />
+                                            ))}
                                         </BarChart>
 
                                     </ResponsiveContainer>
@@ -365,7 +381,7 @@ const UserProfile = () => {
                     userId={userData?.id ?? 0 } 
                     handleClose={() => setEditImageModal(false)} 
                     open={editImageModal} 
-                    title="Profile Image" 
+                    title={t('userProfile.profileImage')}
                     userThumb={userData?.profilePicture?.gUrl ?? "https://ctp-ets.br.bosch.com/SkillHub/avatar.png"}
                 /> 
             }
