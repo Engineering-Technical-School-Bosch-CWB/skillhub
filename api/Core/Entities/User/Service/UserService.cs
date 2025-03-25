@@ -316,7 +316,8 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
                 .Where(u => string.IsNullOrEmpty(query) || EF.Functions.Like(u.Name, $"%{query}%"))
                 .Where(u => !positionId.HasValue || u.Position.Id == positionId)
                 .Where(u => !birthMonth.HasValue || (u.Birthday.HasValue && u.Birthday.Value.Month == birthMonth.Value))
-                .Where(u => u.IsActive),
+                .Where(u => u.IsActive)
+                .OrderByDescending(u => u.Position.Name).ThenBy(u => u.Name),
             pagination.ToOptions()
         );
 

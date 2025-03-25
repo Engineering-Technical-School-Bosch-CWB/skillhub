@@ -97,6 +97,7 @@ const ClassDetails = () => {
             name: s.name,
             performance: s.performance == null ? null : Number(s.performance.toFixed(2))
         })));
+        
         setSubjectsData(content.graphs.subjectResults.map((s: { curricularUnitId: number; grade: number; name: string; }) => ({
             id: s.curricularUnitId,
             performance: s.grade == null ? 0 : Number(s.grade.toFixed(2)),
@@ -152,7 +153,6 @@ const ClassDetails = () => {
         <div onClick={clearParams}>
             <AddSubjectModal isOpen={modalOpened} onClose={() => setModalOpened(false)} classId={(+classId!)} />
             <Header />
-
             <main>
                 <SectionHeader links={[{
                     label: t('classDetails.classesOverview'),
@@ -179,7 +179,7 @@ const ClassDetails = () => {
                     <section className={`${styles.chart_section} ${styles.align}`}>
                         <div className={`${styles.line}`}>
                             <DoughnutChart performance={overallPerformance == null ? 0 : Number(overallPerformance.toFixed(1))} title={t('classDetails.overallPerformance')} />
-                            <Ranking data={rankingData.sort((a, b) => (b.performance ?? 0) - (a.performance ?? 0))} onClick={handleStudentClick} />
+                            <Ranking data={[...rankingData].sort((a, b) => (b.performance ?? 0) - (a.performance ?? 0))} onClick={handleStudentClick} />
                         </div>
                         <div className={`${styles.full} ${styles.flex}`}>
                             <div className={`${styles.big}`}>

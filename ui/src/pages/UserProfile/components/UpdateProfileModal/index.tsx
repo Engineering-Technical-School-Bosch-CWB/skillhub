@@ -49,6 +49,7 @@ export default ({ title, handleClose, open, isCurrentUser, subtitle, byClassId }
         return dayjs(value).format('DD/MM/YYYY');
     }
     const toggleSubmit = async () => {
+        console.log(userData);
         
         var response: IServiceResponse<any>;
         if (id || isCurrentUser)
@@ -234,7 +235,7 @@ export default ({ title, handleClose, open, isCurrentUser, subtitle, byClassId }
             <div className={styles.modal_content}>
                 <section className={`${styles.dual_input} ${styles.input_2_3}`}>
                     <Input label={t('classDetails.studentCard.name')} value={userData.name} onChange={(e) => changeValue("name", e.target.value)} disabled={isUpdatePassword} maxLength={500} />
-                    <Input label={t('classDetails.studentCard.birth')} max='today' value={formatDate(userData.birthday)} type="date" dateChange={(e) => changeValue("birthday", e?.format("YYYY-MM-DD"))} disabled={isUpdatePassword} />
+                    <Input label={t('classDetails.studentCard.birth')} max='today' value={userData.birthday ? formatDate(userData.birthday) : undefined} type="date" dateChange={(e) => changeValue("birthday", e?.format("YYYY-MM-DD"))} disabled={isUpdatePassword} />
                 </section>
                 <Input
                     label={t('classDetails.studentCard.identification')}
