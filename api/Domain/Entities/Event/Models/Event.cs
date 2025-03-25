@@ -5,7 +5,7 @@ namespace Api.Domain.Models;
 public class Event : IEntity
 {
     public required string Name { get; set; }
-    public required string Description { get; set; }
+    public  string? Description { get; set; }
 
     public ICollection<CalendarEvent> CalendarEvents {get;set;} = [];
 
