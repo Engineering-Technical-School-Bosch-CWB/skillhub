@@ -17,9 +17,13 @@ import ButtonGroup from "@/components/ButtonGroup"
 import { IState } from "@/interfaces/IState.interface"
 import toastifyUpdate from "@/constants/toastfyUpdate"
 import { t } from "i18next"
+import Button from "@/components/Button"
+import Text from "@/typography"
+import { confirmDialog } from "@/components/ConfirmDialog"
+import { useNavigate } from "react-router-dom"
 
 export default ({ handleClose, open, data, ucState }: ISettingsModalProps) => {
-
+    const navigation = useNavigate();
     const [currentData, setCurrentData] = useState<ICurricularUnit>(data);
     const [subjectAreasSelect, setSubjectAreasSelect] = useState<ISelectData[]>([]);
 
@@ -80,6 +84,38 @@ export default ({ handleClose, open, data, ucState }: ISettingsModalProps) => {
 
     }
 
+    const onToggleDelete = async () => {
+        var confirm = await confirmDialog(t('curricularUnits.modal.confirmDelete'));
+        if(!confirm)
+            return;
+
+        const apiRequest = async () => {
+            const response = await internalAPI.jsonRequest(`/curricularUnits/${data.id}`, "DELETE")
+            if (!response || !response.success)
+                throw new Error(response.message);
+            return response.data;
+        }
+
+        const message = toast.loading(t('curricularUnits.modal.deleting'));
+        apiRequest().then(_ => {
+            toast.update(message, {
+                ...toastifyUpdate,
+                render: t('curricularUnits.modal.deleted'),
+                type: "success"
+            });
+            
+            navigation('/curricular-units')
+        }).catch(err => {
+            toast.update(message, {
+                ...toastifyUpdate,
+                render: err.message || "Something went wrong.",
+                type: "error"
+            });
+        }).finally(() => {
+            handleClose();
+        })
+    }
+
     useEffect(() => {
         loadSubjectAreas()
         setCurrentData({
@@ -97,7 +133,6 @@ export default ({ handleClose, open, data, ucState }: ISettingsModalProps) => {
 
         >
             <div className={styles.modal_content}>
-
                 <Input value={currentData.name} label={t('curricularUnits.name')} onChange={(e) => changeData("name", e.target.value)} />
                 <Select
                     label={t('curricularUnits.subjectArea')}
@@ -106,8 +141,12 @@ export default ({ handleClose, open, data, ucState }: ISettingsModalProps) => {
 
                     onChange={(e) => changeData("subjectAreaId", e.target.value)}
                 />
-
-                <ButtonGroup cancel={handleClose} submit={submit} />
+                <section className={styles.btn_area}>
+                    <Button kind="danger" onClick={() => onToggleDelete()}>
+                        <Text>{t('buttons.delete')}</Text>
+                    </Button>
+                    <ButtonGroup cancel={handleClose} submit={submit} />
+                </section>
             </div>
         </Modal>
     )

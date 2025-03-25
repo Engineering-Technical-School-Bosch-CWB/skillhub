@@ -57,6 +57,24 @@ export const ConfirmDialog = ({message, label, resolve, submitLabel, cancelLabel
     ) : null;
 }
 
+/**
+ * Substitute of js window.confirm() modal
+ * 
+ * @param label - is a focused text
+ * @param message - is a description of label
+ * @param cancelLabel - a label for cancel button
+ * @param submitLabel - a label for submit button
+ * @param kind - kind of modal ("success","alert","danger","default")
+ * 
+ * Demonstration:
+ * const submit = async () => {
+ *      const confirmation = await confirmDialog("Are you sure?", "This object will be deleted");
+ *      if(!confirmation)
+ *          return;
+ *      ... YOUR CODE HERE
+ * }
+ * 
+**/
 export function confirmDialog(
     label?:string, 
     message?: string, 
