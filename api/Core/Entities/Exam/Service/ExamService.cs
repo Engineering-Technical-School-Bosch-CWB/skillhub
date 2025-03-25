@@ -257,6 +257,7 @@ public class ExamService(BaseRepository<Exam> repository, ISubjectRepository sub
             .Where(s => s.IsActive)
             .Where(s => s.Exam!.Id == examId)
             .Include(s => s.Student.User)
+            .Where(s => s.Student.User.IsActive && !s.Student.User.IsArchived)
             .Include(s => s.Skill)
             .GroupBy(s => s.Student)
             .Select(g => new

@@ -3,7 +3,7 @@ import styles from '../../styles.module.css';
 
 import { IAvaliationTableProps } from "../../interfaces/SubjectDetails.interface";
 import Icon from "../../../../components/Icon";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { t } from 'i18next';
 
 export default ({ exam }: IAvaliationTableProps) => {
@@ -78,8 +78,12 @@ export default ({ exam }: IAvaliationTableProps) => {
                     <table className={`${styles.result_table} ${styles.divider}`}>
                         <tr>
                             {
-                                exam.data.students.map((s: { name: string }) => (
-                                    <th className={`${styles.student_cell} ${styles.highlight_border} ${styles.divider} `}>{s.name}</th>
+                                exam.data.students.map((s: { name: string; id:number; userId: number }) => (
+                                    <th className={`${styles.student_cell} ${styles.highlight_border} ${styles.divider}`}>
+                                        <Link to={`/user-profile?classId=${exam.classId}&userId=${s.userId}`}>
+                                            {s.name}
+                                        </Link>
+                                    </th>
                                 ))
                             }
                         </tr>

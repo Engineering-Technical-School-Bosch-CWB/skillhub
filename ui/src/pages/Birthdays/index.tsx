@@ -97,8 +97,6 @@ const Birthdays = () => {
                             <Text variant="span" fontSize="sm">{t('birthdays.noData')}</Text>
                             :
                             students.map(s => {
-                                //const goTo = "/user-profile?classId=" + s.classId + "&userId=" + s.id
-                                //const goTo = user?.permissionLevel === 2 ? "aaa" : "";
                                 let identification = s.position === "Aprendiz" ? s.group : s.position;
                                 let goTo;
                                 if(user?.permissionLevel===2) {
