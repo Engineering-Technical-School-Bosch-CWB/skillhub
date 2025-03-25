@@ -245,7 +245,10 @@
                 "editTitle":"Editar Competência",
                 "createTitle":"Editar Competência",
                 "description":"Descrição",
-                "evaluationCriteria":"Critério Avaliativo"
+                "evaluationCriteria":"Critério Avaliativo",
+                "confirmDelete":"Você realmente deseja excluir essa disciplina?",
+                "deleting":"Deletando disciplina...",
+                "deleted":"Disciplina deletada com sucesso!"
             },
             "deleteModal":{
                 "title":"Excluir Competência",
