@@ -31,7 +31,7 @@ export class User implements IUser {
 
     static getDefault = (): IUser => {
         return new User({
-            birthday: new Date,
+            birthday: undefined,
             id: 0,
             identification: "",
             image: undefined,
