@@ -245,7 +245,10 @@
                 "editTitle":"Edit Skill",
                 "createTitle":"Create Skill",
                 "description":"Description",
-                "evaluationCriteria":"Evaluation Criteria"
+                "evaluationCriteria":"Evaluation Criteria",
+                "confirmDelete":"Do you really want to delete this subject?",
+                "deleting":"Deleting Subject...",
+                "deleted":"Subject deleted successfully"
             },
             "deleteModal":{
                 "title":"Delete Skill",
