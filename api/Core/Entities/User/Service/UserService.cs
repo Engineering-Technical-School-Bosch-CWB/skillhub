@@ -316,7 +316,8 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
                 .Where(u => string.IsNullOrEmpty(query) || EF.Functions.Like(u.Name, $"%{query}%"))
                 .Where(u => !positionId.HasValue || u.Position.Id == positionId)
                 .Where(u => !birthMonth.HasValue || (u.Birthday.HasValue && u.Birthday.Value.Month == birthMonth.Value))
-                .Where(u => u.IsActive),
+                .Where(u => u.IsActive)
+                .OrderByDescending(u => u.Position.Name).ThenBy(u => u.Name),
             pagination.ToOptions()
         );
 
@@ -396,18 +397,19 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
             .Include(u => u.ProfilePicture)
             .Where(u => u.Birthday.HasValue && u.Birthday.Value.Month == month)
             .Where(u => u.IsActive)
-            .Where(u => !u.IsArchived);
+            .Where(u => !u.IsArchived)
+            .OrderBy(u => u.Birthday.Value.Day);
         
         var students = _studentRepo.GetAllNoTracking()
             .Include(s => s.Class);
 
         var result = await _pagService.PaginateAsync(
-            from u in users
+            (from u in users
             join s in students
             on u.Id equals s.User.Id
             into matches
             from matchStudent in matches.DefaultIfEmpty()
-            select UserBirthdayDTO.Map(u, matchStudent.Class),
+            select UserBirthdayDTO.Map(u, matchStudent.Class)),
             pagination.ToOptions()
         );
 
@@ -417,6 +419,7 @@ public class UserService(BaseRepository<User> repository, IPositionRepository po
             "Users found!"
         );
     }
+
 
     #endregion
 }

@@ -4,8 +4,8 @@ using Api.Domain.Models;
 
 namespace Api.Core.Repositories;
 
-public class CalendarRepository(SkillhubContext context) 
-    : BaseRepository<Calendar>(context), ICalendarRepository
+public class EventMemberRepository(SkillhubContext context) 
+    : BaseRepository<EventMember>(context), IEventMemberRepository
 {
 
 }
