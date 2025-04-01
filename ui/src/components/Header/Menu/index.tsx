@@ -13,7 +13,7 @@ interface IMenuProps {
 
 export default ({ open, handleClose }: IMenuProps) => {
 
-    const { user } = useUserContext();
+    const { user, isAdmin } = useUserContext();
 
     const handleModalClick: MouseEventHandler = (e) => {
         e.stopPropagation()
@@ -42,7 +42,7 @@ export default ({ open, handleClose }: IMenuProps) => {
                     }
                     <Link to={"/birthdays"} >{t('home.birthdays')}</Link>
                     {
-                        user?.permissionLevel === 2 &&
+                        user?.permissionLevel === 2 && isAdmin &&
                         <>
                             <Link to={"/classes"} >{t('home.classesOverview')}</Link>
                             <Link to={"/school-content"} >{t('home.schoolContent')}</Link>

@@ -19,6 +19,7 @@ import { SubjectArea } from "@/interfaces/models/ISubjectArea";
 import CreateModal from "./CreateModals/CreateModal";
 import Pagination from "@/components/TableView/Pagination";
 import { t } from "i18next";
+import { useNavigate } from "react-router-dom";
 
 export interface ICrudContainerProps {
     kind: Tabs;
@@ -42,11 +43,14 @@ export default ({ kind }: ICrudContainerProps) => {
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
     const [createModalOpen, setCreateModalOpen] = useState(false);
+    const navigate = useNavigate();
 
     const classConstructor = typeMap[kind];
 
     const getData = async () => {
         const response = await internalAPI.jsonRequest(`/${kind}?page=${page}&items=${items}`, "GET");
+        if(response.statusCode === 403)
+            navigate('/home')
         if (!response.success) {
             if (!toast.isActive(`${kind}-load-error`))
                 toast.error(`Error on load ${kind}.`, { toastId: `${kind}-load-error` });

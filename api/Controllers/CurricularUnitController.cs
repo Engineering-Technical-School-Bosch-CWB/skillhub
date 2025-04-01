@@ -33,12 +33,15 @@ public class CurricularUnitController : ControllerBase
 
     [HttpGet]
     public async Task<ActionResult> GetPaginatedCurricularUnits(
+        [FromServices] IPermissionService permissionService,
         [FromServices] ICurricularUnitService service,
         [FromQuery] PaginationQuery pagination,
         [FromQuery] string? query,
         [FromQuery] int? subjectAreaId
     )
     {
+        permissionService.ValidateAdmPermission();
+
         var result = await service.GetPaginatedCurricularUnits(pagination, query, subjectAreaId);
         return Ok(result);
     }

@@ -12,11 +12,12 @@ import { ISectionHeaderProps } from "@/components/SectionHeader/interfaces";
 import { CurricularUnit } from "@/interfaces/models/ICurricularUnit";
 import Progress from "@/components/Progress";
 import { t } from "i18next";
+import { useNavigate } from "react-router-dom";
 
 const CurricularUnits = () => {
     const [data, setData] = useState<CurricularUnit[]>([]);
     const [createModalOpen, setCreateModalOpen] = useState(false);
-
+    const navigate = useNavigate();
     const [search, setSearch] = useState<string>("");
     const [subjectArea, setSubjectArea] = useState<number>();
     const [subjectAreas, setSubjectAreas] = useState([]);
@@ -49,6 +50,8 @@ const CurricularUnits = () => {
 
             const response = await internalAPI.jsonRequest(`/curricularUnits?${params.toString()}`, "GET");
 
+            if(response.statusCode == 403)
+                navigate('/home')
             if (!response || response.statusCode != 200)
                 if (!toast.isActive(`curricular-units-load-error`))
                     toast.error(`Error on load Curricular Units.`, { toastId: `curricular-units-load-error` });

@@ -37,6 +37,11 @@ const UsersOverview = () => {
         const response = await internalAPI.jsonRequest(`/users/paginated?${params.toString()}`, "GET");
         const content = response.data;
 
+        if(response.statusCode === 403 )   {
+            navigation('/home');
+            return;
+        }
+
         setUsersData((content.filter((u: { isArchived: boolean; }) => !u.isArchived)).map((u: { name: string; id: number; position: { name: string; }; sector: { name: string; }; }) => ({
             color: getColor(u.name),
             goTo:  "/user-profile?userId=" + u.id,
