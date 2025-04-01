@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react'
 
 import path from 'path';
 
-const isProd = process.env.NODE_ENV === "Production";
+const isProd = process.env.NODE_ENV === "production";
 
 const prodOptions: ServerOptions = {
   port: 20041,

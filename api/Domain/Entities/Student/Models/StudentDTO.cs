@@ -22,6 +22,7 @@ public record StudentDTO(
 
 public record StudentExamResultsDTO(
     int Id,
+    int UserId,
     string Name,
     double? Mean,
     IEnumerable<SimpleSkillResultDTO> SkillResults
@@ -31,6 +32,7 @@ public record StudentExamResultsDTO(
     {
         return new StudentExamResultsDTO(
             obj.Id,
+            obj.User.Id,
             obj.User.Name,
             mean,
             skillResults

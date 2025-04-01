@@ -51,8 +51,8 @@ export default ({ onChange, setDisabled }: ICreateModalProps) => {
 
     return (
         <section className={styles.content_section}>
-            <Input label={t('schoolContent.curricularUnit.name')} value={data?.name} onChange={(e) => change("name", e.target.value)} maxLength={50} />
-            <Select data={subjectAreasSelect?.data ?? []} label={t('schoolContent.curricularUnit.subjectArea')} onChange={(e) => change("subjectAreaId", e.target.value)} />
+            <Input label={t('schoolContent.curricularUnits.name')} value={data?.name} onChange={(e) => change("name", e.target.value)} maxLength={50} />
+            <Select data={subjectAreasSelect?.data ?? []} label={t('schoolContent.curricularUnits.subjectArea')} onChange={(e) => change("subjectAreaId", e.target.value)} />
         </section>
     )
 }
