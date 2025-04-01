@@ -27,11 +27,13 @@ public class OccupationAreaController : ControllerBase
     }
     [HttpGet]
     public ActionResult GetPaginated(
+         [FromServices] IPermissionService permissionService,
         [FromServices] IOccupationAreaService service,
         [FromQuery] PaginationQuery pagination,
         [FromQuery] string? query, [FromQuery] int? id
     )
     {
+        permissionService.ValidateAdmPermission();
         var entities = service.GetPaginated(pagination, query, id);
         return Ok(entities);
     }

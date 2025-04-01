@@ -211,11 +211,13 @@ public class SubjectService(BaseRepository<Subject> repository, IUserRepository 
             .Where(s => s.IsActive)
             .Include(s => s.Instructor)
             .Include(s => s.CurricularUnit)
-            .Include(s => s.Class.Students)
+            .Include(s => s.Class.Students).ThenInclude(s => s.User)
             .Include(s => s.Exams.Where(e => e.IsActive))
             .SingleOrDefaultAsync(s => s.Id == id)
             ?? throw new NotFoundException("Subject not found!");
-
+            
+        subject.Class.Students = [ ..subject.Class.Students.Where(s => !s.User.IsArchived && s.User.IsActive) ];
+        
         var feedbacks = await _studentRepo.Get()
             .Where(s => s.IsActive)
             .Where(s => s.Class.Id == subject.Class.Id)
@@ -225,12 +227,12 @@ public class SubjectService(BaseRepository<Subject> repository, IUserRepository 
             .Select(s => SubjectFeedbackDTO.Map(s.Feedbacks.SingleOrDefault(f => f.Subject!.Id == id), s))
             .ToListAsync();
 
-        var results = subject.Exams.Select(
-            e => ExamResultsDTO.Map(
-                e, _examService.GetExamSkills(e.Id),
-                subject.Class.Students.Select(s =>
-                    _studentService.GetExamResults(s.Id, e.Id)).OrderBy(s => s.Name)));
-
+        var results = subject.Exams
+            .Select(
+                e => ExamResultsDTO.Map(
+                    e, _examService.GetExamSkills(e.Id),
+                    subject.Class.Students.Select(s =>
+                        _studentService.GetExamResults(s.Id, e.Id)).OrderBy(s => s.Name)));
         return new AppResponse<InstructorSubjectDTO>(
             InstructorSubjectDTO.Map(subject, results, feedbacks),
             "Subject info found!"

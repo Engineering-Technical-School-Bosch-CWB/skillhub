@@ -1,5 +1,6 @@
 import { createContext, ReactNode, useContext, useState } from "react"
 import IUser from "../interfaces/models/IUser"
+import { EPositionLevel } from "@/interfaces/models/IPosition"
 
 interface IUserContext {
     user: IUser | null
@@ -29,8 +30,13 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
 
 const useUserContext = () => {
     const { user, setUser } = useContext(UserContext);
-
-    return { user, setUser };
+    console.log(user);
+    
+    const isAdmin =  (user?.position?.positionLevel!.toString() == "Admin") && user?.sector?.name == "ETS"
+    
+    console.log(user?.position?.positionLevel!.toString() == EPositionLevel.Admin.toString());
+    
+    return { user, setUser, isAdmin };
 }
 
 export { useUserContext, UserProvider };

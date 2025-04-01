@@ -33,11 +33,13 @@ public class CourseController : ControllerBase
 
     [HttpGet]
     public ActionResult GetAllCourses(
+        [FromServices] IPermissionService permissionService,
         [FromServices] ICourseService service,
         [FromQuery] PaginationQuery pagination,
         [FromQuery] string? query
     )
     {
+        permissionService.ValidateAdmPermission();
         var result = service.GetCourses(pagination, query);
         return Ok(result);
     }

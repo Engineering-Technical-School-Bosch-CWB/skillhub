@@ -77,11 +77,13 @@ public class SubjectController : ControllerBase
     [HttpGet]
     [Route("class/{classId}")]
     public async Task<ActionResult> GetSubjectPaginated(
+        [FromServices] IPermissionService permissionService,
         [FromServices] ISubjectService service,
         [FromQuery] PaginationQuery pagination,
         [FromQuery] string? query, [FromQuery] int? studentId, int classId
     )
     {
+        permissionService.ValidateAdmPermission();
         var result = await service.GetSubjectPaginated(pagination, classId, studentId, query);
         return Ok(result);
     }
