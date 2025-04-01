@@ -30,7 +30,9 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
 const useUserContext = () => {
     const { user, setUser } = useContext(UserContext);
 
-    return { user, setUser };
+    const isAdmin = user?.position?.positionLevel! > 1 && user?.sector?.name === "ETS"
+
+    return { user, setUser, isAdmin };
 }
 
 export { useUserContext, UserProvider };

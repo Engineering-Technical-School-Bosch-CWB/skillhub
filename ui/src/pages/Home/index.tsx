@@ -7,7 +7,7 @@ import { t } from "i18next";
 
 const Home = () => {
 
-    const { user } = useUserContext();
+    const { user, isAdmin } = useUserContext();
 
     return (
         <>
@@ -22,7 +22,7 @@ const Home = () => {
                         }
                         <Card to="/birthdays" label={t('home.birthdays')} iconName="featured_seasonal_and_gifts" iconSize="md" />
                         {
-                            user?.permissionLevel === 2 &&
+                            user?.permissionLevel === 2 && isAdmin &&
                             <>
                                 <Card to="/curricular-units" label={t('home.curricularUnits')} iconName="design_services" iconSize="md" />
                                 <Card to="/classes" label={t('home.classesOverview')} iconName="school" iconSize="md" />

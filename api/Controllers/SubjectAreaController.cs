@@ -60,10 +60,12 @@ public class SubjectAreaController : ControllerBase
 
     [HttpGet]
     public async Task<ActionResult> GetAllSubjectAreas(
+        [FromServices] IPermissionService permissionService,
         [FromServices] ISubjectAreaService service,
         [FromQuery] PaginationQuery pagination
     )
     {
+        permissionService.ValidateAdmPermission();
         var result = await service.GetAllSubjectAreas(pagination);
         return Ok(result);
     }

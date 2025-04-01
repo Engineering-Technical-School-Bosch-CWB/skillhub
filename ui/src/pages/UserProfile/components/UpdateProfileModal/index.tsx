@@ -31,7 +31,7 @@ export default ({ title, handleClose, open, isCurrentUser, subtitle, byClassId }
     const _location = useLocation();
     const queryParams = new URLSearchParams(_location.search);
     const id = queryParams.get("userId");
-    const { user: logedUser } = useUserContext();
+    const { user: logedUser, isAdmin } = useUserContext();
     const [isUpdatePassword, setIsUpdatePassword] = useState(false);
     const [selectArea, setSelectArea] = useState<ISelectData[]>([]);
     const [selectPosition, setSelectPosition] = useState<ISelectData[]>([]);
@@ -222,7 +222,7 @@ export default ({ title, handleClose, open, isCurrentUser, subtitle, byClassId }
             loadData();
     }, [isUpdatePassword])
     useEffect(() => {
-        if (logedUser?.permissionLevel && logedUser?.permissionLevel > 1) {
+        if (isAdmin) {
             loadSectors();
             loadPositions();
             loadOccupationArea();
@@ -245,7 +245,7 @@ export default ({ title, handleClose, open, isCurrentUser, subtitle, byClassId }
                     maxLength={100}
                 />
                 {
-                    logedUser?.permissionLevel && logedUser?.permissionLevel > 1 ?
+                    isAdmin ?
                         <section className={`${styles.triple_input} ${styles.input_1_1_1}`}>
                             <Select data={selectSector} label={t('classDetails.studentCard.sector')} disabled={isUpdatePassword} onChange={(e) => changeValue("sectorId", e.target.value)} />
                             <Select data={selectPosition} label={t('classDetails.studentCard.position')} disabled={isUpdatePassword} onChange={(e) => changeValue("positionId", e.target.value)} />
@@ -278,7 +278,7 @@ export default ({ title, handleClose, open, isCurrentUser, subtitle, byClassId }
                     </>
                 }
                 {
-                    (logedUser?.id != userData.id) && id && logedUser?.permissionLevel && logedUser?.permissionLevel > 1 &&
+                    (logedUser?.id != userData.id) && id && isAdmin &&
                         <Button onClick={() => toggleRestorePassword()}>{t('classDetails.studentCard.resetPassword')}</Button>
                 }
                 <section className={styles.btn_area}>
