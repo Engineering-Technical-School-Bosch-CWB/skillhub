@@ -1,6 +1,5 @@
 import { createContext, ReactNode, useContext, useState } from "react"
 import IUser from "../interfaces/models/IUser"
-import { number } from "zod"
 import { EPositionLevel } from "@/interfaces/models/IPosition"
 
 interface IUserContext {
