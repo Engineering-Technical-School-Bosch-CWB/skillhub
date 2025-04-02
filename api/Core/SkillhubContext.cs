@@ -32,6 +32,10 @@ public partial class SkillhubContext : DbContext
     public virtual DbSet<SpecificObjective> SpecificObjectivesList { get; set; }
     public virtual DbSet<Exam> ExamList { get; set; }
     public virtual DbSet<Objection> ObjectionList { get; set; }
+    public virtual DbSet<Event> EventList { get; set; }
+    public virtual DbSet<EventMember> EventMemberList { get; set; }
+    public virtual DbSet<EventType> EventTypeList { get; set; }
+    public virtual DbSet<ClassEvent> ClassEventList { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new AttachmentClassMap());
@@ -54,6 +58,10 @@ public partial class SkillhubContext : DbContext
         modelBuilder.ApplyConfiguration(new SubjectClassMap());
         modelBuilder.ApplyConfiguration(new UserClassMap());
         modelBuilder.ApplyConfiguration(new ImageClassMap());
+        modelBuilder.ApplyConfiguration(new EventClassMap());
+        modelBuilder.ApplyConfiguration(new EventTypeClassMap());
+        modelBuilder.ApplyConfiguration(new EventMemberClassMap());
+        modelBuilder.ApplyConfiguration(new ClassEventClassMap());
         OnModelCreatingPartial(modelBuilder);
     }
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

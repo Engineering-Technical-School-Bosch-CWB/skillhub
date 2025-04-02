@@ -59,6 +59,19 @@ public static partial class ServiceCollectionExtension
 
         services.AddScoped<BaseRepository<Image>, ImageRepository>();
         services.AddScoped<IImageRepository, ImageRepository>();
+
+        services.AddScoped<BaseRepository<Event>, EventRepository>();
+        services.AddScoped<IEventRepository, EventRepository>();
+
+        services.AddScoped<BaseRepository<EventMember>, EventMemberRepository>();
+        services.AddScoped<IEventMemberRepository, EventMemberRepository>();
+
+        services.AddScoped<BaseRepository<EventType>, EventTypeRepository>();
+        services.AddScoped<IEventTypeRepository, EventTypeRepository>();
+
+        services.AddScoped<BaseRepository<ClassEvent>, ClassEventRepository>();
+        services.AddScoped<IClassEventRepository, ClassEventRepository>();
+
         return services;
     }
 }

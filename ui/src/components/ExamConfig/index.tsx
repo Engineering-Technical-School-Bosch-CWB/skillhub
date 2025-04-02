@@ -9,6 +9,7 @@ import { Dayjs } from "dayjs";
 import { ISubject } from "@/interfaces/models/ISubject";
 import SkillOption, { ISkillSelection } from "./components/SkillOption";
 import { IState } from "@/interfaces/IState.interface";
+import { t } from "i18next";
 
 export interface ISkill {
     selected: boolean
@@ -52,7 +53,7 @@ export default ({ subject, title, skills, teachers, nameState, dateState, descri
                     <div className={`${styles.justify}`}>
                         <Input
                             className={`${styles.input}`}
-                            label="Exam name"
+                            label={t('createExam.examName')}
                             value={nameState.value}
                             onChange={(e) => {
                                 nameState.setValue(e.target.value);
@@ -64,20 +65,20 @@ export default ({ subject, title, skills, teachers, nameState, dateState, descri
                             dateChange={(e) => {
                                 dateState.setValue(e)
                             }}
-                            label="Date"
+                            label={t('createExam.date')}
                             value={dateState.value?.toString()}
                         />
                     </div>
-                    <TextArea placeHolder="Description" style={{ height: "120px" }} value={descriptionState.value} setValue={descriptionState.setValue} maxlength={255} />
+                    <TextArea placeHolder={t('createExam.description')} style={{ height: "120px" }} value={descriptionState.value} setValue={descriptionState.setValue} maxlength={255} />
                     <Select
                         data={teachers}
                         onChange={(e) => {
                             instructorState.setValue(Number(e.target.value));
                         }}
-                        label="Select an instructor"
+                        label={t('createExam.selectInstructor')}
                         hasDefault={subject?.instructorId != null}
                     />
-                    <Text fontWeight="bold">Select the exam skills</Text>
+                    <Text fontWeight="bold">{t('createExam.selectExamSkills')}</Text>
                     <div className={`${styles.skills}`}>
                         {
                             skills.map(s => (
@@ -86,7 +87,7 @@ export default ({ subject, title, skills, teachers, nameState, dateState, descri
                         }
                     </div>
                     <div className={`${styles.bttns}`}>
-                        <Button onClick={() => cancelAction()}>Cancel</Button>
+                        <Button onClick={() => cancelAction()}>{t('buttons.cancel')}</Button>
                         <Button variant="contained" onClick={() => handleSubmit()} >{button}</Button>
                     </div>
                 </div>

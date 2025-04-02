@@ -174,9 +174,9 @@
                 "period":"Period",
                 "initialDate":"Initial date",
                 "responsibleTeacher":"Responsible teacher",
-                "delete":"Delete",
-                "cancel":"Cancel",
-                "confirm":"Confirm"
+                "Delete":"Delete",
+                "Cancel":"Cancel",
+                "Confirm":"Confirm"
             },
             "evaluateExam": {
                 "leaveConfirmation": "Are you sure you want to leave this page? Your changes will not be saved!",
@@ -188,10 +188,7 @@
                 "examEvaluated": "Exam evaluated!",
                 "somethingWentWrong": "Something went wrong.",
                 "confirmDelete": "Do you really want to delete this exam?",
-                "failedDeleteExam": "Failed deleting exam!",
-                "delete": "Delete",
-                "cancel": "Cancel",
-                "save": "Save"
+                "failedDeleteExam": "Failed deleting exam!"
             },
             "selectCompetence": {
                 "Skilled": "Skilled",
@@ -248,7 +245,10 @@
                 "editTitle":"Edit Skill",
                 "createTitle":"Create Skill",
                 "description":"Description",
-                "evaluationCriteria":"Evaluation Criteria"
+                "evaluationCriteria":"Evaluation Criteria",
+                "confirmDelete":"Do you really want to delete this subject?",
+                "deleting":"Deleting Subject...",
+                "deleted":"Subject deleted successfully"
             },
             "deleteModal":{
                 "title":"Delete Skill",
@@ -261,11 +261,18 @@
             }
         },
         "createExam": {
-            "exam": "Assessment",
-            "createExam": "Create Assessment",
-            "creatingExam": "Creating assessment...",
-            "createExamFor": "Create assessment for",
-            "examCreated": "Assessment successfully created!"
+            "exam": "Exam",
+            "date": "Date",
+            "description": "Description",
+            "examName": "Exam name",
+            "createExam": "Create Exam",
+            "creatingExam": "Creating exam...",
+            "createExamFor": "Create exam for ",
+            "examCreated": "Exam successfully created!",
+            "selectExamSkills": "Select the exam skills",
+            "selectInstructor": "Select an instructor",
+            "classesOverview": "Classes",
+            "weight": "Weight"
         },
         "createClass": {
             "new": "New",
@@ -447,7 +454,9 @@
                 "Developing": "Developing",
                 "Unskilled": "Unskilled",
                 "OccupationArea": "Occupation Area",
-                "Name": "Name"
+                "Name": "Name",
+                "PositionLevel": "Position Level",
+                "PositionType": "Position Type"
             }
         }
     }

@@ -17,13 +17,20 @@ public class EventClassMap : IEntityTypeConfiguration<Event>
             .HasColumnName("name");
         
         builder.Property(e => e.Description)
-            .HasMaxLength(255)
+            .HasColumnType("NVARCHAR(255)")
             .HasColumnName("description");
         
-        builder.HasMany(e => e.CalendarEvents)
-            .WithOne(ce => ce.Event)
-            .HasForeignKey("calendar_event_id")
-            .OnDelete(DeleteBehavior.NoAction);
+        builder.Property(e => e.Is_active)
+            .HasColumnName("is_active");
+
+        builder.Property(e => e.Movable)
+            .HasColumnName("movable");
+
+        builder.Property(e => e.Start_date)
+            .HasColumnName("start_date");
+
+        builder.Property(e => e.End_date)
+            .HasColumnName("end_date");
 
         builder.HasOne(e => e.EventType)
             .WithMany(et => et.Events)

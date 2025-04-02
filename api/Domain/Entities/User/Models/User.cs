@@ -14,6 +14,6 @@ public partial class User : IEntity
   public required OccupationArea OccupationArea { get; set; }
   public Image? ProfilePicture { get; set; }
   public ICollection<Subject> Subjects { get; set; } = [];
-  public ICollection<Event> Events { get; set; } = [];
+  public ICollection<EventMember> EventMembers { get; set; } = [];
 
 }

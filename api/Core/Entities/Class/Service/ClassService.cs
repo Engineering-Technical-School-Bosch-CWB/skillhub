@@ -38,6 +38,7 @@ public class ClassService(
             .Where(c => c.IsActive)
             .Where(c => string.IsNullOrEmpty(query) || c.Name.Contains(query))
             .Include(c => c.Course)
+            .OrderBy(c => c.StartingYear).ThenBy(c => c.Name)
             .Select(c => ClassDTO.Map(c))
             .ToListAsync();
 
@@ -207,7 +208,7 @@ public class ClassService(
         ));
 
         var subjectResults = results.GroupBy(r => r.Subject).Select(g => SubjectResultDTO.Map(g.Key, (g.Average(a => a.Performance ), null)));
-        var studentResults = results.GroupBy(r => r.Student).Select(g => SimpleStudentDTO.Map(g.Key, g.Average(a => a.Performance)));
+        var studentResults = results.OrderBy(s => s.Student.User.Name).GroupBy(r => r.Student).Select(g => SimpleStudentDTO.Map(g.Key, g.Average(a => a.Performance)));
         var subjectAreaResults = results.GroupBy(r => r.Subject.CurricularUnit.SubjectArea).Select(g => SubjectAreaDTO.Map(g.Key, (g.Average(a => a.Performance), null)));
 
         return new ClassGraphsDTO(
@@ -251,19 +252,21 @@ public class ClassService(
         var class_ = await _repo.Get()
             .Where(c => c.IsActive)
             .Include(c => c.Course)
-            .Include(c => c.Subjects).ThenInclude(s => s.CurricularUnit.SubjectArea)
+            .Include(c => c.Subjects).ThenInclude(s => s.CurricularUnit).ThenInclude(u => u.SubjectArea)
             .Include(c => c.Subjects).ThenInclude(s => s.Instructor)
-            .Include(c => c.Students).ThenInclude(s => s.User.ProfilePicture)
+            .Include(c => c.Students.Where(s => s.User.IsActive && !s.User.IsArchived)).ThenInclude(s => s.User.ProfilePicture)
             .SingleOrDefaultAsync(c => c.Id == id)
-            ?? throw new NotFoundException("Class not found!");
+                ?? throw new NotFoundException("Class not found!");
 
         var subjects = class_.Subjects
             .Where(s => s.IsActive)
             .Where(s => string.IsNullOrEmpty(query) || s.CurricularUnit.Name.Contains(query, StringComparison.OrdinalIgnoreCase))
+            .OrderBy(s => s.CurricularUnit.Name)
             .Select(s => SubjectResultDTO.Map(s));
 
         var students = class_.Students
-            .Where(s => s.IsActive)
+            .Where(s => s.IsActive && !s.User.IsArchived)
+            .OrderBy(s => s.User.Name)
             .Select(s => SimpleStudentDTO.Map(s));
 
         var selectedSubjects = await _subjectRepo.Get()
@@ -273,6 +276,7 @@ public class ClassService(
             .ToListAsync();
 
         var selectedStudents = await _studentRepo.Get()
+            .Where(s => s.IsActive && !s.User.IsArchived)
             .Where(s => s.Class.Id == id)
             .Where(s => !selectedStudentId.HasValue || s.Id == selectedStudentId)
             .ToListAsync();
