@@ -82,7 +82,8 @@ public class SubjectService(BaseRepository<Subject> repository, IUserRepository 
             Class = subjectClass,
             Period = payload.Period,
             DurationHours = payload.DurationHours,
-            BeganAt = payload.BeganAt
+            BeganAt = payload.BeganAt,
+            FinishedAt = payload.FinishedAt
         };
 
         var createdSubject = _repo.Add(newSubject)
@@ -114,6 +115,9 @@ public class SubjectService(BaseRepository<Subject> repository, IUserRepository 
 
         if (payload.BeganAt.HasValue && payload.BeganAt.Value != subject.BeganAt)
             subject.BeganAt = payload.BeganAt.Value;
+
+        if (payload.FinishedAt.HasValue && payload.FinishedAt.Value != subject.FinishedAt)
+            subject.FinishedAt = payload.FinishedAt.Value;
 
         if (payload.InstructorId.HasValue && payload.InstructorId.Value != subject.Instructor?.Id)
         {
