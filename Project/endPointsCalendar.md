@@ -12,33 +12,30 @@
 - `classId` The Id of the class the events are related to.
 
 ```javascript
-{
-    "events" : [
-        {
-            "id" : number,
-            "subjectId" : number | null,
-            "startDate" : Date,
-            "endDate" : Date,
+[
+    {
+        "id" : number,
+        "subjectId" : number | null,
+        "startDate" : DateTime,
+        "endDate" : DateTime,
+        "name" : string,
+        "movable" : boolean,
+        "type" : {
             "name" : string,
-            "movable" : boolean,
-            "type" : {
-                "name" : string,
-                "icon" : string,
-                "disable" : boolean,
-                "saturday" : boolean,
-                "allDay" : boolean,
-                "color" : string
-            },
-            "responsible" : [
-                {
-                    "id" : number,
-                    "name" : string
-                }
-            ]
+            "icon" : string,
+            "disable" : boolean,
+            "saturday" : boolean,
+            "allDay" : boolean,
+            "color" : string
         },
-        {}
-    ]
-}
+        "responsible" : [
+            {
+                "id" : number,
+                "name" : string
+            }
+        ]
+    },
+]
 ```
 
 ### Event
@@ -64,7 +61,7 @@
         "disable" : boolean,
         "saturday" : boolean,
         "allDay" : boolean,
-        "allClasses" : boolean
+        "allClasses" : boolean,
         "color" : string | null
     },
     "members" : [
@@ -101,6 +98,7 @@
         "endDate" : Date,
         "type" : number,
         "movable" : boolean,
+        "subjectId" : number | null
         "classes" : number[]
         "members" : [
             {
@@ -154,6 +152,7 @@
         "disable" : boolean,
         "saturday" : boolean,
         "allDay" : boolean,
+        "allClasses" : boolean,
         "color" : string
     }
 ]
@@ -175,6 +174,7 @@
     "disable" : boolean,
     "saturday" : boolean,
     "allDay" : boolean,
+    "allClasses" : boolean,
     "color" : string
 }
 ```
@@ -206,3 +206,4 @@
 ### #4 | Buscar alunos: GET `api/v1/users/paginated?classId=`
 ### #5 | Buscar professores: GET `api/v1/users/teachers`
 ### #12 | Finalizar matéria: PATCH `api/v1/subjects/{id}`
+### #11 | Para excluir o evento é necessário realizar um PATCH definindo 'is_active' como false
