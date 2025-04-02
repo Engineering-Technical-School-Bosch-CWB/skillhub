@@ -46,6 +46,9 @@ public class SubjectClassMap : IEntityTypeConfiguration<Subject>
 
         builder.Property(e => e.BeganAt)
             .HasColumnName("began_at");
+
+        builder.Property(e => e.FinishedAt)
+            .HasColumnName("finished_at");
     }
 }
 
