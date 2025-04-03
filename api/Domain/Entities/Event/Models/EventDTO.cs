@@ -26,28 +26,6 @@ public record EventDTO(
         );
     }
 }
-
-public record EventDetailsDTO(
-    EventDTO Event,
-    EventTypeDTO EventType,
-    IEnumerable<EventMembersDetailDTO> Members,
-    IEnumerable<ClassDTO> Classes
-){
-    public static EventDetailsDTO Map(Event obj,
-    EventType eventType,
-    IEnumerable<ClassDTO> Classes,
-    IEnumerable<EventMembersDetailDTO> Members
-    ){
-        return new EventDetailsDTO(
-            EventDTO.Map(obj),
-            EventTypeDTO.Map(eventType),
-            Members,
-            Classes
-        );
-    }
-}
-
-
 public record EventMembersDetailDTO(
     int Id,
     string Name,
@@ -59,6 +37,33 @@ public record EventMembersDetailDTO(
             obj.Id,
             obj.Member.Name,
             obj.Is_responsible
+        );
+    }
+}
+
+public record EventDetailsDTO(
+    int Id,
+    DateTime StartDate,
+    DateTime EndDate,
+    string Name,
+    string? Description,
+    bool Movable,
+    EventTypeDTO EventType,
+    IEnumerable<EventMemberDTO> EventMember,
+    IEnumerable<ClassSubjectInfo> Classes
+){
+    public static EventDetailsDTO Map(Event obj,
+    EventType type,IEnumerable<EventMember> members, IEnumerable<ClassEvent> classes){
+        return new EventDetailsDTO(
+            obj.Id,
+            obj.Start_date,
+            obj.End_date,
+            obj.Name,
+            obj.Description,
+            obj.Movable,
+            EventTypeDTO.Map(type),
+            members.Select(s => EventMemberDTO.Map(s)),
+            classes.Select(c => ClassSubjectInfo.Map(c))
         );
     }
 }
