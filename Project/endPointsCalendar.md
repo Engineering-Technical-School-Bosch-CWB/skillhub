@@ -1,8 +1,7 @@
 # Endpoints
 
 ### ClassEvent
-
-#### 1. **GET** `api/v1/calendar/event` - Get Event List (#1)
+#### 1. **GET** `SkillHub/api/v1/calendar/event` - Get Event List (#1)
 
 > Requires a Bearer Token.
 
@@ -12,77 +11,56 @@
 - `classId` The Id of the class the events are related to.
 
 ```javascript
-[
-    {
-        "id" : number,
-        "subjectId" : number | null,
-        "startDate" : DateTime,
-        "endDate" : DateTime,
-        "name" : string,
-        "movable" : boolean,
-        "type" : {
+{
+    "subjects" : [
+        {
+            "id" : number,
             "name" : string,
-            "icon" : string,
-            "disable" : boolean,
-            "saturday" : boolean,
-            "allDay" : boolean,
-            "color" : string
+            "durationHours" : number,
+            "totalHours" : number,
+            "instructorId" : number | null
+        }
+    ]
+    "events" : 
+    [
+        {
+            "id" : number,
+            "subjectId" : number | null,
+            "startDate" : Date,
+            "endDate" : Date,
+            "name" : string,
+            "movable" : boolean,
+            "type" : {
+                "name" : string,
+                "icon" : string,
+                "disable" : boolean,
+                "saturday" : boolean,
+                "allDay" : boolean,
+                "color" : string
+            },
+            "members" : [
+                {
+                    "id" : number,
+                    "name" : string,
+                    "isResponsible" : boolean
+                }
+            ],
+            "classes" : [
+                {
+                    "id" : number,
+                    "name" : string,
+                    "abbreviation" : string | null
+                    "subjectId" : number | null
+                }
+            ],
         },
-        "responsible" : [
-            {
-                "id" : number,
-                "name" : string
-            }
-        ]
-    },
-]
+    ]
+}
 ```
 
 ### Event
 
-#### 1. **GET** `api/v1/calendar/event/{id}` - Event Details (#9)
-
-> Requires a Bearer Token.
-
-**Response Example:**
-
-```javascript
-{
-    "id" : number,
-    "startDate" : Date,
-    "endDate" : Date,
-    "name" : string,
-    "description" : string,
-    "movable" : boolean,
-    "type" : {
-        "id" : number,
-        "name" : string,
-        "icon" : string | null,
-        "disable" : boolean,
-        "saturday" : boolean,
-        "allDay" : boolean,
-        "allClasses" : boolean,
-        "color" : string | null
-    },
-    "members" : [
-        {
-            "id" : number,
-            "name" : string,
-            "responsible" : boolean
-        }
-    ],
-    "classes" : [
-        {
-            "id" : number,
-            "name" : string,
-            "abbreviation" : string | null
-            "subjectId" : number | null
-        }
-    ],
-}
-```
-
-#### 2. **POST** `api/v1/calendar/event` - New Event (#8)
+#### 1. **POST** `SkillHub/api/v1/calendar/event` - New Event (#2)
 
 > Requires a Bearer Token.
 > Requires Admin Permission.
@@ -110,7 +88,7 @@
 ]
 ```
 
-#### 3. **PATCH** `api/v1/calendar/event` - New Event (#10)
+#### 2. **PATCH** `SkillHub/api/v1/calendar/event` - New Event (#3)
 
 > Requires a Bearer Token.
 > Requires Admin Permission.
@@ -120,6 +98,7 @@
 ```javascript
 [
     {
+        "id" : number,
         "name" : string | null,
         "description" : string | null,
         "startDate" : Date | null,
@@ -131,15 +110,82 @@
             {
                 "id" : number
                 "isResponsible" : boolean
-            }
+            } 
         ]
     }
 ]
 ```
 
-## Event Type
+#### 3. **DELETE** `SkillHub/api/v1/calendar/event/{id}` - Delete Event (#4)
 
-#### 1. **GET** `api/v1/calendar/eventType` - Get Event Type List (#7)
+> Requires a Bearer token.  
+> Requires Admin permission
+
+
+### EventMember
+
+#### 1. **GET** `SkillHub/api/v1/calendar/eventMember/week` - Get a month's events and teachers by occupation area (#5)
+
+> Requires a Bearer Token.  
+> Requires Admin Permission.
+
+**Query Parameters:**
+- `year` The year of the events. **(Required)**
+- `month` The month of the events. **(Required)**
+- `occupationAreaId` The Id of the occupation area of the teachers, returns all if null
+
+```javascript
+{
+    teachers: [
+        {
+            "id" : number,
+            "name" : string
+            "events": [
+                {
+                    "id" : number,
+                    "startDate" : Date,
+                    "endDate" : Date,
+                    "name" : string,
+                    "description" : string,
+                    "movable" : boolean,
+                    "type" : {
+                        "id" : number,
+                        "name" : string,
+                        "icon" : string | null,
+                        "disable" : boolean,
+                        "saturday" : boolean,
+                        "allDay" : boolean,
+                        "allClasses" : boolean,
+                        "color" : string | null
+                    },
+                    "members" : [
+                        {
+                            "id" : number,
+                            "name" : string,
+                            "responsible" : boolean
+                        }
+                    ],
+                    "classes" : [
+                        {
+                            "id" : number,
+                            "name" : string,
+                            "abbreviation" : string | null
+                            "subjectId" : number | null
+                        }
+                    ],
+                }
+            ]
+        },
+    ]
+}
+```
+
+### Event Type
+
+#### 1. **GET** `SkillHub/api/v1/calendar/eventType` - Get Event Type List (#7)
+
+> Requires a Bearer Token.  
+> Requires Admin Permission.
 
 **Response Example:**
 
@@ -150,7 +196,7 @@
         "name" : string,
         "icon" : string,
         "disable" : boolean,
-        "saturday" : boolean,
+        "saturday" : boolean.
         "allDay" : boolean,
         "allClasses" : boolean,
         "color" : string
@@ -158,10 +204,27 @@
 ]
 ```
 
-
-#### 2. **POST** `api/v1/calendar/eventType` - New Event Type (#6)
+#### 2. **POST** `SkillHub/api/v1/calendar/eventType` - New Event Type (#6)
  
+**Request Body Example:**
 
+> Requires a Bearer Token.  
+> Requires Admin Permission.
+
+```javascript
+{
+    "name" : string,
+    "icon" : string,
+    "disable" : boolean,
+    "saturday" : boolean,
+    "allDay" : boolean,
+    "allClasses" : boolean,
+    "color" : string
+}
+```
+
+#### 3. **PATCH** `SkillHub/api/v1/calendar/eventType/{id}` - Update Event Type (#8)
+ 
 **Request Body Example:**
 
 > Requires a Bearer Token.
@@ -179,31 +242,7 @@
 }
 ```
 
-
-## Subject
-
-#### 1. **GET** `api/v1/calendar/subjects/byClass/{id}` - Get Class Subjects (#2)
-
-**Request Body Example:**
-
+#### 4. **DELETE** `SkillHub/api/v1/calendar/eventType/{id}` - Delete Event Type (#9)
+ 
 > Requires a Bearer Token.
-
-```javascript
-[
-    {
-        "id" : number,
-        "name" : string,
-        "durationHours" : number,
-        "totalHours" : number,
-        "instructorId" : number | null
-    }
-]
-```
-
-## Rotas Reutilizadas
-
-### #3 | Buscar turmas: GET `api/v1/classes`
-### #4 | Buscar alunos: GET `api/v1/users/paginated?classId=`
-### #5 | Buscar professores: GET `api/v1/users/teachers`
-### #12 | Finalizar matéria: PATCH `api/v1/subjects/{id}`
-### #11 | Para excluir o evento é necessário realizar um PATCH definindo 'is_active' como false
+> Requires Admin Permission.
