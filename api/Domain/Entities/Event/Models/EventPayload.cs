@@ -10,7 +10,7 @@ public class EventCreatePayload
     [StringLength(255)]
     public string? Description { get; set;}
     [Required]
-    public required bool Is_action { get; set; }
+    public required bool Is_active { get; set; }
     [Required]
     public required bool Movable { get; set;}
     [Required]
@@ -18,7 +18,7 @@ public class EventCreatePayload
     public DateTime End_date { get; set; }
     public int? Subject_id { get; set; }
     public IEnumerable<int>? Classes_id { get; set; }
-    public IEnumerable<EventMemberCreatePayload>? members { get; set; }
+    public IEnumerable<EventMemberCreatePayload>? Members { get; set; }
     [Required]
     public required int EventTypeId { get; set; }    
 }

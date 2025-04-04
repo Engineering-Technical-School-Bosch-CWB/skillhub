@@ -33,4 +33,20 @@ public class EventTypeService(BaseRepository<EventType> repository) : BaseServic
             "Exam created successfully!"
         );
     }
+
+    public Task<AppResponse<EventTypeDTO>> DeleteEventType(int Id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<AppResponse<EventTypeDTO>> GetEventTypes(EventTypeCreatePayload payload)
+    {
+        
+        throw new NotImplementedException();
+    }
+
+    public Task<AppResponse<EventTypeDTO>> UpdateEventType(EventTypeCreatePayload payload)
+    {
+        throw new NotImplementedException();
+    }
 }
