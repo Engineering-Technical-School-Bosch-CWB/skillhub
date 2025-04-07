@@ -101,25 +101,79 @@ IEventMemberRepository eventMemberRepository, IClassRepository classRepository, 
     }
 
 
-    public async Task<AppResponse<EventDetailsDTO>> GetEventDetail(int id)
+    public async Task DeleteEvent(int id)
     {
-        var eventData = await _repo.Get().Where(s => s.Is_active)
-        .SingleOrDefaultAsync(e => e.Id == id) ??
-        throw new NotFoundException("Event not found!");
+        var Event = await _repo.Get()
+        .Where(e => e.Is_active)
+        .Include(e => e.ClassEvents)
+        .Include(e => e.EventMembers)
+        .SingleOrDefaultAsync(e => e.Id == id)
+         ?? throw new NotFoundException("Event not found!");
 
-        var ClassEvents = await _classEventRepo.Get()
-        .Where(ce => ce.Event.Id == id)
-        .ToArrayAsync();
+        Event.Is_active = false;
 
-        var EventMembers = await _eventMemberRepo.Get()
-        .Where(em => em.Event.Id == id)
-        .ToArrayAsync();
+        var deletedEvent = _repo.Update(Event)
+            ?? throw new DeleteFailException("Event could not be deleted!");
 
+        foreach (var ce in Event.ClassEvents)
+        {
+            ce.IsActive = false;
+            var deletedClassEvent = _classEventRepo.Update(ce)
+            ?? throw new DeleteFailException("Class Event could not be deleted!");
+        }
 
-        return new AppResponse<EventDetailsDTO>(
-            EventDetailsDTO.Map(eventData, eventData.EventType, EventMembers, ClassEvents),
-            "Get completed"
+        foreach (var em in Event.EventMembers)
+        {
+            em.IsActive = false;
+            var deletedEventMember = _eventMemberRepo.Update(em)
+            ?? throw new DeleteFailException("Event Member could not be deleted!");
+        }
+
+        await _repo.SaveAsync();
+    }
+
+    public async Task<AppResponse<IEnumerable<EventDTO>>> UpdateEvent(IEnumerable<EventUploadPayload> payload)
+    {
+        IEnumerable<EventDTO> Events = [];
+        foreach (var e in payload)
+        {
+            var Event = await _repo.Get()
+            .Where(_e => _e.Is_active)
+            .Include(_e => _e.ClassEvents)
+            .Include(_e => _e.EventMembers)
+            .SingleOrDefaultAsync(_e => _e.Id == e.Id)
+            ?? throw new NotFoundException("Event not found!");;
+
+            Event.Name = e.Name ?? Event.Name;
+            Event.Description = e.Description ?? Event.Description;
+            Event.Movable = e.Movable ?? Event.Movable;
+            Event.Start_date = e.Start_date ?? Event.Start_date;
+            Event.Start_date = e.Start_date ?? Event.Start_date;
+            Event.End_date = e.End_date ?? Event.End_date;
+            Event.EventMembers = e.Members?.ToList() ?? Event.EventMembers;
+
+            foreach (var ce in Event.ClassEvents)
+            {
+
+                // Assim que criado a parte de ClassEvent, adicionar aqui
+                if(!e.Classes_id.Contains(ce.Classe.Id))
+                {
+                    // await DeleteEvent(ce.Classe.Id);
+                }
+                else if(e.Classes_id.Contains(ce.Classe.Id)){}
+                else
+                {
+                    // Criação de uma nova ClassEvent com subject id nulo também
+                }
+            }
+            Events = Events.Append(EventDTO.Map(Event));
+            var UpdateEvent = _repo.Update(Event);
+        }
+        await _repo.SaveAsync();
+                return new AppResponse<IEnumerable<EventDTO>>(
+            Events,
+            "Events updated successfully!"
         );
-
+        
     }
 }
