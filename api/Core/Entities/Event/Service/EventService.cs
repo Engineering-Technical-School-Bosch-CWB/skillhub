@@ -170,7 +170,7 @@ IEventMemberRepository eventMemberRepository, IClassRepository classRepository, 
             var UpdateEvent = _repo.Update(Event);
         }
         await _repo.SaveAsync();
-                return new AppResponse<IEnumerable<EventDTO>>(
+        return new AppResponse<IEnumerable<EventDTO>>(
             Events,
             "Events updated successfully!"
         );
