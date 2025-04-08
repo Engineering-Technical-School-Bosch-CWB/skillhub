@@ -73,3 +73,11 @@ public record InstructorSubjectDTO(
         );
     }
 }
+
+public record CalendarSubject(
+    int Id,
+    string Name,
+    double DurationHours,
+    double TotalHours,
+    int InstructorId
+){}

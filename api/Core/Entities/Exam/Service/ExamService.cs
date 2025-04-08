@@ -218,7 +218,7 @@ public class ExamService(BaseRepository<Exam> repository, ISubjectRepository sub
     public IEnumerable<ExamSkillDTO> GetExamSkills(int id)
     {
         var skills = _skillResultRepo.Get()
-            .Where(e => e.IsActive)
+            .Where(e => e.IsActive) 
             .Where(e => e.Exam != null && e.Exam.Id == id)
             .Include(e => e.Skill)
             .AsEnumerable()
