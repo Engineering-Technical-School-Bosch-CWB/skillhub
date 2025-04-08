@@ -11,7 +11,7 @@ public record ClassEventDTO(
     {
         return new ClassEventDTO(
             obj.Id,
-            obj.Subject.Id,
+            obj.Subject?.Id,
             obj.Classe.Id,
             obj.Event.Id
         );
@@ -31,7 +31,7 @@ public record ClassSubjectInfo(
             obj.Classe.Id,
             obj.Classe.Name,
             obj.Classe.Abbreviation,
-            obj.Subject.Id
+            obj.Subject?.Id
         );
     }
 }
