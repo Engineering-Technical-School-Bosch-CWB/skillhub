@@ -36,14 +36,13 @@ public class EventTypeService(BaseRepository<EventType> repository, IEventReposi
 
         return new AppResponse<EventTypeDTO>(
             EventTypeDTO.Map(createdEventType),
-            "Exam created successfully!"
+            "Event Type created successfully!"
         );
     }
 
     public async Task DeleteEventType(int Id)
     {
         var EventType = await _repo.Get()
-            .Where(_eventType => _eventType.IsActive)
             .Include(_eventType => _eventType.Events)
             .SingleOrDefaultAsync(_eventType => _eventType.Id == Id)
             ?? throw new NotFoundException("EventType not found!");
@@ -109,7 +108,6 @@ public class EventTypeService(BaseRepository<EventType> repository, IEventReposi
     public async Task<AppResponse<EventTypeDTO>> UpdateEventType(int id, EventTypeUpdatePayload payload)
     {
         var EventType = await _repo.Get()
-            .Where(_eventType => _eventType.IsActive)
             .Include(_eventType => _eventType.Events)   
             .SingleOrDefaultAsync(_eventType => _eventType.Id == id)
          ?? throw new NotFoundException("EventType not found!");

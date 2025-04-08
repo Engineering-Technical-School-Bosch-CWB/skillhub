@@ -5,7 +5,7 @@ namespace Api.Domain.Models;
 public class EventType : IEntity 
 {
     public required string Name { get; set; }
-    public bool IsActive { get; set; }	
+    public bool IsActive { get; set; }	=  true;
     public bool All_day { get; set; }
     public bool Saturday { get; set; }
     public bool Disable_day { get; set; }

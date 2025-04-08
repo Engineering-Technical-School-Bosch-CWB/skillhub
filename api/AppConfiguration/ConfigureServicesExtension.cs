@@ -25,6 +25,10 @@ public static partial class ServiceCollectionExtension
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IOccupationAreaService, OccupationAreaService>();
         services.AddScoped<IImageService, ImageService>();
+        services.AddScoped<IEventService, EventService>();
+        services.AddScoped<IEventTypeService, EventTypeService>();
+
+
         return services;
     }
 }

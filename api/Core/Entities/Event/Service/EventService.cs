@@ -67,9 +67,6 @@ IEventMemberRepository eventMemberRepository, IClassRepository classRepository, 
             }
         }
 
-            var subject = await _subjectRepo.Get()
-                .SingleOrDefaultAsync(_subject => _subject.Id == payload.Subject_id ) ??
-            throw new NotFoundException("Subject not found!");
 
         if (payload.Classes_id != null)
         {
@@ -80,13 +77,18 @@ IEventMemberRepository eventMemberRepository, IClassRepository classRepository, 
                               .SingleOrDefaultAsync(_class => _class.Id == id_class) ??
                 throw new NotFoundException("Class not found!");
 
-                var ClassEvent = new ClassEvent(){
-                   Subject = subject,
-                   Classe = Class,
-                   Event = Event
-                };
-            var createdClassEvent = _classEventRepo.Add(ClassEvent)
-            ?? throw new UpsertFailException("Class Event could not be inserted!");
+                if (payload.Subject_id != null){
+                    var subject = await _subjectRepo.Get()
+                        .SingleOrDefaultAsync(_subject => _subject.Id == payload.Subject_id ) ??
+                    throw new NotFoundException("Subject not found!");
+                    var ClassEvent = new ClassEvent(){
+                        Subject = subject,
+                        Classe = Class,
+                        Event = Event
+                    };
+                    var createdClassEvent = _classEventRepo.Add(ClassEvent)
+                        ?? throw new UpsertFailException("Class Event could not be inserted!");
+                }
             }
         }
         await _repo.SaveAsync();
@@ -143,10 +145,11 @@ IEventMemberRepository eventMemberRepository, IClassRepository classRepository, 
         {
             var Event = await _repo.Get()
             .Where(_event => _event.Is_active)
+            .Include(_event => _event.EventType)
             .Include(_event => _event.ClassEvents)
             .Include(_event => _event.EventMembers)
             .SingleOrDefaultAsync(_event => _event.Id == e.Id)
-            ?? throw new NotFoundException("Event not found!");;
+            ?? throw new NotFoundException("Event not found!");
 
             Event.Name = e.Name ?? Event.Name;
             Event.Description = e.Description ?? Event.Description;
