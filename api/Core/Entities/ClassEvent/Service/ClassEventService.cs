@@ -44,7 +44,7 @@ public class ClassEventService
 
         return new AppResponse<IEnumerable<SubjectEventDetails>>(
             subjectsEventDetails,
-            ""
+            "Subjects Details founded"
         );
     }
 
