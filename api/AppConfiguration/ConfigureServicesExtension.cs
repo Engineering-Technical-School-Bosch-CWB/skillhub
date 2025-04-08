@@ -29,6 +29,8 @@ public static partial class ServiceCollectionExtension
         services.AddScoped<IEventTypeService, EventTypeService>();
 
 
+        services.AddScoped<IEventMemberService, EventMemberService>();
+        services.AddScoped<IClassEventService, ClassEventService>();
         return services;
     }
 }
