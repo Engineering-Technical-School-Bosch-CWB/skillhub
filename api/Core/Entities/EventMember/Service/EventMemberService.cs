@@ -42,7 +42,7 @@ public class EventMemberService(
                 .Include(_event => _event.ClassEvents)
                     .ThenInclude(classEvents => classEvents.Subject)
                 .Include(_event => _event.ClassEvents)
-                    .ThenInclude(classEvents => classEvents.Classe)
+                    .ThenInclude(classEvents => classEvents.Class)
                 .Include(_event => _event.EventMembers)
                     .ThenInclude(eventMembers => eventMembers.Member)
                 .Include(_event => _event.EventType)
