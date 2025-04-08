@@ -83,7 +83,7 @@ IEventMemberRepository eventMemberRepository, IClassRepository classRepository, 
                     throw new NotFoundException("Subject not found!");
                     var ClassEvent = new ClassEvent(){
                         Subject = subject,
-                        Classe = Class,
+                        Class = Class,
                         Event = Event
                     };
                     var createdClassEvent = _classEventRepo.Add(ClassEvent)
@@ -163,11 +163,11 @@ IEventMemberRepository eventMemberRepository, IClassRepository classRepository, 
             {
 
                 // Assim que criado a parte de ClassEvent, adicionar aqui
-                if(!e.Classes_id.Contains(ce.Classe.Id))
+                if(!e.Classes_id.Contains(ce.Class.Id))
                 {
                     // await DeleteEvent(ce.Classe.Id);
                 }
-                else if(e.Classes_id.Contains(ce.Classe.Id)){}
+                else if(e.Classes_id.Contains(ce.Class.Id)){}
                 else
                 {
                     // Criação de uma nova ClassEvent com subject id nulo também
