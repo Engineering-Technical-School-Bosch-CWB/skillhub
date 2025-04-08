@@ -38,7 +38,7 @@ public class ClassEventService
         var subjectsEventDetails = await _repo.Get()
             .Where(_event => _event.Class.Id == id && _event.Subject != null)
             .GroupBy(_event => _event.Subject)
-            .Select(_data => SubjectEventDetails.Map(_data))
+            .Select(_data => SubjectEventDetails.Map(_data!))
             .ToListAsync();
 
 
