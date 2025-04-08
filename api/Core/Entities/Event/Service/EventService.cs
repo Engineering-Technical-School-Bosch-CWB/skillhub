@@ -31,8 +31,7 @@ IEventMemberRepository eventMemberRepository, IClassRepository classRepository, 
     public async Task<AppResponse<EventDTO>> CreateEvent(EventCreatePayload payload)
     {
         var type = await _eventTypeRepo.Get()
-        .Where(s => s.Id == payload.EventTypeId)
-        .SingleOrDefaultAsync() ??
+            .SingleOrDefaultAsync(_eventType => _eventType.Id == payload.EventTypeId) ??
         throw new NotFoundException("Type not found!");
 
         var Event = new Event()
@@ -55,7 +54,7 @@ IEventMemberRepository eventMemberRepository, IClassRepository classRepository, 
             {
              
                 var user = await _userRepo.Get()
-                              .SingleOrDefaultAsync(u => u.Id == memberPayload.UserId) ??
+                              .SingleOrDefaultAsync(_user => _user.Id == memberPayload.UserId) ??
                 throw new NotFoundException("user not found!");
 
                 var EventMember = new EventMember(){
@@ -69,7 +68,7 @@ IEventMemberRepository eventMemberRepository, IClassRepository classRepository, 
         }
 
             var subject = await _subjectRepo.Get()
-                .SingleOrDefaultAsync(s => s.Id == payload.Subject_id ) ??
+                .SingleOrDefaultAsync(_subject => _subject.Id == payload.Subject_id ) ??
             throw new NotFoundException("Subject not found!");
 
         if (payload.Classes_id != null)
@@ -78,7 +77,7 @@ IEventMemberRepository eventMemberRepository, IClassRepository classRepository, 
             {
               
                 var Class = await _classRepo.Get()
-                              .SingleOrDefaultAsync(c => c.Id == id_class) ??
+                              .SingleOrDefaultAsync(_class => _class.Id == id_class) ??
                 throw new NotFoundException("Class not found!");
 
                 var ClassEvent = new ClassEvent(){
@@ -91,9 +90,6 @@ IEventMemberRepository eventMemberRepository, IClassRepository classRepository, 
             }
         }
         await _repo.SaveAsync();
-        await _eventMemberRepo.SaveAsync();
-        await _classEventRepo.SaveAsync();
-
         return new AppResponse<EventDTO>(
             EventDTO.Map(Event),
             "Event created successfully!"
@@ -104,10 +100,10 @@ IEventMemberRepository eventMemberRepository, IClassRepository classRepository, 
     public async Task DeleteEvent(int id)
     {
         var Event = await _repo.Get()
-        .Where(e => e.Is_active)
-        .Include(e => e.ClassEvents)
-        .Include(e => e.EventMembers)
-        .SingleOrDefaultAsync(e => e.Id == id)
+            .Where(_event => _event.Is_active)
+            .Include(_event => _event.ClassEvents)
+            .Include(_event => _event.EventMembers)
+            .SingleOrDefaultAsync(_event => _event.Id == id)
          ?? throw new NotFoundException("Event not found!");
 
         Event.Is_active = false;
@@ -115,18 +111,26 @@ IEventMemberRepository eventMemberRepository, IClassRepository classRepository, 
         var deletedEvent = _repo.Update(Event)
             ?? throw new DeleteFailException("Event could not be deleted!");
 
-        foreach (var ce in Event.ClassEvents)
+        foreach (var ClassEvent in Event.ClassEvents)
         {
-            ce.IsActive = false;
-            var deletedClassEvent = _classEventRepo.Update(ce)
-            ?? throw new DeleteFailException("Class Event could not be deleted!");
+            var classEvent  = await _classEventRepo.Get()
+                .SingleOrDefaultAsync(_classEvent => _classEvent.Id == ClassEvent.Id)
+                 ?? throw new NotFoundException("EventType not found!");
+            
+            classEvent.IsActive = false;
+            var deletedClassEvent = _classEventRepo.Update(ClassEvent)
+                ?? throw new DeleteFailException("Class Event could not be deleted!");
         }
 
-        foreach (var em in Event.EventMembers)
+        foreach (var EventMember in Event.EventMembers)
         {
-            em.IsActive = false;
-            var deletedEventMember = _eventMemberRepo.Update(em)
-            ?? throw new DeleteFailException("Event Member could not be deleted!");
+                var eventMember  = await _eventMemberRepo.Get()
+                    .SingleOrDefaultAsync(_eventMember => _eventMember.Id == EventMember.Id)
+                    ?? throw new NotFoundException("EventMember not found!");
+
+                eventMember.IsActive = false;
+                var deletedClassEvent = _eventMemberRepo.Update(eventMember)
+                    ?? throw new DeleteFailException("Event Member could not be deleted!");
         }
 
         await _repo.SaveAsync();
@@ -138,10 +142,10 @@ IEventMemberRepository eventMemberRepository, IClassRepository classRepository, 
         foreach (var e in payload)
         {
             var Event = await _repo.Get()
-            .Where(_e => _e.Is_active)
-            .Include(_e => _e.ClassEvents)
-            .Include(_e => _e.EventMembers)
-            .SingleOrDefaultAsync(_e => _e.Id == e.Id)
+            .Where(_event => _event.Is_active)
+            .Include(_event => _event.ClassEvents)
+            .Include(_event => _event.EventMembers)
+            .SingleOrDefaultAsync(_event => _event.Id == e.Id)
             ?? throw new NotFoundException("Event not found!");;
 
             Event.Name = e.Name ?? Event.Name;
