@@ -17,7 +17,7 @@ public class ClassEventClassMap : IEntityTypeConfiguration<ClassEvent>
         .HasForeignKey("event_id")
         .OnDelete(DeleteBehavior.NoAction);
 
-        builder.HasOne(cle => cle.Classe)
+        builder.HasOne(cle => cle.Class)
         .WithMany(e => e.ClassEvents)
         .HasForeignKey("class_id")
         .OnDelete(DeleteBehavior.NoAction);
