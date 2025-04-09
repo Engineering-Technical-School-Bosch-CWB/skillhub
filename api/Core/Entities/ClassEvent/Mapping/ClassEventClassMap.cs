@@ -12,7 +12,7 @@ public class ClassEventClassMap : IEntityTypeConfiguration<ClassEvent>
 
         builder.ToTable("classEvent");
 
-        builder.HasOne(cle => cle.Class)
+        builder.HasOne(cle => cle.Event)
         .WithMany(e => e.ClassEvents)
         .HasForeignKey("event_id")
         .OnDelete(DeleteBehavior.NoAction);
