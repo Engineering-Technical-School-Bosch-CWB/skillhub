@@ -165,12 +165,31 @@ IEventMemberRepository eventMemberRepository, IClassRepository classRepository, 
                 // Assim que criado a parte de ClassEvent, adicionar aqui
                 if(!e.Classes_id.Contains(ce.Class.Id))
                 {
-                    // await DeleteEvent(ce.Classe.Id);
+                    var classEvent = await _classEventRepo.Get()
+                        .Where(_classEvent => _classEvent.IsActive)
+                        .SingleOrDefaultAsync(_classEvent => _classEvent.Event.Id == Event.Id)
+                         ?? throw new NotFoundException("Class event not found!");
+
+                    classEvent.IsActive = false;
+                    var deletedClassEvent = _classEventRepo.Update(classEvent)
+                        ?? throw new DeleteFailException("Class event could not be deleted!");
+
                 }
                 else if(e.Classes_id.Contains(ce.Class.Id)){}
                 else
                 {
-                    // Criação de uma nova ClassEvent com subject id nulo também
+
+                    var Class = await _classRepo.Get()
+                    .Where(_class => _class.IsActive)
+                    .SingleOrDefaultAsync(_class => _class.Id == ce.Class.Id)
+                    ?? throw new NotFoundException("Class event not found!");;
+
+                   var ClassEvent = new ClassEvent(){
+                        Class = Class,
+                        Event = Event
+                    };
+                    var createdClassEvent = _classEventRepo.Add(ClassEvent)
+                        ?? throw new UpsertFailException("Class Event could not be inserted!");
                 }
             }
             Events = Events.Append(EventDTO.Map(Event));
