@@ -5,9 +5,9 @@ namespace Api.Domain.Models;
 public record UpdateOccupationAreaPayload
 {
     [Required]
-    public int Id { get; set; }
+    public required int Id { get; set; }
     [Required]
-    public string Name { get; set; }
+    public required string Name { get; set; }
 
 
     public static UpdateOccupationAreaPayload Map(OccupationArea obj) => new UpdateOccupationAreaPayload

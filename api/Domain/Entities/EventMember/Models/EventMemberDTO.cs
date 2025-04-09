@@ -9,7 +9,7 @@ public record EventMemberDTO(
         return new EventMemberDTO(
             obj.Id,
             obj.Member.Name,
-            obj.Is_responsible
+            obj.IsResponsible
         );
     }
 }

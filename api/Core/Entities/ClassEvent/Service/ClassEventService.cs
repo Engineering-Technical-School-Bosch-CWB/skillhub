@@ -1,5 +1,6 @@
 
 
+using System.IO.Pipes;
 using System.Threading.Tasks;
 using Api.Core.Errors;
 using Api.Core.Repositories;
@@ -12,10 +13,42 @@ using Microsoft.EntityFrameworkCore;
 
 public class ClassEventService
 (
-    BaseRepository<ClassEvent> repository
+    BaseRepository<ClassEvent> repository,
+    ISubjectRepository subjectRepository,
+    IEventRepository eventRepository,
+    IClassRepository classRepository
 ) : BaseService<ClassEvent>(repository), IClassEventService
 {
     private readonly BaseRepository<ClassEvent> _repo = repository;
+    private readonly ISubjectRepository _subjectRepo = subjectRepository;
+    private readonly IClassRepository _classRepo = classRepository;
+    private readonly IEventRepository _eventRepo = eventRepository;
+
+    public async Task<AppResponse<ClassEventDTO>> CreateClassEvent(ClassEventPayload payload)
+    {
+        var savedClassEvent = new ClassEvent()
+        {
+            Subject = await _subjectRepo.Get()
+                .Where(_subject => _subject.IsActive)
+                .FirstOrDefaultAsync(_subject => _subject.Id == payload.SubjectId) 
+                ?? throw new NotFoundException("Subject not founded"),
+            Class = await _classRepo.Get()
+                .Where(_class => _class.IsActive)
+                .FirstOrDefaultAsync(_class => _class.Id == payload.ClassId) 
+                ?? throw new NotFoundException("Class not founded"),
+            Event = await _eventRepo.Get()
+                .Where(_event => _event.IsActive)
+                .FirstOrDefaultAsync(_event => _event.Id == payload.EventId) 
+                ?? throw new NotFoundException("Event not founded")
+        };
+        _repo.Add(savedClassEvent);
+        await _repo.SaveAsync();
+
+        return new AppResponse<ClassEventDTO>(
+            ClassEventDTO.Map(savedClassEvent),
+            "ClassEvent created successfully!"
+        );
+    }
 
     #region Services
     public async Task<AppResponse<IEnumerable<ClassEventDTO>>> GetByClassId(int id)

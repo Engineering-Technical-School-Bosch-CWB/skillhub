@@ -38,7 +38,7 @@ public class EventMemberService(
         var data = teachers.Select(async teacher =>
         {
             var events = await _eventRepo.Get()
-                .Where(_event => _event.Start_date >= startDate && _event.Start_date <= endDate)
+                .Where(_event => _event.StartDate >= startDate && _event.StartDate <= endDate)
                 .Include(_event => _event.ClassEvents)
                     .ThenInclude(classEvents => classEvents.Subject)
                 .Include(_event => _event.ClassEvents)
