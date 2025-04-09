@@ -65,33 +65,53 @@ public class ClassEventService
     #endregion
 
     #region Services
-    public async Task<AppResponse<IEnumerable<ClassEventDTO>>> GetByClassId(int id)
+    public async Task<IEnumerable<ClassEventDTO>> GetAllByClassIdAsync(int year, int month, int id)
     {
-        var events = await _repo.Get()
-            .Where(_event => _event.IsActive)
-            .Where(_event => _event.Class != null && _event.Class.Id == id)
-            .OrderBy(_classEvent => _classEvent.Id)
-            .Select(_event => ClassEventDTO.Map(_event))
-            .ToListAsync();
+        DateTime startDate = new DateTime(year, month, 1);
+        int m = month + 1;
+        int y = year;
+        if(m > 12)
+        {
+            m = 1;
+            y += 1;
+        }
+        DateTime endDate = new DateTime(y, m, 1).AddDays(-1);
+        startDate.AddDays(-1 * (int)startDate.DayOfWeek);
+        endDate.AddDays((int)(DayOfWeek.Saturday - endDate.DayOfWeek));
 
-        return new AppResponse<IEnumerable<ClassEventDTO>>(
-            events,
-            "ClassEvent founded!"
-        );
+        var query = await _repo.Get()
+            .Where(_classEvent => _classEvent.IsActive)
+            .Where(_classEvent => _classEvent.Event.StartDate >= startDate && _classEvent.Event.StartDate <= endDate)
+            .Where(_classEvent => _classEvent.Class != null && _classEvent.Class.Id == id)
+            .OrderBy(_classEvent => _classEvent.Id)
+            .ToListAsync();
+        
+        var events = query
+            .Select(_classEvent => ClassEventDTO.Map(_classEvent));
+
+        return events;
     }
 
-    public async Task<AppResponse<IEnumerable<SubjectEventDetails>>> GetSubjectsEventsDetailsByClass(int id)
+    public async Task<IEnumerable<SubjectEventDetails>> GetSubjectsEventsDetailsByClass(int id)
     {
-        var subjectsEventDetails = await _repo.Get()
-            .Where(_event => _event.Class.Id == id && _event.Subject != null)
-            .GroupBy(_event => _event.Subject)
-            .Select(_data => SubjectEventDetails.Map(_data!))
+        var subjectsEventDetails = await _subjectRepo.Get()
+            .Include(_subject => _subject.CurricularUnit)
+            .Include(_subject => _subject.Instructor)
+            .Include(_subject => _subject.ClassEvents)
+            .Where(_subject => _subject.IsActive && _subject.Class.Id == id)
+            .Select(_subject => SubjectEventDetails.Map(_subject))
             .ToListAsync();
 
+        return subjectsEventDetails;
+    }
 
-        return new AppResponse<IEnumerable<SubjectEventDetails>>(
-            subjectsEventDetails,
-            "Subjects Details founded"
+    public async Task<AppResponse<CalendarClassPageDTO>> GetClassPage(int year, int month, int id)
+    {
+        var subjects = await GetSubjectsEventsDetailsByClass(id);
+        var events = await GetAllByClassIdAsync(year, month, id);
+        return new AppResponse<CalendarClassPageDTO>(
+            CalendarClassPageDTO.Map(subjects, events),
+            "Calendar student page data founded!"
         );
     }
 

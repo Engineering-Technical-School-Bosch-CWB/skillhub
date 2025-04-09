@@ -43,13 +43,28 @@ public record SubjectEventDetails(
     double TotalHours,
     int? InstructorId
 ){
-    public static SubjectEventDetails Map(IGrouping<Subject, ClassEvent> obj){
+    public static SubjectEventDetails Map(Subject obj){
         return new SubjectEventDetails(
-            obj.Key.Id,
-            obj.Key.CurricularUnit.Name,
-            obj.Key.DurationHours,
-            obj.Select( _ => new TimeSpan(_.Event.EndDate.Ticks - _.Event.StartDate.Ticks).TotalHours).Sum(),
-            obj.Key.Instructor?.Id
+            obj.Id,
+            obj.CurricularUnit.Name,
+            obj.DurationHours,
+            obj.ClassEvents
+                .Select( _classEvent => 
+                    new TimeSpan(_classEvent.Event.EndDate.Ticks - _classEvent.Event.StartDate.Ticks).TotalHours
+                ).Sum(),
+            obj.Instructor?.Id
+        );
+    }
+}
+
+public record CalendarClassPageDTO(
+    IEnumerable<SubjectEventDetails> Subjects,
+    IEnumerable<ClassEventDTO> Events
+){
+    public static CalendarClassPageDTO Map(IEnumerable<SubjectEventDetails> subjects, IEnumerable<ClassEventDTO> events){
+        return new CalendarClassPageDTO(
+            subjects,
+            events
         );
     }
 }
