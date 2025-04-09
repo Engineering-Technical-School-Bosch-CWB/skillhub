@@ -18,10 +18,10 @@ public record EventDTO(
             obj.Id,
             obj.Name,
             obj.Description,
-            obj.Is_active,
+            obj.IsActive,
             obj.Movable,
-            obj.Start_date,
-            obj.End_date,
+            obj.StartDate,
+            obj.EndDate,
             obj.EventType.Id
         );
     }
@@ -36,7 +36,7 @@ public record EventMembersDetailDTO(
         return new EventMembersDetailDTO(
             obj.Id,
             obj.Member.Name,
-            obj.Is_responsible
+            obj.IsResponsible
         );
     }
 }
@@ -56,8 +56,8 @@ public record EventDetailsDTO(
     EventType type,IEnumerable<EventMember> members, IEnumerable<ClassEvent> classes){
         return new EventDetailsDTO(
             obj.Id,
-            obj.Start_date,
-            obj.End_date,
+            obj.StartDate,
+            obj.EndDate,
             obj.Name,
             obj.Description,
             obj.Movable,
