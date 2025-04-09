@@ -57,7 +57,7 @@ public class EventTypeService(BaseRepository<EventType> repository, IEventReposi
                 .SingleOrDefaultAsync(_event => _event.Id == eventType.Id)
                  ?? throw new NotFoundException("EventType not found!");
 
-            Event.Is_active = false;
+            Event.IsActive = false;
 
             foreach (var classEvents in Event.ClassEvents)
             {

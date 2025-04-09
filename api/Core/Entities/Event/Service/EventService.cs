@@ -39,9 +39,9 @@ IEventMemberRepository eventMemberRepository, IClassRepository classRepository, 
             Name = payload.Name,
             Description = payload.Description,
             Movable = payload.Movable,
-            Is_active = payload.Is_active,
-            Start_date = payload.Start_date,
-            End_date = payload.End_date,
+            IsActive = payload.IsActive,
+            StartDate = payload.StartDate,
+            EndDate = payload.EndDate,
             EventType = type
         };
 
@@ -60,7 +60,7 @@ IEventMemberRepository eventMemberRepository, IClassRepository classRepository, 
                 var EventMember = new EventMember(){
                     Event = Event,
                     Member = user,
-                    Is_responsible = memberPayload.Is_Responsible,
+                    IsResponsible = memberPayload.Is_Responsible,
                 };
             var createdEventMember = _eventMemberRepo.Add(EventMember)
             ?? throw new UpsertFailException("EventMember could not be inserted!");
@@ -68,9 +68,9 @@ IEventMemberRepository eventMemberRepository, IClassRepository classRepository, 
         }
 
 
-        if (payload.Classes_id != null)
+        if (payload.ClassesId != null)
         {
-            foreach (var id_class in payload.Classes_id)
+            foreach (var id_class in payload.ClassesId)
             {
               
                 var Class = await _classRepo.Get()
@@ -102,13 +102,13 @@ IEventMemberRepository eventMemberRepository, IClassRepository classRepository, 
     public async Task DeleteEvent(int id)
     {
         var Event = await _repo.Get()
-            .Where(_event => _event.Is_active)
+            .Where(_event => _event.IsActive)
             .Include(_event => _event.ClassEvents)
             .Include(_event => _event.EventMembers)
             .SingleOrDefaultAsync(_event => _event.Id == id)
          ?? throw new NotFoundException("Event not found!");
 
-        Event.Is_active = false;
+        Event.IsActive = false;
 
         var deletedEvent = _repo.Update(Event)
             ?? throw new DeleteFailException("Event could not be deleted!");
@@ -144,7 +144,7 @@ IEventMemberRepository eventMemberRepository, IClassRepository classRepository, 
         foreach (var e in payload)
         {
             var Event = await _repo.Get()
-            .Where(_event => _event.Is_active)
+            .Where(_event => _event.IsActive)
             .Include(_event => _event.EventType)
             .Include(_event => _event.ClassEvents)
             .Include(_event => _event.EventMembers)
@@ -154,9 +154,9 @@ IEventMemberRepository eventMemberRepository, IClassRepository classRepository, 
             Event.Name = e.Name ?? Event.Name;
             Event.Description = e.Description ?? Event.Description;
             Event.Movable = e.Movable ?? Event.Movable;
-            Event.Start_date = e.Start_date ?? Event.Start_date;
-            Event.Start_date = e.Start_date ?? Event.Start_date;
-            Event.End_date = e.End_date ?? Event.End_date;
+            Event.StartDate = e.StartDate ?? Event.StartDate;
+            Event.StartDate = e.StartDate ?? Event.StartDate;
+            Event.EndDate = e.EndDate ?? Event.EndDate;
             Event.EventMembers = e.Members?.ToList() ?? Event.EventMembers;
 
             foreach (var ce in Event.ClassEvents)

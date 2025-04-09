@@ -48,7 +48,7 @@ public record SubjectEventDetails(
             obj.Key.Id,
             obj.Key.CurricularUnit.Name,
             obj.Key.DurationHours,
-            obj.Select( _ => new TimeSpan(_.Event.End_date.Ticks - _.Event.Start_date.Ticks).TotalHours).Sum(),
+            obj.Select( _ => new TimeSpan(_.Event.EndDate.Ticks - _.Event.StartDate.Ticks).TotalHours).Sum(),
             obj.Key.Instructor?.Id
         );
     }
