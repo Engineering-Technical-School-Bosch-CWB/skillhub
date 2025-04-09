@@ -20,7 +20,7 @@ public class EventMemberService(
     {
         var _event = await _eventRepo.Get()
             .Include(_event => _event.ClassEvents)
-            .Where(_event => _event.Is_active)
+            .Where(_event => _event.IsActive)
             .SingleOrDefaultAsync(_event => _event.Id == payload.EventId)
             ?? throw new NotFoundException("Event not found!");
 
@@ -33,7 +33,7 @@ public class EventMemberService(
         {
             Member = member,
             Event = _event,
-            Is_responsible = payload.Is_Responsible
+            IsResponsible = payload.Is_Responsible
         };
 
         var savedEventMember = _repo.Add(eventMember)
@@ -54,7 +54,7 @@ public class EventMemberService(
             .SingleOrDefaultAsync(eventMember => eventMember.Id == id)
             ?? throw new NotFoundException("EventMember not found!");
 
-        eventMember.Is_responsible = payload.Is_Responsible ?? eventMember.Is_responsible;
+        eventMember.IsResponsible = payload.Is_Responsible ?? eventMember.IsResponsible;
 
         _repo.Update(eventMember);
         await _repo.SaveAsync();

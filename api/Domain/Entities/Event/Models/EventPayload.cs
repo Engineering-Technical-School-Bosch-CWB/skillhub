@@ -10,7 +10,7 @@ public class EventCreatePayload
     [StringLength(255)]
     public string? Description { get; set;}
     [Required]
-    public required bool IsActive { get; set; } = true
+    public required bool IsActive { get; set; } = true;
     [Required]
     public required bool Movable { get; set;}
     [Required]

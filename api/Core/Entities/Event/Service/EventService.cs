@@ -77,9 +77,9 @@ IEventMemberRepository eventMemberRepository, IClassRepository classRepository, 
                               .SingleOrDefaultAsync(_class => _class.Id == id_class) ??
                 throw new NotFoundException("Class not found!");
 
-                if (payload.Subject_id != null){
+                if (payload.SubjectId != null){
                     var subject = await _subjectRepo.Get()
-                        .SingleOrDefaultAsync(_subject => _subject.Id == payload.Subject_id ) ??
+                        .SingleOrDefaultAsync(_subject => _subject.Id == payload.SubjectId ) ??
                     throw new NotFoundException("Subject not found!");
                     var ClassEvent = new ClassEvent(){
                         Subject = subject,
@@ -163,7 +163,7 @@ IEventMemberRepository eventMemberRepository, IClassRepository classRepository, 
             {
 
                 // Assim que criado a parte de ClassEvent, adicionar aqui
-                if(!e.Classes_id.Contains(ce.Class.Id))
+                if(!e.ClassesId.Contains(ce.Class.Id))
                 {
                     var classEvent = await _classEventRepo.Get()
                         .Where(_classEvent => _classEvent.IsActive)
@@ -175,7 +175,7 @@ IEventMemberRepository eventMemberRepository, IClassRepository classRepository, 
                         ?? throw new DeleteFailException("Class event could not be deleted!");
 
                 }
-                else if(e.Classes_id.Contains(ce.Class.Id)){}
+                else if(e.ClassesId.Contains(ce.Class.Id)){}
                 else
                 {
 
