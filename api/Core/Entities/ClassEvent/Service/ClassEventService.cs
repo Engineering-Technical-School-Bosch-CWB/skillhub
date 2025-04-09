@@ -24,6 +24,7 @@ public class ClassEventService
     private readonly IClassRepository _classRepo = classRepository;
     private readonly IEventRepository _eventRepo = eventRepository;
 
+    #region CRUD
     public async Task<AppResponse<ClassEventDTO>> CreateClassEvent(ClassEventPayload payload)
     {
         var savedClassEvent = new ClassEvent()
@@ -49,6 +50,19 @@ public class ClassEventService
             "ClassEvent created successfully!"
         );
     }
+
+    public async Task DeleteClassEvent(int id)
+    {
+        var classEvent = await _repo.Get()
+            .SingleOrDefaultAsync(_classEvent => _classEvent.Id == id && _classEvent.IsActive)
+            ?? throw new NotFoundException("ClassEvent not founded");
+
+        classEvent.IsActive = false;
+
+        _ = _repo.Update(classEvent) ?? throw new DeleteFailException("ClassEvent could not be deleted!");
+        await _repo.SaveAsync();
+    }
+    #endregion
 
     #region Services
     public async Task<AppResponse<IEnumerable<ClassEventDTO>>> GetByClassId(int id)
