@@ -6,6 +6,7 @@ import { RouteMap } from "../map";
 import AprenticesResults from "../../pages/AprenticesResults";
 import SubjectResults from "../../pages/SubjectResults";
 import { CompleteRegistering } from "../../pages/CompleteRegistering";
+import Calendar from "@/pages/Calendar";
 
 export default {
     accessLevel: AccessLevel.AUTHENTICATED,
@@ -34,6 +35,11 @@ export default {
             path: RouteMap.BIRTHDAYS,
             element: <Birthdays />,
             title: "Birthdays",
+        },
+        {
+            path: RouteMap.CALENDAR,
+            element: <Calendar />,
+            title: "Calendar" 
         }
     ]
 } as IAccessRoutes

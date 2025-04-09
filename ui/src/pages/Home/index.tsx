@@ -24,6 +24,7 @@ const Home = () => {
                         {
                             user?.permissionLevel === 2 &&
                             <>
+                                <Card to="/calendar" label={t('home.calendar')} iconName="calendar_month" iconSize="md" />
                                 <Card to="/curricular-units" label={t('home.curricularUnits')} iconName="design_services" iconSize="md" />
                                 <Card to="/classes" label={t('home.classesOverview')} iconName="school" iconSize="md" />
                                 <Card to="/school-content" label={t('home.schoolContent')} iconName="book" iconSize="md" />

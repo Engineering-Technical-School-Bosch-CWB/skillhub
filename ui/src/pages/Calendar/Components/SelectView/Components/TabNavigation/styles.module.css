@@ -1,0 +1,13 @@
+.tab_navigation_container {
+    display: flex;
+}
+.tab_item {
+    padding: .5rem 0 ;
+    margin: 0 .5rem;
+    cursor: pointer;
+    height: 100%;
+}
+.selected {
+    color: var(--primary-light);
+    border-bottom: 2px solid var(--primary-light);
+}

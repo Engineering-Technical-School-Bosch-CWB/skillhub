@@ -4,7 +4,7 @@ import styles from './styles.module.css';
 import Avatar from "@/components/Avatar";
 import Button from "@/components/Button";
 import Header from "../../components/Header";
-import { formatDate } from "@/constants/formatDate";
+import { formatDate } from "@/constants/Date";
 import internalAPI from "@/service/internal.services";
 import SectionHeader from "@/components/SectionHeader";
 import getColor from "@/constants/getHex";

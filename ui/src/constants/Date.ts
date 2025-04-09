@@ -8,4 +8,20 @@ const formatShortDate = (date: string) => {
     return `${day}/${month}`;
 }
 
-export { formatDate, formatShortDate };
+const months = 
+[
+    "january",
+    "february",
+    "march",
+    "april",
+    "may",
+    "june",
+    "july",
+    "august",
+    "september",
+    "october",
+    "november",
+    "december"
+]
+
+export { formatDate, formatShortDate, months };

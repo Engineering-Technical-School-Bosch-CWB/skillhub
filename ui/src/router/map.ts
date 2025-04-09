@@ -11,6 +11,8 @@ export enum RouteMap {
     BIRTHDAYS = "/birthdays",
     USERS_OVERVIEW = "/users",
 
+    CALENDAR = "/calendar",
+
     SCHOOL_CONTENT = "/school-content",
     CURRICULAR_UNITS = "/curricular-units",
     CURRICULAR_UNITY_BY_ID = "/curricular-units/:id",
@@ -23,6 +25,4 @@ export enum RouteMap {
     CREATE_EXAM = "/classes/:classId/subject/:subjectId/new-exam",
     EVALUATE_EXAM = "/classes/:classId/subject/:subjectId/evaluate-exam/:examId",
     EDIT_EXAM = "/classes/:classId/subject/:subjectId/edit-exam/:examId",
-    // NEW_SUBJECT_TEST = "/classes/:classId/subject/:id/new-test",
-    // AVALIATION_RESULT = "/classes/:classId/subject/test/result/:id",
 }
