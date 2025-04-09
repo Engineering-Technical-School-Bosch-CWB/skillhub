@@ -15,6 +15,86 @@ public class EventMemberService(
     private readonly IUserRepository _userRepo = userRepository;
     private readonly IEventRepository _eventRepo = eventRepository;
 
+    #region CRUD
+    public async Task<AppResponse<EventMemberDTO>> CreateEventMember(EventMemberCreatePayload payload)
+    {
+        var _event = await _eventRepo.Get()
+            .Include(_event => _event.ClassEvents)
+            .Where(_event => _event.Is_active)
+            .SingleOrDefaultAsync(_event => _event.Id == payload.EventId)
+            ?? throw new NotFoundException("Event not found!");
+
+        var member = await _userRepo.Get()
+            .Where(user => user.IsActive)
+            .SingleOrDefaultAsync(user => user.Id == payload.UserId)
+            ?? throw new NotFoundException("User not found!");
+
+        var eventMember = new EventMember()
+        {
+            Member = member,
+            Event = _event,
+            Is_responsible = payload.Is_Responsible
+        };
+
+        var savedEventMember = _repo.Add(eventMember)
+            ?? throw new UpsertFailException("Event Member could not be inserted!");
+
+        await _repo.SaveAsync();
+
+        return new AppResponse<EventMemberDTO>(
+            EventMemberDTO.Map(eventMember),
+            "Event Member added Successfully"
+        );
+    }
+
+    public async Task<AppResponse<EventMemberDTO>> UpdateEventMember(int id, EventMemberUpdatePayload payload)
+    {
+        var eventMember = await _repo.Get()
+            .Where(eventMember => eventMember.IsActive)
+            .SingleOrDefaultAsync(eventMember => eventMember.Id == id)
+            ?? throw new NotFoundException("EventMember not found!");
+
+        eventMember.Is_responsible = payload.Is_Responsible ?? eventMember.Is_responsible;
+
+        _repo.Update(eventMember);
+        await _repo.SaveAsync();
+
+        return new AppResponse<EventMemberDTO>(
+            EventMemberDTO.Map(eventMember),
+            "Event Member updated successfully!"
+        );
+    }
+
+    public async Task DeleteEventMember(int id)
+    {
+        var eventMember = await _repo.Get()
+            .Where(eventMember => eventMember.IsActive)
+            .SingleOrDefaultAsync(eventMember => eventMember.Id == id)
+            ?? throw new NotFoundException("EventMember not found!");
+
+        eventMember.IsActive = false;
+
+        _ = _repo.Update(eventMember) ?? throw new DeleteFailException("EventMember could not be deleted!");
+
+        await _repo.SaveAsync();
+    }
+
+    public async Task<AppResponse<EventMemberDTO>> GetEventMemberById(int id)
+    {
+        var eventMember = await _repo.Get()
+            .Where(eventMember => eventMember.IsActive)
+            .SingleOrDefaultAsync(eventMember => eventMember.Id == id)
+            ?? throw new NotFoundException("EventMember not found!");
+
+        return new AppResponse<EventMemberDTO>(
+            EventMemberDTO.Map(eventMember),
+            "Event Member found!"
+        );
+    }
+
+    #endregion
+    #region Services
+
     public async Task<AppResponse<IEnumerable<FullEventMemberDTO>>> GetTeacherEvents(int year, int month, int? occupationAreaId)
     {
         var teachers = await _userRepo.Get()
@@ -54,4 +134,6 @@ public class EventMemberService(
 
         return new AppResponse<IEnumerable<FullEventMemberDTO>>(await Task.WhenAll(data), "Events found.");
     }
+
+    #endregion
 }
