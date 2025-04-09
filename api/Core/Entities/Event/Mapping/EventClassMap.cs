@@ -20,16 +20,16 @@ public class EventClassMap : IEntityTypeConfiguration<Event>
             .HasColumnType("NVARCHAR(255)")
             .HasColumnName("description");
         
-        builder.Property(e => e.Is_active)
+        builder.Property(e => e.IsActive)
             .HasColumnName("is_active");
 
         builder.Property(e => e.Movable)
             .HasColumnName("movable");
 
-        builder.Property(e => e.Start_date)
+        builder.Property(e => e.StartDate)
             .HasColumnName("start_date");
 
-        builder.Property(e => e.End_date)
+        builder.Property(e => e.EndDate)
             .HasColumnName("end_date");
 
         builder.HasOne(e => e.EventType)

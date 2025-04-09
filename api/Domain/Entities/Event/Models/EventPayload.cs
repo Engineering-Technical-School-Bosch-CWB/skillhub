@@ -10,14 +10,14 @@ public class EventCreatePayload
     [StringLength(255)]
     public string? Description { get; set;}
     [Required]
-    public required bool Is_active { get; set; } = true;
+    public required bool IsActive { get; set; } = true;
     [Required]
     public required bool Movable { get; set;}
     [Required]
-    public required DateTime Start_date { get; set; }
-    public DateTime End_date { get; set; }
-    public int? Subject_id { get; set; }
-    public IEnumerable<int>? Classes_id { get; set; }
+    public required DateTime StartDate { get; set; }
+    public DateTime EndDate { get; set; }
+    public int? SubjectId { get; set; }
+    public IEnumerable<int>? ClassesId { get; set; }
     public IEnumerable<EventMemberCreatePayload>? Members { get; set; }
     [Required]
     public required int EventTypeId { get; set; }    
@@ -32,8 +32,8 @@ public class EventUploadPayload
     [StringLength(255)]
     public string? Description { get; set;}
     public bool? Movable { get; set;}
-    public DateTime? Start_date { get; set; }
-    public DateTime? End_date { get; set; }
-    public required IEnumerable<int> Classes_id { get; set; }
+    public DateTime? StartDate { get; set; }
+    public DateTime? EndDate { get; set; }
+    public required IEnumerable<int> ClassesId { get; set; }
     public IEnumerable<EventMember>? Members { get; set; }
 }

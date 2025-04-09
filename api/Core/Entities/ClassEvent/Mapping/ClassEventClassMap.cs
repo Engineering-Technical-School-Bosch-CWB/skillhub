@@ -11,6 +11,9 @@ public class ClassEventClassMap : IEntityTypeConfiguration<ClassEvent>
         builder.HasKey(cle => cle.Id).HasName("PK____ClassEvent");
 
         builder.ToTable("classEvent");
+        
+        builder.Property(cle => cle.IsActive)
+            .HasColumnName("is_active");
 
         builder.HasOne(cle => cle.Event)
         .WithMany(e => e.ClassEvents)

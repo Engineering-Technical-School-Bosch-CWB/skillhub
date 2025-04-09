@@ -7,13 +7,13 @@ public class Event : IEntity
     public required string Name { get; set; }
     public string? Description { get; set; }
 
-    public bool Is_active { get; set; }
+    public bool IsActive { get; set; }
 
     public bool Movable { get; set; }
 
-    public DateTime Start_date { get; set; }
+    public DateTime StartDate { get; set; }
 
-    public DateTime End_date { get; set; }
+    public DateTime EndDate { get; set; }
 
     public ICollection<EventMember> EventMembers {get;set;} = [];
 
