@@ -10,6 +10,9 @@ public class EventTypeClassMap : IEntityTypeConfiguration<EventType>
         builder.HasKey(et => et.Id).HasName("PK____EventType");
 
         builder.ToTable("eventType");
+        
+        builder.Property(et => et.IsActive)
+            .HasColumnName("is_active");
 
         builder.Property(et => et.Name)
             .HasMaxLength(55)

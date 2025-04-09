@@ -12,6 +12,9 @@ public class EventMemberClassMap : IEntityTypeConfiguration<EventMember>
         builder.ToTable("eventMember");
 
         builder.Property(em => em.Is_responsible).HasColumnName("is_responsible");
+        
+        builder.Property(em => em.IsActive)
+            .HasColumnName("is_active");
 
         builder.HasOne(e => e.Member)
         .WithMany(e => e.EventMembers)
