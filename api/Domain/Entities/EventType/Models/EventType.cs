@@ -6,10 +6,10 @@ public class EventType : IEntity
 {
     public required string Name { get; set; }
     public bool IsActive { get; set; }	=  true;
-    public bool All_day { get; set; }
+    public bool AllDay { get; set; }
     public bool Saturday { get; set; }
-    public bool Disable_day { get; set; }
-    public bool All_classes { get; set; }
+    public bool DisableDay { get; set; }
+    public bool AllClasses { get; set; }
     public string Icon { get; set; } = "";
     public string Color { get; set; } = "";
     public ICollection<Event> Events { get; set; } =[];

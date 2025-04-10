@@ -21,10 +21,10 @@ public class EventTypeService(BaseRepository<EventType> repository, IEventReposi
     {
         var newEventType = new EventType(){
             Name = payload.Name,
-            All_day = payload.Allday,
+            AllDay = payload.AllDay,
             Saturday = payload.Saturday,
-            Disable_day = payload.Disable,
-            All_classes = payload.AllClasses,
+            DisableDay = payload.DisableDay,
+            AllClasses = payload.AllClasses,
             Icon = payload.Icon,
             Color = payload.Color,
         };
@@ -114,10 +114,10 @@ public class EventTypeService(BaseRepository<EventType> repository, IEventReposi
 
             EventType.Name = payload.Name ?? EventType.Name;
             EventType.Icon = payload.Icon ?? EventType.Icon;
-            EventType.Disable_day = payload.Disable ?? EventType.Disable_day;
+            EventType.DisableDay = payload.DisableDay ?? EventType.DisableDay;
             EventType.Saturday = payload.Saturday ?? EventType.Saturday;
-            EventType.All_day = payload.Allday ?? EventType.All_day;
-            EventType.All_classes = payload.AllClasses ?? EventType.All_classes;
+            EventType.AllDay = payload.AllDay ?? EventType.AllDay;
+            EventType.AllClasses = payload.AllClasses ?? EventType.AllClasses;
             EventType.Color = payload.Color ?? EventType.Color;
 
         var updatedEventType = _repo.Update(EventType);

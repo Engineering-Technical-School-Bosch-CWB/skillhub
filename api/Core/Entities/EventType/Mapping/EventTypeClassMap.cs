@@ -18,16 +18,16 @@ public class EventTypeClassMap : IEntityTypeConfiguration<EventType>
             .HasMaxLength(55)
             .HasColumnName("name");
 
-            builder.Property(et => et.All_day)
+            builder.Property(et => et.AllDay)
                 .HasColumnName("all_day");
 
             builder.Property(et => et.Saturday)
                 .HasColumnName("saturday");
 
-            builder.Property(et => et.Disable_day)
+            builder.Property(et => et.DisableDay)
                 .HasColumnName("disable_day");
 
-            builder.Property(et => et.All_classes)
+            builder.Property(et => et.AllClasses)
                 .HasColumnName("all_classes");
 
             builder.Property(et => et.Icon)

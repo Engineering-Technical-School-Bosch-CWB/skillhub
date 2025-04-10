@@ -6,8 +6,8 @@ public record EventTypeDTO(
     string Name,
     bool AllDay,
     bool Saturday,
-    bool Disable_day,
-    bool All_classes,
+    bool DisableDay,
+    bool AllClasses,
     string Icon,
     string Color
 ){
@@ -16,10 +16,10 @@ public record EventTypeDTO(
         return new EventTypeDTO(
             obj.Id,
             obj.Name,
-            obj.All_day,
+            obj.AllDay,
             obj.Saturday,
-            obj.Disable_day,
-            obj.All_classes,
+            obj.DisableDay,
+            obj.AllClasses,
             obj.Icon,
             obj.Color
         );

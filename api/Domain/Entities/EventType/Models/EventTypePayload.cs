@@ -10,11 +10,11 @@ public class EventTypeCreatePayload
     [Required]
     public required string Icon { get; set; }
     [Required]
-    public required bool Disable { get; set; }
+    public required bool DisableDay { get; set; }
     [Required]
     public required bool Saturday { get; set; }
     [Required]
-    public required bool Allday { get; set; }
+    public required bool AllDay { get; set; }
     [Required]
     public required bool AllClasses { get; set; }
     [Required]
@@ -29,11 +29,11 @@ public class EventTypeUpdatePayload
 
     public string? Icon { get; set; }
 
-    public bool? Disable { get; set; }
+    public bool? DisableDay { get; set; }
 
     public bool? Saturday { get; set; }
 
-    public bool? Allday { get; set; }
+    public bool? AllDay { get; set; }
 
     public bool? AllClasses { get; set; }
     [StringLength(8)]
